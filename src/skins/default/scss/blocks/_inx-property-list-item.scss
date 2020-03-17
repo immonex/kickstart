@@ -1,0 +1,169 @@
+.inx-property-list-item {
+	height: 100%;
+	font-size: .9em;
+}
+
+.inx-property-list-item__body {
+	margin-top: 0;
+	padding: $size-font-base;
+}
+
+.inx-property-list-item__core-details {
+	margin-bottom: .5em;
+}
+
+.inx-property-list-item__excerpt {
+	font-size: 1em;
+	margin-top: 0;
+}
+
+.inx-property-list-item__footer {
+	padding: $size-font-base 0 0 0;
+}
+
+.inx-property-list-item__footer > a,
+.inx-property-list-item__footer > a:hover {
+	text-decoration: none;
+}
+
+.inx-property-list-item__labels {
+	right: -.15rem !important;
+	padding-top: .2em;
+	font-size: .85em;
+	text-align: right;
+}
+
+.inx-property-list-item__price-time-unit {
+	opacity: .8;
+	font-size: .7em;
+}
+
+.inx-property-list-item__property-type,
+.inx-property-list-item__location {
+	display: flex;
+	align-items: baseline;
+	font-size: 1em;
+	@include hyphenate(auto);
+}
+
+.inx-property-list-item__property-price {
+	padding: .5em;
+	text-align: center;
+}
+
+.inx-property-list-item__title {
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-bottom: 0;
+	margin-bottom: .5em;
+}
+
+@media (min-width: $screen-s) {
+	.inx-property-list-item {
+		font-size: .8em;
+	}
+
+	.inx-property-list-item__excerpt {
+		height: 8em;
+	}
+
+	.inx-property-list-item__media-top {
+		height: 16em;
+		overflow: hidden;
+	}
+
+	.inx-property-list-item__title {
+		height: 3.9em;
+	}
+}
+
+@media (min-width: $screen-m) {
+	.inx-property-list-item {
+		height: 100%;
+	}
+
+	.inx-property-list-item__body {
+		padding: $size-font-base $size-font-base calc(#{$size-font-base} * 8) $size-font-base;
+	}
+
+	.inx-property-list-item__excerpt {
+		height: auto;
+	}
+
+	.inx-property-list-item__footer {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		padding: calc(#{$size-font-base} * .75) 0 0 0;
+		box-sizing: border-box;
+	}
+
+	.inx-property-list-item__media-top {
+		height: 18em;
+	}
+
+	.inx-property-list-item__title {
+		height: auto;
+	}
+}
+
+@media (max-width: $screen-s) {
+	.inx-property-list-item__media-top > img { /* disable uk-cover */
+		position: static;
+		left: 0;
+		top: 0;
+		max-width: 100%;
+		height: auto !important;
+		transform: none;
+	}
+}
+
+@media (min-width: $screen-l) {
+	.inx-property-list-item__media-top {
+		height: 14em;
+	}
+}
+
+.inx-oi-vermarktungsart-kauf {
+	h3 > a {
+		color: $color-oi-vermarktungsart-kauf;
+	}
+
+	h3 > a:hover {
+		color: lighten($color-oi-vermarktungsart-kauf, 15%);
+	}
+
+	.inx-property-price {
+		@include gradient($color-oi-vermarktungsart-kauf);
+	}
+}
+
+.inx-property-list-item.inx-oi-vermarktungsart-miete,
+.inx-property-list-item.inx-oi-vermarktungsart-miete-pacht,
+.inx-property-list-item.inx-oi-vermarktungsart-erbpacht {
+	h3 > a {
+		color: $color-oi-vermarktungsart-miete;
+	}
+
+	h3 > a:hover {
+		color: lighten($color-oi-vermarktungsart-miete, 15%);
+	}
+
+	.inx-property-price {
+		@include gradient($color-oi-vermarktungsart-miete);
+	}
+}
+
+.inx-property-list-item.inx-oi-vermarktungsart-leasing {
+	h3 > a {
+		color: $color-oi-vermarktungsart-leasing;
+	}
+
+	h3 > a:hover {
+		color: lighten($color-oi-vermarktungsart-leasing, 15%);
+	}
+
+	.inx-property-price {
+		@include gradient($color-oi-vermarktungsart-leasing);
+	}
+}

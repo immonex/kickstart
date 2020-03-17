@@ -1,0 +1,22 @@
+// Property Labels
+
+.inx-property-label {
+	display: inline-block;
+	border-bottom-right-radius: 0;
+	font-size: 1em;
+	@include gradient($color-default-property-label);
+}
+
+.inx-property-label--vermarktungsart--kauf {
+	@include gradient($color-oi-vermarktungsart-kauf);
+}
+
+.inx-property-label--vermarktungsart--miete,
+.inx-property-label--vermarktungsart--miete-pacht,
+.inx-property-label--vermarktungsart--erbpacht {
+	@include gradient($color-oi-vermarktungsart-miete);
+}
+
+.inx-property-label--leasing {
+	@include gradient($color-oi-vermarktungsart-leasing);
+}

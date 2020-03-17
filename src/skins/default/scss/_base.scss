@@ -1,0 +1,58 @@
+// Container for all immonex Kickstart elements
+
+.inx-container {
+	max-width: 80em;
+	margin: 0 auto;
+	margin-bottom: $size-font-base * 2;
+	font-size: $size-font-base !important;
+	line-height: $line-height-base;
+
+	.inx-print-only {
+		display: none;
+	}
+
+	// UIkit Bugfix
+
+	.uk-icon {
+		>svg {
+			&:nth-child(2) {
+				display: none;
+			}
+		}
+	}
+}
+
+// Flaticons
+
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before {
+	margin-left: 0;
+}
+
+@media print {
+	.inx-container {
+		max-width: 100%;
+		font-size: 6pt !important;
+
+		h1 {
+			margin-top: 1em;
+		}
+
+		img,
+		img.lazyload,
+		img.lazyloaded,
+		img.lazyloading {
+			opacity: 1 !important;
+			@include noanimation();
+		}
+
+		.inx-print-only {
+			display: block;
+			@include noanimation();
+		}
+
+		.uk-padding {
+			padding: 2em 0;
+		}
+	}
+}

@@ -1,0 +1,81 @@
+.inx-property-search {
+	// UIkit
+
+	.uk-search .uk-search-icon:hover {
+		color: $color-link;
+	}
+}
+
+.inx-property-search__elements {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-gap: 1em;
+}
+
+.inx-property-search__element {
+	max-width: 100%;
+}
+
+.inx-property-search__element--is-first-grid-col {
+	grid-column-start: 1;
+}
+
+.inx-property-search__element--is-last-grid-col {
+	grid-column-end: -1;
+}
+
+.inx-property-search__element--is-full-width {
+	grid-column: 1 / -1;
+
+	.inx-form-element--checkbox,
+	.inx-form-element--radio {
+		.inx-form-element__option {
+			width: auto;
+		}
+	}
+}
+
+.inx-property-search__extended {
+	background-color: $bgcolor-subtle;
+
+	.inx-input,
+	.inx-search-input,
+	.inx-checkbox:not(:checked),
+	.inx-radio:not(:checked),
+	.inx-input:focus,
+	.inx-search-input:focus {
+		background-color: #fff;
+	}
+}
+
+@media screen and (min-width: $screen-m) {
+	.inx-property-search__elements {
+		grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+	}
+}
+
+// Internet Explorer
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	.inx-property-search__elements {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.inx-property-search__element {
+		width: 100%;
+		margin-bottom: 2em;
+	}
+
+	.inx-property-search__element.inx-property-search__element--is-full-width {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	@media (min-width: $screen-m) {
+		.inx-property-search__element {
+			width: 18em;
+		}
+	}
+}

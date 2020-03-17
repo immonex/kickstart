@@ -1,0 +1,76 @@
+.inx-form-element {
+	font-size: .9em;
+}
+
+.inx-form-element--text {
+	background-color: #FFF;
+
+	button {
+		background: none;
+	}
+
+	button:hover {
+		color: $color-link;
+	}
+}
+
+.inx-form-element--checkbox,
+.inx-form-element--radio {
+	.inx-form-element__option {
+		width: 100%;
+		padding: .25em;
+
+		input[type="checkbox"] {
+			position: inherit;
+			margin-top: -4px;
+			margin-right: .25em;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+		}
+
+		input[type="checkbox"]:checked::before {
+			content: none;
+		}
+
+		.inx-label {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+.inx-form-element__label {
+	font-size: 1em;
+	margin-bottom: .25em;
+}
+
+// Vue-Multiselect
+
+.inx-container .inx-form-element .multiselect,
+.inx-container .inx-form-element input.multiselect__input,
+.inx-container .inx-form-element .multiselect__single {
+	border: 0;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+.inx-container .inx-form-element .multiselect--active input.multiselect__input {
+	box-sizing: content-box;
+	width: calc(100% - .1em) !important;
+}
+
+.inx-form-element .multiselect__tags,
+.inx-form-element .multiselect__content-wrapper {
+	border-radius: inherit;
+	font-size: inherit;
+}
+
+.inx-form-element .multiselect__option--highlight {
+	background-color: $color-action-element-highlighted;
+}
+
+@media screen and (min-width: $screen-l) {
+	.inx-form-element {
+		font-size: .8em;
+	}
+}

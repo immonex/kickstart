@@ -1,0 +1,207 @@
+<?php
+/**
+ * Class Data_Access_Helper
+ *
+ * @package immonex-kickstart
+ */
+
+namespace immonex\Kickstart;
+
+/**
+ * Data access related helper methods.
+ */
+class Data_Access_Helper {
+
+	/**
+	 * Plugin options
+	 *
+	 * @var mixed[]
+	 */
+	private $plugin_options;
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[] $plugin_options Plugin options.
+	 */
+	public function __construct( $plugin_options ) {
+		$this->plugin_options = $plugin_options;
+	} // __construct
+
+	/**
+	 * Retrieve custom field contents.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string|bool $type "name" if the custom field name containing the
+	 *                          actual value is stored in another custom field
+	 *                          named as the following param.
+	 * @param string      $key_or_name Custom field key (= field contains the actual
+	 *                                 value) or name (= field contains the "real"
+	 *                                 field name).
+	 * @param int|string  $post_id Related post ID.
+	 * @param bool        $value_only Return value only? (false by default).
+	 *
+	 * @return mixed[]|string|int Array of field data or value only.
+	 */
+	public function get_custom_field_by( $type = 'name', $key_or_name, $post_id, $value_only = false ) {
+		if ( 'name' === $type ) {
+			$meta_key = get_post_meta( $post_id, $key_or_name, true );
+		} else {
+			$meta_key = $key_or_name;
+		}
+		if ( ! $meta_key ) {
+			return false;
+		}
+
+		$value = get_post_meta( $post_id, $meta_key, true );
+		if ( ! $value ) {
+			return false;
+		}
+
+		if ( $value_only ) {
+			return $value;
+		}
+
+		$meta = get_post_meta( $post_id, '_' . $meta_key, true );
+		if ( ! is_array( $meta ) && ! is_wp_error( $meta ) ) {
+			$meta = array( 'meta' => $meta );
+		}
+
+		return array_merge(
+			array( 'value' => $value ),
+			$meta
+		);
+	} // get_custom_field_by
+
+	/**
+	 * Convert a comma-separated group string to an array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $group_string Comma separated string of group names.
+	 *
+	 * @return string[] Group names.
+	 */
+	public function convert_to_group_array( $group_string ) {
+		if ( is_array( $group_string ) ) {
+			return $group_string;
+		}
+
+		return array_map( 'trim', explode( ',', $group_string ) );
+	} // convert_to_group_array
+
+	/**
+	 * Return a specific item out of a property details array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[]     $details Full array of property details.
+	 * @param string      $name Name of item to retrieve.
+	 * @param string|bool $group Name of item group (optional).
+	 * @param bool        $value_only Return item value only? (false by default).
+	 *
+	 * @return mixed[]|bool Item data or value only, false if not found.
+	 */
+	public function get_details_item( $details, $name, $group = false, $value_only = false ) {
+		if ( $group ) {
+			$groups = is_array( $group ) ? $group : $this->convert_to_group_array( $group );
+		} else {
+			$groups = array_keys( $details );
+		}
+
+		$group_items = $this->get_group_items( $details, $groups );
+
+		if ( count( $group_items ) > 0 ) {
+			foreach ( $group_items as $item ) {
+				if ( $item['name'] === $name ) {
+					return $value_only ? $item['value'] : $item;
+				}
+			}
+		}
+
+		return false;
+	} // get_details_item
+
+	/**
+	 * Return a specific group of items out of a property details array.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[]  $details Full array of property details.
+	 * @param string[] $groups List of item group names (optional).
+	 *
+	 * @return mixed[] Group items.
+	 */
+	public function get_group_items( $details, $groups = array( 'ungruppiert' ) ) {
+		$items = array();
+
+		foreach ( $groups as $group ) {
+			if (
+				isset( $details[ $group ] ) &&
+				count( $details[ $group ] ) > 0
+			) {
+				foreach ( $details[ $group ] as $item_details ) {
+					$items[] = array_merge(
+						array(
+							'group' => $group,
+						),
+						$item_details
+					);
+				}
+			}
+		}
+
+		return $items;
+	} // get_group_items
+
+	/**
+	 * Retrieve and return the (possibly converted) value of the given
+	 * query variable.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string         $var_name Variable name.
+	 * @param \WP_Query|bool $query    WP query object (optional).
+	 * @param mixed          $default  Default value (optional).
+	 *
+	 * @return mixed[]|string Variable value, if existent.
+	 */
+	public function get_query_var_value( $var_name, $query = false, $default = false ) {
+		$value = $default;
+
+		// Get value directly from query object.
+		if ( $query && isset( $query->query_vars[ $var_name ] ) ) {
+			$value = $query->query_vars[ $var_name ];
+		}
+
+		// Get value from GET variables (possibly override query object values).
+		$temp_value = get_query_var( $var_name, false );
+
+		if ( false !== $temp_value ) {
+			$value = $temp_value;
+			if ( $query ) {
+				$query->set( $var_name, $value );
+			}
+		}
+
+		// Convert string lists (format: (item 1, item 2...) ) to arrays.
+		if ( $value && is_string( $value ) ) {
+			if ( preg_match( '/^\(.*\)$/', $value ) ) {
+				$value = array_map( 'trim', explode( ',', substr( $value, 1, -1 ) ) );
+			}
+		}
+
+		// Convert comma separated single values (numbers, slugs) to arrays.
+		if ( $value && is_string( $value ) ) {
+			if ( preg_match( '/^([0-9a-zA-Z\-_\.]+,[ ]?){1,}([0-9a-zA-Z\-_\.]+)?$/', trim( $value ) ) ) {
+				$value = array_map( 'trim', explode( ',', trim( $value ) ) );
+			}
+		}
+
+		return $value;
+	} // get_query_var_value
+
+} // Data_Access_Helper

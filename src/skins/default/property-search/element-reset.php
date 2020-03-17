@@ -1,0 +1,20 @@
+<?php
+/**
+ * Template for property search form element (reset link)
+ *
+ * @package immonex-kickstart
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+$inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
+?>
+<div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?> uk-text-right@m">
+	<a id="inx-search-form-reset" href="javascript:void(0)" class="inx-link inx-form-reset">
+		<span class="inx-icon--top" uk-icon="refresh"></span>
+		<?php echo $template_data['element']['label'] ? esc_html( $template_data['element']['label'] ) : __( 'Reset Form', 'inx' ); ?>
+	</a>
+</div>

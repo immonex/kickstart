@@ -1,0 +1,28 @@
+{
+    "name": "immonex/kickstart",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/inverisOSS/wp-i18n-tools"
+        }
+    ],
+    "require": {
+        "cmb2/cmb2": "dev-master",
+        "immonex/wp-free-plugin-core": "^1.0.0"
+    },
+    "require-dev": {
+        "inverisoss/wp-i18n-tools": "^1.0",
+        "phpunit/phpunit": "^7",
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "phpdocumentor/graphviz": "@dev",
+        "phpdocumentor/reflection-docblock": "@dev",
+        "doctrine/rst-parser": "@dev"
+    },
+    "autoload": {
+        "psr-4": { "immonex\\Kickstart\\": ["includes", "src/includes"] },
+        "files": ["vendor/cmb2/cmb2/init.php"]
+    },
+    "autoload-dev": {
+        "psr-4": { "immonex\\Kickstart\\tests\\": "tests/" }
+    }
+}

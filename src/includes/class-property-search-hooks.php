@@ -1,0 +1,262 @@
+<?php
+/**
+ * Class Property_Search_Hooks
+ *
+ * @package immonex-kickstart
+ */
+
+namespace immonex\Kickstart;
+
+/**
+ * Property related actions and filters.
+ */
+class Property_Search_Hooks {
+
+	/**
+	 * Various component configuration data
+	 *
+	 * @var mixed[]
+	 */
+	private $config;
+
+	/**
+	 * Helper/Utility objects
+	 *
+	 * @var object[]
+	 */
+	private $utils;
+
+	/**
+	 * Related Property search object
+	 *
+	 * @var \immonex\Kickstart\Property_Search
+	 */
+	private $property_search;
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[]  $config Various component configuration data.
+	 * @param object[] $utils Helper/Utility objects.
+	 */
+	public function __construct( $config, $utils ) {
+		$this->config          = $config;
+		$this->utils           = $utils;
+		$this->property_search = new Property_Search( $config, $utils );
+
+		/**
+		 * WP actions and filters
+		 */
+
+		add_action( 'pre_get_posts', array( $this, 'adjust_property_frontend_query' ) );
+
+		add_filter( 'query_vars', array( $this, 'add_frontend_query_vars' ) );
+
+		/**
+		 * Plugin-specific actions and filters
+		 */
+
+		add_action( 'inx_render_property_search_form', array( $this, 'render_property_search_form' ), 10, 2 );
+		add_action( 'inx_render_property_search_form_element', array( $this, 'render_property_search_form_element' ), 10, 3 );
+
+		/**
+		 * Shortcodes
+		 */
+
+		add_shortcode( 'inx-search-form', array( $this, 'shortcode_search_form' ) );
+	} // __construct
+
+	/**
+	 * Add names of variables that can be used in frontend related WP queries.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string[] $vars Current list of variable names.
+	 *
+	 * @return string[] Extended list of variable names.
+	 */
+	public function add_frontend_query_vars( $vars ) {
+		$prefix = $this->config['public_prefix'];
+
+		if ( count( $this->config['special_query_vars'] ) > 0 ) {
+			foreach ( $this->config['special_query_vars'] as $var_name ) {
+				$vars[] = $var_name;
+			}
+		}
+
+		$form_elements = $this->property_search->get_search_form_elements();
+
+		if ( count( $form_elements ) > 0 ) {
+			foreach ( $form_elements as $id => $element ) {
+				$vars[] = $prefix . 'search-' . $id;
+			}
+		}
+
+		return $vars;
+	} // add_frontend_query_vars
+
+	/**
+	 * Adjust frontend related property WP queries.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_Query $query WP query object.
+	 */
+	public function adjust_property_frontend_query( $query ) {
+		if (
+			isset( $query->query_vars['suppress_pre_get_posts_filter'] ) ||
+			isset( $query->query_vars['page'] ) && $query->query_vars['page'] ||
+			isset( $query->query_vars['pagename'] ) && $query->query_vars['pagename'] || (
+				$query->get( 'post_type' ) &&
+				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+			)
+		) {
+			return;
+		}
+
+		global $post;
+		$includes_shortcode = is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'inx-property-list' );
+
+		if (
+			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
+			! $includes_shortcode && (
+				! $query->is_main_query() ||
+				is_single() ||
+				is_page() ||
+				is_admin() || (
+					is_archive() &&
+					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+				)
+			)
+		) {
+			return;
+		}
+
+		$prefix = $this->config['public_prefix'];
+
+		$form_elements = $this->property_search->get_search_form_elements();
+		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
+			return;
+		}
+
+		/**
+		 * Compile names of query variables to check.
+		 */
+
+		$var_names = array();
+
+		// Search form elements.
+		foreach ( $form_elements as $id => $element ) {
+			$var_names[] = $prefix . 'search-' . $id;
+		}
+
+		// Special variables (e.g. reference flag).
+		if ( count( $this->config['special_query_vars'] ) > 0 ) {
+			foreach ( $this->config['special_query_vars'] as $var_name ) {
+				$var_names[] = $var_name;
+			}
+		}
+
+		$var_names = array_unique( $var_names );
+
+		/**
+		 * Retrieve query variable values.
+		 */
+
+		$search_query_vars = array();
+
+		if ( count( $var_names ) > 0 ) {
+			foreach ( $var_names as $var_name ) {
+				$value                          = $this->utils['data']->get_query_var_value( $var_name, $query );
+				$search_query_vars[ $var_name ] = $value;
+			}
+		}
+
+		$tax_and_meta_queries = $this->property_search->get_tax_and_meta_queries( $search_query_vars );
+
+		if ( $tax_and_meta_queries['tax_query'] ) {
+			$query->set( 'tax_query', $tax_and_meta_queries['tax_query'] );
+		}
+		if ( $tax_and_meta_queries['meta_query'] ) {
+			$query->set( 'meta_query', $tax_and_meta_queries['meta_query'] );
+		}
+		if ( $tax_and_meta_queries['geo_query'] ) {
+			require_once trailingslashit( $this->config['plugin_dir'] ) . 'lib/gjs-geo-query/gjs-geo-query.php';
+			$query->set( 'geo_query', $tax_and_meta_queries['geo_query'] );
+		}
+
+		if ( isset( $search_query_vars[ $prefix . 'limit' ] ) && (int) $search_query_vars[ $prefix . 'limit' ] ) {
+			$hard_limit = (int) $search_query_vars[ $prefix . 'limit' ];
+		} else {
+			$hard_limit = false;
+		}
+
+		if ( isset( $search_query_vars[ $prefix . 'limit-page' ] ) && (int) $search_query_vars[ $prefix . 'limit-page' ] ) {
+			$page_limit = (int) $search_query_vars[ $prefix . 'limit-page' ];
+		} else {
+			$page_limit = false;
+		}
+
+		if ( $hard_limit || $page_limit ) {
+			$query->set( 'posts_per_page', $hard_limit ? $hard_limit : $page_limit );
+			if ( $hard_limit ) {
+				// Disable pagination if a "hard" post number limit is given.
+				$query->set( 'no_found_rows', true );
+			}
+		}
+	} // adjust_property_frontend_query
+
+	/**
+	 * Display the rendered property search form (action based).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $template Template file name (without suffix).
+	 * @param mixed[] $atts Rendering Attributes.
+	 */
+	public function render_property_search_form( $template = 'property-search', $atts = array() ) {
+		if ( ! $template ) {
+			$template = 'property-search';
+		}
+
+		echo $this->property_search->render_form( $template, $atts );
+	} // render_property_search_form
+
+	/**
+	 * Display a rendered single search form element (action based).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $id Element ID (key).
+	 * @param mixed[] $element Element definition/configuration.
+	 * @param mixed[] $atts Rendering Attributes.
+	 */
+	public function render_property_search_form_element( $id, $element, $atts = array() ) {
+		echo $this->property_search->render_element( $id, $element, $atts );
+	} // render_property_search_form_element
+
+	/**
+	 * Display the rendered property search form (based on the shortcode
+	 * [inx-search-form]).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[] $atts Rendering Attributes.
+	 *
+	 * @return string Rendered shortcode contents.
+	 */
+	public function shortcode_search_form( $atts ) {
+		$prefix         = $this->config['public_prefix'];
+		$supported_atts = array(
+			'results-page-id' => false,
+			'elements'        => '',
+			'references'      => '',
+		);
+		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}search-form" );
+
+		return $this->property_search->render_form( 'property-search', $shortcode_atts );
+	} // shortcode_search_form
+
+} // Property_Search_Hooks

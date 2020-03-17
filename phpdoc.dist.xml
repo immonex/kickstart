@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor>
+  <title>immonex Kickstart</title>
+  <parser>
+    <target>.tmp/apidoc</target>
+  </parser>
+  <transformer>
+    <target>apidoc</target>
+  </transformer>
+  <files>
+    <directory>src</directory>
+    <ignore>src/lib</ignore>
+    <ignore>src/vendor</ignore>
+  </files>
+  <transformations>
+    <template name="clean"/>
+  </transformations>
+</phpdocumentor>

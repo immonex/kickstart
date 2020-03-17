@@ -1,0 +1,13 @@
+button.inx-button {
+	font-size: 1em;
+	background-color: $color-link;
+}
+
+.inx-button--action {
+	background-color: $color-action-element;
+	color: #fff;
+}
+
+.inx-button--action:hover {
+	background-color: $color-action-element-highlighted;
+}

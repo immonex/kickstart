@@ -1,0 +1,992 @@
+<?php
+/**
+ * Class Property_Search
+ *
+ * @package immonex-kickstart
+ */
+
+namespace immonex\Kickstart;
+
+/**
+ * Search Form Rendering.
+ */
+class Property_Search {
+
+	/**
+	 * Various component configuration data
+	 *
+	 * @var mixed[]
+	 */
+	private $config;
+
+	/**
+	 * Helper/Utility objects
+	 *
+	 * @var object[]
+	 */
+	private $utils;
+
+	/**
+	 * API object
+	 *
+	 * @var \immonex\Kickstart\API
+	 */
+	private $api;
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[]  $config Various component configuration data.
+	 * @param object[] $utils Helper/Utility objects.
+	 */
+	public function __construct( $config, $utils ) {
+		$this->config = $config;
+		$this->utils  = $utils;
+
+		$this->api = new API( $config, $utils );
+	} // __construct
+
+	/**
+	 * Render the property search form (PHP template).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $template Template file name (without suffix).
+	 * @param mixed[] $atts Rendering Attributes.
+	 *
+	 * @return string Rendered contents (HTML).
+	 */
+	public function render_form( $template = 'property-search', $atts = array() ) {
+		/**
+		 * Check for special GET variables and preserve their values (hidden field).
+		 */
+		$preserve_get_vars = $this->config['special_query_vars'];
+
+		$hidden_fields = array();
+		if ( count( $preserve_get_vars ) > 0 ) {
+			foreach ( $preserve_get_vars as $var_name ) {
+				$value = get_query_var( $var_name, false );
+
+				if ( false !== $value ) {
+					$hidden_fields[] = array(
+						'name'  => $var_name,
+						'value' => $value,
+					);
+				}
+			}
+		}
+
+		$elements         = array();
+		$enabled_elements = $this->get_search_form_elements( true, false );
+
+		if ( count( $enabled_elements ) > 0 ) {
+			foreach ( $enabled_elements as $id => $element ) {
+				if ( empty( $element['hidden'] ) ) {
+					$elements[ $id ] = $element;
+				}
+			}
+		}
+
+		if ( ! empty( $atts['elements'] ) && count( $elements ) > 0 ) {
+			$element_ids           = array_map( 'trim', explode( ',', $atts['elements'] ) );
+			$available_element_ids = array_keys( $elements );
+			$include_elements      = array();
+
+			foreach ( $element_ids as $id ) {
+				$force_extended     = '+' === substr( $id, -1 );
+				$force_non_extended = '-' === substr( $id, -1 );
+				if ( $force_extended || $force_non_extended ) {
+					$id = substr( $id, 0, -1 );
+				}
+
+				if ( in_array( $id, $available_element_ids ) ) {
+					$include_elements[ $id ]          = $elements[ $id ];
+					$include_elements[ $id ]['order'] = count( $include_elements );
+					if ( $force_extended ) {
+						$include_elements[ $id ]['extended'] = true;
+					} elseif ( $force_non_extended ) {
+						$include_elements[ $id ]['extended'] = false;
+					}
+				}
+			}
+
+			$elements = $include_elements;
+		}
+
+		$extended_count = 0;
+		if ( count( $elements ) > 0 ) {
+			foreach ( $elements as $id => $element ) {
+				if ( isset( $element['extended'] ) && $element['extended'] ) {
+					$extended_count++;
+				}
+			}
+		}
+
+		/**
+		 * Determine the form action URL.
+		 */
+		$default_action_url = false;
+		$form_action        = false;
+
+		if ( ! empty( $atts['results-page-id'] ) ) {
+			// Specific page ID given as shortcode parameter: set as form action URL if valid.
+			$page_url = get_permalink( (int) $atts['results-page-id'] );
+			if ( $page_url ) {
+				$form_action = $page_url;
+			}
+		}
+
+		if ( ! $form_action ) {
+			if ( $this->config['property_list_page_id'] ) {
+				// Specific page stated as overview page: set as form action URL if valid.
+				$page_url = get_permalink( $this->config['property_list_page_id'] );
+				if ( $page_url ) {
+					$default_action_url = $page_url;
+				}
+			}
+
+			if ( ! $default_action_url ) {
+				$default_action_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
+			}
+
+			if ( is_front_page() || is_tax() ) {
+				// Set default form action URL on front page and taxonomy archive pages.
+				$form_action = $default_action_url;
+			} else {
+				global $post;
+				if ( isset( $post ) && has_shortcode( $post->post_content, 'inx-property-list' ) ) {
+					// Set current page URL if page contains the property list shortcode.
+					$form_action = $this->utils['string']->get_nopaging_url();
+				} else {
+					$form_action = $default_action_url;
+				}
+			}
+		}
+
+		$template_data = array_merge(
+			$this->config,
+			$atts,
+			array(
+				'form_action'    => $form_action,
+				'hidden_fields'  => $hidden_fields,
+				'elements'       => $elements,
+				'extended_count' => $extended_count,
+			)
+		);
+
+		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+
+		return $template_content;
+	} // render_form
+
+	/**
+	 * Render a single search form element.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $id Element ID (key).
+	 * @param mixed[] $element Element definition/configuration.
+	 * @param mixed[] $atts Rendering Attributes.
+	 *
+	 * @return string Rendered contents (HTML).
+	 */
+	public function render_element( $id, $element, $atts = array() ) {
+		if ( count( $element ) > 0 ) {
+			// Maybe replace special variables stated in values.
+			foreach ( $element as $key => $value ) {
+				if ( ! is_string( $value ) ) {
+					continue;
+				}
+
+				if ( 'primary_price_' === substr( $value, 0, 14 ) ) {
+					$primary_price_min_max = $this->api->get_primary_price_min_max();
+
+					switch ( $value ) {
+						case 'primary_price_min':
+							$element[ $key ] = $primary_price_min_max[0];
+							break;
+						case 'primary_price_max':
+							$element[ $key ] = $primary_price_min_max[1];
+							break;
+						case 'primary_price_min_max':
+							$element[ $key ] = $primary_price_min_max;
+							break;
+					}
+				}
+			}
+		}
+
+		switch ( $element['type'] ) {
+			case 'range':
+				if (
+					is_string( $element['range'] ) &&
+					false !== strpos( $element['range'], ',' )
+				) {
+					// Convert range string to integer array.
+					$element['range'] = array_map( 'intval', explode( ',', $element['range'] ) );
+				}
+				break;
+			case 'tax-select':
+			case 'tax-checkbox':
+			case 'tax-radio':
+				$args = array(
+					'taxonomy'   => $element['key'],
+					'orderby'    => 'name',
+					'order'      => 'ASC',
+					'hide_empty' => true,
+				);
+
+				if ( $element['key'] === $this->config['plugin_prefix'] . 'marketing_type' ) {
+					if ( ! empty( $atts['references'] ) ) {
+						$include_references = 'yes' === $atts['references'];
+					} else {
+						$include_references = 'yes' === get_query_var( $this->config['public_prefix'] . 'references' );
+					}
+
+					if ( ! $include_references ) {
+						// Exclude reference related standard marketing type taxonomy terms.
+						$reference_marketing_type_terms = get_terms(
+							array(
+								'taxonomy' => $element['key'],
+								'name'     => array( 'verkauft', 'vermietet', 'verpachtet' ),
+								'fields'   => 'ids',
+							)
+						);
+
+						if ( count( $reference_marketing_type_terms ) > 0 ) {
+							$args['exclude'] = $reference_marketing_type_terms;
+						}
+					}
+				}
+
+				// TODO: Add Filter (args).
+
+				$terms   = get_terms( $args );
+				$options = array();
+
+				if ( is_array( $terms ) ) {
+					$options = $this->get_hierarchical_option_list( $terms );
+				}
+
+				// TODO: Add Filter.
+				$element['options'] = $options;
+				break;
+		}
+
+		// Prefixed ID for use as input id/name etc.
+		$public_id = $this->config['public_prefix'] . 'search-' . $id;
+		// $value = get_query_var( $public_id );
+		$value = $this->utils['data']->get_query_var_value( $public_id );
+
+		if ( ! $value && 'tax-' === substr( $element['type'], 0, 4 ) ) {
+			$qo = get_queried_object();
+			if (
+				$qo &&
+				'WP_Term' === get_class( $qo ) &&
+				isset( $qo->taxonomy ) &&
+				$qo->taxonomy === $element['key'] // Element key = taxonomy.
+			) {
+				// Queried taxonmy matches element taxonomy: Set slug as
+				// form element value if not set via GET variable already.
+				$value = $qo->slug;
+			}
+		}
+
+		if ( is_string( $value ) ) {
+			// If value is a JSON string, decode it.
+			$json = json_decode( stripslashes( $value ) );
+			if ( null !== $json ) {
+				$value = $json;
+			}
+		}
+
+		if ( is_array( $value ) && 1 === count( $value ) ) {
+			// Convert an array with a single element to a single value.
+			$value = $value[0];
+		}
+
+		if (
+			(
+				! $value ||
+				( is_array( $value ) && 0 === count( $value ) ) ||
+				( is_array( $value ) && 1 === count( $value ) && '' === $value[0] )
+			) && (
+				isset( $element['default'] ) &&
+				false !== $element['default']
+			)
+		) {
+			if (
+				( true === $element['default'] || false !== strpos( $element['type'], 'radio' ) ) &&
+				in_array( $element['type'], array( 'select', 'tax-select', 'radio', 'tax-radio' ) ) &&
+				count( $element['options'] ) > 0
+			) {
+				$value = array_keys( $element['options'] )[0];
+			} else {
+				$value = $element['default'];
+			}
+		}
+
+		$template_data = array_merge(
+			$this->config,
+			$atts,
+			array(
+				'element_id'    => $public_id,
+				'element_value' => $value,
+				'element'       => $element,
+			)
+		);
+
+		$template = 'property-search/element-' . $element['type'];
+
+		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+
+		return $template_content;
+	} // render_form
+
+	/**
+	 * Create and return a name list of custom fields to be browsed on
+	 * full-text searches.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string[] Custom field names.
+	 */
+	public function get_fulltext_search_fields() {
+		$prefix = '_' . $this->config['plugin_prefix'];
+
+		// TODO: Add Filter.
+		$fields = array(
+			"{$prefix}property_title",
+			"{$prefix}property_descr",
+			"{$prefix}short_descr",
+			"{$prefix}location_descr",
+			"{$prefix}features_descr",
+			"{$prefix}misc_descr",
+			"{$prefix}property_id",
+		);
+
+		return $fields;
+	} // get_fulltext_search_fields
+
+	/**
+	 * Create and return an array of available search form elements including
+	 * the specific configuration attributes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param bool $enabled_only Return only enabled elements? (false by default).
+	 * @param bool $suppress_filters Suppress any filters? (false by default).
+	 *
+	 * @return mixed[] Search form elements.
+	 */
+	public function get_search_form_elements( $enabled_only = false, $suppress_filters = false ) {
+		$all_elements = array(
+			'description'              => array(
+				'enabled'     => true,
+				'hidden'      => false,
+				'extended'    => false,
+				'type'        => 'text',
+				'key'         => '',
+				'compare'     => 'LIKE',
+				'numeric'     => false,
+				'label'       => '',
+				'placeholder' => __( 'Keyword or Property ID', 'inx' ),
+				'class'       => '',
+				'order'       => 10,
+			),
+			'type-of-use'              => array(
+				'enabled'      => true,
+				'hidden'       => true,
+				'extended'     => false,
+				'type'         => 'tax-select',
+				'key'          => $this->config['plugin_prefix'] . 'type_of_use',
+				'compare'      => '=',
+				'numeric'      => false,
+				'label'        => __( 'Type Of Use', 'inx' ),
+				'options'      => array(),
+				'multiple'     => false,
+				'empty_option' => __( 'All Types', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 15,
+			),
+			'property-type'            => array(
+				'enabled'      => true,
+				'hidden'       => false,
+				'extended'     => false,
+				'type'         => 'tax-select',
+				'key'          => $this->config['plugin_prefix'] . 'property_type',
+				'compare'      => '=',
+				'numeric'      => false,
+				'label'        => __( 'Property Type', 'inx' ),
+				'options'      => array(),
+				'multiple'     => false,
+				'empty_option' => __( 'All Property Types', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 20,
+			),
+			'marketing-type'           => array(
+				'enabled'      => true,
+				'hidden'       => false,
+				'extended'     => false,
+				'type'         => 'tax-select',
+				'key'          => $this->config['plugin_prefix'] . 'marketing_type',
+				'compare'      => '=',
+				'numeric'      => false,
+				'label'        => __( 'Marketing Type', 'inx' ),
+				'options'      => array(),
+				'multiple'     => false,
+				'empty_option' => __( 'For Sale or For Rent', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 30,
+			),
+			'locality'                 => array(
+				'enabled'      => true,
+				'hidden'       => false,
+				'extended'     => false,
+				'type'         => 'tax-select',
+				'key'          => $this->config['plugin_prefix'] . 'location',
+				'compare'      => '=',
+				'numeric'      => false,
+				'label'        => __( 'Locality', 'inx' ),
+				'options'      => array(),
+				'multiple'     => false,
+				'empty_option' => __( 'All Localities', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 40,
+			),
+			'min-rooms'                => array(
+				'enabled'      => true,
+				'hidden'       => false,
+				'extended'     => false,
+				'type'         => 'range',
+				'key'          => '_' . $this->config['plugin_prefix'] . 'primary_rooms',
+				'compare'      => '>=',
+				'range'        => '0,10',
+				'default'      => 0,
+				'replace_null' => __( 'not specified', 'inx' ),
+				'unit'         => false,
+				'currency'     => false,
+				'numeric'      => true,
+				'label'        => __( 'Min. Rooms', 'inx' ),
+				'class'        => '',
+				'order'        => 50,
+			),
+			'min-area'                 => array(
+				'enabled'      => true,
+				'hidden'       => false,
+				'extended'     => false,
+				'type'         => 'range',
+				'key'          => '_' . $this->config['plugin_prefix'] . 'living_area',
+				'compare'      => '>=',
+				'range'        => '0,400',
+				'default'      => 0,
+				'replace_null' => __( 'not specified', 'inx' ),
+				'unit'         => $this->config['area_unit'],
+				'currency'     => false,
+				'numeric'      => true,
+				'label'        => __( 'Min. Living Area', 'inx' ),
+				'class'        => '',
+				'order'        => 60,
+			),
+			'price-range'              => array(
+				'enabled'  => true,
+				'hidden'   => false,
+				'extended' => false,
+				'type'     => 'range',
+				'key'      => '_' . $this->config['plugin_prefix'] . 'primary_price',
+				'compare'  => 'BETWEEN',
+				'range'    => 'primary_price_min_max',
+				'default'  => 'primary_price_min_max',
+				'currency' => 'EUR',
+				'numeric'  => true,
+				'label'    => __( 'Price Range', 'inx' ),
+				'class'    => '',
+				'order'    => 70,
+			),
+			'submit'                   => array(
+				'enabled'  => true,
+				'hidden'   => false,
+				'extended' => false,
+				'type'     => 'submit',
+				'key'      => '',
+				'compare'  => '',
+				'numeric'  => false,
+				'label'    => __( 'Show', 'inx' ),
+				'class'    => 'inx-property-search__element--is-last-grid-col',
+				'order'    => 80,
+			),
+			'reset'                    => array(
+				'enabled'  => true,
+				'hidden'   => false,
+				'extended' => false,
+				'type'     => 'reset',
+				'key'      => '',
+				'compare'  => '',
+				'numeric'  => false,
+				'label'    => __( 'Reset Search Form', 'inx' ),
+				'class'    => 'inx-property-search__element--is-full-width',
+				'order'    => 90,
+			),
+			'toggle-extended'          => array(
+				'enabled'  => true,
+				'hidden'   => false,
+				'extended' => false,
+				'type'     => 'extended-search-toggle',
+				'key'      => '',
+				'compare'  => '',
+				'numeric'  => false,
+				'label'    => __( 'Extended and Distance Search', 'inx' ),
+				'class'    => 'inx-property-search__element--is-full-width',
+				'order'    => 100,
+			),
+			'distance-search-location' => array(
+				'enabled'     => $this->config['distance_search_autocomplete_type'] ? true : false,
+				'hidden'      => false,
+				'extended'    => true,
+				'type'        => $this->config['distance_search_autocomplete_type'] ? $this->config['distance_search_autocomplete_type'] . '-autocomplete' : '',
+				'key'         => 'distance_search_location',
+				'compare'     => '=',
+				'numeric'     => false,
+				'label'       => __( 'Distance Search', 'inx' ),
+				'placeholder' => __( 'Locality Name (Distance Search)', 'inx' ),
+				'no_options'  => __( 'Type to search...', 'inx' ),
+				'no_results'  => __( 'No matching localities found.', 'inx' ),
+				'class'       => 'inx-property-search__element--is-first-grid-col',
+				'order'       => 200,
+			),
+			'distance-search-radius'   => array(
+				'enabled'      => $this->config['distance_search_autocomplete_type'] ? true : false,
+				'hidden'       => false,
+				'extended'     => true,
+				'type'         => 'select',
+				'key'          => 'distance_search_radius',
+				'compare'      => '<=',
+				'numeric'      => true,
+				'label'        => __( 'Distance Search Radius', 'inx' ),
+				'options'      => array(
+					5   => '5 km',
+					10  => '10 km',
+					25  => '25 km',
+					50  => '50 km',
+					100 => '100 km',
+				),
+				'empty_option' => __( 'Radius (km)', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 210,
+			),
+			'features'                 => array(
+				'enabled'  => true,
+				'hidden'   => false,
+				'extended' => true,
+				'type'     => 'tax-checkbox',
+				'key'      => $this->config['plugin_prefix'] . 'feature',
+				'compare'  => 'AND',
+				'numeric'  => false,
+				'label'    => __( 'Features', 'inx' ),
+				'options'  => array(),
+				'class'    => 'inx-property-search__element--is-full-width',
+				'order'    => 220,
+			),
+			'labels'                   => array(
+				'enabled'      => true,
+				'hidden'       => true,
+				'extended'     => false,
+				'type'         => 'tax-select',
+				'key'          => $this->config['plugin_prefix'] . 'label',
+				'compare'      => 'IN',
+				'numeric'      => false,
+				'label'        => __( 'Labels', 'inx' ),
+				'options'      => array(),
+				'multiple'     => true,
+				'empty_option' => __( 'All Labels', 'inx' ),
+				'default'      => '',
+				'class'        => '',
+				'order'        => 900,
+			),
+		);
+
+		$elements = $suppress_filters ? $all_elements : apply_filters( 'inx_search_form_elements', $all_elements );
+
+		uasort(
+			$elements,
+			function( $a, $b ) {
+				if ( $a['order'] === $b['order'] ) {
+					return 0;
+				}
+				return ( $a['order'] < $b['order'] ) ? -1 : 1;
+			}
+		);
+
+		if ( $enabled_only ) {
+			$elements = array_filter(
+				$elements,
+				function( $element ) {
+					return isset( $element['enabled'] ) && $element['enabled'];
+				}
+			);
+		}
+
+		return $elements;
+	} // get_search_form_elements
+
+	/**
+	 * Create and return a list of search related query variables.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed[] Query variables/values.
+	 */
+	public function get_search_query_vars() {
+		$prefix = $this->config['public_prefix'];
+
+		$form_elements = $this->get_search_form_elements( false, true );
+		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
+			return array();
+		}
+
+		$search_query_vars = array();
+		foreach ( $form_elements as $id => $element ) {
+			$var_name = "{$prefix}search-{$id}";
+			$value    = get_query_var( $var_name );
+
+			if ( $value ) {
+				if ( is_array( $value ) ) {
+					$temp = array();
+					if ( count( $value ) > 0 ) {
+						foreach ( $value as $key => $element_value ) {
+							$temp[ $key ] = stripslashes( html_entity_decode( $element_value, ENT_QUOTES ) );
+						}
+					}
+					$search_query_vars[ $var_name ] = $temp;
+				} else {
+					$search_query_vars[ $var_name ] = stripslashes( html_entity_decode( $value, ENT_QUOTES ) );
+				}
+			}
+		}
+
+		return $search_query_vars;
+	} // get_search_query_vars
+
+	/**
+	 * Create taxonomy and meta query arrays based on the given parameters.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[] $params Query parameters.
+	 *
+	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
+	 */
+	public function get_tax_and_meta_queries( $params ) {
+		$prefix = $this->config['public_prefix'];
+
+		$form_elements = $this->get_search_form_elements( false, true );
+		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
+			return array(
+				'tax_query'  => false,
+				'meta_query' => false,
+			);
+		}
+
+		$distance_search = array();
+		$tax_query       = array( 'relation' => 'AND' );
+		$meta_query      = array( 'relation' => 'AND' );
+
+		foreach ( $form_elements as $id => $element ) {
+			$var_name = $prefix . 'search-' . $id;
+			if ( ! in_array( $var_name, array_keys( $params ) ) ) {
+				continue;
+			}
+
+			$value = $params[ $var_name ];
+			if ( ! $value ) {
+				continue;
+			}
+
+			if ( is_string( $value ) ) {
+				$json = json_decode( stripslashes( $value ) );
+				if ( null !== $json ) {
+					$value = $json;
+				}
+			}
+
+			if ( is_array( $value ) ) {
+				if ( count( $value ) > 0 ) {
+					$sanitized_value_array = array();
+					foreach ( $value as $single_value ) {
+						$sanitized_value = sanitize_text_field( $single_value );
+						if ( $element['numeric'] ) {
+							$sanitized_value = $this->utils['string']->get_float( $sanitized_value );
+						}
+						$sanitized_value_array[] = $sanitized_value;
+					}
+
+					$value = $sanitized_value_array;
+				}
+
+				if (
+					0 === count( $value ) ||
+					( 1 === count( $value ) && '' === $value[0] )
+				) {
+					continue;
+				} elseif ( 1 === count( $value ) ) {
+					$value = $value[0];
+				}
+			} else {
+				$value = sanitize_text_field( $value );
+				if ( $element['numeric'] ) {
+					$value = $this->utils['string']->get_float( $value );
+				}
+				if ( ! $value ) {
+					continue;
+				}
+			}
+
+			/**
+			 * Distance Search
+			 */
+			if ( 'distance_search_location' === $element['key'] ) {
+				if ( isset( $value[0] ) && (float) $value[0] ) {
+					$distance_search['lat'] = (float) $value[0];
+				}
+				if ( isset( $value[1] ) && (float) $value[1] ) {
+					$distance_search['lng'] = (float) $value[1];
+				}
+				if ( isset( $value[2] ) && $value[2] ) {
+					$distance_search['location_name'] = $value[2];
+				}
+				continue;
+			} elseif ( 'distance_search_radius' === $element['key'] ) {
+				if ( (int) $value > 0 ) {
+					$distance_search['radius'] = (int) $value;
+				}
+				continue;
+			}
+
+			switch ( $element['type'] ) {
+				case 'google-places-autocomplete':
+					break;
+				case 'tax-select':
+					$operator = isset( $element['compare'] ) &&
+						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ) ) ?
+						strtoupper( $element['compare'] ) : 'IN';
+
+					$tax_query[] = array(
+						'taxonomy' => $element['key'],
+						'field'    => 'slug',
+						'operator' => $operator,
+						'terms'    => is_array( $value ) ? $value : array( $value ),
+					);
+					break;
+				case 'tax-checkbox':
+				case 'tax-radio':
+					$operator = isset( $element['compare'] ) &&
+						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ) ) ?
+						strtoupper( $element['compare'] ) : 'AND';
+
+					$tax_query[] = array(
+						'taxonomy' => $element['key'],
+						'field'    => 'slug',
+						'operator' => $operator,
+						'terms'    => is_array( $value ) ? $value : array( $value ),
+					);
+					break;
+				default:
+					if (
+						! $element['key'] ||
+						'fulltext' === $element['key']
+					) {
+						// Use specific custom fields for "fulltext search".
+						$fulltext_search_fields = $this->get_fulltext_search_fields();
+
+						if ( count( $fulltext_search_fields ) > 0 ) {
+							$fulltext_fields_subquery = array( 'relation' => 'OR' );
+
+							foreach ( $fulltext_search_fields as $meta_key ) {
+								$fulltext_fields_subquery[] = array(
+									'key'     => $meta_key,
+									'value'   => $value,
+									'compare' => 'LIKE',
+								);
+							}
+
+							$meta_query[] = $fulltext_fields_subquery;
+						}
+					} else {
+						if ( is_array( $value ) && 2 === count( $value ) ) {
+							// Number range given.
+							$meta_query[] = array(
+								'key'     => $element['key'],
+								'value'   => $value,
+								'type'    => 'numeric',
+								'compare' => 'BETWEEN',
+							);
+						} elseif ( is_array( $value ) && 4 === count( $value ) ) {
+							// Number range including initial min/max values given
+							// (ignore if values match initial values).
+							if (
+								$value[0] !== $value[2] ||
+								$value[1] !== $value[3]
+							) {
+								$meta_query[] = array(
+									'key'     => $element['key'],
+									'value'   => array( $value[0], $value[1] ),
+									'type'    => 'numeric',
+									'compare' => 'BETWEEN',
+								);
+							}
+						} else {
+							// Single value given (eventually with min/max range).
+							if ( is_array( $value ) ) {
+								$value = $value[0];
+							}
+
+							$meta_query[] = array(
+								'key'     => $element['key'],
+								'value'   => $value,
+								'type'    => isset( $element['numeric'] ) && $element['numeric'] ? 'NUMERIC' : 'CHAR',
+								'compare' => isset( $element['compare'] ) && $element['compare'] ? $element['compare'] : '=',
+							);
+						}
+					}
+			}
+		}
+
+		if (
+			! isset( $params[ "{$prefix}references" ] ) ||
+			! $params[ "{$prefix}references" ] ||
+			'no' === strtolower( $params[ "{$prefix}references" ] )
+		) {
+			// Properties marked as reference objects are HIDDEN by default.
+			$meta_query[] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => '_immonex_is_reference',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => '_immonex_is_reference',
+					'value'   => array( 0, 'off', '' ),
+					'compare' => 'IN',
+				),
+			);
+		} elseif (
+			'only' === strtolower( $params[ "{$prefix}references" ] )
+		) {
+			$meta_query[] = array(
+				'key'     => '_immonex_is_reference',
+				'value'   => array( 1, 'on' ),
+				'compare' => 'IN',
+			);
+		}
+
+		$special_flags = array( 'available', 'sold', 'reserved' );
+
+		foreach ( $special_flags as $flag ) {
+			$flag_key = "{$prefix}{$flag}";
+
+			if ( isset( $params[ $flag_key ] ) ) {
+				switch ( strtolower( $params[ $flag_key ] ) ) {
+					case 'yes':
+					case 'only':
+						$meta_query[] = array(
+							'key'     => "_immonex_is_{$flag}",
+							'value'   => array( 1, 'on' ),
+							'compare' => 'IN',
+						);
+						break;
+					case 'no':
+						$meta_query[] = array(
+							'relation' => 'OR',
+							array(
+								'key'     => "_immonex_is_{$flag}",
+								'compare' => 'NOT EXISTS',
+							),
+							array(
+								'key'     => "_immonex_is_{$flag}",
+								'value'   => array( 0, 'off', '' ),
+								'compare' => 'IN',
+							),
+						);
+						break;
+				}
+			}
+		}
+
+		if ( ! empty( $params[ "{$prefix}iso-country" ] ) ) {
+			$meta_query[] = array(
+				'key'     => '_immonex_iso_country',
+				'value'   => strtoupper( substr( $params[ "{$prefix}iso-country" ], 0, 3 ) ),
+				'compare' => '=',
+			);
+		}
+
+		$geo_query = false;
+		if (
+			isset( $distance_search['lat'] ) &&
+			isset( $distance_search['lng'] ) &&
+			isset( $distance_search['radius'] )
+		) {
+			$plugin_prefix = $this->config['plugin_prefix'];
+
+			$geo_query = array(
+				'lat_field' => "_{$plugin_prefix}lat",
+				'lng_field' => "_{$plugin_prefix}lng",
+				'latitude'  => $distance_search['lat'],
+				'longitude' => $distance_search['lng'],
+				'distance'  => $distance_search['radius'],
+				'units'     => 'km',
+			);
+		}
+
+		return array(
+			'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
+			'meta_query' => count( $meta_query ) > 1 ? $meta_query : false,
+			'geo_query'  => $geo_query,
+		);
+	} // get_tax_and_meta_queries
+
+	/**
+	 * Recursively create and return an hierarchical option list.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_Term[] $terms Array of WP term objects.
+	 * @param int        $parent Parent term ID.
+	 * @param int        $level Start level.
+	 *
+	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
+	 */
+	private function get_hierarchical_option_list( $terms, $parent = 0, $level = 0 ) {
+		$level_options = array();
+
+		if ( count( $terms ) > 0 ) {
+			foreach ( $terms as $term ) {
+				if ( $term->parent === $parent ) {
+					$level_options[ $term->slug ] = str_repeat(
+						'&ndash;',
+						$level
+					) . ' ' . $term->name;
+
+					$level_options = array_merge(
+						$level_options,
+						$this->get_hierarchical_option_list(
+							$terms,
+							$term->term_id,
+							$level + 1
+						)
+					);
+				}
+			}
+		}
+
+		return $level_options;
+	} // get_hierarchical_option_list
+
+} // Property_Search

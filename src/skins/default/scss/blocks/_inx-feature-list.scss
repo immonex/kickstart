@@ -1,0 +1,25 @@
+@media print {
+	.inx-feature-list__item {
+		display: inline;
+		margin-top: 0 !important;
+	}
+
+	.inx-feature-list__icon {
+		display: inline;
+		width: auto;
+
+		svg {
+			width: 6pt;
+			height: 6pt;
+		}
+
+		.uk-icon {
+			margin-right: 0 !important;
+		}
+	}
+
+	.inx-feature-list__name {
+		display: inline;
+		flex: none;
+	}
+}

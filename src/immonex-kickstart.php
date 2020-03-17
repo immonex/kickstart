@@ -1,0 +1,49 @@
+<?php
+/**
+ * Plugin Name:       immonex Kickstart
+ * Plugin URI:        https://github.com/immonex/kickstart
+ * Description:       Essential components and framework for embedding and searching/filtering imported OpenImmo® based real estate offers
+ * Version:           1.0.0-rc1
+ * Requires at least: 4.6
+ * Requires PHP:      5.6
+ * Author:            inveris OHG / immonex
+ * Author URI:        https://immonex.dev/
+ * License:           GPLv2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       inx
+ * Domain Path:       /languages
+ *
+ * The Plugin immonex Kickstart is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or any
+ * later version.
+ *
+ * immonex Kickstart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with immonex Kickstart. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
+ *
+ * @package immonex-kickstart
+ */
+
+namespace immonex\Kickstart;
+
+// Prevent direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Initialize autoloaders (Composer (optional) AND WP/plugin-specific).
+ */
+require_once __DIR__ . '/autoload.php';
+
+// Instantiate plugin main class.
+$immonex_kickstart = new Kickstart( basename( __FILE__, '.php' ) );
+$immonex_kickstart->init();
+
+// Global alias.
+$inx = $immonex_kickstart;

@@ -1,0 +1,12 @@
+// Special styles for immonex widgets (OpenImmo2WP)
+
+.immonex-widget-title {
+	h2, h3, h4 {
+		margin-top: 1em;
+		margin-bottom: 1em;
+		padding-bottom: calc(5px + 0.1em);
+		border-bottom: calc(0.2px + 0.05em) solid #c0c0c0;
+		font-size: 1.4em;
+		font-weight: bold;
+	}
+}

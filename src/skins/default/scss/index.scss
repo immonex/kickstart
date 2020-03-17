@@ -1,0 +1,59 @@
+// Skin/Template config
+@import "_config.scss";
+
+
+// Vendor specific styles & fonts
+
+// UIkit
+@import "uikit/src/scss/variables-theme.scss";
+@import "uikit/src/scss/mixins-theme.scss";
+// @import "uikit/src/scss/uikit-theme.scss";
+@import "_uikit-custom.scss";
+
+// noUiSlider
+@import url(~nouislider/distribute/nouislider.min.css);
+
+// Vue-multiselect
+@import url(~vue-multiselect/dist/vue-multiselect.min.css);
+
+// OpenLayers
+@import url(~ol/ol.css);
+
+@import "../fonts/_flaticon.scss";
+
+
+// Mixins
+@import "_mixins.scss";
+
+// Base styles
+@import "_base.scss";
+
+// Blocks (Modules)
+@import "blocks/_immonex-widget.scss";
+@import "blocks/_inx-button.scss";
+@import "blocks/_inx-checkbox.scss";
+@import "blocks/_inx-core-detail-icon.scss";
+@import "blocks/_inx-description-text.scss";
+@import "blocks/_inx-detail-list.scss";
+@import "blocks/_inx-feature-list.scss";
+@import "blocks/_inx-form-element.scss";
+@import "blocks/_inx-gallery.scss";
+@import "blocks/_inx-icon.scss";
+@import "blocks/_inx-label.scss";
+@import "blocks/_inx-link.scss";
+@import "blocks/_inx-location-autocomplete.scss";
+@import "blocks/_inx-oi.scss";
+@import "blocks/_inx-page-header.scss";
+@import "blocks/_inx-page-title.scss";
+@import "blocks/_inx-property-archive.scss";
+@import "blocks/_inx-property-filters.scss";
+@import "blocks/_inx-property-label.scss";
+@import "blocks/_inx-property-list.scss";
+@import "blocks/_inx-property-list-item.scss";
+@import "blocks/_inx-property-location-map.scss";
+@import "blocks/_inx-property-search.scss";
+@import "blocks/_inx-range-slider.scss";
+@import "blocks/_inx-search-input.scss";
+@import "blocks/_inx-single-property.scss";
+@import "blocks/_inx-thumbnail-nav.scss";
+@import "blocks/_inx-video-iframe.scss";

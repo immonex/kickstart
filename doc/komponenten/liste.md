@@ -1,0 +1,98 @@
+---
+title: Listenansicht
+category: komponenten
+order: 30
+search: 1
+---
+
+# Listenansicht
+
+Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beliebiger Anzahl eingebunden werden.
+
+![Immobilien-Listenansicht](../assets/scst-list-view-1.jpg)
+
+## Shortcode
+
+`[inx-property-list]`
+
+> In der Standardkonfiguration werden **keine** Immobilien angezeigt, die als [Referenzobjekt](../schnellstart/import.html#Referenzobjekte) markiert sind. Hierfür ist das [Shortcode-Attribut `references`](#Custom-Field-basiert) (oder alternativ der GET-Parameter `inx-references`) erforderlich.
+
+### Attribute
+
+Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien festgelegt werden.
+
+#### Taxonomienbasiert
+
+| Name | Beschreibung |
+| ---- | ------------ |
+| `property-type` | Objektart(en) ([inx_property_type](../beitragsarten-taxonomien.html)) |
+| `marketing-type` | Vermarktungsart(en) ([inx_marketing_type](../beitragsarten-taxonomien.html)) |
+| `type-of-use` | Nutzungsart(en) ([inx_type_of_use](../beitragsarten-taxonomien.html)) |
+| `locality` | Ort(e) ([inx_location](../beitragsarten-taxonomien.html)) |
+| `labels` | Label(s) ([inx_label](../beitragsarten-taxonomien.html)) |
+| `features` | Ausstattungsmerkmale ([inx_feature](../beitragsarten-taxonomien.html)) |
+
+![Taxonomie-Term-Slugs](../assets/scst-tax-term-slugs.gif)
+
+Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (<i>Terms</i>) verwendet (einzeln oder mehrfach als kommagetrennte Liste).
+
+##### Beispiele
+
+Nur Einfamilienhäuser (Kaufobjekte):
+`[inx-property-list property-type="einfamilienhaus" marketing-type="zu-verkaufen"]`
+
+Neue Bungalows, Villen und Kioske:
+`[inx-property-list property-type="bungalow, villa, kiosk" labels="neu"]`
+
+Grundstücke (alle Unterkategorien) in Berlin:
+`[inx-property-list property-type="grundstuecke" locality="berlin"]`
+
+#### Custom-Field-basiert
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ----------------------------- |
+| `min-rooms` | Mindestanzahl Zimmer/Räume als **Ganzzahl**, z. B. *4* ([\_inx_primary_rooms](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `min-area` | Mindestfläche als **Ganzzahl** in m², z. B. *120* ([\_inx_primary_area](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `iso-country` | Auswahl per ISO3-Code auf ein bestimmtes Land beschränken, z. B. *DEU* ([\_immonex_iso_country](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `references` | Referenzobjekte berücksichtigen/anzeigen ([\_immonex_is_reference](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *no*: nein (Standardvorgabe) |
+| | *yes*: ja |
+| | *only*: ausschließlich |
+| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen ([\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes*: nur verfügbare Immobilien |
+| | *no*: nur **nicht** verfügbare Immobilien |
+| `reserved` | Reserviert-Status **explizit** berücksichtigen ([\_immonex_is_reserved](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes*: nur reservierte Immobilien |
+| | *no*: nur **nicht** reservierte Immobilien |
+| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen ([\_immonex_is_sold](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes*: nur verkaufte/vermietete Immobilien |
+| | *no*: nur **nicht** verkaufte/vermietete Immobilien |
+
+##### Beispiele
+
+Häuser ab 120 m² Wohnfläche mit mindestens vier Zimmern:
+`[inx-property-list property-type="haeuser" min-rooms=4 min-area=120]`
+
+Alle Referenzobjekte:
+`[inx-property-list references="only"]`
+
+#### Allgemein
+
+Mit den folgenden Attributen kann die Anzahl der einzubindenden Immobilien begrenzt und die Sortierung angepasst werden.
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
+| `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen > Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
+| `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
+
+##### Beispiel
+
+Maximal vier Objekte, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:
+`[inx-property-list limit=4 sort="price_asc, date_desc"]`
+
+## Erweiterte Anpassungen
+
+- [Templates](../anpassung-erweiterung/skins.html#Partiell)
+- [Custom Skin](../anpassung-erweiterung/standard-skin.html#Archiv-amp-Listenansicht)

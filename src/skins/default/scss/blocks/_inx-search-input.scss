@@ -1,0 +1,8 @@
+input.inx-search-input {
+	font-size: 1em;
+	box-sizing: border-box;
+}
+
+input.inx-search-input:focus {
+	border-color: $color-action-element-highlighted;
+}

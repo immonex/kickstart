@@ -1,0 +1,23 @@
+.inx-location-autocomplete {
+	input.multiselect__input {
+		padding: 0;
+	}
+
+	.multiselect__content li,
+	.multiselect__element {
+		margin: 0;
+	}
+}
+
+.inx-location-autocomplete__consent {
+	padding: .5em;
+	border: 1px solid #A0A0A0;
+}
+
+.inx-location-autocomplete__privacy-note {
+	margin-bottom: .5em;
+}
+
+.inx-location-autocomplete__button {
+	text-align: right;
+}

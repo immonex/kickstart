@@ -1,0 +1,36 @@
+@function highlight($color, $lightening-pct: $color-default-lightening-pct) {
+	@return lighten($color, $lightening-pct)
+}
+
+@mixin gradient($base-color) {
+	background-color: $base-color;
+	background: linear-gradient(60deg, lighten($base-color, 5%) 50%, darken($base-color, 10%) 100%);
+}
+
+@mixin hyphenate($value) {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	-webkit-hyphens: $value;
+	-moz-hyphens: $value;
+	-ms-hyphens: $value;
+	hyphens: $value;
+}
+
+@mixin noanimation() {
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+	transition: none !important;
+	transition-property: none !important;
+	-o-transform: none !important;
+	-moz-transform: none !important;
+	-ms-transform: none !important;
+	-webkit-transform: none !important;
+	transform: none !important;
+	-webkit-animation: none !important;
+	-moz-animation: none !important;
+	-o-animation: none !important;
+	-ms-animation: none !important;
+	animation: none !important;
+}
