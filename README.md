@@ -1,4 +1,4 @@
-<img src="assets/immonex-kickstart-logo.png" width="264" height="264" align="right" alt="immonex Kickstart" >
+<img src="assets/immonex-kickstart-logo.png" width="264" height="264" align="right" alt="immonex Kickstart">
 
 # immonex Kickstart
 

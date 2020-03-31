@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, real-estate, realestate, estate, property, realty, realtor, immonex
 Requires at least: 4.6
-Tested up to: 5.3.2
-Stable Tag: 1.0.0-rc1
+Tested up to: 5.4
+Stable Tag: 1.0.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,6 +13,8 @@ Essential components and framework for embedding and searching/filtering importe
 == Description ==
 
 immonex Kickstart provides customizable components for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
+
+See it in action at [base.immonex.one](https://base.immonex.one/)!
 
 **immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
 

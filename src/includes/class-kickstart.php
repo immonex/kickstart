@@ -16,13 +16,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'inx';
-	const PLUGIN_VERSION             = '1.0.0-rc1';
-	const PLUGIN_HOME_URL            = 'https://github.com/immonex/kickstart';
+	const PLUGIN_VERSION             = '1.0.0';
+	const PLUGIN_HOME_URL            = 'https://wordpress.org/plugins/immonex-kickstart';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart',
 	);
 	const PLUGIN_SUPPORT_URLS        = array(
-		'de' => 'https://immonex.dev/',
+		'de' => 'https://wordpress.org/support/plugin/immonex-kickstart',
 	);
 	const PLUGIN_DEV_URLS            = array(
 		'de' => 'https://github.com/immonex/kickstart',
