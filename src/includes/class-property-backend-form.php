@@ -67,7 +67,7 @@ class Property_Backend_Form {
 		$extra_descriptions = new_cmb2_box(
 			array(
 				'id'           => 'extra_descriptions',
-				'title'        => __( 'Extra Descriptions', 'inx' ),
+				'title'        => __( 'Extra Descriptions', 'immonex-kickstart' ),
 				'object_types' => array( $this->data['property_post_type_name'] ),
 				'context'      => 'normal',
 				'priority'     => 'core',
@@ -77,7 +77,7 @@ class Property_Backend_Form {
 
 		$extra_description_fields = array(
 			array(
-				'name'    => __( 'Location', 'inx' ),
+				'name'    => __( 'Location', 'immonex-kickstart' ),
 				'desc'    => '',
 				'id'      => $prefix . 'location_descr',
 				'type'    => 'wysiwyg',
@@ -87,7 +87,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'    => __( 'Features', 'inx' ),
+				'name'    => __( 'Features', 'immonex-kickstart' ),
 				'desc'    => '',
 				'id'      => $prefix . 'features_descr',
 				'type'    => 'wysiwyg',
@@ -97,7 +97,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'    => __( 'Miscellaneous', 'inx' ),
+				'name'    => __( 'Miscellaneous', 'immonex-kickstart' ),
 				'desc'    => '',
 				'id'      => $prefix . 'misc_descr',
 				'type'    => 'wysiwyg',
@@ -115,7 +115,7 @@ class Property_Backend_Form {
 		$core_data = new_cmb2_box(
 			array(
 				'id'           => 'core_data',
-				'title'        => __( 'Core Data', 'inx' ),
+				'title'        => __( 'Core Data', 'immonex-kickstart' ),
 				'object_types' => array( $this->data['property_post_type_name'] ),
 				'context'      => 'normal',
 				'priority'     => 'core',
@@ -125,55 +125,55 @@ class Property_Backend_Form {
 
 		$core_data_fields = array(
 			array(
-				'name' => __( 'Property ID', 'inx' ),
+				'name' => __( 'Property ID', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'property_id',
 				'type' => 'text_medium',
 			),
 			array(
-				'name'  => __( 'Available', 'inx' ),
+				'name'  => __( 'Available', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_available',
 				'type'  => 'checkbox',
 				'value' => 1,
 			),
 			array(
-				'name'  => __( 'Reserved', 'inx' ),
+				'name'  => __( 'Reserved', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_reserved',
 				'type'  => 'checkbox',
 				'value' => 1,
 			),
 			array(
-				'name'  => __( 'Sold/Rented', 'inx' ),
+				'name'  => __( 'Sold/Rented', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_sold',
 				'type'  => 'checkbox',
 				'value' => 1,
 			),
 			array(
-				'name'  => __( 'Reference Property', 'inx' ),
+				'name'  => __( 'Reference Property', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_reference',
 				'type'  => 'checkbox',
 				'value' => 1,
 			),
 			array(
-				'name'  => __( 'Demo Property', 'inx' ),
+				'name'  => __( 'Demo Property', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_demo',
 				'type'  => 'checkbox',
 				'value' => 1,
 			),
 			array(
-				'name'        => __( 'Build Year', 'inx' ),
+				'name'        => __( 'Build Year', 'immonex-kickstart' ),
 				'desc'        => '',
 				'id'          => $prefix . 'build_year',
 				'type'        => 'text_date',
 				'date_format' => 'Y',
 			),
 			array(
-				'name'       => __( 'Area (primary)', 'inx' ),
+				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'primary_area',
 				'type'       => 'text_small',
@@ -182,7 +182,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Plot Area', 'inx' ),
+				'name'       => __( 'Plot Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'plot_area',
 				'type'       => 'text_small',
@@ -191,7 +191,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Rooms (primary)', 'inx' ),
+				'name'       => __( 'Rooms (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'primary_rooms',
 				'type'       => 'text_small',
@@ -200,7 +200,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Price (primary)', 'inx' ),
+				'name'       => __( 'Price (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'primary_price',
 				'type'       => 'text_small',
@@ -209,7 +209,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name' => __( 'Price Time Unit', 'inx' ),
+				'name' => __( 'Price Time Unit', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'price_time_unit',
 				'type' => 'text_small',
@@ -223,7 +223,7 @@ class Property_Backend_Form {
 		$detail_repeater = new_cmb2_box(
 			array(
 				'id'           => 'details',
-				'title'        => __( 'Details', 'inx' ),
+				'title'        => __( 'Details', 'immonex-kickstart' ),
 				'object_types' => array( $this->data['property_post_type_name'] ),
 				'context'      => 'normal',
 				'priority'     => 'core',
@@ -237,9 +237,9 @@ class Property_Backend_Form {
 				'type'       => 'group',
 				'repeatable' => true,
 				'options'    => array(
-					'group_title'   => __( 'Detail {#}', 'inx' ),
-					'add_button'    => __( 'Add Detail', 'inx' ),
-					'remove_button' => __( 'Remove Detail', 'inx' ),
+					'group_title'   => __( 'Detail {#}', 'immonex-kickstart' ),
+					'add_button'    => __( 'Add Detail', 'immonex-kickstart' ),
+					'remove_button' => __( 'Remove Detail', 'immonex-kickstart' ),
 					'closed'        => true,
 					'sortable'      => true,
 				),
@@ -248,22 +248,22 @@ class Property_Backend_Form {
 
 		$detail_group_fields = array(
 			array(
-				'name' => __( 'Group', 'inx' ),
+				'name' => __( 'Group', 'immonex-kickstart' ),
 				'id'   => 'group',
 				'type' => 'text',
 			),
 			array(
-				'name' => __( 'Name', 'inx' ),
+				'name' => __( 'Name', 'immonex-kickstart' ),
 				'id'   => 'name',
 				'type' => 'text',
 			),
 			array(
-				'name' => __( 'Title', 'inx' ),
+				'name' => __( 'Title', 'immonex-kickstart' ),
 				'id'   => 'title',
 				'type' => 'text',
 			),
 			array(
-				'name' => __( 'Value', 'inx' ),
+				'name' => __( 'Value', 'immonex-kickstart' ),
 				'id'   => 'value',
 				'type' => 'text',
 			),

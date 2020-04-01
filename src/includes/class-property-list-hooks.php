@@ -113,9 +113,9 @@ class Property_List_Hooks {
 				"{$prefix}property" === $qo->name
 			) {
 				if ( 'only' === get_query_var( "{$public_prefix}references" ) ) {
-					return __( 'Successfully marketed properties', 'inx' );
+					return __( 'Successfully marketed properties', 'immonex-kickstart' );
 				} else {
-					return __( 'Our current property offers', 'inx' );
+					return __( 'Our current property offers', 'immonex-kickstart' );
 				}
 			}
 		}

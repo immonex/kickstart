@@ -23,7 +23,7 @@ $inx_skin_details = $utils['data']->get_group_items( $template_data['details'], 
 
 $inx_skin_headline = isset( $template_data['headline'] ) ?
 	$template_data['headline'] :
-	__( 'Location and Infrastructure', 'inx' );
+	__( 'Location and Infrastructure', 'immonex-kickstart' );
 
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
@@ -49,7 +49,7 @@ if (
 			'This website utilizes Google Maps services. Google collects and processes certain, possibly personal data when using the maps services. Detailed informationen about scope and usage of this data as well as your personal privacy options is available in <a href="%1$s" target="_blank">Google\'s privacy policy</a>. Comprehensive instructions on how to manage your own data related to Google products can also be found here: <a href="%2$s" target="_blank">dataliberation.org</a>
 
 By clicking on the following button, you permit submission of data collected during using the map function to Google in accordance with the privacy policy mentioned above.',
-			'inx'
+			'immonex-kickstart'
 		),
 		'https://policies.google.com/privacy',
 		'https://www.dataliberation.org/'
@@ -57,7 +57,7 @@ By clicking on the following button, you permit submission of data collected dur
 
 	$inx_skin_osmaps_privacy_note = wp_sprintf(
 		/* translators: %s = OSM Privacy Policy URL */
-		__( 'This website utilizes map services provided by the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom (short OSMF). Your Internet browser or application will connect to servers operated by the OSMF located in the United Kingdom and in other countries. The operator of this site has no control over such connections and processing of your data by the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%s">OSMF privacy policy</a>.', 'inx' ),
+		__( 'This website utilizes map services provided by the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom (short OSMF). Your Internet browser or application will connect to servers operated by the OSMF located in the United Kingdom and in other countries. The operator of this site has no control over such connections and processing of your data by the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%s">OSMF privacy policy</a>.', 'immonex-kickstart' ),
 		'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
 	);
 
@@ -140,7 +140,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		infowindow="<?php echo $template_data['property_details_map_infowindow_contents']; ?>"
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_osmaps_privacy_note ) ); ?>"
-		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'inx' ) ); ?>"
+		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
 	>
 	</inx-property-location-open-layers-map>
 	<?php elseif ( $inx_skin_show_map && 'gmap_marker' === $template_data['property_details_map_type'] ) : ?>
@@ -152,7 +152,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		api-key="<?php echo esc_attr( $inx_skin_google_api_key ); ?>"
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_gmaps_privacy_note ) ); ?>"
-		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'inx' ) ); ?>"
+		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
 	>
 	</inx-property-location-google-map>
 	<?php elseif ( $inx_skin_show_map && 'gmap_embed' === $template_data['property_details_map_type'] ) : ?>
@@ -162,7 +162,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		api-key="<?php echo esc_attr( $inx_skin_google_api_key ); ?>"
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_gmaps_privacy_note ) ); ?>"
-		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'inx' ) ); ?>"
+		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
 	>
 	</inx-property-location-google-embed-map>
 	<?php endif; ?>

@@ -67,31 +67,31 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 if ( $inx_skin_enable_tabs ) :
 	$inx_skin_tabs = array(
 		'main_description' => array(
-			'title'    => __( 'The Property', 'inx' ),
+			'title'    => __( 'The Property', 'immonex-kickstart' ),
 			'elements' => array( 'main_description' ),
 		),
 		'details'          => array(
-			'title'    => __( 'Details', 'inx' ),
+			'title'    => __( 'Details', 'immonex-kickstart' ),
 			'elements' => array( 'areas', 'condition', 'misc' ),
 		),
 		'features'         => array(
-			'title'    => __( 'Features', 'inx' ),
+			'title'    => __( 'Features', 'immonex-kickstart' ),
 			'elements' => array( 'features' ),
 		),
 		'epass'            => array(
-			'title'    => __( 'Energy Pass', 'inx' ),
+			'title'    => __( 'Energy Pass', 'immonex-kickstart' ),
 			'elements' => array( 'epass', 'epass_energy_scale', 'epass_images' ),
 		),
 		'location'         => array(
-			'title'    => __( 'Location & Infrastructure', 'inx' ),
+			'title'    => __( 'Location & Infrastructure', 'immonex-kickstart' ),
 			'elements' => array( 'location' ),
 		),
 		'prices'           => array(
-			'title'    => __( 'Prices', 'inx' ),
+			'title'    => __( 'Prices', 'immonex-kickstart' ),
 			'elements' => array( 'prices' ),
 		),
 		'downloads_links'  => array(
-			'title'    => __( 'Downloads & Links', 'inx' ),
+			'title'    => __( 'Downloads & Links', 'immonex-kickstart' ),
 			'elements' => array( 'downloads_links' ),
 		),
 	);

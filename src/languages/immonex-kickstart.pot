@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 0.9.8b\n"
+"Project-Id-Version: immonex Kickstart 1.0.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-03-17 09:33:14+00:00\n"
+"POT-Creation-Date: 2020-04-01 08:46:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

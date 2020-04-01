@@ -496,7 +496,7 @@ class Property {
 					) {
 						$value = 0;
 					}
-					$value_formatted = $this->utils['format']->format_price( $value, 0, '', __( 'Price on demand', 'inx' ) );
+					$value_formatted = $this->utils['format']->format_price( $value, 0, '', __( 'Price on demand', 'immonex-kickstart' ) );
 					break;
 				default:
 					$value_formatted = $value;
@@ -660,22 +660,22 @@ class Property {
 			'prices'             => array(
 				'template' => 'details',
 				'groups'   => 'preise',
-				'headline' => __( 'Prices', 'inx' ),
+				'headline' => __( 'Prices', 'immonex-kickstart' ),
 			),
 			'areas'              => array(
 				'template' => 'details',
 				'groups'   => 'flaechen',
-				'headline' => __( 'Areas', 'inx' ),
+				'headline' => __( 'Areas', 'immonex-kickstart' ),
 			),
 			'condition'          => array(
 				'template' => 'details',
 				'groups'   => 'zustand',
-				'headline' => __( 'Condition & Development', 'inx' ),
+				'headline' => __( 'Condition & Development', 'immonex-kickstart' ),
 			),
 			'epass'              => array(
 				'template' => 'details',
 				'groups'   => 'epass',
-				'headline' => '', // __( 'Energy Pass', 'inx' )
+				'headline' => '', // __( 'Energy Pass', 'immonex-kickstart' )
 			),
 			'epass_images'       => array(
 				'template'                     => 'gallery',
@@ -695,12 +695,12 @@ class Property {
 			'features'           => array(
 				'template' => 'features',
 				'groups'   => 'ausstattung',
-				'headline' => __( 'Features', 'inx' ),
+				'headline' => __( 'Features', 'immonex-kickstart' ),
 			),
 			'floor_plans'        => array(
 				'template'                     => 'gallery',
 				'image_selection_custom_field' => '_inx_floor_plans',
-				'headline'                     => __( 'Floor Plans', 'inx' ),
+				'headline'                     => __( 'Floor Plans', 'immonex-kickstart' ),
 				'animation_type'               => 'scale',
 				'enable_caption_display'       => true,
 				'enable_ken_burns_effect'      => false,
@@ -709,16 +709,16 @@ class Property {
 				'template'               => 'details',
 				'description_text_field' => 'freitexte.sonstige_angaben',
 				'groups'                 => 'sonstiges',
-				'headline'               => __( 'Miscellaneous', 'inx' ),
+				'headline'               => __( 'Miscellaneous', 'immonex-kickstart' ),
 			),
 			'downloads_links'    => array(
 				'template' => 'downloads-and-links',
-				'headline' => __( 'Downloads & Links', 'inx' ),
+				'headline' => __( 'Downloads & Links', 'immonex-kickstart' ),
 			),
 			'contact_person'     => array(
 				'template' => 'contact-person',
 				'groups'   => 'kontakt',
-				'headline' => __( 'Your Agent', 'inx' ),
+				'headline' => __( 'Your Agent', 'immonex-kickstart' ),
 			),
 			'footer'             => array(
 				'template' => 'footer',

@@ -22,7 +22,7 @@ if (
 
 $inx_skin_head_elements = array(
 	'property_id'   => array(
-		'title'   => __( 'Property ID', 'inx' ),
+		'title'   => __( 'Property ID', 'immonex-kickstart' ),
 		'data'    => $template_data['property_id'],
 		'icon'    => 'flaticon-numbers',
 		'classes' => '',
@@ -90,7 +90,7 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 
 	<div class="inx-single-property__head-elements uk-flex uk-flex-between@s uk-flex-middle uk-flex-wrap-reverse uk-flex-wrap@m">
 		<div class="uk-width-1-1 uk-width-expand@m uk-flex uk-flex-middle uk-flex-stretch"><!-- Address -->
-			<div class="inx-core-detail-icon uk-width-auto"><i class="flaticon-placeholder" title="<?php echo __( 'Location', 'inx' ); ?>"></i></div>
+			<div class="inx-core-detail-icon uk-width-auto"><i class="flaticon-placeholder" title="<?php echo __( 'Location', 'immonex-kickstart' ); ?>"></i></div>
 			<?php if ( $template_data['full_address'] ) : ?>
 			<div class="uk-width-expand"><?php echo $template_data['full_address']; ?></div>
 			<?php endif; ?>

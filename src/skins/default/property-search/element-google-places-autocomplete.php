@@ -17,11 +17,11 @@ if ( $template_data['google_api_key'] ) :
 
 	$inx_skin_privacy_note = wp_sprintf(
 		/* translators: %1 = Google Maps, %2 = Privacy Policy URL */
-		__( 'This site utilizes %1$s for location autocompletion and map display, please see our <a href="%2$s" target="_blank">privacy policy</a>!', 'inx' ),
+		__( 'This site utilizes %1$s for location autocompletion and map display, please see our <a href="%2$s" target="_blank">privacy policy</a>!', 'immonex-kickstart' ),
 		'Google Maps',
 		get_privacy_policy_url()
 	);
-	$inx_skin_consent_button_text = __( 'Agreed!', 'inx' );
+	$inx_skin_consent_button_text = __( 'Agreed!', 'immonex-kickstart' );
 	?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?> uk-width-1-1">
 	<?php if ( $inx_skin_show_label && $template_data['element']['label'] ) : ?>

@@ -216,7 +216,7 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
 						<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 							<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2"></div>
-							<div><?php _e( 'Video', 'inx' ); ?></div>
+							<div><?php _e( 'Video', 'immonex-kickstart' ); ?></div>
 						</div>
 					</li>
 					<?php endif; ?>
@@ -225,7 +225,7 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + 1; ?>">
 						<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 							<div style="padding:.1em; border-radius:50%; color:#f0f0f0; background-color:#303030; font-size:1.4em">360&deg;</div>
-							<div><?php _e( 'Virtual Tour', 'inx' ); ?></div>
+							<div><?php _e( 'Virtual Tour', 'immonex-kickstart' ); ?></div>
 						</div>
 					</li>
 					<?php endif; ?>

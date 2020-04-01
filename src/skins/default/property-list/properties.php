@@ -30,7 +30,7 @@ global $immonex_kickstart;
 			?>
 
 	<div class="inx-property-list__no-properties">
-		<p><?php echo __( 'Currently there are no properties that match the search criteria.', 'inx' ); ?></p>
+		<p><?php echo __( 'Currently there are no properties that match the search criteria.', 'immonex-kickstart' ); ?></p>
 	</div>
 
 			<?php

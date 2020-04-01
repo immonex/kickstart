@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       immonex Kickstart
- * Plugin URI:        https://github.com/immonex/kickstart
+ * Plugin URI:        https://wordpress.org/plugins/immonex-kickstart/
  * Description:       Essential components and framework for embedding and searching/filtering imported OpenImmo® based real estate offers
  * Version:           1.0.0
  * Requires at least: 4.6
@@ -10,7 +10,7 @@
  * Author URI:        https://immonex.dev/
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       inx
+ * Text Domain:       immonex-kickstart
  * Domain Path:       /languages
  *
  * The Plugin immonex Kickstart is free software: you can redistribute it and/or

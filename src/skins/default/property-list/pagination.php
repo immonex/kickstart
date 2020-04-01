@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 		the_posts_pagination(
 			array(
-				'prev_text' => __( 'Previous page', 'inx' ),
-				'next_text' => __( 'Next page', 'inx' ),
+				'prev_text' => __( 'Previous page', 'immonex-kickstart' ),
+				'next_text' => __( 'Next page', 'immonex-kickstart' ),
 				'mid_size'  => 2,
 			)
 		);

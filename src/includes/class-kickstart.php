@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const TEXTDOMAIN                 = 'inx';
+	const TEXTDOMAIN                 = 'immonex-kickstart';
 	const PLUGIN_VERSION             = '1.0.0';
 	const PLUGIN_HOME_URL            = 'https://wordpress.org/plugins/immonex-kickstart';
 	const PLUGIN_DOC_URLS            = array(
@@ -144,11 +144,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 			if ( 'INSERT_TRANSLATED_DEFAULT_VALUE' === $option_value ) {
 				switch ( $option_name ) {
 					case 'property_details_map_infowindow_contents':
-						$this->plugin_options[ $option_name ] = __( 'The real property location may differ from the marker position.', 'inx' );
+						$this->plugin_options[ $option_name ] = __( 'The real property location may differ from the marker position.', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
 					case 'property_details_map_note_map_embed':
-						$this->plugin_options[ $option_name ] = __( 'The map roughly shows the location in which the property is located.', 'inx' );
+						$this->plugin_options[ $option_name ] = __( 'The map roughly shows the location in which the property is located.', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
 				}
@@ -177,16 +177,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		parent::init_plugin();
 
 		$this->distance_search_autocomplete_types = array(
-			''              => __( 'none', 'inx' ),
+			''              => __( 'none', 'immonex-kickstart' ),
 			'photon'        => 'Photon (OpenStreetMap)',
 			'google-places' => 'Google Places',
 		);
 
 		$this->property_details_map_types = array(
-			''                  => __( 'none', 'inx' ),
-			'ol_osm_map_marker' => __( 'OpenLayers/OpenStreetMap Map with property location marker', 'inx' ),
-			'gmap_marker'       => __( 'Google Map with property location marker', 'inx' ),
-			'gmap_embed'        => __( "Google Map showing the property's neighborhood", 'inx' ),
+			''                  => __( 'none', 'immonex-kickstart' ),
+			'ol_osm_map_marker' => __( 'OpenLayers/OpenStreetMap Map with property location marker', 'immonex-kickstart' ),
+			'gmap_marker'       => __( 'Google Map with property location marker', 'immonex-kickstart' ),
+			'gmap_embed'        => __( "Google Map showing the property's neighborhood", 'immonex-kickstart' ),
 		);
 
 		$component_config = array_merge(
@@ -282,9 +282,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		if ( ! in_array( $oi2wp_main_plugin_file, $installed_plugins ) ) {
 			$this->add_deferred_admin_notice(
 				wp_sprintf(
-					__( 'An <strong>OpenImmo import solution</strong> that supports <strong>immonex Kickstart</strong> is required to provide the real estate offers to be embedded:', 'inx' ) . ' ' .
+					__( 'An <strong>OpenImmo import solution</strong> that supports <strong>immonex Kickstart</strong> is required to provide the real estate offers to be embedded:', 'immonex-kickstart' ) . ' ' .
 					/* translators: %s = immonex.dev full URL */
-					__( '<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are available <strong>free of charge for testing and development purposes</strong> at <a href="%s" target="_blank">immonex.dev</a>', 'inx' ),
+					__( '<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are available <strong>free of charge for testing and development purposes</strong> at <a href="%s" target="_blank">immonex.dev</a>', 'immonex-kickstart' ),
 					'https://immonex.dev/'
 				),
 				'info'
@@ -306,12 +306,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 			$this->plugin_slug . '_option_tabs',
 			array(
 				'tab_general' => array(
-					'title'      => __( 'General', 'inx' ),
+					'title'      => __( 'General', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(),
 				),
 				'tab_geo'     => array(
-					'title'      => __( 'Maps &amp; Distance Search', 'inx' ),
+					'title'      => __( 'Maps &amp; Distance Search', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(),
 				),
@@ -327,8 +327,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		}
 
 		$pages         = $this->utils['template']->get_page_list();
-		$pages_list    = array( __( 'none (use default archive)', 'inx' ) ) + $pages;
-		$pages_details = array( __( 'none (use default template)', 'inx' ) ) + $pages;
+		$pages_list    = array( __( 'none (use default archive)', 'immonex-kickstart' ) ) + $pages;
+		$pages_details = array( __( 'none (use default template)', 'immonex-kickstart' ) ) + $pages;
 
 		// Sections (extendable by filter function).
 		$sections = apply_filters(
@@ -336,28 +336,28 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 			$this->plugin_slug . '_option_sections',
 			array(
 				'section_design_structure'     => array(
-					'title'       => __( 'Design & Structure', 'inx' ),
+					'title'       => __( 'Design & Structure', 'immonex-kickstart' ),
 					'description' => '',
 					'tab'         => 'tab_general',
 				),
 				'section_units'                => array(
-					'title'       => __( 'Measuring Units & Currency', 'inx' ),
+					'title'       => __( 'Measuring Units & Currency', 'immonex-kickstart' ),
 					'description' => '',
 					'tab'         => 'tab_general',
 				),
 				'section_distance_search'      => array(
-					'title'       => __( 'Distance Search', 'inx' ),
-					'description' => __( 'If enabled, the property search form includes a distance search feature.', 'inx' ),
+					'title'       => __( 'Distance Search', 'immonex-kickstart' ),
+					'description' => __( 'If enabled, the property search form includes a distance search feature.', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
 				'section_property_detail_maps' => array(
-					'title'       => __( 'Maps on Property Detail Pages', 'inx' ),
-					'description' => __( "This plugin currently supports two types of Maps on the property detail pages: A marker based one showing the property's (approximate) position (OpenStreetMap or Google Map) as well as a Google Embed API version for highlighting the respective district/neighborhood.", 'inx' ),
+					'title'       => __( 'Maps on Property Detail Pages', 'immonex-kickstart' ),
+					'description' => __( "This plugin currently supports two types of Maps on the property detail pages: A marker based one showing the property's (approximate) position (OpenStreetMap or Google Map) as well as a Google Embed API version for highlighting the respective district/neighborhood.", 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
 				'section_google_maps_api'      => array(
 					'title'       => 'Google Maps API',
-					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'inx' ),
+					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
 			)
@@ -379,40 +379,40 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'skin',
 					'type'    => 'select',
-					'label'   => __( 'Skin', 'inx' ),
+					'label'   => __( 'Skin', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
-						'description' => __( 'A skin is a set of templates for all immonex Kickstart related pages and elements.', 'inx' ),
+						'description' => __( 'A skin is a set of templates for all immonex Kickstart related pages and elements.', 'immonex-kickstart' ),
 						'options'     => $this->utils['template']->get_frontend_skins(),
 					),
 				),
 				array(
 					'name'    => 'property_list_page_id',
 					'type'    => 'select',
-					'label'   => __( 'Property Overview', 'inx' ),
+					'label'   => __( 'Property Overview', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
-						'description' => __( 'Use the specified page as <strong>default</strong> property overview/list page (instead of the property post type archive).', 'inx' ),
+						'description' => __( 'Use the specified page as <strong>default</strong> property overview/list page (instead of the property post type archive).', 'immonex-kickstart' ),
 						'options'     => $pages_list,
 					),
 				),
 				array(
 					'name'    => 'property_details_page_id',
 					'type'    => 'select',
-					'label'   => __( 'Property Details Page', 'inx' ),
+					'label'   => __( 'Property Details Page', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
-						'description' => __( 'Use the specified page as base for displaying the property details (instead of the default template).', 'inx' ),
+						'description' => __( 'Use the specified page as base for displaying the property details (instead of the default template).', 'immonex-kickstart' ),
 						'options'     => $pages_details,
 					),
 				),
 				array(
 					'name'    => 'heading_base_level',
 					'type'    => 'select',
-					'label'   => __( 'Heading Base Level', 'inx' ),
+					'label'   => __( 'Heading Base Level', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
-						'description' => __( 'Level that immonex related headlines (e.g. on property list and detail pages) should start with.', 'inx' ),
+						'description' => __( 'Level that immonex related headlines (e.g. on property list and detail pages) should start with.', 'immonex-kickstart' ),
 						'options'     => array(
 							1 => 'H1',
 							2 => 'H2',
@@ -423,7 +423,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'area_unit',
 					'type'    => 'text',
-					'label'   => __( 'Area Measuring Unit', 'inx' ),
+					'label'   => __( 'Area Measuring Unit', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
 						'description' => '',
@@ -434,7 +434,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'currency',
 					'type'    => 'text',
-					'label'   => __( 'Currency Code', 'inx' ),
+					'label'   => __( 'Currency Code', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
 						'description' => '',
@@ -445,7 +445,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'currency_symbol',
 					'type'    => 'text',
-					'label'   => __( 'Currency Symbol', 'inx' ),
+					'label'   => __( 'Currency Symbol', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
 						'description' => '',
@@ -455,47 +455,47 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'show_reference_prices',
 					'type'    => 'checkbox',
-					'label'   => __( 'Show Reference Prices', 'inx' ),
+					'label'   => __( 'Show Reference Prices', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
-						'description' => __( 'Activate this option if the prices of reference properties shall be displayed.', 'inx' ),
+						'description' => __( 'Activate this option if the prices of reference properties shall be displayed.', 'immonex-kickstart' ),
 					),
 				),
 				array(
 					'name'    => 'distance_search_autocomplete_type',
 					'type'    => 'select',
-					'label'   => __( 'Autocompletion', 'inx' ),
+					'label'   => __( 'Autocompletion', 'immonex-kickstart' ),
 					'section' => 'section_distance_search',
 					'args'    => array(
-						'description' => __( 'Select the autocomplete solution to use for the distance search in property search forms (none = disable distance search).', 'inx' ) . '<br>' .
-							__( 'For the <strong>Google Places</strong> based variant, providing an appropriate API key is required (see Google Maps API section below).', 'inx' ),
+						'description' => __( 'Select the autocomplete solution to use for the distance search in property search forms (none = disable distance search).', 'immonex-kickstart' ) . '<br>' .
+							__( 'For the <strong>Google Places</strong> based variant, providing an appropriate API key is required (see Google Maps API section below).', 'immonex-kickstart' ),
 						'options'     => $this->distance_search_autocomplete_types,
 					),
 				),
 				array(
 					'name'    => 'distance_search_autocomplete_require_consent',
 					'type'    => 'checkbox',
-					'label'   => __( 'Require Usage Consent', 'inx' ),
+					'label'   => __( 'Require Usage Consent', 'immonex-kickstart' ),
 					'section' => 'section_distance_search',
 					'args'    => array(
-						'description' => __( 'If active, the user has to confirm the use of an external service for auto-completion.', 'inx' ),
+						'description' => __( 'If active, the user has to confirm the use of an external service for auto-completion.', 'immonex-kickstart' ),
 					),
 				),
 				array(
 					'name'    => 'property_details_map_type',
 					'type'    => 'select',
-					'label'   => __( 'Map Type', 'inx' ),
+					'label'   => __( 'Map Type', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(
-						'description' => __( 'Select the type of map to be displayed on property detail pages (none = disable map).', 'inx' ) . '<br>' .
-							__( 'For the <strong>Google Maps</strong> based variants, providing an appropriate API key is required (see Google Maps API section below).', 'inx' ),
+						'description' => __( 'Select the type of map to be displayed on property detail pages (none = disable map).', 'immonex-kickstart' ) . '<br>' .
+							__( 'For the <strong>Google Maps</strong> based variants, providing an appropriate API key is required (see Google Maps API section below).', 'immonex-kickstart' ),
 						'options'     => $this->property_details_map_types,
 					),
 				),
 				array(
 					'name'    => 'property_details_map_zoom',
 					'type'    => 'text',
-					'label'   => __( 'Default Map Zoom Level', 'inx' ),
+					'label'   => __( 'Default Map Zoom Level', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(
 						'description' => '',
@@ -508,42 +508,42 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				array(
 					'name'    => 'property_details_map_infowindow_contents',
 					'type'    => 'text',
-					'label'   => __( 'Info Window Note', 'inx' ),
+					'label'   => __( 'Info Window Note', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(
-						'description' => __( 'If stated, this note gets displayed within a map info window above the property location marker.', 'inx' ),
+						'description' => __( 'If stated, this note gets displayed within a map info window above the property location marker.', 'immonex-kickstart' ),
 						'class'       => 'large-text',
 					),
 				),
 				array(
 					'name'    => 'property_details_map_note_map_marker',
 					'type'    => 'text',
-					'label'   => __( 'Marker Map Note', 'inx' ),
+					'label'   => __( 'Marker Map Note', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(
-						'description' => __( 'This note gets displayed below <strong>marker based</strong> maps.', 'inx' ),
+						'description' => __( 'This note gets displayed below <strong>marker based</strong> maps.', 'immonex-kickstart' ),
 						'class'       => 'large-text',
 					),
 				),
 				array(
 					'name'    => 'property_details_map_note_map_embed',
 					'type'    => 'text',
-					'label'   => __( 'Neighborhood Map Note', 'inx' ),
+					'label'   => __( 'Neighborhood Map Note', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(
-						'description' => __( 'This note gets displayed below <strong>neighborhood based</strong> maps.', 'inx' ),
+						'description' => __( 'This note gets displayed below <strong>neighborhood based</strong> maps.', 'immonex-kickstart' ),
 						'class'       => 'large-text',
 					),
 				),
 				array(
 					'name'    => 'google_api_key',
 					'type'    => 'text',
-					'label'   => __( 'Google Maps API Key', 'inx' ),
+					'label'   => __( 'Google Maps API Key', 'immonex-kickstart' ),
 					'section' => 'section_google_maps_api',
 					'args'    => array(
 						'description' => wp_sprintf(
 							/* translators: %s = Google Developer Docs URL */
-							__( 'Provide an key suitable for using the Google APIs mentioned abobe. You can find information about getting and configuring such a key on the respective <a href="%s" target="_blank">Google Developers page</a>. <strong>(Maps JavaScript, Places and Embed APIs have to be activated for the related project!)</strong>', 'inx' ),
+							__( 'Provide an key suitable for using the Google APIs mentioned abobe. You can find information about getting and configuring such a key on the respective <a href="%s" target="_blank">Google Developers page</a>. <strong>(Maps JavaScript, Places and Embed APIs have to be activated for the related project!)</strong>', 'immonex-kickstart' ),
 							'https://developers.google.com/maps/documentation/javascript/get-api-key'
 						),
 					),

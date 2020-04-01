@@ -42,7 +42,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<!-- Value: replace the text domain used. -->
-			<property name="text_domain" type="array" value="inx"/>
+			<property name="text_domain" type="array" value="immonex-kickstart"/>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">

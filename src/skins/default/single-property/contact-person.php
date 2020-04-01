@@ -94,7 +94,7 @@ if ( count( $inx_skin_details ) > 0 ) {
 	}
 }
 
-$inx_skin_headline      = isset( $template_data['headline'] ) ? $template_data['headline'] : __( 'Your Agent', 'inx' );
+$inx_skin_headline      = isset( $template_data['headline'] ) ? $template_data['headline'] : __( 'Your Agent', 'immonex-kickstart' );
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ? $template_data['heading_level'] : 2;
 
 if ( $inx_skin_contact_person || count( $inx_skin_details ) > 0 ) :

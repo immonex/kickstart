@@ -166,7 +166,7 @@ class Property_Filters_Sort {
 			$sort_options = array(
 				'distance' => array(
 					'field' => 'distance',
-					'title' => __( 'Distance', 'inx' ),
+					'title' => __( 'Distance', 'immonex-kickstart' ),
 					'order' => 'ASC',
 				),
 			);
@@ -179,7 +179,7 @@ class Property_Filters_Sort {
 			array(
 				'date_desc' => array(
 					'field' => 'date',
-					'title' => __( 'Newest', 'inx' ),
+					'title' => __( 'Newest', 'immonex-kickstart' ),
 					'order' => 'DESC',
 				),
 			)
@@ -192,12 +192,12 @@ class Property_Filters_Sort {
 				array(
 					'marketing_type_desc' => array(
 						'field' => '_' . $prefix . 'is_sale',
-						'title' => __( 'For Sale first', 'inx' ),
+						'title' => __( 'For Sale first', 'immonex-kickstart' ),
 						'order' => 'DESC',
 					),
 					'marketing_type_asc'  => array(
 						'field' => '_' . $prefix . 'is_sale',
-						'title' => __( 'For Rent first', 'inx' ),
+						'title' => __( 'For Rent first', 'immonex-kickstart' ),
 						'order' => 'ASC',
 					),
 				)
@@ -212,7 +212,7 @@ class Property_Filters_Sort {
 				array(
 					'availability_desc' => array(
 						'field' => '_immonex_is_available',
-						'title' => __( 'Available first', 'inx' ),
+						'title' => __( 'Available first', 'immonex-kickstart' ),
 						'order' => 'DESC',
 					),
 				)
@@ -224,25 +224,25 @@ class Property_Filters_Sort {
 			array(
 				'price_asc'  => array(
 					'field' => '_' . $prefix . 'primary_price',
-					'title' => __( 'Price (low to high)', 'inx' ),
+					'title' => __( 'Price (low to high)', 'immonex-kickstart' ),
 					'order' => 'ASC',
 					'type'  => 'NUMERIC',
 				),
 				'price_desc' => array(
 					'field' => '_' . $prefix . 'primary_price',
-					'title' => __( 'Price (high to low)', 'inx' ),
+					'title' => __( 'Price (high to low)', 'immonex-kickstart' ),
 					'order' => 'DESC',
 					'type'  => 'NUMERIC',
 				),
 				'area_asc'   => array(
 					'field' => '_' . $prefix . 'primary_area',
-					'title' => __( 'Area', 'inx' ),
+					'title' => __( 'Area', 'immonex-kickstart' ),
 					'order' => 'ASC',
 					'type'  => 'NUMERIC',
 				),
 				'rooms_asc'  => array(
 					'field' => '_' . $prefix . 'primary_rooms',
-					'title' => __( 'Rooms', 'inx' ),
+					'title' => __( 'Rooms', 'immonex-kickstart' ),
 					'order' => 'ASC',
 					'type'  => 'NUMERIC',
 				),
