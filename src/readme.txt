@@ -14,7 +14,9 @@ Essential components and framework for embedding and searching/filtering importe
 
 immonex Kickstart provides customizable components for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
 
-See it in action at [base.immonex.one](https://base.immonex.one/)!
+tl;dr
+- See it in action at [base.immonex.one](https://base.immonex.one/)!
+- Download a compatible OpenImmo import plugin and example data at [immonex.dev](https://immonex.dev/) (free of charge for testing/development).
 
 **immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
 
@@ -76,11 +78,11 @@ Property Details View: `[inx-property-details]`
 
 A detailed plugin installation/integration documentation in German is available here:
 
-https://docs.immonex.de/kickstart/
+[docs.immonex.de/kickstart](https://docs.immonex.de/kickstart/)
 
 immonex Kickstart is free software. Sources, development docs/support and issue tracking are available at GitHub:
 
-https://github.com/immonex/wp-free-plugin-core
+[github.com/immonex/kickstart](https://github.com/immonex/kickstart)
 
 == Screenshots ==
 
