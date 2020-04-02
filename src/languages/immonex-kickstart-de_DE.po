@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.0.2\n"
+"Project-Id-Version: immonex Kickstart 1.0.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-04-01 08:46:17+00:00\n"
-"PO-Revision-Date: 2020-04-01 10:53+0200\n"
+"POT-Creation-Date: 2020-04-02 21:30:48+00:00\n"
+"PO-Revision-Date: 2020-04-02 23:31+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -1125,8 +1125,8 @@ msgid "immonex Kickstart"
 msgstr "immonex Kickstart"
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/immonex/kickstart"
-msgstr "https://github.com/immonex/kickstart"
+msgid "https://wordpress.org/plugins/immonex-kickstart/"
+msgstr "https://de.wordpress.org/plugins/immonex-kickstart/"
 
 #. Description of the plugin/theme
 msgid ""
