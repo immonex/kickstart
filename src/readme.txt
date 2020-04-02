@@ -1,9 +1,9 @@
 === immonex Kickstart ===
 Contributors: immonex
-Tags: openimmo, import, real-estate, realestate, estate, property, realty, realtor, immonex, immobilie, immobilien
+Tags: openimmo, import, real-estate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.4
-Stable Tag: 1.0.2
+Stable Tag: 1.0.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,10 +15,11 @@ Essential components and framework for embedding and searching/filtering importe
 immonex Kickstart provides customizable components for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
 
 tl;dr
-* See it in action at [base.immonex.one](https://base.immonex.one/)!
-* Download a compatible OpenImmo import plugin and example data at [immonex.dev](https://immonex.dev/) (free of charge for testing/development).
+- See it in action at [base.immonex.one](https://base.immonex.one/)!
+- Download a compatible OpenImmo import plugin and example data at [immonex.dev](https://immonex.dev/) (free of charge for testing/development).
+- Read the [docs](https://docs.immonex.de/kickstart/) for detailed usage/customization instructions.
 
-**immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
+**immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking markets/users.
 
 = OpenImmo® =
 
@@ -32,7 +33,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Extendable custom taxonomies (property type, usage type, marketing type, location, features, labels)
 * Special status flags per real estate object (reference, available, sold...)
 * Flexible real estate search form
-* Area/Radius search (Photon of Google Maps autocomplete)
+* Area/Radius search (Photon or Google Maps autocomplete)
 * Property list and detail views
 * Animated photo slideshows and floor plan galleries
 * Integration of YouTube/Vimeo videos
@@ -45,7 +46,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Obtainment of user consent before loading external libraries (EU GDPR)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
-* Translation-reads (German translations included)
+* Translation-ready (German translations included)
 * Support for multilingual websites (Polylang or WPML)
 * Compatible with immonex OpenImmo2WP (OpenImmo importer) [2]
 * Compatible with immonex Energy Scale Pro (energy class visualization) [2]
@@ -98,6 +99,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 10. WP backend: Property list
 
 == Changelog ==
+
+= 1.0.3 =
+* Release date: 2020-04-02
+* Fixed typos etc. in readme.txt.
 
 = 1.0.2 =
 * Release date: 2020-04-01
