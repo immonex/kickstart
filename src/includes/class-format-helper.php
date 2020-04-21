@@ -97,7 +97,7 @@ class Format_Helper {
 	 * @since 1.0.0
 	 *
 	 * @param string $text Text to prepare.
-	 * @param bool   $apply_the_content Apply the_content WP filter? (true by default).
+	 * @param bool   $apply_the_content Flag for applying the_content WP filter (true by default).
 	 *
 	 * @return string Prepared text/HTML code.
 	 */

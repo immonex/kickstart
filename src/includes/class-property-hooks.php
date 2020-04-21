@@ -102,10 +102,8 @@ class Property_Hooks {
 	 *                other post types.
 	 */
 	public function register_property_archive_template( $original_template ) {
-		global $post;
-
 		if (
-			$post && $post->post_type === $this->config['property_post_type_name'] ||
+			is_post_type_archive( $this->config['property_post_type_name'] ) ||
 			(
 				is_archive() &&
 				get_query_var( 'post_type' ) === $this->config['property_post_type_name']
@@ -124,13 +122,12 @@ class Property_Hooks {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int|string $post_id Property post ID.
-	 * @param string     $template Template file (without suffix).
-	 * @param mixed[]    $atts Rendering Attributes.
-	 * @param bool       $output Directly output the rendered contents? (true by default).
+	 * @param int|string|bool $post_id Property post ID (optional).
+	 * @param string          $template Template file (without suffix).
+	 * @param mixed[]         $atts Rendering Attributes.
+	 * @param bool            $output Flag for directly output the rendered contents (true by default).
 	 *
-	 * @return string Selected property archive template or original template for
-	 *                other post types.
+	 * @return string Rendered template contents.
 	 */
 	public function render_property_contents( $post_id = false, $template = 'single-property/element-hub', $atts = array(), $output = true ) {
 		if ( ! $post_id ) {
@@ -271,6 +268,10 @@ class Property_Hooks {
 	public function shortcode_property_details( $atts ) {
 		if ( get_post_type() !== $this->config['property_post_type_name'] ) {
 			return '';
+		}
+
+		if ( empty( $atts ) ) {
+			$atts = array();
 		}
 
 		// Permit arbritrary attributes for passing template parameters (special case!).

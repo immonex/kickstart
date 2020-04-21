@@ -67,7 +67,7 @@
     "doc": "doc-gen server",
     "doc:publish": "bin/publish_doc.sh",
     "apidoc": "vendor/bin/phpdoc run --sourcecode --template=clean --title='immonex Kickstart'",
-    "apidoc:view": "node_modules/.bin/lws --stack lws-static lws-index -d apidoc -o",
+    "apidoc:view": "node_modules/.bin/lws --stack lws-static lws-index--hostname localhost -d apidoc -o",
     "apidoc:delete": "rimraf apidoc && rimraf .tmp/apidoc"
   }
 }

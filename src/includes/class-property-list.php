@@ -52,7 +52,7 @@ class Property_List {
 	 * @since 1.0.0
 	 *
 	 * @param string  $template Template file name (without suffix).
-	 * @param mixed[] $atts Rendering Attributes.
+	 * @param mixed[] $atts Rendering attributes.
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
@@ -115,7 +115,7 @@ class Property_List {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $atts Rendering Attributes.
+	 * @param mixed[] $atts Rendering attributes.
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
@@ -136,12 +136,12 @@ class Property_List {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $atts Rendering Attributes.
+	 * @param mixed[] $atts Rendering attributes.
 	 *
 	 * @return \WP_Query Original WP main query object.
 	 */
 	private function replace_main_query( $atts ) {
-		if ( isset( $atts['is_regular_archive_page'] ) && $atts['is_regular_archive_page'] ) {
+		if ( ! empty( $atts['is_regular_archive_page'] ) ) {
 			return false;
 		}
 

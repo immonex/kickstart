@@ -39,7 +39,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		'plugin_version'                               => self::PLUGIN_VERSION,
 		'skin'                                         => 'default',
 		'property_list_page_id'                        => 0,
-		'property_list_page_id'                        => 0,
 		'property_details_page_id'                     => 0,
 		'heading_base_level'                           => 1,
 		'area_unit'                                    => 'm²',
@@ -52,7 +51,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		'property_details_map_type'                    => 'ol_osm_map_marker',
 		'property_details_map_zoom'                    => 12,
 		'property_details_map_infowindow_contents'     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
-		'property_details_map_note_map_marker'         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'property_details_map_note_map_marker'         => '',
 		'property_details_map_note_map_embed'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 	);
 

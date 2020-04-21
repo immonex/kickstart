@@ -72,7 +72,7 @@ class Property_List_Hooks {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $atts Rendering Attributes.
+	 * @param mixed[] $atts Rendering attributes.
 	 */
 	public function render_property_list( $atts = array() ) {
 		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : 'property-list/properties';

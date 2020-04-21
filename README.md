@@ -161,10 +161,10 @@ $ npm run doc:publish
 
 Copyright (C) 2014, 2020 [inveris OHG](https://inveris.de/) / [immonex](https://immonex.dev/)
 
-This library is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+This plugin is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## Trivia
 
-The immonex Kickstart logo is a tribute to the developers of the original **Amiga** (later known as [Commodore Amiga 1000](https://en.wikipedia.org/wiki/Amiga_1000)). :smirk:
+The immonex Kickstart logo is a tribute to the developers of the Lorraine, prototype of the original **Amiga** (later known as [Commodore Amiga 1000](https://en.wikipedia.org/wiki/Amiga_1000)). :smirk:

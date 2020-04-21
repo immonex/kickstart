@@ -1,6 +1,6 @@
 === immonex Kickstart ===
 Contributors: immonex
-Tags: openimmo, import, real-estate, immobilien, immomakler
+Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.4
 Stable Tag: 1.0.3

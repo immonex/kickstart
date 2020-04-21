@@ -248,6 +248,10 @@ class Property_Search_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_search_form( $atts ) {
+		if ( empty( $atts ) ) {
+			$atts = array();
+		}
+
 		$prefix         = $this->config['public_prefix'];
 		$supported_atts = array(
 			'results-page-id' => false,
