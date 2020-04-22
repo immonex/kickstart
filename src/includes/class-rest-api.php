@@ -112,6 +112,10 @@ class REST_API {
 			}
 		}
 
+		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
+			$author_query = $property_search->get_author_query( $search_query_vars[ $prefix . 'author' ] );
+		}
+
 		$tax_and_meta_queries = $property_search->get_tax_and_meta_queries( $search_query_vars );
 		$count_only           = $request->get_param( 'count' );
 
@@ -120,6 +124,10 @@ class REST_API {
 		$args = array(
 			'ids_only' => $count_only,
 		);
+
+		if ( $author_query ) {
+			$args[ $author_query['type'] ] = $author_query['user_ids'];
+		}
 
 		if ( $tax_and_meta_queries['tax_query'] ) {
 			$args['tax_query'] = $tax_and_meta_queries['tax_query'];

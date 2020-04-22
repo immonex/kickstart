@@ -675,6 +675,63 @@ class Property_Search {
 	} // get_search_query_vars
 
 	/**
+	 * Generate the author query part based on the given user IDs or login names.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param int|string|int[]|string[] $authors Query parameters.
+	 *
+	 * @return string[]|bool Associative array of query type and user IDs or
+	 *                       or false if undeterminable.
+	 */
+	public function get_author_query( $authors ) {
+		if ( ! is_array( $authors ) ) {
+			$authors = array( $authors );
+		}
+
+		$include_authors = array();
+		$exclude_authors = array();
+
+		foreach ( $authors as $author ) {
+			$exclude = '-' === $author[0];
+			if ( $exclude ) {
+				$author = substr( $author, 1 );
+			}
+
+			if ( is_numeric( $author ) ) {
+				$author_id = (int) $author;
+			} else {
+				$author_object = get_user_by( 'login', $author );
+				if ( $author_object ) {
+					$author_id = $author_object->ID;
+				} else {
+					continue;
+				}
+			}
+
+			if ( $exclude ) {
+				$exclude_authors[] = $author_id;
+			} else {
+				$include_authors[] = $author_id;
+			}
+		}
+
+		if ( ! empty( $include_authors ) ) {
+			return array(
+				'type'     => 'author__in',
+				'user_ids' => $include_authors,
+			);
+		} elseif ( ! empty( $exclude_authors ) ) {
+			return array(
+				'type'     => 'author__not_in',
+				'user_ids' => $exclude_authors,
+			);
+		}
+
+		return false;
+	} // get_author_query
+
+	/**
 	 * Create taxonomy and meta query arrays based on the given parameters.
 	 *
 	 * @since 1.0.0
@@ -859,8 +916,7 @@ class Property_Search {
 		}
 
 		if (
-			! isset( $params[ "{$prefix}references" ] ) ||
-			! $params[ "{$prefix}references" ] ||
+			empty( $params[ "{$prefix}references" ] ) ||
 			'no' === strtolower( $params[ "{$prefix}references" ] )
 		) {
 			// Properties marked as reference objects are HIDDEN by default.

@@ -83,14 +83,15 @@ Mit den folgenden Attributen kann die Anzahl der einzubindenden Immobilien begre
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
+| `author` | Objekte nach **Autor(en)** filtern (kommagetrennte Liste von **Benutzer-IDs** oder **Login-Namen**; **Minus zum Ausschließen** bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
 | `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen > Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
 | `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
 
 ##### Beispiel
 
-Maximal vier Objekte, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:
-`[inx-property-list limit=4 sort="price_asc, date_desc"]`
+Maximal vier Objekte des Benutzers *Dieter Demo*, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:
+`[inx-property-list author="dieter.demo" limit=4 sort="price_asc, date_desc"]`
 
 ## Erweiterte Anpassungen
 

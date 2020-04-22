@@ -477,7 +477,15 @@ class WP_Bootstrap {
 		foreach ( $columns as $key => $title ) {
 			if ( 'author' === $key ) {
 				$modified_columns['reference'] = __( 'Reference Property', 'immonex-kickstart' );
+				$author_title                  = $title;
 			} else {
+				if (
+					'date' === $key
+					&& ! empty( $author_title )
+				) {
+					$modified_columns['author'] = $author_title;
+				}
+
 				$modified_columns[ $key ] = $title;
 			}
 		}

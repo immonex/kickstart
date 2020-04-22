@@ -174,6 +174,14 @@ class Property_Search_Hooks {
 			}
 		}
 
+		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
+			$author_query = $this->property_search->get_author_query( $search_query_vars[ $prefix . 'author' ] );
+
+			if ( $author_query ) {
+				$query->set( $author_query['type'], $author_query['user_ids'] );
+			}
+		}
+
 		$tax_and_meta_queries = $this->property_search->get_tax_and_meta_queries( $search_query_vars );
 
 		if ( $tax_and_meta_queries['tax_query'] ) {
