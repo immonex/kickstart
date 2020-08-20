@@ -15,7 +15,7 @@ Kickstart bzw. die verfügbaren [Skins](../anpassung-erweiterung/skins.html) ent
 
 ## Seite als Vorlage
 
-**Alternativ** kann eine beliebige Seite als Rahmenvorlage verwendet werden, die unter ***immonex > Einstellungen > Allgemein*** ausgewählt wird (Option [Immobilien-Detailseite](../schnellstart/einrichtung.html#Immobilien-Detailseite)).
+**Alternativ** kann eine beliebige Seite als Rahmenvorlage verwendet werden, die unter ***immonex → Einstellungen → Allgemein*** ausgewählt wird (Option [Immobilien-Detailseite](../schnellstart/einrichtung.html#Immobilien-Detailseite)).
 
 Innerhalb dieser Vorlageseite können die gewünschten Immobiliendetails dann per **Shortcode** - entweder komplett oder auch **absatzweise** - eingefügt werden. Letzteres ist vor allem dann relevant, wenn das Rahmenlayout auf mehreren per [Gutenberg](https://de.wordpress.org/gutenberg/) oder einer anderen Page-Builder-Lösung erstellten Block-Elementen aufbaut, die mit unterschiedlichen Objektdaten befüllt werden sollen.
 

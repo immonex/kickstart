@@ -1,7 +1,7 @@
 ---
 title: Datenimport
 category: schnellstart
-order: 40
+order: 30
 search: 1
 ---
 
@@ -17,12 +17,12 @@ Die OpenImmo-Lösung für WordPress, die Kickstart "out of the box" unterstützt
 
 ![immonex OpenImmo2WP installiert](../assets/scst-oi2wp-1.png)
 
-Sofern Kickstart vor OpenImmo2WP installiert wurde, ist nach der Installation des Plugins unter ***Einstellungen > OpenImmo Import*** direkt der passende <i>Mapping-Typ</i> eingestellt. (Mittels individuell anpassbarer <i>Mapping-Tabellen</i> werden die OpenImmo-Angaben beim Import den passenden WordPress/Theme/Plugin-Feldern und Taxonomien zugewiesen.)
+Sofern Kickstart vor OpenImmo2WP installiert wurde, ist nach der Installation des Plugins unter ***Einstellungen → OpenImmo Import*** direkt der passende <i>Mapping-Typ</i> eingestellt. (Mittels individuell anpassbarer <i>Mapping-Tabellen</i> werden die OpenImmo-Angaben beim Import den passenden WordPress/Theme/Plugin-Feldern und Taxonomien zugewiesen.)
 
 Sollen zunächst nur Beispieldaten importiert werden, muss das entsprechende ZIP-Archiv manuell in den im Tab "Verzeichnisse / Manueller Import" genannten globalen Importordner übertragen werden. Im laufenden Betrieb werden diese Daten von der Immobilien-Verwaltungssoftware hierher übertragen und anschließend automatisiert verarbeitet.
 
 ![immonex OpenImmo2WP: Immobiliendaten importieren](../assets/scst-oi2wp-2.png)
 
-Nach dem erfolgreichen Abschluss des Importvorgangs werden die verarbeiteten Objekte unter ***immonex > Immobilien*** aufgeführt. Im Frontend kann die [Standard-Archivseite für Immobilienbeiträge](../beitragsarten-taxonomien.html#Immobilien-Beitrage) via `.../immobilien/` bzw. `.../properties/` aufgerufen werden.
+Nach dem erfolgreichen Abschluss des Importvorgangs werden die verarbeiteten Objekte unter ***immonex → Immobilien*** aufgeführt. Im Frontend kann die [Standard-Archivseite für Immobilienbeiträge](../beitragsarten-taxonomien.html#Immobilien-Beitrage) via `.../immobilien/` bzw. `.../properties/` aufgerufen werden.
 
 ![Immobilienliste im WordPress-Backend](../assets/scst-be-property-list.gif)

@@ -48,7 +48,10 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 			$inx_skin_template = $utils['template']->locate_template_file( "single-property/{$inx_skin_key}" );
 			if (
 				in_array( $inx_skin_key, array_keys( $inx_skin_available_elements ) ) &&
-				! empty( $inx_skin_available_elements[ $inx_skin_key ]['template'] )
+				(
+					! empty( $inx_skin_available_elements[ $inx_skin_key ]['template'] ) ||
+					! empty( $inx_skin_available_elements[ $inx_skin_key ]['do_action'] )
+				)
 			) {
 				$inx_skin_page_elements[ $inx_skin_key ] = $inx_skin_available_elements[ $inx_skin_key ];
 			} elseif ( $inx_skin_template ) {
@@ -99,7 +102,7 @@ if ( $inx_skin_enable_tabs ) :
 	if ( isset( $inx_skin_page_elements['head'] ) ) {
 		do_action(
 			'inx_render_property_contents',
-			get_the_ID(),
+			false,
 			basename( __DIR__ ) . '/' . $inx_skin_page_elements['head']['template'],
 			$inx_skin_page_elements['head']
 		);
@@ -108,7 +111,7 @@ if ( $inx_skin_enable_tabs ) :
 	if ( isset( $inx_skin_page_elements['gallery'] ) ) {
 		do_action(
 			'inx_render_property_contents',
-			get_the_ID(),
+			false,
 			basename( __DIR__ ) . '/' . $inx_skin_page_elements['gallery']['template'],
 			$inx_skin_page_elements['gallery']
 		);
@@ -139,7 +142,7 @@ if ( $inx_skin_enable_tabs ) :
 
 				do_action(
 					'inx_render_property_contents',
-					get_the_ID(),
+					false,
 					basename( __DIR__ ) . '/' . $inx_skin_element_atts['template'],
 					$inx_skin_element_atts
 				);
@@ -151,37 +154,47 @@ if ( $inx_skin_enable_tabs ) :
 </div>
 
 	<?php
-	if ( isset( $inx_skin_page_elements['floor_plans'] ) ) {
+	if ( isset( $inx_skin_page_elements['floor_plans'] ) ) :
 		do_action(
 			'inx_render_property_contents',
-			get_the_ID(),
+			false,
 			basename( __DIR__ ) . '/' . $inx_skin_page_elements['floor_plans']['template'],
 			$inx_skin_page_elements['floor_plans']
 		);
-	}
+	endif;
 
-	if ( isset( $inx_skin_page_elements['contact_person'] ) ) {
+	if ( isset( $inx_skin_page_elements['contact_person'] ) ) :
+		if ( ! empty( $inx_skin_page_elements['contact_person']['do_action'] ) ) {
+			call_user_func_array( 'do_action', $inx_skin_page_elements['contact_person']['do_action'] );
+		} else {
+			do_action(
+				'inx_render_property_contents',
+				false,
+				basename( __DIR__ ) . '/' . $inx_skin_page_elements['contact_person']['template'],
+				$inx_skin_page_elements['contact_person']
+			);
+		}
+	endif;
+
+	if ( isset( $inx_skin_page_elements['footer'] ) ) :
 		do_action(
 			'inx_render_property_contents',
-			get_the_ID(),
-			basename( __DIR__ ) . '/' . $inx_skin_page_elements['contact_person']['template'],
-			$inx_skin_page_elements['contact_person']
+			false,
+			basename( __DIR__ ) . '/' . $inx_skin_page_elements['footer']['template'],
+			$inx_skin_page_elements['footer']
 		);
-	}
-
-	do_action(
-		'inx_render_property_contents',
-		get_the_ID(),
-		basename( __DIR__ ) . '/' . $inx_skin_page_elements['footer']['template'],
-		$inx_skin_page_elements['footer']
-	);
+	endif;
 else :
 	foreach ( $inx_skin_page_elements as $inx_skin_element_atts ) {
-		do_action(
-			'inx_render_property_contents',
-			get_the_ID(),
-			basename( __DIR__ ) . '/' . $inx_skin_element_atts['template'],
-			$inx_skin_element_atts
-		);
+		if ( ! empty( $inx_skin_element_atts['do_action'] ) ) {
+			call_user_func_array( 'do_action', $inx_skin_element_atts['do_action'] );
+		} else {
+			do_action(
+				'inx_render_property_contents',
+				false,
+				basename( __DIR__ ) . '/' . $inx_skin_element_atts['template'],
+				$inx_skin_element_atts
+			);
+		}
 	}
 endif;

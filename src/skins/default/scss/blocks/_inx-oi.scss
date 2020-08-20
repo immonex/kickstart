@@ -1,74 +1,24 @@
-.inx-oi--vermarktungsart--kauf {
-	color: $color-oi-vermarktungsart-kauf;
+$marketing-type-colors: (
+	"kauf": $color-oi-vermarktungsart-kauf,
+	"miete": $color-oi-vermarktungsart-miete,
+	"miete-pacht": $color-oi-vermarktungsart-miete,
+	"miete-erbpacht": $color-oi-vermarktungsart-miete,
+	"leasing": $color-oi-vermarktungsart-leasing
+);
 
-	@at-root a#{&}:hover {
-		color: highlight($color-oi-vermarktungsart-kauf);
+@each $type, $color in $marketing-type-colors {
+	.inx-oi--vermarktungsart--#{$type} {
+		color: $color;
+		@include unified-active-link-states($color);
 	}
 
-	@at-root a#{&}:visited {
-		color: $color-oi-vermarktungsart-kauf;
-	}
-}
-
-.inx-oi--vermarktungsart--miete,
-.inx-oi--vermarktungsart--miete-pacht,
-.inx-oi--vermarktungsart--miete-erbpacht,
-a.inx-oi--vermarktungsart--miete:visited,
-a.inx-oi--vermarktungsart--miete-pacht:visited,
-a.inx-oi--vermarktungsart--miete-erbpacht:visited {
-	color: $color-oi-vermarktungsart-miete;
-}
-
-a.inx-oi--vermarktungsart--miete:hover,
-a.inx-oi--vermarktungsart--miete-pacht:hover,
-a.inx-oi--vermarktungsart--miete-erbpacht:hover {
-	color: highlight($color-oi-vermarktungsart-miete);
-}
-
-.inx-oi--vermarktungsart--leasing {
-	color: $color-oi-vermarktungsart-leasing;
-
-	@at-root a#{&}:hover {
-		color: highlight($color-oi-vermarktungsart-leasing);
-	}
-
-	@at-root a#{&}:visited {
-		color: $color-oi-vermarktungsart-leasing;
+	.inx-oi--inverted.inx-oi--vermarktungsart--#{$type} {
+		@include gradient($color);
 	}
 }
 
 .inx-oi--inverted {
 	color: $color-default-text-inverted;
 
-	@at-root a#{&}:hover {
-		color: $color-default-text-inverted;
-	}
-}
-
-.inx-oi--inverted.inx-oi--vermarktungsart--kauf {
-	@include gradient($color-oi-vermarktungsart-kauf);
-
-	@at-root a#{&}:hover {
-		@include gradient(highlight($color-oi-vermarktungsart-kauf));
-	}
-}
-
-.inx-oi--inverted.inx-oi--vermarktungsart--miete,
-.inx-oi--inverted.inx-oi--vermarktungsart--miete-pacht,
-.inx-oi--inverted.inx-oi--vermarktungsart--erbpacht {
-	@include gradient($color-oi-vermarktungsart-miete);
-}
-
-a.inx-oi--inverted.inx-oi--vermarktungsart--miete:hover,
-a.inx-oi--inverted.inx-oi--vermarktungsart--miete-pacht:hover,
-a.inx-oi--inverted.inx-oi--vermarktungsart--erbpacht:hover {
-	@include gradient(highlight($color-oi-vermarktungsart-miete));
-}
-
-.inx-oi--inverted.inx-oi--vermarktungsart--leasing {
-	@include gradient($color-oi-vermarktungsart-leasing);
-
-	@at-root a#{&}:hover {
-		@include gradient(highlight($color-oi-vermarktungsart-leasing));
-	}
+	@include unified-active-link-states($color-default-text-inverted);
 }

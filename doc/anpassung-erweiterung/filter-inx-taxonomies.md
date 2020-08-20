@@ -81,7 +81,7 @@ angepasstes oder erweitertes Array mit allen für die Registrierung der **Immobi
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in die Datei **functions.php** des **Child-Themes** eingebunden.
+Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
 
 ```php
 add_filter( 'inx_taxonomies', 'mysite_modify_property_taxonomies' );

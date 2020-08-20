@@ -66,7 +66,7 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 
 ### Immobilien-Beiträge
 
-Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `.../immobilien/` bzw. `.../properties/` bei nicht deutschsprachigen Websites verfügbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
+Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://[DOMAIN.TLD]/immobilien/`<sup>1</sup> bzw. `.../properties/`<sup>1</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
 
 So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
 
@@ -105,3 +105,7 @@ Beispiel: `.../immobilien/kaufen-mieten/zu-verkaufen/`
 `.../immobilien/label/TERM-SLUG`
 
 Beispiel: `.../immobilien/label/neu/`
+
+---
+
+<sup>1</sup> abhängig von der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))

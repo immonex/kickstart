@@ -4,7 +4,7 @@
 # Site
 title: kickstart
 subtitle: immonex Kickstart
-description: Basiskomponenten für die Einbindung OpenImmo®-basierter Immobilienangebote in WordPress-Websites
+description: Essenzielle Basiskomponenten und Framework zur Einbindung und Suche/Filterung OpenImmo®-basierter Immobilienangebote
 keywords:
   - wordpress
   - plugin
@@ -112,3 +112,9 @@ toc:
 ## von docs.immonex.de dabei können die Felder filterCategories und filterNames die auszugebenden Dokumentationen
 ## mittels RegExp filtern. (siehe Menü)[https://docs.immonex.de/doc-gen/guide/#Menuleiste]
 main_menu:
+  - caption: Ökosystem
+    dropdown:
+    - caption: Add-ons
+      type: header
+    - caption: Team
+      url: https://docs.immonex.de/kickstart-team/

@@ -62,7 +62,7 @@ class Property_Search {
 		/**
 		 * Check for special GET variables and preserve their values (hidden field).
 		 */
-		$preserve_get_vars = $this->config['special_query_vars'];
+		$preserve_get_vars = $this->config['special_query_vars']();
 
 		$hidden_fields = array();
 		if ( count( $preserve_get_vars ) > 0 ) {
@@ -495,19 +495,20 @@ class Property_Search {
 				'order'        => 60,
 			),
 			'price-range'              => array(
-				'enabled'  => true,
-				'hidden'   => false,
-				'extended' => false,
-				'type'     => 'range',
-				'key'      => '_' . $this->config['plugin_prefix'] . 'primary_price',
-				'compare'  => 'BETWEEN',
-				'range'    => 'primary_price_min_max',
-				'default'  => 'primary_price_min_max',
-				'currency' => 'EUR',
-				'numeric'  => true,
-				'label'    => __( 'Price Range', 'immonex-kickstart' ),
-				'class'    => '',
-				'order'    => 70,
+				'enabled'        => true,
+				'hidden'         => false,
+				'extended'       => false,
+				'type'           => 'range',
+				'key'            => '_' . $this->config['plugin_prefix'] . 'primary_price',
+				'compare'        => 'BETWEEN',
+				'range'          => 'primary_price_min_max',
+				'default'        => 'primary_price_min_max',
+				'unlimited_term' => __( 'unlimited', 'immonex-kickstart' ),
+				'currency'       => 'EUR',
+				'numeric'        => true,
+				'label'          => __( 'Price Range', 'immonex-kickstart' ),
+				'class'          => '',
+				'order'          => 70,
 			),
 			'submit'                   => array(
 				'enabled'  => true,
@@ -942,14 +943,13 @@ class Property_Search {
 			);
 		}
 
-		$special_flags = array( 'available', 'sold', 'reserved' );
+		$special_flags = array( 'available', 'sold', 'reserved', 'demo' );
 
 		foreach ( $special_flags as $flag ) {
 			$flag_key = "{$prefix}{$flag}";
 
 			if ( isset( $params[ $flag_key ] ) ) {
 				switch ( strtolower( $params[ $flag_key ] ) ) {
-					case 'yes':
 					case 'only':
 						$meta_query[] = array(
 							'key'     => "_immonex_is_{$flag}",
@@ -1001,10 +1001,15 @@ class Property_Search {
 			);
 		}
 
-		return array(
-			'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
-			'meta_query' => count( $meta_query ) > 1 ? $meta_query : false,
-			'geo_query'  => $geo_query,
+		return apply_filters(
+			'inx_search_tax_and_meta_queries',
+			array(
+				'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
+				'meta_query' => count( $meta_query ) > 1 ? $meta_query : false,
+				'geo_query'  => $geo_query,
+			),
+			$params,
+			$prefix
 		);
 	} // get_tax_and_meta_queries
 

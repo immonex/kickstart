@@ -7,7 +7,15 @@ search: 1
 
 # Das Standard-Skin im Detail
 
-Die Dateien des Standard-Skins "Quiwi" sind im Unterordner `skins/default` des Kickstart-Plugin-Verzeichnisses (`.../wp-content/plugins/immonex-kickstart`) zu finden und können auch als Vorlage für eigene, so genannte <i>Custom Skins</i> verwendet werden.
+Die Dateien des Standard-Skins "Quiwi" des Kickstart-Basis-Plugins sind im Unterordner `skins/default` des Kickstart-Plugin-Verzeichnisses zu finden:
+
+`.../wp-content/plugins/immonex-kickstart/skins/default`
+
+Ebenso verhält es sich bei **Add-on-Standard-Skins**, wobei hier der jeweilige Add-on-Plugin-Ordner (`.../wp-content/plugins/ADD-ON-ORDNERNAME`) der Ausgangspunkt ist. Beispiel [Team Add-on](https://de.wordpress.org/plugins/immonex-kickstart-team/):
+
+`.../wp-content/plugins/immonex-kickstart-team/skins/default`
+
+Die Verwendung dieser Ordner als Vorlage für die Entwicklung eigener, sogenannter <i>Custom Skins</i> ist grundsätzlich möglich, besser hierfür eignen sich allerdings die aktuellen Quelldateien im jeweiligen Dev-Repository ([Kickstart-Basis-Plugin bei GitHub](https://github.com/immonex/kickstart/tree/master/src/skins/default)). Diese enthalten zusätzlich u. a. die für das Skin relevanten JavaScript- und SCSS-Quellcodes.
 
 ```
 default
@@ -28,6 +36,7 @@ default
 │   ├── _flaticon.scss
 │   ├── ...
 │   └── Flaticon.woff
+...
 ```
 
 ## Skin-Name
@@ -68,11 +77,15 @@ Die für die <i>Blöcke</i> und <i>Elemente</i> verwendeten CSS-Klassennamen sin
 
 Auch der JavaScript-Code, der für das Skin eingebunden werden soll, ist in einer einzelnen Datei gebündelt: `js/index.js`
 
-Beim Standard-Skin sowie allen weiteren Skins, die (zukünftig) mit Kickstart ausgeliefert werden, wird diese Bündelung im Rahmen der Entwicklung automatisiert mit dem "JavaScript-Modul-Packer" [webpack](https://webpack.js.org/) umgesetzt. Die Quelldateien befinden sich im Unterordner `js/src`. (Auch die Verarbeitung der o. g. SCSS-Dateien erfolgt hierüber.)
+Beim Standard-Skin sowie allen weiteren Skins, die (zukünftig) mit Kickstart oder hierauf basierenden Add-ons ausgeliefert werden, wird diese Bündelung im Rahmen der Entwicklung automatisiert mit dem "JavaScript-Modul-Packer" [webpack](https://webpack.js.org/) umgesetzt. Die Quelldateien befinden sich im Unterordner `js/src`. (Auch die Verarbeitung der o. g. SCSS-Dateien erfolgt hierüber.)
 
 Auch hier gilt: Ein <i>Custom Skin</i> kann auch **ohne** den Einsatz eines solchen Bundlers entwickelt werden. Sofern überhaupt spezieller JavaScript-Code hierfür benötigt wird, ist eine Datei `index.js` ausreichend. (Im Regelfall wird sich der Umfang des Skin-JS-Codes ohnehin in einem überschaubaren Rahmen bewegen.)
 
-## Archiv & Listenansicht
+## Frontend-Komponenten
+
+> Alle folgenden Abschnitte beziehen sich nur auf das Standard-Skin des **Basis-Plugins**, Add-ons bringen im Regelfall ihre eigenen Komponenten und benutzerdefinierten Beitragsarten (<i>Custom Post Types</i>) mit.
+
+### Archiv & Listenansicht
 
 ```
 ├── archive-property.php
@@ -99,7 +112,7 @@ Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlist
 
 > Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
 
-## Suchformular
+### Suchformular
 
 ```
 ├── property-search.php
@@ -111,7 +124,7 @@ Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlist
 
 Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemente des Suchformulars](../komponenten/index.html#Elemente), deren Vorlagen - separat pro Elementart - im Ordner `property-search` hinterlegt sind.
 
-## Detailansicht
+### Detailansicht
 
 ```
 ├── single-property.php

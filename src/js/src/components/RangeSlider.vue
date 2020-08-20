@@ -38,6 +38,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		rangeUnlimitedTerm: {
+			type: String,
+			default: ''
+		},
 		locale: {
 			type: String,
 			default: 'de-DE'
@@ -66,6 +70,10 @@ export default {
 			else return 1000
 		},
 		currentValueFormatted: function () {
+			if  (this.isUnlimited(true) && this.rangeUnlimitedTerm) {
+				return this.rangeUnlimitedTerm
+			}
+
 			if (typeof this.currentValue === 'object') {
 				if ( this.currentValue.length === 2 ) {
 					const from = this.getFormattedValue(this.currentValue[0])
@@ -82,17 +90,7 @@ export default {
 				jQuery('input#' + this.name).trigger('change')
 			}
 
-			if (
-				Array.isArray(this.currentValue) && (
-					(
-						this.currentValue.length === 1 &&
-						0 === this.currentValue[0]
-					) || (
-						this.currentValue[0] === this.min &&
-						this.currentValue[1] === this.max
-					)
-				)
-			) {
+			if ( this.isUnlimited(false) ) {
 				return ''
 			}
 
@@ -116,6 +114,24 @@ export default {
 		}
 	},
 	methods: {
+		isUnlimited (rangesOnly) {
+			if (
+				Array.isArray(this.currentValue) && (
+					(
+						!rangesOnly &&
+						this.currentValue.length === 1 &&
+						0 === this.currentValue[0]
+					) || (
+						this.currentValue[0] === this.min &&
+						this.currentValue[1] === this.max
+					)
+				)
+			) {
+				return true
+			}
+
+			return false
+		},
 		getFormattedValue (value) {
 			if (value === 0 && this.replaceNull) return this.replaceNull
 

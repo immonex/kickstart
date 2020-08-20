@@ -32,7 +32,7 @@ if ( $inx_skin_description ) :
 	?>
 
 	<div class="inx-description-text">
-		<?php echo $utils['string']->convert_urls( $utils['format']->prepare_continuous_text( $inx_skin_description ) ); ?>
+		<?php echo $utils['string']->convert_urls( $utils['format']->prepare_continuous_text( $inx_skin_description, 'noautop' ) ); ?>
 	</div>
 </div>
 	<?php

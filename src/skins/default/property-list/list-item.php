@@ -26,7 +26,8 @@ if (
 	<div class="inx-property-list-item__media-top uk-card-media-top uk-cover-container">
 		<?php
 		if ( $template_data['thumbnail_tag'] ) {
-			echo preg_replace( '/[\/]?\>/', 'uk-cover>', $template_data['thumbnail_tag'] );}
+			echo preg_replace( '/[\/]?\>/', 'uk-cover>', $template_data['thumbnail_tag'] );
+		}
 		?>
 	</div>
 	</a>
@@ -80,15 +81,13 @@ if (
 		<?php endif; ?>
 
 		<?php if ( $template_data['primary_price']['value_formatted'] ) : ?>
-		<a href="<?php echo $template_data['url']; ?>">
-		<div class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?>" title="<?php echo $template_data['primary_price']['title']; ?>">
+		<a href="<?php echo $template_data['url']; ?>" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?> inx-link">
 			<?php
 				echo $template_data['primary_price']['value_formatted'];
 			if ( $template_data['price_time_unit']['value'] ) {
 				echo ' <span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
 			}
 			?>
-		</div>
 		</a>
 		<?php endif; ?>
 	</div>

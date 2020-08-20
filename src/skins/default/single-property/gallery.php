@@ -50,6 +50,14 @@ $inx_skin_gallery_image_ids = get_post_meta(
 	$inx_skin_image_selection_custom_field,
 	true
 );
+if (
+	is_array( $inx_skin_gallery_image_ids ) &&
+	count( $inx_skin_gallery_image_ids ) > 0 &&
+	! is_numeric( $inx_skin_gallery_image_ids[ key( $inx_skin_gallery_image_ids ) ] )
+) {
+	// Convert an extended image ID list including URLs to a simple ID array.
+	$inx_skin_gallery_image_ids = array_keys( $inx_skin_gallery_image_ids );
+}
 
 $inx_skin_media_count = is_array( $inx_skin_gallery_image_ids ) ? count( $inx_skin_gallery_image_ids ) : 0;
 

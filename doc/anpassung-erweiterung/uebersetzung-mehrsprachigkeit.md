@@ -7,45 +7,57 @@ search: 1
 
 # Übersetzungen & Mehrsprachigkeit
 
-immonex Kickstart ist vorrangig für die Umsetzung deutschsprachiger Websites ausgelegt. Nichtsdestotrotz ist natürlich eine **updatesichere** und WordPress-konforme Anpassung und Übersetzung der im Plugin enthaltenen Texte möglich.
+immonex Kickstart ist vorrangig für die Umsetzung deutschsprachiger Websites ausgelegt. Nichtsdestotrotz sind die im Basis-Plugin und den Add-ons enthaltenen Texte in englischer Sprache hinterlegt, um eine WordPress-konforme Übersetzung zu ermöglichen.
 
-Im **Plugin-Code** sind alle Texte in englischer Sprache hinterlegt. Diese sind als Basis für **neue Übersetzungen** in der Datei `immonex-kickstart.pot` im Unterordner `languages` des Plugin-Verzeichnisses zusammengefasst.
+## Offizielle Übersetzungen
 
-Hier sind auch die deutschen Übersetzungen zu finden: `immonex-kickstart-de_DE.po` (Quelldatei) bzw. `immonex-kickstart-de_DE.mo` (kompilierte Version). Der Ordner enthält u. U. Dateien weiterer DE-Varianten, die aber identische Inhalte aufweisen.
+Übersetzungen werden via [translate.wordpress.org (GlotPress)](https://translate.wordpress.org/projects/wp-plugins/immonex-kickstart/) bereitgestellt. Die Varianten *de_DE* (**informell/Du**) und *de_DE_formal* (**formell/Sie**) sind hier für die aktuellen Release-Versionen von Basis-Plugin und Add-ons immer vollständig verfügbar. Weitere Sprachen und länderspezifische Varianten können ebenfalls hierüber ergänzt werden (Infos zu Hintergrund und Vorgehensweise im offiziellen [Handbuch für Übersetzer](https://make.wordpress.org/polyglots/handbook/)).
+
+Die Übersetzungen von translate.wordpress.org werden automatisch in den globalen WordPress-Übersetzungsordner `.../wp-content/languages/plugins` heruntergeladen, sofern diese für die unter ***Einstellungen → Allgemein*** eingestellte Website-Sprache verfügbar sind:
 
 ```
-.../wp-content/plugins/immonex-kickstart/
+.../wp-content/languages/plugins
+├── immonex-kickstart-de_DE_formal.po
+└── immonex-kickstart-de_DE_formal.mo
+```
+
+In den jeweiligen Plugin-Ordnern (Kickstart und Add-ons) ist **zusätzlich** ein Ordner namens `languages` zu finden, der neben einer aktuellen <i>POT-Datei</i> (Vorlage für neue Übersetzungen) auch die folgenden PO- (Übersetzungs-Quelldatei) und MO-Versionen (kompilierte Übersetzungen) enthält:
+
+```
+.../wp-content/plugins/immonex-kickstart
 └── languages
     ├── immonex-kickstart.pot
     ├── immonex-kickstart-de_DE.po
     ├── immonex-kickstart-de_DE.mo
     ├── immonex-kickstart-de_DE_formal.po
-    ├── immonex-kickstart-de_DE_formal.mo
-    ├── immonex-kickstart-de_LU.po
-    ├── immonex-kickstart-de_LU.mo
-    ├── immonex-kickstart-de_BE.po
-    ├── immonex-kickstart-de_BE.mo
-    ├── immonex-kickstart-de_AT.po
-    ├── immonex-kickstart-de_AT.mo
-    ├── immonex-kickstart-de_CH.po
-    └── immonex-kickstart-de_CH.mo
+    └── immonex-kickstart-de_DE_formal.mo
 ```
 
-Neue Übersetzungen oder individuell angepasste Versionen der mitgelieferten DE-Texte werden im **globalen WordPress-Übersetzungsordner** für Plugins hinterlegt (PO/MO-Dateien). Wichtig ist hier das einheitliche Namensschema *textdomain-sprachcode_LÄNDERCODE*.
+> **ACHTUNG!** Die Übersetzungen im o. g. globalen WP-Sprachordner haben Priorität, die Dateien in den Plugin-Ordnern werden im Regelfall **nicht** eingebunden.
 
-```
-.../wp-content/languages/plugins/
-├── immonex-kickstart-de_DE.po
-├── immonex-kickstart-de_DE.mo
-├── immonex-kickstart-fr_FR.po
-├── immonex-kickstart-fr_FR.mo
-├── immonex-kickstart-es_ES.po
-└── immonex-kickstart-es_ES.mo
-```
+### Besonderheit bei Beta-Versionen
 
-Die Dateien im **globalen Übersetzungsordner** haben Priorität und werden anstelle von ggfls. vorhandenen gleichnamigen Dateien im Plugin-Ordner automatisch eingebunden. So ist auch sichergestellt, dass bei einem **Plugin-Update** keine Anpassungen überschrieben werden. (Ggfls. müssen die angepassten Übersetzungen im globalen Ordner in diesem Fall aber mittels der **pot-Datei** aktualisiert bzw. erweitert werden.)
+Der Nachteil des o. g. Systems zur Verteilung der Übersetzungen besteht darin, dass hierbei nur die **aktuelle Release-Version** berücksichtigt wird. Ist bspw. eine **aktuellere Beta-Version** eines Kickstart- oder Add-on-Plugins (von [immonex.dev](https://immonex.dev/)) im Einsatz, werden so nicht die hierzu passenden aktuellen Übersetzungen geladen, was sich in fehlenden oder nicht korrekt übersetzten Textfragmenten bemerkbar machen kann.
 
-Die Übersetzungen (PO/MO-Dateien) können entweder manuell mit einer lokal installierten Software wie [Poedit](https://poedit.net/) oder einem Plugin wie [Loco Translate](https://de.wordpress.org/plugins/loco-translate/) erstellt und aktualisiert werden.
+Abhilfe schafft hier **temporär** die manuelle Löschung der der o. g. PO/MO-Dateien aus dem globalen WP-Übersetzungsordner oder – sofern nötig – auch **dauerhaft** die im folgenden Abschnitt beschriebene Vorgehensweise.
+
+## Lokale Übersetzungen / Anpassungen
+
+Lokale oder individuell angepasste Übersetzungen sollten *update-sicher* mit [Loco Translate](https://de.wordpress.org/plugins/loco-translate/) erstellt und aktualisiert werden:
+
+![Screenshot: Loco Translate - Plugin auswählen](../assets/scst-loco-1.png)
+
+Angepasste Übersetzungen auf Basis eines vorhandenen Datensatzes erstellen:
+
+![Screenshot: Loco Translate - neue Übersetzung anlegen](../assets/scst-loco-2.png)
+
+Sprache und Speicherort "*Geschütztes Loco-Verzeichnis*" festlegen:
+
+![Screenshot: Loco Translate - Sprache und Speicherort festlegen](../assets/scst-loco-3.png)
+
+Direkt nach dem Anlegen einer neuen Übersetzung sowie nach jeder Aktualisierung des zugehörigen Plugins muss diese zunächst **synchronisiert** werden. Anschließend werden – sofern notwendig – fehlende Übersetzungen ergänzt und/oder die Übersetzungen geänderter Texte aktualisiert. Nach dem Speichern werden diese dann auch im Frontend der Website übernommen.
+
+![Screenshot: Loco Translate - Synchronisieren und Speichern](../assets/scst-loco-4.png)
 
 ## Übersetzung von Plugin-Optionen
 

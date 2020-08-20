@@ -10,19 +10,19 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.0.4b';
+	const PLUGIN_VERSION             = '1.1.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
-		'de' => 'https://docs.immonex.de/kickstart',
+		'de' => 'https://docs.immonex.de/kickstart/',
 	);
 	const PLUGIN_SUPPORT_URLS        = array(
-		'de' => 'https://wordpress.org/support/plugin/immonex-kickstart',
+		'de' => 'https://wordpress.org/support/plugin/immonex-kickstart/',
 	);
 	const PLUGIN_DEV_URLS            = array(
 		'de' => 'https://github.com/immonex/kickstart',
@@ -53,6 +53,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		'property_details_map_infowindow_contents'     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_details_map_note_map_marker'         => '',
 		'property_details_map_note_map_embed'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'deferred_tasks'                               => array(),
 	);
 
 	/**
@@ -85,18 +86,30 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	 */
 	public function __construct( $plugin_slug ) {
 		$this->bootstrap_data = array(
-			'property_post_type_name' => self::PROPERTY_POST_TYPE_NAME,
-			'special_query_vars'      => array(
-				self::PUBLIC_PREFIX . 'limit',
-				self::PUBLIC_PREFIX . 'limit-page',
-				self::PUBLIC_PREFIX . 'sort',
-				self::PUBLIC_PREFIX . 'references',
-				self::PUBLIC_PREFIX . 'available',
-				self::PUBLIC_PREFIX . 'sold',
-				self::PUBLIC_PREFIX . 'reserved',
-				self::PUBLIC_PREFIX . 'backlink-url',
-				self::PUBLIC_PREFIX . 'iso-country',
-				self::PUBLIC_PREFIX . 'author',
+			'property_post_type_name'     => self::PROPERTY_POST_TYPE_NAME,
+			'special_query_vars'          => function () {
+				return apply_filters(
+					'inx_special_query_vars',
+					array(
+						self::PUBLIC_PREFIX . 'limit',
+						self::PUBLIC_PREFIX . 'limit-page',
+						self::PUBLIC_PREFIX . 'sort',
+						self::PUBLIC_PREFIX . 'order',
+						self::PUBLIC_PREFIX . 'demo',
+						self::PUBLIC_PREFIX . 'references',
+						self::PUBLIC_PREFIX . 'available',
+						self::PUBLIC_PREFIX . 'sold',
+						self::PUBLIC_PREFIX . 'reserved',
+						self::PUBLIC_PREFIX . 'backlink-url',
+						self::PUBLIC_PREFIX . 'iso-country',
+						self::PUBLIC_PREFIX . 'author',
+						self::PUBLIC_PREFIX . 'ref',
+					),
+					self::PUBLIC_PREFIX
+				);
+			},
+			'auto_applied_rendering_atts' => array(
+				self::PUBLIC_PREFIX . 'ref',
 			),
 		);
 
@@ -107,6 +120,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 
 		// Setup the backend edit form for properties.
 		new Property_Backend_Form( $this->bootstrap_data );
+
+		add_filter( "pre_update_option_{$this->plugin_options_name}", array( $this, 'do_before_options_update' ), 10, 2 );
+
+		// Add filters for common rendering attributes.
+		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
+		add_filter( 'inx_apply_auto_rendering_atts', array( $this, 'apply_auto_rendering_atts' ) );
 	} // __construct
 
 	/**
@@ -131,10 +150,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	/**
 	 * Perform activation tasks.
 	 *
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 */
-	public function activate_plugin() {
-		parent::activate_plugin();
+	public function activate_plugin_single_site() {
+		parent::activate_plugin_single_site();
 
 		$option_string_translated = false;
 
@@ -160,7 +179,23 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		}
 
 		$this->check_importer();
-	} // activate_plugin
+
+		update_option( 'rewrite_rules', false );
+	} // activate_plugin_single_site
+
+	/**
+	 * Initialize the plugin (admin/backend only).
+	 *
+	 * @since 1.1.0
+	 */
+	public function init_plugin_admin() {
+		parent::init_plugin_admin();
+
+		if ( ! get_option( 'rewrite_rules' ) ) {
+			global $wp_rewrite;
+			$wp_rewrite->flush_rules( true );
+		}
+	} // init_plugin_admin
 
 	/**
 	 * Perform common initialization tasks.
@@ -170,7 +205,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	public function init_plugin() {
 		// Plugin-specific helper/util objects.
 		$this->utils = array(
-			'data'   => new Data_Access_Helper( $this->plugin_options ),
+			'data'   => new Data_Access_Helper( $this->plugin_options, $this->bootstrap_data ),
 			'format' => new Format_Helper( $this->plugin_options ),
 		);
 
@@ -222,6 +257,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 		new Property_Filters_Sort_Hooks( $component_config, $this->utils );
 		new Property_Search_Hooks( $component_config, $this->utils );
 		new REST_API( $component_config, $this->utils );
+		new API_Hooks( $this->api, $component_config, $this->utils );
+
+		$this->perform_deferred_tasks();
 	} // init_plugin
 
 	/**
@@ -229,7 +267,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $hook_suffix The current admin page..
+	 * @param string $hook_suffix The current admin page.
 	 */
 	public function admin_scripts_and_styles( $hook_suffix ) {
 		parent::admin_scripts_and_styles( $hook_suffix );
@@ -238,7 +276,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 			$this->backend_js_handle,
 			'inx_state',
 			array(
-				'site_url' => get_site_url(),
+				'site_url'   => get_site_url(),
+				'rest_nonce' => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 	} // localize_admin_js
@@ -284,13 +323,32 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 				wp_sprintf(
 					__( 'An <strong>OpenImmo import solution</strong> that supports <strong>immonex Kickstart</strong> is required to provide the real estate offers to be embedded:', 'immonex-kickstart' ) . ' ' .
 					/* translators: %s = immonex.dev full URL */
-					__( '<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are available <strong>free of charge for testing and development purposes</strong> at <a href="%s" target="_blank">immonex.dev</a>', 'immonex-kickstart' ),
+					__( '<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are available <strong>free of charge for testing and development purposes</strong> at <a href="%s" target="_blank">immonex.dev</a>.', 'immonex-kickstart' ),
 					'https://immonex.dev/'
 				),
 				'info'
 			);
 		}
 	} // check_importer
+
+	/**
+	 * Perform special tasks before specific values of the plugin options
+	 * are updated.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed[] $new_values Updated option values.
+	 * @param mixed[] $old_values Previous option values.
+	 *
+	 * @return mixed[] Possibly modified option values.
+	 */
+	public function do_before_options_update( $new_values, $old_values ) {
+		if ( $new_values['property_list_page_id'] !== $old_values['property_list_page_id'] ) {
+			$new_values['deferred_tasks']['flush_rewrite_rules_once'] = true;
+		}
+
+		return $new_values;
+	} // do_before_options_update
 
 	/**
 	 * Register plugin settings.
@@ -568,5 +626,77 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_0_0\Base {
 			);
 		}
 	} // register_plugin_settings
+
+	/**
+	 * Return the names of common rendering attributes (filter callback).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed[] $atts Rendering attribute names.
+	 *
+	 * @return mixed[] Possibly modified attribute name array.
+	 */
+	public function get_auto_applied_rendering_atts( $atts ) {
+		return array_merge(
+			$atts,
+			$this->bootstrap_data['auto_applied_rendering_atts']
+		);
+	} // get_auto_applied_rendering_atts
+
+	/**
+	 * Automatically add common rendering attributes if not set already (filter callback).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed[] $atts Rendering attributes.
+	 *
+	 * @return mixed[] Possibly extended attribute array.
+	 */
+	public function apply_auto_rendering_atts( $atts = array() ) {
+		if ( ! $atts ) {
+			$atts = array();
+		}
+
+		$auto_atts = apply_filters( 'inx_auto_applied_rendering_atts', array() );
+
+		if ( ! empty( $auto_atts ) ) {
+			foreach ( $auto_atts as $var_name ) {
+				if ( ! isset( $atts[ $var_name ] ) ) {
+					$atts[ $var_name ] = $this->utils['data']->get_query_var_value( $var_name );
+				}
+			}
+		}
+
+		return $atts;
+	} // apply_auto_rendering_atts
+
+	/**
+	 * Perform special deferred tasks defined in the plugin options.
+	 *
+	 * @since 1.1.0
+	 */
+	private function perform_deferred_tasks() {
+		if ( empty( $this->plugin_options['deferred_tasks'] ) ) {
+			return;
+		}
+
+		if ( is_array( $this->plugin_options['deferred_tasks'] ) ) {
+			$options_changed = false;
+
+			foreach ( $this->plugin_options['deferred_tasks'] as $task => $data ) {
+				switch ( $task ) {
+					case 'flush_rewrite_rules_once':
+						flush_rewrite_rules();
+						unset( $this->plugin_options['deferred_tasks'][ $task ] );
+						$options_changed = true;
+						break;
+				}
+			}
+
+			if ( $options_changed ) {
+				update_option( $this->plugin_options_name, $this->plugin_options );
+			}
+		}
+	} // perform_deferred_tasks
 
 } // class Kickstart

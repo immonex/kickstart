@@ -78,10 +78,11 @@ class Property_Search_Hooks {
 	 * @return string[] Extended list of variable names.
 	 */
 	public function add_frontend_query_vars( $vars ) {
-		$prefix = $this->config['public_prefix'];
+		$prefix             = $this->config['public_prefix'];
+		$special_query_vars = $this->config['special_query_vars']();
 
-		if ( count( $this->config['special_query_vars'] ) > 0 ) {
-			foreach ( $this->config['special_query_vars'] as $var_name ) {
+		if ( count( $special_query_vars ) > 0 ) {
+			foreach ( $special_query_vars as $var_name ) {
 				$vars[] = $var_name;
 			}
 		}
@@ -105,10 +106,16 @@ class Property_Search_Hooks {
 	 * @param \WP_Query $query WP query object.
 	 */
 	public function adjust_property_frontend_query( $query ) {
+		global $post;
+
+		// TODO: Add more checks to prevent unnecessary execution.
 		if (
-			isset( $query->query_vars['suppress_pre_get_posts_filter'] ) ||
-			isset( $query->query_vars['page'] ) && $query->query_vars['page'] ||
-			isset( $query->query_vars['pagename'] ) && $query->query_vars['pagename'] || (
+			(
+				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
+				empty( $query->query_vars['execute_pre_get_posts_filter'] )
+			) ||
+			! empty( $query->query_vars['page'] ) ||
+			! empty( $query->query_vars['pagename'] ) || (
 				$query->get( 'post_type' ) &&
 				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
 			)
@@ -116,12 +123,11 @@ class Property_Search_Hooks {
 			return;
 		}
 
-		global $post;
-		$includes_shortcode = is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'inx-property-list' );
+		$contains_shortcode = is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'inx-property-list' );
 
 		if (
 			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
-			! $includes_shortcode && (
+			! $contains_shortcode && (
 				! $query->is_main_query() ||
 				is_single() ||
 				is_page() ||
@@ -153,8 +159,9 @@ class Property_Search_Hooks {
 		}
 
 		// Special variables (e.g. reference flag).
-		if ( count( $this->config['special_query_vars'] ) > 0 ) {
-			foreach ( $this->config['special_query_vars'] as $var_name ) {
+		$special_query_vars = $this->config['special_query_vars']();
+		if ( count( $special_query_vars ) > 0 ) {
+			foreach ( $special_query_vars as $var_name ) {
 				$var_names[] = $var_name;
 			}
 		}

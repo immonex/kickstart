@@ -2,15 +2,15 @@
 
 # immonex Kickstart
 
-immonex Kickstart is a **WordPress plugin** that provides customizable base components (property seach, list and detail views) for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
+immonex Kickstart is a **WordPress plugin** that provides customizable basic components (property seach, list and detail views) for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons - separate plugins that extend the functionality on the same foundation.
 
 **immonex**® is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
 
-[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for realtors (import/export interfaces).
+[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for real estate agencies (as import/export interfaces).
 
 ## Basics & Scope
 
-Kickstart itself will be available in the official [WordPress Plugin Repository](https://wordpress.org/plugins/) soon. A **user documentation** including detailed instructions how to install, setup and customize the plugin (in German) is available here:
+Kickstart itself is available in the official [WordPress Plugin Repository](https://wordpress.org/plugins/immonex-kickstart/). A **user documentation** including detailed instructions how to install, setup and customize the plugin (in German) is available here:
 
 https://docs.immonex.de/kickstart/
 
@@ -113,7 +113,9 @@ $ npm run test
 
 ### Translations
 
-Translations (PO/MO files) are provided in the [src/languages](src/languages) folder. This folder also contains a current POT file as base for custom translations that can be updated with the following command:
+The **regular translations** for this plugin are provided via [translate.wordpress.org (GlotPress)](https://translate.wordpress.org/projects/wp-plugins/immonex-kickstart/).
+
+Additionally, formal and informal German translations (PO/MO files) are available in the [src/languages](src/languages) folder, too. This directory also contains a current POT file (as base for custom/local translations) that can be updated with the following command:
 
 ```bash
 $ npm run pot

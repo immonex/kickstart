@@ -20,3 +20,7 @@
 .inx-property-label--leasing {
 	@include gradient($color-oi-vermarktungsart-leasing);
 }
+
+.inx-property-label--feldname--immonex-is-demo {
+	@include gradient($color-demo);
+}

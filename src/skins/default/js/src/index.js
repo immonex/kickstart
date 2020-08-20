@@ -2,11 +2,14 @@
 import '../../scss/index.scss';
 
 jQuery( document ).ready( function( $ ) {
+	let removedElements = 0;
+
 	$( '#inx-single-property__tab-contents > li' ).each( function( index, li ) {
 		if ( 0 === $( li ).html().trim().length ) {
 			// Remove empty tabs and their related navigation items.
 			$( li ).remove();
-			$( '.inx-single-property__tab-nav li:eq(' + index + ')' ).remove();
+			$( '.inx-single-property__tab-nav li:eq(' + ( index - removedElements ) + ')' ).remove();
+			removedElements++;
 		}
 	})
 })

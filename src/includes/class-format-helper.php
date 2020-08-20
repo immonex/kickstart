@@ -39,6 +39,11 @@ class Format_Helper {
 		add_filter( 'inx_the_content', 'wpautop' );
 		add_filter( 'inx_the_content', 'shortcode_unautop' );
 		add_filter( 'inx_the_content', 'do_shortcode' );
+
+		add_filter( 'inx_the_content_noautop', 'wptexturize' );
+		add_filter( 'inx_the_content_noautop', 'convert_smilies' );
+		add_filter( 'inx_the_content_noautop', 'convert_chars' );
+		add_filter( 'inx_the_content_noautop', 'do_shortcode' );
 	} // __construct
 
 	/**
@@ -96,20 +101,24 @@ class Format_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $text Text to prepare.
-	 * @param bool   $apply_the_content Flag for applying the_content WP filter (true by default).
+	 * @param string      $text Text to prepare.
+	 * @param bool|string $apply_the_content Flag for applying the_content WP filter:
+	 *                                       true (default) for all the_content
+	 *                                       filters or "noautop" for a reduced set.
 	 *
 	 * @return string Prepared text/HTML code.
 	 */
 	public function prepare_continuous_text( $text, $apply_the_content = true ) {
 		$text = trim( $text );
-		if ( $apply_the_content ) {
+		if ( true === $apply_the_content ) {
 			$text = apply_filters( 'inx_the_content', $text );
+		} elseif ( 'noautop' === $apply_the_content ) {
+			$text = apply_filters( 'inx_the_content_noautop', $text );
 		}
 
-		if ( false !== strpos( $text, "\n" ) ) {
+		if ( false !== strpos( $text, PHP_EOL ) ) {
 			// Add extra breaks if required.
-			$text = preg_replace( '/([^>])\n/', "$1<br>\n", $text );
+			$text = preg_replace( '/([a-zA-Z0-9.,;:]+)\n/', '$1<br>' . PHP_EOL, $text );
 		}
 
 		return $text;

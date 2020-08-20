@@ -56,8 +56,10 @@ class Property_List_Hooks {
 		 * Plugin-specific actions and filters
 		 */
 
-		add_action( 'inx_render_property_list', array( $this, 'render_property_list' ), 10 );
-		add_action( 'inx_render_pagination', array( $this, 'render_pagination' ), 10 );
+		add_action( 'inx_render_property_list', array( $this, 'render_property_list' ) );
+		add_action( 'inx_render_pagination', array( $this, 'render_pagination' ) );
+
+		add_filter( 'inx_get_properties', array( $this, 'get_properties' ), 10, 2 );
 
 		/**
 		 * Shortcodes
@@ -90,6 +92,33 @@ class Property_List_Hooks {
 	public function render_pagination( $atts = array() ) {
 		echo $this->property_list->get_rendered_pagination();
 	} // render_pagination
+
+	/**
+	 * Retrieve and return property posts or their number (filter callback).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_Post[] $properties Return array.
+	 * @param mixed[]    $args Query arguments.
+	 *
+	 * @return \WP_Post[]|int Matching property post objects or number
+	 *                        of posts only.
+	 */
+	public function get_properties( $properties = array(), $args = array() ) {
+		if ( ! empty( $args['count'] ) ) {
+			$count = true;
+			unset( $args['count'] );
+			$args['fields'] = 'ids';
+		} else {
+			$count = false;
+		}
+
+		$args['execute_pre_get_posts_filter'] = true;
+
+		$properties = $this->property_list->get_properties( $args );
+
+		return $count ? count( $properties ) : $properties;
+	} // get_properties
 
 	/**
 	 * Generate alternative titles for property related archive pages.
@@ -135,7 +164,7 @@ class Property_List_Hooks {
 	 */
 	public function shortcode_property_list( $atts ) {
 		$prefix                     = $this->config['public_prefix'];
-		$query_and_search_var_names = $this->config['special_query_vars'];
+		$query_and_search_var_names = $this->config['special_query_vars']();
 
 		$property_search      = new Property_Search( $this->config, $this->utils );
 		$search_form_elements = $property_search->get_search_form_elements();

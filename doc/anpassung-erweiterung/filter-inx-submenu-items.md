@@ -66,7 +66,7 @@ angepasstes oder erweitertes Array der Untermenüpunkte
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in die Datei **functions.php** des **Child-Themes** eingebunden.
+Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
 
 ```php
 add_filter( 'inx_submenu_items', 'mysite_modify_inx_submenu_items' );

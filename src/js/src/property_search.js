@@ -114,8 +114,6 @@ jQuery(document).ready(function($) {
 		$('#inx-search-form-reset').click(resetSearchForm);
 
 		window.setTimeout( function() { updateSearchState() }, 1000 );
-
-		// $('#inx-search-extended-search-toggle').click(toggleExtendedSearch)
 	}
 
 })

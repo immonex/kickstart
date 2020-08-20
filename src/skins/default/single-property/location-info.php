@@ -70,13 +70,13 @@ By clicking on the following button, you permit submission of data collected dur
 				$utils['template']->get_template_file_url( $inx_skin_marker_icon ) :
 				'';
 
-			$inx_skin_lat      = (float) $utils['data']->get_custom_field_by(
+			$inx_skin_lat      = $utils['data']->get_custom_field_by(
 				'key',
 				'_inx_lat',
 				$template_data['post_id'],
 				true
 			);
-			$inx_skin_lng      = (float) $utils['data']->get_custom_field_by(
+			$inx_skin_lng      = $utils['data']->get_custom_field_by(
 				'key',
 				'_inx_lng',
 				$template_data['post_id'],
@@ -89,13 +89,13 @@ By clicking on the following button, you permit submission of data collected dur
 			if ( ! $inx_skin_google_api_key ) {
 				break;
 			}
-			$inx_skin_lat      = (float) $utils['data']->get_custom_field_by(
+			$inx_skin_lat      = $utils['data']->get_custom_field_by(
 				'key',
 				'_inx_lat',
 				$template_data['post_id'],
 				true
 			);
-			$inx_skin_lng      = (float) $utils['data']->get_custom_field_by(
+			$inx_skin_lng      = $utils['data']->get_custom_field_by(
 				'key',
 				'_inx_lng',
 				$template_data['post_id'],

@@ -55,8 +55,9 @@ class REST_API {
 			$this->config['plugin_slug'] . '/v1',
 			'/properties',
 			array(
-				'methods'  => 'GET',
-				'callback' => array( $this, 'get_properties' ),
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_properties' ),
+				'permission_callback' => '__return_true',
 			)
 		);
 
@@ -64,8 +65,9 @@ class REST_API {
 			$this->config['plugin_slug'] . '/v1',
 			'/properties/(?P<id>\d+)',
 			array(
-				'methods'  => 'PUT',
-				'callback' => array( $this, 'update_property' ),
+				'methods'             => 'PUT',
+				'callback'            => array( $this, 'update_property' ),
+				'permission_callback' => array( $this, 'check_property_update_permission' ),
 			)
 		);
 	} // register_routes
@@ -102,8 +104,9 @@ class REST_API {
 		/**
 		 * Check for/include special query variables (e.g. reference flag).
 		 */
-		if ( count( $this->config['special_query_vars'] ) > 0 ) {
-			foreach ( $this->config['special_query_vars'] as $var_name ) {
+		$special_query_vars = $this->config['special_query_vars']();
+		if ( count( $special_query_vars ) > 0 ) {
+			foreach ( $special_query_vars as $var_name ) {
 				$value = $request->get_param( $var_name );
 
 				if ( $value ) {
@@ -112,20 +115,17 @@ class REST_API {
 			}
 		}
 
-		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
-			$author_query = $property_search->get_author_query( $search_query_vars[ $prefix . 'author' ] );
-		}
-
 		$tax_and_meta_queries = $property_search->get_tax_and_meta_queries( $search_query_vars );
 		$count_only           = $request->get_param( 'count' );
 
 		$property_list = new Property_List( $this->config, $this->utils );
 
 		$args = array(
-			'ids_only' => $count_only,
+			'fields' => $count_only ? 'ids' : 'all',
 		);
 
-		if ( $author_query ) {
+		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
+			$author_query                  = $property_search->get_author_query( $search_query_vars[ "{$prefix}author" ] );
 			$args[ $author_query['type'] ] = $author_query['user_ids'];
 		}
 
@@ -145,6 +145,25 @@ class REST_API {
 
 		return $count_only ? count( $properties ) : $properties;
 	} // get_properties
+
+	/**
+	 * Check if the authenticated user is allowed to update the property post
+	 * with the given ID via REST API (callback).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return bool Check result.
+	 */
+	public function check_property_update_permission( \WP_REST_Request $request ) {
+		$params = $request->get_params();
+		if ( empty( $params['id'] ) ) {
+			return false;
+		}
+
+		return current_user_can( 'edit_post', (int) $params['id'] );
+	} // check_property_update_permission
 
 	/**
 	 * Update a property.

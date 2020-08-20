@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.4
-Stable Tag: 1.0.3
+Tested up to: 5.5
+Stable Tag: 1.1.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -12,18 +12,21 @@ Essential components and framework for embedding and searching/filtering importe
 
 == Description ==
 
-immonex Kickstart provides customizable components for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
+immonex Kickstart provides customizable components for integrating imported **OpenImmo®-based property offers** in real estate websites built upon **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons, separate plugins that extend the functionality on the same foundation.
 
 tl;dr
 - See it in action at [base.immonex.one](https://base.immonex.one/)!
-- Download a compatible OpenImmo import plugin and example data at [immonex.dev](https://immonex.dev/) (free of charge for testing/development).
+- Install the free [Team add-on](https://wordpress.org/plugins/immonex-kickstart-team/) for extended real estate agency/agent data handling and property related contact forms.
+- Download a compatible OpenImmo import plugin [2] and example data at [immonex.dev](https://immonex.dev/) (free of charge for testing/development).
 - Read the [docs](https://docs.immonex.de/kickstart/) for detailed usage/customization instructions.
+
+= immonex® =
 
 **immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking markets/users.
 
 = OpenImmo® =
 
-[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for realtors (import/export interfaces).
+[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for real estate professionals (as import/export interfaces).
 
 Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into the specific WordPress/theme/plugin data structures of the destination site.
 
@@ -43,10 +46,11 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Simple but powerful templating system ("Skins")
 * Clean and responsive default skin
 * Property location maps (OpenStreetMaps and Google Maps)
-* Obtainment of user consent before loading external libraries (EU GDPR)
+* Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
-* Translation-ready (German translations included)
+* Translation via translate.wordpress.org (GlotPress)
+* Current POT file and German translations included as PO/MO files additionally
 * Support for multilingual websites (Polylang or WPML)
 * Compatible with immonex OpenImmo2WP (OpenImmo importer) [2]
 * Compatible with immonex Energy Scale Pro (energy class visualization) [2]
@@ -57,9 +61,10 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 2. Select the plugin ZIP file and click the install button.
 3. Activate the plugin after successful installation.
 4. Check/Modify the default plugin options under *immonex > Settings*.
-5. Install immonex OpenImmo2WP or another compatible OpenImmo import plugin and perform a first import. [2]
-6. OPTIONAL: Create pages as templates for property lists and/or detail views including the following shortcodes.
-7. OPTIONAL: Add Kickstart shortcodes to arbitrary pages or page builder elements as needed, e.g. for embedding property search forms or teaser lists.
+5. OPTIONAL: Install the [Team add-on](https://wordpress.org/plugins/immonex-kickstart-team/) for extended agency/agent data handling and contact forms.
+6. Install immonex OpenImmo2WP or another compatible OpenImmo import plugin and perform a first import. [2]
+7. OPTIONAL: Create pages as templates for property lists and/or detail views including the following shortcodes.
+8. OPTIONAL: Add Kickstart shortcodes to arbitrary pages or page builder elements as needed, e.g. for embedding property search forms or teaser lists.
 
 = Kickstart Shortcodes =
 
@@ -100,15 +105,18 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.1.0 =
+* Release date: 2020-08-20
+* Reworked the usage of regular pages as property detail templates.
+* Added author based property queries.
+* Added a special query variable for custom template reference IDs.
+* Extended the backend property edit form (images/attachments).
+* Extended the add-on API (filter hooks).
+* Slightly updated the default skin styles.
+* Various compatibility, security and performance optimizations.
+
 = 1.0.3 =
 * Release date: 2020-04-02
 * Fixed typos etc. in readme.txt.
 
-= 1.0.2 =
-* Release date: 2020-04-01
-* Changed text domain to formally match the plugin slug.
-* Fixed URL and slightly extended readme.txt.
-
-= 1.0.0 =
-* Release date: 2020-03-31
-* Initial release.
+See changelog.txt for complete version history.

@@ -65,7 +65,6 @@ class WP_Bootstrap {
 			array( $this, 'add_posts_custom_sortable_columns' )
 		);
 		add_filter( 'parent_file', array( $this, 'set_current_menu' ) );
-
 		add_filter( 'body_class', array( $this, 'check_body_classes' ), 90 );
 	} // __construct
 
@@ -381,6 +380,20 @@ class WP_Bootstrap {
 			)
 		);
 
+		if ( $this->plugin->property_list_page_id ) {
+			$archive_redirect_url  = get_permalink( $this->plugin->property_list_page_id );
+			$archive_redirect_slug = strtolower( untrailingslashit( substr( $archive_redirect_url, strlen( home_url() ) + 1 ) ) );
+
+			if (
+				! empty( $property_post_type_args['rewrite']['slug'] ) &&
+				strtolower( $property_post_type_args['rewrite']['slug'] ) === $archive_redirect_slug
+			) {
+				// Use the singular version of property if a page with the same
+				// slug is used as archive template.
+				$property_post_type_args['rewrite']['slug'] = _x( 'property', 'Fallback Custom Post Type Slug (singular only!)', 'immonex-kickstart' );
+			}
+		}
+
 		register_post_type(
 			$this->data['property_post_type_name'],
 			$property_post_type_args
@@ -441,7 +454,31 @@ class WP_Bootstrap {
 	 * @since 1.0.0
 	 */
 	public function register_image_sizes() {
-		add_image_size( 'inx-thumbnail', 120, 68, true );
+		$image_sizes = apply_filters(
+			'inx_image_sizes',
+			array(
+				'inx-thumbnail' => array(
+					'width'  => 120,
+					'height' => 68,
+					'crop'   => true,
+				),
+			)
+		);
+
+		if ( is_array( $image_sizes ) && count( $image_sizes ) > 0 ) {
+			foreach ( $image_sizes as $key => $params ) {
+				if (
+					empty( $params['width'] ) ||
+					empty( $params['height'] )
+				) {
+					continue;
+				}
+
+				$crop = isset( $params['crop'] ) ? $params['crop'] : true;
+
+				add_image_size( $key, (int) $params['width'], (int) $params['height'], $crop );
+			}
+		}
 	} // register_image_sizes
 
 	/**
@@ -456,8 +493,12 @@ class WP_Bootstrap {
 
 		switch ( $column ) {
 			case 'reference':
-				$is_reference = get_post_meta( $post->ID, '_immonex_is_reference', true ) ? 'true' : 'false';
-				echo '<inx-backend-reference-toggle property-id="' . esc_attr( $post->ID ) . '" :default-checked="' . esc_attr( $is_reference ) . '">';
+				$is_reference = get_post_meta( $post->ID, '_immonex_is_reference', true );
+				echo wp_sprintf(
+					'<input type="checkbox" data-property-id="%s" onchange="inx_state.beToggleReference(event)"%s>',
+					esc_attr( $post->ID ),
+					$is_reference ? ' checked' : ''
+				);
 				break;
 		}
 	} // add_posts_custom_columns

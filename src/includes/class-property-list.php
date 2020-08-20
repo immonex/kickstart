@@ -220,9 +220,9 @@ class Property_List {
 	private function restore_main_query( $org_query ) {
 		global $wp_query;
 
-		wp_reset_postdata();
 		$wp_query = null;
 		$wp_query = $org_query;
+		wp_reset_postdata();
 	} // restore_main_query
 
 } // Property_List

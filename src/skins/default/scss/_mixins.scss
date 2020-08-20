@@ -34,3 +34,21 @@
 	-ms-animation: none !important;
 	animation: none !important;
 }
+
+@mixin unified-active-link-states($color) {
+	@at-root a#{&}:visited {
+		color: $color;
+	}
+
+	@at-root a#{&}:hover {
+		color: $color;
+	}
+
+	@at-root a#{&}:focus {
+		color: $color;
+	}
+
+	@at-root a#{&}:active {
+		color: $color;
+	}
+}

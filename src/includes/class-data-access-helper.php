@@ -20,14 +20,23 @@ class Data_Access_Helper {
 	private $plugin_options;
 
 	/**
+	 * Basic "bootstrap" configuration data
+	 *
+	 * @var mixed[]
+	 */
+	private $bootstrap_data;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param mixed[] $plugin_options Plugin options.
+	 * @param mixed[] $bootstrap_data Bootstrap data.
 	 */
-	public function __construct( $plugin_options ) {
+	public function __construct( $plugin_options, $bootstrap_data ) {
 		$this->plugin_options = $plugin_options;
+		$this->bootstrap_data = $bootstrap_data;
 	} // __construct
 
 	/**
@@ -92,6 +101,34 @@ class Data_Access_Helper {
 
 		return array_map( 'trim', explode( ',', $group_string ) );
 	} // convert_to_group_array
+
+	/**
+	 * Retrieve and return "grouped" property details (serialized custom field data).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param int|string $post_id Property Post ID to fetch detail data for.
+	 *
+	 * @return mixed[] Grouped üroperty details.
+	 */
+	public function fetch_property_details( $post_id ) {
+		$details = get_post_meta( $post_id, '_' . $this->bootstrap_data['plugin_prefix'] . 'details', true );
+		if ( ! $details ) {
+			return array();
+		}
+
+		$grouped_details = array();
+		if ( count( $details ) > 0 ) {
+			foreach ( $details as $title => $detail ) {
+				$grouped_details[ $detail['group'] ? $detail['group'] : 'ungruppiert' ][] = array_merge(
+					array( 'title' => $title ),
+					$detail
+				);
+			}
+		}
+
+		return $grouped_details;
+	} // fetch_property_details
 
 	/**
 	 * Return a specific item out of a property details array.
@@ -164,8 +201,8 @@ class Data_Access_Helper {
 	 * @since 1.0.0
 	 *
 	 * @param string         $var_name Variable name.
-	 * @param \WP_Query|bool $query    WP query object (optional).
-	 * @param mixed          $default  Default value (optional).
+	 * @param \WP_Query|bool $query WP query object (optional).
+	 * @param mixed          $default Default value (optional).
 	 *
 	 * @return mixed[]|string Variable value, if existent.
 	 */
@@ -177,7 +214,7 @@ class Data_Access_Helper {
 			$value = $query->query_vars[ $var_name ];
 		}
 
-		// Get value from GET variables (possibly override query object values).
+		// Get value from GET query variables (possibly override query object values).
 		$temp_value = get_query_var( $var_name, false );
 
 		if ( false !== $temp_value ) {

@@ -4,7 +4,7 @@ $line-height-base: 1.6;
 // Skin colors
 
 $color-default-lightening-pct: 15%;
-$color-default-text-inverted: #fff;
+$color-default-text-inverted: #f8f8f8;
 $color-default-property-label: #d1ab78;
 
 $color-action-element: #0a65bc;
@@ -12,7 +12,9 @@ $color-action-element-highlighted: lighten($color-action-element, $color-default
 $color-link: $color-action-element;
 $color-link-highlighted: $color-action-element-highlighted;
 
-$bgcolor-subtle: rgba(220, 220, 220, .35);
+$bgcolor-quiet: rgba(220, 220, 220, .35);
+
+$color-demo: #6D115F;
 
 // OpenImmo related colors
 
@@ -20,8 +22,9 @@ $color-oi-vermarktungsart-kauf: #584990;
 $color-oi-vermarktungsart-miete: #ba5a3d;
 $color-oi-vermarktungsart-leasing: #e78b00;
 
-// Screen sizes (currently based on UIkit)
+// Screen sizes (currently based on UIkit, except XS)
 
+$screen-xs: 320px;
 $screen-s: 640px;
 $screen-m: 960px;
 $screen-l: 1200px;

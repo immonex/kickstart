@@ -1,7 +1,7 @@
 ---
 title: Einbindung
 category: schnellstart
-order: 50
+order: 40
 search: 1
 ---
 
@@ -24,7 +24,7 @@ Das Formular für die Suche nach Immobilien enthält in der Standardkonfiguratio
 nur Nutzungsart, Objektart und Absenden-Button einbinden:
 `[inx-search-form elements="type-of-use, property-type, submit"]`
 
-Details und vollständige Elementliste: [Komponenten > Suchformular](../komponenten/index.html)
+Details und vollständige Elementliste: [Komponenten → Suchformular](../komponenten/index.html)
 
 ## Sortierung
 
@@ -32,7 +32,7 @@ Details und vollständige Elementliste: [Komponenten > Suchformular](../komponen
 
 Mit diesem Shortcode wird aktuell bei Verwendung des Standard-Skins ein Balken mit einer einzelnen Dropdown-Auswahlliste gängiger Sortiermöglichkeiten eingebunden. Hier könnten zukünftig weitere Optionen in Sachen Filterung ergänzt werden.
 
-Details: [Komponenten > Sortierung](../komponenten/sortierung.html)
+Details: [Komponenten → Sortierung](../komponenten/sortierung.html)
 
 ## Listenansicht
 
@@ -66,7 +66,7 @@ Umfang, Art und Sortierung der angezeigten Immobilien können mit **Shortcode-At
   Beispiel: Kaufobjekte zuerst, anschließend nach Preis absteigend sortieren
   `[inx-property-list sort="marketing_type_desc, price_desc"]`
 
-Details und weitere Attribute: [Komponenten > Listenansicht](../komponenten/liste.html)
+Details und weitere Attribute: [Komponenten → Listenansicht](../komponenten/liste.html)
 
 ## Seitennavigation
 
@@ -74,7 +74,7 @@ Details und weitere Attribute: [Komponenten > Listenansicht](../komponenten/list
 
 Hiermit wird die Standard-Seitennavigation in der vom Theme vorgegebenen Optik eingebunden.
 
-Details: [Komponenten > Seitennavigation](../komponenten/seitennavigation.html)
+Details: [Komponenten → Seitennavigation](../komponenten/seitennavigation.html)
 
 ## Immobilien-Details
 
@@ -100,7 +100,7 @@ Alternativ können mit dem Attribut `exclude` auch Abschnitte explizit ausgeschl
 Alle Abschnitte außer dem Header anzeigen:
 `[inx-property-details exclude="head"]`
 
-Details und vollständige Elementliste: [Komponenten > Detailansicht](../komponenten/detailansicht.html)
+Details und vollständige Elementliste: [Komponenten → Detailansicht](../komponenten/detailansicht.html)
 
 ## GET-Parameter
 
@@ -108,7 +108,7 @@ Kickstart-spezifische **GET-Parameter** werden an die URL der jeweiligen Seite a
 
 Die möglichen Angaben entsprechen weitgehend denen, die nach dem Absenden des [Standard-Suchformulars](../komponenten/index.html) in der URL der Ergebnisseite enthalten sind. Hinzu kommen die [Status-Flags](../referenzen-status-flags.html) für die Selektion von Referenzobjekten & Co. sowie weitere allgemeine Parameter (Ländercode, Objektanzahl, Sortierung etc.).
 
-Die Namen der Parameter beginnen immer mit dem Präfix *inx-* oder *inx-search-*. Bei **taxonomiebasierten** Parametern werden die zugehörigen **Term-Slugs** als Werte übergeben (einzeln oder als kommagetrennte Liste).
+Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`. Bei **taxonomiebasierten** Parametern werden die zugehörigen **Term-Slugs** als Werte übergeben (einzeln oder als kommagetrennte Liste).
 
 | Parameter | Beschreibung / Werte |
 | --------- | -------------------- |
@@ -128,9 +128,11 @@ Die Namen der Parameter beginnen immer mit dem Präfix *inx-* oder *inx-search-*
 | `inx-available` | nur explizit verfügbare Objekte anzeigen? (*yes* = ja, *no* = nein) |
 | `inx-reserved` | nur explizit reservierte Objekte anzeigen? (*yes* = ja, *no* = nein) |
 | `inx-sold` | nur explizit verkaufte/vermietete Objekte anzeigen? (*yes* = ja, *no* = nein) |
+| `inx-demo` | Beispiel-/Demo-Objekte bei der Ausgabe berücksichtigen? (*yes* = ja (Standard), *no* = nein, *only* = ausschließlich) |
 | `inx-limit` | **Gesamtanzahl** der anzuzeigenden Immobilien begrenzen (Ganzzahl) |
 | `inx-limit-page` | Anzahl der anzuzeigenden Immobilien **pro Seite** begrenzen (Ganzzahl) |
 | `inx-sort` | [Sortierschlüssel (Key)](../komponenten/sortierung.html#Standard-Optionen) |
+| `inx-ref` | beliebiger, **benutzerdefinierter** Wert |
 
 ### Beispiel-URLs
 

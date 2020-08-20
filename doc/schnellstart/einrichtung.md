@@ -1,7 +1,7 @@
 ---
 title: Einrichtung
 category: schnellstart
-order: 30
+order: 20
 search: 1
 ---
 
@@ -80,5 +80,3 @@ Wurde die Zustimmung erteilt, gilt diese immer sowohl für die Autovervollständ
 #### Google Maps
 
 Für die Nutzung der Google-Maps-Dienste ist ein passender API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
-
-

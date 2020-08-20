@@ -72,10 +72,15 @@ class Property {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render( $template = 'property', $atts = array() ) {
+	public function render( $template = 'single-property/element-hub', $atts = array() ) {
 		global $wp;
 		global $wp_query;
 
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return '';
+		}
+
+		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 		$post          = $this->post;
 		$prefix        = $this->config['plugin_prefix'];
 		$public_prefix = $this->config['public_prefix'];
@@ -262,55 +267,18 @@ class Property {
 		// Fetch links.
 		$links = get_post_meta( $this->post->ID, "_{$prefix}links", true );
 
-		/**
-		 * Overview/Backlink-URL
-		 */
-
-		// TODO: separate method.
-		// URL including backlink URL.
 		$permalink_url = get_permalink( $post->ID );
 
-		$backlink_url = trailingslashit( home_url( add_query_arg( array(), $wp->request ) ) );
-		if (
-			strtolower( $backlink_url ) === trailingslashit( strtolower( get_home_url() ) ) ||
-			strtolower( $backlink_url ) === strtolower( $permalink_url )
-		) {
-			// Link to property post type archive page if default URL belongs to
-			// the front page or equals the current permalink URL.
-			$backlink_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
+		// Generate overview/backlink URL.
+		$backlink_url = $this->get_backlink_url( $permalink_url );
 
-			if ( $this->config['property_list_page_id'] ) {
-				// Specific page stated as overview page: overwrite archive URL.
-				$page_url = get_permalink( $this->config['property_list_page_id'] );
-				if ( $page_url ) {
-					$backlink_url = $page_url;
-				}
-			}
-
-			// Exclude limit query variables from backlink in this case.
-			$exclude_backlink_vars = array( "{$public_prefix}limit", "{$public_prefix}limit-page" );
-		} else {
-			$exclude_backlink_vars = array();
+		$url = $permalink_url;
+		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . urlencode( $atts[ "{$public_prefix}ref" ] );
 		}
-
-		$inx_query_vars = array();
-		foreach ( $wp_query->query_vars as $name => $value ) {
-			if (
-				substr( $name, 0, strlen( $public_prefix ) ) === $public_prefix &&
-				"{$public_prefix}backlink-url" !== $name &&
-				! in_array( $name, $exclude_backlink_vars )
-			) {
-				// Add query variable to backlink even if it's empty to preserve
-				// consistent search results on return.
-				$inx_query_vars[ $name ] = $value;
-			}
+		if ( ! empty( $backlink_url ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . urlencode( $backlink_url );
 		}
-
-		if ( count( $inx_query_vars ) > 0 ) {
-			$inx_query_params = http_build_query( $inx_query_vars );
-			$backlink_url     = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $inx_query_params;
-		}
-		$url = $permalink_url . ( false === strpos( $permalink_url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . urlencode( $backlink_url );
 
 		$get_query_backlink_url = get_query_var( "{$public_prefix}backlink-url" );
 		if ( $get_query_backlink_url ) {
@@ -321,6 +289,7 @@ class Property {
 
 		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 300px' ) );
 
+		// TODO: Cache.
 		$template_data = array_merge(
 			$this->config,
 			$core_data,
@@ -376,7 +345,25 @@ class Property {
 		$field_prefix      = '_' . $this->config['plugin_prefix'];
 		$custom_field_name = 'floor_plans' === $type ? "{$field_prefix}floor_plans" : "{$field_prefix}gallery_images";
 
-		$ids = get_post_meta( $this->post->ID, $custom_field_name, true );
+		$image_list = get_post_meta( $this->post->ID, $custom_field_name, true );
+
+		if (
+			is_array( $image_list ) &&
+			count( $image_list ) > 0 &&
+			! is_numeric( $image_list[ key( $ids ) ] )
+		) {
+			/**
+			 * Image list array consists of attachment IDs an related URLs.
+			 */
+			if ( 'ids' === $return ) {
+				return array_keys( $image_list );
+			} elseif ( 'urls' === $return ) {
+				return array_values( $image_list );
+			} else {
+				$ids = array_keys( $image_list );
+			}
+		}
+
 		if ( 'ids' === $return ) {
 			return $ids;
 		}
@@ -600,7 +587,7 @@ class Property {
 	} // get_openimmo_data
 
 	/**
-	 * Retrieve and return "grouped" property details (custom field).
+	 * Retrieve and return "grouped" property details (serialized custom field data).
 	 *
 	 * @since 1.0.0
 	 *
@@ -611,22 +598,8 @@ class Property {
 			return $this->details;
 		}
 
-		$details = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'details', true );
-		if ( ! $details ) {
-			return array();
-		}
-
-		$grouped_details = array();
-		if ( count( $details ) > 0 ) {
-			foreach ( $details as $title => $detail ) {
-				$grouped_details[ $detail['group'] ? $detail['group'] : 'ungruppiert' ][] = array_merge(
-					array( 'title' => $title ),
-					$detail
-				);
-			}
-		}
-
-		$this->details = $grouped_details;
+		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID );
+		$this->details   = $grouped_details;
 
 		return $grouped_details;
 	} // get_details
@@ -718,7 +691,7 @@ class Property {
 			'contact_person'     => array(
 				'template' => 'contact-person',
 				'groups'   => 'kontakt',
-				'headline' => __( 'Your Agent', 'immonex-kickstart' ),
+				'headline' => __( 'Your contact person with us', 'immonex-kickstart' ),
 			),
 			'footer'             => array(
 				'template' => 'footer',
@@ -778,6 +751,11 @@ class Property {
 			return array();
 		}
 
+		if ( ! is_numeric( $attachment_ids[ key( $attachment_ids ) ] ) ) {
+			// Convert an extended attachment ID list including URLs to a simple ID array.
+			$attachment_ids = array_keys( $attachment_ids );
+		}
+
 		$attachments = array();
 
 		foreach ( $attachment_ids as $id ) {
@@ -816,5 +794,78 @@ class Property {
 
 		return $flags;
 	} // get_flags
+
+	/**
+	 * Retrieve and return special property flags (custom fields).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $permalink_url The current permalink URL.
+	 *
+	 * @return string Backlink URL.
+	 */
+	private function get_backlink_url( $permalink_url ) {
+		global $wp;
+		global $wp_query;
+
+		$public_prefix = $this->config['public_prefix'];
+		$backlink_url  = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
+		if ( $backlink_url ) {
+			return $backlink_url;
+		}
+
+		$backlink_url = trailingslashit( home_url( add_query_arg( array(), $wp->request ) ) );
+
+		if (
+			strtolower( $backlink_url ) === trailingslashit( strtolower( get_home_url() ) ) ||
+			strtolower( $backlink_url ) === strtolower( $permalink_url )
+		) {
+			// Link to property post type archive page if default URL belongs to
+			// the front page or equals the current permalink URL.
+			$backlink_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
+
+			if ( $this->config['property_list_page_id'] ) {
+				// Specific page stated as overview page: overwrite archive URL.
+				$page_url = get_permalink( $this->config['property_list_page_id'] );
+				if ( $page_url ) {
+					$backlink_url = $page_url;
+				}
+			}
+
+			// Exclude limit query variables from backlink in this case.
+			$exclude_backlink_vars = array( "{$public_prefix}limit", "{$public_prefix}limit-page" );
+		} else {
+			$exclude_backlink_vars = array();
+		}
+
+		$auto_applied_rendering_atts = apply_filters( 'inx_auto_applied_rendering_atts', array(), $public_prefix );
+		$exclude_backlink_vars       = apply_filters(
+			'inx_exclude_backlink_vars',
+			array_merge(
+				$auto_applied_rendering_atts,
+				$exclude_backlink_vars
+			)
+		);
+
+		$inx_query_vars = array();
+		foreach ( $wp_query->query_vars as $name => $value ) {
+			if (
+				substr( $name, 0, strlen( $public_prefix ) ) === $public_prefix &&
+				"{$public_prefix}backlink-url" !== $name &&
+				! in_array( $name, $exclude_backlink_vars )
+			) {
+				// Add query variable to backlink even if it's empty to preserve
+				// consistent search results on return.
+				$inx_query_vars[ $name ] = $value;
+			}
+		}
+
+		if ( count( $inx_query_vars ) > 0 ) {
+			$inx_query_params = http_build_query( $inx_query_vars );
+			$backlink_url     = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $inx_query_params;
+		}
+
+		return $backlink_url;
+	} // get_backlink_url
 
 } // Property

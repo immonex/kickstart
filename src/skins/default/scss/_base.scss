@@ -7,10 +7,6 @@
 	font-size: $size-font-base !important;
 	line-height: $line-height-base;
 
-	.inx-print-only {
-		display: none;
-	}
-
 	// UIkit Bugfix
 
 	.uk-icon {
@@ -22,11 +18,23 @@
 	}
 }
 
+// Colored areas
+
+.inx-quiet-bg {
+	background-color: $bgcolor-quiet;
+}
+
 // Flaticons
 
 [class^="flaticon-"]:before,
 [class*=" flaticon-"]:before {
 	margin-left: 0;
+}
+
+// Print
+
+.inx-print-only {
+	display: none;
 }
 
 @media print {

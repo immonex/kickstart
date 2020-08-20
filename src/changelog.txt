@@ -1,0 +1,24 @@
+== Changelog ==
+
+= 1.1.0 =
+* Release date: 2020-08-20
+* Reworked the usage of regular pages as property detail templates.
+* Added author based property queries.
+* Added a special query variable for custom template reference IDs.
+* Extended the backend property edit form (images/attachments).
+* Extended the add-on API (filter hooks).
+* Slightly updated the default skin styles.
+* Various compatibility, security and performance optimizations.
+
+= 1.0.3 =
+* Release date: 2020-04-02
+* Fixed typos etc. in readme.txt.
+
+= 1.0.2 =
+* Release date: 2020-04-01
+* Changed text domain to formally match the plugin slug.
+* Fixed URL and slightly extended readme.txt.
+
+= 1.0.0 =
+* Release date: 2020-03-31
+* Initial release.

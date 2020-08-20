@@ -34,6 +34,11 @@ class Property_Backend_Form {
 
 		// Setup CMB2 meta boxes.
 		add_action( 'cmb2_admin_init', array( $this, 'setup_meta_boxes' ) );
+
+		// Extend attachment lists if required.
+		add_filter( 'cmb2_override__inx_gallery_images_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
+		add_filter( 'cmb2_override__inx_floor_plans_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
+		add_filter( 'cmb2_override__inx_file_attachments_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 	} // __construct
 
 	/**
@@ -166,11 +171,13 @@ class Property_Backend_Form {
 				'value' => 1,
 			),
 			array(
-				'name'        => __( 'Build Year', 'immonex-kickstart' ),
-				'desc'        => '',
-				'id'          => $prefix . 'build_year',
-				'type'        => 'text_date',
-				'date_format' => 'Y',
+				'name'       => __( 'Build Year', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'build_year',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
 			),
 			array(
 				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),
@@ -218,6 +225,44 @@ class Property_Backend_Form {
 
 		foreach ( $core_data_fields as $field ) {
 			$core_data->add_field( $field );
+		}
+
+		$attachments = new_cmb2_box(
+			array(
+				'id'           => 'attachments',
+				'title'        => __( 'Images & Attachments', 'immonex-kickstart' ),
+				'object_types' => array( $this->data['property_post_type_name'] ),
+				'context'      => 'normal',
+				'priority'     => 'core',
+				'show_names'   => true,
+			)
+		);
+
+		$attachment_fields = array(
+			array(
+				'name'       => __( 'Gallery Images', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'gallery_images',
+				'type'       => 'file_list',
+				'query_args' => array( 'type' => 'image' ),
+			),
+			array(
+				'name'       => __( 'Floor Plans', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'floor_plans',
+				'type'       => 'file_list',
+				'query_args' => array( 'type' => 'image' ),
+			),
+			array(
+				'name' => __( 'Document Attachments (PDF)', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => $prefix . 'file_attachments',
+				'type' => 'file_list',
+			),
+		);
+
+		foreach ( $attachment_fields as $field ) {
+			$attachments->add_field( $field );
 		}
 
 		$detail_repeater = new_cmb2_box(
@@ -278,5 +323,42 @@ class Property_Backend_Form {
 			$detail_repeater->add_group_field( $detail_group_id, $field );
 		}
 	} // setup_meta_boxes
+
+	/**
+	 * Convert image/attachment arrays consisting of IDs only to the extended
+	 * format including URLs (ID => URL).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed      $org_data The original data or "cmb2_field_no_override_val"
+	 *                             for retrieving the data normally.
+	 * @param int        $object_id The current object ID.
+	 * @param mixed[]    $args An array of arguments for retrieving the data.
+	 * @param CMB2_Field $field The related field object.
+	 *
+	 * @return mixed Array with attachment IDs as key and URLs as value.
+	 */
+	public function maybe_extend_attachment_array( $org_data, $object_id, $args, $field ) {
+		$prefix = '_' . $this->data['plugin_prefix'];
+
+		$data = get_post_meta( $args['id'], $args['field_id'], true );
+
+		if ( ! is_array( $data ) || 0 === count( $data ) ) {
+			return $org_data;
+		}
+
+		if ( ! is_numeric( $data[ key( $data ) ] ) ) {
+			// Attachment list already contains URLs, no changes required.
+			return $data;
+		}
+
+		$new_data = array();
+
+		foreach ( $data as $att_id ) {
+			$new_data[ $att_id ] = wp_get_attachment_url( $att_id );
+		}
+
+		return $new_data;
+	} // maybe_extend_attachment_array
 
 } // Property_Backend_Form

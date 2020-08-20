@@ -3,6 +3,10 @@ button.inx-button {
 	background-color: $color-link;
 }
 
+button.inx-button:hover {
+	cursor: pointer;
+}
+
 .inx-button--action {
 	background-color: $color-action-element;
 	color: #fff;
@@ -10,4 +14,11 @@ button.inx-button {
 
 .inx-button--action:hover {
 	background-color: $color-action-element-highlighted;
+}
+
+button.inx-button.uk-button,
+button.inx-button.uk-button:hover {
+	padding: 0 30px;
+	line-height: 38px;
+	font-family: inherit;
 }

@@ -19,6 +19,9 @@ UIkit.use(Icons)
 import inxState from './state'
 Vue.mixin(inxState)
 
+// Shared Comoponents
+import './shared_components'
+
 // Property Search
 import './property_search'
 

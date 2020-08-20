@@ -143,6 +143,8 @@ angepasstes Array verfügbarer Detailabschnitt-Elemente
 
 ## Rahmenfunktion
 
+Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+
 ```php
 add_filter( 'inx_detail_page_elements', 'mysite_modify_available_detail_elements' );
 

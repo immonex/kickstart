@@ -52,7 +52,7 @@ if ( $inx_skin_description_text || count( $inx_skin_details ) > 0 ) :
 	<div class="inx-description-text uk-margin-bottom">
 		<?php
 			echo $utils['string']->convert_urls(
-				$utils['format']->prepare_continuous_text( $inx_skin_description_text )
+				$utils['format']->prepare_continuous_text( $inx_skin_description_text, 'noautop' )
 			);
 		?>
 	</div>

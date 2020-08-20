@@ -14,6 +14,7 @@ global $immonex_kickstart;
 
 if ( $immonex_kickstart->property_list_page_id ) {
 	$inx_skin_redirect_url = get_permalink( $immonex_kickstart->property_list_page_id );
+
 	if ( $inx_skin_redirect_url ) {
 		wp_safe_redirect( $inx_skin_redirect_url );
 		exit;

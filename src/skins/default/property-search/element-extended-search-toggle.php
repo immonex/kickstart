@@ -20,13 +20,13 @@ $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.
 	<inx-toggle :state="0">
 		<template slot="active">
 			<a href="javascript:void(0)" class="inx-link inx-extended-search-toggle" uk-toggle="target: .inx-property-search__extended; animation: uk-animation-slide-top-small uk-animation-fade">
-				<span class="inx-icon--top" uk-icon="chevron-up"></span>
+				<span uk-icon="chevron-up"></span>
 				<?php echo $template_data['element']['label'] ? esc_html( $template_data['element']['label'] ) : __( 'Extended Search', 'immonex-kickstart' ); ?>
 			</a>
 		</template>
 		<template slot="inactive">
 			<a href="javascript:void(0)" class="inx-link inx-extended-search-toggle" uk-toggle="target: .inx-property-search__extended; animation: uk-animation-slide-top-small uk-animation-fade">
-				<span class="inx-icon--top" uk-icon="chevron-down"></span>
+				<span uk-icon="chevron-down"></span>
 				<?php echo $template_data['element']['label'] ? esc_html( $template_data['element']['label'] ) : __( 'Extended Search', 'immonex-kickstart' ); ?>
 			</a>
 		</template>

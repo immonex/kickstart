@@ -67,10 +67,11 @@ class Property_Filters_Sort {
 			/**
 			 * Check for/include special query variables (e.g. reference flag).
 			 */
-			$special_vars = array();
+			$special_query_vars = $this->config['special_query_vars']();
+			$special_vars       = array();
 
-			if ( count( $this->config['special_query_vars'] ) > 0 ) {
-				foreach ( $this->config['special_query_vars'] as $var_name ) {
+			if ( count( $special_query_vars ) > 0 ) {
+				foreach ( $special_query_vars as $var_name ) {
 					if ( '{prefix}sort' !== $var_name ) {
 						$special_vars[] = $var_name;
 					}

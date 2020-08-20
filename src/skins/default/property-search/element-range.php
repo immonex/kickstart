@@ -9,7 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
 ?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
@@ -21,6 +20,7 @@ $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.
 		unit="<?php echo isset( $template_data['element']['unit'] ) ? esc_attr( $template_data['element']['unit'] ) : ''; ?>"
 		currency="<?php echo isset( $template_data['element']['currency'] ) ? esc_attr( $template_data['element']['currency'] ) : ''; ?>"
 		replace-null="<?php echo isset( $template_data['element']['replace_null'] ) ? esc_attr( $template_data['element']['replace_null'] ) : ''; ?>"
+		range-unlimited-term="<?php echo ! empty( $template_data['element']['unlimited_term'] ) ? esc_attr( $template_data['element']['unlimited_term'] ) : ''; ?>"
 		wrap-classes="inx-range-slider">
 	</inx-range-slider>
 </div>

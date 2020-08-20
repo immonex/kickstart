@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div id="inx-property-search" class="inx-property-search inx-container">
-		<form id="inx-property-search-main-form" action="<?php echo $template_data['form_action']; ?>">
+	<form id="inx-property-search-main-form" action="<?php echo $template_data['form_action']; ?>">
 		<?php
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :

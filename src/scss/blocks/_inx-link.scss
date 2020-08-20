@@ -1,0 +1,24 @@
+.inx-link {
+	display: flex;
+	align-items: center;
+	color: $color-action-element;
+	transition: filter .35s linear;
+
+	@at-root a#{&} {
+		text-decoration: none;
+		box-shadow: none;
+	}
+}
+
+.inx-link:visited,
+.inx-link:hover,
+.inx-link:focus,
+.inx-link:active {
+	color: $color-action-element;
+	filter: brightness(130%);
+}
+
+.inx-inverse .inx-link,
+.inx-link.inx-inverse {
+	color: $color-action-element-inverse;
+}

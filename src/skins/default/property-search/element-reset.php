@@ -14,7 +14,7 @@ $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.
 ?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?> uk-text-right@m">
 	<a id="inx-search-form-reset" href="javascript:void(0)" class="inx-link inx-form-reset">
-		<span class="inx-icon--top" uk-icon="refresh"></span>
+		<span uk-icon="refresh"></span>
 		<?php echo $template_data['element']['label'] ? esc_html( $template_data['element']['label'] ) : __( 'Reset Form', 'immonex-kickstart' ); ?>
 	</a>
 </div>

@@ -1,11 +1,13 @@
 .inx-property-list-item {
 	height: 100%;
+	border-bottom-right-radius: $size-font-base;
 	font-size: .9em;
 }
 
 .inx-property-list-item__body {
 	margin-top: 0;
 	padding: $size-font-base;
+	overflow: hidden;
 }
 
 .inx-property-list-item__core-details {
@@ -19,6 +21,8 @@
 
 .inx-property-list-item__footer {
 	padding: $size-font-base 0 0 0;
+	border-bottom-right-radius: $size-font-base;
+	overflow: hidden;
 }
 
 .inx-property-list-item__footer > a,
@@ -48,7 +52,7 @@
 
 .inx-property-list-item__property-price {
 	padding: .5em;
-	text-align: center;
+	justify-content: center;
 }
 
 .inx-property-list-item__title {

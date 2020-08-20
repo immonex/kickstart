@@ -51,6 +51,9 @@ class Property_Hooks {
 
 		add_filter( 'single_template', array( $this, 'register_single_property_template' ) );
 		add_filter( 'archive_template', array( $this, 'register_property_archive_template' ) );
+		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
+		add_filter( 'the_title', array( $this, 'update_template_page_title' ), 10, 2 );
+		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -60,6 +63,7 @@ class Property_Hooks {
 
 		add_filter( 'inx_get_property_images', array( $this, 'get_property_images' ), 10, 3 );
 		add_filter( 'inx_get_property_detail_item', array( $this, 'get_property_detail_item' ), 10, 3 );
+		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
 
 		/**
 		 * Shortcodes
@@ -117,6 +121,104 @@ class Property_Hooks {
 	} // register_property_archive_template
 
 	/**
+	 * Set the property title as DOCUMENT title if a custom page ist used as
+	 * layout template.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string[] $title_parts Original page/post title parts.
+	 *
+	 * @return string[] Possibly updated title parts.
+	 */
+	public function update_template_document_title( $title_parts ) {
+		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+
+		if (
+			is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| false === $property_post_id
+		) {
+			return $title_parts;
+		}
+
+		$property_post_title = get_post_field( 'post_title', $property_post_id, 'raw' );
+		if ( $property_post_title ) {
+			$title_parts['title'] = $property_post_title;
+		}
+
+		return $title_parts;
+	} // update_template_document_title
+
+	/**
+	 * Set the property title as PAGE title if a custom page ist used as
+	 * layout template.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $title Original page/post title.
+	 * @param int    $post_id ID of the related post/page.
+	 *
+	 * @return string Possibly updated title.
+	 */
+	public function update_template_page_title( $title, $post_id ) {
+		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+
+		if (
+			is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| $post_id != $this->config['property_details_page_id']
+			|| false === $property_post_id
+		) {
+			return $title;
+		}
+
+		$property_post_title = get_post_field( 'post_title', $property_post_id, 'raw' );
+		if ( $property_post_title ) {
+			return $property_post_title;
+		}
+
+		return $title;
+	} // update_template_page_title
+
+	/**
+	 * Dynamically replace the featured image of a template page for property
+	 * detail views with the related real property image.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param null|array|string $null The value get_metadata() should return as
+	 *                                single metadata value, or an array of values.
+	 * @param int               $object_id Post ID.
+	 * @param string            $meta_key Meta key.
+	 * @param string|string[]   $single Single meta value or an array of values.
+	 *
+	 * @return int|string Alternative featured image ID if required.
+	 */
+	public function update_template_page_featured_image( $null, $object_id, $meta_key, $single ) {
+		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+
+		if (
+			'_thumbnail_id' !== $meta_key
+			|| is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| $object_id != $this->config['property_details_page_id']
+			|| false === $property_post_id
+		) {
+			return $null;
+		}
+
+		remove_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
+		$property_featured_image_id = get_post_thumbnail_id( $property_post_id );
+		add_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
+
+		if ( $property_featured_image_id ) {
+			return $property_featured_image_id;
+		}
+
+		return $null;
+	} // update_template_page_featured_image
+
+	/**
 	 * Render and return or output the contents of a property related template
 	 * (action based).
 	 *
@@ -130,9 +232,8 @@ class Property_Hooks {
 	 * @return string Rendered template contents.
 	 */
 	public function render_property_contents( $post_id = false, $template = 'single-property/element-hub', $atts = array(), $output = true ) {
-		if ( ! $post_id ) {
-			$post_id = get_the_ID();
-		}
+		$post_id = apply_filters( 'inx_current_property_post_id', $post_id );
+
 		$property = $this->get_property_instance( $post_id );
 		if ( ! $property ) {
 			return '';
@@ -197,7 +298,7 @@ class Property_Hooks {
 	 */
 	public function get_property_images( $images = array(), $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
-			$post_id = get_the_ID();
+			$post_id = $this->utils['general']->get_the_ID();
 		}
 
 		$valid_image_types  = array( 'gallery', 'floor_plans' );
@@ -256,6 +357,43 @@ class Property_Hooks {
 	} // get_property_detail_item
 
 	/**
+	 * Check and/or update the current property post ID (filter callback).
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param int|string|bool $post_id Current Property post ID or false if unknown.
+	 *
+	 * @return int|string|bool Possibly updated current post ID.
+	 */
+	public function get_current_property_post_id( $post_id = false ) {
+		if ( ! empty( $_GET['inx-property-id'] ) ) {
+			$post_id = (int) $_GET['inx-property-id'];
+		}
+
+		if (
+			$post_id
+			&& get_post_type( $post_id ) === $this->config['property_post_type_name']
+		) {
+			return $post_id;
+		} else {
+			$post_id = false;
+		}
+
+		if ( ! $post_id ) {
+			$post_id = $this->utils['general']->get_the_ID();
+		}
+
+		if (
+			$post_id
+			&& get_post_type( $post_id ) === $this->config['property_post_type_name']
+		) {
+			return $post_id;
+		}
+
+		return false;
+	} // get_current_property_post_id
+
+	/**
 	 * Return the rendered property details (based on the shortcode
 	 * [inx-property-details]).
 	 *
@@ -266,7 +404,8 @@ class Property_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_property_details( $atts ) {
-		if ( get_post_type() !== $this->config['property_post_type_name'] ) {
+		$post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		if ( ! $post_id ) {
 			return '';
 		}
 
@@ -277,7 +416,7 @@ class Property_Hooks {
 		// Permit arbritrary attributes for passing template parameters (special case!).
 		$shortcode_atts = shortcode_atts( $atts, $atts, $this->config['public_prefix'] . 'property-details' );
 
-		return $this->render_property_contents( get_the_ID(), 'single-property/element-hub', $shortcode_atts, false );
+		return $this->render_property_contents( $post_id, 'single-property/element-hub', $shortcode_atts, false );
 	} // shortcode_property_details
 
 	/**

@@ -26,7 +26,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'compare' => 'LIKE',
 		'numeric' => false,
 		'label' => '',
-		'placeholder' => __( 'Keyword or Property ID', 'inx' ),
+		'placeholder' => __( 'Keyword or Property ID', 'immonex-kickstart' ),
 		'class' => '',
 		'order' => 10
 	],
@@ -38,10 +38,10 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'key' => 'inx_property_type',
 		'compare' => '=',
 		'numeric' => false,
-		'label' => __( 'Property Type', 'inx' ),
+		'label' => __( 'Property Type', 'immonex-kickstart' ),
 		'options' => [],
 		'multiple' => false,
-		'empty_option' => __( 'All Property Types', 'inx' ),
+		'empty_option' => __( 'All Property Types', 'immonex-kickstart' ),
 		'default' => '',
 		'class' => '',
 		'order' => 20
@@ -55,11 +55,11 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'compare' => '>=',
 		'range' => '0,10',
 		'default' => 0,
-		'replace_null' => __( 'not specified', 'inx' ),
+		'replace_null' => __( 'not specified', 'immonex-kickstart' ),
 		'unit' => false,
 		'currency' => false,
 		'numeric' => true,
-		'label' => __( 'Min. Rooms', 'inx' ),
+		'label' => __( 'Min. Rooms', 'immonex-kickstart' ),
 		'class' => '',
 		'order' => 50
 	],
@@ -72,9 +72,10 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'compare' => 'BETWEEN',
 		'range' => 'primary_price_min_max',
 		'default' => 'primary_price_min_max',
+		'unlimited_term' => __( 'unlimited', 'immonex-kickstart' ),
 		'currency' => 'EUR',
 		'numeric' => true,
-		'label' => __( 'Price Range', 'inx' ),
+		'label' => __( 'Price Range', 'immonex-kickstart' ),
 		'class' => '',
 		'order' => 70
 	],
@@ -86,7 +87,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'key' => '',
 		'compare' => '',
 		'numeric' => false,
-		'label' => __( 'Show', 'inx' ),
+		'label' => __( 'Show', 'immonex-kickstart' ),
 		'class' => 'inx-property-search__element--is-last-grid-col',
 		'order' => 80
 	],
@@ -133,6 +134,8 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 angepasstes Array aller Suchformular-Elemente (siehe oben)
 
 ## Rahmenfunktion
+
+Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
 
 ```php
 add_filter( 'inx_search_form_elements', 'mysite_modify_search_form_elements' );

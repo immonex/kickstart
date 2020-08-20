@@ -13,8 +13,12 @@ Kickstart ist darüber hinaus aber auch ein **Framework**, das eine einheitliche
 
 Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber nahtlos in das Kickstart-Rahmensystem "einklinken" und auf dessen Fuktionen zurückgreifen.
 
-## Typische Add-ons (in Vorbereitung)
+## Gängige Add-ons
 
-- Ansprechpartner-Profile & Team-Übersicht
+- [Team](https://de.wordpress.org/plugins/immonex-kickstart-team/) ([Dokumentation](https://docs.immonex.de/kickstart-team/))
+  Agentur/Kontaktpersonen-Listen, -Profile und objektbezogene Kontaktformulare
+
+### aktuell in Vorbereitung
+
 - Kartenbasierte Immobiliendarstellung/-auswahl
 - Schaufenster-Slideshows

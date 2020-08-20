@@ -21,20 +21,20 @@ global $immonex_kickstart;
 			?>
 
 	<div class="inx-property-list__item-wrap">
-			<?php do_action( 'inx_render_property_contents', get_the_ID(), 'property-list/list-item' ); ?>
+			<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item' ); ?>
 	</div>
 
 			<?php
-			endwhile;
-		else :
-			?>
+		endwhile;
+	else :
+		?>
 
 	<div class="inx-property-list__no-properties">
 		<p><?php echo __( 'Currently there are no properties that match the search criteria.', 'immonex-kickstart' ); ?></p>
 	</div>
 
-			<?php
-		endif;
-		?>
+		<?php
+	endif;
+	?>
 
 </div>
