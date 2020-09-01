@@ -150,8 +150,18 @@ export default {
 			if (this.unit && !this.currency) suffix = suffix.concat(this.unit)
 
 			let args = { style: this.currency ? 'currency' : 'decimal', minimumFractionDigits: digits, maximumFractionDigits: digits }
+			let formatted = value
+
 			if (this.currency) args.currency = this.currency;
-			const formatted = value.toLocaleString(this.locale, args)
+			try {
+				formatted = value.toLocaleString(this.locale, args)
+			} catch (e) {
+				// Fallback (invalid currency code).
+				formatted = value.toString()
+				if (this.currency) {
+					formatted += ' ' + this.currency
+				}
+			}
 
 			return this.currency ? formatted.replace(/\s/, ' ' + suffix) : formatted + ' ' + suffix
 		},

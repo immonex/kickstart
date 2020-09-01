@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.1.2 =
+* Release date: 2020-09-01
+* Fixed an issue regarding the currency option usage.
+* Updated external libraries.
+
 = 1.1.0 =
 * Release date: 2020-08-20
 * Reworked the usage of regular pages as property detail templates.

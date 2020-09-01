@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.1.0\n"
+"Project-Id-Version: immonex Kickstart 1.1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-08-20 12:16:30+00:00\n"
-"PO-Revision-Date: 2020-08-20 14:20+0200\n"
+"POT-Creation-Date: 2020-09-01 06:03:04+00:00\n"
+"PO-Revision-Date: 2020-09-01 08:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -26,23 +26,23 @@ msgstr ""
 "Die Karte zeigt grob den Ortsteil bzw. die Lage an, in der sich die "
 "Immobilie befindet."
 
-#: includes/class-kickstart.php:215 includes/class-kickstart.php:221
+#: includes/class-kickstart.php:218 includes/class-kickstart.php:224
 msgid "none"
 msgstr "keine"
 
-#: includes/class-kickstart.php:222
+#: includes/class-kickstart.php:225
 msgid "OpenLayers/OpenStreetMap Map with property location marker"
 msgstr "OpenLayers/OpenStreetMap-Karte mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:223
+#: includes/class-kickstart.php:226
 msgid "Google Map with property location marker"
 msgstr "Google Map mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:224
+#: includes/class-kickstart.php:227
 msgid "Google Map showing the property's neighborhood"
 msgstr "Google Map mit Ort oder Stadtteil"
 
-#: includes/class-kickstart.php:324
+#: includes/class-kickstart.php:327
 msgid ""
 "An <strong>OpenImmo import solution</strong> that supports <strong>immonex "
 "Kickstart</strong> is required to provide the real estate offers to be "
@@ -53,7 +53,7 @@ msgstr ""
 "Immobilien-Angebote benötigt:"
 
 #. translators: %s = immonex.dev full URL
-#: includes/class-kickstart.php:326
+#: includes/class-kickstart.php:329
 msgid ""
 "<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are "
 "available <strong>free of charge for testing and development purposes</"
@@ -63,46 +63,46 @@ msgstr ""
 "<strong>kostenfrei für Test- und Entwicklungszwecke</strong> unter <a href="
 "\"%s\" target=\"_blank\">immonex.dev</a> verfügbar."
 
-#: includes/class-kickstart.php:367
+#: includes/class-kickstart.php:370
 msgid "General"
 msgstr "Allgemein"
 
-#: includes/class-kickstart.php:372
+#: includes/class-kickstart.php:375
 msgid "Maps &amp; Distance Search"
 msgstr "Karten &amp; Umkreissuche"
 
-#: includes/class-kickstart.php:388
+#: includes/class-kickstart.php:391
 msgid "none (use default archive)"
 msgstr "keine (Standard-Archiv verwenden)"
 
-#: includes/class-kickstart.php:389
+#: includes/class-kickstart.php:392
 msgid "none (use default template)"
 msgstr "keine (Standard-Template verwenden)"
 
-#: includes/class-kickstart.php:397
+#: includes/class-kickstart.php:400
 msgid "Design & Structure"
 msgstr "Design & Struktur"
 
-#: includes/class-kickstart.php:402
+#: includes/class-kickstart.php:405
 msgid "Measuring Units & Currency"
 msgstr "Maßeinheiten & Währung"
 
-#: includes/class-kickstart.php:407 includes/class-property-search.php:557
+#: includes/class-kickstart.php:410 includes/class-property-search.php:557
 msgid "Distance Search"
 msgstr "Umkreissuche"
 
-#: includes/class-kickstart.php:408
+#: includes/class-kickstart.php:411
 msgid ""
 "If enabled, the property search form includes a distance search feature."
 msgstr ""
 "Wenn aktiviert, enthält das Immobilien-Suchformular eine Option zur "
 "umkreisbasierten Suche."
 
-#: includes/class-kickstart.php:412
+#: includes/class-kickstart.php:415
 msgid "Maps on Property Detail Pages"
 msgstr "Karten in Immobilien-Detailseiten"
 
-#: includes/class-kickstart.php:413
+#: includes/class-kickstart.php:416
 msgid ""
 "This plugin currently supports two types of Maps on the property detail "
 "pages: A marker based one showing the property's (approximate) position "
@@ -114,7 +114,7 @@ msgstr ""
 "(OpenStreetMap oder Google) sowie eine Google-Embed-API-Version zur "
 "Darstellung/Hervorhebung des Orts bzw. Stadtteils."
 
-#: includes/class-kickstart.php:418
+#: includes/class-kickstart.php:421
 msgid ""
 "This plugin <strong>optionally</strong> uses the <strong>Google Maps "
 "JavaScript API (incl. Places library)</strong> as well as the <strong>Maps "
@@ -126,11 +126,11 @@ msgstr ""
 "API</strong> (Karten, Standort-Autovervollständigung). Bitte in diesem Fall "
 "einen gültigen API-Schlüssel hinterlegen."
 
-#: includes/class-kickstart.php:440
+#: includes/class-kickstart.php:443
 msgid "Skin"
 msgstr "Skin"
 
-#: includes/class-kickstart.php:443
+#: includes/class-kickstart.php:446
 msgid ""
 "A skin is a set of templates for all immonex Kickstart related pages and "
 "elements."
@@ -138,11 +138,11 @@ msgstr ""
 "Ein Skin ist eine Sammlung von Vorlagen für alle immonex-Kickstart-bezogenen "
 "Seiten und Elemente."
 
-#: includes/class-kickstart.php:450
+#: includes/class-kickstart.php:453
 msgid "Property Overview"
 msgstr "Immobilien-Übersicht"
 
-#: includes/class-kickstart.php:453
+#: includes/class-kickstart.php:456
 msgid ""
 "Use the specified page as <strong>default</strong> property overview/list "
 "page (instead of the property post type archive)."
@@ -150,11 +150,11 @@ msgstr ""
 "Die angegebene Seite wird als <strong>Standard</strong>-Immobilien-"
 "Übersichtsseite verwendet (anstelle der Archivseite des Beitragstyps)."
 
-#: includes/class-kickstart.php:460
+#: includes/class-kickstart.php:463
 msgid "Property Details Page"
 msgstr "Immobilien-Detailseite"
 
-#: includes/class-kickstart.php:463
+#: includes/class-kickstart.php:466
 msgid ""
 "Use the specified page as base for displaying the property details (instead "
 "of the default template)."
@@ -162,11 +162,11 @@ msgstr ""
 "Die angegebene Seite wird anstelle des Standard-Templates für die Ausgabe "
 "der Immobilien-Details verwendet."
 
-#: includes/class-kickstart.php:470
+#: includes/class-kickstart.php:473
 msgid "Heading Base Level"
 msgstr "Überschriften-Basisgrad"
 
-#: includes/class-kickstart.php:473
+#: includes/class-kickstart.php:476
 msgid ""
 "Level that immonex related headlines (e.g. on property list and detail "
 "pages) should start with."
@@ -174,23 +174,23 @@ msgstr ""
 "Grad, mit dem immonex-bezogene Überschriften (z. B. auf Immobilien-Listen- "
 "und Detailseiten) starten sollen."
 
-#: includes/class-kickstart.php:484
+#: includes/class-kickstart.php:487
 msgid "Area Measuring Unit"
 msgstr "Flächen-Maßeinheit"
 
-#: includes/class-kickstart.php:495
+#: includes/class-kickstart.php:498
 msgid "Currency Code"
 msgstr "Währungscode"
 
-#: includes/class-kickstart.php:506
+#: includes/class-kickstart.php:509
 msgid "Currency Symbol"
 msgstr "Währungssymbol"
 
-#: includes/class-kickstart.php:516
+#: includes/class-kickstart.php:519
 msgid "Show Reference Prices"
 msgstr "Referenzobjekt-Preise anzeigen"
 
-#: includes/class-kickstart.php:519
+#: includes/class-kickstart.php:522
 msgid ""
 "Activate this option if the prices of reference properties shall be "
 "displayed."
@@ -198,11 +198,11 @@ msgstr ""
 "Diese Option muss aktiviert werden, wenn die Preise von Referenzobjekten "
 "angezeigt werden sollen."
 
-#: includes/class-kickstart.php:525
+#: includes/class-kickstart.php:528
 msgid "Autocompletion"
 msgstr "Autovervollständigung"
 
-#: includes/class-kickstart.php:528
+#: includes/class-kickstart.php:531
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
@@ -211,7 +211,7 @@ msgstr ""
 "der Immobilien-Suchformulare zum Einsatz kommt (keine = Umkreissuche "
 "deaktivieren)."
 
-#: includes/class-kickstart.php:529
+#: includes/class-kickstart.php:532
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API section below)."
@@ -219,11 +219,11 @@ msgstr ""
 "Für die <strong>Google Places</strong> basierte Variante ist ein passender "
 "API-Schlüssel erforderlich (siehe Abschnitt \"Google Maps API\" unten)."
 
-#: includes/class-kickstart.php:536
+#: includes/class-kickstart.php:539
 msgid "Require Usage Consent"
 msgstr "Zustimmung erforderlich"
 
-#: includes/class-kickstart.php:539
+#: includes/class-kickstart.php:542
 msgid ""
 "If active, the user has to confirm the use of an external service for auto-"
 "completion."
@@ -231,11 +231,11 @@ msgstr ""
 "Wenn aktiviert, muss die Nutzung eines externen Dienstes für die "
 "Autovervollständigung explizit bestätigt werden."
 
-#: includes/class-kickstart.php:545
+#: includes/class-kickstart.php:548
 msgid "Map Type"
 msgstr "Kartentyp"
 
-#: includes/class-kickstart.php:548
+#: includes/class-kickstart.php:551
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
@@ -243,7 +243,7 @@ msgstr ""
 "Auswahl des Typs der Karte, die in den Immobilien-Detailseiten angezeigt "
 "werden (keine = Kartenansicht deaktivieren)."
 
-#: includes/class-kickstart.php:549
+#: includes/class-kickstart.php:552
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
@@ -251,15 +251,15 @@ msgstr ""
 "Für die <strong>Google Maps</strong> basierte Variante ist ein passender API-"
 "Schlüssel erforderlich (siehe Abschnitt \"Google Maps API\" unten)."
 
-#: includes/class-kickstart.php:556
+#: includes/class-kickstart.php:559
 msgid "Default Map Zoom Level"
 msgstr "Standard-Zoom-Level"
 
-#: includes/class-kickstart.php:569
+#: includes/class-kickstart.php:572
 msgid "Info Window Note"
 msgstr "Infofenster-Hinweis"
 
-#: includes/class-kickstart.php:572
+#: includes/class-kickstart.php:575
 msgid ""
 "If stated, this note gets displayed within a map info window above the "
 "property location marker."
@@ -267,33 +267,33 @@ msgstr ""
 "Wenn angegeben, wird dieser Hinweis in einem Karten-Infofenster oberhalb des "
 "Objekt-Standortmarkers angezeigt."
 
-#: includes/class-kickstart.php:579
+#: includes/class-kickstart.php:582
 msgid "Marker Map Note"
 msgstr "Markerkarten-Hinweis"
 
-#: includes/class-kickstart.php:582
+#: includes/class-kickstart.php:585
 msgid "This note gets displayed below <strong>marker based</strong> maps."
 msgstr ""
 "Dieser Hinweis wird unterhalb von <strong>markerbasierten</strong> Karten "
 "angezeigt."
 
-#: includes/class-kickstart.php:589
+#: includes/class-kickstart.php:592
 msgid "Neighborhood Map Note"
 msgstr "Ortsteilkarten-Hinweis"
 
-#: includes/class-kickstart.php:592
+#: includes/class-kickstart.php:595
 msgid ""
 "This note gets displayed below <strong>neighborhood based</strong> maps."
 msgstr ""
 "Dieser Hinweis wird unterhalb von Karten mit <strong>Orts- bzw. Stadtteilen</"
 "strong> angezeigt."
 
-#: includes/class-kickstart.php:599
+#: includes/class-kickstart.php:602
 msgid "Google Maps API Key"
 msgstr "Google Maps API Key"
 
 #. translators: %s = Google Developer Docs URL
-#: includes/class-kickstart.php:604
+#: includes/class-kickstart.php:607
 msgid ""
 "Provide an key suitable for using the Google APIs mentioned abobe. You can "
 "find information about getting and configuring such a key on the respective "
@@ -1033,8 +1033,8 @@ msgstr "Ein Problem mit der Plugin-API ist aufgetreten."
 #: includes/third_party/class-tgm-plugin-activation.php:342
 msgid "This theme requires the following plugin: %1$s."
 msgid_plural "This theme requires the following plugins: %1$s."
-msgstr[0] "Dieses Theme setzt das folgende Plugin voraus: %1$s."
-msgstr[1] "Dieses Theme setzt die folgenden Plugins voraus: %1$s."
+msgstr[0] "Dieses Plugin setzt das folgende Zusatzplugin voraus: %1$s."
+msgstr[1] "Dieses Plugin setzt die folgenden Zusatzplugins voraus: %1$s."
 
 #. translators: 1: plugin name(s).
 #: includes/third_party/class-tgm-plugin-activation.php:344
@@ -1132,8 +1132,8 @@ msgid ""
 "Plugin not activated. A higher version of %s is needed for this theme. "
 "Please update the plugin."
 msgstr ""
-"Plugin nicht aktiviert. Eine aktuellere Version von %s wird für dieses Theme "
-"benötigt. Bitte das Plugin aktualisieren."
+"Plugin nicht aktiviert. Eine aktuellere Version von %s wird für die Nutzung "
+"in Kombination mit diesem Plugin benötigt. Bitte das Plugin aktualisieren."
 
 #. translators: 1: dashboard link.
 #: includes/third_party/class-tgm-plugin-activation.php:365
@@ -1600,11 +1600,11 @@ msgstr "https://de.wordpress.org/plugins/immonex-kickstart/"
 
 #. Description of the plugin/theme
 msgid ""
-"Essential components and framework for embedding and searching/filtering "
-"imported OpenImmo® based real estate offers"
+"Essential components and add-on framework for embedding and searching/"
+"filtering imported OpenImmo-XML-based real estate offers"
 msgstr ""
-"Essenzielle Basiskomponenten und Framework zur Einbindung und Suche/"
-"Filterung OpenImmo®-basierter Immobilienangebote"
+"Essenzielle Komponenten und Add-on-Framework zur Einbindung und Suche/"
+"Filterung von OpenImmo-XML-basierten Immobilienangeboten"
 
 #. Author of the plugin/theme
 msgid "inveris OHG / immonex"

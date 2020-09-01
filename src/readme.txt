@@ -3,12 +3,12 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.5
-Stable Tag: 1.1.0
+Stable Tag: 1.1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Essential components and framework for embedding and searching/filtering imported OpenImmo® based real estate offers
+Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers
 
 == Description ==
 
@@ -104,6 +104,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 10. WP backend: Property list
 
 == Changelog ==
+
+= 1.1.2 =
+* Release date: 2020-09-01
+* Fixed an issue regarding the currency option usage.
+* Updated external libraries.
 
 = 1.1.0 =
 * Release date: 2020-08-20

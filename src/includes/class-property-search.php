@@ -504,7 +504,7 @@ class Property_Search {
 				'range'          => 'primary_price_min_max',
 				'default'        => 'primary_price_min_max',
 				'unlimited_term' => __( 'unlimited', 'immonex-kickstart' ),
-				'currency'       => 'EUR',
+				'currency'       => $this->config['currency'],
 				'numeric'        => true,
 				'label'          => __( 'Price Range', 'immonex-kickstart' ),
 				'class'          => '',

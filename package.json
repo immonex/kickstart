@@ -1,7 +1,7 @@
 {
   "name": "@immonex/kickstart",
   "version": "1.1.0",
-  "description": "Essential components and framework for embedding and searching/filtering imported OpenImmo® based real estate offers",
+  "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "config": {
     "pluginFolderName": "immonex-kickstart"
@@ -13,15 +13,15 @@
     "nouislider": "^11.1.0",
     "ol": "^5.3.3",
     "qs": "^6.9.4",
-    "uikit": "^3.5.6",
-    "vue": "^2.6.11",
+    "uikit": "^3.5.7",
+    "vue": "^2.6.12",
     "vue-cookies": "^1.7.3",
     "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/core": "^7.11.5",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "babel-loader": "^8.1.0",
     "browser-sync": "^2.26.12",
     "browser-sync-webpack-plugin": "^2.2.2",
@@ -34,13 +34,13 @@
     "lws-static": "^2.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "rimraf": "^3.0.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^2.3.8",
     "vue-loader": "^15.9.3",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.1",
     "webpack-command": "^0.5.0",
     "webpack-merge": "^4.2.2"
