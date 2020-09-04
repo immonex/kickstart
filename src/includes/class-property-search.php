@@ -277,8 +277,7 @@ class Property_Search {
 
 		// Prefixed ID for use as input id/name etc.
 		$public_id = $this->config['public_prefix'] . 'search-' . $id;
-		// $value = get_query_var( $public_id );
-		$value = $this->utils['data']->get_query_var_value( $public_id );
+		$value     = $this->utils['data']->get_query_var_value( $public_id );
 
 		if ( ! $value && 'tax-' === substr( $element['type'], 0, 4 ) ) {
 			$qo = get_queried_object();
@@ -308,11 +307,8 @@ class Property_Search {
 		}
 
 		if (
+			empty( $value ) &&
 			(
-				! $value ||
-				( is_array( $value ) && 0 === count( $value ) ) ||
-				( is_array( $value ) && 1 === count( $value ) && '' === $value[0] )
-			) && (
 				isset( $element['default'] ) &&
 				false !== $element['default']
 			)
@@ -976,10 +972,23 @@ class Property_Search {
 		}
 
 		if ( ! empty( $params[ "{$prefix}iso-country" ] ) ) {
+			$country_code = $this->utils['data']->maybe_convert_list_string( $params[ "{$prefix}iso-country" ] );
+
+			if ( is_array( $country_code ) ) {
+				$country_code = array_map(
+					function ( $value ) {
+						return strtoupper( substr( $value, 0, 3 ) );
+					},
+					$country_code
+				);
+			} else {
+				$country_code = strtoupper( substr( $params[ "{$prefix}iso-country" ], 0, 3 ) );
+			}
+
 			$meta_query[] = array(
 				'key'     => '_immonex_iso_country',
-				'value'   => strtoupper( substr( $params[ "{$prefix}iso-country" ], 0, 3 ) ),
-				'compare' => '=',
+				'value'   => $country_code,
+				'compare' => is_array( $country_code ) ? 'IN' : '=',
 			);
 		}
 

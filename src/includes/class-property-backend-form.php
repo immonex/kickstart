@@ -171,6 +171,16 @@ class Property_Backend_Form {
 				'value' => 1,
 			),
 			array(
+				'name' => __( 'Country Code', 'immonex-kickstart' ),
+				'desc' => wp_sprintf(
+					// translators: %s = Wikipedia URL.
+					__( 'see <a href="%s" target="_blank">ISO-3166-1 ALPHA-3</a>', 'immonex-kickstart' ),
+					'https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3'
+				),
+				'id'   => '_immonex_iso_country',
+				'type' => 'text_small',
+			),
+			array(
 				'name'       => __( 'Build Year', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'build_year',

@@ -195,6 +195,38 @@ class Data_Access_Helper {
 	} // get_group_items
 
 	/**
+	 * Check and (maybe) convert a comma-separated list string to an array.
+	 *
+	 * @since 1.1.3b
+	 *
+	 * @param string $list List string to check/convert.
+	 *
+	 * @return string[]|string Possibly converte.
+	 */
+	public function maybe_convert_list_string( $list ) {
+		if (
+			! is_string( $list ) ||
+			empty( $list )
+		) {
+			return $list;
+		}
+
+		if ( preg_match( '/^\(.*\)$/', $list ) ) {
+			// Convert lists (item 1, item 2, item 3...).
+			$list = array_map( 'trim', explode( ',', substr( $list, 1, -1 ) ) );
+		}
+
+		if ( is_string( $list ) ) {
+			// Convert comma-separated single values (numbers, slugs).
+			if ( preg_match( '/^([0-9a-zA-Z\-_\.]+,[ ]?){1,}([0-9a-zA-Z\-_\.]+)?$/', trim( $list ) ) ) {
+				$list = array_map( 'trim', explode( ',', trim( $list ) ) );
+			}
+		}
+
+		return $list;
+	} // maybe_convert_list_string
+
+	/**
 	 * Retrieve and return the (possibly converted) value of the given
 	 * query variable.
 	 *
@@ -224,19 +256,8 @@ class Data_Access_Helper {
 			}
 		}
 
-		// Convert string lists (format: (item 1, item 2...) ) to arrays.
-		if ( $value && is_string( $value ) ) {
-			if ( preg_match( '/^\(.*\)$/', $value ) ) {
-				$value = array_map( 'trim', explode( ',', substr( $value, 1, -1 ) ) );
-			}
-		}
-
-		// Convert comma separated single values (numbers, slugs) to arrays.
-		if ( $value && is_string( $value ) ) {
-			if ( preg_match( '/^([0-9a-zA-Z\-_\.]+,[ ]?){1,}([0-9a-zA-Z\-_\.]+)?$/', trim( $value ) ) ) {
-				$value = array_map( 'trim', explode( ',', trim( $value ) ) );
-			}
-		}
+		// Convert string lists/comma-separated single values to arrays.
+		$value = $this->maybe_convert_list_string( $value );
 
 		return $value;
 	} // get_query_var_value

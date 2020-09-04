@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-09-01 06:03:04+00:00\n"
-"PO-Revision-Date: 2020-09-01 08:40+0200\n"
+"POT-Creation-Date: 2020-09-04 08:37:05+00:00\n"
+"PO-Revision-Date: 2020-09-04 10:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -87,7 +87,7 @@ msgstr "Design & Struktur"
 msgid "Measuring Units & Currency"
 msgstr "Maßeinheiten & Währung"
 
-#: includes/class-kickstart.php:410 includes/class-property-search.php:557
+#: includes/class-kickstart.php:410 includes/class-property-search.php:553
 msgid "Distance Search"
 msgstr "Umkreissuche"
 
@@ -318,7 +318,7 @@ msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:593 includes/class-property.php:671
+#: includes/class-property-search.php:589 includes/class-property.php:671
 #: skins/default/single-property/element-hub.php:81
 msgid "Features"
 msgstr "Ausstattung"
@@ -358,75 +358,83 @@ msgid "Demo Property"
 msgstr "Demo-Objekt"
 
 #: includes/class-property-backend-form.php:174
+msgid "Country Code"
+msgstr "Ländercode"
+
+#: includes/class-property-backend-form.php:176
+msgid "see <a href=\"%s\" target=\"_blank\">ISO-3166-1 ALPHA-3</a>"
+msgstr "siehe <a href=\"%s\" target=\"_blank\">ISO-3166-1 ALPHA-3</a>"
+
+#: includes/class-property-backend-form.php:183
 msgid "Build Year"
 msgstr "Baujahr"
 
-#: includes/class-property-backend-form.php:183
+#: includes/class-property-backend-form.php:192
 msgid "Area (primary)"
 msgstr "Fläche (primär)"
 
-#: includes/class-property-backend-form.php:192
+#: includes/class-property-backend-form.php:201
 msgid "Plot Area"
 msgstr "Grundstücksfläche"
 
-#: includes/class-property-backend-form.php:201
+#: includes/class-property-backend-form.php:210
 msgid "Rooms (primary)"
 msgstr "Zimmer (primär)"
 
-#: includes/class-property-backend-form.php:210
+#: includes/class-property-backend-form.php:219
 msgid "Price (primary)"
 msgstr "Preis (primär)"
 
-#: includes/class-property-backend-form.php:219
+#: includes/class-property-backend-form.php:228
 msgid "Price Time Unit"
 msgstr "Preis-Zeiteinheit"
 
-#: includes/class-property-backend-form.php:233
+#: includes/class-property-backend-form.php:242
 msgid "Images & Attachments"
 msgstr "Bilder & Anhänge"
 
-#: includes/class-property-backend-form.php:243
+#: includes/class-property-backend-form.php:252
 msgid "Gallery Images"
 msgstr "Galeriebilder"
 
-#: includes/class-property-backend-form.php:250 includes/class-property.php:676
+#: includes/class-property-backend-form.php:259 includes/class-property.php:676
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
-#: includes/class-property-backend-form.php:257
+#: includes/class-property-backend-form.php:266
 msgid "Document Attachments (PDF)"
 msgstr "Dokumentanhänge (PDF)"
 
-#: includes/class-property-backend-form.php:271
+#: includes/class-property-backend-form.php:280
 #: skins/default/single-property/element-hub.php:77
 msgid "Details"
 msgstr "Details"
 
-#: includes/class-property-backend-form.php:285
+#: includes/class-property-backend-form.php:294
 msgid "Detail {#}"
 msgstr "Detail {#}"
 
-#: includes/class-property-backend-form.php:286
+#: includes/class-property-backend-form.php:295
 msgid "Add Detail"
 msgstr "Neues Detail"
 
-#: includes/class-property-backend-form.php:287
+#: includes/class-property-backend-form.php:296
 msgid "Remove Detail"
 msgstr "Detail entfernen"
 
-#: includes/class-property-backend-form.php:296
+#: includes/class-property-backend-form.php:305
 msgid "Group"
 msgstr "Gruppe"
 
-#: includes/class-property-backend-form.php:301
+#: includes/class-property-backend-form.php:310
 msgid "Name"
 msgstr "Name"
 
-#: includes/class-property-backend-form.php:306
+#: includes/class-property-backend-form.php:315
 msgid "Title"
 msgstr "Titel"
 
-#: includes/class-property-backend-form.php:311
+#: includes/class-property-backend-form.php:320
 msgid "Value"
 msgstr "Wert"
 
@@ -474,100 +482,100 @@ msgstr "Erfolgreich vermarktete Immobilien"
 msgid "Our current property offers"
 msgstr "Unsere aktuellen Immobilien-Angebote"
 
-#: includes/class-property-search.php:395
+#: includes/class-property-search.php:391
 msgid "Keyword or Property ID"
 msgstr "Schlüsselwort oder Objektnr."
 
-#: includes/class-property-search.php:407
+#: includes/class-property-search.php:403
 msgid "Type Of Use"
 msgstr "Nutzungsart"
 
-#: includes/class-property-search.php:410
+#: includes/class-property-search.php:406
 msgid "All Types"
 msgstr "Alle Arten"
 
-#: includes/class-property-search.php:423
+#: includes/class-property-search.php:419
 msgid "Property Type"
 msgstr "Objektart"
 
-#: includes/class-property-search.php:426 includes/class-wp-bootstrap.php:135
+#: includes/class-property-search.php:422 includes/class-wp-bootstrap.php:135
 msgid "All Property Types"
 msgstr "Alle Objektarten"
 
-#: includes/class-property-search.php:439
+#: includes/class-property-search.php:435
 msgid "Marketing Type"
 msgstr "Vermarktungsart"
 
-#: includes/class-property-search.php:442
+#: includes/class-property-search.php:438
 msgid "For Sale or For Rent"
 msgstr "Zu Verkaufen / Zu Vermieten"
 
-#: includes/class-property-search.php:455
+#: includes/class-property-search.php:451
 msgid "Locality"
 msgstr "Ort"
 
-#: includes/class-property-search.php:458
+#: includes/class-property-search.php:454
 msgid "All Localities"
 msgstr "Alle Orte"
 
-#: includes/class-property-search.php:472
-#: includes/class-property-search.php:489
+#: includes/class-property-search.php:468
+#: includes/class-property-search.php:485
 msgid "not specified"
 msgstr "keine Angabe"
 
-#: includes/class-property-search.php:476
+#: includes/class-property-search.php:472
 msgid "Min. Rooms"
 msgstr "Zimmer (min)"
 
-#: includes/class-property-search.php:493
+#: includes/class-property-search.php:489
 msgid "Min. Living Area"
 msgstr "Wohnfläche (min)"
 
-#: includes/class-property-search.php:506
+#: includes/class-property-search.php:502
 msgid "unlimited"
 msgstr "unbegrenzt"
 
-#: includes/class-property-search.php:509
+#: includes/class-property-search.php:505
 msgid "Price Range"
 msgstr "Preisrahmen"
 
-#: includes/class-property-search.php:521
+#: includes/class-property-search.php:517
 msgid "Show"
 msgstr "Anzeigen"
 
-#: includes/class-property-search.php:533
+#: includes/class-property-search.php:529
 msgid "Reset Search Form"
 msgstr "Suchformular zurücksetzen"
 
-#: includes/class-property-search.php:545
+#: includes/class-property-search.php:541
 msgid "Extended and Distance Search"
 msgstr "Erweitert / Umkreissuche"
 
-#: includes/class-property-search.php:558
+#: includes/class-property-search.php:554
 msgid "Locality Name (Distance Search)"
 msgstr "Ort oder Ortsteil (Umkreissuche)"
 
-#: includes/class-property-search.php:559
+#: includes/class-property-search.php:555
 msgid "Type to search..."
 msgstr "Tippen zum Suchen…"
 
-#: includes/class-property-search.php:560
+#: includes/class-property-search.php:556
 msgid "No matching localities found."
 msgstr "Keine passenden Orte gefunden."
 
-#: includes/class-property-search.php:572
+#: includes/class-property-search.php:568
 msgid "Distance Search Radius"
 msgstr "Radius der Umkreissuche"
 
-#: includes/class-property-search.php:580
+#: includes/class-property-search.php:576
 msgid "Radius (km)"
 msgstr "Umkreis (km)"
 
-#: includes/class-property-search.php:606
+#: includes/class-property-search.php:602
 msgid "Labels"
 msgstr "Labels"
 
-#: includes/class-property-search.php:609 includes/class-wp-bootstrap.php:213
+#: includes/class-property-search.php:605 includes/class-wp-bootstrap.php:213
 msgid "All Labels"
 msgstr "Alle Labels"
 
