@@ -105,6 +105,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.1.3-beta =
+* Release date: ?
+* Extended country code based queries to distinguish between single
+  and multiple codes.
+
 = 1.1.2 =
 * Release date: 2020-09-01
 * Fixed an issue regarding the currency option usage.
