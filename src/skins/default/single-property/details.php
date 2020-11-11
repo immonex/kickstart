@@ -23,7 +23,7 @@ $inx_skin_groups = isset( $template_data['groups'] ) && $template_data['groups']
 	$utils['data']->convert_to_group_array( $template_data['groups'] ) :
 	'';
 
-$inx_skin_details = count( $inx_skin_groups ) > 0 ?
+$inx_skin_details = ! empty( $inx_skin_groups ) ?
 	$utils['data']->get_group_items( $template_data['details'], $inx_skin_groups ) :
 	array();
 

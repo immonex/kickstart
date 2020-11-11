@@ -190,7 +190,7 @@ export default {
 	mounted () {
 		this.id = this._uid
 		if (this.$cookies.get('inx_consent_use_maps')) {
-			this.grantConsent( null )
+			this.grantConsent(null)
 		}
 	}
 }

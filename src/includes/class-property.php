@@ -287,7 +287,7 @@ class Property {
 			$overview_url = $backlink_url;
 		}
 
-		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 300px' ) );
+		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
 
 		// TODO: Cache.
 		$template_data = array_merge(

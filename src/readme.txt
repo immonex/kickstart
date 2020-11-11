@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.5
+Tested up to: 5.5.3
 Stable Tag: 1.1.2
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -105,10 +105,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.1.3-beta =
+= 1.1.5-beta =
 * Release date: ?
 * Extended country code based queries to distinguish between single
   and multiple codes.
+* Changed list image default size from 300 px to 800 px.
+* Added latitude and longitude to property backend form.
 
 = 1.1.2 =
 * Release date: 2020-09-01

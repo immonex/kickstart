@@ -118,3 +118,7 @@ main_menu:
       type: header
     - caption: Team
       url: https://docs.immonex.de/kickstart-team/
+    - caption: Komplettlösungen
+      type: header
+    - caption: immonex ONE
+      url: https://docs.immonex.de/one-handbuch/

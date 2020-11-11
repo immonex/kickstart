@@ -181,6 +181,18 @@ class Property_Backend_Form {
 				'type' => 'text_small',
 			),
 			array(
+				'name' => __( 'Latitude', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => $prefix . 'lat',
+				'type' => 'text_small',
+			),
+			array(
+				'name' => __( 'Longitude', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => $prefix . 'lng',
+				'type' => 'text_small',
+			),
+			array(
 				'name'       => __( 'Build Year', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'build_year',
