@@ -5,7 +5,7 @@
 			<button class="inx-button inx-button--action uk-button uk-button-primary" @click="grantConsent">{{ showMapButtonText }}</button>
 		</div>
 
-		<div class="ol-popup" ref="popup" v-show="consentGranted">
+		<div class="ol-popup" ref="popup" v-show="consentGranted && infowindow">
 			<a class="ol-popup-closer" ref="popupCloser" @click="closeInfoWindow"></a>
 			<div ref="popupContent"></div>
 		</div>
@@ -106,7 +106,7 @@ export default {
 				map.updateSize()
 			})
 		},
-		createMap() {
+		createMap () {
 			/**
 			 * The Map
 			 */

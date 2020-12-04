@@ -41,21 +41,25 @@ get_header();
 	<div uk-grid>
 		<div class="inx-property-archive__main-content inx-container uk-width-expand@m">
 			<?php
-				do_action( 'inx_render_property_search_form' );
-				do_action( 'inx_render_property_filters_sort' );
-				do_action(
-					'inx_render_property_list',
-					array(
-						'is_regular_archive_page' => true,
-					)
-				);
-				do_action(
-					'inx_render_pagination',
-					array(
-						'is_regular_archive_page' => true,
-					)
-				);
-				?>
+			if ( $immonex_kickstart->property_list_map_display_by_default ) {
+				do_action( 'inx_render_property_map' );
+			}
+
+			do_action( 'inx_render_property_search_form' );
+			do_action( 'inx_render_property_filters_sort' );
+			do_action(
+				'inx_render_property_list',
+				array(
+					'is_regular_archive_page' => true,
+				)
+			);
+			do_action(
+				'inx_render_pagination',
+				array(
+					'is_regular_archive_page' => true,
+				)
+			);
+			?>
 		</div>
 
 		<?php if ( is_active_sidebar( 'inx-property-archive' ) ) : ?>

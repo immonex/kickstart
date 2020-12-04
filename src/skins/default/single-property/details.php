@@ -35,7 +35,7 @@ $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
 	2;
 
-if ( $inx_skin_description_text || count( $inx_skin_details ) > 0 ) :
+if ( $inx_skin_description_text || ! empty( $inx_skin_details ) ) :
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--details">
 	<?php

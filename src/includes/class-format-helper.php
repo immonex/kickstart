@@ -114,11 +114,12 @@ class Format_Helper {
 			$text = apply_filters( 'inx_the_content', $text );
 		} elseif ( 'noautop' === $apply_the_content ) {
 			$text = apply_filters( 'inx_the_content_noautop', $text );
-		}
 
-		if ( false !== strpos( $text, PHP_EOL ) ) {
-			// Add extra breaks if required.
-			$text = preg_replace( '/([a-zA-Z0-9.,;:]+)?\n/', '$1<br>' . PHP_EOL, $text );
+			if ( false !== strpos( $text, PHP_EOL ) ) {
+				// Add extra breaks if required.
+				$text = preg_replace( '/([a-zA-ZäöüÄÖÜ0-9.,;:])' . PHP_EOL . '/', '$1<br>' . PHP_EOL, $text );
+				$text = preg_replace( '/(' . PHP_EOL . PHP_EOL . ')/', PHP_EOL . '<br>' . PHP_EOL, $text );
+			}
 		}
 
 		return $text;

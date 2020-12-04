@@ -173,6 +173,10 @@ class Data_Access_Helper {
 	 * @return mixed[] Group items.
 	 */
 	public function get_group_items( $details, $groups = array( 'ungruppiert' ) ) {
+		if ( ! is_array( $groups ) || empty( $groups ) ) {
+			$groups = array( 'ungruppiert' );
+		}
+
 		$items = array();
 
 		foreach ( $groups as $group ) {

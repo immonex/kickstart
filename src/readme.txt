@@ -105,8 +105,9 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.1.5-beta =
+= 1.2.0-beta =
 * Release date: ?
+* Added property list maps incl. clustered markers.
 * Extended country code based queries to distinguish between single
   and multiple codes.
 * Changed list image default size from 300 px to 800 px.

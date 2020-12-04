@@ -28,6 +28,9 @@ import './property_search'
 // Property Lists
 import './property_lists'
 
+// Property Maps
+import './property_map'
+
 // Property Details
 import './property_details'
 
