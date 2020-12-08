@@ -47,7 +47,18 @@ Soll hierfür **alternativ** eine **Seite als Vorlage** verwendet werden, die mi
 
 ### Karten & Umkreissuche
 
-Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilien-Standorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative.
+Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilienstandorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative **in Suchformularen und Detailseiten**.
+
+#### Karten in Immobilien-Listenseiten
+
+![Übersichtskarte mit Immobilien-Standortmarkern](../assets/scst-property-map-1.png)
+Übersichtskarte mit Immobilien-Standortmarkern
+
+Die kartenbasierte Darstellung der Immobilienstandorte in der [Standard-Übersichtsseite (Archiv)](../beitragsarten-taxonomien.html#Immobilien-Beitrage) kann in den Plugin-Optionen aktiviert oder deaktiviert werden. Zudem können hier die initiale **Zoomstufe** sowie die **Koordinaten des Kartenmittelpunkts** festgelegt werden. (Letztere sind allerdings nur dann relevant, wenn der Kartenausschnitt nicht anhand der vorhandenen Immobilien automatisch ermittelt werden kann.)
+
+Weitere Infos hier: [Immobilien-Übersichtskarten](../komponenten/karte.html)
+
+#### Karten in Immobilien-Detailseiten
 
 Die Plugin-Optionen sehen bei Karten mit **Standortmarkern** zwei Infotexte für die Ausgabe in einem **Infofenster-Overlay** innerhalb der Karte oder in Form eines kurzen **Hinweises unterhalb der Karte** vor. (Normalerweise ist einer hiervon ausreichend.)
 

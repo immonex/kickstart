@@ -51,6 +51,7 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 
 #### Immobilien
 
+- [inx_current_property_post_id](filter-inx-current-property-post-id.html) (aktuelle Immobilien-Beitrags-ID ermitteln)
 - [inx_get_properties](filter-inx-get-properties.html) (Immobilienbeiträge abrufen oder Anzahl ermitteln)
 - [inx_get_property_images](filter-inx-get-property-images.html) (Galerie-Bildanhänge einer Immobilie abrufen)
 - [inx_get_property_detail_item](filter-inx-get-property-detail-item.html) (Detail-Element einer Immobilie abrufen)
@@ -59,6 +60,7 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 
 ### Rendering
 
+- [inx_render_property_map](action-inx-render-property-map.html) (Immobilien-Standortkarte)
 - [inx_render_property_search_form](action-inx-render-property-search-form.html) (Immobilien-Suchformular)
 - [inx_render_property_search_form_element](action-inx-render-property-search-form-element.html) (Suchformular-Element)
 - [inx_render_property_list](action-inx-render-property-list.html) (Immobilien-Listenansicht)

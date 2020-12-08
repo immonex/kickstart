@@ -1,7 +1,7 @@
 ---
 title: Seitennavigation
 category: komponenten
-order: 40
+order: 50
 search: 1
 ---
 

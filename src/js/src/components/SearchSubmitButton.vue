@@ -45,8 +45,7 @@ export default {
 	},
 	computed: {
 		disabled: function () {
-			return typeof this.inxState.search.number_of_matches === 'undefined' ||
-				!this.inxState.search.number_of_matches
+			return this.inxState.search.number_of_matches === 0
 		}
 	},
 	components: {

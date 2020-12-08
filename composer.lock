@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bbd0ccb08bc7432e72828849d200d3c",
+    "content-hash": "34ffec96603f0ce0a7b35dcffdc82f28",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -65,16 +65,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "017e5d11fb4e55df23fc3587317c5e9bfc1c5d4e"
+                "reference": "1ca84cd7e60deb5d4f6632baf8b331f9c7c15afa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/017e5d11fb4e55df23fc3587317c5e9bfc1c5d4e",
-                "reference": "017e5d11fb4e55df23fc3587317c5e9bfc1c5d4e",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/1ca84cd7e60deb5d4f6632baf8b331f9c7c15afa",
+                "reference": "1ca84cd7e60deb5d4f6632baf8b331f9c7c15afa",
                 "shasum": ""
             },
             "require-dev": {
@@ -108,9 +108,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/master"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.1.1"
             },
-            "time": "2020-07-27T12:00:50+00:00"
+            "time": "2020-12-08T07:18:02+00:00"
         }
     ],
     "packages-dev": [
@@ -445,16 +445,16 @@
         },
         {
             "name": "jawira/plantuml",
-            "version": "v1.45.0",
+            "version": "v1.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jawira/plantuml.git",
-                "reference": "e969f22eec585bc2802864ef7bf0722dcb3a2bb8"
+                "reference": "00137d5fbe3804f269947628e7068df153cf6902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jawira/plantuml/zipball/e969f22eec585bc2802864ef7bf0722dcb3a2bb8",
-                "reference": "e969f22eec585bc2802864ef7bf0722dcb3a2bb8",
+                "url": "https://api.github.com/repos/jawira/plantuml/zipball/00137d5fbe3804f269947628e7068df153cf6902",
+                "reference": "00137d5fbe3804f269947628e7068df153cf6902",
                 "shasum": ""
             },
             "suggest": {
@@ -483,9 +483,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jawira/plantuml/issues",
-                "source": "https://github.com/jawira/plantuml/tree/v1.45.0"
+                "source": "https://github.com/jawira/plantuml/tree/v1.46.0"
             },
-            "time": "2020-11-27T14:05:51+00:00"
+            "time": "2020-12-04T14:05:53+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",

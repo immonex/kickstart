@@ -16,6 +16,8 @@ import Toggle from './components/Toggle.vue'
 
 jQuery(document).ready(function($) {
 
+	let inxCurrentSearchRequestString = ''
+
 	if (document.getElementById('inx-property-search')) {
 		function toggleExtendedSearch() {
 			// Not implemented / required yet.
@@ -85,11 +87,17 @@ jQuery(document).ready(function($) {
 				}
 			})
 
-			inx_state.search.request_string = searchForm.serialize()
+			const requestString = searchForm.serialize()
 
-			axios
-				.get(inx_state.core.site_url + '/wp-json/immonex-kickstart/v1/properties/?count=1&' + searchForm.serialize())
-				.then(response => (inx_state.search.number_of_matches = response.data))
+			if (requestString !== inxCurrentSearchRequestString) {
+				inxCurrentSearchRequestString = requestString
+				inx_state.search.request_string = requestString
+
+				axios
+					.get(inx_state.core.site_url + '/wp-json/immonex-kickstart/v1/properties/?count=1&' + requestString)
+					.then(response => (inx_state.search.number_of_matches = response.data))
+					.catch(err => err)
+			}
 		} // updateSearchState
 
 		const searchFormElementName = inx_state.core.public_prefix + 'property-search-main-form'
@@ -106,14 +114,14 @@ jQuery(document).ready(function($) {
 			}
 		})
 
-		$('#' + inx_state.core.public_prefix + 'sort').change(function() {
+		$('#' + inx_state.core.public_prefix + 'sort').on('change', function() {
 			$(this).closest('form').submit()
 		})
 
-		$('#' + searchFormElementName + ' input, #' + searchFormElementName + ' select').change(debounce(updateSearchState, 500))
-		$('#inx-search-form-reset').click(resetSearchForm);
+		$('#' + searchFormElementName + ' input, #' + searchFormElementName + ' select').on('change', debounce(updateSearchState, 500))
+		$('#inx-search-form-reset').on('click', resetSearchForm)
 
-		window.setTimeout( function() { updateSearchState() }, 1000 );
+		window.setTimeout( function() { updateSearchState() }, 1000 )
 	}
 
 })

@@ -70,7 +70,7 @@ Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, i
 
 So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
 
-![Immobilien-Archivseite im Frontend](assets/scst-fe-property-archive.gif)
+![Immobilien-Archivseite im Frontend](assets/scst-fe-property-archive.png)
 
 ### Taxonomie-Archive
 

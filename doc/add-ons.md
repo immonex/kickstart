@@ -20,5 +20,4 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 
 ### aktuell in Vorbereitung
 
-- Kartenbasierte Immobiliendarstellung/-auswahl
 - Schaufenster-Slideshows

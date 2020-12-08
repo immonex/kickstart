@@ -92,13 +92,18 @@ Auch hier gilt: Ein <i>Custom Skin</i> kann auch **ohne** den Einsatz eines solc
 ├── property-list
 │   ├── filters-sort.php
 │   ├── list-item.php
+│   ├── map.php
 │   ├── pagination.php
 │   └── properties.php
 ```
 
-Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](../beitragsart-taxonomien.html) ist in der Datei `archive-property.php` enthalten. Die Komponenten - [Suchformular](../komponenten/index.html), [Sortierauswahl](../komponenten/sortierung.html), [Listenansicht](../komponenten/liste.html) und [Seitennavigation](../komponenten/seitennavigation.html) - werden über die entsprechenden [Rendering Actions](filters-actions.html#Rendering) eingebunden:
+Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](../beitragsart-taxonomien.html) ist in der Datei `archive-property.php` enthalten. Die Komponenten - [Karte](../komponenten/karte.html), [Suchformular](../komponenten/index.html), [Sortierauswahl](../komponenten/sortierung.html), [Listenansicht](../komponenten/liste.html) und [Seitennavigation](../komponenten/seitennavigation.html) - werden über die entsprechenden [Rendering Actions](filters-actions.html#Rendering) eingebunden:
 
 ```php
+if ( $immonex_kickstart->property_list_map_display_by_default ) {
+	do_action( 'inx_render_property_map' );
+}
+
 do_action( 'inx_render_property_search_form' );
 do_action( 'inx_render_property_filters_sort' );
 do_action( 'inx_render_property_list', array(
@@ -108,7 +113,7 @@ do_action( 'inx_render_pagination', array(
 	'is_regular_archive_page' => true
 ) );
 ```
-Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
+Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Standortkarte (`map.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
 
 > Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
 

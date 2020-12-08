@@ -7,7 +7,7 @@ search: 1
 
 # Frontend-Komponenten
 
-Die vom Kickstart-Plugin bereitgestellten Immobilien-Komponenten können mit den folgenden **Shortcodes** in beliebiger Anzahl und Kombination in Seiten oder andere Inhaltselemente eingefügt werden. (Entsprechende [Gutenberg-Blockelemente](https://de.wordpress.org/gutenberg/) sind bereits in Planung bzw. Vorbereitung.)
+Mit Kickstart sind "out of the box" eine [Immobilien-Übersichtsseite](../beitragsarten-taxonomien.html#Immobilien-Beitrage) sowie eine vollständige [Detailansicht](../komponenten/detailansicht.html#Standard-Template) verfügbar – jeweils inkl. [Seitenleiste](sidebars.html) zur Ergänzung von Widgets. Die vom Plugin bereitgestellten Immobilien-Komponenten können aber auch mit den folgenden **Shortcodes** in beliebiger Anzahl und Kombination in Seiten oder andere Inhaltselemente eingefügt werden.
 
 Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhängig voneinander, beeinflussen sich also nicht **direkt** gegenseitig. So wirkt sich bspw. die Änderung einer Auswahl im Suchformular erst **nach dem Absenden** bzw. dem Aktualisieren der kompletten Seite auf eine Listenansicht aus. Auch die Konfiguration einer Komponente per **Shortcode-Attribut** wirkt sich **nicht** automatisch auf die anderen Komponenten der Seite aus.
 
@@ -123,7 +123,7 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-search-min-area` | Mindestfläche in m² (Ganzzahl) |
 | `inx-search-price-range` | Preisrahmen (MIN,MAX, z. B. *200000,400000*) |
 | `inx-author` | Objekte nach Autor(en) filtern (kommagetrennte Liste von Benutzer-IDs oder Login-Namen; Minus zum Ausschließen bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
-| `inx-iso-country` | nur Objekte im Land mit dem angegebenen [ISO3-Ländercode](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste) anzeigen (z. B. *DEU*) |
+| `inx-iso-country` | nur Objekte im Land mit den angegebenen [ISO3-Ländercodes](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste) anzeigen (z. B. *DEU* oder *DEU* oder *DEU,AUT,ESP*) |
 | `inx-references` | Referenzen anzeigen? (*yes* = ja, *no* = nein (Standard), *only* = ausschließlich) |
 | `inx-available` | nur explizit verfügbare Objekte anzeigen? (*yes* = ja, *no* = nein) |
 | `inx-reserved` | nur explizit reservierte Objekte anzeigen? (*yes* = ja, *no* = nein) |

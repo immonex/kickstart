@@ -157,14 +157,19 @@ export default {
 				if (this.lang) params.lang = this.lang
 
 				const geoPrediction = await axios.get(
-					'https://photon.komoot.de/api/',
+					'https://photon.komoot.io/api/',
 					{
 						params,
 						paramsSerializer: params => {
 							return Qs.stringify(params, { indices: false })
 						}
 					}
-				)
+				).catch(err => err)
+
+				if (geoPrediction instanceof Error) {
+					this.loading = false
+					return suggestions
+				}
 
 				let data = geoPrediction.data
 				let that = this
@@ -226,7 +231,8 @@ export default {
 					})
 				}
 			} catch (e) {
-				console.log('Error', e)
+				this.loading = false
+				return suggestions
 			}
 
 			if ( suggestions.length > 0 ) {

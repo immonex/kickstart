@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "config": {
@@ -13,7 +13,7 @@
     "nouislider": "^11.1.0",
     "ol": "^5.3.3",
     "qs": "^6.9.4",
-    "uikit": "^3.5.10",
+    "uikit": "^3.5.12",
     "vue": "^2.6.12",
     "vue-cookies": "^1.7.4",
     "vue-multiselect": "^2.1.6"
@@ -66,7 +66,7 @@
     "test:install": "bin/invoke_test_installer.sh",
     "test": "vendor/phpunit/phpunit/phpunit -c tests/phpunit/plugin.xml",
     "doc": "doc-gen server",
-    "doc:publish": "bin/publish_doc.sh",
+    "doc:publish": "doc-gen publish",
     "apidoc": "vendor/bin/phpdoc run --sourcecode --template=clean --title='immonex Kickstart'",
     "apidoc:view": "node_modules/.bin/lws --stack lws-static lws-index --hostname localhost --port 8001 -d apidoc -o",
     "apidoc:delete": "rimraf apidoc && rimraf .tmp/apidoc"

@@ -1,7 +1,7 @@
 ---
 title: Detailansicht
 category: komponenten
-order: 50
+order: 60
 search: 1
 ---
 
@@ -10,6 +10,8 @@ search: 1
 ## Standard-Template
 
 Kickstart bzw. die verfügbaren [Skins](../anpassung-erweiterung/skins.html) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](../beitragsarten-taxonomien.html), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](../schnellstart/einrichtung.html#Karten-amp-Umkreissuche), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
+
+> Die Standard-Detailansicht kann auch durch die Ergänzung von **Widgets** in der zugehörigen [Sidebar](../schnellstart/sidebars.html) erweitert werden.
 
 ![Standard-Detailansicht](../assets/scst-property-details-1.jpg)
 

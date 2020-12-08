@@ -18,6 +18,10 @@
 	filter: brightness(130%);
 }
 
+.inx-link--is-inline {
+	display: inline-flex;
+}
+
 .inx-inverse .inx-link,
 .inx-link.inx-inverse {
 	color: $color-action-element-inverse;

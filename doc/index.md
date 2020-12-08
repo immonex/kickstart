@@ -13,10 +13,15 @@ search: 1
 
 - [Immobiliensuche](komponenten/index.html)
 - [Listen](komponenten/liste.html)
+- [Karten](komponenten/karte.html)
 - [Sortierung](komponenten/sortierung.html)
 - [Detailansicht](komponenten/detailansicht.html)
 
 ...sowie um ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons.html)).
+
+## Praxisbeispiel
+
+[immonex ONE](https://immonex.one/), die <i>Website-Schnellstart-Lösung</i> für Immobilienmakler, wurde maßgeblich auf Basis von Kickstart und [OpenImmo2WP](schnellstart/import.html) umgesetzt.
 
 ## Zielgruppen dieser Dokumentation
 

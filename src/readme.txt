@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.5.3
-Stable Tag: 1.1.2
+Tested up to: 5.6
+Stable Tag: 1.2.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,7 +45,8 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Shortcodes for embedding real estate components (suitable for use in page builder layout elements)
 * Simple but powerful templating system ("Skins")
 * Clean and responsive default skin
-* Property location maps (OpenStreetMaps and Google Maps)
+* Property location overview maps incl. clustered markers (OpenStreetMap/OpenLayers)
+* Property detail location maps (OpenStreetMap and Google Maps)
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
@@ -105,13 +106,16 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.0-beta =
-* Release date: ?
-* Added property list maps incl. clustered markers.
+= 1.2.0 =
+* Release date: 2020-12-08
+* Added property location overview maps incl. clustered markers.
+* Slightly reworked default skin.
 * Extended country code based queries to distinguish between single
   and multiple codes.
 * Changed list image default size from 300 px to 800 px.
 * Added latitude and longitude to property backend form.
+* Updated Photon base URL (geo location autocompletion).
+* Updated JS code (WordPress 5.6 compatibility).
 
 = 1.1.2 =
 * Release date: 2020-09-01

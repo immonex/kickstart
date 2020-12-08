@@ -1,11 +1,11 @@
 ---
-title: Datenimport
+title: OpenImmo-Import
 category: schnellstart
 order: 30
 search: 1
 ---
 
-# Datenimport
+# OpenImmo-Datenimport
 
 Kickstart ist **ausschließlich** für die Präsentation von Immobilien ausgelegt und optimiert, die per **OpenImmo®-Schnittstelle** importiert werden. Eine manuelle Erfassung oder Bearbeitung der Objekte im WordPress-Backend ist zwar grundsätzlich (in begrenztem Umfang) möglich, aber nicht praxisrelevant.
 

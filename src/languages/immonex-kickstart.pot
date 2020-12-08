@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.2.0-beta\n"
+"Project-Id-Version: immonex Kickstart 1.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-12-04 08:00:40+00:00\n"
+"POT-Creation-Date: 2020-12-07 21:02:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1472,8 +1472,8 @@ msgstr ""
 msgid "Currently there are no properties that match the search criteria."
 msgstr ""
 
-#: skins/default/property-search/element-extended-search-toggle.php:24
-#: skins/default/property-search/element-extended-search-toggle.php:30
+#: skins/default/property-search/element-extended-search-toggle.php:25
+#: skins/default/property-search/element-extended-search-toggle.php:31
 msgid "Extended Search"
 msgstr ""
 
