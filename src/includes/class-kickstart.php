@@ -10,7 +10,7 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_1\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
