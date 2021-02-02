@@ -44,6 +44,13 @@ class Property {
 	private $details;
 
 	/**
+	 * Template data cache
+	 *
+	 * @var mixed[]
+	 */
+	private $cache;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -84,6 +91,23 @@ class Property {
 		$post          = $this->post;
 		$prefix        = $this->config['plugin_prefix'];
 		$public_prefix = $this->config['public_prefix'];
+
+		/**
+		 * Generate a property-specific hash value for caching purposes.
+		 */
+		$hash_array = array_merge(
+			array(
+				$this->post->ID,
+				$template,
+			),
+			$atts
+		);
+		$hash = md5( serialize( $hash_array ) );
+
+		// Return cached contents if available.
+		if ( isset( $this->cache['template_content'][ $hash ] ) ) {
+			return $this->cache['template_content'][ $hash ];
+		}
 
 		// Get property core data (individual custom fields).
 		$core_data = $this->get_core_data();
@@ -289,7 +313,6 @@ class Property {
 
 		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
 
-		// TODO: Cache.
 		$template_data = array_merge(
 			$this->config,
 			$core_data,
@@ -324,9 +347,9 @@ class Property {
 			$atts
 		);
 
-		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+		$this->cache['template_content'][ $hash ] = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
 
-		return $template_content;
+		return $this->cache['template_content'][ $hash ];
 	} // render
 
 	/**
@@ -417,6 +440,10 @@ class Property {
 	 * @return mixed[] Property core data.
 	 */
 	private function get_core_data() {
+		if ( $this->post->ID && isset( $this->cache['core_data'][ $this->post->ID ] ) ) {
+			return $this->cache['core_data'][ $this->post->ID ];
+		}
+
 		$prefix       = $this->config['plugin_prefix'];
 		$is_reference = get_post_meta( $this->post->ID, '_immonex_is_reference', true );
 
@@ -475,15 +502,14 @@ class Property {
 					$value_formatted = $this->utils['string']->get_nice_number( $value );
 					break;
 				case 'primary_price':
-					if (
-						! $value || (
-							$is_reference &&
-							! $this->config['show_reference_prices']
-						)
-					) {
+					if ( empty( $value ) ) {
 						$value = 0;
 					}
-					$value_formatted = $this->utils['format']->format_price( $value, 0, '', __( 'Price on demand', 'immonex-kickstart' ) );
+					if ( $is_reference && ! $this->config['show_reference_prices'] ) {
+						$value_formatted = $this->config['reference_price_text'];
+					} else {
+						$value_formatted = $this->utils['format']->format_price( $value, 0, '', __( 'Price on demand', 'immonex-kickstart' ) );
+					}
 					break;
 				default:
 					$value_formatted = $value;
@@ -497,6 +523,8 @@ class Property {
 			);
 		}
 
+		$this->cache['core_data'][ $this->post->ID ] = $core_data;
+
 		return $core_data;
 	} // get_core_data
 
@@ -508,6 +536,10 @@ class Property {
 	 * @return string[] Property core data.
 	 */
 	private function get_openimmo_data() {
+		if ( $this->post->ID && isset( $this->cache['openimmo_data'][ $this->post->ID ] ) ) {
+			return $this->cache['openimmo_data'][ $this->post->ID ];
+		}
+
 		$prefix         = $this->config['public_prefix'];
 		$no_data_return = array(
 			'oi_nutzungsart'     => array(),
@@ -579,11 +611,13 @@ class Property {
 			$oi_vermarktungsart = array();
 		}
 
-		return array(
+		$this->cache['openimmo_data'][ $this->post->ID ] = array(
 			'oi_nutzungsart'     => $oi_nutzungsart,
 			'oi_vermarktungsart' => $oi_vermarktungsart,
 			'oi_css_classes'     => $oi_css_classes,
 		);
+
+		return $this->cache['openimmo_data'][ $this->post->ID ];
 	} // get_openimmo_data
 
 	/**
@@ -720,6 +754,10 @@ class Property {
 	 * @return mixed[] Property video data.
 	 */
 	private function get_video_data() {
+		if ( $this->post->ID && isset( $this->cache['video_data'][ $this->post->ID ] ) ) {
+			return $this->cache['video_data'][ $this->post->ID ];
+		}
+
 		$video_url = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'video_url', true );
 		if ( ! $video_url ) {
 			return false;
@@ -730,12 +768,12 @@ class Property {
 			return false;
 		}
 
-		$video_data = array_merge(
+		$this->cache['video_data'][ $this->post->ID ] = array_merge(
 			$video_parts,
 			array( 'url' => $video_url )
 		);
 
-		return $video_data;
+		return $this->cache['video_data'][ $this->post->ID ];
 	} // get_video_data
 
 	/**
@@ -746,6 +784,10 @@ class Property {
 	 * @return mixed[] Array of attachment data, if any.
 	 */
 	private function get_file_attachments() {
+		if ( $this->post->ID && isset( $this->cache['file_attachments'][ $this->post->ID ] ) ) {
+			return $this->cache['file_attachments'][ $this->post->ID ];
+		}
+
 		$attachment_ids = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'file_attachments', true );
 		if ( ! $attachment_ids ) {
 			return array();
@@ -762,6 +804,8 @@ class Property {
 			$attachments[] = wp_prepare_attachment_for_js( $id );
 		}
 
+		$this->cache['file_attachments'][ $this->post->ID ] = $attachments;
+
 		return $attachments;
 	} // get_file_attachments
 
@@ -773,6 +817,10 @@ class Property {
 	 * @return bool[] Property flag list.
 	 */
 	private function get_flags() {
+		if ( $this->post->ID && isset( $this->cache['flags'][ $this->post->ID ] ) ) {
+			return $this->cache['flags'][ $this->post->ID ];
+		}
+
 		$prefix = '_' . $this->config['plugin_prefix'];
 
 		$flag_mapping = array(
@@ -792,6 +840,8 @@ class Property {
 			);
 		}
 
+		$this->cache['flags'][ $this->post->ID ] = $flags;
+
 		return $flags;
 	} // get_flags
 
@@ -805,12 +855,17 @@ class Property {
 	 * @return string Backlink URL.
 	 */
 	private function get_backlink_url( $permalink_url ) {
+		if ( $this->post->ID && isset( $this->cache['backlink_url'][ $this->post->ID ] ) ) {
+			return $this->cache['backlink_url'][ $this->post->ID ];
+		}
+
 		global $wp;
 		global $wp_query;
 
 		$public_prefix = $this->config['public_prefix'];
 		$backlink_url  = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
 		if ( $backlink_url ) {
+			$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
 			return $backlink_url;
 		}
 
@@ -864,6 +919,8 @@ class Property {
 			$inx_query_params = http_build_query( $inx_query_vars );
 			$backlink_url     = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $inx_query_params;
 		}
+
+		$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
 
 		return $backlink_url;
 	} // get_backlink_url

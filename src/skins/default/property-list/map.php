@@ -29,6 +29,7 @@ $inx_skin_osmaps_privacy_note = wp_sprintf(
 		:lat="<?php echo esc_attr( $template_data['lat'] ); ?>"
 		:lng="<?php echo esc_attr( $template_data['lng'] ); ?>"
 		:zoom="<?php echo esc_attr( $template_data['zoom'] ); ?>"
+		:auto-fit="<?php echo $template_data['property_list_map_auto_fit'] ? 'true' : 'false'; ?>"
 		marker-set-id="<?php echo esc_attr( $template_data['marker_set_id'] ); ?>"
 		marker-icon-url="<?php echo esc_url( $inx_skin_marker_icon_url ); ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_osmaps_privacy_note ) ); ?>"

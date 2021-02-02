@@ -50,6 +50,10 @@ export default {
 			type: Number,
 			default: 12
 		},
+		autoFit: {
+			type: Boolean,
+			default: true
+		},
 		markerSetId: {
 			type: String,
 			default: ''
@@ -280,12 +284,14 @@ export default {
 				map.addLayer(markerVectorLayer)
 			}
 
-			this.$nextTick(() => {
-				map.updateSize()
+			if (this.autoFit) {
+				this.$nextTick(() => {
+					map.updateSize()
 
-				const extent = vectorSource.getExtent()
-				map.getView().fit(extent, map.getSize())
-			})
+					const extent = vectorSource.getExtent()
+					map.getView().fit(extent, map.getSize())
+				})
+			}
 		},
 		addClickEventListener (map) {
 			const that = this
@@ -344,7 +350,7 @@ export default {
 				view: new View({
 					center: fromLonLat([this.lng, this.lat]),
 					zoom: this.zoom,
-					minZoom: 8,
+					minZoom: 0,
 					maxZoom: 18
 				})
 	        })

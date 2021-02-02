@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.2.0\n"
+"Project-Id-Version: immonex Kickstart 1.2.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2020-12-04 08:00:40+00:00\n"
-"PO-Revision-Date: 2020-12-04 11:07+0100\n"
+"POT-Creation-Date: 2021-02-02 16:42:23+00:00\n"
+"PO-Revision-Date: 2021-02-02 17:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -15,34 +15,38 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/class-kickstart.php:170
+#: includes/class-kickstart.php:172 includes/class-property.php:511
+msgid "Price on demand"
+msgstr "Preis auf Anfrage"
+
+#: includes/class-kickstart.php:176
 msgid "The real property location may differ from the marker position."
 msgstr ""
 "Der reale Standort der Immobilie kann von der Markerposition abweichen."
 
-#: includes/class-kickstart.php:174
+#: includes/class-kickstart.php:180
 msgid "The map roughly shows the location in which the property is located."
 msgstr ""
 "Die Karte zeigt grob den Ortsteil bzw. die Lage an, in der sich die "
 "Immobilie befindet."
 
-#: includes/class-kickstart.php:222 includes/class-kickstart.php:228
+#: includes/class-kickstart.php:228 includes/class-kickstart.php:234
 msgid "none"
 msgstr "keine"
 
-#: includes/class-kickstart.php:229
+#: includes/class-kickstart.php:235
 msgid "OpenLayers/OpenStreetMap Map with property location marker"
 msgstr "OpenLayers/OpenStreetMap-Karte mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:230
+#: includes/class-kickstart.php:236
 msgid "Google Map with property location marker"
 msgstr "Google Map mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:231
+#: includes/class-kickstart.php:237
 msgid "Google Map showing the property's neighborhood"
 msgstr "Google Map mit Ort oder Stadtteil"
 
-#: includes/class-kickstart.php:336
+#: includes/class-kickstart.php:344
 msgid ""
 "An <strong>OpenImmo import solution</strong> that supports <strong>immonex "
 "Kickstart</strong> is required to provide the real estate offers to be "
@@ -53,7 +57,7 @@ msgstr ""
 "Immobilien-Angebote benötigt:"
 
 #. translators: %s = immonex.dev full URL
-#: includes/class-kickstart.php:338
+#: includes/class-kickstart.php:346
 msgid ""
 "<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are "
 "available <strong>free of charge for testing and development purposes</"
@@ -63,47 +67,47 @@ msgstr ""
 "<strong>kostenfrei für Test- und Entwicklungszwecke</strong> unter <a href="
 "\"%s\" target=\"_blank\">immonex.dev</a> verfügbar."
 
-#: includes/class-kickstart.php:383
+#: includes/class-kickstart.php:391
 msgid "General"
 msgstr "Allgemein"
 
-#: includes/class-kickstart.php:388
+#: includes/class-kickstart.php:396
 msgid "Maps &amp; Distance Search"
 msgstr "Karten &amp; Umkreissuche"
 
-#: includes/class-kickstart.php:404
+#: includes/class-kickstart.php:412
 msgid "none (use default archive)"
 msgstr "keine (Standard-Archiv verwenden)"
 
-#: includes/class-kickstart.php:405
+#: includes/class-kickstart.php:413
 msgid "none (use default template)"
 msgstr "keine (Standard-Template verwenden)"
 
-#: includes/class-kickstart.php:413
+#: includes/class-kickstart.php:421
 msgid "Design & Structure"
 msgstr "Design & Struktur"
 
-#: includes/class-kickstart.php:418
+#: includes/class-kickstart.php:426
 msgid "Measuring Units & Currency"
 msgstr "Maßeinheiten & Währung"
 
-#: includes/class-kickstart.php:423 includes/class-property-search.php:553
+#: includes/class-kickstart.php:431 includes/class-property-search.php:553
 msgid "Distance Search"
 msgstr "Umkreissuche"
 
-#: includes/class-kickstart.php:424
+#: includes/class-kickstart.php:432
 msgid ""
 "If enabled, the property search form includes a distance search feature."
 msgstr ""
 "Wenn aktiviert, enthält das Immobilien-Suchformular eine Option zur "
 "umkreisbasierten Suche."
 
-#: includes/class-kickstart.php:428
+#: includes/class-kickstart.php:436
 msgid "Maps on Property List Pages"
 msgstr "Karten in Immobilien-Listenseiten"
 
 #. translators: %1$s = OpenStreetMap URL, %2$s = OpenLayers URL.
-#: includes/class-kickstart.php:431
+#: includes/class-kickstart.php:439
 msgid ""
 "Maps on property list pages are rendered using <a href=\"%1$s\" target="
 "\"_blank\">OpenStreetMap</a> and <a href=\"%2$s\" target=\"_blank"
@@ -118,11 +122,11 @@ msgstr ""
 "ermittelt. Die entsprechenden Initialwerte können in den folgenden Feldern "
 "hinterlegt werden."
 
-#: includes/class-kickstart.php:438
+#: includes/class-kickstart.php:446
 msgid "Maps on Property Detail Pages"
 msgstr "Karten in Immobilien-Detailseiten"
 
-#: includes/class-kickstart.php:439
+#: includes/class-kickstart.php:447
 msgid ""
 "This plugin currently supports two types of Maps on the property detail "
 "pages: A marker based one showing the property's (approximate) position "
@@ -134,7 +138,7 @@ msgstr ""
 "(OpenStreetMap oder Google) sowie eine Google-Embed-API-Version zur "
 "Darstellung/Hervorhebung des Orts bzw. Stadtteils."
 
-#: includes/class-kickstart.php:444
+#: includes/class-kickstart.php:452
 msgid ""
 "This plugin <strong>optionally</strong> uses the <strong>Google Maps "
 "JavaScript API (incl. Places library)</strong> as well as the <strong>Maps "
@@ -146,11 +150,11 @@ msgstr ""
 "API</strong> (Karten, Standort-Autovervollständigung). Bitte in diesem Fall "
 "einen gültigen API-Schlüssel hinterlegen."
 
-#: includes/class-kickstart.php:466
+#: includes/class-kickstart.php:474
 msgid "Skin"
 msgstr "Skin"
 
-#: includes/class-kickstart.php:469
+#: includes/class-kickstart.php:477
 msgid ""
 "A skin is a set of templates for all immonex Kickstart related pages and "
 "elements."
@@ -158,11 +162,11 @@ msgstr ""
 "Ein Skin ist eine Sammlung von Vorlagen für alle immonex-Kickstart-bezogenen "
 "Seiten und Elemente."
 
-#: includes/class-kickstart.php:476
+#: includes/class-kickstart.php:484
 msgid "Property Overview"
 msgstr "Immobilien-Übersicht"
 
-#: includes/class-kickstart.php:479
+#: includes/class-kickstart.php:487
 msgid ""
 "Use the specified page as <strong>default</strong> property overview/list "
 "page (instead of the property post type archive)."
@@ -170,11 +174,11 @@ msgstr ""
 "Die angegebene Seite wird als <strong>Standard</strong>-Immobilien-"
 "Übersichtsseite verwendet (anstelle der Archivseite des Beitragstyps)."
 
-#: includes/class-kickstart.php:486
+#: includes/class-kickstart.php:494
 msgid "Property Details Page"
 msgstr "Immobilien-Detailseite"
 
-#: includes/class-kickstart.php:489
+#: includes/class-kickstart.php:497
 msgid ""
 "Use the specified page as base for displaying the property details (instead "
 "of the default template)."
@@ -182,11 +186,11 @@ msgstr ""
 "Die angegebene Seite wird anstelle des Standard-Templates für die Ausgabe "
 "der Immobilien-Details verwendet."
 
-#: includes/class-kickstart.php:496
+#: includes/class-kickstart.php:504
 msgid "Heading Base Level"
 msgstr "Überschriften-Basisgrad"
 
-#: includes/class-kickstart.php:499
+#: includes/class-kickstart.php:507
 msgid ""
 "Level that immonex related headlines (e.g. on property list and detail "
 "pages) should start with."
@@ -194,23 +198,23 @@ msgstr ""
 "Grad, mit dem immonex-bezogene Überschriften (z. B. in Immobilien-Listen- "
 "und Detailseiten) starten sollen."
 
-#: includes/class-kickstart.php:510
+#: includes/class-kickstart.php:518
 msgid "Area Measuring Unit"
 msgstr "Flächen-Maßeinheit"
 
-#: includes/class-kickstart.php:521
+#: includes/class-kickstart.php:529
 msgid "Currency Code"
 msgstr "Währungscode"
 
-#: includes/class-kickstart.php:532
+#: includes/class-kickstart.php:540
 msgid "Currency Symbol"
 msgstr "Währungssymbol"
 
-#: includes/class-kickstart.php:542
+#: includes/class-kickstart.php:550
 msgid "Show Reference Prices"
 msgstr "Referenzobjekt-Preise anzeigen"
 
-#: includes/class-kickstart.php:545
+#: includes/class-kickstart.php:553
 msgid ""
 "Activate this option if the prices of reference properties shall be "
 "displayed."
@@ -218,11 +222,23 @@ msgstr ""
 "Diese Option muss aktiviert werden, wenn die Preise von Referenzobjekten "
 "angezeigt werden sollen."
 
-#: includes/class-kickstart.php:551
+#: includes/class-kickstart.php:559
+msgid "Reference Price Text"
+msgstr "Referenzpreis-Text"
+
+#: includes/class-kickstart.php:562
+msgid ""
+"This text is displayed if reference prices shall <strong>not</strong> be "
+"published."
+msgstr ""
+"Dieser Text wird angezeigt, wenn Preise von Referenzobjekten <strong>nicht</"
+"strong> veröffentlicht werden sollen."
+
+#: includes/class-kickstart.php:568
 msgid "Autocompletion"
 msgstr "Autovervollständigung"
 
-#: includes/class-kickstart.php:554
+#: includes/class-kickstart.php:571
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
@@ -231,7 +247,7 @@ msgstr ""
 "der Immobilien-Suchformulare zum Einsatz kommt (keine = Umkreissuche "
 "deaktivieren)."
 
-#: includes/class-kickstart.php:555
+#: includes/class-kickstart.php:572
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API section below)."
@@ -239,11 +255,11 @@ msgstr ""
 "Für die <strong>Google Places</strong> basierte Variante ist ein passender "
 "API-Schlüssel erforderlich (siehe Abschnitt \"Google Maps API\" unten)."
 
-#: includes/class-kickstart.php:562
+#: includes/class-kickstart.php:579
 msgid "Require Usage Consent"
 msgstr "Zustimmung erforderlich"
 
-#: includes/class-kickstart.php:565
+#: includes/class-kickstart.php:582
 msgid ""
 "If active, the user has to confirm the use of an external service for auto-"
 "completion."
@@ -251,11 +267,11 @@ msgstr ""
 "Wenn aktiviert, muss die Nutzung eines externen Dienstes für die "
 "Autovervollständigung explizit bestätigt werden."
 
-#: includes/class-kickstart.php:571
+#: includes/class-kickstart.php:588
 msgid "Display in Archive Pages"
 msgstr "In Archivseiten anzeigen"
 
-#: includes/class-kickstart.php:574
+#: includes/class-kickstart.php:591
 msgid ""
 "If active, the property marker map will be shown in the default list "
 "(archive) pages."
@@ -263,41 +279,53 @@ msgstr ""
 "Wenn aktiviert, wird die Immobilien-Markerkarte in den Standard-Listenseiten "
 "(Archiv) angezeigt."
 
-#: includes/class-kickstart.php:580
+#: includes/class-kickstart.php:597
 msgid "Default Latitude"
 msgstr "Standard-Breitengrad"
 
-#: includes/class-kickstart.php:583
+#: includes/class-kickstart.php:600
 msgid ""
 "Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
 msgstr ""
 "Initial-Breitengrad des <strong>Karten-Mittelpunkts</strong> (-90 bis 90), "
 "z. B. 49.8587840."
 
-#: includes/class-kickstart.php:593
+#: includes/class-kickstart.php:610
 msgid "Default Longitude"
 msgstr "Standard-Längengrad"
 
-#: includes/class-kickstart.php:596
+#: includes/class-kickstart.php:613
 msgid ""
 "Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
 msgstr ""
 "Initial-Längengrad des <strong>Karten-Mittelpunkts</strong> (-180 bis 180), "
 "z. B. 6.7854410."
 
-#: includes/class-kickstart.php:606 includes/class-kickstart.php:630
+#: includes/class-kickstart.php:623 includes/class-kickstart.php:656
 msgid "Default Zoom Level"
 msgstr "Standard-Zoomstufe"
 
-#: includes/class-kickstart.php:609 includes/class-kickstart.php:633
-msgid "8 to 18"
-msgstr "8 bis 18"
+#: includes/class-kickstart.php:626
+msgid "2 to 18"
+msgstr "2 bis 18"
 
-#: includes/class-kickstart.php:619
+#: includes/class-kickstart.php:636
+msgid "Auto-Fit Map Bounds"
+msgstr "Auto-Kartengrenzen"
+
+#: includes/class-kickstart.php:639
+msgid ""
+"Automatically set map bounds and zoom level to include all property location "
+"markers."
+msgstr ""
+"Kartengrenzen und Zoomstufe automatisch so anpassen, dass alle Immobilien-"
+"Standortmarker enthalten sind."
+
+#: includes/class-kickstart.php:645
 msgid "Map Type"
 msgstr "Kartentyp"
 
-#: includes/class-kickstart.php:622
+#: includes/class-kickstart.php:648
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
@@ -305,7 +333,7 @@ msgstr ""
 "Auswahl des Typs der Karte, die in den Immobilien-Detailseiten angezeigt "
 "werden (keine = Kartenansicht deaktivieren)."
 
-#: includes/class-kickstart.php:623
+#: includes/class-kickstart.php:649
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
@@ -313,11 +341,15 @@ msgstr ""
 "Für die <strong>Google Maps</strong> basierte Variante ist ein passender API-"
 "Schlüssel erforderlich (siehe Abschnitt \"Google Maps API\" unten)."
 
-#: includes/class-kickstart.php:643
+#: includes/class-kickstart.php:659
+msgid "8 to 18"
+msgstr "8 bis 18"
+
+#: includes/class-kickstart.php:669
 msgid "Info Window Note"
 msgstr "Infofenster-Hinweis"
 
-#: includes/class-kickstart.php:646
+#: includes/class-kickstart.php:672
 msgid ""
 "If stated, this note gets displayed within a map info window above the "
 "property location marker."
@@ -325,33 +357,33 @@ msgstr ""
 "Wenn angegeben, wird dieser Hinweis in einem Karten-Infofenster oberhalb des "
 "Objekt-Standortmarkers angezeigt."
 
-#: includes/class-kickstart.php:653
+#: includes/class-kickstart.php:679
 msgid "Marker Map Note"
 msgstr "Markerkarten-Hinweis"
 
-#: includes/class-kickstart.php:656
+#: includes/class-kickstart.php:682
 msgid "This note gets displayed below <strong>marker based</strong> maps."
 msgstr ""
 "Dieser Hinweis wird unterhalb von <strong>markerbasierten</strong> Karten "
 "angezeigt."
 
-#: includes/class-kickstart.php:663
+#: includes/class-kickstart.php:689
 msgid "Neighborhood Map Note"
 msgstr "Ortsteilkarten-Hinweis"
 
-#: includes/class-kickstart.php:666
+#: includes/class-kickstart.php:692
 msgid ""
 "This note gets displayed below <strong>neighborhood based</strong> maps."
 msgstr ""
 "Dieser Hinweis wird unterhalb von Karten mit <strong>Orts- bzw. Stadtteilen</"
 "strong> angezeigt."
 
-#: includes/class-kickstart.php:673
+#: includes/class-kickstart.php:699
 msgid "Google Maps API Key"
 msgstr "Google Maps API Key"
 
 #. translators: %s = Google Developer Docs URL
-#: includes/class-kickstart.php:678
+#: includes/class-kickstart.php:704
 msgid ""
 "Provide an key suitable for using the Google APIs mentioned abobe. You can "
 "find information about getting and configuring such a key on the respective "
@@ -376,12 +408,12 @@ msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:589 includes/class-property.php:671
+#: includes/class-property-search.php:589 includes/class-property.php:705
 #: skins/default/single-property/element-hub.php:81
 msgid "Features"
 msgstr "Ausstattung"
 
-#: includes/class-property-backend-form.php:105 includes/class-property.php:685
+#: includes/class-property-backend-form.php:105 includes/class-property.php:719
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -464,7 +496,7 @@ msgstr "Bilder & Anhänge"
 msgid "Gallery Images"
 msgstr "Galeriebilder"
 
-#: includes/class-property-backend-form.php:272 includes/class-property.php:676
+#: includes/class-property-backend-form.php:272 includes/class-property.php:710
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -646,29 +678,25 @@ msgstr "Labels"
 msgid "All Labels"
 msgstr "Alle Labels"
 
-#: includes/class-property.php:486
-msgid "Price on demand"
-msgstr "Preis auf Anfrage"
-
-#: includes/class-property.php:636
+#: includes/class-property.php:670
 #: skins/default/single-property/element-hub.php:93
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:641
+#: includes/class-property.php:675
 msgid "Areas"
 msgstr "Flächen"
 
-#: includes/class-property.php:646
+#: includes/class-property.php:680
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:689
+#: includes/class-property.php:723
 #: skins/default/single-property/element-hub.php:97
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:694
+#: includes/class-property.php:728
 #: skins/default/single-property/contact-person.php:97
 msgid "Your contact person with us"
 msgstr "Ihr Kontakt bei uns"
@@ -1553,7 +1581,7 @@ msgstr ""
 "Verarbeitung von Benutzerdaten durch die OSMF finden Sie in der <a href=\"%s"
 "\">OSMF-Datenschutzrichtlinie</a>."
 
-#: skins/default/property-list/map.php:35
+#: skins/default/property-list/map.php:36
 #: skins/default/single-property/location-info.php:143
 #: skins/default/single-property/location-info.php:155
 #: skins/default/single-property/location-info.php:165
@@ -1573,8 +1601,8 @@ msgid "Currently there are no properties that match the search criteria."
 msgstr ""
 "Aktuell sind keine Immobilien vorhanden, die den Suchkriterien entsprechen."
 
-#: skins/default/property-search/element-extended-search-toggle.php:24
-#: skins/default/property-search/element-extended-search-toggle.php:30
+#: skins/default/property-search/element-extended-search-toggle.php:25
+#: skins/default/property-search/element-extended-search-toggle.php:31
 msgid "Extended Search"
 msgstr "Erweiterte Suche"
 

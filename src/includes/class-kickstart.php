@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.2.0';
+	const PLUGIN_VERSION             = '1.2.3-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -45,6 +45,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 		'currency'                                     => 'EUR',
 		'currency_symbol'                              => '€',
 		'show_reference_prices'                        => false,
+		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'google_api_key'                               => '',
 		'distance_search_autocomplete_type'            => 'photon',
 		'distance_search_autocomplete_require_consent' => true,
@@ -52,6 +53,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 		'property_list_map_lat'                        => 49.8587840,
 		'property_list_map_lng'                        => 6.7854410,
 		'property_list_map_zoom'                       => 12,
+		'property_list_map_auto_fit'                   => true,
 		'property_details_map_type'                    => 'ol_osm_map_marker',
 		'property_details_map_zoom'                    => 12,
 		'property_details_map_infowindow_contents'     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -166,6 +168,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 		foreach ( $this->plugin_options as $option_name => $option_value ) {
 			if ( 'INSERT_TRANSLATED_DEFAULT_VALUE' === $option_value ) {
 				switch ( $option_name ) {
+					case 'reference_price_text':
+						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
 					case 'property_details_map_infowindow_contents':
 						$this->plugin_options[ $option_name ] = __( 'The real property location may differ from the marker position.', 'immonex-kickstart' );
 						$option_string_translated             = true;
@@ -242,12 +248,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 				'currency'                                 => $this->plugin_options['currency'],
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
 				'show_reference_prices'                    => $this->plugin_options['show_reference_prices'],
+				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
 				'property_list_map_display_by_default'     => $this->plugin_options['property_list_map_display_by_default'],
 				'property_list_map_lat'                    => $this->plugin_options['property_list_map_lat'],
 				'property_list_map_lng'                    => $this->plugin_options['property_list_map_lng'],
 				'property_list_map_zoom'                   => $this->plugin_options['property_list_map_zoom'],
+				'property_list_map_auto_fit'               => $this->plugin_options['property_list_map_auto_fit'],
 				'property_details_map_type'                => $this->plugin_options['property_details_map_type'],
 				'property_details_map_zoom'                => $this->plugin_options['property_details_map_zoom'],
 				'property_details_map_infowindow_contents' => $this->plugin_options['property_details_map_infowindow_contents'],
@@ -546,6 +554,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 					),
 				),
 				array(
+					'name'    => 'reference_price_text',
+					'type'    => 'text',
+					'label'   => __( 'Reference Price Text', 'immonex-kickstart' ),
+					'section' => 'section_units',
+					'args'    => array(
+						'description' => __( 'This text is displayed if reference prices shall <strong>not</strong> be published.', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'distance_search_autocomplete_type',
 					'type'    => 'select',
 					'label'   => __( 'Autocompletion', 'immonex-kickstart' ),
@@ -606,11 +623,20 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_2\Base {
 					'label'   => __( 'Default Zoom Level', 'immonex-kickstart' ),
 					'section' => 'section_property_list_maps',
 					'args'    => array(
-						'description' => __( '8 to 18', 'immonex-kickstart' ),
+						'description' => __( '2 to 18', 'immonex-kickstart' ),
 						'class'       => 'small-text',
 						'force_type'  => 'int',
-						'min'         => 8,
+						'min'         => 2,
 						'max'         => 18,
+					),
+				),
+				array(
+					'name'    => 'property_list_map_auto_fit',
+					'type'    => 'checkbox',
+					'label'   => __( 'Auto-Fit Map Bounds', 'immonex-kickstart' ),
+					'section' => 'section_property_list_maps',
+					'args'    => array(
+						'description' => __( 'Automatically set map bounds and zoom level to include all property location markers.', 'immonex-kickstart' ),
 					),
 				),
 				array(

@@ -12,6 +12,7 @@
 	</taxonomies>
 	<admin-texts>
 		<key name="immonex-kickstart_options">
+			<key name="reference_price_text" />
 			<key name="property_details_map_infowindow_contents" />
 			<key name="property_details_map_note_map_marker" />
 			<key name="property_details_map_note_map_embed" />

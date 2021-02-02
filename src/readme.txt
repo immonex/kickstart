@@ -106,6 +106,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.2.3-beta =
+* Release date: ?
+* Add option for setting an alternate reference price text.
+* Add option for enabling/disabling the map bounds auto-fit function.
+* Lower minimum zoom level for property overview maps.
+
 = 1.2.0 =
 * Release date: 2020-12-08
 * Added property location overview maps incl. clustered markers.
@@ -121,19 +127,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2020-09-01
 * Fixed an issue regarding the currency option usage.
 * Updated external libraries.
-
-= 1.1.0 =
-* Release date: 2020-08-20
-* Reworked the usage of regular pages as property detail templates.
-* Added author based property queries.
-* Added a special query variable for custom template reference IDs.
-* Extended the backend property edit form (images/attachments).
-* Extended the add-on API (filter hooks).
-* Slightly updated the default skin styles.
-* Various compatibility, security and performance optimizations.
-
-= 1.0.3 =
-* Release date: 2020-04-02
-* Fixed typos etc. in readme.txt.
 
 See changelog.txt for complete version history.

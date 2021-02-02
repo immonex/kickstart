@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.2.1-beta =
+* Release date: ?
+* Add option for setting an alternate reference price text.
+
 = 1.2.0 =
 * Release date: 2020-12-08
 * Added property location overview maps incl. clustered markers.
