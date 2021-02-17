@@ -17,6 +17,10 @@ jQuery(document).ready(function($) {
 				'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap
 			}
 		})
+
+		const url = new URL(location)
+		url.searchParams.delete('inx-backlink-url')
+		history.replaceState(null, null, url)
 	}
 
 })
