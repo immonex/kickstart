@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.6
+Tested up to: 5.6.1
 Stable Tag: 1.2.0
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -106,11 +106,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.3-beta =
+= 1.2.4-beta =
 * Release date: ?
 * Add option for setting an alternate reference price text.
 * Add option for enabling/disabling the map bounds auto-fit function.
 * Lower minimum zoom level for property overview maps.
+* Fix distance search arguments not being applied in overview maps.
 
 = 1.2.0 =
 * Release date: 2020-12-08

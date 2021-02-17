@@ -123,7 +123,10 @@ class Property_Search_Hooks {
 			return;
 		}
 
-		$contains_shortcode = is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'inx-property-list' );
+		$contains_shortcode = is_a( $post, 'WP_Post' ) && (
+			has_shortcode( $post->post_content, 'inx-property-list' )
+			|| has_shortcode( $post->post_content, 'inx-property-map' )
+		);
 
 		if (
 			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
@@ -200,6 +203,7 @@ class Property_Search_Hooks {
 		if ( $tax_and_meta_queries['geo_query'] ) {
 			require_once trailingslashit( $this->config['plugin_dir'] ) . 'lib/gjs-geo-query/gjs-geo-query.php';
 			$query->set( 'geo_query', $tax_and_meta_queries['geo_query'] );
+			$query->set( 'suppress_filters', false );
 		}
 
 		if ( isset( $search_query_vars[ $prefix . 'limit' ] ) && (int) $search_query_vars[ $prefix . 'limit' ] ) {

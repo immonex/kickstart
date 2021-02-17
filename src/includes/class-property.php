@@ -102,7 +102,7 @@ class Property {
 			),
 			$atts
 		);
-		$hash = md5( serialize( $hash_array ) );
+		$hash       = md5( serialize( $hash_array ) );
 
 		// Return cached contents if available.
 		if ( isset( $this->cache['template_content'][ $hash ] ) ) {
