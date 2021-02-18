@@ -27,6 +27,13 @@ class API {
 	private $utils;
 
 	/**
+	 * Query cache
+	 *
+	 * @var mixed[]
+	 */
+	private $cache = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -52,10 +59,17 @@ class API {
 	 *
 	 * @return int[] Selected min/max and range values.
 	 */
-	public function get_primary_price_min_max( $default_values = array( 0, 500000, 0, 500000, 0, 1000 ), $force_values = array( 0, false, 0, false, 0, false ) ) {
-		// TODO: Add cache.
+	public function get_primary_price_min_max( $default_values = array( 0, 100, 0, 500000, 0, 500 ), $force_values = array( 0, false, 0, false, 0, false ) ) {
+		global $wpdb;
+
+		if ( ! empty( $this->cache['min_max'] ) ) {
+			return $this->cache['min_max'];
+		}
+
 		$field_prefix = '_' . $this->config['plugin_prefix'];
 		$min_max      = is_array( $default_values ) && 6 === count( $default_values ) ? $default_values : array( 0, 0, 0, 0, 0, 0 );
+
+		$force_values = apply_filters( 'inx_search_form_primary_price_min_max_values', $force_values );
 
 		if ( is_array( $force_values ) && count( $force_values ) > 0 ) {
 			foreach ( $force_values as $i => $value ) {
@@ -72,60 +86,63 @@ class API {
 			'rent' => 0,
 		);
 
-		$cnt = 0;
-
 		foreach ( $marketing_types as $key => $is_sale ) {
-			$min_index = $cnt + 2;
-			$max_index = $cnt + 3;
+			$min_index = $is_sale ? 2 : 4;
+			$max_index = $min_index + 1;
 
-			$args = array(
-				'post_type'                     => $this->config['property_post_type_name'],
-				'post_status'                   => array( 'publish' ),
-				'posts_per_page'                => -1,
-				'fields'                        => 'ids',
-				'meta_query'                    => array(
-					array(
-						'key'   => $field_prefix . 'is_sale',
-						'value' => $is_sale,
-					),
+			$result = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT MIN(meta.meta_value) AS min, MAX(meta.meta_value) AS max FROM $wpdb->postmeta meta
+						JOIN $wpdb->posts post ON meta.post_id = post.ID
+						JOIN $wpdb->postmeta meta2 ON post.ID = meta2.post_id
+						JOIN $wpdb->postmeta meta3 ON post.ID = meta3.post_id
+						WHERE post.post_type = %s
+						AND post.post_status = 'publish'
+						AND meta.meta_key = %s
+						AND meta2.meta_key = %s AND meta2.meta_value = '1'
+						AND meta3.meta_key = %s AND meta3.meta_value = %s",
+					$this->config['property_post_type_name'],
+					"{$field_prefix}primary_price",
+					'_immonex_is_available',
+					"{$field_prefix}is_sale",
+					$is_sale
 				),
-				'suppress_pre_get_posts_filter' => true,
+				ARRAY_A
 			);
 
-			$property_ids = get_posts( $args );
-
-			if ( count( $property_ids ) > 0 ) {
-				foreach ( $property_ids as $post_id ) {
-					$price   = (int) get_post_meta( $post_id, $field_prefix . 'primary_price', true );
-					$base    = (int) 1 . str_repeat( '0', strlen( (string) $price ) - 1 );
-					$roundup = ceil( $price / $base ) * $base;
-
-					if ( $roundup ) {
-						// Unrelated min value.
-						if ( $roundup < $min_max[0] && false === $force_values[0] ) {
-							$min_max[0] = $roundup;
-						}
-
-						// Min value for sale OR rent properties.
-						if ( $roundup < $min_max[ $min_index ] && false === $force_values[ $min_index ] ) {
-							$min_max[ $min_index ] = $roundup;
-						}
-
-						// Unrelated max value.
-						if ( $roundup > $min_max[1] && false === $force_values[1] ) {
-							$min_max[1] = $roundup;
-						}
-
-						// Max value for sale OR rent properties.
-						if ( $roundup > $min_max[ $max_index ] && false === $force_values[ $max_index ] ) {
-							$min_max[ $max_index ] = $roundup;
-						}
-					}
-				}
+			if ( empty( $result ) ) {
+				continue;
 			}
 
-			$cnt += 2;
+			$min           = (int) $result[0]['min'];
+			$base_min      = (int) 1 . str_repeat( '0', strlen( (string) $min ) - 1 );
+			$rounddown_min = (int) floor( $min / $base_min ) * $base_min;
+			$max           = (int) $result[0]['max'];
+			$base_max      = (int) 1 . str_repeat( '0', strlen( (string) $max ) - 1 );
+			$roundup_max   = (int) ceil( $max / $base_max ) * $base_max;
+
+			// Unrelated min value.
+			if ( $rounddown_min < $min_max[0] && false === $force_values[0] ) {
+				$min_max[0] = $rounddown_min;
+			}
+
+			// Min value for sale OR rent properties.
+			if ( $rounddown_min < $min_max[ $min_index ] && false === $force_values[ $min_index ] ) {
+				$min_max[ $min_index ] = $rounddown_min;
+			}
+
+			// Unrelated max value.
+			if ( $roundup_max > $min_max[1] && false === $force_values[1] ) {
+				$min_max[1] = $roundup_max;
+			}
+
+			// Max value for sale OR rent properties.
+			if ( $roundup_max > $min_max[ $max_index ] && false === $force_values[ $max_index ] ) {
+				$min_max[ $max_index ] = $roundup_max;
+			}
 		}
+
+		$this->cache['min_max'] = $min_max;
 
 		return $min_max;
 	} // get_primary_price_min_max

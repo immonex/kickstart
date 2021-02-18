@@ -106,13 +106,15 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.5-beta =
+= 1.2.6-beta =
 * Release date: ?
 * Added option for setting an alternate reference price text.
 * Added option for enabling/disabling the map bounds auto-fit function.
 * Added automatic removal of backlink URL in browser address bar.
 * Lowered minimum zoom level for property overview maps.
 * Fixed distance search arguments not being applied in overview maps.
+* Optimized automatic primary price min/max value determination for
+  search forms.
 
 = 1.2.0 =
 * Release date: 2020-12-08

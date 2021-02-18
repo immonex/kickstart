@@ -22,6 +22,7 @@ search: 1
 - [inx_search_tax_and_meta_queries](filter-inx-search-tax-and-meta-queries.html) (Taxonomie- und Meta-Queries der Immobiliensuche)
 - [inx_special_query_vars](filter-inx-special-query-vars.html) (Komponentenübergreifende Query-Parameter)
 - [inx_exclude_backlink_vars](filter-inx-exclude-backlink-vars.html) (GET-Variablen aus Backlinks ausfiltern)
+- [inx_search_form_primary_price_min_max_values](filter-inx-search-form-primary-price-min-max-values.html) (Minimal/Maximal-Werte für den Preis-Slider festlegen)
 
 ### Sortierung
 
