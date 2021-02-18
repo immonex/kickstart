@@ -10,6 +10,7 @@
     "@babel/runtime": "^7.12.5",
     "axios": "^0.21.1",
     "debounce": "^1.2.0",
+    "flatpickr": "^4.6.9",
     "nouislider": "^11.1.0",
     "ol": "^5.3.3",
     "qs": "^6.9.6",

@@ -6,6 +6,10 @@ import debounce from 'debounce'
 // noUiSlider
 import noUiSlider from 'nouislider'
 
+// flatpickr
+import flatpickr from 'flatpickr'
+import { German } from 'flatpickr/dist/l10n/de.js'
+
 // immonex Kickstart Components
 import RangeSlider from './components/RangeSlider.vue'
 import NumberOfMatches from './components/NumberOfMatches.vue'
@@ -120,6 +124,16 @@ jQuery(document).ready(function($) {
 
 		$('#' + searchFormElementName + ' input, #' + searchFormElementName + ' select').on('change', debounce(updateSearchState, 500))
 		$('#inx-search-form-reset').on('click', resetSearchForm)
+
+		let flatpickrOptions = {}
+		if ('de' === inx_state.core.locale.substring(0, 2)) {
+			flatpickrOptions = {
+				'locale': German,
+				'altInput': true,
+				'altFormat': 'd.m.Y'
+			}
+		}
+		$('.inx-search-input--type--date').flatpickr(flatpickrOptions)
 
 		window.setTimeout( function() { updateSearchState() }, 1000 )
 	}

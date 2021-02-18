@@ -79,7 +79,7 @@ class Property_Search {
 		}
 
 		$elements         = array();
-		$enabled_elements = $this->get_search_form_elements( true, false );
+		$enabled_elements = $this->get_search_form_elements( true, false, false );
 
 		if ( count( $enabled_elements ) > 0 ) {
 			foreach ( $enabled_elements as $id => $element ) {
@@ -373,11 +373,12 @@ class Property_Search {
 	 * @since 1.0.0
 	 *
 	 * @param bool $enabled_only Return only enabled elements? (false by default).
+	 * @param bool $always_include_default_elements Ignore possitbly deleted elements? (false by default).
 	 * @param bool $suppress_filters Suppress any filters? (false by default).
 	 *
 	 * @return mixed[] Search form elements.
 	 */
-	public function get_search_form_elements( $enabled_only = false, $suppress_filters = false ) {
+	public function get_search_form_elements( $enabled_only = false, $always_include_default_elements = false, $suppress_filters = false ) {
 		$all_elements = array(
 			'description'              => array(
 				'enabled'     => true,
@@ -611,6 +612,15 @@ class Property_Search {
 
 		$elements = $suppress_filters ? $all_elements : apply_filters( 'inx_search_form_elements', $all_elements );
 
+		if ( $always_include_default_elements && $elements != $all_elements ) {
+			foreach ( $all_elements as $key => $atts ) {
+				if ( ! isset( $elements[ $key ] ) ) {
+					// Reinsert an element previously deleted by a filter function.
+					$elements[ $key ] = $atts;
+				}
+			}
+		}
+
 		uasort(
 			$elements,
 			function( $a, $b ) {
@@ -643,7 +653,7 @@ class Property_Search {
 	public function get_search_query_vars() {
 		$prefix = $this->config['public_prefix'];
 
-		$form_elements = $this->get_search_form_elements( false, true );
+		$form_elements = $this->get_search_form_elements( false, true, false );
 		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
 			return array();
 		}
@@ -740,7 +750,7 @@ class Property_Search {
 	public function get_tax_and_meta_queries( $params ) {
 		$prefix = $this->config['public_prefix'];
 
-		$form_elements = $this->get_search_form_elements( false, true );
+		$form_elements = $this->get_search_form_elements( false, true, false );
 		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
 			return array(
 				'tax_query'  => false,
