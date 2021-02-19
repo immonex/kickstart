@@ -115,7 +115,7 @@ export default {
 		return {
 			searchOptions: [],
 			autocomplete: {},
-			currentPlace: {},
+			currentPlace: null,
 			transferValue: '',
 			filterCountries: [],
 			locationSuggestions: [],

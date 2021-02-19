@@ -125,13 +125,13 @@ jQuery(document).ready(function($) {
 		$('#' + searchFormElementName + ' input, #' + searchFormElementName + ' select').on('change', debounce(updateSearchState, 500))
 		$('#inx-search-form-reset').on('click', resetSearchForm)
 
-		let flatpickrOptions = {}
+		let flatpickrOptions = { 'disableMobile': true }
 		if ('de' === inx_state.core.locale.substring(0, 2)) {
-			flatpickrOptions = {
+			$.extend(flatpickrOptions, {
 				'locale': German,
 				'altInput': true,
 				'altFormat': 'd.m.Y'
-			}
+			})
 		}
 		$('.inx-search-input--type--date').flatpickr(flatpickrOptions)
 

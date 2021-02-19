@@ -106,7 +106,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.6-beta =
+= 1.2.7-beta =
 * Release date: ?
 * Added option for setting an alternate reference price text.
 * Added option for enabling/disabling the map bounds auto-fit function.

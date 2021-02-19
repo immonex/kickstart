@@ -33,7 +33,7 @@ if ( ! $inx_skin_type ) {
 	<?php if ( 'search' === $inx_skin_type ) : ?>
 	<button class="uk-search-icon-flip" uk-search-icon></button>
 	<?php endif; ?>
-	<input type="<?php echo $inx_skin_type; ?>"
+	<input type="<?php echo 'date' === $inx_skin_type ? 'text' : $inx_skin_type; ?>"
 		id="<?php echo $template_data['element_id']; ?>"
 		name="<?php echo $template_data['element_id']; ?>"
 		placeholder="<?php echo esc_attr( $inx_skin_placeholder ); ?>"
