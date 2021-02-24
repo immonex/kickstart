@@ -67,10 +67,14 @@ class Property_Search {
 		$hidden_fields = array();
 		if ( count( $preserve_get_vars ) > 0 ) {
 			foreach ( $preserve_get_vars as $var_name ) {
-				$value = get_query_var( $var_name, false );
+				if ( ! empty( $atts[ $var_name ] ) ) {
+					$value = $atts[ $var_name ];
+				} else {
+					$value = $this->utils['data']->get_query_var_value( $var_name );
+				}
 
 				if ( false !== $value ) {
-					$hidden_fields[] = array(
+					$hidden_fields[ $var_name ] = array(
 						'name'  => $var_name,
 						'value' => $value,
 					);
@@ -83,8 +87,27 @@ class Property_Search {
 
 		if ( count( $enabled_elements ) > 0 ) {
 			foreach ( $enabled_elements as $id => $element ) {
+				$public_id = $this->config['public_prefix'] . 'search-' . $id;
+
 				if ( empty( $element['hidden'] ) ) {
+					if ( ! empty( $atts[ $public_id ] ) ) {
+						// Loop through value that has been set via shortcode attribute.
+						$element['value'] = $atts[ $public_id ];
+					}
+
 					$elements[ $id ] = $element;
+				} else {
+					if ( ! empty( $atts[ $public_id ] ) ) {
+						$value = $atts[ $public_id ];
+					} else {
+						$value = $this->utils['data']->get_query_var_value( $public_id );
+					}
+					if ( $value ) {
+						$hidden_fields[ $public_id ] = array(
+							'name'  => $public_id,
+							'value' => $value
+						);
+					}
 				}
 			}
 		}
@@ -239,8 +262,8 @@ class Property_Search {
 				);
 
 				if ( $element['key'] === $this->config['plugin_prefix'] . 'marketing_type' ) {
-					if ( ! empty( $atts['references'] ) ) {
-						$include_references = 'yes' === $atts['references'];
+					if ( ! empty( $atts[ $this->config['public_prefix'] . 'references' ] ) ) {
+						$include_references = 'yes' === $atts[ $this->config['public_prefix'] . 'references' ];
 					} else {
 						$include_references = 'yes' === get_query_var( $this->config['public_prefix'] . 'references' );
 					}
@@ -277,7 +300,12 @@ class Property_Search {
 
 		// Prefixed ID for use as input id/name etc.
 		$public_id = $this->config['public_prefix'] . 'search-' . $id;
-		$value     = $this->utils['data']->get_query_var_value( $public_id );
+
+		if ( ! empty( $element['value'] ) ) {
+			$value = $element['value'];
+		} else {
+			$value = $this->utils['data']->get_query_var_value( $public_id );
+		}
 
 		if ( ! $value && 'tax-' === substr( $element['type'], 0, 4 ) ) {
 			$qo = get_queried_object();

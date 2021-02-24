@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :
 				?>
-		<input type="hidden" name="<?php echo $inx_skin_field['name']; ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
+		<input type="hidden" data-no-reset="1" name="<?php echo $inx_skin_field['name']; ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
 				<?php
 				endforeach;
 			endif;
@@ -36,7 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$inx_skin_element,
 							array(
 								'extended_count' => $template_data['extended_count'],
-								'references'     => isset( $template_data['references'] ) ? $template_data['references'] : '',
 							)
 						);
 					?>
@@ -63,7 +62,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$inx_skin_element,
 							array(
 								'extended_count' => $template_data['extended_count'],
-								'references'     => isset( $template_data['references'] ) ? $template_data['references'] : '',
 							)
 						);
 					?>

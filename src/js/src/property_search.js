@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 			$('.inx-range-slider__nouislider').each(function(index, element) {
 				const min = element.noUiSlider.options.range.min
 				const max = element.noUiSlider.options.range.max
-				const currentValue = element.noUiSlider.get();
+				const currentValue = element.noUiSlider.get()
 
 				if (Array.isArray(currentValue)) {
 					element.noUiSlider.set([min, max])
@@ -44,22 +44,29 @@ jQuery(document).ready(function($) {
 			})
 
 			$('#' + searchFormElementName + ' select').each(function(index, element) {
-				element.value = $(element).data('default');
+				element.value = $(element).data('default')
 			})
 
-			$('#' + searchFormElementName + ' input[type="search"],' + '#' + searchFormElementName + ' input[type="hidden"]').each(function(index, element) {
-				if (element.name.substring(0, inx_state.core.public_prefix.length + 7) === inx_state.core.public_prefix + 'search-') {
+			$(
+				'#' + searchFormElementName + ' input[type="search"]' +
+				', #' + searchFormElementName + ' input[type="text"]' +
+				', #' + searchFormElementName + ' input[type="hidden"]'
+			).each(function(index, element) {
+				if (
+					!$(element).data('no-reset') &&
+					element.name.substring(0, inx_state.core.public_prefix.length + 7) === inx_state.core.public_prefix + 'search-'
+				) {
 					element.value = ''
 				}
 			})
 
 			$('#' + searchFormElementName + ' input[type="checkbox"]').each(function(index, element) {
-				element.checked = false;
+				element.checked = false
 			})
 
-			$('#' + searchFormElementName + ' .inx-form-element--radio input[type="radio"]').first().checked = true;
+			$('#' + searchFormElementName + ' .inx-form-element--radio input[type="radio"]').first().checked = true
 
-			updateSearchState()
+			updateSearchState( true )
 
 			return false
 		} // resetSearchForm

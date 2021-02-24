@@ -271,13 +271,45 @@ class Property_Search_Hooks {
 			$atts = array();
 		}
 
-		$prefix         = $this->config['public_prefix'];
+		$prefix                     = $this->config['public_prefix'];
+		$query_and_search_var_names = $this->config['special_query_vars']();
+		$search_form_elements       = $this->property_search->get_search_form_elements();
+
+		if ( count( $search_form_elements ) > 0 ) {
+			foreach ( $search_form_elements as $key => $element ) {
+				if ( ! empty( $element['enabled'] ) ) {
+					$query_and_search_var_names[] = "{$prefix}search-{$key}";
+				}
+			}
+		}
+
+		/**
+		 * Create an array of supported shortcode attributes consisting of all
+		 * search form elements (names) as well as special query parameters.
+		 * (Default values are not required here.)
+		 */
 		$supported_atts = array(
 			'results-page-id' => false,
 			'elements'        => '',
-			'references'      => '',
 		);
-		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}search-form" );
+		foreach ( $query_and_search_var_names as $var_name ) {
+			$supported_atts[ $var_name ] = '';
+		}
+
+		// Add prefixes to user shortcode attributes NOT defined above.
+		$prefixed_atts = array();
+		if ( is_array( $atts ) && count( $atts ) > 0 ) {
+			foreach ( $atts as $key => $value ) {
+				if ( in_array( $key, array_keys( $supported_atts ) ) ) {
+					$prefixed_atts[ $key ] = $value;
+				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
+					$prefixed_atts[ "{$prefix}search-{$key}" ] = $value;
+				} else {
+					$prefixed_atts[ "{$prefix}{$key}" ] = $value;
+				}
+			}
+		}
+		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}search-form" );
 
 		return $this->property_search->render_form( 'property-search', $shortcode_atts );
 	} // shortcode_search_form
