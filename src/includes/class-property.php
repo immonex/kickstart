@@ -300,6 +300,9 @@ class Property {
 		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
 			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . urlencode( $atts[ "{$public_prefix}ref" ] );
 		}
+		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . urlencode( $atts[ "{$public_prefix}force-lang" ] );
+		}
 		if ( ! empty( $backlink_url ) ) {
 			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . urlencode( $backlink_url );
 		}
@@ -860,20 +863,24 @@ class Property {
 		}
 
 		global $wp;
-		global $wp_query;
 
 		$public_prefix = $this->config['public_prefix'];
 		$backlink_url  = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
+
 		if ( $backlink_url ) {
 			$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
 			return $backlink_url;
 		}
 
-		$backlink_url = trailingslashit( home_url( add_query_arg( array(), $wp->request ) ) );
+		$backlink_url    = trailingslashit( home_url( add_query_arg( array(), $wp->request ) ) );
+		$details_page_id = $this->config['property_details_page_id'] ?
+			apply_filters( 'inx_element_translation_id', $this->config['property_details_page_id'] ) :
+			false;
 
 		if (
-			strtolower( $backlink_url ) === trailingslashit( strtolower( get_home_url() ) ) ||
-			strtolower( $backlink_url ) === strtolower( $permalink_url )
+			trailingslashit( get_home_url() ) === $backlink_url ||
+			$backlink_url === $permalink_url ||
+			( $details_page_id && get_permalink( $details_page_id ) === $backlink_url )
 		) {
 			// Link to property post type archive page if default URL belongs to
 			// the front page or equals the current permalink URL.
@@ -881,14 +888,19 @@ class Property {
 
 			if ( $this->config['property_list_page_id'] ) {
 				// Specific page stated as overview page: overwrite archive URL.
-				$page_url = get_permalink( $this->config['property_list_page_id'] );
+				$page_id  = apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'], 'page' );
+				$page_url = get_permalink( $page_id );
 				if ( $page_url ) {
 					$backlink_url = $page_url;
 				}
 			}
 
 			// Exclude limit query variables from backlink in this case.
-			$exclude_backlink_vars = array( "{$public_prefix}limit", "{$public_prefix}limit-page" );
+			$exclude_backlink_vars = array(
+				"{$public_prefix}limit",
+				"{$public_prefix}limit-page",
+				$this->config['property_post_type_name'],
+			);
 		} else {
 			$exclude_backlink_vars = array();
 		}
@@ -898,26 +910,42 @@ class Property {
 			'inx_exclude_backlink_vars',
 			array_merge(
 				$auto_applied_rendering_atts,
-				$exclude_backlink_vars
+				$exclude_backlink_vars,
+				array( "{$public_prefix}property-id" )
 			)
 		);
 
-		$inx_query_vars = array();
-		foreach ( $wp_query->query_vars as $name => $value ) {
-			if (
-				substr( $name, 0, strlen( $public_prefix ) ) === $public_prefix &&
-				"{$public_prefix}backlink-url" !== $name &&
-				! in_array( $name, $exclude_backlink_vars )
-			) {
-				// Add query variable to backlink even if it's empty to preserve
-				// consistent search results on return.
-				$inx_query_vars[ $name ] = $value;
-			}
-		}
+		if ( ! empty( $_GET ) ) {
+			$query_vars        = array();
+			$existing_get_vars = array();
 
-		if ( count( $inx_query_vars ) > 0 ) {
-			$inx_query_params = http_build_query( $inx_query_vars );
-			$backlink_url     = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $inx_query_params;
+			if ( $details_page_id && isset( $_GET['page_id'] ) ) {
+				$exclude_backlink_vars[] = 'page_id';
+			}
+
+			if ( false !== strpos( $backlink_url, '?' ) ) {
+				$matched = preg_match_all( '/[\?|&](([a-zA-Z0-9_-]+)=[^&]+)/', $backlink_url, $matches );
+				if ( isset( $matches[2] ) ) {
+					$existing_get_vars = $matches[2];
+				}
+			}
+
+			foreach ( $_GET as $var_name => $value ) {
+				if (
+					'' !== $value &&
+					"{$public_prefix}backlink-url" !== $var_name &&
+					! in_array( $var_name, $exclude_backlink_vars ) &&
+					! in_array( $var_name, $existing_get_vars ) &&
+					! isset( $query_vars[ $var_name ] )
+				) {
+					$query_vars[ $var_name ] = $value;
+				}
+			}
+
+			if ( count( $query_vars ) > 0 ) {
+				$query_params = http_build_query( $query_vars );
+				$backlink_url = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $query_params;
+			}
 		}
 
 		$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;

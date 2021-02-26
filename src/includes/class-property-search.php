@@ -59,10 +59,25 @@ class Property_Search {
 	 * @return string Rendered contents (HTML).
 	 */
 	public function render_form( $template = 'property-search', $atts = array() ) {
+		global $wp;
+
 		/**
-		 * Check for special GET variables and preserve their values (hidden field).
+		 * Check for special GET variables and preserve their values (hidden fields).
 		 */
 		$preserve_get_vars = $this->config['special_query_vars']();
+		if ( ! $wp->request && ! empty( $wp->query_vars ) ) {
+			// Add further GET vars if pretty permalink URLs are NOT activated.
+			foreach ( $wp->query_vars as $var_name => $value ) {
+				if (
+					'' !== $value &&
+					'inx-search-' !== substr( $var_name, 0, 11 ) &&
+					! isset( $preserve_get_vars[ $var_name ] ) &&
+					! in_array( $var_name, array( 'page', 'paged' ) )
+				) {
+					$preserve_get_vars[] = $var_name;
+				}
+			}
+		}
 
 		$hidden_fields = array();
 		if ( count( $preserve_get_vars ) > 0 ) {
@@ -105,7 +120,7 @@ class Property_Search {
 					if ( $value ) {
 						$hidden_fields[ $public_id ] = array(
 							'name'  => $public_id,
-							'value' => $value
+							'value' => $value,
 						);
 					}
 				}

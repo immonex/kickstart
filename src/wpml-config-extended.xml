@@ -1,0 +1,21 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">inx_property</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">inx_location</taxonomy>
+		<taxonomy translate="1">inx_type_of_use</taxonomy>
+		<taxonomy translate="1">inx_property_type</taxonomy>
+		<taxonomy translate="1">inx_marketing_type</taxonomy>
+		<taxonomy translate="1">inx_feature</taxonomy>
+		<taxonomy translate="1">inx_label</taxonomy>
+	</taxonomies>
+	<admin-texts>
+		<key name="immonex-kickstart_options">
+			<key name="reference_price_text" />
+			<key name="property_details_map_infowindow_contents" />
+			<key name="property_details_map_note_map_marker" />
+			<key name="property_details_map_note_map_embed" />
+		</key>
+	</admin-texts>
+</wpml-config>

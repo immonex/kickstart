@@ -21,18 +21,21 @@ if (
 	$inx_skin_use_page_as_template
 	&& $inx_skin_page_url
 ) :
-	$inx_skin_url_parts     = parse_url( $_SERVER['REQUEST_URI'] );
-	$inx_skin_add_url_path  = isset( $inx_skin_url_parts['path'] ) ?
-		'-' . basename( $inx_skin_url_parts['path'] ) :
-		'';
+	$inx_skin_post_type = $immonex_kickstart->property_post_type_name;
+	$inx_skin_url_parts = parse_url( $_SERVER['REQUEST_URI'] );
+
 	$inx_skin_add_url_query = isset( $inx_skin_url_parts['query'] ) ?
 		'&' . basename( $inx_skin_url_parts['query'] ) :
 		'';
-	$inx_skin_redirect_url  = $inx_skin_page_url .
+
+	$inx_skin_property_id = apply_filters( 'inx_element_translation_id', get_the_ID() );
+
+	$inx_skin_redirect_url = $inx_skin_page_url .
 		( false === strpos( $inx_skin_page_url, '?' ) ? '?' : '&' ) .
-		'inx-property-id=' . get_the_ID() .
-		$inx_skin_add_url_path .
+		'inx-property-id=' . $inx_skin_property_id .
 		$inx_skin_add_url_query;
+
+	$inx_skin_redirect_url = preg_replace( "/$inx_skin_post_type=[a-z0-9-]+[&]?/", '', $inx_skin_redirect_url );
 
 	if ( headers_sent() ) {
 		// Fallback redirect solution if headers have already been sent.

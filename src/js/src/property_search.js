@@ -104,8 +104,12 @@ jQuery(document).ready(function($) {
 				inxCurrentSearchRequestString = requestString
 				inx_state.search.request_string = requestString
 
+				let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
+				url += url.indexOf('?') === -1 ? '?' : '&'
+				url += 'count=1&lang=' + inx_state.core.locale.substring(0, 2) + '&' + requestString
+
 				axios
-					.get(inx_state.core.site_url + '/wp-json/immonex-kickstart/v1/properties/?count=1&' + requestString)
+					.get(url)
 					.then(response => (inx_state.search.number_of_matches = response.data))
 					.catch(err => err)
 			}

@@ -255,6 +255,15 @@ export default {
 		},
 		localitySelected (locality) {
 			this.transferValue = JSON.stringify([locality.lat, locality.lng, locality.name])
+
+			let el = document.getElementById(this.name)
+			if ('createEvent' in document) {
+				let evt = document.createEvent('HTMLEvents')
+				evt.initEvent('change', false, true)
+				el.dispatchEvent(evt)
+			} else {
+				el.fireEvent('onchange')
+			}
 		}
 	},
 	created () {

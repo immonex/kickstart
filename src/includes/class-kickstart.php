@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.2.8-beta';
+	const PLUGIN_VERSION             = '1.2.10-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -40,6 +40,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 		'skin'                                         => 'default',
 		'property_list_page_id'                        => 0,
 		'property_details_page_id'                     => 0,
+		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'heading_base_level'                           => 1,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
@@ -110,12 +111,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 						self::PUBLIC_PREFIX . 'iso-country',
 						self::PUBLIC_PREFIX . 'author',
 						self::PUBLIC_PREFIX . 'ref',
+						self::PUBLIC_PREFIX . 'force-lang',
 					),
 					self::PUBLIC_PREFIX
 				);
 			},
 			'auto_applied_rendering_atts' => array(
 				self::PUBLIC_PREFIX . 'ref',
+				self::PUBLIC_PREFIX . 'force-lang',
 			),
 		);
 
@@ -148,6 +151,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 		switch ( $key ) {
 			case 'API':
 				return $this->api;
+			case 'property_list_page_id':
+			case 'property_details_page_id':
+				$lang = isset( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ?
+					strtolower( substr( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ], 0, 2 ) ) :
+					false;
+				return apply_filters( 'inx_element_translation_id', parent::__get( $key ), 'page', $lang );
 		}
 
 		return parent::__get( $key );
@@ -168,6 +177,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 		foreach ( $this->plugin_options as $option_name => $option_value ) {
 			if ( 'INSERT_TRANSLATED_DEFAULT_VALUE' === $option_value ) {
 				switch ( $option_name ) {
+					case 'property_post_type_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
 					case 'reference_price_text':
 						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
 						$option_string_translated             = true;
@@ -279,6 +292,17 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 		new REST_API( $component_config, $this->utils );
 		new API_Hooks( $this->api, $component_config, $this->utils );
 
+		// Create translation-related compatibility instances (Polylang or WPML).
+		if (
+			is_plugin_active( 'polylang/polylang.php' ) ||
+			is_plugin_active( 'polylang-pro/polylang.php' )
+		) {
+			new Polylang_Compat( $component_config, $this->utils );
+		}
+		if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+			new WPML_Compat( $component_config, $this->utils );
+		}
+
 		$this->perform_deferred_tasks();
 	} // init_plugin
 
@@ -296,8 +320,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 			$this->backend_js_handle,
 			'inx_state',
 			array(
-				'site_url'   => get_site_url(),
-				'rest_nonce' => wp_create_nonce( 'wp_rest' ),
+				'site_url'      => get_site_url(),
+				'rest_base_url' => get_rest_url(),
+				'rest_nonce'    => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 	} // localize_admin_js
@@ -318,6 +343,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 			array(
 				'core'          => array(
 					'site_url'      => get_site_url(),
+					'rest_base_url' => get_rest_url(),
 					'public_prefix' => $this->bootstrap_data['public_prefix'],
 					'locale'        => get_locale(),
 				),
@@ -367,10 +393,22 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 		if (
 			is_array( $new_values ) &&
 			is_array( $old_values ) &&
-			$new_values['property_list_page_id'] !== $old_values['property_list_page_id']
+			(
+				$new_values['property_list_page_id'] !== $old_values['property_list_page_id'] ||
+				(
+					isset( $old_values['property_post_type_slug_rewrite'] ) &&
+					isset( $new_values['property_post_type_slug_rewrite'] ) &&
+					$new_values['property_post_type_slug_rewrite'] !== $old_values['property_post_type_slug_rewrite']
+				)
+			)
 		) {
 			$new_values['deferred_tasks']['flush_rewrite_rules_once'] = true;
 		}
+
+		if ( empty( $new_values['property_post_type_slug_rewrite'] ) ) {
+			$new_values['property_post_type_slug_rewrite'] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
+		}
+		$new_values['property_post_type_slug_rewrite'] = $this->utils['string']->slugify( $new_values['property_post_type_slug_rewrite'] );
 
 		return $new_values;
 	} // do_before_options_update
@@ -409,7 +447,19 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 			);
 		}
 
-		$pages         = $this->utils['template']->get_page_list();
+		$pages = $this->utils['template']->get_page_list( array( 'lang' => '' ) );
+		if ( count( $pages ) > 0 ) {
+			foreach ( $pages as $page_id => $page_title ) {
+				$page_lang = apply_filters( 'inx_element_language', '', $page_id, 'page' );
+
+				$pages[ $page_id ] = wp_sprintf(
+					'%s [%s%s]',
+					$page_title,
+					$page_id,
+					$page_lang ? ', ' . $page_lang : ''
+				);
+			}
+		}
 		$pages_list    = array( __( 'none (use default archive)', 'immonex-kickstart' ) ) + $pages;
 		$pages_details = array( __( 'none (use default template)', 'immonex-kickstart' ) ) + $pages;
 
@@ -497,6 +547,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_3\Base {
 					'args'    => array(
 						'description' => __( 'Use the specified page as base for displaying the property details (instead of the default template).', 'immonex-kickstart' ),
 						'options'     => $pages_details,
+					),
+				),
+				array(
+					'name'    => 'property_post_type_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Property Post Type Slug', 'immonex-kickstart' ),
+					'section' => 'section_design_structure',
+					'args'    => array(
+						'description' => __( 'A custom/localized <strong>base slug</strong> for the property posts can be entered here. This should be a single term in its plural form (usually "properties").', 'immonex-kickstart' ),
 					),
 				),
 				array(

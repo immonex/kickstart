@@ -141,6 +141,13 @@ class REST_API {
 			$args['suppress_filters'] = false;
 		}
 
+		if (
+			$request->get_param( 'lang' ) &&
+			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
+		) {
+			$args['lang'] = sanitize_key( $request->get_param( 'lang' ) );
+		}
+
 		$properties = $property_list->get_properties( $args );
 
 		return $count_only ? count( $properties ) : $properties;

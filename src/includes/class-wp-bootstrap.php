@@ -375,7 +375,7 @@ class WP_Bootstrap {
 				'supports'     => array( 'title', 'editor', 'author', 'thumbnail' ),
 				'map_meta_cap' => true,
 				'rewrite'      => array(
-					'slug' => _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' ),
+					'slug' => $this->plugin->property_post_type_slug_rewrite,
 				),
 			)
 		);
