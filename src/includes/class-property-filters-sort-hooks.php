@@ -211,8 +211,14 @@ class Property_Filters_Sort_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_filters_sort( $atts ) {
-		// $shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-list" );
-		$shortcode_atts = array();
+		$prefix         = $this->config['public_prefix'];
+		$supported_atts = array(
+			'elements' => '',
+			'exclude'  => '',
+			'default'  => '',
+		);
+
+		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}filters-sort" );
 
 		return $this->property_filters_sort->render( 'property-list/filters-sort', $shortcode_atts );
 	} // shortcode_filters_sort

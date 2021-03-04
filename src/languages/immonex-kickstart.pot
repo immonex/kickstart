@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.2.8-beta\n"
+"Project-Id-Version: immonex Kickstart 1.2.12-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2021-02-25 16:20:53+00:00\n"
+"POT-Creation-Date: 2021-03-03 15:35:17+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,40 +12,70 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-kickstart.php:176 includes/class-kickstart.php:397
+#: includes/class-kickstart.php:187 includes/class-property.php:514
+msgid "Price on demand"
+msgstr ""
+
+#: includes/class-kickstart.php:191
+msgid "The real property location may differ from the marker position."
+msgstr ""
+
+#: includes/class-kickstart.php:195
+msgid "The map roughly shows the location in which the property is located."
+msgstr ""
+
+#: includes/class-kickstart.php:199
 msgctxt "Custom Post Type Slug (plural only!)"
 msgid "properties"
 msgstr ""
 
-#: includes/class-kickstart.php:180 includes/class-property.php:510
-msgid "Price on demand"
+#: includes/class-kickstart.php:203
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/location"
 msgstr ""
 
-#: includes/class-kickstart.php:184
-msgid "The real property location may differ from the marker position."
+#: includes/class-kickstart.php:207
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/type-of-use"
 msgstr ""
 
-#: includes/class-kickstart.php:188
-msgid "The map roughly shows the location in which the property is located."
+#: includes/class-kickstart.php:211
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/type"
 msgstr ""
 
-#: includes/class-kickstart.php:236 includes/class-kickstart.php:242
+#: includes/class-kickstart.php:215
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/buy-rent"
+msgstr ""
+
+#: includes/class-kickstart.php:219
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/feature"
+msgstr ""
+
+#: includes/class-kickstart.php:223
+msgctxt "Custom Taxonomy Slug"
+msgid "properties/label"
+msgstr ""
+
+#: includes/class-kickstart.php:285 includes/class-kickstart.php:291
 msgid "none"
 msgstr ""
 
-#: includes/class-kickstart.php:243
+#: includes/class-kickstart.php:292
 msgid "OpenLayers/OpenStreetMap Map with property location marker"
 msgstr ""
 
-#: includes/class-kickstart.php:244
+#: includes/class-kickstart.php:293
 msgid "Google Map with property location marker"
 msgstr ""
 
-#: includes/class-kickstart.php:245
+#: includes/class-kickstart.php:294
 msgid "Google Map showing the property's neighborhood"
 msgstr ""
 
-#: includes/class-kickstart.php:366
+#: includes/class-kickstart.php:415
 msgid ""
 "An <strong>OpenImmo import solution</strong> that supports <strong>immonex "
 "Kickstart</strong> is required to provide the real estate offers to be "
@@ -53,52 +83,56 @@ msgid ""
 msgstr ""
 
 #. translators: %s = immonex.dev full URL
-#: includes/class-kickstart.php:368
+#: includes/class-kickstart.php:417
 msgid ""
 "<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are "
 "available <strong>free of charge for testing and development purposes</"
 "strong> at <a href=\"%s\" target=\"_blank\">immonex.dev</a>."
 msgstr ""
 
-#: includes/class-kickstart.php:418
+#: includes/class-kickstart.php:489
 msgid "General"
 msgstr ""
 
-#: includes/class-kickstart.php:423
+#: includes/class-kickstart.php:494
 msgid "Maps &amp; Distance Search"
 msgstr ""
 
-#: includes/class-kickstart.php:439
+#: includes/class-kickstart.php:499
+msgid "Slugs"
+msgstr ""
+
+#: includes/class-kickstart.php:531
 msgid "none (use default archive)"
 msgstr ""
 
-#: includes/class-kickstart.php:440
+#: includes/class-kickstart.php:532
 msgid "none (use default template)"
 msgstr ""
 
-#: includes/class-kickstart.php:448
+#: includes/class-kickstart.php:540
 msgid "Design & Structure"
 msgstr ""
 
-#: includes/class-kickstart.php:453
+#: includes/class-kickstart.php:545
 msgid "Measuring Units & Currency"
 msgstr ""
 
-#: includes/class-kickstart.php:458 includes/class-property-search.php:597
+#: includes/class-kickstart.php:550 includes/class-property-search.php:597
 msgid "Distance Search"
 msgstr ""
 
-#: includes/class-kickstart.php:459
+#: includes/class-kickstart.php:551
 msgid ""
 "If enabled, the property search form includes a distance search feature."
 msgstr ""
 
-#: includes/class-kickstart.php:463
+#: includes/class-kickstart.php:555
 msgid "Maps on Property List Pages"
 msgstr ""
 
 #. translators: %1$s = OpenStreetMap URL, %2$s = OpenLayers URL.
-#: includes/class-kickstart.php:466
+#: includes/class-kickstart.php:558
 msgid ""
 "Maps on property list pages are rendered using <a href=\"%1$s\" target="
 "\"_blank\">OpenStreetMap</a> and <a href=\"%2$s\" target=\"_blank"
@@ -107,11 +141,11 @@ msgid ""
 "entered in the following fields."
 msgstr ""
 
-#: includes/class-kickstart.php:473
+#: includes/class-kickstart.php:565
 msgid "Maps on Property Detail Pages"
 msgstr ""
 
-#: includes/class-kickstart.php:474
+#: includes/class-kickstart.php:566
 msgid ""
 "This plugin currently supports two types of Maps on the property detail "
 "pages: A marker based one showing the property's (approximate) position "
@@ -119,7 +153,7 @@ msgid ""
 "highlighting the respective district/neighborhood."
 msgstr ""
 
-#: includes/class-kickstart.php:479
+#: includes/class-kickstart.php:571
 msgid ""
 "This plugin <strong>optionally</strong> uses the <strong>Google Maps "
 "JavaScript API (incl. Places library)</strong> as well as the <strong>Maps "
@@ -127,220 +161,308 @@ msgid ""
 "key in this case."
 msgstr ""
 
-#: includes/class-kickstart.php:501
+#: includes/class-kickstart.php:575
+msgid "Post Type"
+msgstr ""
+
+#. translators: %1$s = Polylang Pro URL, %2$s = WPML URL
+#: includes/class-kickstart.php:578
+msgid ""
+"The following <strong>rewrite slug</strong> is used for creating \"SEO "
+"friendly\" permalinks for property archive and detail pages, e.g. "
+"<strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/a-"
+"really-maniac-mansion/</strong>. In multilingual enviroments using <a href="
+"\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a href=\"%2$s\" target="
+"\"_blank\">WPML</a>, these slugs can be translated with the corresponding "
+"<em>string translation</em> functionality."
+msgstr ""
+
+#: includes/class-kickstart.php:585
+msgid "Taxonomies"
+msgstr ""
+
+#: includes/class-kickstart.php:586
+msgid ""
+"Taxonomy archive pages have their own <strong>rewrite slugs</strong> that "
+"may contain slashes. In most cases a combination of the post type slug above "
+"and the taxonomy name makes the most sense, e.g. <strong>properties/type</"
+"strong> will make the permalink URLs look like <strong>domain.tld/properties/"
+"type/flats/</strong>. The following slugs should be entered in the "
+"<strong>main language</strong> of the website, too."
+msgstr ""
+
+#: includes/class-kickstart.php:608
 msgid "Skin"
 msgstr ""
 
-#: includes/class-kickstart.php:504
+#: includes/class-kickstart.php:611
 msgid ""
 "A skin is a set of templates for all immonex Kickstart related pages and "
 "elements."
 msgstr ""
 
-#: includes/class-kickstart.php:511
+#: includes/class-kickstart.php:618
 msgid "Property Overview"
 msgstr ""
 
-#: includes/class-kickstart.php:514
+#: includes/class-kickstart.php:621
 msgid ""
 "Use the specified page as <strong>default</strong> property overview/list "
 "page (instead of the property post type archive)."
 msgstr ""
 
-#: includes/class-kickstart.php:521
+#: includes/class-kickstart.php:628
 msgid "Property Details Page"
 msgstr ""
 
-#: includes/class-kickstart.php:524
+#: includes/class-kickstart.php:631
 msgid ""
 "Use the specified page as base for displaying the property details (instead "
 "of the default template)."
 msgstr ""
 
-#: includes/class-kickstart.php:531
-msgid "Property Post Type Slug"
-msgstr ""
-
-#: includes/class-kickstart.php:534
-msgid ""
-"A custom/localized <strong>base slug</strong> for the property posts can be "
-"entered here. This should be a single term in its plural form (usually "
-"\"properties\")."
-msgstr ""
-
-#: includes/class-kickstart.php:540
+#: includes/class-kickstart.php:638
 msgid "Heading Base Level"
 msgstr ""
 
-#: includes/class-kickstart.php:543
+#: includes/class-kickstart.php:641
 msgid ""
 "Level that immonex related headlines (e.g. on property list and detail "
 "pages) should start with."
 msgstr ""
 
-#: includes/class-kickstart.php:554
+#: includes/class-kickstart.php:652
 msgid "Area Measuring Unit"
 msgstr ""
 
-#: includes/class-kickstart.php:565
+#: includes/class-kickstart.php:663
 msgid "Currency Code"
 msgstr ""
 
-#: includes/class-kickstart.php:576
+#: includes/class-kickstart.php:674
 msgid "Currency Symbol"
 msgstr ""
 
-#: includes/class-kickstart.php:586
+#: includes/class-kickstart.php:684
 msgid "Show Reference Prices"
 msgstr ""
 
-#: includes/class-kickstart.php:589
+#: includes/class-kickstart.php:687
 msgid ""
 "Activate this option if the prices of reference properties shall be "
 "displayed."
 msgstr ""
 
-#: includes/class-kickstart.php:595
+#: includes/class-kickstart.php:693
 msgid "Reference Price Text"
 msgstr ""
 
-#: includes/class-kickstart.php:598
+#: includes/class-kickstart.php:696
 msgid ""
 "This text is displayed if reference prices shall <strong>not</strong> be "
 "published."
 msgstr ""
 
-#: includes/class-kickstart.php:604
+#: includes/class-kickstart.php:702
 msgid "Autocompletion"
 msgstr ""
 
-#: includes/class-kickstart.php:607
+#: includes/class-kickstart.php:705
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
 msgstr ""
 
-#: includes/class-kickstart.php:608
+#: includes/class-kickstart.php:706
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API section below)."
 msgstr ""
 
-#: includes/class-kickstart.php:615
+#: includes/class-kickstart.php:713
 msgid "Require Usage Consent"
 msgstr ""
 
-#: includes/class-kickstart.php:618
+#: includes/class-kickstart.php:716
 msgid ""
 "If active, the user has to confirm the use of an external service for auto-"
 "completion."
 msgstr ""
 
-#: includes/class-kickstart.php:624
+#: includes/class-kickstart.php:722
 msgid "Display in Archive Pages"
 msgstr ""
 
-#: includes/class-kickstart.php:627
+#: includes/class-kickstart.php:725
 msgid ""
 "If active, the property marker map will be shown in the default list "
 "(archive) pages."
 msgstr ""
 
-#: includes/class-kickstart.php:633
+#: includes/class-kickstart.php:731
 msgid "Default Latitude"
 msgstr ""
 
-#: includes/class-kickstart.php:636
+#: includes/class-kickstart.php:734
 msgid ""
 "Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
 msgstr ""
 
-#: includes/class-kickstart.php:646
+#: includes/class-kickstart.php:744
 msgid "Default Longitude"
 msgstr ""
 
-#: includes/class-kickstart.php:649
+#: includes/class-kickstart.php:747
 msgid ""
 "Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
 msgstr ""
 
-#: includes/class-kickstart.php:659 includes/class-kickstart.php:692
+#: includes/class-kickstart.php:757 includes/class-kickstart.php:790
 msgid "Default Zoom Level"
 msgstr ""
 
-#: includes/class-kickstart.php:662
+#: includes/class-kickstart.php:760
 msgid "2 to 18"
 msgstr ""
 
-#: includes/class-kickstart.php:672
+#: includes/class-kickstart.php:770
 msgid "Auto-Fit Map Bounds"
 msgstr ""
 
-#: includes/class-kickstart.php:675
+#: includes/class-kickstart.php:773
 msgid ""
 "Automatically set map bounds and zoom level to include all property location "
 "markers."
 msgstr ""
 
-#: includes/class-kickstart.php:681
+#: includes/class-kickstart.php:779
 msgid "Map Type"
 msgstr ""
 
-#: includes/class-kickstart.php:684
+#: includes/class-kickstart.php:782
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
 msgstr ""
 
-#: includes/class-kickstart.php:685
+#: includes/class-kickstart.php:783
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
 msgstr ""
 
-#: includes/class-kickstart.php:695
+#: includes/class-kickstart.php:793
 msgid "8 to 18"
 msgstr ""
 
-#: includes/class-kickstart.php:705
+#: includes/class-kickstart.php:803
 msgid "Info Window Note"
 msgstr ""
 
-#: includes/class-kickstart.php:708
+#: includes/class-kickstart.php:806
 msgid ""
 "If stated, this note gets displayed within a map info window above the "
 "property location marker."
 msgstr ""
 
-#: includes/class-kickstart.php:715
+#: includes/class-kickstart.php:813
 msgid "Marker Map Note"
 msgstr ""
 
-#: includes/class-kickstart.php:718
+#: includes/class-kickstart.php:816
 msgid "This note gets displayed below <strong>marker based</strong> maps."
 msgstr ""
 
-#: includes/class-kickstart.php:725
+#: includes/class-kickstart.php:823
 msgid "Neighborhood Map Note"
 msgstr ""
 
-#: includes/class-kickstart.php:728
+#: includes/class-kickstart.php:826
 msgid ""
 "This note gets displayed below <strong>neighborhood based</strong> maps."
 msgstr ""
 
-#: includes/class-kickstart.php:735
+#: includes/class-kickstart.php:833
 msgid "Google Maps API Key"
 msgstr ""
 
 #. translators: %s = Google Developer Docs URL
-#: includes/class-kickstart.php:740
+#: includes/class-kickstart.php:838
 msgid ""
 "Provide an key suitable for using the Google APIs mentioned abobe. You can "
 "find information about getting and configuring such a key on the respective "
 "<a href=\"%s\" target=\"_blank\">Google Developers page</a>. <strong>(Maps "
 "JavaScript, Places and Embed APIs have to be activated for the related "
 "project!)</strong>"
+msgstr ""
+
+#: includes/class-kickstart.php:846 includes/class-wp-bootstrap.php:361
+msgid "Property"
+msgstr ""
+
+#: includes/class-kickstart.php:849
+msgid ""
+"This should be a single term in its plural form and in the site's "
+"<strong>main language</strong> (usually <strong>properties</strong>). If "
+"empty, <em>inx_property</em> will be used as base slug."
+msgstr ""
+
+#: includes/class-kickstart.php:855 includes/class-property-search.php:495
+msgid "Locality"
+msgstr ""
+
+#: includes/class-kickstart.php:858
+msgid ""
+"<strong>properties/location</strong> by default, <em>inx_location</em> if "
+"empty"
+msgstr ""
+
+#: includes/class-kickstart.php:864
+msgid "Type of Use"
+msgstr ""
+
+#: includes/class-kickstart.php:867
+msgid ""
+"<strong>properties/type-of-use</strong> by default, <em>inx_type_of_use</em> "
+"if empty"
+msgstr ""
+
+#: includes/class-kickstart.php:873 includes/class-property-search.php:463
+msgid "Property Type"
+msgstr ""
+
+#: includes/class-kickstart.php:876
+msgid ""
+"<strong>properties/type</strong> by default, <em>inx_property_type</em> if "
+"empty"
+msgstr ""
+
+#: includes/class-kickstart.php:882 includes/class-property-search.php:479
+msgid "Marketing Type"
+msgstr ""
+
+#: includes/class-kickstart.php:885
+msgid ""
+"<strong>properties/buy-rent</strong> by default, <em>inx_marketing_type</em> "
+"if empty"
+msgstr ""
+
+#: includes/class-kickstart.php:891
+msgid "Feature"
+msgstr ""
+
+#: includes/class-kickstart.php:894
+msgid ""
+"<strong>properties/feature</strong> by default, <em>inx_feature</em> if empty"
+msgstr ""
+
+#: includes/class-kickstart.php:900
+msgid "Label"
+msgstr ""
+
+#: includes/class-kickstart.php:903
+msgid ""
+"<strong>properties/label</strong> by default, <em>inx_label</em> if empty"
 msgstr ""
 
 #: includes/class-property-backend-form.php:75
@@ -354,12 +476,12 @@ msgid "Location"
 msgstr ""
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:633 includes/class-property.php:704
+#: includes/class-property-search.php:633 includes/class-property.php:708
 #: skins/default/single-property/element-hub.php:81
 msgid "Features"
 msgstr ""
 
-#: includes/class-property-backend-form.php:105 includes/class-property.php:718
+#: includes/class-property-backend-form.php:105 includes/class-property.php:722
 msgid "Miscellaneous"
 msgstr ""
 
@@ -385,7 +507,7 @@ msgid "Sold/Rented"
 msgstr ""
 
 #: includes/class-property-backend-form.php:160
-#: includes/class-wp-bootstrap.php:520
+#: includes/class-wp-bootstrap.php:528
 msgid "Reference Property"
 msgstr ""
 
@@ -442,7 +564,7 @@ msgstr ""
 msgid "Gallery Images"
 msgstr ""
 
-#: includes/class-property-backend-form.php:272 includes/class-property.php:709
+#: includes/class-property-backend-form.php:272 includes/class-property.php:713
 msgid "Floor Plans"
 msgstr ""
 
@@ -483,39 +605,39 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:170
+#: includes/class-property-filters-sort.php:214
 msgid "Distance"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:183
+#: includes/class-property-filters-sort.php:227
 msgid "Newest"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:196
+#: includes/class-property-filters-sort.php:240
 msgid "For Sale first"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:201
+#: includes/class-property-filters-sort.php:245
 msgid "For Rent first"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:216
+#: includes/class-property-filters-sort.php:260
 msgid "Available first"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:228
+#: includes/class-property-filters-sort.php:272
 msgid "Price (low to high)"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:234
+#: includes/class-property-filters-sort.php:278
 msgid "Price (high to low)"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:240
+#: includes/class-property-filters-sort.php:284
 msgid "Area"
 msgstr ""
 
-#: includes/class-property-filters-sort.php:246
+#: includes/class-property-filters-sort.php:290
 msgid "Rooms"
 msgstr ""
 
@@ -539,24 +661,12 @@ msgstr ""
 msgid "All Types"
 msgstr ""
 
-#: includes/class-property-search.php:463
-msgid "Property Type"
-msgstr ""
-
 #: includes/class-property-search.php:466 includes/class-wp-bootstrap.php:135
 msgid "All Property Types"
 msgstr ""
 
-#: includes/class-property-search.php:479
-msgid "Marketing Type"
-msgstr ""
-
 #: includes/class-property-search.php:482
 msgid "For Sale or For Rent"
-msgstr ""
-
-#: includes/class-property-search.php:495
-msgid "Locality"
 msgstr ""
 
 #: includes/class-property-search.php:498
@@ -624,25 +734,25 @@ msgstr ""
 msgid "All Labels"
 msgstr ""
 
-#: includes/class-property.php:669
+#: includes/class-property.php:673
 #: skins/default/single-property/element-hub.php:93
 msgid "Prices"
 msgstr ""
 
-#: includes/class-property.php:674
+#: includes/class-property.php:678
 msgid "Areas"
 msgstr ""
 
-#: includes/class-property.php:679
+#: includes/class-property.php:683
 msgid "Condition & Development"
 msgstr ""
 
-#: includes/class-property.php:722
+#: includes/class-property.php:726
 #: skins/default/single-property/element-hub.php:97
 msgid "Downloads & Links"
 msgstr ""
 
-#: includes/class-property.php:727
+#: includes/class-property.php:731
 #: skins/default/single-property/contact-person.php:97
 msgid "Your contact person with us"
 msgstr ""
@@ -701,11 +811,6 @@ msgstr ""
 msgid "No Locations found."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:100
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/location"
-msgstr ""
-
 #: includes/class-wp-bootstrap.php:107
 msgctxt "taxonomy general name"
 msgid "Types Of Use"
@@ -760,11 +865,6 @@ msgstr ""
 msgid "No Types Of Use found."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:126
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/type-of-use"
-msgstr ""
-
 #: includes/class-wp-bootstrap.php:133
 msgctxt "taxonomy general name"
 msgid "Property Types"
@@ -813,11 +913,6 @@ msgstr ""
 
 #: includes/class-wp-bootstrap.php:145
 msgid "No Property Types found."
-msgstr ""
-
-#: includes/class-wp-bootstrap.php:152
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/type"
 msgstr ""
 
 #: includes/class-wp-bootstrap.php:159
@@ -874,11 +969,6 @@ msgstr ""
 msgid "No Marketing Types found."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:178
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/buy-rent"
-msgstr ""
-
 #: includes/class-wp-bootstrap.php:185
 msgctxt "taxonomy general name"
 msgid "Features"
@@ -933,11 +1023,6 @@ msgstr ""
 msgid "No Features found."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:204
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/feature"
-msgstr ""
-
 #: includes/class-wp-bootstrap.php:211
 msgctxt "taxonomy general name"
 msgid "Labels"
@@ -988,17 +1073,8 @@ msgstr ""
 msgid "No Labels found."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:230
-msgctxt "Custom Taxonomy Slug"
-msgid "properties/label"
-msgstr ""
-
 #: includes/class-wp-bootstrap.php:360
 msgid "Properties"
-msgstr ""
-
-#: includes/class-wp-bootstrap.php:361
-msgid "Property"
 msgstr ""
 
 #: includes/class-wp-bootstrap.php:362
@@ -1029,24 +1105,24 @@ msgstr ""
 msgid "No properties found in Trash"
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:393
+#: includes/class-wp-bootstrap.php:401
 msgctxt "Fallback Custom Post Type Slug (singular only!)"
 msgid "property"
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:427
+#: includes/class-wp-bootstrap.php:435
 msgid "Property Archive Page"
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:429
+#: includes/class-wp-bootstrap.php:437
 msgid "Widgets in this area will be shown on property archive pages."
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:440
+#: includes/class-wp-bootstrap.php:448
 msgid "Property Detail Page"
 msgstr ""
 
-#: includes/class-wp-bootstrap.php:442
+#: includes/class-wp-bootstrap.php:450
 msgid "Widgets in this area will be shown on property detail pages."
 msgstr ""
 

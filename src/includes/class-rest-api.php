@@ -145,7 +145,8 @@ class REST_API {
 			$request->get_param( 'lang' ) &&
 			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
 		) {
-			$args['lang'] = sanitize_key( $request->get_param( 'lang' ) );
+			$args['lang']             = sanitize_key( $request->get_param( 'lang' ) );
+			$args['suppress_filters'] = false;
 		}
 
 		$properties = $property_list->get_properties( $args );

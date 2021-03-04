@@ -113,13 +113,50 @@ class Property_Filters_Sort {
 			}
 		}
 
+		$sort_options = $this->get_sort_options();
+		$default      = ! empty( $atts['default'] ) ? strtolower( trim( $atts['default'] ) ) : '';
+
+		if ( ! empty( $atts['elements'] ) ) {
+			$include_elements = array_map(
+				function( $value ) {
+					return trim( strtolower( $value ) );
+				},
+				explode( ',', $atts['elements'] )
+			);
+
+			$custom_sort_options = array();
+
+			foreach ( $include_elements as $option_key ) {
+				if ( isset( $sort_options[ $option_key ] ) ) {
+					$custom_sort_options[ $option_key ] = $sort_options[ $option_key ];
+				}
+			}
+
+			if ( ! empty( $custom_sort_options ) ) {
+				$sort_options = $custom_sort_options;
+			}
+		} elseif ( ! empty( $atts['exclude'] ) ) {
+			$exclude_elements = array_map(
+				function( $value ) {
+					return trim( strtolower( $value ) );
+				},
+				explode( ',', $atts['exclude'] )
+			);
+
+			foreach ( $exclude_elements as $option_key ) {
+				if ( isset( $sort_options[ $option_key ] ) ) {
+					unset( $sort_options[ $option_key ] );
+				}
+			}
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$atts,
 			array(
 				'hidden_fields'       => $hidden_fields,
-				'sort_options'        => $this->get_sort_options(),
-				'default_sort_option' => $this->get_default_sort_option(),
+				'sort_options'        => $sort_options,
+				'default_sort_option' => $this->get_default_sort_option( $sort_options, $default ),
 			)
 		);
 
@@ -133,14 +170,21 @@ class Property_Filters_Sort {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param mixed[]|bool $sort_options Sort option array or false to use the
+	 *                                   related method.
+	 * @param string       $default      Custom default value (shortcode attribute).
+	 *
 	 * @return mixed[] Key and definition/configuration of the default option.
 	 */
-	public function get_default_sort_option() {
-		$sort_options     = $this->get_sort_options();
+	public function get_default_sort_option( $sort_options = false, $default = '' ) {
+		if ( empty( $sort_options ) ) {
+			$sort_options = $this->get_sort_options();
+		}
+
 		$sort_option_keys = array_keys( $sort_options );
 		$default_sort_key = apply_filters(
 			'inx_default_sort_key',
-			$sort_option_keys[0]
+			$default ? $default : $sort_option_keys[0]
 		);
 
 		if ( ! in_array( $default_sort_key, $sort_option_keys ) ) {
@@ -250,7 +294,7 @@ class Property_Filters_Sort {
 			)
 		);
 
-		return $sort_options;
+		return apply_filters( 'inx_property_sort_options', $sort_options );
 	} // get_sort_options
 
 } // Property_Filters_Sort

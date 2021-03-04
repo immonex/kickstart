@@ -26,6 +26,7 @@ search: 1
 
 ### Sortierung
 
+- [inx_property_sort_options](filter-inx-property-sort-options.html) (Sortieroptionen der Frontend-Auswahlliste)
 - [inx_default_sort_key](filter-inx-default-sort-key.html) (Standard-Sortierung von Immobilien-Listen)
 
 ### Detailansicht

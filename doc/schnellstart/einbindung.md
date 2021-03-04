@@ -32,6 +32,18 @@ Details und vollständige Elementliste: [Komponenten → Suchformular](../kompon
 
 Mit diesem Shortcode wird aktuell bei Verwendung des Standard-Skins ein Balken mit einer einzelnen Dropdown-Auswahlliste gängiger Sortiermöglichkeiten eingebunden. Hier könnten zukünftig weitere Optionen in Sachen Filterung ergänzt werden.
 
+Für die explizite Festlegung der Elemente der Auswahlliste bzw. das Ausschließen bestimmter Elemente stehen die optionalen Shortcode-Attribute `elements` und `exclude` zur Verfügung, die jeweils kommagetrennte Listen von Element-Keys enthalten können. Ebenfalls optional ist das Attribut `default`, mit dem Standardsortierung festgelegt werden kann.
+
+> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](../anpassung-erweiterung/filter-inx-default-sort-key.html) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
+
+### Beispiele
+
+nur Preis auf- oder absteigend (Standard) als Sortieroptionen
+`[inx-filters-sort elements="price_asc, price_desc" default="price_desc"]`
+
+Fläche und Zimmeranzahl aus der Optionsliste entfernen
+`[inx-filters-sort exclude="area_asc, rooms_asc"]`
+
 Details: [Komponenten → Sortierung](../komponenten/sortierung.html)
 
 ## Listenansicht
@@ -132,6 +144,7 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-limit` | **Gesamtanzahl** der anzuzeigenden Immobilien begrenzen (Ganzzahl) |
 | `inx-limit-page` | Anzahl der anzuzeigenden Immobilien **pro Seite** begrenzen (Ganzzahl) |
 | `inx-sort` | [Sortierschlüssel (Key)](../komponenten/sortierung.html#Standard-Optionen) |
+| `inx-force-lang` | Sprachcode, mit dem in [**Sonderfällen** bei mehrsprachigen Umgebungen](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache vorgegeben werden kann (z. B. *de*, *en*...) |
 | `inx-ref` | beliebiger, **benutzerdefinierter** Wert |
 
 ### Beispiel-URLs

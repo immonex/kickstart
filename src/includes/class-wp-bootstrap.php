@@ -48,7 +48,7 @@ class WP_Bootstrap {
 
 		add_action( 'admin_menu', array( $this, 'add_menu_items' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 10 );
-		add_action( 'init', array( $this, 'register_custom_post_types' ), 20 );
+		add_action( 'init', array( $this, 'register_custom_post_types' ), 10 );
 		add_action( 'init', array( $this, 'register_image_sizes' ) );
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 		add_action(
@@ -97,7 +97,7 @@ class WP_Bootstrap {
 				'hierarchical'      => true,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/location', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_location_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -123,7 +123,7 @@ class WP_Bootstrap {
 				'hierarchical'      => false,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/type-of-use', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_type_of_use_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -149,7 +149,7 @@ class WP_Bootstrap {
 				'hierarchical'      => true,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/type', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_property_type_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -175,7 +175,7 @@ class WP_Bootstrap {
 				'hierarchical'      => false,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/buy-rent', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_marketing_type_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -201,7 +201,7 @@ class WP_Bootstrap {
 				'hierarchical'      => false,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/feature', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_feature_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -227,7 +227,7 @@ class WP_Bootstrap {
 				'hierarchical'      => false,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
-					'slug'       => _x( 'properties/label', 'Custom Taxonomy Slug', 'immonex-kickstart' ),
+					'slug'       => $this->plugin->tax_label_slug_rewrite,
 					'with_front' => false,
 				),
 			),
@@ -375,19 +375,27 @@ class WP_Bootstrap {
 				'supports'     => array( 'title', 'editor', 'author', 'thumbnail' ),
 				'map_meta_cap' => true,
 				'rewrite'      => array(
-					'slug' => $this->plugin->property_post_type_slug_rewrite,
+					'slug'       => $this->plugin->property_post_type_slug_rewrite,
+					'with_front' => true,
 				),
 			)
 		);
 
-		if ( $this->plugin->property_list_page_id ) {
-			$archive_redirect_url  = get_permalink( $this->plugin->property_list_page_id );
-			$archive_redirect_slug = strtolower( untrailingslashit( substr( $archive_redirect_url, strlen( home_url() ) + 1 ) ) );
+		if (
+			$this->plugin->property_list_page_id &&
+			! empty( $property_post_type_args['rewrite']['slug'] )
+		) {
+			$archive_redirect_url    = get_permalink( $this->plugin->property_list_page_id );
+			$archive_redirect_slug   = untrailingslashit( substr( $archive_redirect_url, strlen( untrailingslashit( home_url() ) ) + 1 ) );
+			$translated_rewrite_slug = apply_filters(
+				'inx_translated_slug',
+				strtolower( $property_post_type_args['rewrite']['slug'] ),
+				$this->data['property_post_type_name'],
+				substr( get_locale(), 0, 2 ),
+				true
+			);
 
-			if (
-				! empty( $property_post_type_args['rewrite']['slug'] ) &&
-				strtolower( $property_post_type_args['rewrite']['slug'] ) === $archive_redirect_slug
-			) {
+			if ( $translated_rewrite_slug === $archive_redirect_slug ) {
 				// Use the singular version of property if a page with the same
 				// slug is used as archive template.
 				$property_post_type_args['rewrite']['slug'] = _x( 'property', 'Fallback Custom Post Type Slug (singular only!)', 'immonex-kickstart' );

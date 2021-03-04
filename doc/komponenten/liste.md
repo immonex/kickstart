@@ -87,6 +87,7 @@ Mit den folgenden Attributen kann die Anzahl der einzubindenden Immobilien begre
 | `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
 | `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
 | `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
+| `force-lang` | Sprachcode, um in [**Sonderfällen** (mehrsprachige Websites)](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
 
 ##### Beispiel
 

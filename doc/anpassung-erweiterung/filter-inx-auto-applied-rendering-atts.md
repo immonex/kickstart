@@ -9,7 +9,7 @@ search: 1
 
 ## Beispiel
 
-Standardmäßig wird das Attribut für benutzerdefinierte Angaben, `ref` bzw. `inx-ref` auf diese Art übernommen. Wird also bspw. ein entsprechender Wert als Attribut eines Immobilien-Listen-Shortcodes definiert...
+Standardmäßig werden das Attribut für benutzerdefinierte Angaben, `ref` bzw. `inx-ref` sowie (in Sonderfällen) der Sprachcode `force-lang` bzw. `inx-force-lang` auf diese Art übernommen. Wird also bspw. ein entsprechender Wert als Attribut eines Immobilien-Listen-Shortcodes definiert...
 
 `[inx-property-list ref="123abc"]`
 

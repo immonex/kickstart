@@ -65,9 +65,9 @@ class Property_Search {
 		 * Check for special GET variables and preserve their values (hidden fields).
 		 */
 		$preserve_get_vars = $this->config['special_query_vars']();
-		if ( ! $wp->request && ! empty( $wp->query_vars ) ) {
-			// Add further GET vars if pretty permalink URLs are NOT activated.
-			foreach ( $wp->query_vars as $var_name => $value ) {
+		if ( ! empty( $_GET ) ) {
+			// Add further GET vars.
+			foreach ( $_GET as $var_name => $value ) {
 				if (
 					'' !== $value &&
 					'inx-search-' !== substr( $var_name, 0, 11 ) &&
@@ -179,7 +179,7 @@ class Property_Search {
 		if ( ! $form_action ) {
 			if ( $this->config['property_list_page_id'] ) {
 				// Specific page stated as overview page: set as form action URL if valid.
-				$page_url = get_permalink( $this->config['property_list_page_id'] );
+				$page_url = get_permalink( apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'] ) );
 				if ( $page_url ) {
 					$default_action_url = $page_url;
 				}

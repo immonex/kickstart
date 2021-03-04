@@ -66,7 +66,7 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 
 ### Immobilien-Beiträge
 
-Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://[DOMAIN.TLD]/immobilien/`<sup>1</sup> bzw. `.../properties/`<sup>1</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
+Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>1</sup> bzw. `.../properties/`<sup>1</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
 
 So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
 
@@ -74,7 +74,7 @@ So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standa
 
 ### Taxonomie-Archive
 
-Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen <i>Slugs</i> (Taxonomie und Taxonomie-Term) aufgerufen werden:
+Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen <i>Slugs</i><sup>1</sup> (Taxonomie und Taxonomie-Term) aufgerufen werden:
 
 #### Stadt-/Ortsname
 
@@ -108,4 +108,4 @@ Beispiel: `.../immobilien/label/neu/`
 
 ---
 
-<sup>1</sup> abhängig von der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))
+<sup>1</sup> abhängig von den in den Plugin-Optionen hinterlegten [Titelformen (Slugs)](../schnellstart/einrichtung.html#Titelformen-Slugs) und der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))

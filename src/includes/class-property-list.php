@@ -107,7 +107,9 @@ class Property_List {
 			$args
 		);
 
-		return get_posts( $args );
+		$properties = get_posts( $args );
+
+		return $properties;
 	} // get_properties
 
 	/**

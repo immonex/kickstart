@@ -251,7 +251,11 @@ class Data_Access_Helper {
 		}
 
 		// Get value from GET query variables (possibly override query object values).
-		$temp_value = get_query_var( $var_name, false );
+		if ( ! empty( $_GET[ $var_name ] ) ) {
+			$temp_value = $_GET[ $var_name ];
+		} else {
+			$temp_value = get_query_var( $var_name, false );
+		}
 
 		if ( false !== $temp_value ) {
 			$value = $temp_value;

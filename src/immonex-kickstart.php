@@ -3,7 +3,7 @@
  * Plugin Name:       immonex Kickstart
  * Plugin URI:        https://wordpress.org/plugins/immonex-kickstart/
  * Description:       Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers
- * Version:           1.2.10-beta
+ * Version:           1.2.12-beta
  * Requires at least: 4.7
  * Requires PHP:      5.6
  * Author:            inveris OHG / immonex
@@ -49,7 +49,7 @@ require __DIR__ . '/tgmpa.php';
  * Instantiate plugin main class.
  */
 $immonex_kickstart = new Kickstart( basename( __FILE__, '.php' ) );
-$immonex_kickstart->init();
+$immonex_kickstart->init( 9 );
 
 // Global alias.
 $inx = $immonex_kickstart;

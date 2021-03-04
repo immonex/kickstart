@@ -872,13 +872,22 @@ class Property {
 			return $backlink_url;
 		}
 
-		$backlink_url    = trailingslashit( home_url( add_query_arg( array(), $wp->request ) ) );
+		$backlink_url = home_url( add_query_arg( array(), $wp->request ) );
+		if ( false === strpos( $backlink_url, '?' ) ) {
+			$backlink_url = trailingslashit( $backlink_url );
+		}
+
 		$details_page_id = $this->config['property_details_page_id'] ?
 			apply_filters( 'inx_element_translation_id', $this->config['property_details_page_id'] ) :
 			false;
 
+		$home_url = get_home_url();
+		if ( false === strpos( $home_url, '?' ) ) {
+			$home_url = trailingslashit( $home_url );
+		}
+
 		if (
-			trailingslashit( get_home_url() ) === $backlink_url ||
+			$home_url === $backlink_url ||
 			$backlink_url === $permalink_url ||
 			( $details_page_id && get_permalink( $details_page_id ) === $backlink_url )
 		) {
@@ -888,7 +897,7 @@ class Property {
 
 			if ( $this->config['property_list_page_id'] ) {
 				// Specific page stated as overview page: overwrite archive URL.
-				$page_id  = apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'], 'page' );
+				$page_id  = apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'] );
 				$page_url = get_permalink( $page_id );
 				if ( $page_url ) {
 					$backlink_url = $page_url;

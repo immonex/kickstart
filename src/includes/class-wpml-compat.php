@@ -40,7 +40,7 @@ class WPML_Compat {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.2.9-beta
+	 * @since 1.2.12-beta
 	 *
 	 * @param mixed[]  $config Various component configuration data.
 	 * @param object[] $utils Helper/Utility objects.
@@ -51,13 +51,17 @@ class WPML_Compat {
 
 		add_filter( 'inx_element_translation_id', array( $this, 'get_translation_id' ), 10, 3 );
 		add_filter( 'inx_element_language', array( $this, 'get_element_language' ), 10, 2 );
+		add_filter( 'inx_translated_slug', array( $this, 'get_translated_slug' ), 10, 4 );
 		add_filter( 'inx_is_translated_post_type', array( $this, 'is_translated_post_type' ), 10, 2 );
+		add_filter( 'inx_page_list_all_languages', array( $this, 'get_all_pages' ) );
+
+		add_filter( 'icl_ls_languages', array( $this, 'extend_language_switcher_urls' ) );
 	} // __construct
 
 	/**
 	 * Get the related translation ID for the given element ID (page, post...).
 	 *
-	 * @since 1.2.9-beta
+	 * @since 1.2.12-beta
 	 *
 	 * @param int|string  $source_id Element ID.
 	 * @param string      $type      Element type (optional, defaults to "page").
@@ -85,7 +89,7 @@ class WPML_Compat {
 	/**
 	 * Get the language of the element with the given ID.
 	 *
-	 * @since 1.2.9-beta
+	 * @since 1.2.12-beta
 	 *
 	 * @param string     $lang       Default language code or empty value.
 	 * @param int|string $element_id Element ID.
@@ -99,6 +103,10 @@ class WPML_Compat {
 
 		// @codingStandardsIgnoreLine
 		$lang_details = apply_filters( 'wpml_post_language_details', '', $element_id );
+		if ( ! is_array( $lang_details ) || empty( $lang_details ) ) {
+			return $lang;
+		}
+
 		if ( isset( $lang_details['language_code'] ) ) {
 			$lang = $lang_details['language_code'];
 		}
@@ -109,9 +117,32 @@ class WPML_Compat {
 	} // get_element_language
 
 	/**
+	 * Get the translated version of a post type slug.
+	 *
+	 * @since 1.2.12-beta
+	 *
+	 * @param string      $source_slug         Source slug.
+	 * @param string      $post_type           Post type.
+	 * @param string|null $lang                Translation language code (optional).
+	 * @param bool        $ignore_default_lang Don't get slug translations for the
+	 *                                         default language if true.
+	 *
+	 * @return string Two-letter language code.
+	 */
+	public function get_translated_slug( $source_slug, $post_type, $lang = null, $ignore_default_lang = false ) {
+		// @codingStandardsIgnoreLine
+		if ( $ignore_default_lang && apply_filters( 'wpml_default_language', null ) === $lang ) {
+			return $source_slug;
+		}
+
+		// @codingStandardsIgnoreLine
+		return apply_filters( 'wpml_get_translated_slug', $source_slug, $post_type, $lang );
+	} // get_translated_slug
+
+	/**
 	 * Check if the given post type is subject of translation.
 	 *
-	 * @since 1.2.9-beta
+	 * @since 1.2.12-beta
 	 *
 	 * @param bool   $translatable Default status.
 	 * @param string $post_type    Post type key.
@@ -136,5 +167,98 @@ class WPML_Compat {
 
 		return $translatable;
 	} // is_translated_post_type
+
+	/**
+	 * Get a sorted full list of pages including all language versions.
+	 *
+	 * @since 1.2.12-beta
+	 *
+	 * @param mixed[]|null $pages Current page list or null.
+	 *
+	 * @return mixed[] Page list.
+	 */
+	public function get_all_pages( $pages ) {
+		// @codingStandardsIgnoreLine
+		$languages = apply_filters( 'wpml_active_languages', null, array( 'skip_missing' => 0 ) );
+		if ( empty( $languages ) ) {
+			return $pages;
+		}
+
+		// @codingStandardsIgnoreLine
+		$current_lang = apply_filters( 'wpml_current_language', null );
+		$all_pages    = array();
+
+		foreach ( $languages as $lang ) {
+			// @codingStandardsIgnoreLine
+			do_action( 'wpml_switch_language', $lang['code'] );
+
+			$args = array(
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'lang'           => $lang['code'],
+			);
+
+			$posts = get_posts( $args );
+
+			if ( count( $posts ) > 0 ) {
+				foreach ( $posts as $post ) {
+					$all_pages[ $post->ID ] = $post->post_title;
+				}
+			}
+		}
+
+		// @codingStandardsIgnoreLine
+		do_action( 'wpml_switch_language', $current_lang );
+
+		asort( $all_pages );
+
+		return $all_pages;
+	} // get_all_pages
+
+	/**
+	 * Extend WPML language switcher URLs by the immonex property ID
+	 * GET parameter if given and filter out any search parameters.
+	 *
+	 * @since 1.2.12-beta
+	 *
+	 * @param mixed[] $urls Language switcher link data array.
+	 *
+	 * @return mixed[] Link array with (possibly) extended URLs.
+	 */
+	public function extend_language_switcher_urls( $urls ) {
+		$property_id = isset( $_GET['inx-property-id'] ) ? (int) $_GET['inx-property-id'] : '';
+		if ( ! $property_id || empty( $urls ) ) {
+			return $urls;
+		}
+
+		foreach ( $urls as $lang => $link ) {
+			$url       = $link['url'];
+			$get_vars  = array();
+			$url_parts = parse_url( $url );
+
+			if ( ! empty( $url_parts['query'] ) ) {
+				parse_str( $url_parts['query'], $get_query_vars );
+
+				if ( ! empty( $get_query_vars ) ) {
+					foreach ( $get_query_vars as $var_name => $value ) {
+						if ( 'inx-search-' !== substr( $var_name, 0, 11 ) ) {
+							$get_vars[ $var_name ] = $value;
+						}
+					}
+				}
+			}
+
+			if ( $property_id && ! isset( $get_vars['inx-property-id'] ) ) {
+				$get_vars['inx-property-id'] = $this->get_translation_id( $property_id, 'post', $lang );
+			}
+
+			$raw_url = false === strpos( $url, '?' ) ? $url : substr( $url, 0, strpos( $url, '?' ) );
+
+			$urls[ $lang ]['url'] = add_query_arg( $get_vars, trailingslashit( $raw_url ) );
+		}
+
+		return $urls;
+	} // extend_language_switcher_urls
 
 } // WPML_Compat

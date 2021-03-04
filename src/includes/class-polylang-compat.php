@@ -52,6 +52,7 @@ class Polylang_Compat {
 		add_filter( 'inx_element_translation_id', array( $this, 'get_translation_id' ), 10, 3 );
 		add_filter( 'inx_element_language', array( $this, 'get_element_language' ), 10, 2 );
 		add_filter( 'inx_is_translated_post_type', array( $this, 'is_translated_post_type' ), 10, 2 );
+
 		add_filter( 'pll_the_language_link', array( $this, 'extend_language_switcher_urls' ), 10, 2 );
 	} // __construct
 
@@ -61,13 +62,13 @@ class Polylang_Compat {
 	 * @since 1.2.9-beta
 	 *
 	 * @param int|string  $source_id Element ID.
-	 * @param string      $type      Element type (optional, defaults to "page").
+	 * @param string|null $type      Element type (not relevant for Polylang).
 	 * @param string|bool $lang      Two-letter language code (optional, language
 	 *                               from current locale is used by default).
 	 *
 	 * @return int ID of translated version or source ID if unavailable.
 	 */
-	public function get_translation_id( $source_id, $type = 'page', $lang = false ) {
+	public function get_translation_id( $source_id, $type = null, $lang = false ) {
 		if ( ! function_exists( 'pll_get_post' ) ) {
 			return $source_id;
 		}
@@ -155,6 +156,9 @@ class Polylang_Compat {
 	 */
 	public function extend_language_switcher_urls( $url, $lang ) {
 		$property_id = isset( $_GET['inx-property-id'] ) ? (int) $_GET['inx-property-id'] : '';
+		if ( ! $property_id ) {
+			return $url;
+		}
 
 		$get_vars  = array();
 		$url_parts = parse_url( $url );
@@ -172,7 +176,7 @@ class Polylang_Compat {
 		}
 
 		if ( $property_id && ! isset( $get_vars['inx-property-id'] ) ) {
-			$get_vars['inx-property-id'] = $this->get_translation_id( $property_id, $this->config['property_post_type_name'], $lang );
+			$get_vars['inx-property-id'] = $this->get_translation_id( $property_id, '', $lang );
 		}
 
 		$raw_url = false === strpos( $url, '?' ) ? $url : substr( $url, 0, strpos( $url, '?' ) );

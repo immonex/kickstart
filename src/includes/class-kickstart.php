@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.2.10-beta';
+	const PLUGIN_VERSION             = '1.2.12-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -40,13 +40,19 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		'skin'                                         => 'default',
 		'property_list_page_id'                        => 0,
 		'property_details_page_id'                     => 0,
-		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'heading_base_level'                           => 1,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
 		'currency_symbol'                              => '€',
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_location_slug_rewrite'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_type_of_use_slug_rewrite'                 => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_property_type_slug_rewrite'               => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_marketing_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_feature_slug_rewrite'                     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_label_slug_rewrite'                       => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'google_api_key'                               => '',
 		'distance_search_autocomplete_type'            => 'photon',
 		'distance_search_autocomplete_require_consent' => true,
@@ -177,10 +183,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		foreach ( $this->plugin_options as $option_name => $option_value ) {
 			if ( 'INSERT_TRANSLATED_DEFAULT_VALUE' === $option_value ) {
 				switch ( $option_name ) {
-					case 'property_post_type_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
 					case 'reference_price_text':
 						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
 						$option_string_translated             = true;
@@ -191,6 +193,34 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 						break;
 					case 'property_details_map_note_map_embed':
 						$this->plugin_options[ $option_name ] = __( 'The map roughly shows the location in which the property is located.', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'property_post_type_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_location_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/location', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_type_of_use_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/type-of-use', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_property_type_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/type', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_marketing_type_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/buy-rent', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_feature_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/feature', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_label_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/label', 'Custom Taxonomy Slug', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
 				}
@@ -217,6 +247,20 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		if ( ! get_option( 'rewrite_rules' ) ) {
 			global $wp_rewrite;
 			$wp_rewrite->flush_rules( true );
+		}
+
+		if (
+			isset( $_GET['page'] ) &&
+			isset( $_GET['maint'] ) &&
+			"{$this->plugin_slug}_settings" === $_GET['page'] &&
+			current_user_can( 'activate_plugins' )
+		) {
+			switch ( $_GET['maint'] ) {
+				case 'reactivate':
+					$this->activate_plugin();
+					$this->add_admin_notice( 'Reactivated!' );
+					break;
+			}
 		}
 	} // init_plugin_admin
 
@@ -390,25 +434,40 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	 * @return mixed[] Possibly modified option values.
 	 */
 	public function do_before_options_update( $new_values, $old_values ) {
-		if (
-			is_array( $new_values ) &&
-			is_array( $old_values ) &&
-			(
-				$new_values['property_list_page_id'] !== $old_values['property_list_page_id'] ||
-				(
-					isset( $old_values['property_post_type_slug_rewrite'] ) &&
-					isset( $new_values['property_post_type_slug_rewrite'] ) &&
-					$new_values['property_post_type_slug_rewrite'] !== $old_values['property_post_type_slug_rewrite']
-				)
-			)
-		) {
-			$new_values['deferred_tasks']['flush_rewrite_rules_once'] = true;
+		if ( ! is_array( $new_values ) || ! is_array( $old_values ) ) {
+			return array();
 		}
 
-		if ( empty( $new_values['property_post_type_slug_rewrite'] ) ) {
-			$new_values['property_post_type_slug_rewrite'] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
+		foreach ( $new_values as $key => $value ) {
+			if ( '_slug_rewrite' === substr( $key, -13 ) ) {
+				$slug_segments = explode( '/', $value );
+				foreach ( $slug_segments as $i => $segment ) {
+					$slug_segments[ $i ] = $this->utils['string']->slugify( $segment );
+				}
+				$new_values[ $key ] = untrailingslashit(
+					implode( 'property_post_type_slug_rewrite' === $key ? '-' : '/', $slug_segments )
+				);
+				if ( ! empty( $new_values[ $key ] ) && '/' === $new_values[ $key ][0] ) {
+					$new_values[ $key ] = substr( $new_values[ $key ], 1 );
+				}
+			}
+
+			if (
+				'property_list_page_id' === $key ||
+				(
+					'_slug_rewrite' === substr( $key, -13 ) &&
+					(
+						! isset( $old_values[ $key ] ) ||
+						(
+							isset( $old_values[ $key ] ) &&
+							$new_values[ $key ] !== $old_values[ $key ]
+						)
+					)
+				)
+			) {
+				$new_values['deferred_tasks']['flush_rewrite_rules_once'] = true;
+			}
 		}
-		$new_values['property_post_type_slug_rewrite'] = $this->utils['string']->slugify( $new_values['property_post_type_slug_rewrite'] );
 
 		return $new_values;
 	} // do_before_options_update
@@ -436,6 +495,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'content'    => '',
 					'attributes' => array(),
 				),
+				'tab_slugs'   => array(
+					'title'      => __( 'Slugs', 'immonex-kickstart' ),
+					'content'    => '',
+					'attributes' => array(),
+				),
 			)
 		);
 		foreach ( $tabs as $id => $tab ) {
@@ -447,7 +511,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 			);
 		}
 
-		$pages = $this->utils['template']->get_page_list( array( 'lang' => '' ) );
+		$pages = apply_filters(
+			'inx_page_list_all_languages',
+			$this->utils['template']->get_page_list( array( 'lang' => '' ) )
+		);
+
 		if ( count( $pages ) > 0 ) {
 			foreach ( $pages as $page_id => $page_title ) {
 				$page_lang = apply_filters( 'inx_element_language', '', $page_id, 'page' );
@@ -503,6 +571,21 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
+				'section_post_type_slugs'      => array(
+					'title'       => __( 'Post Type', 'immonex-kickstart' ),
+					'description' => wp_sprintf(
+						/* translators: %1$s = Polylang Pro URL, %2$s = WPML URL */
+						__( 'The following <strong>rewrite slug</strong> is used for creating "SEO friendly" permalinks for property archive and detail pages, e.g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/a-really-maniac-mansion/</strong>. In multilingual enviroments using <a href="%1$s" target="_blank">Polylang Pro</a> or <a href="%2$s" target="_blank">WPML</a>, these slugs can be translated with the corresponding <em>string translation</em> functionality.', 'immonex-kickstart' ),
+						'https://polylang.pro/downloads/polylang-pro/',
+						'https://wpml.org/'
+					),
+					'tab'         => 'tab_slugs',
+				),
+				'section_taxonomy_slugs'       => array(
+					'title'       => __( 'Taxonomies', 'immonex-kickstart' ),
+					'description' => __( 'Taxonomy archive pages have their own <strong>rewrite slugs</strong> that may contain slashes. In most cases a combination of the post type slug above and the taxonomy name makes the most sense, e.g. <strong>properties/type</strong> will make the permalink URLs look like <strong>domain.tld/properties/type/flats/</strong>. The following slugs should be entered in the <strong>main language</strong> of the website, too.', 'immonex-kickstart' ),
+					'tab'         => 'tab_slugs',
+				),
 			)
 		);
 		foreach ( $sections as $id => $section ) {
@@ -547,15 +630,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'args'    => array(
 						'description' => __( 'Use the specified page as base for displaying the property details (instead of the default template).', 'immonex-kickstart' ),
 						'options'     => $pages_details,
-					),
-				),
-				array(
-					'name'    => 'property_post_type_slug_rewrite',
-					'type'    => 'text',
-					'label'   => __( 'Property Post Type Slug', 'immonex-kickstart' ),
-					'section' => 'section_design_structure',
-					'args'    => array(
-						'description' => __( 'A custom/localized <strong>base slug</strong> for the property posts can be entered here. This should be a single term in its plural form (usually "properties").', 'immonex-kickstart' ),
 					),
 				),
 				array(
@@ -764,6 +838,69 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 							__( 'Provide an key suitable for using the Google APIs mentioned abobe. You can find information about getting and configuring such a key on the respective <a href="%s" target="_blank">Google Developers page</a>. <strong>(Maps JavaScript, Places and Embed APIs have to be activated for the related project!)</strong>', 'immonex-kickstart' ),
 							'https://developers.google.com/maps/documentation/javascript/get-api-key'
 						),
+					),
+				),
+				array(
+					'name'    => 'property_post_type_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Property', 'immonex-kickstart' ),
+					'section' => 'section_post_type_slugs',
+					'args'    => array(
+						'description' => __( 'This should be a single term in its plural form and in the site\'s <strong>main language</strong> (usually <strong>properties</strong>). If empty, <em>inx_property</em> will be used as base slug.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_location_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Locality', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/location</strong> by default, <em>inx_location</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_type_of_use_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Type of Use', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/type-of-use</strong> by default, <em>inx_type_of_use</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_property_type_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Property Type', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/type</strong> by default, <em>inx_property_type</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_marketing_type_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Marketing Type', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/buy-rent</strong> by default, <em>inx_marketing_type</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_feature_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Feature', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/feature</strong> by default, <em>inx_feature</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_label_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Label', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/label</strong> by default, <em>inx_label</em> if empty', 'immonex-kickstart' ),
 					),
 				),
 			)
