@@ -34,6 +34,7 @@ $inx_skin_osmaps_privacy_note = wp_sprintf(
 		marker-icon-url="<?php echo esc_url( $inx_skin_marker_icon_url ); ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_osmaps_privacy_note ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
+		:require-consent="<?php echo (bool) $template_data['require-consent'] ? 'true' : 'false'; ?>"
 	>
 	</inx-property-open-layers-map>
 </div>

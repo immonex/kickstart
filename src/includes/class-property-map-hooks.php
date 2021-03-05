@@ -101,14 +101,13 @@ class Property_Map_Hooks {
 		}
 
 		/**
-		 * Create an array of supported shortcode attributes consisting of all
-		 * search form elements (names) as well as special query parameters.
-		 * (Default values are not required here.)
+		 * Create an array of supported shortcode attributes.
 		 */
 		$supported_atts = array(
-			'lat'  => $this->config['property_list_map_lat'],
-			'lng'  => $this->config['property_list_map_lng'],
-			'zoom' => $this->config['property_list_map_zoom'],
+			'lat'             => $this->config['property_list_map_lat'],
+			'lng'             => $this->config['property_list_map_lng'],
+			'zoom'            => $this->config['property_list_map_zoom'],
+			'require-consent' => $this->config['maps_require_consent'],
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
@@ -118,7 +117,9 @@ class Property_Map_Hooks {
 		$prefixed_atts = array();
 		if ( is_array( $atts ) && count( $atts ) > 0 ) {
 			foreach ( $atts as $key => $value ) {
-				if ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
+				if ( in_array( $key, array_keys( $supported_atts ) ) ) {
+					$prefixed_atts[ $key ] = $value;
+				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
 					$prefixed_atts[ "{$prefix}search-{$key}" ] = $value;
 				} else {
 					$prefixed_atts[ "{$prefix}{$key}" ] = $value;

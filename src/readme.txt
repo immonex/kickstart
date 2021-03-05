@@ -106,7 +106,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.12-beta =
+= 1.2.13-beta =
 * Release date: ?
 * Added option for setting an alternate reference price text.
 * Added option for enabling/disabling the map bounds auto-fit function.
@@ -114,6 +114,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added subtype "date" for search form text input fields (date picker).
 * Added property filter/sort shortcode attributes for creating custom
   sort option selection lists.
+* Added option for enabling/disabling user consent for embedded maps.
 * Optimized support for multilingual sites (Polylang/WPML compatibility).
 * Lowered minimum zoom level for property overview maps.
 * Fixed distance search arguments not being applied in overview maps.

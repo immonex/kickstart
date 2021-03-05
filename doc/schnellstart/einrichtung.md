@@ -81,21 +81,21 @@ Google-Maps-Karte mit Standortmarker
 ![Google-Maps-Karte mit Ort/Stadtteil](../assets/scst-google-embed-map.gif)
 Google-Maps-Karte mit Ort oder Stadtteil (iFrame)
 
-#### Autovervollständigung & Benutzer-Einwilligung
+#### Autovervollständigung
 
 Die **Umkreissuche** im erweiterten [Immobilien-Suchformular](../komponenten/index.html) kann generell deaktiviert werden, indem bei *Autovervollständigung* die Option `keine` ausgewählt wird.
-
-Da die Nutzung externer Dienste hinsichtlich der [EU-DSGVO](https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung) problematisch sein **kann**, kann bei der Autovervollständigung eine explizite Zustimmung des Nutzers per Klick auf einen entsprechenden Button angefordert werden (standardmäßig aktiviert).
-
-Bei der **Kartendarstellung** ist diese Zustimmung obligatorisch und kann nicht deaktiviert werden.
-
-![Zustimmung zur Einbindung von OpenStreetMap-Karten](../assets/scst-osm-map-consent.png)
-Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei Google Maps)
-
-Wurde die Zustimmung erteilt, gilt diese immer sowohl für die Autovervollständigung als auch für die Karteneinbidung und wird in Form eines **Cookies** gespeichert, das für 24 Stunden gültig ist.
-
->**Keine Panik!** Hierbei handelt es sich **nicht** um ein <i>Tracking-Cookie</i>, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!
 
 #### Google Maps
 
 Für die Nutzung der Google-Maps-Dienste ist ein passender API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
+
+#### Benutzer-Zustimmung
+
+Da die Nutzung externer Geo-Dienste hinsichtlich der [EU-DSGVO](https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung) problematisch sein **kann**, kann hierfür eine explizite Zustimmung des Nutzers per Klick auf einen entsprechenden Button angefordert werden (standardmäßig aktiviert).
+
+![Zustimmung zur Einbindung von OpenStreetMap-Karten](../assets/scst-osm-map-consent.png)
+Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei Google Maps)
+
+Die Zustimmung zur Nutzung eines Dienstes gilt für alle Geo-Dienste und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
+
+>**Keine Panik!** Hierbei handelt es sich **nicht** um ein <i>Tracking-Cookie</i>, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!

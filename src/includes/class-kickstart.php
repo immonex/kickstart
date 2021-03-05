@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.2.12-beta';
+	const PLUGIN_VERSION             = '1.2.13-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -56,6 +56,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		'google_api_key'                               => '',
 		'distance_search_autocomplete_type'            => 'photon',
 		'distance_search_autocomplete_require_consent' => true,
+		'maps_require_consent'                         => true,
 		'property_list_map_display_by_default'         => true,
 		'property_list_map_lat'                        => 49.8587840,
 		'property_list_map_lng'                        => 6.7854410,
@@ -308,6 +309,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
+				'maps_require_consent'                     => $this->plugin_options['maps_require_consent'],
 				'property_list_map_display_by_default'     => $this->plugin_options['property_list_map_display_by_default'],
 				'property_list_map_lat'                    => $this->plugin_options['property_list_map_lat'],
 				'property_list_map_lng'                    => $this->plugin_options['property_list_map_lng'],
@@ -571,6 +573,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
+				'section_geo_user_consent'      => array(
+					'title'       => __( 'User Consent', 'immonex-kickstart' ),
+					'description' => __( 'Here it can be determined for which external geospatial services the users have to give consent before these are being embedding in the website frontend. (Consent to one service applies to all geo services.)', 'immonex-kickstart' ),
+					'tab'         => 'tab_geo',
+				),
 				'section_post_type_slugs'      => array(
 					'title'       => __( 'Post Type', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
@@ -708,15 +715,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					),
 				),
 				array(
-					'name'    => 'distance_search_autocomplete_require_consent',
-					'type'    => 'checkbox',
-					'label'   => __( 'Require Usage Consent', 'immonex-kickstart' ),
-					'section' => 'section_distance_search',
-					'args'    => array(
-						'description' => __( 'If active, the user has to confirm the use of an external service for auto-completion.', 'immonex-kickstart' ),
-					),
-				),
-				array(
 					'name'    => 'property_list_map_display_by_default',
 					'type'    => 'checkbox',
 					'label'   => __( 'Display in Archive Pages', 'immonex-kickstart' ),
@@ -838,6 +836,24 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 							__( 'Provide an key suitable for using the Google APIs mentioned abobe. You can find information about getting and configuring such a key on the respective <a href="%s" target="_blank">Google Developers page</a>. <strong>(Maps JavaScript, Places and Embed APIs have to be activated for the related project!)</strong>', 'immonex-kickstart' ),
 							'https://developers.google.com/maps/documentation/javascript/get-api-key'
 						),
+					),
+				),
+				array(
+					'name'    => 'maps_require_consent',
+					'type'    => 'checkbox',
+					'label'   => __( 'Embedded Maps', 'immonex-kickstart' ),
+					'section' => 'section_geo_user_consent',
+					'args'    => array(
+						'description' => __( 'This consent applies to Google and OpenStreetMap based maps on property list and detail pages.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'distance_search_autocomplete_require_consent',
+					'type'    => 'checkbox',
+					'label'   => __( 'Location Autocompletion', 'immonex-kickstart' ),
+					'section' => 'section_geo_user_consent',
+					'args'    => array(
+						'description' => __( 'An external location autocompletion service is used in the property search form (radius/distance search).', 'immonex-kickstart' ),
 					),
 				),
 				array(

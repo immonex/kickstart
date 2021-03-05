@@ -141,6 +141,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_osmaps_privacy_note ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
+		:require-consent="<?php echo (bool) $template_data['maps_require_consent'] ? 'true' : 'false'; ?>"
 	>
 	</inx-property-location-open-layers-map>
 	<?php elseif ( $inx_skin_show_map && 'gmap_marker' === $template_data['property_details_map_type'] ) : ?>
@@ -153,6 +154,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_gmaps_privacy_note ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
+		:require-consent="<?php echo (bool) $template_data['maps_require_consent'] ? 'true' : 'false'; ?>"
 	>
 	</inx-property-location-google-map>
 	<?php elseif ( $inx_skin_show_map && 'gmap_embed' === $template_data['property_details_map_type'] ) : ?>
@@ -163,6 +165,7 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 		note="<?php echo $inx_skin_map_note; ?>"
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_gmaps_privacy_note ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
+		:require-consent="<?php echo (bool) $template_data['maps_require_consent'] ? 'true' : 'false'; ?>"
 	>
 	</inx-property-location-google-embed-map>
 	<?php endif; ?>

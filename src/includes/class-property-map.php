@@ -97,14 +97,21 @@ class Property_Map {
 			'inx_property_list_map_atts',
 			array_merge(
 				array(
-					'lat'           => $this->config['property_list_map_lat'],
-					'lng'           => $this->config['property_list_map_lng'],
-					'zoom'          => $this->config['property_list_map_zoom'],
-					'marker_set_id' => $marker_set_id,
+					'lat'             => $this->config['property_list_map_lat'],
+					'lng'             => $this->config['property_list_map_lng'],
+					'zoom'            => $this->config['property_list_map_zoom'],
+					'require-consent' => $this->config['maps_require_consent'],
+					'marker_set_id'   => $marker_set_id,
 				),
 				$atts
 			)
 		);
+
+		if ( 'true' === $atts['require-consent'] ) {
+			$atts['require-consent'] = true;
+		} elseif ( 'false' === $atts['require-consent'] ) {
+			$atts['require-consent'] = false;
+		}
 
 		$template_data = array_merge(
 			$this->config,

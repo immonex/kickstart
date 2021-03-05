@@ -63,6 +63,10 @@ export default {
 		showMapButtonText: {
 			type: String,
 			default: 'Agreed, show maps!'
+		},
+		requireConsent: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data: function() {
@@ -136,7 +140,7 @@ export default {
 	},
 	mounted () {
 		this.id = this._uid
-		if (this.$cookies.get('inx_consent_use_maps')) {
+		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
 			this.grantConsent(null)
 		}
 	}
