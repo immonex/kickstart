@@ -16,4 +16,15 @@ jQuery(document).ready(function($) {
 	$('a[href="#inx-submenu-separator"]').each(function() {
 		$(this).parent().html('<div class="inx-submenu-separator"></div>')
 	})
+
+	$('#_inx_details_repeat .postbox.cmb-row.cmb-repeatable-grouping').each(function() {
+		let elID = $(this).attr('id').match(/[0-9]+$/)
+		if (!elID) return;
+
+		let id = elID[0]
+		let title = $('#_inx_details_' + id + '_title').val()
+		if (!title) return;
+
+		$(this).find('.cmb-group-title > span').append(': ' + title)
+	})
 })

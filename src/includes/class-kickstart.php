@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.2.13-beta';
+	const PLUGIN_VERSION             = '1.2.14-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -136,8 +136,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 
 		// Setup the backend edit form for properties.
 		new Property_Backend_Form( $this->bootstrap_data );
-
-		add_filter( "pre_update_option_{$this->plugin_options_name}", array( $this, 'do_before_options_update' ), 10, 2 );
 
 		// Add filters for common rendering attributes.
 		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
@@ -348,6 +346,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 			new WPML_Compat( $component_config, $this->utils );
 		}
+
+		add_filter( "pre_update_option_{$this->plugin_options_name}", array( $this, 'do_before_options_update' ), 10, 2 );
 
 		$this->perform_deferred_tasks();
 	} // init_plugin
