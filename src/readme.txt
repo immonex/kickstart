@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.6.1
-Stable Tag: 1.2.0
+Tested up to: 5.7
+Stable Tag: 1.3.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -106,8 +106,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.2.14-beta =
-* Release date: ?
+= 1.3.0 =
+* Release date: 2021-03-08
 * Added option for setting an alternate reference price text.
 * Added option for enabling/disabling the map bounds auto-fit function.
 * Added automatic removal of backlink URL in browser address bar.
