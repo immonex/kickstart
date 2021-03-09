@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.3.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2021-03-05 10:17:42+00:00\n"
-"PO-Revision-Date: 2021-03-08 08:55+0100\n"
+"POT-Creation-Date: 2021-03-09 14:40:00+00:00\n"
+"PO-Revision-Date: 2021-03-09 15:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -15,69 +15,69 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/class-kickstart.php:188 includes/class-property.php:514
+#: includes/class-kickstart.php:186 includes/class-property.php:514
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
-#: includes/class-kickstart.php:192
+#: includes/class-kickstart.php:190
 msgid "The real property location may differ from the marker position."
 msgstr ""
 "Der reale Standort der Immobilie kann von der Markerposition abweichen."
 
-#: includes/class-kickstart.php:196
+#: includes/class-kickstart.php:194
 msgid "The map roughly shows the location in which the property is located."
 msgstr ""
 "Die Karte zeigt grob den Ortsteil bzw. die Lage an, in der sich die "
 "Immobilie befindet."
 
-#: includes/class-kickstart.php:200
+#: includes/class-kickstart.php:198
 msgctxt "Custom Post Type Slug (plural only!)"
 msgid "properties"
 msgstr "immobilien"
 
-#: includes/class-kickstart.php:204
+#: includes/class-kickstart.php:202
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/location"
 msgstr "immobilien/ort"
 
-#: includes/class-kickstart.php:208
+#: includes/class-kickstart.php:206
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/type-of-use"
 msgstr "immobilien/nutzungsart"
 
-#: includes/class-kickstart.php:212
+#: includes/class-kickstart.php:210
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/type"
 msgstr "immobilien/objektart"
 
-#: includes/class-kickstart.php:216
+#: includes/class-kickstart.php:214
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/buy-rent"
 msgstr "immobilien/kaufen-mieten"
 
-#: includes/class-kickstart.php:220
+#: includes/class-kickstart.php:218
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/feature"
 msgstr "immobilien/ausstattung"
 
-#: includes/class-kickstart.php:224
+#: includes/class-kickstart.php:222
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/label"
 msgstr "immobilien/label"
 
-#: includes/class-kickstart.php:286 includes/class-kickstart.php:292
+#: includes/class-kickstart.php:284 includes/class-kickstart.php:290
 msgid "none"
 msgstr "keine"
 
-#: includes/class-kickstart.php:293
+#: includes/class-kickstart.php:291
 msgid "OpenLayers/OpenStreetMap Map with property location marker"
 msgstr "OpenLayers/OpenStreetMap-Karte mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:294
+#: includes/class-kickstart.php:292
 msgid "Google Map with property location marker"
 msgstr "Google Map mit Immobilien-Standort-Marker"
 
-#: includes/class-kickstart.php:295
+#: includes/class-kickstart.php:293
 msgid "Google Map showing the property's neighborhood"
 msgstr "Google Map mit Ort oder Stadtteil"
 
@@ -211,21 +211,22 @@ msgstr "Beitragsart"
 #. translators: %1$s = Polylang Pro URL, %2$s = WPML URL
 #: includes/class-kickstart.php:585
 msgid ""
-"The following <strong>rewrite slug</strong> is used for creating \"SEO "
-"friendly\" permalinks for property archive and detail pages, e.g. "
-"<strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/a-"
-"really-maniac-mansion/</strong>. In multilingual enviroments using <a href="
+"The following <strong>rewrite slugs</strong> are used for creating \"SEO "
+"friendly\" permalinks for property/agency/agent archive and detail pages, e."
+"g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/"
+"a-really-maniac-mansion/</strong>. In multilingual enviroments using <a href="
 "\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a href=\"%2$s\" target="
 "\"_blank\">WPML</a>, these slugs can be translated with the corresponding "
 "<em>string translation</em> functionality."
 msgstr ""
-"Der folgende <strong>Rewrite Slug</strong> wird für die Generierung \"SEO-"
-"freundlicher\" Permalinks für Immobilien-Archiv- und Detailseiten verwendet, "
-"z. B. <strong>domain.tld/immobilien/</strong> oder <strong>domain.tld/"
-"immobilien/eine-wahrhaft-verrueckte-villa/</strong>. In mehrsprachigen "
-"Umgebungen auf Basis von <a href=\"%1$s\" target=\"_blank\">Polylang Pro</a> "
-"oder <a href=\"%2$s\" target=\"_blank\">WPML</a> können diese Slugs mit der "
-"jeweiligen <em>String-Translation-Funktion</em> übersetzt werden."
+"Die folgenden <strong>Rewrite Slugs</strong> werden für die Generierung "
+"\"SEO-freundlicher\" Permalinks für Immobilien/Agentur/Ansprechpartner-"
+"Archiv- und Detailseiten verwendet, z. B. <strong>domain.tld/immobilien/</"
+"strong> oder <strong>domain.tld/immobilien/eine-wahrhaft-verrueckte-villa/</"
+"strong>. In mehrsprachigen Umgebungen auf Basis von <a href=\"%1$s\" target="
+"\"_blank\">Polylang Pro</a> oder <a href=\"%2$s\" target=\"_blank\">WPML</a> "
+"können diese Slugs mit der jeweiligen <em>String-Translation-Funktion</em> "
+"übersetzt werden."
 
 #: includes/class-kickstart.php:592
 msgid "Taxonomies"

@@ -582,7 +582,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'title'       => __( 'Post Type', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %1$s = Polylang Pro URL, %2$s = WPML URL */
-						__( 'The following <strong>rewrite slug</strong> is used for creating "SEO friendly" permalinks for property archive and detail pages, e.g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/a-really-maniac-mansion/</strong>. In multilingual enviroments using <a href="%1$s" target="_blank">Polylang Pro</a> or <a href="%2$s" target="_blank">WPML</a>, these slugs can be translated with the corresponding <em>string translation</em> functionality.', 'immonex-kickstart' ),
+						__( 'The following <strong>rewrite slugs</strong> are used for creating "SEO friendly" permalinks for property/agency/agent archive and detail pages, e.g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/a-really-maniac-mansion/</strong>. In multilingual enviroments using <a href="%1$s" target="_blank">Polylang Pro</a> or <a href="%2$s" target="_blank">WPML</a>, these slugs can be translated with the corresponding <em>string translation</em> functionality.', 'immonex-kickstart' ),
 						'https://polylang.pro/downloads/polylang-pro/',
 						'https://wpml.org/'
 					),
