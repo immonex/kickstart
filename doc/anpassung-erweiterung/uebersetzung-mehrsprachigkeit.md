@@ -65,7 +65,7 @@ Sollen eine WordPress-Website bzw. Teile hiervon **parallel** in mehreren Sprach
 
 ### Beitragsarten und Taxonomien
 
-Sind Polylang (Pro) oder WPML installiert und aktiv und sollen Immobilien-Angebote in unterschiedlichen Sprachen veröffentlicht werden, müssen zunächst die vom Kickstart-Plugin bzw. Add-ons bereitgestellten [Beitragsarten](../beitragsarten-taxonomien.html) sowie die zugehörigen [Taxonomien](../beitragsarten-taxonomien.html) in den Optionen der eingesetzten Übersetzungs-Lösung als "übersetzbar" gekennzeichnet werden.
+Sind Polylang ([Pro](https://polylang.pro/)) oder WPML installiert und aktiv und sollen Immobilien-Angebote in unterschiedlichen Sprachen veröffentlicht werden, müssen zunächst die vom Kickstart-Plugin bzw. Add-ons bereitgestellten [Beitragsarten](../beitragsarten-taxonomien.html) sowie die zugehörigen [Taxonomien](../beitragsarten-taxonomien.html) in den Optionen der eingesetzten Übersetzungs-Lösung als "übersetzbar" gekennzeichnet werden.
 
 ![Screenshot: Polylang - zu übersetzende Beitragsarten und Taxonomien auswählen](../assets/scst-polylang-cpt-tax.png)
 Zu übersetzende Beitragsarten und Taxonomien auswählen am Beispiel von **Polylang**
