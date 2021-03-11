@@ -51,7 +51,7 @@ Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** könne
 | Preis aufsteigend (`price_asc`) | Primärpreis (Custom Field `_inx_primary_price`) aufsteigend |
 | Preis absteigend (`price_desc`) | Primärpreis (Custom Field `_inx_primary_price`) absteigend |
 | Fläche aufsteigend (`area_asc`) | Primärfläche (Custom Field `_inx_primary_area`) aufsteigend |
-| Zimmer aufsteigend (`area_asc`) | Primäranzahl Zimmer/Räume (Custom Field `_inx_primary_rooms`) aufsteigend |
+| Zimmer aufsteigend (`rooms_asc`) | Primäranzahl Zimmer/Räume (Custom Field `_inx_primary_rooms`) aufsteigend |
 | Distanz (`distance`) | **bei aktiver Umkreissuche:** Distanz zum ausgewählten Standort aufsteigend |
 
 ## Erweiterte Anpassungen
