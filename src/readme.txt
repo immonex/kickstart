@@ -106,6 +106,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.3.1-beta =
+* Release date: ?
+* Fix sort change not being applied without search form on the same page.
+
 = 1.3.0 =
 * Release date: 2021-03-08
 * Added option for setting an alternate reference price text.
@@ -135,10 +139,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added latitude and longitude to property backend form.
 * Updated Photon base URL (geo location autocompletion).
 * Updated JS code (WordPress 5.6 compatibility).
-
-= 1.1.2 =
-* Release date: 2020-09-01
-* Fixed an issue regarding the currency option usage.
-* Updated external libraries.
 
 See changelog.txt for complete version history.

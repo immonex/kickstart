@@ -22,6 +22,12 @@ jQuery(document).ready(function($) {
 
 	let inxCurrentSearchRequestString = ''
 
+	if (document.getElementById(inx_state.core.public_prefix + 'sort')) {
+		$('#' + inx_state.core.public_prefix + 'sort').on('change', function() {
+			$(this).closest('form').submit()
+		})
+	}
+
 	if (document.getElementById('inx-property-search')) {
 		function toggleExtendedSearch() {
 			// Not implemented / required yet.
@@ -127,10 +133,6 @@ jQuery(document).ready(function($) {
 				'inx-search-submit-button': SearchSubmitButton,
 				'inx-toggle': Toggle
 			}
-		})
-
-		$('#' + inx_state.core.public_prefix + 'sort').on('change', function() {
-			$(this).closest('form').submit()
 		})
 
 		$('#' + searchFormElementName + ' input, #' + searchFormElementName + ' select').on('change', debounce(updateSearchState, 500))
