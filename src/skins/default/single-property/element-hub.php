@@ -87,7 +87,7 @@ if ( $inx_skin_enable_tabs ) :
 		),
 		'location'         => array(
 			'title'    => __( 'Location & Infrastructure', 'immonex-kickstart' ),
-			'elements' => array( 'location' ),
+			'elements' => array( 'location_map', 'location_description' ),
 		),
 		'prices'           => array(
 			'title'    => __( 'Prices', 'immonex-kickstart' ),
@@ -136,7 +136,13 @@ if ( $inx_skin_enable_tabs ) :
 
 				$inx_skin_element_atts                  = $inx_skin_page_elements[ $inx_skin_part_id ];
 				$inx_skin_element_atts['heading_level'] = 3;
-				if ( count( $inx_skin_tab['elements'] ) === 1 ) {
+				if (
+					! empty( $inx_skin_element_atts['no_headline_in_tabs'] ) ||
+					count( $inx_skin_tab['elements'] ) === 1 || (
+						! empty( $inx_skin_element_atts['headline'] ) &&
+						$inx_skin_element_atts['headline'] === $inx_skin_tab['title']
+					)
+				) {
 					$inx_skin_element_atts['headline'] = '';
 				}
 

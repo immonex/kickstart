@@ -241,15 +241,23 @@ class Property_Hooks {
 
 		$element_atts = array();
 
-		if ( count( $atts ) > 0 && isset( $atts['elements'] ) ) {
-			$elements = explode(
-				',',
-				str_replace(
-					array( '(', ')' ),
-					array( '', '' ),
-					$atts['elements']
-				)
-			);
+		if ( count( $atts ) > 0 ) {
+			if ( ! empty( $atts['elements'] ) ) {
+				$shortcode_elements = explode(
+					',',
+					str_replace(
+						array( '(', ')' ),
+						array( '', '' ),
+						$atts['elements']
+					)
+				);
+			} else {
+				$shortcode_elements = array();
+			}
+
+			$elements = $this->current_property ?
+				$this->current_property->get_detail_page_element_keys() :
+				$shortcode_elements;
 
 			if ( count( $elements ) > 0 ) {
 				// Assign shortcode attributes to the related elements for output
@@ -266,9 +274,9 @@ class Property_Hooks {
 							// Prefixed shortcode attribute belongs to a specific element (example: epass-headline).
 							$element_attr_key                                  = substr( $attr_key, strlen( $element_key ) + 1 );
 							$element_atts[ $element_key ][ $element_attr_key ] = $attr_value;
-						} elseif ( count( $elements ) === 1 ) {
-							// Only one element: prefixes not required.
-							$element_atts[ $element_key ][ $attr_key ] = $attr_value;
+						} elseif ( count( $shortcode_elements ) === 1 ) {
+							// Assign unprefixed attributes to single element defined inside the shortcode.
+							$element_atts[ trim( $shortcode_elements[0] ) ][ $attr_key ] = $attr_value;
 						}
 					}
 				}

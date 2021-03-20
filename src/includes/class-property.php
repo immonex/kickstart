@@ -356,6 +356,17 @@ class Property {
 	} // render
 
 	/**
+	 * Return a list of all detail page element keys.
+	 *
+	 * @since 1.3.4-beta
+	 *
+	 * @return string[] Detail page element key list.
+	 */
+	public function get_detail_page_element_keys() {
+		return array_keys( $this->get_detail_page_elements() );
+	} // get_detail_page_element_keys
+
+	/**
 	 * Return property image data in the given format.
 	 *
 	 * @since 1.0.0
@@ -653,10 +664,10 @@ class Property {
 	 */
 	private function get_detail_page_elements( $element_atts = array() ) {
 		$elements = array(
-			'head'               => array(
+			'head'                 => array(
 				'template' => 'head',
 			),
-			'gallery'            => array(
+			'gallery'              => array(
 				'template'                => 'gallery',
 				'animation_type'          => 'push',
 				'enable_caption_display'  => true,
@@ -664,30 +675,30 @@ class Property {
 				'enable_virtual_tour'     => true,
 				'enable_ken_burns_effect' => true,
 			),
-			'main_description'   => array(
+			'main_description'     => array(
 				'template' => 'description-text',
 			),
-			'prices'             => array(
+			'prices'               => array(
 				'template' => 'details',
 				'groups'   => 'preise',
 				'headline' => __( 'Prices', 'immonex-kickstart' ),
 			),
-			'areas'              => array(
+			'areas'                => array(
 				'template' => 'details',
 				'groups'   => 'flaechen',
 				'headline' => __( 'Areas', 'immonex-kickstart' ),
 			),
-			'condition'          => array(
+			'condition'            => array(
 				'template' => 'details',
 				'groups'   => 'zustand',
 				'headline' => __( 'Condition & Development', 'immonex-kickstart' ),
 			),
-			'epass'              => array(
+			'epass'                => array(
 				'template' => 'details',
 				'groups'   => 'epass',
 				'headline' => '', // __( 'Energy Pass', 'immonex-kickstart' )
 			),
-			'epass_images'       => array(
+			'epass_images'         => array(
 				'template'                     => 'gallery',
 				'image_selection_custom_field' => '_inx_epass_images',
 				'headline'                     => '',
@@ -695,19 +706,27 @@ class Property {
 				'enable_caption_display'       => false,
 				'enable_ken_burns_effect'      => false,
 			),
-			'epass_energy_scale' => array(
+			'epass_energy_scale'   => array(
 				'template'   => 'shortcodes',
 				'shortcodes' => array( '[immonex-energy-scale]' ),
 			),
-			'location'           => array(
+			'location'             => array(
 				'template' => 'location-info',
 			),
-			'features'           => array(
+			'location_description' => array(
+				'template'            => 'location-description',
+				'no_headline_in_tabs' => true,
+			),
+			'location_map'         => array(
+				'template'            => 'location-map',
+				'no_headline_in_tabs' => true,
+			),
+			'features'             => array(
 				'template' => 'features',
 				'groups'   => 'ausstattung',
 				'headline' => __( 'Features', 'immonex-kickstart' ),
 			),
-			'floor_plans'        => array(
+			'floor_plans'          => array(
 				'template'                     => 'gallery',
 				'image_selection_custom_field' => '_inx_floor_plans',
 				'headline'                     => __( 'Floor Plans', 'immonex-kickstart' ),
@@ -715,22 +734,22 @@ class Property {
 				'enable_caption_display'       => true,
 				'enable_ken_burns_effect'      => false,
 			),
-			'misc'               => array(
+			'misc'                 => array(
 				'template'               => 'details',
 				'description_text_field' => 'freitexte.sonstige_angaben',
 				'groups'                 => 'sonstiges',
 				'headline'               => __( 'Miscellaneous', 'immonex-kickstart' ),
 			),
-			'downloads_links'    => array(
+			'downloads_links'      => array(
 				'template' => 'downloads-and-links',
 				'headline' => __( 'Downloads & Links', 'immonex-kickstart' ),
 			),
-			'contact_person'     => array(
+			'contact_person'       => array(
 				'template' => 'contact-person',
 				'groups'   => 'kontakt',
 				'headline' => __( 'Your contact person with us', 'immonex-kickstart' ),
 			),
-			'footer'             => array(
+			'footer'               => array(
 				'template' => 'footer',
 			),
 		);

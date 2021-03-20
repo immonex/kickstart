@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.3.1-beta';
+	const PLUGIN_VERSION             = '1.3.4-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -573,7 +573,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',
 				),
-				'section_geo_user_consent'      => array(
+				'section_geo_user_consent'     => array(
 					'title'       => __( 'User Consent', 'immonex-kickstart' ),
 					'description' => __( 'Here it can be determined for which external geospatial services the users have to give consent before these are being embedding in the website frontend. (Consent to one service applies to all geo services.)', 'immonex-kickstart' ),
 					'tab'         => 'tab_geo',

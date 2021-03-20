@@ -68,6 +68,14 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](.
 	'location' => [
 		'template' => 'location-info'
 	],
+	'location_description' => [
+		'template' => 'location-description',
+		'no_headline_in_tabs' => true
+	],
+	'location_map' => [
+		'template' => 'location-map',
+		'no_headline_in_tabs' => true
+	],
 	'features' => [
 		'template' => 'features',
 		'groups' => 'ausstattung',
@@ -112,6 +120,7 @@ Die folgenden Eigenschaften sind größtenteils **templatespezifisch**, können 
 | ---------- | -------------------- |
 | `template` (string) | Name der Template-Datei (ohne Endung .php) im **Unterordner** `single-property` des [Skin-Ordners](skins.html) |
 | `headline` (string) | Titel/Überschrift des Abschnitts |
+| `no_headline_in_tabs` (bool) | Überschriften bei **tab-basierter Ausgabe** ausblenden |
 
 ##### Template **details**
 

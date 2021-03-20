@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for property location description/data and map
+ * Template for property location description/data (WITHOUT map)
  *
  * @package immonex-kickstart
  */
@@ -29,14 +29,10 @@ $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
 	2;
 
-require trailingslashit( __DIR__ ) . 'map-init.php';
-
-if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 || $inx_skin_show_map ) :
+if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 ) :
 	?>
-<div class="inx-single-property__section inx-single-property__section--type--location-info">
+<div class="inx-single-property__section inx-single-property__section--type--location-description">
 	<?php echo $utils['format']->get_heading( $inx_skin_headline, $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' ); ?>
-
-	<?php include trailingslashit( __DIR__ ) . 'map-embed.php'; ?>
 
 	<?php if ( $inx_skin_location_description ) : ?>
 	<div class="inx-description-text uk-margin-bottom">
