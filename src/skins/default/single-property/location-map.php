@@ -11,8 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $inx_skin_headline = isset( $template_data['headline'] ) ?
-	$template_data['headline'] :
-	__( 'Location', 'immonex-kickstart' );
+	$template_data['headline'] : '';
 
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :

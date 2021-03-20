@@ -712,6 +712,7 @@ class Property {
 			),
 			'location'             => array(
 				'template' => 'location-info',
+				'optional' => true,
 			),
 			'location_description' => array(
 				'template'            => 'location-description',

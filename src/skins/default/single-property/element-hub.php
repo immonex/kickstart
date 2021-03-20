@@ -12,7 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $immonex_kickstart;
 
-$inx_skin_available_elements = $template_data['detail_page_elements'];
+$inx_skin_available_elements       = $template_data['detail_page_elements'];
+$inx_skin_remove_optional_elements = true;
 
 // Shall specific elements be INCLUDED (priority) or EXCLUDED?
 $inx_skin_include_elements = isset( $template_data['elements'] ) && $template_data['elements'];
@@ -24,6 +25,8 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 		$inx_skin_element_keys = is_array( $template_data['elements'] ) ?
 			$template_data['elements'] :
 			array_map( 'trim', explode( ',', $template_data['elements'] ) );
+
+		$inx_skin_remove_optional_elements = false;
 	} else {
 		$inx_skin_element_keys         = array_keys( $inx_skin_available_elements );
 		$inx_skin_exclude_element_keys = is_array( $template_data['exclude'] ) ?
@@ -65,6 +68,16 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 	// Render all available detail page elements.
 	$inx_skin_page_elements = $inx_skin_available_elements;
 	$inx_skin_enable_tabs   = isset( $template_data['enable-tabs'] ) ? (bool) $template_data['enable-tabs'] : true;
+}
+
+if ( $inx_skin_remove_optional_elements ) {
+	// Filter out optional elements.
+	$inx_skin_page_elements = array_filter(
+		$inx_skin_page_elements,
+		function ( $inx_skin_element ) {
+			return empty( $inx_skin_element['optional'] );
+		}
+	);
 }
 
 if ( $inx_skin_enable_tabs ) :

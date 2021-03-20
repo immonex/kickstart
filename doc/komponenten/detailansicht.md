@@ -77,16 +77,15 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | `epass` | Daten des Energieausweises |
 | `epass_images` | übermittelte Bildanhänge, die zum Energieausweis gehören |
 | `epass_energy_scale` | Energieskala (grafische Visualisierung der Energieklasse), sofern das Plugin [immonex Energy Scale Pro](../systemvoraussetzungen.html#Datenimport-amp-Energieskalen) installiert ist |
-| `location` (9) | Standortbeschreibung/-details **und** Karte |
-| `location_description` | **Alternative** zu `location`: nur Standortbeschreibung/-details **ohne** Karte |
-| `location_map` | **Alternative** zu `location`: separate Standortkarte |
+| `location_map` (9) | Standortkarte |
+| `location_description` (9) | Standortbeschreibung und -details |
+| `location` | Kombination von `location_map` und `location_description`: Standortbeschreibung/-details **und** Karte (**optionales Element** ➞ Anzeige nur bei expliziter Nennung im Shortcode-Attribut `elements`) |
 | `features` (4) | Ausstattung der Immobilie (Beschreibung, Merkmale etc.) |
 | `floor_plans` (5) | Grundriss-Galerie |
 | `misc` | sonstige Angaben |
 | `downloads_links` | Downloads (z. B. PDF-Dateien) und Links zu externen Websites |
 | `contact_person` (6) | Kontaktinformationen (5) |
 | `footer` (7) | Footer mit Link zur Übersichtsseite |
-
 
 ##### Beispiele
 
