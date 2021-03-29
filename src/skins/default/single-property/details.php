@@ -19,6 +19,8 @@ $inx_skin_description_text = isset( $template_data['description_text_field'] ) ?
 	) :
 	false;
 
+$inx_skin_autop = $template_data['apply_wpautop_details_page'] ? true : 'noautop';
+
 $inx_skin_groups = isset( $template_data['groups'] ) && $template_data['groups'] ?
 	$utils['data']->convert_to_group_array( $template_data['groups'] ) :
 	'';
@@ -52,7 +54,7 @@ if ( $inx_skin_description_text || ! empty( $inx_skin_details ) ) :
 	<div class="inx-description-text uk-margin-bottom">
 		<?php
 			echo $utils['string']->convert_urls(
-				$utils['format']->prepare_continuous_text( $inx_skin_description_text, 'noautop' )
+				$utils['format']->prepare_continuous_text( $inx_skin_description_text, $inx_skin_autop )
 			);
 		?>
 	</div>

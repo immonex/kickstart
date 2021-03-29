@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.3.4-beta';
+	const PLUGIN_VERSION             = '1.3.6-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -40,6 +40,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 		'skin'                                         => 'default',
 		'property_list_page_id'                        => 0,
 		'property_details_page_id'                     => 0,
+		'apply_wpautop_details_page'                   => false,
 		'heading_base_level'                           => 1,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
@@ -299,6 +300,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 				'skin'                                     => $this->plugin_options['skin'],
 				'property_list_page_id'                    => $this->plugin_options['property_list_page_id'],
 				'property_details_page_id'                 => $this->plugin_options['property_details_page_id'],
+				'apply_wpautop_details_page'               => $this->plugin_options['apply_wpautop_details_page'],
 				'heading_base_level'                       => $this->plugin_options['heading_base_level'],
 				'area_unit'                                => $this->plugin_options['area_unit'],
 				'currency'                                 => $this->plugin_options['currency'],
@@ -637,6 +639,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_4\Base {
 					'args'    => array(
 						'description' => __( 'Use the specified page as base for displaying the property details (instead of the default template).', 'immonex-kickstart' ),
 						'options'     => $pages_details,
+					),
+				),
+				array(
+					'name'    => 'apply_wpautop_details_page',
+					'type'    => 'checkbox',
+					'label'   => __( 'Apply wpautop', 'immonex-kickstart' ),
+					'section' => 'section_design_structure',
+					'args'    => array(
+						'description' => __( 'Activate to add new lines and paragraphs in description texts on detail pages automatically (<em>wpautop</em>).', 'immonex-kickstart' ),
 					),
 				),
 				array(
