@@ -346,6 +346,7 @@ class Property {
 				'links'                   => $links ? $links : array(),
 				'detail_page_elements'    => $this->get_detail_page_elements( $atts['element_atts'] ),
 				'flags'                   => $this->get_flags(),
+				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
 			),
 			$atts
 		);
@@ -365,6 +366,58 @@ class Property {
 	public function get_detail_page_element_keys() {
 		return array_keys( $this->get_detail_page_elements() );
 	} // get_detail_page_element_keys
+
+	/**
+	 * Return the content structure for the tab-based property detail output.
+	 *
+	 * @since 1.3.7-beta
+	 *
+	 * @return mixed[] Element structure including meta data (tab titles etc.).
+	 */
+	public function get_tabbed_content_elements() {
+		$before_tabs = array( 'head', 'gallery' );
+		$after_tabs  = array( 'floor_plans', 'contact_person', 'footer' );
+
+		$tabs = array(
+			'main_description' => array(
+				'title'    => __( 'The Property', 'immonex-kickstart' ),
+				'elements' => array( 'main_description' ),
+			),
+			'details'          => array(
+				'title'    => __( 'Details', 'immonex-kickstart' ),
+				'elements' => array( 'areas', 'condition', 'misc' ),
+			),
+			'features'         => array(
+				'title'    => __( 'Features', 'immonex-kickstart' ),
+				'elements' => array( 'features' ),
+			),
+			'epass'            => array(
+				'title'    => __( 'Energy Pass', 'immonex-kickstart' ),
+				'elements' => array( 'epass', 'epass_energy_scale', 'epass_images' ),
+			),
+			'location'         => array(
+				'title'    => __( 'Location & Infrastructure', 'immonex-kickstart' ),
+				'elements' => array( 'location_map', 'location_description' ),
+			),
+			'prices'           => array(
+				'title'    => __( 'Prices', 'immonex-kickstart' ),
+				'elements' => array( 'prices' ),
+			),
+			'downloads_links'  => array(
+				'title'    => __( 'Downloads & Links', 'immonex-kickstart' ),
+				'elements' => array( 'downloads_links' ),
+			),
+		);
+
+		return apply_filters(
+			'inx_tabbed_content_elements',
+			array(
+				'before_tabs' => $before_tabs,
+				'tabs'        => $tabs,
+				'after_tabs'  => $after_tabs,
+			)
+		);
+	} // get_tabbed_content_elements
 
 	/**
 	 * Return property image data in the given format.

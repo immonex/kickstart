@@ -41,7 +41,7 @@ Sollen nur bestimmte Detail-Abschnitte eingebunden werden, kann der entsprechend
 | ---- | ---------------------------- |
 | `elements` | explizit **einzubindende** Detail-Abschnitte (optional) |
 | `exclude` | explizit **auszuschließende** Detail-Abschnitte (optional) |
-| `enable-tabs` (3) | tab-basierte Darstellung der zentralen Info-Blöcke (siehe Screenshot), sofern vom gewählten Skin unterstützt |
+| `enable-tabs` (3) | **tab-basierte Darstellung** der zentralen Info-Blöcke (siehe Screenshot), sofern vom gewählten Skin unterstützt (Umfang und Aufteilung können via Filter-Hook [inx_tabbed_content_elements](../anpassung-erweiterung/filter-inx-tabbed-content-elements.html) angepasst werden) |
 | | *0*: deaktivieren (Standard bei Nutzung von `elements` oder `exclude`) |
 | | *1*: aktivieren (Standard bei Einbindung aller Elemente) |
 

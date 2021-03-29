@@ -81,65 +81,35 @@ if ( $inx_skin_remove_optional_elements ) {
 }
 
 if ( $inx_skin_enable_tabs ) :
-	$inx_skin_tabs = array(
-		'main_description' => array(
-			'title'    => __( 'The Property', 'immonex-kickstart' ),
-			'elements' => array( 'main_description' ),
-		),
-		'details'          => array(
-			'title'    => __( 'Details', 'immonex-kickstart' ),
-			'elements' => array( 'areas', 'condition', 'misc' ),
-		),
-		'features'         => array(
-			'title'    => __( 'Features', 'immonex-kickstart' ),
-			'elements' => array( 'features' ),
-		),
-		'epass'            => array(
-			'title'    => __( 'Energy Pass', 'immonex-kickstart' ),
-			'elements' => array( 'epass', 'epass_energy_scale', 'epass_images' ),
-		),
-		'location'         => array(
-			'title'    => __( 'Location & Infrastructure', 'immonex-kickstart' ),
-			'elements' => array( 'location_map', 'location_description' ),
-		),
-		'prices'           => array(
-			'title'    => __( 'Prices', 'immonex-kickstart' ),
-			'elements' => array( 'prices' ),
-		),
-		'downloads_links'  => array(
-			'title'    => __( 'Downloads & Links', 'immonex-kickstart' ),
-			'elements' => array( 'downloads_links' ),
-		),
-	);
+	$inx_skin_tabbed_content_elements = $template_data['tabbed_content_elements'];
 
-	if ( isset( $inx_skin_page_elements['head'] ) ) {
-		do_action(
-			'inx_render_property_contents',
-			false,
-			basename( __DIR__ ) . '/' . $inx_skin_page_elements['head']['template'],
-			$inx_skin_page_elements['head']
-		);
-	}
-
-	if ( isset( $inx_skin_page_elements['gallery'] ) ) {
-		do_action(
-			'inx_render_property_contents',
-			false,
-			basename( __DIR__ ) . '/' . $inx_skin_page_elements['gallery']['template'],
-			$inx_skin_page_elements['gallery']
-		);
-	}
+	if ( ! empty( $inx_skin_tabbed_content_elements['before_tabs'] ) ) :
+		foreach ( $inx_skin_tabbed_content_elements['before_tabs'] as $inx_skin_element_key ) {
+			if ( isset( $inx_skin_page_elements[ $inx_skin_element_key ] ) ) {
+				if ( ! empty( $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] ) ) {
+					call_user_func_array( 'do_action', $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] );
+				} else {
+					do_action(
+						'inx_render_property_contents',
+						false,
+						basename( __DIR__ ) . '/' . $inx_skin_page_elements[ $inx_skin_element_key ]['template'],
+						$inx_skin_page_elements[ $inx_skin_element_key ]
+					);
+				}
+			}
+		}
+	endif;
 	?>
 
 <div class="inx-single-property__tabbed-content uk-padding uk-margin-large-bottom">
 	<ul class="inx-single-property__tab-nav uk-margin-bottom" uk-tab>
-		<?php foreach ( $inx_skin_tabs as $inx_skin_tab_id => $inx_skin_tab ) : ?>
+		<?php foreach ( $inx_skin_tabbed_content_elements['tabs'] as $inx_skin_tab_id => $inx_skin_tab ) : ?>
 		<li><a href="javascript:void(0)"><?php echo $inx_skin_tab['title']; ?></a></li>
 		<?php endforeach; ?>
 	</ul>
 
 	<ul id="inx-single-property__tab-contents" class="uk-switcher">
-		<?php foreach ( $inx_skin_tabs as $inx_skin_tab_id => $inx_skin_tab ) : ?>
+		<?php foreach ( $inx_skin_tabbed_content_elements['tabs'] as $inx_skin_tab_id => $inx_skin_tab ) : ?>
 		<li class="uk-animation-fade uk-transform-origin-top-center">
 			<?php
 			foreach ( $inx_skin_tab['elements'] as $inx_skin_part_id ) :
@@ -173,35 +143,21 @@ if ( $inx_skin_enable_tabs ) :
 </div>
 
 	<?php
-	if ( isset( $inx_skin_page_elements['floor_plans'] ) ) :
-		do_action(
-			'inx_render_property_contents',
-			false,
-			basename( __DIR__ ) . '/' . $inx_skin_page_elements['floor_plans']['template'],
-			$inx_skin_page_elements['floor_plans']
-		);
-	endif;
-
-	if ( isset( $inx_skin_page_elements['contact_person'] ) ) :
-		if ( ! empty( $inx_skin_page_elements['contact_person']['do_action'] ) ) {
-			call_user_func_array( 'do_action', $inx_skin_page_elements['contact_person']['do_action'] );
-		} else {
-			do_action(
-				'inx_render_property_contents',
-				false,
-				basename( __DIR__ ) . '/' . $inx_skin_page_elements['contact_person']['template'],
-				$inx_skin_page_elements['contact_person']
-			);
+	if ( ! empty( $inx_skin_tabbed_content_elements['after_tabs'] ) ) :
+		foreach ( $inx_skin_tabbed_content_elements['after_tabs'] as $inx_skin_element_key ) {
+			if ( isset( $inx_skin_page_elements[ $inx_skin_element_key ] ) ) {
+				if ( ! empty( $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] ) ) {
+					call_user_func_array( 'do_action', $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] );
+				} else {
+					do_action(
+						'inx_render_property_contents',
+						false,
+						basename( __DIR__ ) . '/' . $inx_skin_page_elements[ $inx_skin_element_key ]['template'],
+						$inx_skin_page_elements[ $inx_skin_element_key ]
+					);
+				}
+			}
 		}
-	endif;
-
-	if ( isset( $inx_skin_page_elements['footer'] ) ) :
-		do_action(
-			'inx_render_property_contents',
-			false,
-			basename( __DIR__ ) . '/' . $inx_skin_page_elements['footer']['template'],
-			$inx_skin_page_elements['footer']
-		);
 	endif;
 else :
 	foreach ( $inx_skin_page_elements as $inx_skin_element_atts ) {
