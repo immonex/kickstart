@@ -82,7 +82,7 @@ function mysite_modify_tabbed_content_elements( $elements ) {
 	$elements['tabs']['location']['elements'] = array( 'location_description' );
 
 	// ...und stattdessen unterhalb des Tab-Bereichs anzeigen.
-	$elements['after_tabs'] = array_unshift( $elements['after_tabs'], 'location_map' );
+	array_unshift( $elements['after_tabs'], 'location_map' );
 
 	return $elements;
 } // mysite_modify_tabbed_content_elements
