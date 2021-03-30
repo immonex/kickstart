@@ -14,7 +14,7 @@ Mit diesem Filter kann die Aufteilung der Elemente der [Immobilien-Detailansicht
 | `$elements` | Array mit folgenden Unterarrays, die die Tab-Definitionen sowie Key-Listen von [Detailabschnitt-Elementen](../komponenten/detailansicht.html#Elemente-Detail-Abschnitte) enthalten |
 | | `before_tabs`: Elemente, die **vor** dem Tab-Abschnitt angezeigt werden |
 | | `tabs`: Liste der Tabs inkl. Bezeichnungen und enthaltenen Elementen |
-| | `before_tabs`: Elemente, die **nach** dem Tab-Abschnitt angezeigt werden |
+| | `after_tabs`: Elemente, die **nach** dem Tab-Abschnitt angezeigt werden |
 
 ### Das Elements-Array im Detail
 
