@@ -16,7 +16,7 @@
 
 /*! In this file: Slider events (not browser events); */
 
-/*! UIkit 3.6.17 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.6.18 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 /*! nouislider - 11.1.0 - 2018-04-02 11:18:13 */
 
