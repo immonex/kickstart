@@ -29,7 +29,7 @@ add_filter( 'inx_template_search_folders', 'mysite_add_custom_primary_skin_base_
 function mysite_add_custom_primary_skin_base_folder( $folders ) {
 	// primären Skin-Basisordner "immonex-kickstart" im Uploads-Verzeichnis ergänzen
 	$upload_dir = wp_get_upload_dir();
-	array_unshift( trailingslashit( $upload_dir['basedir'] ) . 'immonex-kickstart' );
+	array_unshift( $folders, trailingslashit( $upload_dir['basedir'] ) . 'immonex-kickstart' );
 
 	return $folders;
 } // mysite_add_custom_primary_skin_base_folder
