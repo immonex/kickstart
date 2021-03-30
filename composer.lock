@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78f3826e23155b1dd2685813312229ad",
+    "content-hash": "fd64a00434edf9f84de97bb7909d13b2",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -66,16 +66,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "be8e4844bfe0605c709cc720ddb34ddef2850f76"
+                "reference": "6161fcce989cb6afc0bb10f7c21d8abd739e7bd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/be8e4844bfe0605c709cc720ddb34ddef2850f76",
-                "reference": "be8e4844bfe0605c709cc720ddb34ddef2850f76",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/6161fcce989cb6afc0bb10f7c21d8abd739e7bd2",
+                "reference": "6161fcce989cb6afc0bb10f7c21d8abd739e7bd2",
                 "shasum": ""
             },
             "require-dev": {
@@ -104,9 +104,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.1.4"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.1.5"
             },
-            "time": "2021-02-26T06:59:40+00:00"
+            "time": "2021-03-09T15:13:51+00:00"
         }
     ],
     "packages-dev": [

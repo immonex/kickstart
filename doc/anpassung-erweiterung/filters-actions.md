@@ -39,10 +39,12 @@ search: 1
 
 - [inx_marketing_type_reference_term_replacements](filter-inx-marketing-type-reference-term-replacements.html) (Taxonomie-Term-Anpassung bei Referenz-Status-Updates)
 
-### Rendering
+### Rendering / Templates
 
 - [inx_auto_applied_rendering_atts](filter-inx-auto-applied-rendering-atts.html) (Rendering-spezifische Attribute mit automatisierter Übernahme definieren)
 - [inx_apply_auto_rendering_atts](filter-inx-apply-auto-rendering-atts.html) (Rendering-Auto-Attribute übernehmen)
+- [inx_template_search_folders](filter-inx-template-search-folders.html) (Basisordner für Skins/Templates ergänzen)
+- [inx_template_folder_url_mappings](filter-inx-template-folder-url-mappings.html) (URL-Zuordnungen für nicht öffentlich zugängliche Template/Skin-Dateisystem-Basisordner definieren)
 
 ### Datenabfrage (API Wrapper)
 
