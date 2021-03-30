@@ -106,16 +106,19 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.3.6-beta =
+= 1.3.7-beta =
 * Release date: ?
-* Fix sort change not being applied without search form on the same page.
-* Activate Vue.js based components on custom property detail pages.
+* Fixed sort change not being applied without search form on the same page.
+* Activated Vue.js based components on custom property detail pages.
 * Added optional element for embedding separate location maps
   in property detail pages.
 * Added optional element for embedding separate location description/details
   sections (without maps) in property detail pages.
 * Added option for applying wpautop to description texts on property
   detail pages.
+* Added filter hook for modifying tab-based element structure.
+* Improved property gallery thumbmail navigation (separate section for
+  video and virtual tour links).
 
 = 1.3.0 =
 * Release date: 2021-03-08

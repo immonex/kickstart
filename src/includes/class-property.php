@@ -798,6 +798,14 @@ class Property {
 				'template' => 'downloads-and-links',
 				'headline' => __( 'Downloads & Links', 'immonex-kickstart' ),
 			),
+			'video'                => array(
+				'template' => 'video',
+				'optional' => true,
+			),
+			'virtual_tour'         => array(
+				'template' => 'virtual-tour',
+				'optional' => true,
+			),
 			'contact_person'       => array(
 				'template' => 'contact-person',
 				'groups'   => 'kontakt',

@@ -69,7 +69,7 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | Key | Beschreibung |
 | --- | ------------ |
 | `head` (1) | Header mit Objekttitel, Nutzungs-/Objektart, Standort und Kerndaten |
-| `gallery` (2) | primäre Fotogalerie |
+| `gallery` (2) | primäre Fotogalerie, die standardmäßig auch Videos und virtuelle 360°-Touren enthält |
 | `main_description` (8) | Haupt-Beschreibungstext |
 | `prices` | Preise und Angaben zur Courtage etc. |
 | `areas` | Flächenangaben |
@@ -79,13 +79,17 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | `epass_energy_scale` | Energieskala (grafische Visualisierung der Energieklasse), sofern das Plugin [immonex Energy Scale Pro](../systemvoraussetzungen.html#Datenimport-amp-Energieskalen) installiert ist |
 | `location_map` (9) | Standortkarte |
 | `location_description` (9) | Standortbeschreibung und -details |
-| `location` | Kombination von `location_map` und `location_description`: Standortbeschreibung/-details **und** Karte (**optionales Element** ➞ Anzeige nur bei expliziter Nennung im Shortcode-Attribut `elements`) |
+| `location` | Kombination von `location_map` und `location_description`: Standortbeschreibung/-details **und** Karte (**optionales Element \***) |
 | `features` (4) | Ausstattung der Immobilie (Beschreibung, Merkmale etc.) |
 | `floor_plans` (5) | Grundriss-Galerie |
 | `misc` | sonstige Angaben |
 | `downloads_links` | Downloads (z. B. PDF-Dateien) und Links zu externen Websites |
+| `video` | Immobilien-Video (**optionales Element \***, normalerweise Bestandteil der Galerie, s. o.) |
+| `virtual_tour` | Virtuelle 360°-Tour - im Regelfall von einem externen Anbieter per iFrame eingebunden (**optionales Element \***, normalerweise Bestandteil der Galerie, s. o.) |
 | `contact_person` (6) | Kontaktinformationen (5) |
 | `footer` (7) | Footer mit Link zur Übersichtsseite |
+
+**\* Optionale Elemente** werden nur bei expliziter Nennung im Shortcode-Attribut `elements` eingebunden.
 
 ##### Beispiele
 

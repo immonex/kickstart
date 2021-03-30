@@ -105,6 +105,7 @@ if ( $inx_skin_media_count > 0 ) :
 	$inx_skin_gallery_images   = array();
 	$inx_skin_current_ratio    = array( 4, 1 );
 	$inx_skin_max_image_height = 0;
+	$inx_skin_fixed_thumb_nav  = $inx_skin_show_video || $inx_skin_show_virtual_tour;
 
 	$inx_skin_ken_burns_animation_directions = array(
 		'uk-transform-origin-top-left',
@@ -207,24 +208,41 @@ if ( $inx_skin_media_count > 0 ) :
 		</div>
 
 		<?php if ( $inx_skin_media_count > 1 ) : ?>
-		<div class="inx-thumbnail-nav uk-visible@s" uk-slider="finite: true">
-			<div class="uk-position-relative uk-visible-toggle">
+		<div class="inx-thumbnail-nav">
+			<div class="inx-thumbnail-nav__flexible uk-visible@s<?php echo $inx_skin_fixed_thumb_nav ? ' uk-margin-right' : ''; ?>" uk-slider="finite: true">
+				<div class="uk-position-relative uk-visible-toggle">
+					<ul class="inx-thumbnail-nav__items uk-slider-items">
+						<?php
+						if ( count( $inx_skin_gallery_images ) > 0 ) :
+							foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
+								?>
+						<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo $inx_skin_i; ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
+								<?php
+								endforeach;
+							endif;
+						?>
+					</ul>
+
+					<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover" uk-slider-item="previous">&#10094; </a>
+					<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slider-item="next"> &#10095;</a>
+				</div>
+			</div>
+
+			<?php if ( $inx_skin_fixed_thumb_nav ) : ?>
+			<div class="inx-thumbnail-nav__fixed">
 				<ul class="inx-thumbnail-nav__items uk-slider-items">
-					<?php
-					if ( count( $inx_skin_gallery_images ) > 0 ) :
-						foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
-							?>
-					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo $inx_skin_i; ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
-							<?php
-							endforeach;
-						endif;
-					?>
+					<?php if ( count( $inx_skin_gallery_images ) > 0 ) : ?>
+					<li class="inx-thumbnail-nav__item uk-hidden@s" uk-slideshow-item="0">
+						<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
+							<div uk-icon="icon: image; ratio: 2"></div>
+						</div>
+					</li>
+					<?php endif; ?>
 
 					<?php if ( $inx_skin_show_video ) : ?>
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
 						<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 							<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2"></div>
-							<div><?php _e( 'Video', 'immonex-kickstart' ); ?></div>
 						</div>
 					</li>
 					<?php endif; ?>
@@ -233,15 +251,12 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + 1; ?>">
 						<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 							<div style="padding:.1em; border-radius:50%; color:#f0f0f0; background-color:#303030; font-size:1.4em">360&deg;</div>
-							<div><?php _e( 'Virtual Tour', 'immonex-kickstart' ); ?></div>
 						</div>
 					</li>
 					<?php endif; ?>
 				</ul>
-
-				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover" uk-slider-item="previous">&#10094;</a>
-				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slider-item="next">&#10095;</a>
 			</div>
+			<?php endif; ?>
 		</div>
 		<?php endif; ?>
 	</div>

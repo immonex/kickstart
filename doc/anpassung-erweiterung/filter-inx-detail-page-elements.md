@@ -100,6 +100,14 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](.
 		'template' => 'downloads-and-links',
 		'headline' => __( 'Downloads & Links', 'inx' )
 	],
+	'video' => [
+		'template' => 'video',
+		'optional' => true
+	],
+	'virtual_tour' => [
+		'template' => 'virtual-tour',
+		'optional' => true
+	],
 	'contact_person' => [
 		'template' => 'contact-person',
 		'groups' => 'kontakt',
