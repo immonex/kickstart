@@ -37,6 +37,28 @@ $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
 	2;
 
+if (
+	! $template_data['show_reference_prices'] &&
+	$template_data['flags']['is_reference'] &&
+	count( $inx_skin_details ) > 0
+) {
+	$inx_skin_details = array_filter(
+		$inx_skin_details,
+		function ( $inx_skin_detail ) {
+			if (
+				false !== stripos( $inx_skin_detail['group'], 'preise' ) ||
+				false !== stripos( $inx_skin_detail['group'], 'prices' ) ||
+				false !== stripos( $inx_skin_detail['title'], 'preis' ) ||
+				false !== stripos( $inx_skin_detail['title'], 'price' )
+			) {
+				return false;
+			}
+
+			return true;
+		}
+	);
+}
+
 if ( $inx_skin_description_text || ! empty( $inx_skin_details ) ) :
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--details">

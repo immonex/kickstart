@@ -351,6 +351,19 @@ class Property {
 			$atts
 		);
 
+		if (
+			! $this->config['show_reference_prices'] &&
+			$template_data['flags']['is_reference']
+		) {
+			if ( isset( $template_data['tabbed_content_elements']['tabs']['prices'] ) ) {
+				unset( $template_data['tabbed_content_elements']['tabs']['prices'] );
+			}
+
+			if ( isset( $template_data['detail_page_elements']['prices'] ) ) {
+				unset( $template_data['detail_page_elements']['prices'] );
+			}
+		}
+
 		$this->cache['template_content'][ $hash ] = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
 
 		return $this->cache['template_content'][ $hash ];
