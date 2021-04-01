@@ -1,4 +1,4 @@
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const dotenv = require('dotenv').config()
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const common = require('./webpack.common.js')

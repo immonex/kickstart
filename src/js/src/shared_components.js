@@ -1,4 +1,6 @@
-jQuery(document).ready(function($) {
+const $ = jQuery
+
+function init() {
 	$(window).on('resize', function() {
 		$('.inx-squared-image').each(function() {
 			$(this).height($(this).width());
@@ -6,4 +8,6 @@ jQuery(document).ready(function($) {
 	});
 
 	window.setTimeout(function () { $(window).trigger('resize') }, 0);
-});
+}
+
+export { init }

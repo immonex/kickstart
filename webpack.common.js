@@ -7,18 +7,19 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
   entry: {
     ...{
-        'src/js/frontend': './src/js/src/frontend.js',
-        'src/js/backend': './src/js/src/backend.js'
+        frontend: './src/js/src/frontend.js',
+        backend: './src/js/src/backend.js'
     },
     ...glob.sync('./src/skins/**/js/src/index.js').reduce((acc, path) => {
-        const entry = path.replace('/js/src/index.js', '/js/index')
+        let entry = path.replace('./src/skins/', '../../src/skins/')
+        entry = entry.replace('/js/src/index.js', '/js/index')
         acc[entry] = path
         return acc
     }, {})
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname)
+    path: path.resolve(__dirname, 'src/js')
   },
   module: {
     rules: [
@@ -58,7 +59,11 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: '../fonts/'
+              outputPath: (url, resourcePath, context) => {
+                const relativePath = path.relative(context, resourcePath);
+                return '../../' + relativePath;
+              },
+              publicPath: '../fonts'
             }
         }]
       }
@@ -67,7 +72,7 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      moduleFilename: ({ name }) => `${name.replace('/js/', '/css/')}.css`
+      filename: path => path.chunk.name.replace('/js/', '/css/') + '.css'
     })
   ]
 }

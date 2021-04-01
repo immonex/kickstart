@@ -19,20 +19,39 @@ UIkit.use(Icons)
 import inxState from './state'
 Vue.mixin(inxState)
 
-// Shared Comoponents
-import './shared_components'
-
-// Property Search
-import './property_search'
-
-// Property Lists
-import './property_lists'
-
-// Property Maps
-import './property_map'
-
-// Property Details
-import './property_details'
-
 // (S)CSS
 import '../../scss/frontend.scss'
+
+let inxPropertyDetailsInitialized = false
+
+// Lazy loaded Modules
+jQuery(document).ready(function($) {
+	// Shared Comoponents
+	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => { module.init() })
+
+	// Property Search
+	if (document.getElementById('inx-property-search')) {
+		import(/* webpackChunkName: "property_search" */ './property_search').then((module) => { module.init() })
+	}
+
+	// Property Lists
+	if (document.getElementsByClassName('inx-property-list').length > 0) {
+		import(/* webpackChunkName: "property_lists" */ './property_lists').then((module) => { module.init() })
+	}
+
+	// Property Map
+	if (document.getElementById('inx-property-map')) {
+		import(/* webpackChunkName: "property_map" */ './property_map').then((module) => { module.init() })
+	}
+
+	// Property Details
+	if (
+		document.getElementById('inx-property-details') ||
+		document.getElementsByClassName('inx-single-property__section').length > 0
+	) {
+		import(/* webpackChunkName: "property_details" */ './property_details').then((module) => {
+			module.init()
+			inxPropertyDetailsInitialized = true
+		})
+	}
+})

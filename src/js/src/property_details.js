@@ -6,10 +6,11 @@ import PropertyLocationOpenLayersMap from './components/PropertyLocationOpenLaye
 import PropertyLocationGoogleMap from './components/PropertyLocationGoogleMap.vue'
 import PropertyLocationGoogleEmbedMap from './components/PropertyLocationGoogleEmbedMap.vue'
 
-jQuery(document).ready(function($) {
+const $ = jQuery
 
-	let wrapElementID = 'inx-property-details'
+let wrapElementID = 'inx-property-details'
 
+function init() {
 	if (document.getElementById(wrapElementID)) {
 		inx_state.vue_instances.property_details = new Vue({
 			el: '#inx-property-details',
@@ -37,5 +38,6 @@ jQuery(document).ready(function($) {
 	const url = new URL(location)
 	url.searchParams.delete('inx-backlink-url')
 	history.replaceState(null, null, url)
+} // init
 
-})
+export { init }

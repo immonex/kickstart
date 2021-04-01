@@ -106,7 +106,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.3.9-beta =
+= 1.3.10-beta =
 * Release date: ?
 * Fixed sort change not being applied without search form on the same page.
 * Activated Vue.js based components on custom property detail pages.
@@ -120,6 +120,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Improved property gallery thumbmail navigation (separate section for
   video and virtual tour links).
 * Fixed price sections falsely visible in reference property details.
+* Improved performance and stability (JS components).
 
 = 1.3.0 =
 * Release date: 2021-03-08
