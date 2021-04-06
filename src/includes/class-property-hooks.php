@@ -135,6 +135,7 @@ class Property_Hooks {
 
 		if (
 			is_admin()
+			|| is_archive()
 			|| empty( $this->config['property_details_page_id'] )
 			|| false === $property_post_id
 		) {
@@ -374,7 +375,7 @@ class Property_Hooks {
 	 * @return int|string|bool Possibly updated current post ID.
 	 */
 	public function get_current_property_post_id( $post_id = false ) {
-		if ( ! empty( $_GET['inx-property-id'] ) ) {
+		if ( is_singular() && ! empty( $_GET['inx-property-id'] ) ) {
 			$post_id = (int) $_GET['inx-property-id'];
 		}
 

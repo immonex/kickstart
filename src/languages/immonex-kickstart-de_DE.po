@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.3.6\n"
+"Project-Id-Version: immonex Kickstart 1.4.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2021-03-29 13:45:03+00:00\n"
-"PO-Revision-Date: 2021-03-29 15:47+0200\n"
+"POT-Creation-Date: 2021-04-06 07:25:51+00:00\n"
+"PO-Revision-Date: 2021-04-06 09:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/class-kickstart.php:187 includes/class-property.php:525
+#: includes/class-kickstart.php:187 includes/class-property.php:591
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
@@ -616,12 +616,12 @@ msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:633 includes/class-property.php:728
-#: skins/default/single-property/element-hub.php:94
+#: includes/class-property-search.php:633 includes/class-property.php:404
+#: includes/class-property.php:794
 msgid "Features"
 msgstr "Ausstattung"
 
-#: includes/class-property-backend-form.php:105 includes/class-property.php:742
+#: includes/class-property-backend-form.php:105 includes/class-property.php:808
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -647,7 +647,7 @@ msgid "Sold/Rented"
 msgstr "Verkauft/Vermietet"
 
 #: includes/class-property-backend-form.php:160
-#: includes/class-wp-bootstrap.php:528
+#: includes/class-wp-bootstrap.php:536
 msgid "Reference Property"
 msgstr "Referenzobjekt"
 
@@ -704,7 +704,7 @@ msgstr "Bilder & Anhänge"
 msgid "Gallery Images"
 msgstr "Galeriebilder"
 
-#: includes/class-property-backend-form.php:272 includes/class-property.php:733
+#: includes/class-property-backend-form.php:272 includes/class-property.php:799
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -712,8 +712,7 @@ msgstr "Grundrisse"
 msgid "Document Attachments (PDF)"
 msgstr "Dokumentanhänge (PDF)"
 
-#: includes/class-property-backend-form.php:293
-#: skins/default/single-property/element-hub.php:90
+#: includes/class-property-backend-form.php:293 includes/class-property.php:400
 msgid "Details"
 msgstr "Details"
 
@@ -874,25 +873,35 @@ msgstr "Labels"
 msgid "All Labels"
 msgstr "Alle Labels"
 
-#: includes/class-property.php:684
-#: skins/default/single-property/element-hub.php:106
+#: includes/class-property.php:396
+msgid "The Property"
+msgstr "Die Immobilie"
+
+#: includes/class-property.php:408
+msgid "Energy Pass"
+msgstr "Energieausweis"
+
+#: includes/class-property.php:412
+msgid "Location & Infrastructure"
+msgstr "Lage & Infrastruktur"
+
+#: includes/class-property.php:416 includes/class-property.php:750
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:689
-msgid "Areas"
-msgstr "Flächen"
-
-#: includes/class-property.php:694
-msgid "Condition & Development"
-msgstr "Zustand & Erschließung"
-
-#: includes/class-property.php:746
-#: skins/default/single-property/element-hub.php:110
+#: includes/class-property.php:420 includes/class-property.php:812
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:751
+#: includes/class-property.php:755
+msgid "Areas"
+msgstr "Flächen"
+
+#: includes/class-property.php:760
+msgid "Condition & Development"
+msgstr "Zustand & Erschließung"
+
+#: includes/class-property.php:825
 #: skins/default/single-property/contact-person.php:97
 msgid "Your contact person with us"
 msgstr "Dein Kontakt bei uns"
@@ -1245,25 +1254,30 @@ msgstr "Keine Immobilien gefunden"
 msgid "No properties found in Trash"
 msgstr "Keine Immobilien im Papierkorb gefunden"
 
-#: includes/class-wp-bootstrap.php:401
+#: includes/class-wp-bootstrap.php:403
 msgctxt "Fallback Custom Post Type Slug (singular only!)"
 msgid "property"
 msgstr "immobilie"
 
-#: includes/class-wp-bootstrap.php:435
+#: includes/class-wp-bootstrap.php:409
+msgctxt "Fallback Custom Post Type Slug (property lists)"
+msgid "property-offers"
+msgstr "immobilien-angebote"
+
+#: includes/class-wp-bootstrap.php:443
 msgid "Property Archive Page"
 msgstr "Immobilien-Archivseite"
 
-#: includes/class-wp-bootstrap.php:437
+#: includes/class-wp-bootstrap.php:445
 msgid "Widgets in this area will be shown on property archive pages."
 msgstr ""
 "Widgets in diesem Bereich werden auf Immobilien-Archivseiten angezeigt."
 
-#: includes/class-wp-bootstrap.php:448
+#: includes/class-wp-bootstrap.php:456
 msgid "Property Detail Page"
 msgstr "Immobilien-Detailseite"
 
-#: includes/class-wp-bootstrap.php:450
+#: includes/class-wp-bootstrap.php:458
 msgid "Widgets in this area will be shown on property detail pages."
 msgstr "Widgets in diesem Bereich werden in Immobilien-Detailseiten angezeigt."
 
@@ -1796,29 +1810,9 @@ msgstr "ein Treffer"
 msgid "no matches"
 msgstr "keine Treffer"
 
-#: skins/default/single-property/element-hub.php:86
-msgid "The Property"
-msgstr "Die Immobilie"
-
-#: skins/default/single-property/element-hub.php:98
-msgid "Energy Pass"
-msgstr "Energieausweis"
-
-#: skins/default/single-property/element-hub.php:102
-msgid "Location & Infrastructure"
-msgstr "Lage & Infrastruktur"
-
 #: skins/default/single-property/footer.php:20
 msgid "Back to overview"
 msgstr "Zur Übersicht"
-
-#: skins/default/single-property/gallery.php:227
-msgid "Video"
-msgstr "Video"
-
-#: skins/default/single-property/gallery.php:236
-msgid "Virtual Tour"
-msgstr "Virtuelle Tour"
 
 #: skins/default/single-property/location-description.php:26
 #: skins/default/single-property/location-info.php:26
@@ -1876,6 +1870,12 @@ msgstr "inveris OHG / immonex"
 #. Author URI of the plugin/theme
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "Virtual Tour"
+#~ msgstr "Virtuelle Tour"
 
 #~ msgid ""
 #~ "If active, the user has to confirm the use of an external service for "

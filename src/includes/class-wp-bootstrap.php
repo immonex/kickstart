@@ -382,11 +382,11 @@ class WP_Bootstrap {
 		);
 
 		if (
-			$this->plugin->property_list_page_id &&
-			! empty( $property_post_type_args['rewrite']['slug'] )
+			( $this->plugin->property_list_page_id || $this->plugin->property_details_page_id )
+			&& ! empty( $property_post_type_args['rewrite']['slug'] )
 		) {
-			$archive_redirect_url    = get_permalink( $this->plugin->property_list_page_id );
-			$archive_redirect_slug   = untrailingslashit( substr( $archive_redirect_url, strlen( untrailingslashit( home_url() ) ) + 1 ) );
+			$archive_redirect_slug   = get_page_uri( $this->plugin->property_list_page_id );
+			$single_redirect_slug    = get_page_uri( $this->plugin->property_details_page_id );
 			$translated_rewrite_slug = apply_filters(
 				'inx_translated_slug',
 				strtolower( $property_post_type_args['rewrite']['slug'] ),
@@ -396,9 +396,17 @@ class WP_Bootstrap {
 			);
 
 			if ( $translated_rewrite_slug === $archive_redirect_slug ) {
-				// Use the singular version of property if a page with the same
-				// slug is used as archive template.
+				/**
+				 * Use the singular version of "property" if a list page
+				 * with the same slug is used as archive template.
+				 */
 				$property_post_type_args['rewrite']['slug'] = _x( 'property', 'Fallback Custom Post Type Slug (singular only!)', 'immonex-kickstart' );
+			} elseif ( $translated_rewrite_slug === $single_redirect_slug ) {
+				/**
+				 * Use an alternative term if a page with the same slug
+				 * is used as single property template.
+				 */
+				$property_post_type_args['rewrite']['slug'] = _x( 'property-offers', 'Fallback Custom Post Type Slug (property lists)', 'immonex-kickstart' );
 			}
 		}
 
