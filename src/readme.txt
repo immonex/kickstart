@@ -106,8 +106,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.3.11-beta =
+= 1.4.0-beta =
 * Release date: ?
+* Added shortcode [inx-property-detail-element] for embedding individual
+  property detail values.
 * Fixed sort change not being applied without search form on the same page.
 * Activated Vue.js based components on custom property detail pages.
 * Added optional element for embedding separate location maps

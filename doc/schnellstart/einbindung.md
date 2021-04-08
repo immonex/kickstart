@@ -90,15 +90,27 @@ Details: [Komponenten → Seitennavigation](../komponenten/seitennavigation.html
 
 ## Immobilien-Details
 
-> **Achtung!** Der folgende Shortcode kommt nur dann zum Einsatz, wenn eine **[Seite](einrichtung.html#Immobilien-Detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der (gängigeren) Nutzung des Standard-Templates des Immobilien-Beitragstyps wird er nicht benötigt.
+> **Achtung!** Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung.html#Immobilien-Detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
+
+Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung.html#Immobilien-Detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch <i>granular</i> in Form einzelner Angaben.
+
+### Alle Details oder bestimmte Abschnitte
 
 `[inx-property-details]`
 
-Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung.html#Immobilien-Detailseite) ausgewählt, können hier mit diesem Shortcode die gewünschten Immobilien-Inhalte - komplett oder abschnittsweise - in die gewünschten Layout-Container-Elemente eingebettet werden. In letzterem Fall kann per Shortcode-Attribut `elements` festgelegt werden, welche Abschnitte/Daten eingefügt werden sollen. Zusätzliche Attribute werden wiederum beim Rendern des jeweiligen Element-Templates berücksichtigt (bei mehreren Elementen in dieser Form: `elementname-attribut="ATTRIBUTWERT"`).
+Der einfachste Anwendungsfall ist der Shortcode ohne Attribute: Hiermit werden alle verfügbaren Detailabschnitte eingebunden. Die Abschnitte enthalten jeweils thematisch gruppierte Daten in einem hierzu passenden Layout.
 
-### Beispiele
+#### Elemente einbinden
 
-Haupt-Beschreibungstext einfügen:
+`[inx-property-details elements="ELEMENT_KEY1, ELEMENT_KEY2..."]`
+
+Mit dem Attribut `elements` kann explizit festgelegt werden, welche Abschnitte (Elemente) mit dem Shortcode **eingebunden** werden sollen. Als Attributwert wird hierbei ein einzelner [Element-Key](../komponenten/detailansicht.html#Elemente-Detail-Abschnitte) oder eine kommagetrennte Liste mehrerer Keys hinterlegt.
+
+Jedem Element können zusätzliche Attribute (z. B. eine Absatzüberschrift) nach dem Schema `ELEMENT_KEY-attribut="ATTRIBUTWERT"` zugeordnet werden. Diese werden dann beim Rendern des zugehörigen Element-Templates berücksichtigt. (Wird nur ein einzelnes Element mit dem Shortcode eingebunden, kann das Präfix `ELEMENT_KEY-` weggelassen werden.)
+
+##### Beispiele
+
+Haupt-Beschreibungstext der Immobilie einfügen:
 `[inx-property-details elements="main_description"]`
 
 Abschnitt mit Preisangaben und Überschrift "Preise" einfügen:
@@ -107,12 +119,49 @@ Abschnitt mit Preisangaben und Überschrift "Preise" einfügen:
 Fotogalerie und Abschnitt für Ausstattungsmerkmale einfügen, letzterer mit Überschrift "Ausstattung":
 `[inx-property-details elements="gallery, features" features-headline="Ausstattung"]`
 
-Alternativ können mit dem Attribut `exclude` auch Abschnitte explizit ausgeschlossen werden.
+#### Elemente ausschließen
 
-Alle Abschnitte außer dem Header anzeigen:
-`[inx-property-details exclude="head"]`
+`[inx-property-details exclude="ELEMENT_KEY1, ELEMENT_KEY2..."]`
 
-Details und vollständige Elementliste: [Komponenten → Detailansicht](../komponenten/detailansicht.html)
+**Alternativ** können mit `exclude` bestimmte Elemente von der Einbindung **ausgenommen** werden.
+
+##### Beispiele
+
+Alle Abschnitte **mit Ausnahme** von Header und Footer anzeigen:
+`[inx-property-details exclude="head, footer"]`
+
+### Einzelne Angaben
+
+`[inx-property-detail-element name="ELEMENT_ODER_FELDNAME"]`
+
+Mit diesem Shortcode können einzelne Werte, die per [WordPress-OpenImmo-Schnittstelle](https://plugins.inveris.de/shop/immonex-openimmo2wp/) importiert wurden, in die Immobilien-Detailseite eingefügt werden. Der per Attribut übergebene Elementname kann sich hierbei auf folgende Quellen beziehen:
+
+- Bezeichnung in der Spalte <em>Name</em> der Import-Mapping-Tabelle
+- Custom-Field-Name in der Spalte <em>Destination</em>
+- XML-Pfad ([XPath](https://de.wikipedia.org/wiki/XPath)) zur Abfrage beliebiger Daten innerhalb des Objekt-Import-XML-Elements `<immobilie>`
+
+![Ausschnitt aus der OpenImmo2WP-Mapping-Tabelle für Kickstart](../assets/scst-mapping-1.png)
+Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimmo2wp/)-Mapping-Tabelle für Kickstart
+
+Mit weiteren Shortcode-Attributen, z. B. `type`, `template` und `if_empty` kann die Darstellung des Elements genauer definiert werden.
+
+##### Beispiele
+
+Grundstücksfläche anzeigen:
+`[inx-property-detail-element name="flaechen.grundstuecksflaeche"]`
+
+Primäre Preisangabe anhand des Custom-Field-Namens abrufen und formatiert anzeigen:
+`[inx-property-detail-element name="_inx_primary_price" type="price"]`
+
+Alternative Variante der Preiseinbindung mit identischer Ausgabe:
+`[inx-property-detail-element name="primaerpreis" template="{value,number,2} {currency_symbol}"]`
+
+Energieverbrauchskennwert per [XPath](https://de.wikipedia.org/wiki/XPath)-Angabe ermitteln und Alternativtext anzeigen, falls nicht verfügbar:
+`[inx-property-detail-element name="//zustand_angaben/energiepass/energieverbrauchkennwert" if_empty="Energieausweis in Vorbereitung"]`
+
+---
+
+Details, weitere Optionen und vollständige Elementliste: [Komponenten → Detailansicht](../komponenten/detailansicht.html)
 
 ## GET-Parameter
 

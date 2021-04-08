@@ -64,12 +64,14 @@ class Property_Hooks {
 		add_filter( 'inx_get_property_images', array( $this, 'get_property_images' ), 10, 3 );
 		add_filter( 'inx_get_property_detail_item', array( $this, 'get_property_detail_item' ), 10, 3 );
 		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
+		add_filter( 'inx_property_detail_element_output', array( $this, 'render_property_detail_element_output' ), 10, 2 );
 
 		/**
 		 * Shortcodes
 		 */
 
 		add_shortcode( 'inx-property-details', array( $this, 'shortcode_property_details' ) );
+		add_shortcode( 'inx-property-detail-element', array( $this, 'shortcode_property_detail_element' ) );
 	} // __construct
 
 	/**
@@ -370,7 +372,7 @@ class Property_Hooks {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|string|bool $post_id Current Property post ID or false if unknown.
+	 * @param int|string|bool $post_id Current property post ID or false if unknown.
 	 *
 	 * @return int|string|bool Possibly updated current post ID.
 	 */
@@ -408,7 +410,7 @@ class Property_Hooks {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $atts Rendering Attributes.
+	 * @param mixed[] $atts Rendering attributes.
 	 *
 	 * @return string Rendered shortcode contents.
 	 */
@@ -423,10 +425,239 @@ class Property_Hooks {
 		}
 
 		// Permit arbritrary attributes for passing template parameters (special case!).
-		$shortcode_atts = shortcode_atts( $atts, $atts, $this->config['public_prefix'] . 'property-details' );
+		$shortcode_atts = shortcode_atts( $atts, $atts, 'inx-property-details' );
 
 		return $this->render_property_contents( $post_id, 'single-property/element-hub', $shortcode_atts, false );
 	} // shortcode_property_details
+
+	/**
+	 * Return a single rendered property detail element (based on the shortcode
+	 * [inx-property-detail-element]).
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param mixed[] $atts Rendering attributes.
+	 *
+	 * @return string Rendered shortcode contents.
+	 */
+	public function shortcode_property_detail_element( $atts ) {
+		$default_atts = array(
+			'name'     => '',
+			'group'    => '',
+			'type'     => '',
+			'template' => '{value}',
+			'if_empty' => '',
+		);
+
+		$shortcode_atts = shortcode_atts( $default_atts, $atts, 'inx-property-detail-element' );
+
+		if ( empty( $shortcode_atts['name'] ) ) {
+			return $shortcode_atts['if_empty'];
+		}
+
+		if ( empty( $shortcode_atts['template'] ) ) {
+			$shortcode_atts['template'] = '{value}';
+		}
+
+		$name        = trim( sanitize_text_field( $shortcode_atts['name'] ) );
+		$value       = false;
+		$raw_value   = false;
+		$title       = '';
+		$property_id = apply_filters( 'inx_current_property_post_id', false );
+		$detail_item = false;
+
+		if ( '//' === substr( $name, 0, 2 ) ) {
+			/**
+			 * Queried element most likely is an XML path -> apply XPath to
+			 * property XML source if available.
+			 */
+			$property_xml_source = get_post_meta( $property_id, '_immonex_property_xml_source', true );
+
+			if ( $property_xml_source ) {
+				$property = new \SimpleXMLElement( $property_xml_source );
+				$value    = (string) $property->xpath( $name )[0];
+			}
+		} else {
+			/**
+			 * Try to retrieve an OpenImmo value based on its name stated in
+			 * the mapping table used to import it.
+			 */
+			$args = array(
+				'name'       => $name,
+				'value_only' => false,
+			);
+
+			if ( ! empty( $shortcode_atts['group'] ) ) {
+				$args['group'] = trim( sanitize_text_field( $shortcode_atts['group'] ) );
+			}
+
+			$detail_item = apply_filters(
+				'inx_get_property_detail_item',
+				false,
+				$property_id,
+				$args
+			);
+
+			if ( ! empty( $detail_item['value'] ) ) {
+				$value = $detail_item['value'];
+
+				if ( ! empty( $detail_item['meta_json'] ) ) {
+					$meta_meta = json_decode( $detail_item['meta_json'], true );
+					if ( ! empty( $meta_meta['value_before_filter'] ) ) {
+						$raw_value = $meta_meta['value_before_filter'];
+					}
+				}
+			}
+
+			if ( ! empty( $detail_item['title'] ) ) {
+				$title = $detail_item['title'];
+			}
+		}
+
+		if ( ! $value ) {
+			// Alternative: Fetch the value of a Kickstart-specific custom field.
+			$value = get_post_meta( $property_id, "_inx_{$name}", true );
+		}
+
+		if ( ! $value ) {
+			// Alternative: Fetch the value of a generic custom field.
+			$value = get_post_meta( $property_id, $name, true );
+
+			if ( $value && '_inx_' === substr( $value, 0, 5 ) ) {
+				// Retrieve the actual value from the field determined before.
+				$value = get_post_meta( $property_id, $value, true );
+			}
+		}
+
+		if ( empty( $shortcode_atts['template'] ) && $shortcode_atts['type'] ) {
+			switch ( $shortcode_atts['type'] ) {
+				case 'price':
+					$shortcode_atts['template'] = '{value,number,2} {currency_symbol}';
+					break;
+				case 'area':
+					$shortcode_atts['template'] = '{value,number,2} {area_unit}';
+					break;
+			}
+		}
+
+		$rendered_content = apply_filters(
+			'inx_property_detail_element_output',
+			$value,
+			array(
+				'name'          => $name,
+				'initial_value' => $value,
+				'raw_value'     => $raw_value,
+				'title'         => $title,
+				'template'      => $shortcode_atts['template'],
+				'if_empty'      => $shortcode_atts['if_empty'],
+				'detail_item'   => $detail_item,
+			)
+		);
+
+		return $rendered_content;
+	} // shortcode_property_detail_element
+
+	/**
+	 * Render the output of the property detail element shortcode (callback).
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param string|int $value Current output value.
+	 * @param mixed[]    $meta Metadata about the queried element.
+	 *
+	 * @return string Rendered output value based on the given template string.
+	 */
+	public function render_property_detail_element_output( $value, $meta = array() ) {
+		if ( empty( $value ) ) {
+			return $meta['if_empty'];
+		}
+
+		$template_tags = $this->extract_template_tags( $meta['template'] );
+
+		if ( count( $template_tags ) > 0 ) {
+			$rendered_value = $meta['template'];
+
+			foreach ( $template_tags as $tag ) {
+				switch ( $tag['tag'] ) {
+					case 'value':
+						$replace_by = $value;
+
+						if (
+							isset( $tag['args'][0] )
+							&& 'number' === strtolower( trim( $tag['args'][0] ) )
+						) {
+							if (
+								! is_numeric( $replace_by )
+								&& $meta['raw_value']
+								&& is_numeric( $meta['raw_value'] )
+							) {
+								$replace_by = $meta['raw_value'];
+							}
+
+							if ( is_numeric( $replace_by ) ) {
+								$decimals = isset( $tag['args'][1] ) ? (int) $tag['args'][1] : 0;
+								if ( $decimals > 4 ) {
+									$decimals = 2;
+								}
+								$replace_by = number_format( $replace_by, $decimals, ',', '.' );
+							}
+						}
+						break;
+					case 'title':
+						$title = $meta['title'];
+						if ( $title && ! empty( $tag['args'][0] ) ) {
+							$title .= $tag['args'][0];
+						}
+						$replace_by = $title;
+						break;
+					case 'currency':
+						$replace_by = $this->config['currency'];
+						break;
+					case 'currency_symbol':
+						$replace_by = $this->config['currency_symbol'];
+						break;
+					case 'area_unit':
+						$replace_by = $this->config['area_unit'];
+						break;
+				}
+
+				$rendered_value = str_replace( $tag['raw_tag'], $replace_by, $rendered_value );
+			}
+		}
+
+		return trim( $rendered_value );
+	} // render_property_detail_element_output
+
+	/**
+	 * Extract "tags" and related arguments used in the property detail element
+	 * shortcode "template" attribute.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param string $template Template string.
+	 *
+	 * @return mixed[] Array of structured tag data.
+	 */
+	private function extract_template_tags( $template ) {
+		$tags = array();
+
+		$found = preg_match_all( '/{([a-zA-Z0-9_,:;\-\(\)\<\> ]+)}/', $template, $raw_tags );
+
+		if ( $found ) {
+			foreach ( $raw_tags[1] as $raw_tag ) {
+				$tag_parts = explode( ',', $raw_tag );
+				$tag       = array_shift( $tag_parts );
+
+				$tags[] = array(
+					'tag'     => $tag,
+					'raw_tag' => "{{$raw_tag}}",
+					'args'    => $tag_parts,
+				);
+			}
+		}
+
+		return $tags;
+	} // extract_template_tags
 
 	/**
 	 * Return the current property object instance, create if not existing yet.

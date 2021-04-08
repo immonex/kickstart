@@ -34,6 +34,7 @@ search: 1
 - [inx_detail_page_elements](filter-inx-detail-page-elements.html) (Elemente der Detailansicht)
 - [inx_video_iframe_template](filter-inx-video-iframe-template.html) (Template für die Einbindung von Video-iFrames)
 - [inx_tabbed_content_elements](filter-inx-tabbed-content-elements.html) (Elementaufteilung bei tabbasierter Darstellung)
+- [inx_property_detail_element_output](filter-inx-property-detail-element-output.html) (Anpassung der Ausgabe einzelner Detail-Elemente)
 
 ### Sonstiges
 
