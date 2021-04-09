@@ -47,6 +47,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_5\Base {
 		'currency_symbol'                              => '€',
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'enable_contact_section_for_references'        => false,
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_location_slug_rewrite'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_type_of_use_slug_rewrite'                 => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -307,6 +308,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_5\Base {
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
 				'show_reference_prices'                    => $this->plugin_options['show_reference_prices'],
 				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
+				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
 				'maps_require_consent'                     => $this->plugin_options['maps_require_consent'],
@@ -550,6 +552,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_5\Base {
 					'description' => '',
 					'tab'         => 'tab_general',
 				),
+				'section_references'           => array(
+					'title'       => __( 'Reference Properties', 'immonex-kickstart' ),
+					'description' => '',
+					'tab'         => 'tab_general',
+				),
 				'section_distance_search'      => array(
 					'title'       => __( 'Distance Search', 'immonex-kickstart' ),
 					'description' => __( 'If enabled, the property search form includes a distance search feature.', 'immonex-kickstart' ),
@@ -700,7 +707,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_5\Base {
 					'name'    => 'show_reference_prices',
 					'type'    => 'checkbox',
 					'label'   => __( 'Show Reference Prices', 'immonex-kickstart' ),
-					'section' => 'section_units',
+					'section' => 'section_references',
 					'args'    => array(
 						'description' => __( 'Activate this option if the prices of reference properties shall be displayed.', 'immonex-kickstart' ),
 					),
@@ -709,9 +716,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_1_5\Base {
 					'name'    => 'reference_price_text',
 					'type'    => 'text',
 					'label'   => __( 'Reference Price Text', 'immonex-kickstart' ),
-					'section' => 'section_units',
+					'section' => 'section_references',
 					'args'    => array(
 						'description' => __( 'This text is displayed if reference prices shall <strong>not</strong> be published.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'enable_contact_section_for_references',
+					'type'    => 'checkbox',
+					'label'   => __( 'Show Contact Section', 'immonex-kickstart' ),
+					'section' => 'section_references',
+					'args'    => array(
+						'description' => __( 'Activate this option if the contact section (including agent information and form if the <a href="https://wordpress.org/plugins/immonex-kickstart-team/" target="_blank">Team Add-on</a> is installed) shall be displayed on <strong>reference property detail pages</strong>.', 'immonex-kickstart' ),
 					),
 				),
 				array(

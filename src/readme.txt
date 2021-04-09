@@ -118,6 +118,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
   sections (without maps) in property detail pages.
 * Added option for applying wpautop to description texts on property
   detail pages.
+* Added option for enabling/disabling the contact section for reference properties.
 * Added filter hook for modifying tab-based element structure.
 * Improved property gallery thumbmail navigation (separate section for
   video and virtual tour links).

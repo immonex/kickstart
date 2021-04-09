@@ -315,6 +315,7 @@ class Property {
 		}
 
 		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
+		$flags         = $this->get_flags();
 
 		$template_data = array_merge(
 			$this->config,
@@ -345,22 +346,28 @@ class Property {
 				'file_attachments'        => $file_attachments,
 				'links'                   => $links ? $links : array(),
 				'detail_page_elements'    => $this->get_detail_page_elements( $atts['element_atts'] ),
-				'flags'                   => $this->get_flags(),
+				'flags'                   => $flags,
 				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
 			),
 			$atts
 		);
 
-		if (
-			! $this->config['show_reference_prices'] &&
-			$template_data['flags']['is_reference']
-		) {
-			if ( isset( $template_data['tabbed_content_elements']['tabs']['prices'] ) ) {
-				unset( $template_data['tabbed_content_elements']['tabs']['prices'] );
+		if ( $flags['is_reference'] ) {
+			if ( ! $this->config['show_reference_prices'] ) {
+				if ( isset( $template_data['tabbed_content_elements']['tabs']['prices'] ) ) {
+					unset( $template_data['tabbed_content_elements']['tabs']['prices'] );
+				}
+
+				if ( isset( $template_data['detail_page_elements']['prices'] ) ) {
+					unset( $template_data['detail_page_elements']['prices'] );
+				}
 			}
 
-			if ( isset( $template_data['detail_page_elements']['prices'] ) ) {
-				unset( $template_data['detail_page_elements']['prices'] );
+			if (
+				! $this->config['enable_contact_section_for_references']
+				&& isset( $template_data['detail_page_elements']['contact_person'] )
+			) {
+				unset( $template_data['detail_page_elements']['contact_person'] );
 			}
 		}
 
