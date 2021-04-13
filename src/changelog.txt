@@ -1,5 +1,28 @@
 == Changelog ==
 
+= 1.4.0 =
+* Release date: 2021-04-13
+* Added shortcode [inx-property-detail-element] for embedding individual
+  property detail values.
+* Fixed sort change not being applied without search form on the same page.
+* Activated Vue.js based components on custom property detail pages.
+* Added optional element for embedding separate location maps
+  in property detail pages.
+* Added optional element for embedding separate location description/details
+  sections (without maps) in property detail pages.
+* Added option for applying wpautop to description texts on property
+  detail pages.
+* Added option for enabling/disabling the contact section for
+  reference properties.
+* Added list shortcode attribute for disabling property detail links based on
+  its status flags.
+* Added filter hook for modifying tab-based element structure.
+* Improved property gallery thumbmail navigation (separate section for
+  video and virtual tour links).
+* Fixed price sections falsely visible in reference property details.
+* Fixed URL issues on overlapping page permalinks.
+* Improved performance and stability (JS components).
+
 = 1.3.0 =
 * Release date: 2021-03-08
 * Added option for setting an alternate reference price text.
