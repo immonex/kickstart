@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.7
+Tested up to: 5.8
 Stable Tag: 1.3.0
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -119,6 +119,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added option for applying wpautop to description texts on property
   detail pages.
 * Added option for enabling/disabling the contact section for reference properties.
+* Added list shortcode attribute for disabling property detail links based on its status flags.
 * Added filter hook for modifying tab-based element structure.
 * Improved property gallery thumbmail navigation (separate section for
   video and virtual tour links).

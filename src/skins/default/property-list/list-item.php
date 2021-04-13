@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $inx_skin_oi_css_classes = $template_data['oi_css_classes'] ? implode( ' ', $template_data['oi_css_classes'] ) : '';
 $inx_skin_rooms_icon     = 'flaticon-blueprint';
+$inx_skin_disable_link   = ! empty( $template_data['disable_link'] );
 
 if (
 	$template_data['primary_rooms']['value'] &&
@@ -22,7 +23,9 @@ if (
 }
 ?>
 <div class="inx-property-list-item inx-property-list-item--card uk-card uk-card-default uk-animation-scale-up">
+	<?php if ( ! $inx_skin_disable_link ) : ?>
 	<a href="<?php echo $template_data['url']; ?>">
+	<?php endif; ?>
 	<div class="inx-property-list-item__media-top uk-card-media-top uk-cover-container">
 		<?php
 		if ( $template_data['thumbnail_tag'] ) {
@@ -30,10 +33,18 @@ if (
 		}
 		?>
 	</div>
+	<?php if ( ! $inx_skin_disable_link ) : ?>
 	</a>
+	<?php endif; ?>
 	<div class="inx-property-list-item__body uk-card-body">
 		<div class="inx-property-list-item__title uk-card-title">
-			<a href="<?php echo $template_data['url']; ?>" class="inx-link <?php echo $inx_skin_oi_css_classes; ?>"><?php echo $template_data['title']; ?></a>
+			<?php if ( ! $inx_skin_disable_link ) : ?>
+			<a href="<?php echo $template_data['url']; ?>" class="inx-link <?php echo $inx_skin_oi_css_classes; ?>">
+			<?php endif; ?>
+				<?php echo $template_data['title']; ?>
+			<?php if ( ! $inx_skin_disable_link ) : ?>
+			</a>
+			<?php endif; ?>
 		</div>
 
 		<div class="uk-margin-bottom">
@@ -80,16 +91,32 @@ if (
 		</div>
 		<?php endif; ?>
 
-		<?php if ( $template_data['primary_price']['value_formatted'] ) : ?>
+		<?php
+		if ( $template_data['primary_price']['value_formatted'] ) :
+			if ( $inx_skin_disable_link ) :
+				?>
+		<div class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?>">
+				<?php
+			else :
+				?>
 		<a href="<?php echo $template_data['url']; ?>" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?> inx-link">
-			<?php
-				echo $template_data['primary_price']['value_formatted'];
+				<?php
+			endif;
+
+			echo $template_data['primary_price']['value_formatted'];
 			if ( $template_data['price_time_unit']['value'] ) {
 				echo ' <span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
 			}
-			?>
+
+			if ( $inx_skin_disable_link ) :
+				?>
+		</div>
+			<?php else : ?>
 		</a>
-		<?php endif; ?>
+				<?php
+			endif;
+		endif;
+		?>
 	</div>
 
 	<?php if ( count( $template_data['labels'] ) > 0 ) : ?>

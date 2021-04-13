@@ -30,7 +30,10 @@ jQuery(document).ready(function($) {
 	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => { module.init() })
 
 	// Property Search
-	if (document.getElementById('inx-property-search')) {
+	if (
+		document.getElementById('inx-property-search') ||
+		document.getElementById('inx-sort')
+	) {
 		import(/* webpackChunkName: "property_search" */ './property_search').then((module) => { module.init() })
 	}
 

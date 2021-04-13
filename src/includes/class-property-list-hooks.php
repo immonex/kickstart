@@ -182,16 +182,20 @@ class Property_List_Hooks {
 		 * search form elements (names) as well as special query parameters.
 		 * (Default values are not required here.)
 		 */
-		$supported_atts = array();
+		$supported_atts = array(
+			'disable_links' => '',
+		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
 		}
 
-		// Add prefixes to user shortcode attributes.
+		// Add prefixes to user shortcode attributes (except specific tags above).
 		$prefixed_atts = array();
 		if ( is_array( $atts ) && count( $atts ) > 0 ) {
 			foreach ( $atts as $key => $value ) {
-				if ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
+				if ( in_array( $key, array_keys( $supported_atts ) ) ) {
+					$prefixed_atts[ $key ] = $value;
+				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
 					$prefixed_atts[ "{$prefix}search-{$key}" ] = $value;
 				} else {
 					$prefixed_atts[ "{$prefix}{$key}" ] = $value;

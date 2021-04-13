@@ -56,18 +56,22 @@ Grundstücke (alle Unterkategorien) in Berlin:
 | `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | `iso-country` | Auswahl per ISO3-Code auf ein bestimmte Länder beschränken, z. B. *DEU* oder *DEU,AUT,ESP* ([\_immonex_iso_country](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | `references` | Referenzobjekte berücksichtigen/anzeigen ([\_immonex_is_reference](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| | *no*: nein (Standardvorgabe) |
-| | *yes*: ja |
-| | *only*: ausschließlich |
+| | *no* : nein (Standardvorgabe) |
+| | *yes* : ja |
+| | *only* : ausschließlich |
 | `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen ([\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| | *yes*: nur verfügbare Immobilien |
-| | *no*: nur **nicht** verfügbare Immobilien |
+| | *yes* : nur verfügbare Immobilien |
+| | *no* : nur **nicht** verfügbare Immobilien |
 | `reserved` | Reserviert-Status **explizit** berücksichtigen ([\_immonex_is_reserved](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| | *yes*: nur reservierte Immobilien |
-| | *no*: nur **nicht** reservierte Immobilien |
+| | *yes* : nur reservierte Immobilien |
+| | *no* : nur **nicht** reservierte Immobilien |
 | `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen ([\_immonex_is_sold](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| | *yes*: nur verkaufte/vermietete Immobilien |
-| | *no*: nur **nicht** verkaufte/vermietete Immobilien |
+| | *yes* : nur verkaufte/vermietete Immobilien |
+| | *no* : nur **nicht** verkaufte/vermietete Immobilien |
+| `disable_links` | Detailseiten-Verlinkung anhand des Objektstatus **deaktivieren** |
+| | *all* : alle Links deaktivieren |
+| | *unavailable* : nicht mehr verfügbare Immobilien (reserviert, verkauft etc.) nicht verlinken |
+| | *references* : Referenzobjekte nicht verlinken |
 
 ##### Beispiele
 

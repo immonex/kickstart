@@ -113,7 +113,7 @@ class Property_Map_Hooks {
 			$supported_atts[ $var_name ] = '';
 		}
 
-		// Add prefixes to user shortcode attributes.
+		// Add prefixes to user shortcode attributes (except specific tags above).
 		$prefixed_atts = array();
 		if ( is_array( $atts ) && count( $atts ) > 0 ) {
 			foreach ( $atts as $key => $value ) {

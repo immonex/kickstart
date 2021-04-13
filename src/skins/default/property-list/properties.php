@@ -11,6 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $immonex_kickstart;
+
+$inx_skin_list_item_atts = array(
+	'disable_links' => ! empty( $template_data['disable_links'] ) ? $template_data['disable_links'] : '',
+);
 ?>
 <div id="inx-property-list" class="inx-property-list<?php echo have_posts() ? '' : ' inx-property-list--is-empty'; ?> inx-container">
 
@@ -21,7 +25,7 @@ global $immonex_kickstart;
 			?>
 
 	<div class="inx-property-list__item-wrap">
-			<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item' ); ?>
+			<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts ); ?>
 	</div>
 
 			<?php

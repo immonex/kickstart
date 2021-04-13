@@ -317,6 +317,25 @@ class Property {
 		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
 		$flags         = $this->get_flags();
 
+		$disable_link       = false;
+		$disable_links_attr = ! empty( $atts['disable_links'] ) ?
+			strtolower( trim( $atts['disable_links'] ) ) : '';
+
+		if (
+			'all' === $disable_links_attr
+			|| ! empty( $flags[ $disable_links_attr ] )
+			|| (
+				'unavailable' === $disable_links_attr &&
+				empty( $flags['is_available'] )
+			)
+			|| (
+				'references' === $disable_links_attr &&
+				! empty( $flags['is_reference'] )
+			)
+		) {
+			$disable_link = true;
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$core_data,
@@ -347,6 +366,7 @@ class Property {
 				'links'                   => $links ? $links : array(),
 				'detail_page_elements'    => $this->get_detail_page_elements( $atts['element_atts'] ),
 				'flags'                   => $flags,
+				'disable_link'            => $disable_link,
 				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
 			),
 			$atts
