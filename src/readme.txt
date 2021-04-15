@@ -73,6 +73,7 @@ Search Form: `[inx-search-form]`
 List View: `[inx-property-list]`
 List Sort Selection: `[inx-filters-sort]`
 List Pagination: `[inx-pagination]`
+Property Overview Map: `[inx-property-map]`
 Property Details View: `[inx-property-details]`
 
 (See documentation mentioned below for attributes and further details.)
