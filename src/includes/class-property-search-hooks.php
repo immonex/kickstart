@@ -289,8 +289,13 @@ class Property_Search_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
-			'results-page-id' => false,
-			'elements'        => '',
+			'force-location'       => '',
+			'force-type-of-use'    => '',
+			'force-property-type'  => '',
+			'force-marketing-type' => '',
+			'force-feature'        => '',
+			'results-page-id'      => false,
+			'elements'             => '',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

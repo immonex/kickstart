@@ -9,6 +9,15 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$inx_skin_rendering_atts = array(
+	'extended_count' => $template_data['extended_count'],
+);
+foreach ( $template_data as $inx_skin_key => $inx_skin_value ) {
+	if ( 'force-' === substr( $inx_skin_key, 0, 6 ) ) {
+		$inx_skin_rendering_atts[ $inx_skin_key ] = $inx_skin_value;
+	}
+}
 ?>
 <div id="inx-property-search" class="inx-property-search inx-container">
 	<form id="inx-property-search-main-form" action="<?php echo $template_data['form_action']; ?>">
@@ -34,9 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'inx_render_property_search_form_element',
 							$inx_skin_id,
 							$inx_skin_element,
-							array(
-								'extended_count' => $template_data['extended_count'],
-							)
+							$inx_skin_rendering_atts
 						);
 					?>
 				</div>
@@ -60,9 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'inx_render_property_search_form_element',
 							$inx_skin_id,
 							$inx_skin_element,
-							array(
-								'extended_count' => $template_data['extended_count'],
-							)
+							$inx_skin_rendering_atts
 						);
 					?>
 				</div>

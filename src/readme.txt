@@ -107,6 +107,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.4.1-beta =
+* Release date: ?
+* Added search form shortcode attributes for taxonomy-based options.
+
 = 1.4.0 =
 * Release date: 2021-04-13
 * Added shortcode [inx-property-detail-element] for embedding individual
@@ -148,16 +152,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Reworked search form shortcode.
 * Optimized automatic primary price min/max value determination for
   search forms.
-
-= 1.2.0 =
-* Release date: 2020-12-08
-* Added property location overview maps incl. clustered markers.
-* Slightly reworked default skin.
-* Extended country code based queries to distinguish between single
-  and multiple codes.
-* Changed list image default size from 300 px to 800 px.
-* Added latitude and longitude to property backend form.
-* Updated Photon base URL (geo location autocompletion).
-* Updated JS code (WordPress 5.6 compatibility).
 
 See changelog.txt for complete version history.

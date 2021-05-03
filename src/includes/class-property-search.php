@@ -269,14 +269,43 @@ class Property_Search {
 			case 'tax-select':
 			case 'tax-checkbox':
 			case 'tax-radio':
-				$args = array(
+				$include = array();
+				$args    = array(
 					'taxonomy'   => $element['key'],
 					'orderby'    => 'name',
 					'order'      => 'ASC',
 					'hide_empty' => true,
 				);
 
-				if ( $element['key'] === $this->config['plugin_prefix'] . 'marketing_type' ) {
+				$core_taxonomies = array(
+					'location',
+					'type_of_use',
+					'property_type',
+					'marketing_type',
+					'feature',
+				);
+
+				foreach ( $core_taxonomies as $tax ) {
+					$force_att = 'force-' . str_replace( '_', '-', $tax );
+
+					if (
+						$element['key'] === $this->config['plugin_prefix'] . $tax
+						&& ! empty( $atts[ $force_att ] )
+					) {
+						$include = array_merge(
+							$include,
+							$this->get_tax_main_entries_by_slug(
+								$this->config['plugin_prefix'] . $tax,
+								$atts[ $force_att ]
+							)
+						);
+					}
+				}
+
+				if (
+					$element['key'] === $this->config['plugin_prefix'] . 'marketing_type'
+					&& empty( $include )
+				) {
 					if ( ! empty( $atts[ $this->config['public_prefix'] . 'references' ] ) ) {
 						$include_references = 'yes' === $atts[ $this->config['public_prefix'] . 'references' ];
 					} else {
@@ -305,6 +334,33 @@ class Property_Search {
 				$options = array();
 
 				if ( is_array( $terms ) ) {
+					if ( ! empty( $include ) ) {
+						/**
+						 * Filter out top-level and related child terms if an explicit
+						 * include list is given defined by a force-* attribute.
+						 */
+						$terms = array_filter(
+							$terms,
+							function ( $term ) use ( $include ) {
+								return 0 !== $term->parent || in_array( $term->term_id, $include );
+							}
+						);
+					}
+
+					$top_level_terms_count = 0;
+					if ( count( $terms ) > 0 ) {
+						foreach ( $terms as $term ) {
+							if ( 0 === $term->parent ) {
+								$top_level_terms_count++;
+							}
+						}
+					}
+
+					if ( 1 === $top_level_terms_count ) {
+						// Omit "All *" option if only a single top-level term exists.
+						$element['empty_option'] = false;
+					}
+
 					$options = $this->get_hierarchical_option_list( $terms );
 				}
 
@@ -383,6 +439,34 @@ class Property_Search {
 
 		return $template_content;
 	} // render_form
+
+	/**
+	 * Split a taxonomy slug string and return the related top-level term IDs.
+	 *
+	 * @since 1.4.1-beta
+	 *
+	 * @param string $taxonomy    Taxonomy.
+	 * @param string $slug_string Comma-separated string of term slugs.
+	 *
+	 * @return int[] Top-level term IDs.
+	 */
+	private function get_tax_main_entries_by_slug( $taxonomy, $slug_string ) {
+		$slugs    = explode( ',', $slug_string );
+		$term_ids = array();
+
+		if ( count( $slugs ) > 0 ) {
+			foreach ( $slugs as $raw_slug ) {
+				$slug = trim( strtolower( $raw_slug ) );
+				$term = get_term_by( 'slug', $slug, $taxonomy );
+
+				if ( $term && 0 === $term->parent ) {
+					$term_ids[] = $term->term_id;
+				}
+			}
+		}
+
+		return $term_ids;
+	} // get_tax_main_entries_by_slug
 
 	/**
 	 * Create and return a name list of custom fields to be browsed on
