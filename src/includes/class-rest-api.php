@@ -97,7 +97,7 @@ class REST_API {
 			$value    = $request->get_param( $var_name );
 
 			if ( $value ) {
-				$search_query_vars[ $var_name ] = $value;
+				$search_query_vars[ $var_name ] = $this->utils['data']->maybe_convert_list_string( $value );
 			}
 		}
 

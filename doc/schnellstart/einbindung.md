@@ -17,12 +17,15 @@ Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhän
 
 `[inx-search-form]`
 
-Das Formular für die Suche nach Immobilien enthält in der Standardkonfiguration relativ umfangreiche Auswahlmöglichkeiten inkl. Umkreissuche etc. Diese können aber bei Bedarf mit einer kommagetrennten Liste der gewünschten Elemente reduziert werden, die als Shortcode-Attribut `elements` übergeben wird.
+Das Formular für die Suche nach Immobilien enthält in der Standardkonfiguration relativ umfangreiche Auswahlmöglichkeiten inkl. Umkreissuche etc. Mit den Attributen `elements` und `exclude` kann eine individuelle Auswahl an Elementen definiert werden.
 
 ### Beispiele
 
 nur Nutzungsart, Objektart und Absenden-Button einbinden:
 `[inx-search-form elements="type-of-use, property-type, submit"]`
+
+Auswahl der Immobilien- und Vermarktungsart nicht einbinden:
+`[inx-search-form exclude="property-type, marketing-type"]`
 
 Details und vollständige Elementliste: [Komponenten → Suchformular](../komponenten/index.html)
 

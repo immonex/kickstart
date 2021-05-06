@@ -296,6 +296,7 @@ class Property_Search_Hooks {
 			'force-feature'        => '',
 			'results-page-id'      => false,
 			'elements'             => '',
+			'exclude'              => '',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

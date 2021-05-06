@@ -20,7 +20,8 @@ Standard-Suchformular (ohne Anpassungen)
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `elements` | Umfang, Reihenfolge und Aufteilung der Elemente (optional) |
+| `elements` | Umfang, Reihenfolge und Aufteilung der Elemente (kommagetrennte Liste, optional) |
+| `exclude` | **Alternative** zu `elements`: Nur die angegebenen Elemente der Standardauswahl **nicht** einbinden (kommagetrennte Liste, optional) |
 | `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
 | `references` | Angaben wie <i>verkauft</i> oder <i>vermietet</i> werden in der Auswahlliste des Elements **Vermarktungsart** (`marketing-type`) standardmäßig ausgefiltert. Mit *yes* als Attributwert kann diese Filterung **deaktiviert** werden (optional). |
 | `force-location` | Auswahloptionen des Elements `locality` (Objektstandort) auf die **Hauptkategorien** (Terms der [Taxonomie inx_location](../beitragsarten-taxonomien.html)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste) |
@@ -31,7 +32,7 @@ Standard-Suchformular (ohne Anpassungen)
 
 #### Elemente
 
-Die folgenden Schlüssel können als Werte des Attributs `elements` übernommen werden.
+Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude`übernommen werden.
 
 ##### Primär (direkt sichtbar)
 
@@ -67,6 +68,13 @@ Beispiel: nur Objekt- und Vermarktungsart + Absenden-Button
 `[inx-search-form elements="property-type, marketing-type, submit"]`
 
 ![minimales Suchformular](../assets/scst-search-form-2.png)
+
+Mit dem Attribut `exclude` können **alternativ** auch bestimmte Elemente der Standardauswahl explizit von der Ausgabe ausgenommen werden:
+
+`[inx-search-form exclude="ELEMENT1, ELEMENT2..."]`
+
+Beispiel: Objekt- und Vermarktungsart fix vorgeben (keine Auswahlmöglichkeit)
+`[inx-search-form exclude="property-type, marketing-type" property-type="haeuser" marketing-type="zu-verkaufen"]`
 
 ### Erweiterte Suche
 

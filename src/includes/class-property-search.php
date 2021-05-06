@@ -107,13 +107,13 @@ class Property_Search {
 				if ( empty( $element['hidden'] ) ) {
 					if ( ! empty( $atts[ $public_id ] ) ) {
 						// Loop through value that has been set via shortcode attribute.
-						$element['value'] = $atts[ $public_id ];
+						$element['value'] = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
 					}
 
 					$elements[ $id ] = $element;
 				} else {
 					if ( ! empty( $atts[ $public_id ] ) ) {
-						$value = $atts[ $public_id ];
+						$value = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
 					} else {
 						$value = $this->utils['data']->get_query_var_value( $public_id );
 					}
@@ -127,30 +127,52 @@ class Property_Search {
 			}
 		}
 
-		if ( ! empty( $atts['elements'] ) && count( $elements ) > 0 ) {
-			$element_ids           = array_map( 'trim', explode( ',', $atts['elements'] ) );
-			$available_element_ids = array_keys( $elements );
-			$include_elements      = array();
+		if ( count( $elements ) > 0 ) {
+			if ( ! empty( $atts['elements'] ) ) {
+				$element_ids           = array_map( 'trim', explode( ',', $atts['elements'] ) );
+				$available_element_ids = array_keys( $elements );
+				$include_elements      = array();
 
-			foreach ( $element_ids as $id ) {
-				$force_extended     = '+' === substr( $id, -1 );
-				$force_non_extended = '-' === substr( $id, -1 );
-				if ( $force_extended || $force_non_extended ) {
-					$id = substr( $id, 0, -1 );
+				foreach ( $element_ids as $id ) {
+					$force_extended     = '+' === substr( $id, -1 );
+					$force_non_extended = '-' === substr( $id, -1 );
+					if ( $force_extended || $force_non_extended ) {
+						$id = substr( $id, 0, -1 );
+					}
+
+					if ( in_array( $id, $available_element_ids ) ) {
+						$include_elements[ $id ]          = $elements[ $id ];
+						$include_elements[ $id ]['order'] = count( $include_elements );
+						if ( $force_extended ) {
+							$include_elements[ $id ]['extended'] = true;
+						} elseif ( $force_non_extended ) {
+							$include_elements[ $id ]['extended'] = false;
+						}
+					}
 				}
 
-				if ( in_array( $id, $available_element_ids ) ) {
-					$include_elements[ $id ]          = $elements[ $id ];
-					$include_elements[ $id ]['order'] = count( $include_elements );
-					if ( $force_extended ) {
-						$include_elements[ $id ]['extended'] = true;
-					} elseif ( $force_non_extended ) {
-						$include_elements[ $id ]['extended'] = false;
+				$elements = $include_elements;
+			} elseif ( ! empty( $atts['exclude'] ) ) {
+				$exclude_element_ids = array_map( 'trim', explode( ',', $atts['exclude'] ) );
+
+				foreach ( $exclude_element_ids as $id ) {
+					if ( isset( $elements[ $id ] ) ) {
+						$public_id = $this->config['public_prefix'] . 'search-' . $id;
+						if ( ! empty( $atts[ $public_id ] ) ) {
+							/**
+							 * Preserve the value of an excluded element as hidden field
+							 * if it has been set via shortcode attribute.
+							 */
+							$hidden_fields[ $public_id ] = array(
+								'name'  => $public_id,
+								'value' => $atts[ $public_id ],
+							);
+						}
+
+						unset( $elements[ $id ] );
 					}
 				}
 			}
-
-			$elements = $include_elements;
 		}
 
 		$extended_count = 0;
