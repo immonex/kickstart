@@ -157,20 +157,29 @@ class Property_Search {
 
 				foreach ( $exclude_element_ids as $id ) {
 					if ( isset( $elements[ $id ] ) ) {
-						$public_id = $this->config['public_prefix'] . 'search-' . $id;
-						if ( ! empty( $atts[ $public_id ] ) ) {
-							/**
-							 * Preserve the value of an excluded element as hidden field
-							 * if it has been set via shortcode attribute.
-							 */
-							$hidden_fields[ $public_id ] = array(
-								'name'  => $public_id,
-								'value' => $atts[ $public_id ],
-							);
-						}
-
 						unset( $elements[ $id ] );
 					}
+				}
+			}
+		}
+
+		if ( count( $enabled_elements ) > 0 ) {
+			foreach ( $enabled_elements as $id => $element ) {
+				$public_id = $this->config['public_prefix'] . 'search-' . $id;
+
+				if (
+					! isset( $elements[ $id ] )
+					&& ! empty( $atts[ $public_id ] )
+					&& ! isset( $hidden_fields[ $public_id ] )
+				) {
+					/**
+					 * Preserve the value of an excluded element as hidden field
+					 * if it has been set via shortcode attribute.
+					 */
+					$hidden_fields[ $public_id ] = array(
+						'name'  => $public_id,
+						'value' => $atts[ $public_id ],
+					);
 				}
 			}
 		}
