@@ -19,6 +19,8 @@ search: 1
 ### Immobiliensuche / Listen
 
 - [inx_search_form_elements](filter-inx-search-form-elements.html) (Suchformular-Elemente)
+- [inx_search_form_element_tax_args](filter-inx-search-form-element-tax-args.html) (Parameter für den Abruf der Optionen taxonomiebasierter Auswahlelemente)
+- [inx_search_form_element_tax_options](filter-inx-search-form-element-tax-options.html) (Optionen taxonomiebasierter Auswahlelemente) 
 - [inx_search_tax_and_meta_queries](filter-inx-search-tax-and-meta-queries.html) (Taxonomie- und Meta-Queries der Immobiliensuche)
 - [inx_special_query_vars](filter-inx-special-query-vars.html) (Komponentenübergreifende Query-Parameter)
 - [inx_exclude_backlink_vars](filter-inx-exclude-backlink-vars.html) (GET-Variablen aus Backlinks ausfiltern)

@@ -359,7 +359,7 @@ class Property_Search {
 					}
 				}
 
-				// TODO: Add Filter (args).
+				$args = apply_filters( 'inx_search_form_element_tax_args', $args, $id, $element, $atts );
 
 				$terms   = get_terms( $args );
 				$options = array();
@@ -395,8 +395,7 @@ class Property_Search {
 					$options = $this->get_hierarchical_option_list( $terms );
 				}
 
-				// TODO: Add Filter.
-				$element['options'] = $options;
+				$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
 				break;
 		}
 
