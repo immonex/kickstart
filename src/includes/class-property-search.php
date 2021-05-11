@@ -392,6 +392,7 @@ class Property_Search {
 						$element['empty_option'] = false;
 					}
 
+					$terms   = $this->maybe_add_ancestor_terms( $terms );
 					$options = $this->get_hierarchical_option_list( $terms );
 				}
 
@@ -1188,6 +1189,57 @@ class Property_Search {
 			$prefix
 		);
 	} // get_tax_and_meta_queries
+
+	/**
+	 * Maybe add ancestor taxonomy terms before building hierarchical
+	 * option lists.
+	 *
+	 * @since 1.4.4
+	 *
+	 * @param \WP_Term[] $terms Array of WP term objects.
+	 *
+	 * @return \WP_Term[] Possibly extended term array.
+	 */
+	private function maybe_add_ancestor_terms( $terms ) {
+		if ( 0 === count( $terms ) ) {
+			return $terms;
+		}
+
+		$term_ids     = array();
+		$add_term_ids = array();
+
+		foreach ( $terms as $term ) {
+			$term_ids[] = $term->term_id;
+		}
+
+		foreach ( $terms as $term ) {
+			if ( 0 === $term->parent ) {
+				continue;
+			}
+
+			$ancestor_ids = get_ancestors( $term->term_id, $term->taxonomy, 'taxonomy' );
+			if ( count( $ancestor_ids ) > 0 ) {
+				foreach ( $ancestor_ids as $id ) {
+					if ( $id && ! in_array( $id, $term_ids ) ) {
+						$add_term_ids[] = $id;
+					}
+				}
+			}
+		}
+
+		$add_term_ids = array_unique( $add_term_ids );
+		$terms        = array_merge(
+			$terms,
+			get_terms(
+				array(
+					'taxonomy' => $terms[0]->taxonomy,
+					'include'  => $add_term_ids,
+				)
+			)
+		);
+
+		return $terms;
+	} // maybe_add_ancestor_terms
 
 	/**
 	 * Recursively create and return an hierarchical option list.
