@@ -69,6 +69,14 @@
 	font-size: inherit;
 }
 
+.inx-form-element .multiselect__tags {
+	max-height: 40px;
+}
+
+.inx-form-element .multiselect__placeholder {
+	padding-top: 0;
+}
+
 .inx-form-element .multiselect__option--highlight {
 	background-color: $color-action-element-highlighted;
 }

@@ -198,19 +198,20 @@ class Property_Hooks {
 	 * @return int|string Alternative featured image ID if required.
 	 */
 	public function update_template_page_featured_image( $null, $object_id, $meta_key, $single ) {
-		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
-
 		if (
 			'_thumbnail_id' !== $meta_key
 			|| is_admin()
 			|| empty( $this->config['property_details_page_id'] )
 			|| $object_id != $this->config['property_details_page_id']
-			|| false === $property_post_id
 		) {
 			return $null;
 		}
 
 		remove_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
+		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		if ( false === $property_post_id ) {
+			return $null;
+		}
 		$property_featured_image_id = get_post_thumbnail_id( $property_post_id );
 		add_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
 
