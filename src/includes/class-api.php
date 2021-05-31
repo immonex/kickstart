@@ -92,7 +92,7 @@ class API {
 
 			$result = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT MIN(meta.meta_value) AS min, MAX(meta.meta_value) AS max FROM $wpdb->postmeta meta
+					"SELECT MIN(CONVERT(meta.meta_value, DECIMAL)) AS min, MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
 						JOIN $wpdb->posts post ON meta.post_id = post.ID
 						JOIN $wpdb->postmeta meta2 ON post.ID = meta2.post_id
 						JOIN $wpdb->postmeta meta3 ON post.ID = meta3.post_id

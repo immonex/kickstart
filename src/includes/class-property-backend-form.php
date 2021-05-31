@@ -243,6 +243,12 @@ class Property_Backend_Form {
 				'id'   => $prefix . 'price_time_unit',
 				'type' => 'text_small',
 			),
+			array(
+				'name' => __( 'Import Folder', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => '_immonex_import_folder',
+				'type' => 'text',
+			),
 		);
 
 		foreach ( $core_data_fields as $field ) {

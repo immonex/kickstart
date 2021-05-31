@@ -107,13 +107,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.4.5-beta =
+= 1.4.7-beta =
 * Release date: ?
 * Added search form shortcode attributes for taxonomy-based options.
 * Added search form shortcode attributes for excluding elements.
 * Added filter hooks for modifying property search form select options.
 * Optimized building of hierarchical taxonomy option lists for search forms.
 * Fixed a recursion bug that occured under some rare conditions.
+* Fixed min/max price determination of non-integer values.
 
 = 1.4.0 =
 * Release date: 2021-04-13

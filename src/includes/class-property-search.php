@@ -392,7 +392,7 @@ class Property_Search {
 						$element['empty_option'] = false;
 					}
 
-					$terms   = $this->maybe_add_ancestor_terms( $terms );
+					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'] );
 					$options = $this->get_hierarchical_option_list( $terms );
 				}
 
@@ -1196,13 +1196,18 @@ class Property_Search {
 	 *
 	 * @since 1.4.4
 	 *
-	 * @param \WP_Term[] $terms Array of WP term objects.
+	 * @param \WP_Term[]  $terms Array of WP term objects.
+	 * @param string|bool $terms Taxonomy (optional; false = autodetect).
 	 *
 	 * @return \WP_Term[] Possibly extended term array.
 	 */
-	private function maybe_add_ancestor_terms( $terms ) {
+	private function maybe_add_ancestor_terms( $terms, $taxonomy = false ) {
 		if ( 0 === count( $terms ) ) {
 			return $terms;
+		}
+
+		if ( ! $taxonomy ) {
+			$taxonomy = $terms[0]->taxonomy;
 		}
 
 		$term_ids     = array();
@@ -1228,15 +1233,17 @@ class Property_Search {
 		}
 
 		$add_term_ids = array_unique( $add_term_ids );
-		$terms        = array_merge(
-			$terms,
-			get_terms(
-				array(
-					'taxonomy' => $terms[0]->taxonomy,
-					'include'  => $add_term_ids,
+		if ( count( $add_term_ids ) > 0 ) {
+			$terms        = array_merge(
+				$terms,
+				get_terms(
+					array(
+						'taxonomy' => $taxonomy,
+						'include'  => $add_term_ids,
+					)
 				)
-			)
-		);
+			);
+		}
 
 		return $terms;
 	} // maybe_add_ancestor_terms
