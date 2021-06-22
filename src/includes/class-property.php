@@ -615,7 +615,7 @@ class Property {
 					if ( $is_reference && ! $this->config['show_reference_prices'] ) {
 						$value_formatted = $this->config['reference_price_text'];
 					} else {
-						$value_formatted = $this->utils['format']->format_price( $value, 0, '', __( 'Price on demand', 'immonex-kickstart' ) );
+						$value_formatted = $this->utils['format']->format_price( $value, 9, '', __( 'Price on demand', 'immonex-kickstart' ) );
 					}
 					break;
 				default:

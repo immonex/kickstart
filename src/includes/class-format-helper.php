@@ -151,7 +151,7 @@ class Format_Helper {
 	 * @since 1.0.0
 	 *
 	 * @param int|float $value Price value.
-	 * @param int       $decimals Number of decimals (2 by default).
+	 * @param int       $decimals Number of decimals (2 by default, 9 = auto).
 	 * @param string    $price_time_unit Unit to add the given price relates to.
 	 * @param string    $if_zero Return value if original value is zero or empty.
 	 *
@@ -160,6 +160,13 @@ class Format_Helper {
 	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '' ) {
 		if ( ! $value && $if_zero ) {
 			return $if_zero;
+		}
+
+		if ( 9 === $decimals ) {
+			// Format integer values without decimal places, floats with two.
+			$whole    = (int) $value;
+			$fraction = round( $value - $whole, 2 );
+			$decimals = $fraction > 0 ? 2 : 0;
 		}
 
 		$price = number_format_i18n( $value, $decimals ) . '&nbsp;' . $this->plugin_options['currency_symbol'];

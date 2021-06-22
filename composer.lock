@@ -476,12 +476,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "ceef151adfa673f61782c45229fd2e6ee1d57abb"
+                "reference": "0fe0a45c54f8b98b21fb31ad116f11d8d89bcf91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ceef151adfa673f61782c45229fd2e6ee1d57abb",
-                "reference": "ceef151adfa673f61782c45229fd2e6ee1d57abb",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/0fe0a45c54f8b98b21fb31ad116f11d8d89bcf91",
+                "reference": "0fe0a45c54f8b98b21fb31ad116f11d8d89bcf91",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 "github/gfm": "0.29.0",
                 "michelf/php-markdown": "~1.4",
                 "mikehaertl/php-shellcommand": "^1.4",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^0.12.90",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
                 "scrutinizer/ocular": "^1.5",
                 "symfony/finder": "^4.2"
@@ -569,7 +569,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-28T12:53:43+00:00"
+            "time": "2021-06-19T20:06:56+00:00"
         },
         {
             "name": "league/flysystem",
@@ -577,12 +577,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4347fe7f4dde0954ed3df833fd568806b714e9a0"
+                "reference": "1ac14e91c9129463117fe11fb6747fc25a988c1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4347fe7f4dde0954ed3df833fd568806b714e9a0",
-                "reference": "4347fe7f4dde0954ed3df833fd568806b714e9a0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1ac14e91c9129463117fe11fb6747fc25a988c1d",
+                "reference": "1ac14e91c9129463117fe11fb6747fc25a988c1d",
                 "shasum": ""
             },
             "require": {
@@ -663,7 +663,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-03-21T09:35:17+00:00"
+            "time": "2021-06-15T19:24:48+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -1628,12 +1628,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/phpDocumentor.git",
-                "reference": "8b223014b7fdaa778b1a9c6d23a38112e75cad62"
+                "reference": "b6064295cf550f55aa636a8b06b39aa710f630a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/phpDocumentor/zipball/8b223014b7fdaa778b1a9c6d23a38112e75cad62",
-                "reference": "8b223014b7fdaa778b1a9c6d23a38112e75cad62",
+                "url": "https://api.github.com/repos/phpDocumentor/phpDocumentor/zipball/b6064295cf550f55aa636a8b06b39aa710f630a9",
+                "reference": "b6064295cf550f55aa636a8b06b39aa710f630a9",
                 "shasum": ""
             },
             "require": {
@@ -1745,7 +1745,7 @@
                 "issues": "https://github.com/phpDocumentor/phpDocumentor/issues",
                 "source": "https://github.com/phpDocumentor/phpDocumentor/tree/master"
             },
-            "time": "2021-06-06T18:58:10+00:00"
+            "time": "2021-06-14T19:41:45+00:00"
         },
         {
             "name": "phpdocumentor/reflection",
@@ -4356,12 +4356,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "d06eaee6e58fc94153ce1727ccc88ec3e52cb952"
+                "reference": "866927956a25f029d96be27510f655789ecf0ef0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/d06eaee6e58fc94153ce1727ccc88ec3e52cb952",
-                "reference": "d06eaee6e58fc94153ce1727ccc88ec3e52cb952",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/866927956a25f029d96be27510f655789ecf0ef0",
+                "reference": "866927956a25f029d96be27510f655789ecf0ef0",
                 "shasum": ""
             },
             "require": {
@@ -4531,7 +4531,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-08T15:26:04+00:00"
+            "time": "2021-06-16T09:13:23+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -4539,12 +4539,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "29b766b8b23c37aac6beef690091cb436354a20f"
+                "reference": "3891953775fd812bf25f43c1e4736c75099e5f13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/29b766b8b23c37aac6beef690091cb436354a20f",
-                "reference": "29b766b8b23c37aac6beef690091cb436354a20f",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/3891953775fd812bf25f43c1e4736c75099e5f13",
+                "reference": "3891953775fd812bf25f43c1e4736c75099e5f13",
                 "shasum": ""
             },
             "require": {
@@ -4604,7 +4604,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-12T10:16:15+00:00"
+            "time": "2021-06-21T21:43:37+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -5589,7 +5589,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/5.2"
+                "source": "https://github.com/symfony/process/tree/v5.3.2"
             },
             "funding": [
                 {
@@ -5704,19 +5704,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
-                "reference": "8b99a525d24c264990d07f8db3e709d11b2651e9"
+                "reference": "313d02f59d6543311865007e5ff4ace05b35ee65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/8b99a525d24c264990d07f8db3e709d11b2651e9",
-                "reference": "8b99a525d24c264990d07f8db3e709d11b2651e9",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/313d02f59d6543311865007e5ff4ace05b35ee65",
+                "reference": "313d02f59d6543311865007e5ff4ace05b35ee65",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
                 "symfony/service-contracts": "^1.0|^2"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -5743,7 +5742,7 @@
             "description": "Provides a way to profile code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/stopwatch/tree/v5.3.0-RC1"
+                "source": "https://github.com/symfony/stopwatch/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -5759,7 +5758,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-09T16:18:06+00:00"
+            "time": "2021-05-26T17:43:10+00:00"
         },
         {
             "name": "symfony/string",
@@ -5827,7 +5826,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/5.3"
+                "source": "https://github.com/symfony/string/tree/v5.3.2"
             },
             "funding": [
                 {
@@ -6218,12 +6217,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "8403a941039e7a9534e877f0bb38b8d9faa48f01"
+                "reference": "b419d648592b0b8911cbbe10d450fe314f4fd262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/8403a941039e7a9534e877f0bb38b8d9faa48f01",
-                "reference": "8403a941039e7a9534e877f0bb38b8d9faa48f01",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/b419d648592b0b8911cbbe10d450fe314f4fd262",
+                "reference": "b419d648592b0b8911cbbe10d450fe314f4fd262",
                 "shasum": ""
             },
             "require": {
@@ -6269,7 +6268,7 @@
                 "issues": "https://github.com/webmozarts/assert/issues",
                 "source": "https://github.com/webmozarts/assert/tree/master"
             },
-            "time": "2021-05-28T09:10:12+00:00"
+            "time": "2021-06-19T13:45:26+00:00"
         }
     ],
     "aliases": [],
