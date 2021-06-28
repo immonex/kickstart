@@ -164,6 +164,20 @@ class Property_Backend_Form {
 				'value' => 1,
 			),
 			array(
+				'name'  => __( 'Featured', 'immonex-kickstart' ),
+				'desc'  => '',
+				'id'    => '_immonex_is_featured',
+				'type'  => 'checkbox',
+				'value' => 1,
+			),
+			array(
+				'name'  => __( 'Front Page Offer', 'immonex-kickstart' ),
+				'desc'  => '',
+				'id'    => '_immonex_is_front_page_offer',
+				'type'  => 'checkbox',
+				'value' => 1,
+			),
+			array(
 				'name'  => __( 'Demo Property', 'immonex-kickstart' ),
 				'desc'  => '',
 				'id'    => '_immonex_is_demo',

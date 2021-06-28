@@ -57,16 +57,18 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 | `_immonex_iso_country` | dreistelliger Ländercode ([ISO 3166 ALPHA-3](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste)) |
 | `_inx_is_sale` | <i>Kaufobjekt-Flag</i> (*0* oder *1*) |
 | `_immonex_is_reference` | <i>Referenzobjekt-Flag</i> (*0* oder *1*) |
-| `_immonex_is_demo` | <i>Demo-Objekt-Flag</i> (*0* oder *1*) |
+| `_immonex_is_available` | <i>Verfügbarkeits-Flag</i> (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
 | `_immonex_is_sold` | <i>Verkauft-Flag</i> (*0* oder *1*) |
 | `_immonex_is_reserved` | <i>Reserviert-Flag</i> (*0* oder *1*) |
-| `_immonex_is_available` | <i>Verfügbarkeits-Flag</i> (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
+| `_immonex_is_featured`<sup>1</sup> | <i>Empfohlen-Flag</i> (*0* oder *1*) |
+| `_immonex_is_front_page_offer`<sup>1</sup> | <i>Startseiten-Angebot-Flag</i> (*0* oder *1*) |
+| `_immonex_is_demo` | <i>Demo-Objekt-Flag</i> (*0* oder *1*) |
 
 ## Archivseiten
 
 ### Immobilien-Beiträge
 
-Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>1</sup> bzw. `.../properties/`<sup>1</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
+Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>2</sup> bzw. `.../properties/`<sup>2</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
 
 So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
 
@@ -74,7 +76,7 @@ So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standa
 
 ### Taxonomie-Archive
 
-Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen <i>Slugs</i><sup>1</sup> (Taxonomie und Taxonomie-Term) aufgerufen werden:
+Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen <i>Slugs</i><sup>2</sup> (Taxonomie und Taxonomie-Term) aufgerufen werden:
 
 #### Stadt-/Ortsname
 
@@ -108,4 +110,6 @@ Beispiel: `.../immobilien/label/neu/`
 
 ---
 
-<sup>1</sup> abhängig von den in den Plugin-Optionen hinterlegten [Titelformen (Slugs)](../schnellstart/einrichtung.html#Titelformen-Slugs) und der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))
+<sup>1</sup> Angabe ist nicht im regulären Umfang des OpenImmo-Standards enthalten und muss daher — abhängig vom Exportsystem (Maklersoftware) — individuell per [Mapping-Tabelle für den Import](schnellstart/import.html) definiert werden
+
+<sup>2</sup> abhängig von den in den Plugin-Optionen hinterlegten [Titelformen (Slugs)](../schnellstart/einrichtung.html#Titelformen-Slugs) und der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))

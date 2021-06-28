@@ -1107,13 +1107,14 @@ class Property_Search {
 			);
 		}
 
-		$special_flags = array( 'available', 'sold', 'reserved', 'demo' );
+		$special_flags = array( 'available', 'sold', 'reserved', 'featured', 'front_page_offer', 'demo' );
 
 		foreach ( $special_flags as $flag ) {
-			$flag_key = "{$prefix}{$flag}";
+			$flag_key = str_replace( '_', '-', "{$prefix}{$flag}" );
 
 			if ( isset( $params[ $flag_key ] ) ) {
 				switch ( strtolower( $params[ $flag_key ] ) ) {
+					case 'yes':
 					case 'only':
 						$meta_query[] = array(
 							'key'     => "_immonex_is_{$flag}",
@@ -1196,8 +1197,8 @@ class Property_Search {
 	 *
 	 * @since 1.4.4
 	 *
-	 * @param \WP_Term[]  $terms Array of WP term objects.
-	 * @param string|bool $terms Taxonomy (optional; false = autodetect).
+	 * @param \WP_Term[]  $terms    Array of WP term objects.
+	 * @param string|bool $taxonomy Taxonomy (optional; false = autodetect).
 	 *
 	 * @return \WP_Term[] Possibly extended term array.
 	 */
@@ -1234,7 +1235,7 @@ class Property_Search {
 
 		$add_term_ids = array_unique( $add_term_ids );
 		if ( count( $add_term_ids ) > 0 ) {
-			$terms        = array_merge(
+			$terms = array_merge(
 				$terms,
 				get_terms(
 					array(

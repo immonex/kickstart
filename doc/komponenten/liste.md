@@ -55,19 +55,25 @@ Grundstücke (alle Unterkategorien) in Berlin:
 | `min-area` | Mindestfläche als **Ganzzahl** in m², z. B. *120* ([\_inx_primary_area](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | `iso-country` | Auswahl per ISO3-Code auf ein bestimmte Länder beschränken, z. B. *DEU* oder *DEU,AUT,ESP* ([\_immonex_iso_country](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `references` | Referenzobjekte berücksichtigen/anzeigen ([\_immonex_is_reference](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `references` | Referenzobjekte berücksichtigen/anzeigen (<i>Flag</i> [\_immonex_is_reference](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | | *no* : nein (Standardvorgabe) |
 | | *yes* : ja |
 | | *only* : ausschließlich |
-| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen ([\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | | *yes* : nur verfügbare Immobilien |
 | | *no* : nur **nicht** verfügbare Immobilien |
-| `reserved` | Reserviert-Status **explizit** berücksichtigen ([\_immonex_is_reserved](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `reserved` | Reserviert-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_reserved](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | | *yes* : nur reservierte Immobilien |
 | | *no* : nur **nicht** reservierte Immobilien |
-| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen ([\_immonex_is_sold](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_sold](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | | *yes* : nur verkaufte/vermietete Immobilien |
 | | *no* : nur **nicht** verkaufte/vermietete Immobilien |
+| `featured` | Empfohlen-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_featured](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes* : nur empfohlene Immobilien |
+| | *no* : nur **nicht** empfohlene Immobilien |
+| `front-page-offer` | Startseiten-Angebote **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_front_page_offer](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes* : nur Startseiten-Angebote |
+| | *no* : nur **nicht** als Startseiten-Angebote markierte Immobilien |
 | `disable_links` | Detailseiten-Verlinkung anhand des Objektstatus **deaktivieren** |
 | | *all* : alle Links deaktivieren |
 | | *unavailable* : nicht mehr verfügbare Immobilien (reserviert, verkauft etc.) nicht verlinken |
