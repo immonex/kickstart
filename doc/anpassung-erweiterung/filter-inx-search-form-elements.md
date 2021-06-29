@@ -54,6 +54,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'key' => '_inx_primary_rooms',
 		'compare' => '>=',
 		'range' => '0,10',
+		'step_ranges' => false,
 		'default' => 0,
 		'replace_null' => __( 'not specified', 'immonex-kickstart' ),
 		'unit' => false,
@@ -71,6 +72,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'key' => '_inx_primary_price',
 		'compare' => 'BETWEEN',
 		'range' => 'primary_price_min_max',
+		'step_ranges' => false,
 		'default' => 'primary_price_min_max',
 		'unlimited_term' => __( 'unlimited', 'immonex-kickstart' ),
 		'currency' => 'EUR',
@@ -113,7 +115,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | | *range*: Auswahlslider für einzelne Zahlenwerte oder Wertebereiche |
 | | *submit*: Suchen/Absenden-Button |
 | | *reset*: Zurücksetzen des Formulars |
-| | *extended-search-toggle*: erweiterte Suche ein-/ausblenden |
+| | *extended-search-toggle*: erweiterte Suche ein-/ausblenden |
 | | *photon-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Photon (sofern in den [Plugin-Optionen](../schnellstart/einrichtung.html#Karten-amp-Umkreissuche) ausgewählt)
 | | *google-places-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Goople-Places-API (sofern in den [Plugin-Optionen](../schnellstart/einrichtung.html#Karten-amp-Umkreissuche) ausgewählt)
 | `subtype` (string) | Subtyp des Elements |
@@ -122,6 +124,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | `compare` (string) | WP Query Compare Operator |
 | `numeric` (bool) | Abfrage eines numerischen Werts? |
 | `range` (string) | Minimal- und Maximalwert beim gleichnamigen Elementtyp im Format *MIN,MAX* (z. B. 0,10) oder *primary_price_min_max* für automatische Preisrahmen-Vorgabe|
+| `step_ranges` (array\|int\|bool) | Schrittweite(n) bei Wertslider-Elementen (Typ `range`): Einzelwert, Key-Value-Array (jeweils *Schwellenwert ➞ Schrittweite*) oder *false* für Standardvorgabe |
 | `default` (mixed) | Standardwert |
 | `replace_null` (string) | Null- oder Leerwerte durch diesen String ersetzen |
 | `unit` (string) | Einheit (z. B. m², nur beim Elementtyp `range` relevant) |

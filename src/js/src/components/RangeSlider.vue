@@ -12,6 +12,8 @@
 <script>
 import noUiSlider from 'nouislider'
 
+const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"1000000":10000}'
+
 export default {
 	name: 'inx-range-slider',
 	props: {
@@ -21,6 +23,10 @@ export default {
 			default: ''
 		},
 		range: String,
+		stepRanges: {
+			type: String,
+			default: defaultStepRanges
+		},
 		value: String,
 		pips: {
 			type: Boolean,
@@ -55,6 +61,7 @@ export default {
 		return {
 			min: 0,
 			max: 0,
+			stepRangesConv: {},
 			parsedRange: [],
 			currentValue: [0],
 			currentMarketingType: 'all'
@@ -62,12 +69,29 @@ export default {
 	},
 	computed: {
 		step: function () {
-			if (this.max <= 100) return 1
-			else if (this.max <= 1000) return 10
-			else if (this.max <= 2000) return 50
-			else if (this.max <= 5000) return 100
-			else if (this.max <= 10000) return 500
-			else return 1000
+			if (
+				typeof this.stepRangesConv === 'number' &&
+				this.stepRangesConv > 0 &&
+				this.stepRangesConv <= 10000
+			) {
+				return this.stepRangesConv
+			}
+
+			let currentStep = 1
+
+			if (typeof this.stepRangesConv === 'object') {
+				for (let key in this.stepRangesConv) {
+					let threshold = parseInt(key)
+					let thresholdStep = parseInt(this.stepRangesConv[key])
+					if (!threshold || !thresholdStep) continue
+
+					if (this.max > threshold &&	currentStep < thresholdStep) {
+						currentStep = thresholdStep
+					}
+				}
+			}
+
+			return currentStep
 		},
 		currentValueFormatted: function () {
 			if  (this.isUnlimited(true) && this.rangeUnlimitedTerm) {
@@ -218,6 +242,8 @@ export default {
 				this.min = this.parsedRange[0]
 				this.max = this.parsedRange[1]
 			}
+
+			this.stepRangesConv = JSON.parse(this.stepRanges ? this.stepRanges : defaultStepRanges)
 		}
 	},
 	created: function () {
