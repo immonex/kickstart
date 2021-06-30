@@ -16,6 +16,21 @@ if ( $immonex_kickstart->property_list_page_id ) {
 	$inx_skin_redirect_url = get_permalink( $immonex_kickstart->property_list_page_id );
 
 	if ( $inx_skin_redirect_url ) {
+		$inx_skin_taxonomies = apply_filters( 'inx_get_taxonomies', array() );
+		if ( is_tax( array_keys( $inx_skin_taxonomies ) ) ) {
+			$inx_skin_query    = get_queried_object();
+			$inx_skin_var_name = str_replace( array( 'inx_', '_' ), array( 'inx-search-', '-' ), $inx_skin_query->taxonomy );
+			if ( in_array( $inx_skin_query->taxonomy, array( 'inx_feature', 'inx_label' ) ) ) {
+				$inx_skin_var_name .= 's';
+			}
+
+			$inx_skin_redirect_url = add_query_arg(
+				$inx_skin_var_name,
+				$inx_skin_query->slug,
+				$inx_skin_redirect_url
+			);
+		}
+
 		wp_safe_redirect( $inx_skin_redirect_url );
 		exit;
 	}

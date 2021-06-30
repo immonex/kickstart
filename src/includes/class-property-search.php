@@ -259,9 +259,15 @@ class Property_Search {
 	 * @param mixed[] $element Element definition/configuration.
 	 * @param mixed[] $atts Rendering Attributes.
 	 *
+	 * @todo Maybe extend/refine taxonomy term filtering based on special query
+	 *       args (references, available, reserved, demo etc.).
+	 *
 	 * @return string Rendered contents (HTML).
 	 */
 	public function render_element( $id, $element, $atts = array() ) {
+		$plugin_prefix = $this->config['plugin_prefix'];
+		$public_prefix = $this->config['public_prefix'];
+
 		if ( count( $element ) > 0 ) {
 			// Maybe replace special variables stated in values.
 			foreach ( $element as $key => $value ) {
@@ -320,42 +326,42 @@ class Property_Search {
 					$force_att = 'force-' . str_replace( '_', '-', $tax );
 
 					if (
-						$element['key'] === $this->config['plugin_prefix'] . $tax
+						"{$plugin_prefix}{$tax}" === $element['key']
 						&& ! empty( $atts[ $force_att ] )
 					) {
 						$include = array_merge(
 							$include,
 							$this->get_tax_main_entries_by_slug(
-								$this->config['plugin_prefix'] . $tax,
+								"{$plugin_prefix}{$tax}",
 								$atts[ $force_att ]
 							)
 						);
 					}
 				}
 
+				if ( ! empty( $atts[ "{$public_prefix}references" ] ) ) {
+					$references = $atts[ "{$public_prefix}references" ];
+				} else {
+					$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
+				}
+				$include_references = in_array( $references, array( 'yes', 'only' ) );
+
 				if (
-					$element['key'] === $this->config['plugin_prefix'] . 'marketing_type'
+					"{$plugin_prefix}marketing_type" === $element['key']
 					&& empty( $include )
+					&& ! $include_references
 				) {
-					if ( ! empty( $atts[ $this->config['public_prefix'] . 'references' ] ) ) {
-						$include_references = 'yes' === $atts[ $this->config['public_prefix'] . 'references' ];
-					} else {
-						$include_references = 'yes' === get_query_var( $this->config['public_prefix'] . 'references' );
-					}
+					// Exclude reference related standard marketing type taxonomy terms.
+					$reference_marketing_type_terms = get_terms(
+						array(
+							'taxonomy' => $element['key'],
+							'name'     => array( 'verkauft', 'vermietet', 'verpachtet' ),
+							'fields'   => 'ids',
+						)
+					);
 
-					if ( ! $include_references ) {
-						// Exclude reference related standard marketing type taxonomy terms.
-						$reference_marketing_type_terms = get_terms(
-							array(
-								'taxonomy' => $element['key'],
-								'name'     => array( 'verkauft', 'vermietet', 'verpachtet' ),
-								'fields'   => 'ids',
-							)
-						);
-
-						if ( count( $reference_marketing_type_terms ) > 0 ) {
-							$args['exclude'] = $reference_marketing_type_terms;
-						}
+					if ( count( $reference_marketing_type_terms ) > 0 ) {
+						$args['exclude'] = $reference_marketing_type_terms;
 					}
 				}
 
@@ -376,6 +382,42 @@ class Property_Search {
 								return 0 !== $term->parent || in_array( $term->term_id, $include );
 							}
 						);
+					} elseif (
+						"{$plugin_prefix}property_type" === $element['key']
+						&& ! $include_references
+					) {
+						/**
+						 * Filter out terms that only belong to reference properties
+						 * if references shall not be displayed.
+						 */
+						foreach ( $terms as $i => $term ) {
+							$args = array(
+								'post_type'  => $this->config['property_post_type_name'],
+								'tax_query'  => array(
+									array(
+										'taxonomy' => "{$plugin_prefix}property_type",
+										'terms'    => $term->term_id,
+									),
+								),
+								'meta_query' => array(
+									'relation' => 'OR',
+									array(
+										'key'     => '_immonex_is_reference',
+										'compare' => 'NOT EXISTS',
+									),
+									array(
+										'key'     => '_immonex_is_reference',
+										'value'   => array( 0, 'off', '' ),
+										'compare' => 'IN',
+									),
+								),
+								'fields'     => 'ids',
+							);
+
+							if ( 0 === count( get_posts( $args ) ) ) {
+								unset( $terms[ $i ] );
+							}
+						}
 					}
 
 					$top_level_terms_count = 0;
@@ -401,7 +443,7 @@ class Property_Search {
 		}
 
 		// Prefixed ID for use as input id/name etc.
-		$public_id = $this->config['public_prefix'] . 'search-' . $id;
+		$public_id = "{$public_prefix}search-{$id}";
 
 		if ( ! empty( $element['value'] ) ) {
 			$value = $element['value'];

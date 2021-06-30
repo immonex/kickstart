@@ -108,9 +108,12 @@ class Property_Hooks {
 	 *                other post types.
 	 */
 	public function register_property_archive_template( $original_template ) {
+		$inx_taxonomies = apply_filters( 'inx_get_taxonomies', array() );
+
 		if (
-			is_post_type_archive( $this->config['property_post_type_name'] ) ||
-			(
+			is_post_type_archive( $this->config['property_post_type_name'] )
+			|| is_tax( array_keys( $inx_taxonomies ) )
+			|| (
 				is_archive() &&
 				get_query_var( 'post_type' ) === $this->config['property_post_type_name']
 			)

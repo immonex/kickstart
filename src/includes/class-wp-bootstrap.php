@@ -66,6 +66,8 @@ class WP_Bootstrap {
 		);
 		add_filter( 'parent_file', array( $this, 'set_current_menu' ) );
 		add_filter( 'body_class', array( $this, 'check_body_classes' ), 90 );
+
+		add_filter( 'inx_get_taxonomies', array( $this, 'get_taxonomies' ) );
 	} // __construct
 
 	/**
