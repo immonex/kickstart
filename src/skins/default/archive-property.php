@@ -12,18 +12,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $immonex_kickstart;
 
+$inx_skin_taxonomies       = apply_filters( 'inx_get_taxonomies', array() );
+$inx_skin_is_tax_archive   = is_tax( array_keys( $inx_skin_taxonomies ) );
+$inx_skin_tax_archive_args = array();
+
+if ( $inx_skin_is_tax_archive ) {
+	$inx_skin_query    = get_queried_object();
+	$inx_skin_var_name = str_replace( array( 'inx_', '_' ), array( 'inx-search-', '-' ), $inx_skin_query->taxonomy );
+	if ( in_array( $inx_skin_query->taxonomy, array( 'inx_feature', 'inx_label' ) ) ) {
+		$inx_skin_var_name .= 's';
+	}
+	$inx_skin_tax_archive_args = array( $inx_skin_var_name => $inx_skin_query->slug );
+}
+
 if ( $immonex_kickstart->property_list_page_id ) {
 	$inx_skin_redirect_url = get_permalink( $immonex_kickstart->property_list_page_id );
 
 	if ( $inx_skin_redirect_url ) {
-		$inx_skin_taxonomies = apply_filters( 'inx_get_taxonomies', array() );
-		if ( is_tax( array_keys( $inx_skin_taxonomies ) ) ) {
-			$inx_skin_query    = get_queried_object();
-			$inx_skin_var_name = str_replace( array( 'inx_', '_' ), array( 'inx-search-', '-' ), $inx_skin_query->taxonomy );
-			if ( in_array( $inx_skin_query->taxonomy, array( 'inx_feature', 'inx_label' ) ) ) {
-				$inx_skin_var_name .= 's';
-			}
-
+		if ( $inx_skin_is_tax_archive ) {
 			$inx_skin_redirect_url = add_query_arg(
 				$inx_skin_var_name,
 				$inx_skin_query->slug,
@@ -57,7 +63,7 @@ get_header();
 		<div class="inx-property-archive__main-content inx-container uk-width-expand@m">
 			<?php
 			if ( $immonex_kickstart->property_list_map_display_by_default ) {
-				do_action( 'inx_render_property_map' );
+				do_action( 'inx_render_property_map', $inx_skin_tax_archive_args );
 			}
 
 			do_action( 'inx_render_property_search_form' );
@@ -65,13 +71,13 @@ get_header();
 			do_action(
 				'inx_render_property_list',
 				array(
-					'is_regular_archive_page' => true,
+					'is_regular_archive_page' => ! $inx_skin_is_tax_archive,
 				)
 			);
 			do_action(
 				'inx_render_pagination',
 				array(
-					'is_regular_archive_page' => true,
+					'is_regular_archive_page' => ! $inx_skin_is_tax_archive,
 				)
 			);
 			?>

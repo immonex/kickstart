@@ -102,7 +102,7 @@ class Property_List {
 				'post_type'                     => $this->config['property_post_type_name'],
 				'post_status'                   => array( 'publish' ),
 				'posts_per_page'                => -1,
-				'suppress_pre_get_posts_filter' => true,
+				'suppress_pre_get_posts_filter' => empty( $args['execute_pre_get_posts_filter'] ),
 			),
 			$args
 		);
