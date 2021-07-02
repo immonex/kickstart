@@ -108,7 +108,6 @@ class Property_Search_Hooks {
 	public function adjust_property_frontend_query( $query ) {
 		global $post;
 
-		// TODO: Add more checks to prevent unnecessary execution.
 		if (
 			(
 				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&

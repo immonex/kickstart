@@ -73,8 +73,15 @@ class Property_Filters_Sort_Hooks {
 	 * @param \WP_Query $query WP query object.
 	 */
 	public function adjust_property_frontend_query( $query ) {
+		global $post;
+
 		if (
-			isset( $query->query_vars['suppress_pre_get_posts_filter'] ) || (
+			(
+				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
+				empty( $query->query_vars['execute_pre_get_posts_filter'] )
+			) ||
+			! empty( $query->query_vars['page'] ) ||
+			! empty( $query->query_vars['pagename'] ) || (
 				$query->get( 'post_type' ) &&
 				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
 			)
@@ -82,15 +89,21 @@ class Property_Filters_Sort_Hooks {
 			return;
 		}
 
-		global $post;
-		$includes_shortcode = is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'inx-property-list' );
+		$contains_shortcode = is_a( $post, 'WP_Post' ) && (
+			has_shortcode( $post->post_content, 'inx-property-list' )
+			|| has_shortcode( $post->post_content, 'inx-property-map' )
+		);
 
 		if (
-			! $includes_shortcode && (
+			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
+			! $contains_shortcode && (
 				! $query->is_main_query() ||
 				is_single() ||
 				is_page() ||
-				is_admin()
+				is_admin() || (
+					is_archive() &&
+					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+				)
 			)
 		) {
 			return;
