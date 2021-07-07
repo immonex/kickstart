@@ -107,6 +107,7 @@ if ( $inx_skin_media_count > 0 ) :
 	$inx_skin_max_image_height = 0;
 	$inx_skin_fixed_thumb_nav  = $inx_skin_show_video || $inx_skin_show_virtual_tour;
 
+	$inx_skin_has_valid_ken_burns_image      = false;
 	$inx_skin_ken_burns_animation_directions = array(
 		'uk-transform-origin-top-left',
 		'uk-transform-origin-top-center',
@@ -129,9 +130,9 @@ if ( $inx_skin_media_count > 0 ) :
 			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
 		}
 
+		$inx_skin_image_enable_ken_burns_effect = $inx_skin_enable_ken_burns_effect;
 		if ( $inx_skin_image[1] < INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
-			$inx_skin_enable_ken_burns_effect = false;
-			$inx_skin_animation_type          = 'fade';
+			$inx_skin_image_enable_ken_burns_effect = false;
 		}
 
 		if ( $inx_skin_image[2] > $inx_skin_max_image_height ) {
@@ -146,11 +147,21 @@ if ( $inx_skin_media_count > 0 ) :
 		}
 
 		$inx_skin_gallery_images[] = array(
-			'full'      => wp_get_attachment_image( $inx_skin_id, 'full' ),
-			'full_src'  => $inx_skin_image[0],
-			'thumbnail' => wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
-			'caption'   => wp_get_attachment_caption( $inx_skin_id ),
+			'full'             => wp_get_attachment_image( $inx_skin_id, 'full' ),
+			'full_src'         => $inx_skin_image[0],
+			'thumbnail'        => wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
+			'caption'          => wp_get_attachment_caption( $inx_skin_id ),
+			'ken_burns_effect' => $inx_skin_image_enable_ken_burns_effect,
 		);
+
+		if ( $inx_skin_image_enable_ken_burns_effect ) {
+			$inx_skin_has_valid_ken_burns_image = true;
+		}
+	}
+
+	if ( ! $inx_skin_has_valid_ken_burns_image ) {
+		$inx_skin_enable_ken_burns_effect = false;
+		$inx_skin_animation_type          = 'fade';
 	}
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom">
@@ -168,7 +179,7 @@ if ( $inx_skin_media_count > 0 ) :
 						?>
 				<li>
 					<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
-						<?php if ( $inx_skin_enable_ken_burns_effect ) : ?>
+						<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
 						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ mt_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
 								<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
 						</div>

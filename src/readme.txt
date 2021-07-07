@@ -107,7 +107,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.4.12-beta =
+= 1.4.13-beta =
 * Release date: ?
 * Added search form shortcode attributes for taxonomy-based options.
 * Added search form shortcode attributes for excluding elements.
@@ -117,6 +117,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added step option for value/range slider elements in search forms.
 * Activated default property template on taxonomy based frontend queries.
 * Optimized building of hierarchical taxonomy option lists for search forms.
+* Reworked default skin gallery template (individual Ken Burns effect state per image)
 * Fixed a recursion bug that occured under some rare conditions.
 * Fixed min/max price determination of non-integer values.
 * Fixed property sort order in list view not applied in special cases.
