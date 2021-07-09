@@ -9,7 +9,7 @@
     "minimum-stability": "dev",
     "require": {
         "cmb2/cmb2": "dev-master",
-        "immonex/wp-free-plugin-core": "1.1.5"
+        "immonex/wp-free-plugin-core": "1.2.1"
     },
     "require-dev": {
         "inverisoss/wp-i18n-tools": "^1.0",
