@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.4.14-beta';
+	const PLUGIN_VERSION             = '1.4.16-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -521,7 +521,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 
 		$pages = apply_filters(
 			'inx_page_list_all_languages',
-			$this->utils['template']->get_page_list( array( 'lang' => '' ) )
+			$this->utils['template']->get_page_list(
+				array(
+					'post_status' => array( 'publish', 'private' ),
+					'lang'        => '',
+				)
+			)
 		);
 
 		if ( count( $pages ) > 0 ) {

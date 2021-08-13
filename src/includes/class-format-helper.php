@@ -117,7 +117,7 @@ class Format_Helper {
 
 			if ( false !== strpos( $text, PHP_EOL ) ) {
 				// Add extra breaks if required.
-				$text = preg_replace( '/([a-zA-ZäöüÄÖÜ0-9.,;:])' . PHP_EOL . '/', '$1<br>' . PHP_EOL, $text );
+				$text = preg_replace( '/([a-zA-ZäöüÄÖÜ0-9.,;:²³\-\!\?])' . PHP_EOL . '/', '$1<br>' . PHP_EOL, $text );
 				$text = preg_replace( '/(' . PHP_EOL . PHP_EOL . ')/', PHP_EOL . '<br>' . PHP_EOL, $text );
 			}
 		}
