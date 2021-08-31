@@ -610,6 +610,12 @@ class Property {
 					}
 					$value_formatted = $this->utils['string']->get_nice_number( $value );
 					break;
+				case 'price_time_unit':
+					if ( '/' === trim( $value[0] ) ) {
+						$value = '/ ' . trim( substr( $value, 1 ) );
+					}
+					$value_formatted = $value;
+					break;
 				case 'primary_price':
 					if ( empty( $value ) ) {
 						$value = 0;

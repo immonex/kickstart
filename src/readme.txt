@@ -129,6 +129,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a recursion bug that occured under some rare conditions.
 * Fixed min/max price determination of non-integer values.
 * Fixed property sort order in list view not applied in special cases.
+* Added a missing space between price and time unit in list view.
 * Refactored code to meet updated WordPress coding standards.
 
 = 1.4.0 =

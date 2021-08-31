@@ -105,7 +105,7 @@ if (
 
 			echo $template_data['primary_price']['value_formatted'];
 			if ( $template_data['price_time_unit']['value'] ) {
-				echo ' <span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
+				echo '&nbsp;<span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
 			}
 
 			if ( $inx_skin_disable_link ) :
