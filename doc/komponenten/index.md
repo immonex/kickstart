@@ -57,6 +57,7 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | `distance-search-location` (11) | Ortssuche mit Autovervollständigung für die Umkreissuche |
 | `distance-search-radius` (12) | Dropdown-Auswahl des Radius für die Umkreissuche |
 | `features` (13) | Checkboxen zur Auswahl gewünschter Ausstattungsmerkmale (<i>Terms</i> der [Taxonomie inx_feature](../beitragsarten-taxonomien.html)) |
+| `labels` | Checkboxen zur Auswahl gewünschter Labels (<i>Terms</i> der [Taxonomie inx_label](../beitragsarten-taxonomien.html); **optional** - nur bei expliziter Einbindung per Attribut `elements`) |
 
 ## Umfang/Aufteilung
 

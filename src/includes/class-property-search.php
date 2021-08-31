@@ -97,6 +97,28 @@ class Property_Search {
 			}
 		}
 
+		if ( ! empty( $atts['elements'] ) ) {
+			$attr_element_ids = array_map( 'trim', explode( ',', $atts['elements'] ) );
+
+			if ( ! empty( $attr_element_ids ) ) {
+				add_filter(
+					'inx_search_form_elements',
+					function ( $elements ) use ( $attr_element_ids ) {
+						foreach ( $attr_element_ids as $id ) {
+							if ( isset( $elements[ $id ] ) ) {
+								$elements[ $id ]['enabled'] = true;
+								$elements[ $id ]['hidden']  = false;
+							}
+						}
+
+						return $elements;
+					}
+				);
+			}
+		} else {
+			$attr_element_ids = false;
+		}
+
 		$elements         = array();
 		$enabled_elements = $this->get_search_form_elements( true, false, false );
 
@@ -128,12 +150,11 @@ class Property_Search {
 		}
 
 		if ( count( $elements ) > 0 ) {
-			if ( ! empty( $atts['elements'] ) ) {
-				$element_ids           = array_map( 'trim', explode( ',', $atts['elements'] ) );
+			if ( ! empty( $attr_element_ids ) ) {
 				$available_element_ids = array_keys( $elements );
 				$include_elements      = array();
 
-				foreach ( $element_ids as $id ) {
+				foreach ( $attr_element_ids as $id ) {
 					$force_extended     = '+' === substr( $id, -1 );
 					$force_non_extended = '-' === substr( $id, -1 );
 					if ( $force_extended || $force_non_extended ) {
@@ -569,7 +590,7 @@ class Property_Search {
 	 * @since 1.0.0
 	 *
 	 * @param bool $enabled_only Return only enabled elements? (false by default).
-	 * @param bool $always_include_default_elements Ignore possitbly deleted elements? (false by default).
+	 * @param bool $always_include_default_elements Ignore possibly deleted elements? (false by default).
 	 * @param bool $suppress_filters Suppress any filters? (false by default).
 	 *
 	 * @return mixed[] Search form elements.
@@ -600,7 +621,7 @@ class Property_Search {
 				'label'        => __( 'Type Of Use', 'immonex-kickstart' ),
 				'options'      => array(),
 				'multiple'     => false,
-				'empty_option' => __( 'All Types', 'immonex-kickstart' ),
+				'empty_option' => __( 'All Types Of Use', 'immonex-kickstart' ),
 				'default'      => '',
 				'class'        => '',
 				'order'        => 15,
@@ -792,20 +813,19 @@ class Property_Search {
 				'order'    => 220,
 			),
 			'labels'                   => array(
-				'enabled'      => true,
-				'hidden'       => true,
-				'extended'     => false,
-				'type'         => 'tax-select',
-				'key'          => $this->config['plugin_prefix'] . 'label',
-				'compare'      => 'IN',
-				'numeric'      => false,
-				'label'        => __( 'Labels', 'immonex-kickstart' ),
-				'options'      => array(),
-				'multiple'     => true,
-				'empty_option' => __( 'All Labels', 'immonex-kickstart' ),
-				'default'      => '',
-				'class'        => '',
-				'order'        => 900,
+				'enabled'  => true,
+				'hidden'   => true,
+				'extended' => true,
+				'type'     => 'tax-checkbox',
+				'key'      => $this->config['plugin_prefix'] . 'label',
+				'compare'  => 'IN',
+				'numeric'  => false,
+				'label'    => __( 'Labels', 'immonex-kickstart' ),
+				'options'  => array(),
+				'multiple' => true,
+				'default'  => '',
+				'class'    => 'inx-property-search__element--is-full-width',
+				'order'    => 900,
 			),
 		);
 
