@@ -89,7 +89,7 @@ Alle Referenzobjekte:
 
 #### Allgemein
 
-Mit den folgenden Attributen kann die Anzahl der einzubindenden Immobilien begrenzt und die Sortierung angepasst werden.
+Mit den folgenden Attributen kann die Auswahl der Immobilien weiter eingegrenzt sowie die Sortierung und Darstellung angepasst werden.
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
@@ -98,11 +98,15 @@ Mit den folgenden Attributen kann die Anzahl der einzubindenden Immobilien begre
 | `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
 | `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
 | `force-lang` | Sprachcode, um in [**Sonderfällen** (mehrsprachige Websites)](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
+| `no_results_text` | **eigener bzw. alternativer** Text, der anstatt der Standardmeldung (***immonex → Immobiliensuche → Keine-Ergebnisse-Meldung***) angezeigt werden soll, wenn keine zu den Auswahl-/Suchkriterien passenden Immobilienangebote vorhanden sind (leerer String = keine Meldung) |
 
-##### Beispiel
+##### Beispiele
 
 Maximal vier Objekte des Benutzers *Dieter Demo*, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:
 `[inx-property-list author="dieter.demo" limit=4 sort="price_asc, date_desc"]`
+
+Liste mit benutzerdefinierter Meldung, falls keine passenden Immobilien vorhanden sind:
+`[inx-property-list no_results_text="Oh nein, nichts gefunden! 🤬"]`
 
 ## Erweiterte Anpassungen
 

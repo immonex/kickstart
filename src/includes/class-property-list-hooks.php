@@ -183,7 +183,8 @@ class Property_List_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
-			'disable_links' => '',
+			'disable_links'   => '',
+			'no_results_text' => false,
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

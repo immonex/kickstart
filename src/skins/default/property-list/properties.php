@@ -31,13 +31,15 @@ $inx_skin_list_item_atts = array(
 			<?php
 		endwhile;
 	else :
-		?>
+		if ( ! empty( $template_data['no_results_text'] ) ) :
+			?>
 
 	<div class="inx-property-list__no-properties">
-		<p><?php echo __( 'Currently there are no properties that match the search criteria.', 'immonex-kickstart' ); ?></p>
+		<p><?php echo $template_data['no_results_text']; ?></p>
 	</div>
 
-		<?php
+			<?php
+		endif;
 	endif;
 	?>
 

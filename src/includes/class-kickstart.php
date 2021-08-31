@@ -48,6 +48,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
+		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_location_slug_rewrite'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_type_of_use_slug_rewrite'                 => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -191,6 +192,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
+					case 'property_search_no_results_text':
+						$this->plugin_options[ $option_name ] = __( 'Currently there are no properties that match the search criteria.', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
 					case 'property_details_map_infowindow_contents':
 						$this->plugin_options[ $option_name ] = __( 'The real property location may differ from the marker position.', 'immonex-kickstart' );
 						$option_string_translated             = true;
@@ -311,6 +316,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
 				'show_reference_prices'                    => $this->plugin_options['show_reference_prices'],
 				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
+				'property_search_no_results_text'          => $this->plugin_options['property_search_no_results_text'],
 				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
@@ -494,17 +500,22 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 			// @codingStandardsIgnoreLine
 			$this->plugin_slug . '_option_tabs',
 			array(
-				'tab_general' => array(
+				'tab_general'         => array(
 					'title'      => __( 'General', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(),
 				),
-				'tab_geo'     => array(
+				'tab_property_search' => array(
+					'title'      => __( 'Property Search', 'immonex-kickstart' ),
+					'content'    => '',
+					'attributes' => array(),
+				),
+				'tab_geo'             => array(
 					'title'      => __( 'Maps &amp; Distance Search', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(),
 				),
-				'tab_slugs'   => array(
+				'tab_slugs'           => array(
 					'title'      => __( 'Slugs', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(),
@@ -564,6 +575,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 					'title'       => __( 'Reference Properties', 'immonex-kickstart' ),
 					'description' => '',
 					'tab'         => 'tab_general',
+				),
+				'section_property_search'      => array(
+					'title'       => '',
+					'description' => '',
+					'tab'         => 'tab_property_search',
 				),
 				'section_distance_search'      => array(
 					'title'       => __( 'Distance Search', 'immonex-kickstart' ),
@@ -736,6 +752,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 					'section' => 'section_references',
 					'args'    => array(
 						'description' => __( 'Activate this option if the contact section (including agent information and form if the <a href="https://wordpress.org/plugins/immonex-kickstart-team/" target="_blank">Team Add-on</a> is installed) shall be displayed on <strong>reference property detail pages</strong>.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'property_search_no_results_text',
+					'type'    => 'text',
+					'label'   => __( 'No Results Message', 'immonex-kickstart' ),
+					'section' => 'section_property_search',
+					'args'    => array(
+						'description' => __( 'This message is displayed when a property search returns no results.', 'immonex-kickstart' ),
 					),
 				),
 				array(

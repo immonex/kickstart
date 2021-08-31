@@ -59,6 +59,10 @@ class Property_List {
 	public function render( $template = 'property-list/properties', $atts = array() ) {
 		$org_query = $this->replace_main_query( $atts );
 
+		if ( false === $atts['no_results_text'] ) {
+			$atts['no_results_text'] = $this->config['property_search_no_results_text'];
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$atts

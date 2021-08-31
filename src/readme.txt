@@ -117,6 +117,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added automatic determination of decimal places on primary price formatting.
 * Added flags for featured properties and front page offers.
 * Added step option for value/range slider elements in search forms.
+* Added option and shortcode attribute for setting the "no results" message of property searches.
 * Made private pages selectable as list or detail view templates.
 * Activated default property template on taxonomy based frontend queries.
 * Optimized building of hierarchical taxonomy option lists for search forms.
@@ -126,7 +127,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Reworked search form min/max price determination.
 * Extended backend property form.
 * Fixed some minor output related details.
-* Fixed a recursion bug that occured under some rare conditions.
+* Fixed a recursion bug (occuring under some rare conditions).
 * Fixed min/max price determination of non-integer values.
 * Fixed property sort order in list view not applied in special cases.
 * Added a missing space between price and time unit in list view.
