@@ -547,7 +547,6 @@ class Property_Search {
 	public function get_fulltext_search_fields() {
 		$prefix = '_' . $this->config['plugin_prefix'];
 
-		// TODO: Add Filter.
 		$fields = array(
 			"{$prefix}property_title",
 			"{$prefix}property_descr",
@@ -556,9 +555,11 @@ class Property_Search {
 			"{$prefix}features_descr",
 			"{$prefix}misc_descr",
 			"{$prefix}property_id",
+			"{$prefix}full_address",
+			"{$prefix}street",
 		);
 
-		return $fields;
+		return apply_filters( 'inx_fulltext_search_fields', $fields );
 	} // get_fulltext_search_fields
 
 	/**

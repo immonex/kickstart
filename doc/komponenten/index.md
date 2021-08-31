@@ -94,6 +94,6 @@ Formular mit Ausstattungsmerkmalen im primären und Vermarktungs-/Nutzungsarten 
 
 ## Erweiterte Anpassungen
 
-- [Filter-Referenz](../anpassung-erweiterung/filters-actions.html#Suche)
+- [Filter-Referenz](../anpassung-erweiterung/filters-actions.html#Immobiliensuche-Listen)
 - [Templates](../anpassung-erweiterung/skins.html#Partiell)
 - [Custom Skin](../anpassung-erweiterung/standard-skin.html#Suchformular)

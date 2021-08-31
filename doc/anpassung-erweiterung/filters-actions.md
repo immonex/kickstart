@@ -25,6 +25,7 @@ search: 1
 - [inx_special_query_vars](filter-inx-special-query-vars.html) (Komponentenübergreifende Query-Parameter)
 - [inx_exclude_backlink_vars](filter-inx-exclude-backlink-vars.html) (GET-Variablen aus Backlinks ausfiltern)
 - [inx_search_form_primary_price_min_max_values](filter-inx-search-form-primary-price-min-max-values.html) (Minimal/Maximal-Werte für den Preis-Slider festlegen)
+- [inx_fulltext_search_fields](filter-inx-fulltext-search-fields.html) (Custom Fields für die Volltextsuche)
 
 ### Sortierung
 

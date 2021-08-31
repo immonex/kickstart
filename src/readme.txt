@@ -112,6 +112,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added search form shortcode attributes for taxonomy-based options.
 * Added search form shortcode attributes for excluding elements.
 * Added filter hooks for modifying property search form select options.
+* Added filter hook for adding property fulltext search fields
+* Added property address to default fulltext search fields
 * Added automatic determination of decimal places on primary price formatting.
 * Added flags for featured properties and front page offers.
 * Added step option for value/range slider elements in search forms.

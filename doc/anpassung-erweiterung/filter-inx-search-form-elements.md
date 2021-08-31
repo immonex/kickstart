@@ -11,7 +11,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` | Array aller Suchformular-Elemente |
+| `$elements` (array) | Array aller Suchformular-Elemente |
 
 ### Das Elements-Array im Detail
 
