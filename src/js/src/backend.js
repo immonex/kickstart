@@ -12,11 +12,7 @@ inx_state.beToggleReference = beToggleReference
 // (S)CSS
 import '../../scss/backend.scss'
 
-jQuery(document).ready(function($) {
-	$('a[href="#inx-submenu-separator"]').each(function() {
-		$(this).parent().html('<div class="inx-submenu-separator"></div>')
-	})
-
+function inxBeExtendDetailTitles($) {
 	$('#_inx_details_repeat .postbox.cmb-row.cmb-repeatable-grouping').each(function() {
 		let elID = $(this).attr('id').match(/[0-9]+$/)
 		if (!elID) return;
@@ -25,6 +21,20 @@ jQuery(document).ready(function($) {
 		let title = $('#_inx_details_' + id + '_title').val()
 		if (!title) return;
 
-		$(this).find('.cmb-group-title > span').append(': ' + title)
+		let index = parseInt(id) + 1
+
+		$(this).find('.cmb-group-title').html('Detail ' + index + ': ' + title)
+	})
+} // inxBeExtendDetailTitles
+
+jQuery(document).ready(function($) {
+	$('a[href="#inx-submenu-separator"]').each(function() {
+		$(this).parent().html('<div class="inx-submenu-separator"></div>')
+	})
+
+	inxBeExtendDetailTitles($)
+
+	$('#_inx_details_repeat .postbox.cmb-row.cmb-repeatable-grouping .cmb-remove-field-row').on('click', function() {
+		setTimeout(function() { inxBeExtendDetailTitles($) }, 100)
 	})
 })

@@ -123,6 +123,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Reworked default skin gallery template (individual Ken Burns effect state per image)
 * Reworked distance search autocompletion JS components.
 * Reworked search form min/max price determination.
+* Extended backend property form.
 * Fixed some minor output related details.
 * Fixed a recursion bug that occured under some rare conditions.
 * Fixed min/max price determination of non-integer values.

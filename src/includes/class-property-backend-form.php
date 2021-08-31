@@ -216,27 +216,27 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),
+				'name'       => __( 'Units (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
-				'id'         => $prefix . 'primary_area',
+				'id'         => $prefix . 'primary_units',
 				'type'       => 'text_small',
 				'attributes' => array(
 					'type' => 'number',
 				),
 			),
 			array(
-				'name'       => __( 'Plot Area', 'immonex-kickstart' ),
+				'name'       => __( 'Living Units', 'immonex-kickstart' ),
 				'desc'       => '',
-				'id'         => $prefix . 'plot_area',
+				'id'         => $prefix . 'living_units',
 				'type'       => 'text_small',
 				'attributes' => array(
 					'type' => 'number',
 				),
 			),
 			array(
-				'name'       => __( 'Rooms (primary)', 'immonex-kickstart' ),
+				'name'       => __( 'Commercial Units', 'immonex-kickstart' ),
 				'desc'       => '',
-				'id'         => $prefix . 'primary_rooms',
+				'id'         => $prefix . 'commercial_units',
 				'type'       => 'text_small',
 				'attributes' => array(
 					'type' => 'number',
@@ -255,13 +255,194 @@ class Property_Backend_Form {
 				'name' => __( 'Price Time Unit', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'price_time_unit',
-				'type' => 'text_small',
+				'type' => 'text_medium',
 			),
 			array(
 				'name' => __( 'Import Folder', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => '_immonex_import_folder',
 				'type' => 'text',
+			),
+			array(
+				'name' => __( 'Translation ID', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => '_immonex_translation_id',
+				'type' => 'text_medium',
+			),
+			array(
+				'name'       => _x( 'Rooms', 'backend form heading', 'immonex-kickstart' ),
+				'id'         => $prefix . 'title_rooms',
+				'type'       => 'title',
+			),
+			array(
+				'name'       => __( 'Rooms (primary)', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'primary_rooms',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Bedrooms', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'bedrooms',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Living Rooms/Bedrooms', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'living_bedrooms',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Bathrooms', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'bathrooms',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Total Rooms', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'total_rooms',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Areas', 'immonex-kickstart' ),
+				'id'         => $prefix . 'title_areas',
+				'type'       => 'title',
+			),
+			array(
+				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'primary_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Living Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'living_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Plot', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'plot_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Usable Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'usable_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Total Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'total_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Basement', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'basement_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Attic', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'attic_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Garden', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'garden_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Commercial Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'commercial_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Retail Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'retail_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Office Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'office_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'name'       => __( 'Other Area', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'misc_area',
+				'type'       => 'text_small',
+				'after'      => '&nbsp;m²',
+				'attributes' => array(
+					'type' => 'number',
+				),
 			),
 		);
 
