@@ -19,7 +19,7 @@ $inx_skin_tax_archive_args = array();
 if ( $inx_skin_is_tax_archive ) {
 	$inx_skin_query    = get_queried_object();
 	$inx_skin_var_name = str_replace( array( 'inx_', '_' ), array( 'inx-search-', '-' ), $inx_skin_query->taxonomy );
-	if ( in_array( $inx_skin_query->taxonomy, array( 'inx_feature', 'inx_label' ) ) ) {
+	if ( in_array( $inx_skin_query->taxonomy, array( 'inx_feature', 'inx_label' ), true ) ) {
 		$inx_skin_var_name .= 's';
 	}
 	$inx_skin_tax_archive_args = array( $inx_skin_var_name => $inx_skin_query->slug );

@@ -127,7 +127,7 @@ class Property_Filters_Sort_Hooks {
 
 		if ( count( $sort_keys ) > 0 ) {
 			foreach ( $sort_keys as $i => $sort_key ) {
-				if ( ! $sort_key || ! in_array( $sort_key, $valid_sort_keys ) ) {
+				if ( ! $sort_key || ! in_array( $sort_key, $valid_sort_keys, true ) ) {
 					unset( $sort_keys[ $i ] );
 				}
 			}
@@ -151,7 +151,8 @@ class Property_Filters_Sort_Hooks {
 				isset( $sort_options[ $sort_key ]['order'] ) &&
 				in_array(
 					strtoupper( $sort_options[ $sort_key ]['order'] ),
-					array( 'ASC', 'DESC' )
+					array( 'ASC', 'DESC' ),
+					true
 				)
 			) {
 				$order = strtoupper( $sort_options[ $sort_key ]['order'] );
@@ -179,7 +180,7 @@ class Property_Filters_Sort_Hooks {
 			}
 		}
 
-		if ( ! in_array( 'date', array_keys( $sort_chain ) ) ) {
+		if ( ! isset( $sort_chain['date'] ) ) {
 			$sort_chain['date'] = 'DESC';
 		}
 

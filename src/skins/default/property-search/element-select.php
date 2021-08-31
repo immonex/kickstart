@@ -54,13 +54,13 @@ $inx_skin_multiple     = isset( $template_data['element']['multiple'] ) && $temp
 					(
 						$inx_skin_multiple &&
 						is_array( $template_data['element_value'] ) &&
-						in_array( $inx_skin_key, $template_data['element_value'] )
+						in_array( $inx_skin_key, $template_data['element_value'], true )
 					) || (
 						! $inx_skin_multiple &&
 						! $inx_skin_single_option_selected && (
 							$inx_skin_key === $template_data['element_value'] || (
 								is_array( $template_data['element_value'] ) &&
-								in_array( $inx_skin_key, $template_data['element_value'] )
+								in_array( $inx_skin_key, $template_data['element_value'], true )
 							)
 						)
 					)

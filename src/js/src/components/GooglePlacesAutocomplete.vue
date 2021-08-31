@@ -101,7 +101,7 @@ export default {
 		initAutocomplete: function() {
 			if (!this.google) return
 
-			let options = { types: ['(cities)'] }
+			let options = { types: ['(regions)'] }
 
 			let bounds
 			if (this.defaultBounds) {
@@ -146,11 +146,10 @@ export default {
 
 			if (place) {
 				this.currentPlaceName = this.$refs.input.value // place.name
-
 				if (place.geometry) {
 					const lat = place.geometry.location.lat()
 					const lng = place.geometry.location.lng()
-					const name = place.name
+					const name = this.currentPlaceName // place.name
 
 					if (lat && lng) this.transferValue = JSON.stringify([lat, lng, name])
 				}

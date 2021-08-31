@@ -257,7 +257,7 @@ class REST_API {
 
 		$replace = array();
 		foreach ( $current_terms as $term ) {
-			if ( in_array( $term->name, array_keys( $replace_term_names ) ) ) {
+			if ( in_array( $term->name, array_keys( $replace_term_names ), true ) ) {
 				$replace[ $term->term_id ] = $replace_term_names[ $term->name ];
 			}
 		}

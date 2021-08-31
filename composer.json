@@ -14,9 +14,6 @@
     "require-dev": {
         "inverisoss/wp-i18n-tools": "^1.0",
         "phpunit/phpunit": "^7",
-        "phpdocumentor/phpdocumentor": "dev-master",
-        "phpdocumentor/graphviz": "@dev",
-        "phpdocumentor/reflection-docblock": "@dev",
         "doctrine/rst-parser": "@dev"
     },
     "autoload": {

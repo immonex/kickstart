@@ -336,10 +336,12 @@ class WP_Bootstrap {
 
 		if ( $current_screen->post_type === $this->data['property_post_type_name'] ) {
 			if ( 'post.php' === $pagenow ) {
+				// @codingStandardsIgnoreLine
 				$submenu_file = 'edit.php?post_type=' . $current_screen->post_type;
 			}
 
 			if ( 'edit-tags.php' === $pagenow ) {
+				// @codingStandardsIgnoreLine
 				$submenu_file = wp_sprintf( 'edit-tags.php?taxonomy=%s&post_type=%s', $current_screen->taxonomy, $current_screen->post_type );
 			}
 
@@ -581,7 +583,7 @@ class WP_Bootstrap {
 			get_post_type() === $this->data['property_post_type_name'] &&
 			count( $classes ) > 0
 		) {
-			$irregular_has_sidebar = array_search( 'has-sidebar', $classes );
+			$irregular_has_sidebar = array_search( 'has-sidebar', $classes, true );
 			if ( false !== $irregular_has_sidebar ) {
 				unset( $classes[ $irregular_has_sidebar ] );
 			}

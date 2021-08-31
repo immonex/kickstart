@@ -72,7 +72,7 @@ class Property_Search {
 					'' !== $value &&
 					'inx-search-' !== substr( $var_name, 0, 11 ) &&
 					! isset( $preserve_get_vars[ $var_name ] ) &&
-					! in_array( $var_name, array( 'page', 'paged' ) )
+					! in_array( $var_name, array( 'page', 'paged' ), true )
 				) {
 					$preserve_get_vars[] = $var_name;
 				}
@@ -140,7 +140,7 @@ class Property_Search {
 						$id = substr( $id, 0, -1 );
 					}
 
-					if ( in_array( $id, $available_element_ids ) ) {
+					if ( in_array( $id, $available_element_ids, true ) ) {
 						$include_elements[ $id ]          = $elements[ $id ];
 						$include_elements[ $id ]['order'] = count( $include_elements );
 						if ( $force_extended ) {
@@ -344,7 +344,7 @@ class Property_Search {
 				} else {
 					$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
 				}
-				$include_references = in_array( $references, array( 'yes', 'only' ) );
+				$include_references = in_array( $references, array( 'yes', 'only' ), true );
 
 				if (
 					"{$plugin_prefix}marketing_type" === $element['key']
@@ -379,7 +379,7 @@ class Property_Search {
 						$terms = array_filter(
 							$terms,
 							function ( $term ) use ( $include ) {
-								return 0 !== $term->parent || in_array( $term->term_id, $include );
+								return 0 !== $term->parent || in_array( $term->term_id, $include, true );
 							}
 						);
 					} elseif (
@@ -427,11 +427,6 @@ class Property_Search {
 								$top_level_terms_count++;
 							}
 						}
-					}
-
-					if ( 1 === $top_level_terms_count ) {
-						// Omit "All *" option if only a single top-level term exists.
-						$element['empty_option'] = false;
 					}
 
 					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'] );
@@ -487,7 +482,7 @@ class Property_Search {
 		) {
 			if (
 				( true === $element['default'] || false !== strpos( $element['type'], 'radio' ) ) &&
-				in_array( $element['type'], array( 'select', 'tax-select', 'radio', 'tax-radio' ) ) &&
+				in_array( $element['type'], array( 'select', 'tax-select', 'radio', 'tax-radio' ), true ) &&
 				count( $element['options'] ) > 0
 			) {
 				$value = array_keys( $element['options'] )[0];
@@ -815,7 +810,7 @@ class Property_Search {
 
 		$elements = $suppress_filters ? $all_elements : apply_filters( 'inx_search_form_elements', $all_elements );
 
-		if ( $always_include_default_elements && $elements != $all_elements ) {
+		if ( $always_include_default_elements && $elements !== $all_elements ) {
 			foreach ( $all_elements as $key => $atts ) {
 				if ( ! isset( $elements[ $key ] ) ) {
 					// Reinsert an element previously deleted by a filter function.
@@ -967,7 +962,7 @@ class Property_Search {
 
 		foreach ( $form_elements as $id => $element ) {
 			$var_name = $prefix . 'search-' . $id;
-			if ( ! in_array( $var_name, array_keys( $params ) ) ) {
+			if ( ! in_array( $var_name, array_keys( $params ), true ) ) {
 				continue;
 			}
 
@@ -1041,7 +1036,7 @@ class Property_Search {
 					break;
 				case 'tax-select':
 					$operator = isset( $element['compare'] ) &&
-						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ) ) ?
+						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ), true ) ?
 						strtoupper( $element['compare'] ) : 'IN';
 
 					$tax_query[] = array(
@@ -1054,7 +1049,7 @@ class Property_Search {
 				case 'tax-checkbox':
 				case 'tax-radio':
 					$operator = isset( $element['compare'] ) &&
-						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ) ) ?
+						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ), true ) ?
 						strtoupper( $element['compare'] ) : 'AND';
 
 					$tax_query[] = array(
@@ -1271,7 +1266,7 @@ class Property_Search {
 			$ancestor_ids = get_ancestors( $term->term_id, $term->taxonomy, 'taxonomy' );
 			if ( count( $ancestor_ids ) > 0 ) {
 				foreach ( $ancestor_ids as $id ) {
-					if ( $id && ! in_array( $id, $term_ids ) ) {
+					if ( $id && ! in_array( $id, $term_ids, true ) ) {
 						$add_term_ids[] = $id;
 					}
 				}

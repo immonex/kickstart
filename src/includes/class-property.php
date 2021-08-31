@@ -102,7 +102,7 @@ class Property {
 			),
 			$atts
 		);
-		$hash       = md5( serialize( $hash_array ) );
+		$hash       = md5( wp_json_encode( $hash_array ) );
 
 		// Return cached contents if available.
 		if ( isset( $this->cache['template_content'][ $hash ] ) ) {
@@ -218,7 +218,8 @@ class Property {
 								array(
 									'zustand_angaben->verkaufstatus:stand:VERKAUFT',
 									'zustand_angaben->verkaufstatus:stand:RESERVIERT',
-								)
+								),
+								true
 							)
 						) {
 							$sold_label_exists = true;
@@ -232,7 +233,8 @@ class Property {
 									'objektkategorie->vermarktungsart:KAUF',
 									'objektkategorie->vermarktungsart:MIETE',
 									'objektkategorie->vermarktungsart:MIETE_PACHT',
-								)
+								),
+								true
 							)
 						) {
 							$is_for_sale_or_rent = true;
@@ -268,7 +270,7 @@ class Property {
 							continue;
 						}
 
-						if ( in_array( $label['name'], $label_names ) ) {
+						if ( in_array( $label['name'], $label_names, true ) ) {
 							// Hide duplicate labels.
 							$labels[ $i ]['show'] = false;
 						} else {
@@ -298,13 +300,13 @@ class Property {
 
 		$url = $permalink_url;
 		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . urlencode( $atts[ "{$public_prefix}ref" ] );
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . rawurlencode( $atts[ "{$public_prefix}ref" ] );
 		}
 		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . urlencode( $atts[ "{$public_prefix}force-lang" ] );
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . rawurlencode( $atts[ "{$public_prefix}force-lang" ] );
 		}
 		if ( ! empty( $backlink_url ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . urlencode( $backlink_url );
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
 		}
 
 		$get_query_backlink_url = get_query_var( "{$public_prefix}backlink-url" );
@@ -685,7 +687,7 @@ class Property {
 
 			$oi_nutzungsart = array();
 			foreach ( $oi_nutzungsart_attributes as $attr ) {
-				if ( in_array( (string) $immobilie->objektkategorie->nutzungsart[ $attr ], array( 'true', '1' ) ) ) {
+				if ( in_array( (string) $immobilie->objektkategorie->nutzungsart[ $attr ], array( 'true', '1' ), true ) ) {
 					$oi_nutzungsart[] = strtolower( $attr );
 					$oi_css_classes[] = $prefix . 'oi--nutzungsart--' . strtolower( $attr );
 				}
@@ -708,7 +710,7 @@ class Property {
 
 			$oi_vermarktungsart = array();
 			foreach ( $oi_vermarktungsart_attributes as $attr ) {
-				if ( in_array( (string) $immobilie->objektkategorie->vermarktungsart[ $attr ], array( 'true', '1' ) ) ) {
+				if ( in_array( (string) $immobilie->objektkategorie->vermarktungsart[ $attr ], array( 'true', '1' ), true ) ) {
 					$oi_vermarktungsart[] = strtolower( $attr );
 					$css_class            = $prefix . 'oi--vermarktungsart--' . str_replace( '_', '-', $this->utils['string']->slugify( $attr ) );
 					$oi_css_classes[]     = $css_class;
@@ -789,7 +791,7 @@ class Property {
 			'epass'                => array(
 				'template' => 'details',
 				'groups'   => 'epass',
-				'headline' => '', // __( 'Energy Pass', 'immonex-kickstart' )
+				'headline' => '',
 			),
 			'epass_images'         => array(
 				'template'                     => 'gallery',
@@ -960,7 +962,8 @@ class Property {
 		foreach ( $flag_mapping as $key => $cpt_name ) {
 			$flags[ $key ] = in_array(
 				strtolower( (string) get_post_meta( $this->post->ID, $cpt_name, true ) ),
-				array( '1', 'on', 'yes' )
+				array( '1', 'on', 'yes' ),
+				true
 			);
 		}
 
@@ -1049,6 +1052,7 @@ class Property {
 			$query_vars        = array();
 			$existing_get_vars = array();
 
+			// @codingStandardsIgnoreStart
 			if ( $details_page_id && isset( $_GET['page_id'] ) ) {
 				$exclude_backlink_vars[] = 'page_id';
 			}
@@ -1064,8 +1068,8 @@ class Property {
 				if (
 					'' !== $value &&
 					"{$public_prefix}backlink-url" !== $var_name &&
-					! in_array( $var_name, $exclude_backlink_vars ) &&
-					! in_array( $var_name, $existing_get_vars ) &&
+					! in_array( $var_name, $exclude_backlink_vars, true ) &&
+					! in_array( $var_name, $existing_get_vars, true ) &&
 					! isset( $query_vars[ $var_name ] )
 				) {
 					$query_vars[ $var_name ] = $value;

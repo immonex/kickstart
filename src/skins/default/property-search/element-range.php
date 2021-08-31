@@ -14,7 +14,7 @@ $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.
 
 if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 	if ( is_array( $template_data['element']['step_ranges'] ) ) {
-		$inx_skin_step_ranges = json_encode( $template_data['element']['step_ranges'] );
+		$inx_skin_step_ranges = wp_json_encode( $template_data['element']['step_ranges'] );
 	} else {
 		$inx_skin_step_ranges = $template_data['element']['step_ranges'];
 	}
@@ -24,8 +24,8 @@ if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 	<inx-range-slider
 		name="<?php echo esc_attr( $template_data['element_id'] ); ?>"
 		label="<?php echo esc_attr( $template_data['element']['label'] ); ?>"
-		range="<?php echo esc_attr( json_encode( $template_data['element']['range'] ) ); ?>"
-		value="<?php echo esc_attr( json_encode( $template_data['element_value'] ) ); ?>"
+		range="<?php echo esc_attr( wp_json_encode( $template_data['element']['range'] ) ); ?>"
+		value="<?php echo esc_attr( wp_json_encode( $template_data['element_value'] ) ); ?>"
 		step-ranges="<?php echo ! empty( $inx_skin_step_ranges ) ? esc_attr( $inx_skin_step_ranges ) : ''; ?>"
 		unit="<?php echo isset( $template_data['element']['unit'] ) ? esc_attr( $template_data['element']['unit'] ) : ''; ?>"
 		currency="<?php echo isset( $template_data['element']['currency'] ) ? esc_attr( $template_data['element']['currency'] ) : ''; ?>"

@@ -38,7 +38,7 @@ if ( $inx_skin_item_count > 0 ) :
 			);
 
 			foreach ( $template_data['file_attachments'] as $inx_skin_attachment ) :
-				if ( in_array( $inx_skin_attachment['subtype'], $inx_skin_attachment_types ) ) {
+				if ( in_array( $inx_skin_attachment['subtype'], $inx_skin_attachment_types, true ) ) {
 					// Attachment is a document.
 					$inx_skin_icon = 'copy';
 				} elseif ( 'image' === $inx_skin_attachment['type'] ) {
@@ -59,16 +59,16 @@ if ( $inx_skin_item_count > 0 ) :
 		endif;
 
 		if ( count( $template_data['links'] ) ) :
-			foreach ( $template_data['links'] as $link ) :
-				$title = $link['title'];
-				if ( ! $title ) {
-					$title = $utils['string']->get_excerpt( trim( $link['url'] ), 32 );
+			foreach ( $template_data['links'] as $inx_skin_link ) :
+				$inx_skin_title = $inx_skin_link['title'];
+				if ( ! $inx_skin_title ) {
+					$inx_skin_title = $utils['string']->get_excerpt( trim( $inx_skin_link['url'] ), 32 );
 				}
 				?>
 		<li class="inx-file-link-list__item uk-width-1-2@m uk-flex">
 			<div class="inx-file-link-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="link"></span></div>
 			<div class="inx-file-link-list__name uk-width-expand">
-				<a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $title ); ?></a>
+				<a href="<?php echo $inx_skin_link['url']; ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $inx_skin_title ); ?></a>
 			</div>
 		</li>
 				<?php

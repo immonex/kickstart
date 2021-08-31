@@ -28,7 +28,7 @@ $inx_skin_show_label   = true;
 				if (
 					(
 						is_array( $template_data['element_value'] ) &&
-						in_array( $inx_skin_key, $template_data['element_value'] )
+						in_array( $inx_skin_key, $template_data['element_value'], true )
 					) || (
 						$inx_skin_key === $template_data['element_value']
 					)

@@ -54,7 +54,7 @@ if ( ! is_callable( __NAMESPACE__ . '\autoload' ) ) {
 			$file_name_parts = explode( '-', $file_name );
 
 			// Interface support: handle both Interface_Foo or Foo_Interface.
-			$index = array_search( 'interface', $file_name_parts );
+			$index = array_search( 'interface', $file_name_parts, true );
 
 			if ( false !== $index ) {
 				// Remove the 'interface' part.

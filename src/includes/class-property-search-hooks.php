@@ -305,9 +305,9 @@ class Property_Search_Hooks {
 		$prefixed_atts = array();
 		if ( is_array( $atts ) && count( $atts ) > 0 ) {
 			foreach ( $atts as $key => $value ) {
-				if ( in_array( $key, array_keys( $supported_atts ) ) ) {
+				if ( in_array( $key, array_keys( $supported_atts ), true ) ) {
 					$prefixed_atts[ $key ] = $value;
-				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names ) ) {
+				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names, true ) ) {
 					$prefixed_atts[ "{$prefix}search-{$key}" ] = $value;
 				} else {
 					$prefixed_atts[ "{$prefix}{$key}" ] = $value;

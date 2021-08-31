@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.8
+Tested up to: 5.9
 Stable Tag: 1.4.0
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -107,7 +107,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.4.16-beta =
+= 1.4.21-beta =
 * Release date: ?
 * Added search form shortcode attributes for taxonomy-based options.
 * Added search form shortcode attributes for excluding elements.
@@ -119,10 +119,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Activated default property template on taxonomy based frontend queries.
 * Optimized building of hierarchical taxonomy option lists for search forms.
 * Reworked default skin gallery template (individual Ken Burns effect state per image)
+* Reworked distance search autocompletion JS components.
+* Reworked search form min/max price determination.
 * Fixed some minor output related details.
 * Fixed a recursion bug that occured under some rare conditions.
 * Fixed min/max price determination of non-integer values.
 * Fixed property sort order in list view not applied in special cases.
+* Refactored code to meet updated WordPress coding standards.
 
 = 1.4.0 =
 * Release date: 2021-04-13

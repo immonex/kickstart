@@ -39,7 +39,7 @@ if ( $inx_skin_show_map && 'ol_osm_map_marker' === $template_data['property_deta
 </inx-property-location-google-map>
 <?php elseif ( $inx_skin_show_map && 'gmap_embed' === $template_data['property_details_map_type'] ) : ?>
 <inx-property-location-google-embed-map
-	location="<?php echo urlencode( $inx_skin_map_location ); ?>"
+	location="<?php echo rawurlencode( $inx_skin_map_location ); ?>"
 	:zoom="<?php echo $template_data['property_details_map_zoom']; ?>"
 	api-key="<?php echo esc_attr( $inx_skin_google_api_key ); ?>"
 	note="<?php echo $inx_skin_map_note; ?>"

@@ -180,7 +180,7 @@ if ( $inx_skin_media_count > 0 ) :
 				<li>
 					<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
 						<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
-						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ mt_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
+						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
 								<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
 						</div>
 						<?php else : ?>

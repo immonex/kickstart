@@ -131,7 +131,7 @@ class Polylang_Compat {
 			return false;
 		}
 
-		if ( in_array( $post_type, $this->cache['translatable'] ) ) {
+		if ( in_array( $post_type, $this->cache['translatable'], true ) ) {
 			return true;
 		}
 
@@ -155,13 +155,14 @@ class Polylang_Compat {
 	 * @return string Possibly extended URL.
 	 */
 	public function extend_language_switcher_urls( $url, $lang ) {
+		// @codingStandardsIgnoreLine
 		$property_id = isset( $_GET['inx-property-id'] ) ? (int) $_GET['inx-property-id'] : '';
 		if ( ! $property_id ) {
 			return $url;
 		}
 
 		$get_vars  = array();
-		$url_parts = parse_url( $url );
+		$url_parts = wp_parse_url( $url );
 
 		if ( ! empty( $url_parts['query'] ) ) {
 			parse_str( $url_parts['query'], $get_query_vars );

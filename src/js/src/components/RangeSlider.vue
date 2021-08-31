@@ -264,7 +264,7 @@ export default {
 				// (Single) Value array contains min/max range: ignore the latter.
 				initialValue = initialValue[0]
 			} else {
-				// Intitial value is a min/max array.
+				// Initial value is a min/max array.
 				let minValue = parseInt(initialValue[0])
 				let maxValue = parseInt(initialValue[1])
 

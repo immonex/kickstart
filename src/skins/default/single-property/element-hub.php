@@ -35,7 +35,7 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 
 		if ( count( $inx_skin_exclude_element_keys ) > 0 ) {
 			foreach ( $inx_skin_exclude_element_keys as $inx_skin_exclude_key ) {
-				$inx_skin_array_key = array_search( $inx_skin_exclude_key, $inx_skin_element_keys );
+				$inx_skin_array_key = array_search( $inx_skin_exclude_key, $inx_skin_element_keys, true );
 				if ( false !== $inx_skin_array_key ) {
 					unset( $inx_skin_element_keys[ $inx_skin_array_key ] );
 				}
@@ -50,7 +50,7 @@ if ( $inx_skin_include_elements || $inx_skin_exclude_elements ) {
 			$inx_skin_key      = strtolower( $inx_skin_key );
 			$inx_skin_template = $utils['template']->locate_template_file( "single-property/{$inx_skin_key}" );
 			if (
-				in_array( $inx_skin_key, array_keys( $inx_skin_available_elements ) ) &&
+				in_array( $inx_skin_key, array_keys( $inx_skin_available_elements ), true ) &&
 				(
 					! empty( $inx_skin_available_elements[ $inx_skin_key ]['template'] ) ||
 					! empty( $inx_skin_available_elements[ $inx_skin_key ]['do_action'] )

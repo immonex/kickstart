@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.4.16-beta';
+	const PLUGIN_VERSION             = '1.4.21-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -163,7 +163,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 			case 'property_list_page_id':
 			case 'property_details_page_id':
 				$lang = isset( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ?
-					strtolower( substr( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ], 0, 2 ) ) :
+					// @codingStandardsIgnoreLine
+					strtolower( substr( wp_sanitize_key( wp_unslash( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ), 0, 2 ) ) :
 					false;
 				return apply_filters( 'inx_element_translation_id', parent::__get( $key ), 'page', $lang );
 		}
@@ -417,7 +418,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 		$installed_plugins      = array_keys( get_plugins() );
 		$oi2wp_main_plugin_file = 'immonex-openimmo2wp/immonex-openimmo2wp.php';
 
-		if ( ! in_array( $oi2wp_main_plugin_file, $installed_plugins ) ) {
+		if ( ! in_array( $oi2wp_main_plugin_file, $installed_plugins, true ) ) {
 			$this->add_deferred_admin_notice(
 				wp_sprintf(
 					__( 'An <strong>OpenImmo import solution</strong> that supports <strong>immonex Kickstart</strong> is required to provide the real estate offers to be embedded:', 'immonex-kickstart' ) . ' ' .

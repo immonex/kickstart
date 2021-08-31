@@ -152,7 +152,7 @@ class WPML_Compat {
 	public function is_translated_post_type( $translatable, $post_type ) {
 		global $sitepress_settings;
 
-		if ( in_array( $post_type, $this->cache['translatable'] ) ) {
+		if ( in_array( $post_type, $this->cache['translatable'], true ) ) {
 			return true;
 		}
 
@@ -235,7 +235,7 @@ class WPML_Compat {
 		foreach ( $urls as $lang => $link ) {
 			$url       = $link['url'];
 			$get_vars  = array();
-			$url_parts = parse_url( $url );
+			$url_parts = wp_parse_url( $url );
 
 			if ( ! empty( $url_parts['query'] ) ) {
 				parse_str( $url_parts['query'], $get_query_vars );

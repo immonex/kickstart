@@ -31,7 +31,7 @@ if ( $template_data['google_api_key'] ) :
 	<inx-google-places-autocomplete
 		name="<?php echo esc_attr( $template_data['element_id'] ); ?>"
 		placeholder="<?php echo esc_attr( $inx_skin_placeholder ); ?>"
-		value="<?php echo $template_data['element_value'] ? esc_attr( json_encode( $template_data['element_value'] ) ) : ''; ?>"
+		value="<?php echo $template_data['element_value'] ? esc_attr( wp_json_encode( $template_data['element_value'] ) ) : ''; ?>"
 		wrap-classes="inx-location-autocomplete uk-search uk-search-default uk-width-1-1"
 		input-classes="inx-search-input uk-search-input"
 		api-key="<?php echo esc_attr( $template_data['google_api_key'] ); ?>"

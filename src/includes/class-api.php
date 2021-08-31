@@ -59,7 +59,7 @@ class API {
 	 *
 	 * @return int[] Selected min/max and range values.
 	 */
-	public function get_primary_price_min_max( $default_values = array( 0, 100, 0, 500000, 0, 500 ), $force_values = array( 0, false, 0, false, 0, false ) ) {
+	public function get_primary_price_min_max( $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( 0, false, 0, false, 0, false ) ) {
 		global $wpdb;
 
 		if ( ! empty( $this->cache['min_max'] ) ) {
@@ -90,6 +90,7 @@ class API {
 			$min_index = $is_sale ? 2 : 4;
 			$max_index = $min_index + 1;
 
+			// @codingStandardsIgnoreLine
 			$result = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT MIN(CONVERT(meta.meta_value, DECIMAL)) AS min, MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
@@ -132,12 +133,20 @@ class API {
 			}
 
 			// Unrelated max value.
-			if ( $roundup_max > $min_max[1] && false === $force_values[1] ) {
+			if (
+				$roundup_max
+				&& ( $roundup_max > $min_max[1] || $min_max[1] === $default_values[1] )
+				&& false === $force_values[1]
+			) {
 				$min_max[1] = $roundup_max;
 			}
 
 			// Max value for sale OR rent properties.
-			if ( $roundup_max > $min_max[ $max_index ] && false === $force_values[ $max_index ] ) {
+			if (
+				$roundup_max
+				&& ( $roundup_max > $min_max[ $max_index ] || $min_max[ $max_index ] === $default_values[ $max_index ] )
+				&& false === $force_values[ $max_index ]
+			) {
 				$min_max[ $max_index ] = $roundup_max;
 			}
 		}

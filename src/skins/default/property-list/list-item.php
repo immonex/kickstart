@@ -57,7 +57,7 @@ if (
 
 			<?php if ( $template_data['location'] ) : ?>
 			<div class="inx-property-list-item__location" lang="de">
-				<i class="inx-core-detail-icon flaticon-placeholder" title="<?php _e( 'Location', 'immonex-kickstart' ); ?>"></i>
+				<i class="inx-core-detail-icon flaticon-placeholder" title="<?php esc_html_e( 'Location', 'immonex-kickstart' ); ?>"></i>
 				<div><?php echo str_replace( '(', PHP_EOL . '<br>(', $template_data['location'] ); ?></div>
 			</div>
 			<?php endif; ?>

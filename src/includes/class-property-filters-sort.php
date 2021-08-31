@@ -97,7 +97,7 @@ class Property_Filters_Sort {
 					// TODO: Add JSON check.
 					if ( is_array( $value ) ) {
 						if ( count( $value ) > 0 && $value[0] ) {
-							$value = json_encode( array_map( 'stripslashes', $value ) );
+							$value = wp_json_encode( array_map( 'stripslashes', $value ) );
 						} else {
 							$value = '';
 						}
@@ -187,7 +187,7 @@ class Property_Filters_Sort {
 			$default ? $default : $sort_option_keys[0]
 		);
 
-		if ( ! in_array( $default_sort_key, $sort_option_keys ) ) {
+		if ( ! in_array( $default_sort_key, $sort_option_keys, true ) ) {
 			$default_sort_key = $sort_option_keys[0];
 		}
 

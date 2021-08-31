@@ -136,53 +136,53 @@ class Property_Backend_Form {
 				'type' => 'text_medium',
 			),
 			array(
-				'name'  => __( 'Available', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_available',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Available', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_available',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Reserved', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_reserved',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Reserved', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_reserved',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Sold/Rented', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_sold',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Sold/Rented', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_sold',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Reference Property', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_reference',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Reference Property', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_reference',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Featured', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_featured',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Featured', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_featured',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Front Page Offer', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_front_page_offer',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Front Page Offer', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_front_page_offer',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
-				'name'  => __( 'Demo Property', 'immonex-kickstart' ),
-				'desc'  => '',
-				'id'    => '_immonex_is_demo',
-				'type'  => 'checkbox',
-				'value' => 1,
+				'name'            => __( 'Demo Property', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_is_demo',
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
 				'name' => __( 'Country Code', 'immonex-kickstart' ),
@@ -402,5 +402,20 @@ class Property_Backend_Form {
 
 		return $new_data;
 	} // maybe_extend_attachment_array
+
+	/**
+	 * Convert checkbox states to 0/1.
+	 *
+	 * @since 1.4.17-beta
+	 *
+	 * @param string|null $value The original value.
+	 * @param mixed[]     $args  Field arguments.
+	 * @param CMB2_Field  $field The related field object.
+	 *
+	 * @return int 1 if checked, 0 if not.
+	 */
+	public function convert_cb_value( $value, $args, $field ) {
+		return empty( $value ) ? 0 : 1;
+	} // convert_cb_value
 
 } // Property_Backend_Form

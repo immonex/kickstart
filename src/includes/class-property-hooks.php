@@ -172,7 +172,7 @@ class Property_Hooks {
 		if (
 			is_admin()
 			|| empty( $this->config['property_details_page_id'] )
-			|| $post_id != $this->config['property_details_page_id']
+			|| $post_id !== $this->config['property_details_page_id']
 			|| false === $property_post_id
 		) {
 			return $title;
@@ -205,7 +205,7 @@ class Property_Hooks {
 			'_thumbnail_id' !== $meta_key
 			|| is_admin()
 			|| empty( $this->config['property_details_page_id'] )
-			|| $object_id != $this->config['property_details_page_id']
+			|| $object_id !== $this->config['property_details_page_id']
 		) {
 			return $null;
 		}
@@ -321,7 +321,7 @@ class Property_Hooks {
 
 		if (
 			! empty( $args['type'] ) &&
-			in_array( $args['type'], $valid_image_types )
+			in_array( $args['type'], $valid_image_types, true )
 		) {
 			$type = $args['type'];
 		} else {
@@ -330,7 +330,7 @@ class Property_Hooks {
 
 		if (
 			! empty( $args['return'] ) &&
-			in_array( $args['return'], $valid_return_types )
+			in_array( $args['return'], $valid_return_types, true )
 		) {
 			$return = $args['return'];
 		} else {

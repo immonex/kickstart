@@ -22,7 +22,7 @@ if (
 	&& $inx_skin_page_url
 ) :
 	$inx_skin_post_type = $immonex_kickstart->property_post_type_name;
-	$inx_skin_url_parts = parse_url( $_SERVER['REQUEST_URI'] );
+	$inx_skin_url_parts = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : array();
 
 	$inx_skin_add_url_query = isset( $inx_skin_url_parts['query'] ) ?
 		'&' . basename( $inx_skin_url_parts['query'] ) :

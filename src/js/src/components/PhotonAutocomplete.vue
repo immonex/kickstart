@@ -142,12 +142,14 @@ export default {
 		getLocationSuggestions: async function (query) {
 			this.loading = true
 			let suggestions = []
+			if (query.match(/^[0-9]{3,}([ ])?$/)) {
+				query += ',DE'
+			}
 
 			try {
-				// const params = new URLSearchParams()
 				var params = {
 					q: query,
-					osm_tag: ['place:city', 'place:town', 'place:village', 'place:suburb'],
+					// osm_tag: ['place:city', 'place:town', 'place:village', 'place:suburb', 'place:highway'],
 					limit: 25
 				}
 
@@ -178,7 +180,8 @@ export default {
 					data.features.forEach(function (locality) {
 						if (
 							(that.limit > 0 && suggestions.length === that.limit) ||
-							locality.geometry.type !== 'Point'
+							locality.geometry.type !== 'Point' ||
+							! locality.properties.city
 						) return
 
 						if (
@@ -191,23 +194,32 @@ export default {
 
 							if (
 								locality.properties.osm_value === 'city' ||
-								locality.properties.osm_value === 'town'
+								locality.properties.osm_value === 'town' ||
+								locality.properties.osm_value === 'village'
 							) {
 								typeOrder = 10
 							} else if (locality.properties.osm_value === 'suburb') {
-								if (typeof locality.properties.city !== 'undefined') {
+								if (locality.properties.city) {
 									localityName = localityName.concat(' (' + locality.properties.city + ')')
 								}
 
 								typeOrder = 20
+							} else if (locality.properties.city) {
+								localityName = locality.properties.city
+								if (locality.properties.district && locality.properties.district !== localityName) {
+									localityName += ' (' + locality.properties.district + ')'
+								} else if (locality.properties.locality && locality.properties.locality !== localityName) {
+									localityName += ' (' + locality.properties.locality + ')'
+								}
 							}
 
-							if (
-								suggestions.filter(element => element.name === localityName).length > 0 &&
-								typeof locality.properties.state !== 'undefined'
-							) {
-								localityName = localityName.concat(', ' + locality.properties.state)
+							let state = locality.properties.state ? locality.properties.state : ''
+
+							if (state && suggestions.filter(element => element.name === localityName && element.state !== state).length > 0) {
+								localityName = localityName.concat(', ' + state)
 							}
+
+							if (suggestions.find(element => element.name === localityName)) return
 
 							if (
 								that.filterCountries.length > 0 &&
@@ -224,6 +236,7 @@ export default {
 								typeOrder: typeOrder,
 								country: locality.properties.country,
 								countryOrder: countryOrder,
+								state: state,
 								lat: locality.geometry.coordinates[1],
 								lng: locality.geometry.coordinates[0]
 							})

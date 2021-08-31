@@ -35,9 +35,9 @@
     "lws-index": "^2.0.0",
     "lws-static": "^2.0.0",
     "mini-css-extract-plugin": "^1.6.2",
-    "node-sass": "^5",
+    "node-sass": "^6.0.1",
     "rimraf": "^3.0.2",
-    "sass-loader": "11.0.1",
+    "sass-loader": "^11.1.1",
     "style-loader": "^2.0.0",
     "trim-newlines": ">=3.0.1",
     "vue-loader": "^15.9.7",
@@ -68,7 +68,7 @@
     "test": "vendor/phpunit/phpunit/phpunit -c tests/phpunit/plugin.xml",
     "doc": "doc-gen server",
     "doc:publish": "doc-gen publish",
-    "apidoc": "vendor/bin/phpdoc run --sourcecode --template=clean --title='immonex Kickstart'",
+    "apidoc": "bin/phpdoc run --sourcecode",
     "apidoc:view": "node_modules/.bin/lws --stack lws-static lws-index --hostname localhost --port 8001 -d apidoc -o",
     "apidoc:delete": "rimraf apidoc && rimraf .tmp/apidoc"
   }
