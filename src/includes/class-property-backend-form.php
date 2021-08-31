@@ -270,9 +270,9 @@ class Property_Backend_Form {
 				'type' => 'text_medium',
 			),
 			array(
-				'name'       => _x( 'Rooms', 'backend form heading', 'immonex-kickstart' ),
-				'id'         => $prefix . 'title_rooms',
-				'type'       => 'title',
+				'name' => _x( 'Rooms', 'backend form heading', 'immonex-kickstart' ),
+				'id'   => $prefix . 'title_rooms',
+				'type' => 'title',
 			),
 			array(
 				'name'       => __( 'Rooms (primary)', 'immonex-kickstart' ),
@@ -320,9 +320,9 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Areas', 'immonex-kickstart' ),
-				'id'         => $prefix . 'title_areas',
-				'type'       => 'title',
+				'name' => __( 'Areas', 'immonex-kickstart' ),
+				'id'   => $prefix . 'title_areas',
+				'type' => 'title',
 			),
 			array(
 				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),

@@ -25,11 +25,11 @@ $inx_skin_multiple     = isset( $template_data['element']['multiple'] ) && $temp
 		class="inx-select uk-select"
 		<?php
 		if ( isset( $template_data['element']['default'] ) && false !== $template_data['element']['default'] ) {
-			echo 'data-default="' . $template_data['element']['default'] . '"';}
-		?>
-		<?php
+			echo 'data-default="' . $template_data['element']['default'] . '"';
+		}
 		if ( $inx_skin_multiple ) {
-			echo ' multiple';}
+			echo ' multiple';
+		}
 		?>
 		>
 
@@ -45,10 +45,7 @@ $inx_skin_multiple     = isset( $template_data['element']['multiple'] ) && $temp
 		<?php
 			$inx_skin_single_option_selected = false;
 
-		if (
-				isset( $template_data['element']['options'] ) &&
-				count( $template_data['element']['options'] ) > 0
-		) :
+		if ( ! empty( $template_data['element']['options'] ) ) :
 			foreach ( $template_data['element']['options'] as $inx_skin_key => $inx_skin_value ) :
 				if (
 					(

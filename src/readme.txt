@@ -120,6 +120,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Made private pages selectable as list or detail view templates.
 * Activated default property template on taxonomy based frontend queries.
 * Optimized building of hierarchical taxonomy option lists for search forms.
+* Reworked display of checkbox group elements in frontend search forms.
 * Reworked default skin gallery template (individual Ken Burns effect state per image)
 * Reworked distance search autocompletion JS components.
 * Reworked search form min/max price determination.

@@ -11,33 +11,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
-$inx_skin_show_label   = true;
-?>
+$inx_skin_show_label   = ! empty( $template_data['element']['label'] );
+
+if ( ! empty( $template_data['element']['options'] ) ) :
+	?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
-	<?php if ( $inx_skin_show_label && $template_data['element']['label'] ) : ?>
+	<?php if ( $inx_skin_show_label ) : ?>
 	<div class="inx-form-element__label uk-form-label"><?php echo $template_data['element']['label']; ?></div>
 	<?php endif; ?>
 
 	<div class="inx-form-element__options uk-flex uk-flex-wrap">
-		<?php
+	<?php
+	foreach ( $template_data['element']['options'] as $inx_skin_key => $inx_skin_value ) :
 		if (
-			isset( $template_data['element']['options'] ) &&
-			count( $template_data['element']['options'] ) > 0
-		) :
-			foreach ( $template_data['element']['options'] as $inx_skin_key => $inx_skin_value ) :
-				if (
-					(
-						is_array( $template_data['element_value'] ) &&
-						in_array( $inx_skin_key, $template_data['element_value'], true )
-					) || (
-						$inx_skin_key === $template_data['element_value']
-					)
-				) {
-					$inx_skin_checked = true;
-				} else {
-					$inx_skin_checked = false;
-				}
-				?>
+			(
+				is_array( $template_data['element_value'] ) &&
+				in_array( $inx_skin_key, $template_data['element_value'], true )
+			) || (
+				$inx_skin_key === $template_data['element_value']
+			)
+		) {
+			$inx_skin_checked = true;
+		} else {
+			$inx_skin_checked = false;
+		}
+		?>
 		<div class="inx-form-element__option uk-margin-right">
 			<label class="inx-label inx-label--checkbox">
 				<input type="checkbox"
@@ -51,9 +49,9 @@ $inx_skin_show_label   = true;
 				<?php echo esc_html( $inx_skin_value ); ?>
 			</label>
 		</div>
-				<?php
-			endforeach;
-		endif;
-		?>
+		<?php
+	endforeach;
+	?>
 	</div>
 </div>
+<?php endif; ?>
