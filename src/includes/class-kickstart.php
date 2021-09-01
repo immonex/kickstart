@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_3_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.4.21-beta';
+	const PLUGIN_VERSION             = '1.4.22-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -761,6 +761,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_2_1\Base {
 					'section' => 'section_property_search',
 					'args'    => array(
 						'description' => __( 'This message is displayed when a property search returns no results.', 'immonex-kickstart' ),
+						'class'       => 'large-text',
 					),
 				),
 				array(

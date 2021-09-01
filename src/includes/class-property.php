@@ -611,7 +611,7 @@ class Property {
 					$value_formatted = $this->utils['string']->get_nice_number( $value );
 					break;
 				case 'price_time_unit':
-					if ( '/' === trim( $value[0] ) ) {
+					if ( strlen( trim( $value ) ) > 0 && '/' === trim( $value )[0] ) {
 						$value = '/ ' . trim( substr( $value, 1 ) );
 					}
 					$value_formatted = $value;
