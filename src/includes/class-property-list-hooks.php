@@ -132,21 +132,38 @@ class Property_List_Hooks {
 	 * @todo Extend/adjust title for alternative list pages (else block).
 	 */
 	public function modify_property_archive_titles( $title ) {
-		if ( is_post_type_archive() ) {
-			$prefix        = $this->config['plugin_prefix'];
-			$public_prefix = $this->config['public_prefix'];
-			$qo            = get_queried_object();
+		$qo     = get_queried_object();
+		$prefix = $this->config['plugin_prefix'];
 
-			if (
-				'WP_Post_Type' === get_class( $qo ) &&
-				"{$prefix}property" === $qo->name
-			) {
-				if ( 'only' === get_query_var( "{$public_prefix}references" ) ) {
-					return __( 'Successfully marketed properties', 'immonex-kickstart' );
-				} else {
-					return __( 'Our current property offers', 'immonex-kickstart' );
-				}
+		if (
+			is_post_type_archive()
+			&& 'WP_Post_Type' === get_class( $qo )
+			&& "{$prefix}property" === $qo->name
+		) {
+			$public_prefix = $this->config['public_prefix'];
+
+			if ( 'only' === get_query_var( "{$public_prefix}references" ) ) {
+				return __( 'Successfully marketed properties', 'immonex-kickstart' );
+			} else {
+				return __( 'Our current property offers', 'immonex-kickstart' );
 			}
+		} elseif (
+			is_tax()
+			&& 'WP_Term' === get_class( $qo )
+			&& substr( $qo->taxonomy, 0, 4 ) === $prefix
+		) {
+			if ( empty( $qo->name ) ) {
+				return '';
+			}
+
+			switch ( $qo->taxonomy ) {
+				case "{$prefix}location":
+					return __( 'Properties in', 'immonex-kickstart' ) . ' ' . $qo->name;
+				case "{$prefix}feature":
+					return __( 'Properties with', 'immonex-kickstart' ) . ' ' . $qo->name;
+			}
+
+			return $qo->name;
 		}
 
 		return $title;

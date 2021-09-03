@@ -107,8 +107,9 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.1-beta =
+= 1.5.2-beta =
 * Release date: ?
+* Adjusted property taxonomy archive page headlines.
 * Fixed disregard of explicitly stated search form taxonomy terms.
 
 = 1.5.0 =

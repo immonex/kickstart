@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.4.21-beta\n"
+"Project-Id-Version: immonex Kickstart 1.5.1-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2021-08-31 15:20:06+00:00\n"
+"POT-Creation-Date: 2021-09-03 13:09:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,7 +17,6 @@ msgid "Price on demand"
 msgstr ""
 
 #: includes/class-kickstart.php:196
-#: skins/default/property-list/properties.php:17
 msgid "Currently there are no properties that match the search criteria."
 msgstr ""
 
@@ -317,121 +316,121 @@ msgstr ""
 msgid "This message is displayed when a property search returns no results."
 msgstr ""
 
-#: includes/class-kickstart.php:769
+#: includes/class-kickstart.php:770
 msgid "Autocompletion"
 msgstr ""
 
-#: includes/class-kickstart.php:772
+#: includes/class-kickstart.php:773
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
 msgstr ""
 
-#: includes/class-kickstart.php:773
+#: includes/class-kickstart.php:774
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API section below)."
 msgstr ""
 
-#: includes/class-kickstart.php:780
+#: includes/class-kickstart.php:781
 msgid "Display in Archive Pages"
 msgstr ""
 
-#: includes/class-kickstart.php:783
+#: includes/class-kickstart.php:784
 msgid ""
 "If active, the property marker map will be shown in the default list "
 "(archive) pages."
 msgstr ""
 
-#: includes/class-kickstart.php:789
+#: includes/class-kickstart.php:790
 msgid "Default Latitude"
 msgstr ""
 
-#: includes/class-kickstart.php:792
+#: includes/class-kickstart.php:793
 msgid ""
 "Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
 msgstr ""
 
-#: includes/class-kickstart.php:802
+#: includes/class-kickstart.php:803
 msgid "Default Longitude"
 msgstr ""
 
-#: includes/class-kickstart.php:805
+#: includes/class-kickstart.php:806
 msgid ""
 "Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
 msgstr ""
 
-#: includes/class-kickstart.php:815 includes/class-kickstart.php:848
+#: includes/class-kickstart.php:816 includes/class-kickstart.php:849
 msgid "Default Zoom Level"
 msgstr ""
 
-#: includes/class-kickstart.php:818
+#: includes/class-kickstart.php:819
 msgid "2 to 18"
 msgstr ""
 
-#: includes/class-kickstart.php:828
+#: includes/class-kickstart.php:829
 msgid "Auto-Fit Map Bounds"
 msgstr ""
 
-#: includes/class-kickstart.php:831
+#: includes/class-kickstart.php:832
 msgid ""
 "Automatically set map bounds and zoom level to include all property location "
 "markers."
 msgstr ""
 
-#: includes/class-kickstart.php:837
+#: includes/class-kickstart.php:838
 msgid "Map Type"
 msgstr ""
 
-#: includes/class-kickstart.php:840
+#: includes/class-kickstart.php:841
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
 msgstr ""
 
-#: includes/class-kickstart.php:841
+#: includes/class-kickstart.php:842
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
 msgstr ""
 
-#: includes/class-kickstart.php:851
+#: includes/class-kickstart.php:852
 msgid "8 to 18"
 msgstr ""
 
-#: includes/class-kickstart.php:861
+#: includes/class-kickstart.php:862
 msgid "Info Window Note"
 msgstr ""
 
-#: includes/class-kickstart.php:864
+#: includes/class-kickstart.php:865
 msgid ""
 "If stated, this note gets displayed within a map info window above the "
 "property location marker."
 msgstr ""
 
-#: includes/class-kickstart.php:871
+#: includes/class-kickstart.php:872
 msgid "Marker Map Note"
 msgstr ""
 
-#: includes/class-kickstart.php:874
+#: includes/class-kickstart.php:875
 msgid "This note gets displayed below <strong>marker based</strong> maps."
 msgstr ""
 
-#: includes/class-kickstart.php:881
+#: includes/class-kickstart.php:882
 msgid "Neighborhood Map Note"
 msgstr ""
 
-#: includes/class-kickstart.php:884
+#: includes/class-kickstart.php:885
 msgid ""
 "This note gets displayed below <strong>neighborhood based</strong> maps."
 msgstr ""
 
-#: includes/class-kickstart.php:891
+#: includes/class-kickstart.php:892
 msgid "Google Maps API Key"
 msgstr ""
 
 #. translators: %s = Google Developer Docs URL
-#: includes/class-kickstart.php:896
+#: includes/class-kickstart.php:897
 msgid ""
 "Provide an key suitable for using the Google APIs mentioned abobe. You can "
 "find information about getting and configuring such a key on the respective "
@@ -440,91 +439,91 @@ msgid ""
 "project!)</strong>"
 msgstr ""
 
-#: includes/class-kickstart.php:904
+#: includes/class-kickstart.php:905
 msgid "Embedded Maps"
 msgstr ""
 
-#: includes/class-kickstart.php:907
+#: includes/class-kickstart.php:908
 msgid ""
 "This consent applies to Google and OpenStreetMap based maps on property list "
 "and detail pages."
 msgstr ""
 
-#: includes/class-kickstart.php:913
+#: includes/class-kickstart.php:914
 msgid "Location Autocompletion"
 msgstr ""
 
-#: includes/class-kickstart.php:916
+#: includes/class-kickstart.php:917
 msgid ""
 "An external location autocompletion service is used in the property search "
 "form (radius/distance search)."
 msgstr ""
 
-#: includes/class-kickstart.php:922 includes/class-wp-bootstrap.php:365
+#: includes/class-kickstart.php:923 includes/class-wp-bootstrap.php:365
 msgid "Property"
 msgstr ""
 
-#: includes/class-kickstart.php:925
+#: includes/class-kickstart.php:926
 msgid ""
 "This should be a single term in its plural form and in the site's "
 "<strong>main language</strong> (usually <strong>properties</strong>). If "
 "empty, <em>inx_property</em> will be used as base slug."
 msgstr ""
 
-#: includes/class-kickstart.php:931 includes/class-property-search.php:669
+#: includes/class-kickstart.php:932 includes/class-property-search.php:669
 msgid "Locality"
 msgstr ""
 
-#: includes/class-kickstart.php:934
+#: includes/class-kickstart.php:935
 msgid ""
 "<strong>properties/location</strong> by default, <em>inx_location</em> if "
 "empty"
 msgstr ""
 
-#: includes/class-kickstart.php:940
+#: includes/class-kickstart.php:941
 msgid "Type of Use"
 msgstr ""
 
-#: includes/class-kickstart.php:943
+#: includes/class-kickstart.php:944
 msgid ""
 "<strong>properties/type-of-use</strong> by default, <em>inx_type_of_use</em> "
 "if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:949 includes/class-property-search.php:637
+#: includes/class-kickstart.php:950 includes/class-property-search.php:637
 msgid "Property Type"
 msgstr ""
 
-#: includes/class-kickstart.php:952
+#: includes/class-kickstart.php:953
 msgid ""
 "<strong>properties/type</strong> by default, <em>inx_property_type</em> if "
 "empty"
 msgstr ""
 
-#: includes/class-kickstart.php:958 includes/class-property-search.php:653
+#: includes/class-kickstart.php:959 includes/class-property-search.php:653
 msgid "Marketing Type"
 msgstr ""
 
-#: includes/class-kickstart.php:961
+#: includes/class-kickstart.php:962
 msgid ""
 "<strong>properties/buy-rent</strong> by default, <em>inx_marketing_type</em> "
 "if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:967
+#: includes/class-kickstart.php:968
 msgid "Feature"
 msgstr ""
 
-#: includes/class-kickstart.php:970
+#: includes/class-kickstart.php:971
 msgid ""
 "<strong>properties/feature</strong> by default, <em>inx_feature</em> if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:976
+#: includes/class-kickstart.php:977
 msgid "Label"
 msgstr ""
 
-#: includes/class-kickstart.php:979
+#: includes/class-kickstart.php:980
 msgid ""
 "<strong>properties/label</strong> by default, <em>inx_label</em> if empty"
 msgstr ""
@@ -797,12 +796,20 @@ msgstr ""
 msgid "Rooms"
 msgstr ""
 
-#: includes/class-property-list-hooks.php:145
+#: includes/class-property-list-hooks.php:146
 msgid "Successfully marketed properties"
 msgstr ""
 
-#: includes/class-property-list-hooks.php:147
+#: includes/class-property-list-hooks.php:148
 msgid "Our current property offers"
+msgstr ""
+
+#: includes/class-property-list-hooks.php:161
+msgid "Properties in"
+msgstr ""
+
+#: includes/class-property-list-hooks.php:163
+msgid "Properties with"
 msgstr ""
 
 #: includes/class-property-search.php:609
