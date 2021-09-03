@@ -394,8 +394,8 @@ class Property_Search {
 				if ( is_array( $terms ) ) {
 					if ( ! empty( $include ) ) {
 						/**
-						 * Filter out top-level and related child terms if an explicit
-						 * include list is given defined by a force-* attribute.
+						 * Filter out top-level terms that are not included in
+						 * a term ID list defined using a force-* attribute.
 						 */
 						$terms = array_filter(
 							$terms,
@@ -450,7 +450,7 @@ class Property_Search {
 						}
 					}
 
-					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'] );
+					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'], $include );
 					$options = $this->get_hierarchical_option_list( $terms );
 				}
 
@@ -1258,12 +1258,13 @@ class Property_Search {
 	 *
 	 * @since 1.4.4
 	 *
-	 * @param \WP_Term[]  $terms    Array of WP term objects.
-	 * @param string|bool $taxonomy Taxonomy (optional; false = autodetect).
+	 * @param \WP_Term[]  $terms          Array of WP term objects.
+	 * @param string|bool $taxonomy       Taxonomy (optional; false = autodetect).
+	 * @param int[]       $force_main_ids Array of explicitly forced top-level terms (optional).
 	 *
 	 * @return \WP_Term[] Possibly extended term array.
 	 */
-	private function maybe_add_ancestor_terms( $terms, $taxonomy = false ) {
+	private function maybe_add_ancestor_terms( $terms, $taxonomy = false, $force_main_ids = array() ) {
 		if ( 0 === count( $terms ) ) {
 			return $terms;
 		}
@@ -1279,13 +1280,21 @@ class Property_Search {
 			$term_ids[] = $term->term_id;
 		}
 
-		foreach ( $terms as $term ) {
+		foreach ( $terms as $i => $term ) {
 			if ( 0 === $term->parent ) {
 				continue;
 			}
 
 			$ancestor_ids = get_ancestors( $term->term_id, $term->taxonomy, 'taxonomy' );
 			if ( count( $ancestor_ids ) > 0 ) {
+				if (
+					! empty( $force_main_ids )
+					&& ! in_array( $ancestor_ids[ count( $ancestor_ids ) - 1 ], $force_main_ids, true )
+				) {
+					unset( $terms[ $i ] );
+					continue;
+				}
+
 				foreach ( $ancestor_ids as $id ) {
 					if ( $id && ! in_array( $id, $term_ids, true ) ) {
 						$add_term_ids[] = $id;

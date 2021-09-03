@@ -107,6 +107,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.5.1-beta =
+* Release date: ?
+* Fixed disregard of explicitly stated search form taxonomy terms.
+
 = 1.5.0 =
 * Release date: 2021-09-02
 * Added search form shortcode attributes for taxonomy-based options.
@@ -155,24 +159,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed price sections falsely visible in reference property details.
 * Fixed URL issues on overlapping page permalinks.
 * Improved performance and stability (JS components).
-
-= 1.3.0 =
-* Release date: 2021-03-08
-* Added option for setting an alternate reference price text.
-* Added option for enabling/disabling the map bounds auto-fit function.
-* Added automatic removal of backlink URL in browser address bar.
-* Added subtype "date" for search form text input fields (date picker).
-* Added property filter/sort shortcode attributes for creating custom
-  sort option selection lists.
-* Added option for enabling/disabling user consent for embedded maps.
-* Added titles to detail sections in property backend edit form.
-* Optimized support for multilingual sites (Polylang/WPML compatibility).
-* Lowered minimum zoom level for property overview maps.
-* Fixed distance search arguments not being applied in overview maps.
-* Fixed URL generation/modification for installations with deactivated
-  pretty permalinks.
-* Reworked search form shortcode.
-* Optimized automatic primary price min/max value determination for
-  search forms.
 
 See changelog.txt for complete version history.
