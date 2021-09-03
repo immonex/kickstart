@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.9
-Stable Tag: 1.5.0
+Stable Tag: 1.5.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -107,8 +107,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.2-beta =
-* Release date: ?
+= 1.5.2 =
+* Release date: 2021-09-03
 * Adjusted property taxonomy archive page headlines.
 * Fixed disregard of explicitly stated search form taxonomy terms.
 
