@@ -157,6 +157,81 @@ class API {
 	} // get_primary_price_min_max
 
 	/**
+	 * Determine the maximum value of the given area type based on the current
+	 * property data.
+	 *
+	 * @since 1.5.4
+	 *
+	 * @param string $type Area type (primary, living, commercial, retail, office,
+	 *                     gastronomy, plot, usable, basement, attic, misc,
+	 *                     garden, total).
+	 * @param int    $default Default value to return if no appropriate data are
+	 *                        available (optional, defaults to 400).
+	 *
+	 * @return int Maximum or default value.
+	 */
+	public function get_area_max( $type, $default = 400 ) {
+		global $wpdb;
+
+		$valid_area_types = array(
+			'primary',
+			'living',
+			'commercial',
+			'retail',
+			'office',
+			'gastronomy',
+			'plot',
+			'usable',
+			'basement',
+			'attic',
+			'misc',
+			'garden',
+			'total',
+		);
+		if ( ! in_array( $type, $valid_area_types, true ) ) {
+			return $default;
+		}
+
+		if ( ! empty( $this->cache['max_area'][ $type ] ) ) {
+			return $this->cache['max_area'][ $type ];
+		}
+
+		$field_prefix = '_' . $this->config['plugin_prefix'];
+		$field_name   = "{$field_prefix}{$type}_area";
+
+		// @codingStandardsIgnoreLine
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
+					JOIN $wpdb->posts post ON meta.post_id = post.ID
+					JOIN $wpdb->postmeta meta2 ON post.ID = meta2.post_id
+					JOIN $wpdb->postmeta meta3 ON post.ID = meta3.post_id
+					WHERE post.post_type = %s
+					AND post.post_status = 'publish'
+					AND meta.meta_key = %s
+					AND meta2.meta_key = %s AND meta2.meta_value = '1'",
+				$this->config['property_post_type_name'],
+				$field_name,
+				'_immonex_is_available'
+			),
+			ARRAY_A
+		);
+
+		if ( empty( $result ) || empty( $result[0]['max'] ) ) {
+			$this->cache['max_area'][ $type ] = $default;
+			return $default;
+		}
+
+		$max         = (int) $result[0]['max'];
+		$base_max    = (int) 1 . str_repeat( '0', strlen( (string) $max ) - 1 );
+		$roundup_max = (int) ceil( $max / $base_max ) * $base_max;
+
+		$this->cache['max_area'][ $type ] = $roundup_max;
+
+		return $roundup_max;
+	} // get_area_max
+
+	/**
 	 * Generate the author query part based on the given user IDs or login names.
 	 *
 	 * @since 1.1.0

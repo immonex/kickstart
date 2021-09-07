@@ -44,7 +44,7 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | `marketing-type` (3) | Dropdown-Einzelauswahl der **Vermarktungsart** (Term der [Taxonomie inx_marketing_type](../beitragsarten-taxonomien.html)) |
 | `locality` (4) | Dropdown-Einzelauswahl des **Objekt-Standorts** - Ort/Stadt oder Orts-/Stadtteil (Term der [Taxonomie inx_location](../beitragsarten-taxonomien.html)) |
 | `min-rooms` (5) | Auswahlslider für die minimale Zimmer-/Raumanzahl ([Custom Field \_inx_primary_rooms](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `min-area` (6) | Auswahlslider für die minimale Fläche ([Custom Field \_inx_primary_area](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `min-area` (6) | Auswahlslider für die minimale Wohnfläche in m² ([Custom Field \_inx_living_area](../beitragsarten-taxonomien.html#Custom-Fields); Maximalwert wird anhand der vorhandenen Objekte automatisch ermittelt) |
 | `price-range` (7) | Auswahlslider für den Preisrahmen ([Custom Field \_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields); Maximalpreis wird anhand der vorhandenen Objekte automatisch ermittelt) |
 | `submit` (8) | Absenden-Button (Objektanzahl wird anhand der aktuell ausgewählten Kriterien dynamisch aktualisiert) |
 | `reset` (9) | Link zum Zurücksetzen des Formulars |

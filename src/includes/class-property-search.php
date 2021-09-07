@@ -310,6 +310,19 @@ class Property_Search {
 							$element[ $key ] = $primary_price_min_max;
 							break;
 					}
+				} elseif ( '_area_min_max' === substr( $value, -13 ) ) {
+					$area_type = substr( $value, 0, strlen( $value ) - 13 );
+					$area_max  = $this->api->get_area_max( $area_type );
+					$min_max   = apply_filters( 'inx_search_form_area_min_max_value', array( 0, $area_max ), $area_type );
+
+					$min_max_str = '0,400';
+					if ( is_array( $min_max ) && 2 === count( $min_max ) ) {
+						sort( $min_max );
+						$min_max_str = ( (int) $min_max[0] ) . ',' . ( (int) $min_max[1] );
+					}
+
+					$element[ $key ] = $min_max_str;
+					break;
 				}
 			}
 		}
@@ -699,7 +712,7 @@ class Property_Search {
 				'type'         => 'range',
 				'key'          => '_' . $this->config['plugin_prefix'] . 'living_area',
 				'compare'      => '>=',
-				'range'        => '0,400',
+				'range'        => 'living_area_min_max',
 				'step_ranges'  => false,
 				'default'      => 0,
 				'replace_null' => __( 'not specified', 'immonex-kickstart' ),

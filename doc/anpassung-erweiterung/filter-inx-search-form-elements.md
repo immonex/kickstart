@@ -64,6 +64,24 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'class' => '',
 		'order' => 50
 	],
+	'min-area' => [
+		'enabled' => true,
+		'hidden' => false,
+		'extended' => false,
+		'type' => 'range',
+		'key' => '_inx_living_area',
+		'compare' => '>=',
+		'range' => 'living_area_min_max',
+		'step_ranges' => false,
+		'default' => 0,
+		'replace_null' => __( 'not specified', 'immonex-kickstart' ),
+		'unit' => 'm²',
+		'currency' => false,
+		'numeric' => true,
+		'label' => __( 'Min. Living Area', 'immonex-kickstart' ),
+		'class' => '',
+		'order' => 60
+	],
 	'price-range' => [
 		'enabled' => true,
 		'hidden' => false,
@@ -123,7 +141,21 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | `key` (string) | Name des **Custom Fields** oder der **Taxonomie**, auf den sich die Suchauswahl/-eingabe bezieht |
 | `compare` (string) | WP Query Compare Operator |
 | `numeric` (bool) | Abfrage eines numerischen Werts? |
-| `range` (string) | Minimal- und Maximalwert beim gleichnamigen Elementtyp im Format *MIN,MAX* (z. B. 0,10) oder *primary_price_min_max* für automatische Preisrahmen-Vorgabe|
+| `range` (string) | Minimal- und Maximalwert beim gleichnamigen Elementtyp im Format *MIN,MAX* (z. B. 0,10) **oder** alternativ... |
+| | *primary_price_min_max*: automatische Preisrahmen-Ermittlung (Kauf- und Mietpreise) |
+| | *primary_area_min_max*: automatische Ermittlung des Primärflächen-Rahmens |
+| | *living_area_min_max*: automatische Ermittlung des Wohnflächen-Rahmens |
+| | *commercial_area_min_max*: automatische Ermittlung des Gewerbeflächen-Rahmens |
+| | *retail_area_min_max*: automatische Ermittlung des Verkaufsflächen-Rahmens |
+| | *office_area_min_max*: automatische Ermittlung des Büroflächen-Rahmens |
+| | *gastronomy_area_min_max*: automatische Ermittlung des Gastronomie/Hotellerie-Flächen-Rahmens |
+| | *plot_area_min_max*: automatische Ermittlung des Grundstücksflächen-Rahmens |
+| | *usable_area_min_max*: automatische Ermittlung des Nutzflächen-Rahmens |
+| | *basement_area_min_max*: automatische Ermittlung des Kellerflächen-Rahmens |
+| | *attic_area_min_max*: automatische Ermittlung des Dachbodenflächen-Rahmens |
+| | *garden_area_min_max*: automatische Ermittlung des Gartenflächen-Rahmens |
+| | *misc_area_min_max*: automatische Ermittlung des Rahmens sonstiger Flächen |
+| | *total_area_min_max*: automatische Ermittlung des Gesamtflächen-Rahmens |
 | `step_ranges` (array\|int\|bool) | Schrittweite(n) bei Wertslider-Elementen (Typ `range`): Einzelwert, Key-Value-Array (jeweils *Schwellenwert ➞ Schrittweite*) oder *false* für Standardvorgabe |
 | `default` (mixed) | Standardwert |
 | `replace_null` (string) | Null- oder Leerwerte durch diesen String ersetzen |
