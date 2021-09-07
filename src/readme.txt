@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.9
-Stable Tag: 1.5.2
+Stable Tag: 1.5.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -107,8 +107,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.5-beta =
-* Release date: ?
+= 1.5.5 =
+* Release date: 2021-09-07
 * Added automatic min/max value determination for search form area value sliders.
 * Added filter hook for overwriting min/max values of search form area value sliders.
 * Added special body classes for custom property list and detail pages.

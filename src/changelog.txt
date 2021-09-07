@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.5.5 =
+* Release date: 2021-09-07
+* Added automatic min/max value determination for search form area value sliders.
+* Added filter hook for overwriting min/max values of search form area value sliders.
+* Added special body classes for custom property list and detail pages.
+* Reworked plugin options page (e.g. sections as subtabs).
+* Updated dependencies.
+
 = 1.5.2 =
 * Release date: 2021-09-03
 * Adjusted property taxonomy archive page headlines.
