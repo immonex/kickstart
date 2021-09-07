@@ -10,7 +10,7 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_3_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_3_1\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
@@ -503,7 +503,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_3_0\Base {
 				'tab_general'         => array(
 					'title'      => __( 'General', 'immonex-kickstart' ),
 					'content'    => '',
-					'attributes' => array(),
+					'attributes' => array(
+						'tabbed_sections' => true,
+					),
 				),
 				'tab_property_search' => array(
 					'title'      => __( 'Property Search', 'immonex-kickstart' ),
@@ -513,12 +515,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_3_0\Base {
 				'tab_geo'             => array(
 					'title'      => __( 'Maps &amp; Distance Search', 'immonex-kickstart' ),
 					'content'    => '',
-					'attributes' => array(),
+					'attributes' => array(
+						'tabbed_sections' => true,
+					),
 				),
 				'tab_slugs'           => array(
 					'title'      => __( 'Slugs', 'immonex-kickstart' ),
 					'content'    => '',
-					'attributes' => array(),
+					'attributes' => array(
+						'tabbed_sections' => true,
+					),
 				),
 			)
 		);
