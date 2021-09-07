@@ -51,6 +51,7 @@ class Property_List_Hooks {
 		 */
 
 		add_filter( 'get_the_archive_title', array( $this, 'modify_property_archive_titles' ) );
+		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -128,8 +129,6 @@ class Property_List_Hooks {
 	 * @param string $title Original title.
 	 *
 	 * @return string Modified or original title.
-	 *
-	 * @todo Extend/adjust title for alternative list pages (else block).
 	 */
 	public function modify_property_archive_titles( $title ) {
 		$qo     = get_queried_object();
@@ -168,6 +167,24 @@ class Property_List_Hooks {
 
 		return $title;
 	} // modify_property_archive_titles
+
+	/**
+	 * Add a body class on custom property list pages.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string[] $classes Original class list.
+	 *
+	 * @return string[] Extended class list if page ID matches the related
+	 *                  plugin option.
+	 */
+	public function maybe_add_body_class( $classes ) {
+		if ( get_the_ID() === (int) $this->config['property_list_page_id'] ) {
+			$classes[] = $this->config['plugin_slug'] . '-custom-list-page';
+		}
+
+		return $classes;
+	} // maybe_add_body_class
 
 	/**
 	 * Return a rendered property list (based on the shortcode

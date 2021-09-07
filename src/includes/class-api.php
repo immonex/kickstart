@@ -160,7 +160,7 @@ class API {
 	 * Determine the maximum value of the given area type based on the current
 	 * property data.
 	 *
-	 * @since 1.5.4
+	 * @since 1.5.5
 	 *
 	 * @param string $type Area type (primary, living, commercial, retail, office,
 	 *                     gastronomy, plot, usable, basement, attic, misc,

@@ -54,6 +54,7 @@ class Property_Hooks {
 		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
 		add_filter( 'the_title', array( $this, 'update_template_page_title' ), 10, 2 );
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
+		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -185,6 +186,23 @@ class Property_Hooks {
 
 		return $title;
 	} // update_template_page_title
+	/**
+	 * Add a body class on custom property detail pages.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string[] $classes Original class list.
+	 *
+	 * @return string[] Extended class list if page ID matches the related
+	 *                  plugin option.
+	 */
+	public function maybe_add_body_class( $classes ) {
+		if ( get_the_ID() === (int) $this->config['property_details_page_id'] ) {
+			$classes[] = $this->config['plugin_slug'] . '-custom-details-page';
+		}
+
+		return $classes;
+	} // maybe_add_body_class
 
 	/**
 	 * Dynamically replace the featured image of a template page for property

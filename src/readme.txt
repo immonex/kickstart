@@ -107,6 +107,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.5.5-beta =
+* Release date: ?
+* Added automatic min/max value determination for search form area value sliders.
+* Added filter hook for overwriting min/max values of search form area value sliders.
+* Added special body classes for custom property list and detail pages.
+* Reworked plugin options page (e.g. sections as subtabs).
+* Updated dependencies.
+
 = 1.5.2 =
 * Release date: 2021-09-03
 * Adjusted property taxonomy archive page headlines.
@@ -137,28 +145,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed property sort order in list view not applied in special cases.
 * Added a missing space between price and time unit in list view.
 * Refactored code to meet updated WordPress coding standards.
-
-= 1.4.0 =
-* Release date: 2021-04-13
-* Added shortcode [inx-property-detail-element] for embedding individual
-  property detail values.
-* Fixed sort change not being applied without search form on the same page.
-* Activated Vue.js based components on custom property detail pages.
-* Added optional element for embedding separate location maps
-  in property detail pages.
-* Added optional element for embedding separate location description/details
-  sections (without maps) in property detail pages.
-* Added option for applying wpautop to description texts on property
-  detail pages.
-* Added option for enabling/disabling the contact section for
-  reference properties.
-* Added list shortcode attribute for disabling property detail links based on
-  its status flags.
-* Added filter hook for modifying tab-based element structure.
-* Improved property gallery thumbmail navigation (separate section for
-  video and virtual tour links).
-* Fixed price sections falsely visible in reference property details.
-* Fixed URL issues on overlapping page permalinks.
-* Improved performance and stability (JS components).
 
 See changelog.txt for complete version history.
