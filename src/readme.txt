@@ -107,6 +107,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.5.7-beta =
+* Release date: ?
+* Fixed subtab display problem in Windows-based environments
+* Updated dependencies.
+
 = 1.5.5 =
 * Release date: 2021-09-07
 * Added automatic min/max value determination for search form area value sliders.

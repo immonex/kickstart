@@ -21,6 +21,15 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src/js')
   },
+  resolve: {
+    fallback: {
+      'fs': false,
+      'buffer': false,
+      'http': false,
+      'https': false,
+      'url': false
+    }
+  },
   module: {
     rules: [
       {
