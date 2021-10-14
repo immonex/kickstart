@@ -193,7 +193,7 @@ export default {
 	},
 	mounted () {
 		this.id = this._uid
-		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
+		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
 			this.grantConsent(null)
 		}
 	}

@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.5.8 =
+* Release date: 2021-10-14
+* Fixed application of feature selection (extended search form).
+* Fixed subtab display problem in Windows-based environments.
+* Updated dependencies.
+
 = 1.5.5 =
 * Release date: 2021-09-07
 * Added automatic min/max value determination for search form area value sliders.

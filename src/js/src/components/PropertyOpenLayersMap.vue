@@ -219,7 +219,8 @@ export default {
 			if (
 				!this.markerIconUrl
 				|| !this.markerSetId
-				|| 'undefined' === inx_maps[this.markerSetId]
+				|| 'undefined' === typeof inx_maps
+				|| 'undefined' === typeof inx_maps[this.markerSetId]
 				|| Object.keys(inx_maps[this.markerSetId]).length === 0
 				|| inx_maps[this.markerSetId].length === 0
 			) {
@@ -368,7 +369,7 @@ export default {
 		}
 	},
 	mounted () {
-		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
+		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
 			this.grantConsent(null)
 		}
 	}

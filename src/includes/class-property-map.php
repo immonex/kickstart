@@ -86,7 +86,7 @@ class Property_Map {
 		$marker_set_id = 'marker_set_' . uniqid();
 
 		wp_localize_script(
-			"{$prefix}frontend-js",
+			"{$prefix}frontend",
 			'inx_maps',
 			array(
 				$marker_set_id => (object) $properties,

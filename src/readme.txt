@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.9
-Stable Tag: 1.5.5
+Stable Tag: 1.5.8
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -107,9 +107,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.7-beta =
-* Release date: ?
-* Fixed subtab display problem in Windows-based environments
+= 1.5.8 =
+* Release date: 2021-10-14
+* Fixed application of feature selection (extended search form).
+* Fixed subtab display problem in Windows-based environments.
 * Updated dependencies.
 
 = 1.5.5 =
@@ -124,31 +125,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2021-09-03
 * Adjusted property taxonomy archive page headlines.
 * Fixed disregard of explicitly stated search form taxonomy terms.
-
-= 1.5.0 =
-* Release date: 2021-09-02
-* Added search form shortcode attributes for taxonomy-based options.
-* Added search form shortcode attributes for excluding elements.
-* Added filter hooks for modifying property search form select options.
-* Added filter hook for adding property fulltext search fields
-* Added property address to default fulltext search fields
-* Added automatic determination of decimal places on primary price formatting.
-* Added flags for featured properties and front page offers.
-* Added step option for value/range slider elements in search forms.
-* Added option and shortcode attribute for setting the "no results" message of property searches.
-* Made private pages selectable as list or detail view templates.
-* Activated default property template on taxonomy based frontend queries.
-* Optimized building of hierarchical taxonomy option lists for search forms.
-* Reworked display of checkbox group elements in frontend search forms.
-* Reworked default skin gallery template (individual Ken Burns effect state per image)
-* Reworked distance search autocompletion JS components.
-* Reworked search form min/max price determination.
-* Extended backend property form.
-* Fixed some minor output related details.
-* Fixed a recursion bug (occuring under some rare conditions).
-* Fixed min/max price determination of non-integer values.
-* Fixed property sort order in list view not applied in special cases.
-* Added a missing space between price and time unit in list view.
-* Refactored code to meet updated WordPress coding standards.
 
 See changelog.txt for complete version history.
