@@ -107,6 +107,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.5.9-beta =
+* Release date: ?
+* Add WP auto embed and other filters to property description processing.
+
 = 1.5.8 =
 * Release date: 2021-10-14
 * Fixed application of feature selection (extended search form).

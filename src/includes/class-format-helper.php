@@ -27,23 +27,39 @@ class Format_Helper {
 	 * @param mixed[] $plugin_options Plugin options.
 	 */
 	public function __construct( $plugin_options ) {
+		global $wp_embed;
+
 		$this->plugin_options = $plugin_options;
 
 		/**
 		 * Plugin-specific actions and filters
 		 */
 
+		if ( ! empty( $wp_embed ) ) {
+			add_filter( 'inx_the_content', array( $wp_embed, 'autoembed' ), 8 );
+		}
+		add_filter( 'inx_the_content', 'do_blocks', 9 );
 		add_filter( 'inx_the_content', 'wptexturize' );
-		add_filter( 'inx_the_content', 'convert_smilies' );
+		add_filter( 'inx_the_content', 'convert_smilies', 20 );
 		add_filter( 'inx_the_content', 'convert_chars' );
 		add_filter( 'inx_the_content', 'wpautop' );
 		add_filter( 'inx_the_content', 'shortcode_unautop' );
 		add_filter( 'inx_the_content', 'do_shortcode' );
+		add_filter( 'inx_the_content', 'prepend_attachment' );
+		add_filter( 'inx_the_content', 'wp_filter_content_tags' );
+		add_filter( 'inx_the_content', 'wp_replace_insecure_home_url' );
 
+		if ( ! empty( $wp_embed ) ) {
+			add_filter( 'inx_the_content_noautop', array( $wp_embed, 'autoembed' ), 8 );
+		}
+		add_filter( 'inx_the_content_noautop', 'do_blocks', 9 );
 		add_filter( 'inx_the_content_noautop', 'wptexturize' );
-		add_filter( 'inx_the_content_noautop', 'convert_smilies' );
+		add_filter( 'inx_the_content_noautop', 'convert_smilies', 20 );
 		add_filter( 'inx_the_content_noautop', 'convert_chars' );
 		add_filter( 'inx_the_content_noautop', 'do_shortcode' );
+		add_filter( 'inx_the_content_noautop', 'prepend_attachment' );
+		add_filter( 'inx_the_content_noautop', 'wp_filter_content_tags' );
+		add_filter( 'inx_the_content_noautop', 'wp_replace_insecure_home_url' );
 	} // __construct
 
 	/**
