@@ -25,23 +25,6 @@ if ( $inx_skin_is_tax_archive ) {
 	$inx_skin_tax_archive_args = array( $inx_skin_var_name => $inx_skin_query->slug );
 }
 
-if ( $immonex_kickstart->property_list_page_id ) {
-	$inx_skin_redirect_url = get_permalink( $immonex_kickstart->property_list_page_id );
-
-	if ( $inx_skin_redirect_url ) {
-		if ( $inx_skin_is_tax_archive ) {
-			$inx_skin_redirect_url = add_query_arg(
-				$inx_skin_var_name,
-				$inx_skin_query->slug,
-				$inx_skin_redirect_url
-			);
-		}
-
-		wp_safe_redirect( $inx_skin_redirect_url );
-		exit;
-	}
-}
-
 get_header();
 ?>
 

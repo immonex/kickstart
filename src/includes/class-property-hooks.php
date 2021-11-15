@@ -56,6 +56,10 @@ class Property_Hooks {
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
+		if ( $this->config['property_details_page_id'] ) {
+			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
+		}
+
 		/**
 		 * Plugin-specific actions and filters
 		 */
@@ -399,8 +403,15 @@ class Property_Hooks {
 	 * @return int|string|bool Possibly updated current post ID.
 	 */
 	public function get_current_property_post_id( $post_id = false ) {
-		if ( is_singular() && ! empty( $_GET['inx-property-id'] ) ) {
-			$post_id = (int) $_GET['inx-property-id'];
+		if ( is_singular() ) {
+			if ( ! empty( $_GET['inx-property-id'] ) ) {
+				$post_id = (int) $_GET['inx-property-id'];
+			} else {
+				global $wp_query;
+				if ( isset( $wp_query->query ) && ! empty( $wp_query->query['inx-property-id'] ) ) {
+					$post_id = $wp_query->query['inx-property-id'];
+				}
+			}
 		}
 
 		if (
@@ -649,6 +660,51 @@ class Property_Hooks {
 
 		return trim( $rendered_value );
 	} // render_property_detail_element_output
+
+	/**
+	 * "Rewrite" the current request to use the selected property detail page
+	 * as frame template.
+	 *
+	 * @since 1.5.10-beta
+	 *
+	 * @param string[] $request WP Request arguments.
+	 *
+	 * @return mixed[] Original or modified WP Request arguments.
+	 */
+	public function internal_page_rewrite( $request ) {
+		if (
+			isset( $request['post_type'] )
+			&& $this->config['property_post_type_name'] === $request['post_type']
+			&& ! empty( $request[ $this->config['property_post_type_name'] ] )
+			&& ! empty( $request['name'] )
+		) {
+			$details_page = get_page( $this->config['property_details_page_id'] );
+			if ( empty( $details_page ) ) {
+				return $request;
+			}
+
+			$property_post = get_posts(
+				array(
+					'post_type' => $this->config['property_post_type_name'],
+					'name'      => $request['name'],
+				)
+			);
+			if ( empty( $property_post ) ) {
+				return $request;
+			}
+
+			$request['pagename']        = $details_page->post_name;
+			$request['inx-property-id'] = $property_post[0]->ID;
+
+			unset( $request['post_type'] );
+			unset( $request['inx_property'] );
+			unset( $request['name'] );
+
+			return $request;
+		}
+
+		return $request;
+	} // internal_page_rewrite
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

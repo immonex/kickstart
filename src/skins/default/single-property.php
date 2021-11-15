@@ -10,44 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $immonex_kickstart;
-
-$inx_skin_use_page_as_template = $immonex_kickstart->property_details_page_id;
-$inx_skin_page_url             = $inx_skin_use_page_as_template ?
-	get_permalink( $inx_skin_use_page_as_template ) :
-	false;
-
-if (
-	$inx_skin_use_page_as_template
-	&& $inx_skin_page_url
-) :
-	$inx_skin_post_type = $immonex_kickstart->property_post_type_name;
-	$inx_skin_url_parts = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : array();
-
-	$inx_skin_add_url_query = isset( $inx_skin_url_parts['query'] ) ?
-		'&' . basename( $inx_skin_url_parts['query'] ) :
-		'';
-
-	$inx_skin_property_id = apply_filters( 'inx_element_translation_id', get_the_ID() );
-
-	$inx_skin_redirect_url = $inx_skin_page_url .
-		( false === strpos( $inx_skin_page_url, '?' ) ? '?' : '&' ) .
-		'inx-property-id=' . $inx_skin_property_id .
-		$inx_skin_add_url_query;
-
-	$inx_skin_redirect_url = preg_replace( "/$inx_skin_post_type=[a-z0-9-]+[&]?/", '', $inx_skin_redirect_url );
-
-	if ( headers_sent() ) {
-		// Fallback redirect solution if headers have already been sent.
-		echo "<script>window.location.replace('$inx_skin_redirect_url');</script>";
-	} else {
-		nocache_headers();
-		wp_safe_redirect( $inx_skin_redirect_url );
-		exit;
-	}
-else :
-	get_header();
-	?>
+get_header();
+?>
 <div id="inx-property-details" class="inx-single-property uk-container" role="main">
 	<div uk-grid>
 		<div class="inx-single-property__main-content inx-container uk-width-expand@m">
@@ -68,6 +32,5 @@ else :
 		<?php endif; ?>
 	</div>
 </div>
-	<?php
-	get_footer();
-endif;
+<?php
+get_footer();

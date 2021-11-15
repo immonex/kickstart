@@ -398,20 +398,6 @@ class WP_Bootstrap {
 				substr( get_locale(), 0, 2 ),
 				true
 			);
-
-			if ( $translated_rewrite_slug === $archive_redirect_slug ) {
-				/**
-				 * Use the singular version of "property" if a list page
-				 * with the same slug is used as archive template.
-				 */
-				$property_post_type_args['rewrite']['slug'] = _x( 'property', 'Fallback Custom Post Type Slug (singular only!)', 'immonex-kickstart' );
-			} elseif ( $translated_rewrite_slug === $single_redirect_slug ) {
-				/**
-				 * Use an alternative term if a page with the same slug
-				 * is used as single property template.
-				 */
-				$property_post_type_args['rewrite']['slug'] = _x( 'property-offers', 'Fallback Custom Post Type Slug (property lists)', 'immonex-kickstart' );
-			}
 		}
 
 		register_post_type(

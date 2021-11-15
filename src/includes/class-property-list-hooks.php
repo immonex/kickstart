@@ -53,6 +53,10 @@ class Property_List_Hooks {
 		add_filter( 'get_the_archive_title', array( $this, 'modify_property_archive_titles' ) );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
+		if ( $this->config['property_list_page_id'] ) {
+			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
+		}
+
 		/**
 		 * Plugin-specific actions and filters
 		 */
@@ -255,5 +259,38 @@ class Property_List_Hooks {
 	public function shortcode_pagination( $atts ) {
 		return $this->property_list->get_rendered_pagination();
 	} // shortcode_pagination
+
+	/**
+	 * "Rewrite" the current request to use the selected property list page
+	 * as frame template.
+	 *
+	 * @since 1.5.10-beta
+	 *
+	 * @param string[] $request WP Request arguments.
+	 *
+	 * @return mixed[] Original or modified WP Request arguments.
+	 */
+	public function internal_page_rewrite( $request ) {
+		if (
+			isset( $request['post_type'] )
+			&& $this->config['property_post_type_name'] === $request['post_type']
+			&& empty( $request[ $this->config['property_post_type_name'] ] )
+			&& empty( $request['name'] )
+		) {
+			$list_page = get_page( $this->config['property_list_page_id'] );
+			if ( empty( $list_page ) ) {
+				return $request;
+			}
+
+			$request['page']     = '';
+			$request['pagename'] = $list_page->post_name;
+
+			unset( $request['post_type'] );
+
+			return $request;
+		}
+
+		return $request;
+	} // internal_page_rewrite
 
 } // Property_List_Hooks
