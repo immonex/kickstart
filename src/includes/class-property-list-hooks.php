@@ -53,7 +53,7 @@ class Property_List_Hooks {
 		add_filter( 'get_the_archive_title', array( $this, 'modify_property_archive_titles' ) );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
-		if ( $this->config['property_list_page_id'] ) {
+		if ( ! is_admin() && $this->config['property_list_page_id'] ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
 		}
 
