@@ -488,10 +488,6 @@ class Property_Hooks {
 			return $shortcode_atts['if_empty'];
 		}
 
-		if ( empty( $shortcode_atts['template'] ) ) {
-			$shortcode_atts['template'] = '{value}';
-		}
-
 		$name        = trim( sanitize_text_field( $shortcode_atts['name'] ) );
 		$value       = false;
 		$raw_value   = false;
@@ -562,7 +558,10 @@ class Property_Hooks {
 			}
 		}
 
-		if ( empty( $shortcode_atts['template'] ) && $shortcode_atts['type'] ) {
+		if (
+			( $shortcode_atts['template'] === $default_atts['template'] || empty( $shortcode_atts['template'] ) )
+			&& $shortcode_atts['type']
+		) {
 			switch ( $shortcode_atts['type'] ) {
 				case 'price':
 					$shortcode_atts['template'] = '{value,number,2} {currency_symbol}';

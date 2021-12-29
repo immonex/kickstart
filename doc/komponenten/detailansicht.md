@@ -136,8 +136,8 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 
 #### Beispiele
 
-Wohnfläche anzeigen:
-`[inx-property-detail-element name="wohnflaeche"]`
+Wohnfläche anzeigen (formatiert mit zwei Nachkommastellen und Flächeneinheit):
+`[inx-property-detail-element name="wohnflaeche" type="area"]`
 
 Primäre Preisangabe anhand des Custom-Field-Namens abrufen und formatiert anzeigen:
 `[inx-property-detail-element name="_inx_primary_price" type="price"]`

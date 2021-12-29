@@ -107,10 +107,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.10-beta =
+= 1.5.12-beta =
 * Release date: ?
-* Add WP auto embed and other filters to property description processing.
-* Replace 301 redirects to custom property list and detail pages by internal request updates.
+* Added WP auto embed and other filters to property description processing.
+* Replaced 301 redirects to custom property list and detail pages by internal request updates.
+* Fixed detail element shortcode issue (attribute "type" not taken into account).
 
 = 1.5.8 =
 * Release date: 2021-10-14
