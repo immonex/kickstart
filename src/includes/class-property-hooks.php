@@ -403,13 +403,21 @@ class Property_Hooks {
 	 * @return int|string|bool Possibly updated current post ID.
 	 */
 	public function get_current_property_post_id( $post_id = false ) {
-		if ( is_singular() ) {
+		if ( is_singular() || is_page() ) {
 			if ( ! empty( $_GET['inx-property-id'] ) ) {
 				$post_id = (int) $_GET['inx-property-id'];
 			} else {
 				global $wp_query;
 				if ( isset( $wp_query->query ) && ! empty( $wp_query->query['inx-property-id'] ) ) {
 					$post_id = $wp_query->query['inx-property-id'];
+				} else {
+					foreach ( array( 'inx-property-id', 'inx_property_id', '_inx_property_id' ) as $field_name ) {
+						$temp_id = get_post_meta( get_the_ID(), $field_name, true );
+						if ( $temp_id ) {
+							$post_id = $temp_id;
+							break;
+						}
+					}
 				}
 			}
 		}
