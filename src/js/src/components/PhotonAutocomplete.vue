@@ -12,7 +12,7 @@
 			</div>
 		</div>
 
-		<input type="hidden" :id="this.name" :name="this.name" :value="this.transferValue">
+		<input ref="transfer" type="hidden" :name="this.name" :value="this.transferValue">
 		<multiselect
 			ref="mselect"
 			v-model="currentPlace"
@@ -269,7 +269,7 @@ export default {
 		localitySelected (locality) {
 			this.transferValue = JSON.stringify([locality.lat, locality.lng, locality.name])
 
-			let el = document.getElementById(this.name)
+			let el = this.$refs.transfer
 			if ('createEvent' in document) {
 				let evt = document.createEvent('HTMLEvents')
 				evt.initEvent('change', false, true)

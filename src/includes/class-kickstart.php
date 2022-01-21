@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.5.13-beta';
+	const PLUGIN_VERSION             = '1.5.14-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -407,7 +407,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 					'locale'        => get_locale(),
 				),
 				'search'        => (object) array_merge(
-					array( 'number_of_matches' => '' ),
+					array(
+						/**
+						 * DEPRECATED: The number of matches is also included in forms sub array
+						 * (allows multiple forms), but remains as copy (containing the value of
+						 * the first form) for compatibility reasons.
+						 */
+						'number_of_matches' => '',
+						'forms'             => array(),
+					),
 					$search_query_vars
 				),
 				'vue_instances' => (object) array(),

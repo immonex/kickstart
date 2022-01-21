@@ -4,6 +4,7 @@
 			<span class="inx-icon" uk-icon="search"></span>
 			&nbsp;
 			<inx-number-of-matches
+				:form-index="formIndex"
 				:name="nomName"
 				:one-match="nomOneMatch"
 				:no-matches="nomNoMatches">
@@ -18,6 +19,10 @@ import NumberOfMatches from './NumberOfMatches.vue'
 export default {
 	name: 'inx-search-submit-button',
 	props: {
+		formIndex: {
+			type: Number,
+			default: 0
+		},
 		title: {
 			type: String,
 			default: 'Submit'
@@ -44,8 +49,15 @@ export default {
 		}
 	},
 	computed: {
+		numberOfMatches: function() {
+			if (this.inxState.search.forms && this.inxState.search.forms[this.formIndex]) {
+				return this.inxState.search.forms[this.formIndex].numberOfMatches
+			}
+
+			return this.inxState.search.number_of_matches
+		},
 		disabled: function () {
-			return this.inxState.search.number_of_matches === 0
+			return this.numberOfMatches === 0
 		}
 	},
 	components: {

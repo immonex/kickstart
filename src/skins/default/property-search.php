@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $inx_skin_rendering_atts = array(
+	'render_count'   => ! empty( $template_data['render_count'] ) ? $template_data['render_count'] : 0,
 	'extended_count' => $template_data['extended_count'],
 );
 foreach ( $template_data as $inx_skin_key => $inx_skin_value ) {
@@ -18,9 +19,18 @@ foreach ( $template_data as $inx_skin_key => $inx_skin_value ) {
 		$inx_skin_rendering_atts[ $inx_skin_key ] = $inx_skin_value;
 	}
 }
+
+$inx_skin_main_element_id = 'inx-property-search';
+$inx_skin_form_element_id = 'inx-property-search-main-form';
+if ( ! empty( $template_data['render_count'] ) ) {
+	$inx_skin_main_element_id .= '-' . $template_data['render_count'];
+	$inx_skin_form_element_id .= '-' . $template_data['render_count'];
+}
+$inx_skin_rendering_atts['search_main_element_id'] = $inx_skin_main_element_id;
+$inx_skin_rendering_atts['search_form_element_id'] = $inx_skin_form_element_id;
 ?>
-<div id="inx-property-search" class="inx-property-search inx-container">
-	<form id="inx-property-search-main-form" action="<?php echo $template_data['form_action']; ?>">
+<div id="<?php echo $inx_skin_main_element_id; ?>" class="inx-property-search inx-container">
+	<form id="<?php echo $inx_skin_form_element_id; ?>" action="<?php echo $template_data['form_action']; ?>">
 		<?php
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :

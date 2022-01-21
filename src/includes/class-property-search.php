@@ -34,6 +34,13 @@ class Property_Search {
 	private $api;
 
 	/**
+	 * Current number or performed search form renderings
+	 *
+	 * @var int
+	 */
+	private $render_count = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -263,10 +270,13 @@ class Property_Search {
 				'hidden_fields'  => $hidden_fields,
 				'elements'       => $elements,
 				'extended_count' => $extended_count,
+				'render_count'   => $this->render_count,
 			)
 		);
 
 		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+
+		$this->render_count++;
 
 		return $template_content;
 	} // render_form
