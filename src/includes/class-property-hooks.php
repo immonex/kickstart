@@ -408,6 +408,7 @@ class Property_Hooks {
 				$post_id = (int) $_GET['inx-property-id'];
 			} else {
 				global $wp_query;
+
 				if ( isset( $wp_query->query ) && ! empty( $wp_query->query['inx-property-id'] ) ) {
 					$post_id = $wp_query->query['inx-property-id'];
 				} else {
@@ -700,14 +701,21 @@ class Property_Hooks {
 				return $request;
 			}
 
-			$request['pagename']        = $details_page->post_name;
+			$ancestors = '';
+
+			if ( $details_page->post_parent ) {
+				// Create a list of parent page names to be added to the details page rewrite name.
+				foreach ( get_post_ancestors( $details_page ) as $ancestor_id ) {
+					$ancestors .= basename( get_permalink( $ancestor_id ) ) . '/';
+				}
+			}
+
+			$request['pagename']        = $ancestors . $details_page->post_name;
 			$request['inx-property-id'] = $property_post[0]->ID;
 
 			unset( $request['post_type'] );
 			unset( $request['inx_property'] );
 			unset( $request['name'] );
-
-			return $request;
 		}
 
 		return $request;
