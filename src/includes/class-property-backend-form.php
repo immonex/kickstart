@@ -207,6 +207,15 @@ class Property_Backend_Form {
 				'type' => 'text_small',
 			),
 			array(
+				'name'       => __( 'Full Address', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'full_address',
+				'type'       => 'text',
+				'attributes' => array(
+					'class' => 'large-text',
+				),
+			),
+			array(
 				'name'       => __( 'Build Year', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'build_year',
