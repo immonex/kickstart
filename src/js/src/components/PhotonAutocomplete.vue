@@ -68,7 +68,7 @@ export default {
 			type: String,
 			default: 'Deutschland, Germany, Österreich, Austria, Schweiz, Switzerland, Luxemburg,' +
 				'Luxembourg, Belgien, Belgium, Frankreich, France, Niederlande, Netherlands,' +
-				'Dänemark, Denmark, Polen, Poland'
+				'Dänemark, Denmark, Polen, Poland, Spanien, Spain, Italien, Italy, Griechenland, Greece'
 		},
 		limit: {
 			type: Number,
