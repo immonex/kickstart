@@ -206,6 +206,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'placeholder' => __( 'Locality Name (Distance Search)', 'immonex-kickstart' ),
 		'no_options' => __( 'Type to search...', 'immonex-kickstart' ),
 		'no_results' => __( 'No matching localities found.', 'immonex-kickstart' ),
+		'countries' => 'de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr',
 		'class' => 'inx-property-search__element--is-first-grid-col',
 		'order' => 200
 	],
@@ -315,6 +316,9 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | | *description*: Beschreibungen der Terms sofern vorhanden, ansonsten Namen |
 | `no_options` | angezeigter Text, wenn bei Autocomplete-Auswahlfeldern (noch) kein Suchbegriff eingegeben wurde |
 | `no_results` | angezeigter Text, wenn bei Autocomplete-Auswahlfeldern keine zum Suchbegriff passenden Orte gefunden wurden |
+| `countries` | Kommagetrennte Liste von Codes gem. [ISO 3166-1 ALPHA-2](https://www.nationsonline.org/oneworld/countrycodes.htm) der Länder, die bei der Autovervollständigung von Ortsnamen des Elements `distance-search-location` unterstützt werden sollen |
+| | Standardvorgabe beim Typ *photo-autocomplete*: *de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr* |
+| | Standardvorgabe beim Typ *google-places-autocomplete* (max. 5): *de,at,ch,be,nl* |
 | `placeholder` (string) | Platzhaltertext bei Eingabefeldern |
 | `class` (string) | Extra-CSS-Klassen des Containerelements |
 | `order` (int) | Reihenfolge/Position des Elements im Formular |

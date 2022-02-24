@@ -62,7 +62,7 @@ class Property_List {
 		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
 		$atts['list_query_atts'] = array_filter(
 			$atts,
-			function($value, $key) {
+			function( $value, $key ) {
 				return $value && 'inx-' === substr( $key, 0, 4 );
 			},
 			ARRAY_FILTER_USE_BOTH

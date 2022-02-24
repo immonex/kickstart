@@ -181,7 +181,7 @@ class WP_Bootstrap {
 					'with_front' => false,
 				),
 			),
-			$this->prefix . 'project'          => array(
+			$this->prefix . 'project'        => array(
 				'description'       => '',
 				'labels'            => array(
 					'name'              => _x( 'Projects', 'taxonomy general name', 'immonex-kickstart' ),

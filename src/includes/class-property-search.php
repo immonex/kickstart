@@ -207,6 +207,17 @@ class Property_Search {
 						'value' => $atts[ $public_id ],
 					);
 				}
+
+				if ( '-autocomplete' === substr( $element['type'], -13 ) ) {
+					if ( ! empty( $atts['autocomplete-countries'] ) ) {
+						$elements[ $id ]['countries'] = $atts['autocomplete-countries'];
+					}
+
+					if ( 'photon-autocomplete' === $element['type'] ) {
+						// Convert country codes to name list for Photon-based location autocompletion.
+						$elements[ $id ]['country_list'] = $this->get_photon_autocomplete_countries( $elements[ $id ]['countries'] );
+					}
+				}
 			}
 		}
 
@@ -480,7 +491,6 @@ class Property_Search {
 				}
 
 				$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
-				break;
 		}
 
 		// Prefixed ID for use as input id/name etc. (except for IDs starting with "inx-").
@@ -553,6 +563,39 @@ class Property_Search {
 
 		return $template_content;
 	} // render_form
+
+	/**
+	 * Convert country code strings to country name lists for Photon-based
+	 * location autocompletion.
+	 *
+	 * @param string $country_codes Comma-separated Country code list
+	 *                              (ISO 3166 ALPHA-2/3).
+	 *
+	 * @return string Country name list.
+	 */
+	private function get_photon_autocomplete_countries( $country_codes ) {
+		$country_codes_split = explode( ',', $country_codes );
+		if ( empty( $country_codes_split ) ) {
+			return '';
+		}
+
+		$country_names = array();
+
+		foreach ( $country_codes_split as $code ) {
+			$country = Geo_Data::get_country_data( $code );
+			if ( $country ) {
+				$country_names[] = $country['name_en'];
+				if (
+					! empty( $country['name_de'] )
+					&& $country['name_de'] !== $country['name_en']
+				) {
+					$country_names[] = $country['name_de'];
+				}
+			}
+		}
+
+		return implode( ',', $country_names );
+	} // get_photon_autocomplete_countries
 
 	/**
 	 * Split a taxonomy slug string and return the related top-level term IDs.
@@ -811,6 +854,8 @@ class Property_Search {
 				'placeholder' => __( 'Locality Name (Distance Search)', 'immonex-kickstart' ),
 				'no_options'  => __( 'Type to search...', 'immonex-kickstart' ),
 				'no_results'  => __( 'No matching localities found.', 'immonex-kickstart' ),
+				'countries'   => 'google-places' === $this->config['distance_search_autocomplete_type'] ?
+					'de,at,ch,be,nl' : 'de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr',
 				'class'       => 'inx-property-search__element--is-first-grid-col',
 				'order'       => 200,
 			),

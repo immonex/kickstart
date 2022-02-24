@@ -57,7 +57,7 @@ Ist diese Option aktiviert, gilt sie global: Auf allen Seiten mit Suchformular w
 
 ### Karten & Umkreissuche
 
-Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilienstandorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative **in Suchformularen und Detailseiten**.
+Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilienstandorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) und die [Google Places API](https://developers.google.com/maps/documentation/places/web-service/autocomplete) als Alternative **in Suchformularen und Detailseiten**.
 
 ### Titelformen (Slugs)
 
@@ -93,7 +93,9 @@ Google-Maps-Karte mit Ort oder Stadtteil (iFrame)
 
 #### Autovervollständigung
 
-Die **Umkreissuche** im erweiterten [Immobilien-Suchformular](../komponenten/index.html) kann generell deaktiviert werden, indem bei *Autovervollständigung* die Option `keine` ausgewählt wird.
+Wird die Google Places API für die Auswahl der Standorte für die **Umkreissuche** im erweiterten [Immobilien-Suchformular](../komponenten/index.html) verwendet, beschränkt sich die Suche nach bzw. Autovervollständigung von Ortsnamen standardmäßig auf folgende Länder: Deutschland, Österreich, Schweiz, Belgien, Niederlande, bei Nutzung der alternativen [Photon](https://photon.komoot.io/)-Variante kommen noch folgende Länder hinzu: Luxemburg, Frankreich, Dänemark, Polen, Spanien, Portugal, Italien, und Griechenland. Eine Anpassung der Länderlisten ist per Attribut `autocomplete-countries` des [Suchformular-Shortcodes](../komponenten/index.html#Attribute) `[inx-search-form]` oder über den Filter-Hook [inx-search-form-elements](../anpassung-erweiterung/filter-inx-search-form-elements.html) möglich.
+
+Die Umkreissuche kann generell deaktiviert werden, indem bei *Autovervollständigung* die Option `keine` ausgewählt wird.
 
 #### Google Maps
 

@@ -7,6 +7,11 @@
 	.multiselect__element {
 		margin: 0;
 	}
+
+	.multiselect__single {
+		max-height: 1.2em;
+		overflow: hidden;
+	}
 }
 
 .inx-location-autocomplete__consent {

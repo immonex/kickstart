@@ -258,7 +258,7 @@ class Property_Backend_Form {
 				'id'               => '_immonex_group_master',
 				'type'             => 'select',
 				'show_option_none' => __( 'no', 'immonex-kickstart' ),
-				'options' => array(
+				'options'          => array(
 					'visible'   => __( 'visible', 'immonex-kickstart' ),
 					'invisible' => __( 'not visible', 'immonex-kickstart' ),
 				),
@@ -304,7 +304,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'box'             => 'geo',
+				'box'  => 'geo',
 				'name' => __( 'Country Code', 'immonex-kickstart' ),
 				'desc' => wp_sprintf(
 					// translators: %s = Wikipedia URL.

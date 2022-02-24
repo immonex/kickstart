@@ -808,7 +808,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 					'section' => 'section_distance_search',
 					'args'    => array(
 						'description' => __( 'Select the autocomplete solution to use for the distance search in property search forms (none = disable distance search).', 'immonex-kickstart' ) . '<br>' .
-							__( 'For the <strong>Google Places</strong> based variant, providing an appropriate API key is required (see Google Maps API section below).', 'immonex-kickstart' ),
+							__( 'For the <strong>Google Places</strong> based variant, providing an appropriate API key is required (see Google Maps API tab).', 'immonex-kickstart' ),
 						'options'     => $this->distance_search_autocomplete_types,
 					),
 				),

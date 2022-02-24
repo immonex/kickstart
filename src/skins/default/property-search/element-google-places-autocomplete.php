@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( $template_data['google_api_key'] ) :
 	$inx_skin_show_label   = false;
 	$inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
-	$inx_skin_placeholder  = isset( $template_data['element']['placeholder'] ) && $template_data['element']['placeholder'] ? $template_data['element']['placeholder'] : '';
+	$inx_skin_placeholder  = ! empty( $template_data['element']['placeholder'] ) ? $template_data['element']['placeholder'] : '';
 
 	$inx_skin_privacy_note = wp_sprintf(
 		/* translators: %1 = Google Maps, %2 = Privacy Policy URL */
@@ -35,6 +35,9 @@ if ( $template_data['google_api_key'] ) :
 		wrap-classes="inx-location-autocomplete uk-search uk-search-default uk-width-1-1"
 		input-classes="inx-search-input uk-search-input"
 		api-key="<?php echo esc_attr( $template_data['google_api_key'] ); ?>"
+		<?php if ( ! empty( $template_data['element']['countries'] ) ) : ?>
+		countries="<?php echo esc_attr( $template_data['element']['countries'] ); ?>"
+		<?php endif; ?>
 		:require-consent="<?php echo $template_data['distance_search_autocomplete_require_consent'] ? 'true' : 'false'; ?>"
 		privacy-note="<?php echo esc_attr( $inx_skin_privacy_note ); ?>"
 		consent-button-text="<?php echo esc_attr( $inx_skin_consent_button_text ); ?>"

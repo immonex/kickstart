@@ -284,16 +284,17 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
-			'cid'                  => '',
-			'dynamic-update'       => '',
-			'force-location'       => '',
-			'force-type-of-use'    => '',
-			'force-property-type'  => '',
-			'force-marketing-type' => '',
-			'force-feature'        => '',
-			'results-page-id'      => false,
-			'elements'             => '',
-			'exclude'              => '',
+			'cid'                    => '',
+			'dynamic-update'         => '',
+			'force-location'         => '',
+			'force-type-of-use'      => '',
+			'force-property-type'    => '',
+			'force-marketing-type'   => '',
+			'force-feature'          => '',
+			'results-page-id'        => false,
+			'elements'               => '',
+			'exclude'                => '',
+			'autocomplete-countries' => '',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
