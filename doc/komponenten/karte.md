@@ -47,5 +47,6 @@ Karte mit Häusern und Initial-Zoomstufe 14:
 
 ## Erweiterte Anpassungen
 
+- [Filter-Referenz](../anpassung-erweiterung/filters-actions.html#Standortkarten)
 - [Templates](../anpassung-erweiterung/skins.html#Partiell)
 - [Custom Skin](../anpassung-erweiterung/standard-skin.html#Archiv-amp-Listenansicht)

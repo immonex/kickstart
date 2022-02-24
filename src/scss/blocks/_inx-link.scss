@@ -15,7 +15,7 @@
 .inx-link:focus,
 .inx-link:active {
 	color: $color-action-element;
-	filter: brightness(130%);
+	filter: brightness(120%) saturate(85%);
 }
 
 .inx-link--is-inline {

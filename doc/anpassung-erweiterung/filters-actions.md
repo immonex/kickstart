@@ -28,6 +28,10 @@ search: 1
 - [inx_search_form_area_min_max_value](filter-inx-search-form-area-min-max-value.html) (Minimal/Maximal-Werte für Flächen-Slider festlegen oder anpassen)
 - [inx_fulltext_search_fields](filter-inx-fulltext-search-fields.html) (Custom Fields für die Volltextsuche)
 
+### Standortkarten
+
+- [inx_property_list_map_atts](filter-inx-property-list-map-atts.html) (Abfrage/Rendering-Attribute der Kartenansicht)
+
 ### Sortierung
 
 - [inx_property_sort_options](filter-inx-property-sort-options.html) (Sortieroptionen der Frontend-Auswahlliste)

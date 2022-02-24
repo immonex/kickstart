@@ -10,21 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Property list related actions, filters and shortcodes.
  */
-class Property_List_Hooks {
+class Property_List_Hooks extends Property_Component_Hooks {
 
 	/**
-	 * Various component configuration data
-	 *
-	 * @var mixed[]
+	 * Base name for frontend component instance IDs
 	 */
-	private $config;
-
-	/**
-	 * Helper/Utility objects
-	 *
-	 * @var object[]
-	 */
-	private $utils;
+	const FE_COMPONENT_ID_BASENAME = 'inx-property-list';
 
 	/**
 	 * Related property list object
@@ -42,8 +33,8 @@ class Property_List_Hooks {
 	 * @param object[] $utils Helper/Utility objects.
 	 */
 	public function __construct( $config, $utils ) {
-		$this->config        = $config;
-		$this->utils         = $utils;
+		parent::__construct( $config, $utils );
+
 		$this->property_list = new Property_List( $config, $utils );
 
 		/**
@@ -83,6 +74,11 @@ class Property_List_Hooks {
 	 */
 	public function render_property_list( $atts = array() ) {
 		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : 'property-list/properties';
+
+		$atts = array_merge(
+			$atts,
+			$this->add_rendered_instance( $template, $atts )
+		);
 
 		echo $this->property_list->render( $template, $atts );
 	} // render_property_list
@@ -221,6 +217,7 @@ class Property_List_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
+			'cid'             => '',
 			'disable_links'   => '',
 			'no_results_text' => false,
 		);
@@ -242,6 +239,18 @@ class Property_List_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-list" );
+
+		$this->rendering_vars[] = array_merge(
+			array(
+				'template' => 'property-list/properties',
+			),
+			array_filter( $shortcode_atts )
+		);
+
+		$shortcode_atts = array_merge(
+			$shortcode_atts,
+			$this->add_rendered_instance( 'property-list/properties', array_filter( $shortcode_atts ) )
+		);
 
 		return $this->property_list->render( 'property-list/properties', $shortcode_atts );
 	} // shortcode_property_list

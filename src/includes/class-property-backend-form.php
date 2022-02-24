@@ -117,25 +117,45 @@ class Property_Backend_Form {
 			$extra_descriptions->add_field( $field );
 		}
 
-		$core_data = new_cmb2_box(
-			array(
-				'id'           => 'core_data',
-				'title'        => __( 'Core Data', 'immonex-kickstart' ),
-				'object_types' => array( $this->data['property_post_type_name'] ),
-				'context'      => 'normal',
-				'priority'     => 'core',
-				'show_names'   => true,
-			)
+		$core_data_boxes = array(
+			'core'           => __( 'Core Data', 'immonex-kickstart' ),
+			'geo'            => __( 'Location/Geo', 'immonex-kickstart' ),
+			'rooms'          => __( 'Rooms', 'immonex-kickstart' ),
+			'areas'          => __( 'Areas', 'immonex-kickstart' ),
+			'units_grouping' => __( 'Units/Grouping', 'immonex-kickstart' ),
 		);
+
+		foreach ( $core_data_boxes as $box_id => $box_title ) {
+			$core_data[ $box_id ] = new_cmb2_box(
+				array(
+					'id'           => $box_id,
+					'title'        => $box_title,
+					'object_types' => array( $this->data['property_post_type_name'] ),
+					'context'      => 'normal',
+					'priority'     => 'core',
+					'show_names'   => true,
+					'closed'       => true,
+				)
+			);
+		}
 
 		$core_data_fields = array(
 			array(
+				'box'  => 'core',
 				'name' => __( 'Property ID', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'property_id',
 				'type' => 'text_medium',
 			),
 			array(
+				'box'  => 'core',
+				'name' => __( 'Translation ID', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => '_immonex_translation_id',
+				'type' => 'text_medium',
+			),
+			array(
+				'box'             => 'core',
 				'name'            => __( 'Available', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_available',
@@ -143,6 +163,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Reserved', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_reserved',
@@ -150,6 +171,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Sold/Rented', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_sold',
@@ -157,6 +179,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Reference Property', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_reference',
@@ -164,6 +187,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Featured', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_featured',
@@ -171,6 +195,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Front Page Offer', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_front_page_offer',
@@ -178,6 +203,7 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'             => 'core',
 				'name'            => __( 'Demo Property', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_demo',
@@ -185,6 +211,100 @@ class Property_Backend_Form {
 				'sanitization_cb' => array( $this, 'convert_cb_value' ),
 			),
 			array(
+				'box'  => 'core',
+				'name' => __( 'Import Folder', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => '_immonex_import_folder',
+				'type' => 'text',
+			),
+			array(
+				'box'        => 'core',
+				'name'       => __( 'Build Year', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'build_year',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'        => 'core',
+				'name'       => __( 'Price (primary)', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'primary_price',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'  => 'core',
+				'name' => __( 'Price Time Unit', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => $prefix . 'price_time_unit',
+				'type' => 'text_medium',
+			),
+			array(
+				'box'  => 'units_grouping',
+				'name' => __( 'Group ID', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => '_immonex_group_id',
+				'type' => 'text',
+			),
+			array(
+				'box'              => 'units_grouping',
+				'name'             => __( 'Group Master Property', 'immonex-kickstart' ),
+				'desc'             => '',
+				'id'               => '_immonex_group_master',
+				'type'             => 'select',
+				'show_option_none' => __( 'no', 'immonex-kickstart' ),
+				'options' => array(
+					'visible'   => __( 'visible', 'immonex-kickstart' ),
+					'invisible' => __( 'not visible', 'immonex-kickstart' ),
+				),
+			),
+			array(
+				'box'        => 'units_grouping',
+				'name'       => __( 'Group Number', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => '_immonex_group_number',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'        => 'units_grouping',
+				'name'       => __( 'Units (primary)', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'primary_units',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'        => 'units_grouping',
+				'name'       => __( 'Living Units', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'living_units',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'        => 'units_grouping',
+				'name'       => __( 'Commercial Units', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'commercial_units',
+				'type'       => 'text_small',
+				'attributes' => array(
+					'type' => 'number',
+				),
+			),
+			array(
+				'box'             => 'geo',
 				'name' => __( 'Country Code', 'immonex-kickstart' ),
 				'desc' => wp_sprintf(
 					// translators: %s = Wikipedia URL.
@@ -195,18 +315,21 @@ class Property_Backend_Form {
 				'type' => 'text_small',
 			),
 			array(
+				'box'  => 'geo',
 				'name' => __( 'Latitude', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'lat',
 				'type' => 'text_small',
 			),
 			array(
+				'box'  => 'geo',
 				'name' => __( 'Longitude', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => $prefix . 'lng',
 				'type' => 'text_small',
 			),
 			array(
+				'box'        => 'geo',
 				'name'       => __( 'Full Address', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'full_address',
@@ -216,74 +339,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name'       => __( 'Build Year', 'immonex-kickstart' ),
-				'desc'       => '',
-				'id'         => $prefix . 'build_year',
-				'type'       => 'text_small',
-				'attributes' => array(
-					'type' => 'number',
-				),
-			),
-			array(
-				'name'       => __( 'Units (primary)', 'immonex-kickstart' ),
-				'desc'       => '',
-				'id'         => $prefix . 'primary_units',
-				'type'       => 'text_small',
-				'attributes' => array(
-					'type' => 'number',
-				),
-			),
-			array(
-				'name'       => __( 'Living Units', 'immonex-kickstart' ),
-				'desc'       => '',
-				'id'         => $prefix . 'living_units',
-				'type'       => 'text_small',
-				'attributes' => array(
-					'type' => 'number',
-				),
-			),
-			array(
-				'name'       => __( 'Commercial Units', 'immonex-kickstart' ),
-				'desc'       => '',
-				'id'         => $prefix . 'commercial_units',
-				'type'       => 'text_small',
-				'attributes' => array(
-					'type' => 'number',
-				),
-			),
-			array(
-				'name'       => __( 'Price (primary)', 'immonex-kickstart' ),
-				'desc'       => '',
-				'id'         => $prefix . 'primary_price',
-				'type'       => 'text_small',
-				'attributes' => array(
-					'type' => 'number',
-				),
-			),
-			array(
-				'name' => __( 'Price Time Unit', 'immonex-kickstart' ),
-				'desc' => '',
-				'id'   => $prefix . 'price_time_unit',
-				'type' => 'text_medium',
-			),
-			array(
-				'name' => __( 'Import Folder', 'immonex-kickstart' ),
-				'desc' => '',
-				'id'   => '_immonex_import_folder',
-				'type' => 'text',
-			),
-			array(
-				'name' => __( 'Translation ID', 'immonex-kickstart' ),
-				'desc' => '',
-				'id'   => '_immonex_translation_id',
-				'type' => 'text_medium',
-			),
-			array(
-				'name' => _x( 'Rooms', 'backend form heading', 'immonex-kickstart' ),
-				'id'   => $prefix . 'title_rooms',
-				'type' => 'title',
-			),
-			array(
+				'box'        => 'rooms',
 				'name'       => __( 'Rooms (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'primary_rooms',
@@ -293,6 +349,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'rooms',
 				'name'       => __( 'Bedrooms', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'bedrooms',
@@ -302,6 +359,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'rooms',
 				'name'       => __( 'Living Rooms/Bedrooms', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'living_bedrooms',
@@ -311,6 +369,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'rooms',
 				'name'       => __( 'Bathrooms', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'bathrooms',
@@ -320,6 +379,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'rooms',
 				'name'       => __( 'Total Rooms', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'total_rooms',
@@ -329,11 +389,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
-				'name' => __( 'Areas', 'immonex-kickstart' ),
-				'id'   => $prefix . 'title_areas',
-				'type' => 'title',
-			),
-			array(
+				'box'        => 'areas',
 				'name'       => __( 'Area (primary)', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'primary_area',
@@ -344,6 +400,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Living Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'living_area',
@@ -354,6 +411,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Plot', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'plot_area',
@@ -364,6 +422,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Usable Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'usable_area',
@@ -374,6 +433,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Total Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'total_area',
@@ -384,6 +444,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Basement', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'basement_area',
@@ -394,6 +455,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Attic', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'attic_area',
@@ -404,6 +466,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Garden', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'garden_area',
@@ -414,6 +477,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Commercial Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'commercial_area',
@@ -424,6 +488,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Retail Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'retail_area',
@@ -434,6 +499,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Office Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'office_area',
@@ -444,6 +510,7 @@ class Property_Backend_Form {
 				),
 			),
 			array(
+				'box'        => 'areas',
 				'name'       => __( 'Other Area', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'misc_area',
@@ -456,7 +523,8 @@ class Property_Backend_Form {
 		);
 
 		foreach ( $core_data_fields as $field ) {
-			$core_data->add_field( $field );
+			$box_id = ! empty( $field['box'] ) ? $field['box'] : 'core';
+			$core_data[ $box_id ]->add_field( $field );
 		}
 
 		$attachments = new_cmb2_box(
@@ -467,6 +535,7 @@ class Property_Backend_Form {
 				'context'      => 'normal',
 				'priority'     => 'core',
 				'show_names'   => true,
+				'closed'       => true,
 			)
 		);
 
@@ -505,6 +574,7 @@ class Property_Backend_Form {
 				'context'      => 'normal',
 				'priority'     => 'core',
 				'show_names'   => true,
+				'closed'       => true,
 			)
 		);
 

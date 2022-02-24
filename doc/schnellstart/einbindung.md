@@ -29,6 +29,14 @@ Auswahl der Immobilien- und Vermarktungsart nicht einbinden:
 
 Details und vollständige Elementliste: [Komponenten → Suchformular](../komponenten/index.html)
 
+## Standortkarte
+
+`[inx-property-map]`
+
+Dieser Shortcode generiert eine Karte auf OpenStreetMap-Basis, die anklickbare Immobilien-Standortmarker inkl. zugehörigen Info-Overlays mit verlinkten Objektfotos und -bezeichnungen enthält.
+
+Details: [Komponenten → Karte](../komponenten/karte.html)
+
 ## Sortierung
 
 `[inx-filters-sort]`
@@ -180,6 +188,7 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](../beitragsarten-taxonomien.html)) |
 | `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](../beitragsarten-taxonomien.html)) |
 | `inx-search-marketing-type` | Vermarktungsart (Term-Slugs der Taxonomie [inx_marketing_type](../beitragsarten-taxonomien.html)) |
+| `inx-search-project` | [Projekt/Gruppe](../referenzen-status-flags.html#Gruppierung) (Term-Slugs der Taxonomie [inx_project](../beitragsarten-taxonomien.html)) |
 | `inx-search-locality` | Ort (Term-Slugs der Taxonomie [inx_location](../beitragsarten-taxonomien.html)) |
 | `inx-search-features` | Ausstattung (Term-Slugs der Taxonomie [inx_features](../beitragsarten-taxonomien.html)) |
 | `inx-search-labels` | Labels (Term-Slugs der Taxonomie [inx_labels](../beitragsarten-taxonomien.html)) |
@@ -188,13 +197,14 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-search-price-range` | Preisrahmen (MIN,MAX, z. B. *200000,400000*) |
 | `inx-author` | Objekte nach Autor(en) filtern (kommagetrennte Liste von Benutzer-IDs oder Login-Namen; Minus zum Ausschließen bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `inx-iso-country` | nur Objekte im Land mit den angegebenen [ISO3-Ländercodes](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste) anzeigen (z. B. *DEU* oder *DEU* oder *DEU,AUT,ESP*) |
-| `inx-references` | Referenzen anzeigen? (*yes* = ja, *no* = nein (Standard), *only* = ausschließlich) |
-| `inx-available` | nur explizit **verfügbare** Objekte anzeigen? (*yes* = ja, *no* = nein) |
-| `inx-reserved` | nur explizit **reservierte** Objekte anzeigen? (*yes* = ja, *no* = nein) |
-| `inx-sold` | nur explizit **verkaufte/vermietete** Objekte anzeigen? (*yes* = ja, *no* = nein) |
-| `inx-featured` | nur explizit **empfohlene** Objekte anzeigen? (*yes* = ja, *no* = nein) |
-| `inx-front-page-offer` | nur explizit als **Startseiten-Angebot** markierte Objekte anzeigen? (*yes* = ja, *no* = nein) |
-| `inx-demo` | **Beispiel-/Demo-Objekte** bei der Ausgabe berücksichtigen? (*no* = nein, *only* = ausschließlich) |
+| `inx-references` | Referenzen anzeigen: *yes* = ja, *no* = nein (Standard), *only* = ausschließlich |
+| `inx-masters` | [Master-Objekte](../referenzen-status-flags.html#Master-Objekte) ([Objektgruppen](../referenzen-status-flags.html#Gruppierung)) anzeigen? (*yes* = ja (Standard), *no* = nein, *only* = ausschließlich) |
+| `inx-available` | nur explizit **verfügbare** Objekte anzeigen: *yes* = ja, *no* = nein |
+| `inx-reserved` | nur explizit **reservierte** Objekte anzeigen: *yes* = ja, *no* = nein |
+| `inx-sold` | nur explizit **verkaufte/vermietete** Objekte anzeigen: *yes* = ja, *no* = nein |
+| `inx-featured` | nur explizit **empfohlene** Objekte anzeigen: *yes* = ja, *no* = nein |
+| `inx-front-page-offer` | nur explizit als **Startseiten-Angebot** markierte Objekte anzeigen: *yes* = ja, *no* = nein |
+| `inx-demo` | **Beispiel-/Demo-Objekte** bei der Ausgabe berücksichtigen: *no* = nein, *only* = ausschließlich |
 | `inx-limit` | **Gesamtanzahl** der anzuzeigenden Immobilien begrenzen (Ganzzahl) |
 | `inx-limit-page` | Anzahl der anzuzeigenden Immobilien **pro Seite** begrenzen (Ganzzahl) |
 | `inx-sort` | [Sortierschlüssel (Key)](../komponenten/sortierung.html#Standard-Optionen) |

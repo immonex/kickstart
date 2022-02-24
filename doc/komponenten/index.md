@@ -20,8 +20,12 @@ Standard-Suchformular (ohne Anpassungen)
 
 | Name | Beschreibung |
 | ---- | ------------ |
+| `cid` | individuelle **HTML-DOM-ID** des Containerelements der Komponente (optional, Standard: *inx-property-search*, bei Mehrfacheinbindung zus. Instanzen inkl. laufender Nummer *inx-property-search-2*, *-3*...) |
 | `elements` | Umfang, Reihenfolge und Aufteilung der Elemente (kommagetrennte Liste, optional) |
 | `exclude` | **Alternative** zu `elements`: Nur die angegebenen Elemente der Standardauswahl **nicht** einbinden (kommagetrennte Liste, optional) |
+| `dynamic-update` | dynamische Aktualisierung der Inhalte von Immobilienlisten und Standortkarten auf der gleichen Seite (ohne Neuladen) bei Änderung der Suchparameter aktivieren (optional) |
+| | *all* oder *1* : alle Listen- und Kartenkomponenten der Seite (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) |
+| | *inx-property-map, inx-property-list* (Beispiel): kommagetrennte Liste von **HTML-DOM-IDs** der zu aktualisierenden Komponenten (eigene IDs können per Attribut `cid` festgelegt werden) |
 | `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
 | `references` | Angaben wie <i>verkauft</i> oder <i>vermietet</i> werden in der Auswahlliste des Elements **Vermarktungsart** (`marketing-type`) standardmäßig ausgefiltert. Mit *yes* als Attributwert kann diese Filterung **deaktiviert** werden (optional). |
 | `force-location` | Auswahloptionen des Elements `locality` (Objektstandort) auf die **Hauptkategorien** (Terms der [Taxonomie inx_location](../beitragsarten-taxonomien.html)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste) |
@@ -43,12 +47,15 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | `property-type` (2) | Dropdown-Einzelauswahl der **Objektart** (Term der [Taxonomie inx_property_type](../beitragsarten-taxonomien.html)) |
 | `marketing-type` (3) | Dropdown-Einzelauswahl der **Vermarktungsart** (Term der [Taxonomie inx_marketing_type](../beitragsarten-taxonomien.html)) |
 | `locality` (4) | Dropdown-Einzelauswahl des **Objekt-Standorts** - Ort/Stadt oder Orts-/Stadtteil (Term der [Taxonomie inx_location](../beitragsarten-taxonomien.html)) |
+| `project`* | Dropdown-Einzelauswahl eines **Projekts** ([Objektgruppe](../referenzen-status-flags.html#Gruppierung), Term der [Taxonomie inx_project](../beitragsarten-taxonomien.html)) |
 | `min-rooms` (5) | Auswahlslider für die minimale Zimmer-/Raumanzahl ([Custom Field \_inx_primary_rooms](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | `min-area` (6) | Auswahlslider für die minimale Wohnfläche in m² ([Custom Field \_inx_living_area](../beitragsarten-taxonomien.html#Custom-Fields); Maximalwert wird anhand der vorhandenen Objekte automatisch ermittelt) |
 | `price-range` (7) | Auswahlslider für den Preisrahmen ([Custom Field \_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields); Maximalpreis wird anhand der vorhandenen Objekte automatisch ermittelt) |
 | `submit` (8) | Absenden-Button (Objektanzahl wird anhand der aktuell ausgewählten Kriterien dynamisch aktualisiert) |
 | `reset` (9) | Link zum Zurücksetzen des Formulars |
 | `toggle-extended` (10) | Link zum Aufklappen des Abschnitts der erweiterten Suche |
+
+\* Die Projektauswahl ist standardmäßig ausgeblendet und muss über das Attribut `elements` oder den Filter-Hook [inx_search_form_elements](../anpassung-erweiterung/filter-inx-search-form-elements.html) explizit eingeblendet werden.
 
 ##### Erweitert (aufklappbar)
 
@@ -92,6 +99,23 @@ Beispiel: Ausstattungsliste (`features`) und Vermarktungs-/Nutzungsarten-Auswahl
 
 ![erweitertes Suchformular](../assets/scst-search-form-4.png)
 Formular mit Ausstattungsmerkmalen im primären und Vermarktungs-/Nutzungsarten im erweiterten Abschnitt
+
+## Dynamische Listen & Karten
+
+Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 **optional** möglich, auch die Inhalte der [Immobilienlisten](liste.html) und/oder [Standortkarten](karte.html), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden:
+
+![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.png)
+
+Alternativ kann die dynamische Aktualisierung mit dem Shortcode-Attribut `dynamic-update` aber auch auf einzelne Seiten oder spezifische Komponenten beschränkt werden. Als Attributwert werden hierbei entweder die **HTML-DOM-IDs** der betr. Container-Elemente (einzeln bzw. als kommagetrennte Liste) oder *all* respektive *1* für alle Kickstart-Komponenten der gleichen **Seite** angegeben. (IDs zusätzlicher Elemente für die Seitennavigation oder die Filterung/Sortierung der Immobilienlisten müssen hier **nicht** aufgeführt werden, da diese automatisch mit aktualisiert werden.)
+
+Beispiel: Listenansicht (DOM-ID *inx-property-list*) und Immobilienkarte (*inx-property-map*) dynamisch aktualisieren
+`[inx-search-form dynamic-update="inx-property-list, inx-property-map"]`
+
+Bei paralleler Aktivierung der globalen Option hat die per Shortcode-Attribut definierte Angabe eine höhere Priorität. Im Beispiel sind die standardmäßig vergebenen DOM-IDs der Elemente für Listen- und Kartenansichten genannt, wobei hier bei einer Mehrfacheinbindung noch eine laufende Nummer angehangen wird: Bei zwei Listen in einer Seite erhalten diese bspw. die IDs *inx-property-list* und *inx-property-list-2*. Sollen stattdessen individuelle IDs vergeben werden, ist dies mit dem Attribut `cid` möglich:
+
+Beispiel: Suchformular und Instanz einer Listenansicht mit der DOM-ID *immo-liste* einfügen, die bei Änderung der Suchkriterien aktualisiert wird
+`[inx-search-form dynamic-update="immo-liste"]`
+`[inx-property-list cid="immo-liste"]`
 
 ## Erweiterte Anpassungen
 

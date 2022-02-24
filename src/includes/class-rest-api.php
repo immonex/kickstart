@@ -51,15 +51,19 @@ class REST_API {
 	 * @since 1.0.0
 	 */
 	public function register_routes() {
-		register_rest_route(
-			$this->config['plugin_slug'] . '/v1',
-			'/properties',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_properties' ),
-				'permission_callback' => '__return_true',
-			)
-		);
+		$content_fetch_entities = array( 'properties', 'property_map' );
+
+		foreach ( $content_fetch_entities as $entity ) {
+			register_rest_route(
+				$this->config['plugin_slug'] . '/v1',
+				"/{$entity}",
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, "get_{$entity}" ),
+					'permission_callback' => '__return_true',
+				)
+			);
+		}
 
 		register_rest_route(
 			$this->config['plugin_slug'] . '/v1',
@@ -83,6 +87,16 @@ class REST_API {
 	 * @return \WP_Post[]|int List of property objects (if any) or count only.
 	 */
 	public function get_properties( \WP_REST_Request $request ) {
+		$response_format = $this->get_property_query_response_format( $request );
+
+		if ( 'html' === $response_format ) {
+			return $this->get_property_list_html( $request );
+		}
+
+		if ( 'json_map_markers' === $response_format ) {
+			return $this->get_property_map_markers( $request );
+		}
+
 		$prefix          = $this->config['public_prefix'];
 		$property_search = new Property_Search( $this->config, $this->utils );
 
@@ -116,12 +130,10 @@ class REST_API {
 		}
 
 		$tax_and_meta_queries = $property_search->get_tax_and_meta_queries( $search_query_vars );
-		$count_only           = $request->get_param( 'count' );
-
-		$property_list = new Property_List( $this->config, $this->utils );
+		$property_list        = new Property_List( $this->config, $this->utils );
 
 		$args = array(
-			'fields' => $count_only ? 'ids' : 'all',
+			'fields' => 'count' === $response_format ? 'ids' : 'all',
 		);
 
 		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
@@ -142,17 +154,75 @@ class REST_API {
 		}
 
 		if (
-			$request->get_param( 'lang' ) &&
+			$request->get_param( 'inx-r-lang' ) &&
 			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
 		) {
-			$args['lang']             = sanitize_key( $request->get_param( 'lang' ) );
+			$args['lang']             = sanitize_key( $request->get_param( 'inx-r-lang' ) );
 			$args['suppress_filters'] = false;
 		}
 
 		$properties = $property_list->get_properties( $args );
 
-		return $count_only ? count( $properties ) : $properties;
+		return 'count' === $response_format ? count( $properties ) : $properties;
 	} // get_properties
+
+	/**
+	 * Render a full property list HTML output and the related pagination.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return string[] List and pagination HTML strings.
+	 */
+	private function get_property_list_html( $request ) {
+		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+		unset( $component_instance_data['is_regular_archive_page'] );
+
+		$template      = ! empty( $component_instance_data['template'] ) ? $component_instance_data['template'] : '';
+		$property_list = new Property_List( $this->config, $this->utils );
+
+		return array(
+			'list'       => $property_list->render( $template, $component_instance_data ),
+			'pagination' => $property_list->get_rendered_pagination(),
+		);
+	} // get_property_list_html
+
+	/**
+	 * Generate a set of property map markers based on the given request data.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return mixed[] Map marker data.
+	 */
+	private function get_property_map_markers( $request ) {
+		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+
+		return apply_filters( 'inx_get_property_map_markers', array(), $component_instance_data );
+	} // get_property_map_markers
+
+	/**
+	 * Determine the response format for property queries.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return string Response format key.
+	 */
+	private function get_property_query_response_format( $request ) {
+		$formats         = array( 'json', 'json_map_markers', 'html', 'count' );
+		$response_format = $request->get_param( 'inx-r-response' );
+
+		if ( $response_format && in_array( $response_format, $formats, true ) ) {
+			return $response_format;
+		}
+
+		// Parameter "count" is queried due to compatibility with older/custom skins.
+		return $request->get_param( 'count' ) ? 'count' : $formats[0];
+	} // get_property_query_response_format
 
 	/**
 	 * Check if the authenticated user is allowed to update the property post

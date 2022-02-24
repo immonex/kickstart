@@ -10,27 +10,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$inx_skin_rendering_atts = array(
-	'render_count'   => ! empty( $template_data['render_count'] ) ? $template_data['render_count'] : 0,
-	'extended_count' => $template_data['extended_count'],
+$inx_skin_main_element_id = ! empty( $template_data['cid'] ) ? $template_data['cid'] : 'inx-property-search';
+$inx_skin_dynamic_update  = ! empty( $template_data['dynamic-update'] ) ? $template_data['dynamic-update'] : '';
+$inx_skin_rendering_atts  = array(
+	'cid'                    => $inx_skin_main_element_id,
+	'search_main_element_id' => $inx_skin_main_element_id,
+	'render_count'           => ! empty( $template_data['render_count'] ) ? $template_data['render_count'] : 0,
+	'extended_count'         => $template_data['extended_count'],
 );
+
 foreach ( $template_data as $inx_skin_key => $inx_skin_value ) {
 	if ( 'force-' === substr( $inx_skin_key, 0, 6 ) ) {
 		$inx_skin_rendering_atts[ $inx_skin_key ] = $inx_skin_value;
 	}
 }
 
-$inx_skin_main_element_id = 'inx-property-search';
 $inx_skin_form_element_id = 'inx-property-search-main-form';
-if ( ! empty( $template_data['render_count'] ) ) {
-	$inx_skin_main_element_id .= '-' . $template_data['render_count'];
+if ( $inx_skin_rendering_atts['render_count'] > 1 ) {
 	$inx_skin_form_element_id .= '-' . $template_data['render_count'];
 }
-$inx_skin_rendering_atts['search_main_element_id'] = $inx_skin_main_element_id;
 $inx_skin_rendering_atts['search_form_element_id'] = $inx_skin_form_element_id;
 ?>
-<div id="<?php echo $inx_skin_main_element_id; ?>" class="inx-property-search inx-container">
-	<form id="<?php echo $inx_skin_form_element_id; ?>" action="<?php echo $template_data['form_action']; ?>">
+<div
+	id="<?php echo $inx_skin_main_element_id; ?>"
+	class="inx-property-search<?php echo $inx_skin_dynamic_update ? ' inx-dynamic-update' : ''; ?> inx-container"
+	<?php if ( $inx_skin_dynamic_update ) : ?>
+	data-dynamic-update="<?php echo esc_attr( $inx_skin_dynamic_update ); ?>"
+	<?php endif; ?>
+>
+	<form id="<?php echo $inx_skin_form_element_id; ?>" action="<?php echo $template_data['form_action']; ?>" method="get">
 		<?php
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :

@@ -21,6 +21,7 @@
 /* OpenLayers */
 import Map from 'ol/Map'
 import Feature from 'ol/Feature'
+import Collection from 'ol/Collection'
 import {Fill, Text, Style, Icon} from 'ol/style'
 import View from 'ol/View'
 import Overlay from 'ol/Overlay'
@@ -29,7 +30,7 @@ import {transform,fromLonLat} from 'ol/proj'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import {Cluster, OSM, Vector} from 'ol/source'
-import {easeIn, easeOut} from 'ol/easing';
+import {easeIn, easeOut} from 'ol/easing'
 
 export default {
 	name: 'inx-property-open-layers-map',
@@ -87,7 +88,9 @@ export default {
 			consentGranted: false,
 			popupVisible: false,
 			map: null,
-			currentZoom: 0
+			currentZoom: 0,
+			markers: null,
+			vectorSource: null
 		}
 	},
 	computed: {
@@ -99,6 +102,28 @@ export default {
 			})
 
 			return classes.join(' ')
+		},
+		markerSet () {
+			const markers = []
+
+			for (let postId in this.inxMaps[this.markerSetId]) {
+				const property = this.inxMaps[this.markerSetId][postId]
+				const lat = parseFloat(property.lat)
+				const lng = parseFloat(property.lng)
+
+				if (!lat || ! lng) continue
+				markers.push(this.propertyMarker([lng, lat], postId))
+			}
+
+			return markers
+		}
+	},
+	watch: {
+		'markerSet': function (newMarkers) {
+			if (!this.map) return
+
+			this.updateMarkers(newMarkers)
+			this.fitMapView(this.map)
 		}
 	},
 	methods: {
@@ -154,7 +179,7 @@ export default {
 			let wrapStyle = ''
 
 			for (let i = 0; i < postIds.length; i++) {
-				property = inx_maps[this.markerSetId][postIds[i]]
+				property = this.inxMaps[this.markerSetId][postIds[i]]
 
 				wrapStyle = 'padding:16px; font-size:85%; line-height:120%; text-align:center'
 				if (postIds.length > 1 && i < postIds.length - 1) {
@@ -215,39 +240,27 @@ export default {
 
 			return marker
 		},
-		addMarkers (map) {
-			if (
-				!this.markerIconUrl
-				|| !this.markerSetId
-				|| 'undefined' === typeof inx_maps
-				|| 'undefined' === typeof inx_maps[this.markerSetId]
-				|| Object.keys(inx_maps[this.markerSetId]).length === 0
-				|| inx_maps[this.markerSetId].length === 0
-			) {
-				return false
-			}
+		updateMarkers(newMarkers) {
+			this.markers.clear()
+			this.markers.extend(newMarkers)
+		},
+		fitMapView (map) {
+			if (!map || !this.autoFit) return
 
-			const that = this
-			let markers = []
+			this.$nextTick(() => {
+				map.updateSize()
 
-			for (let postId in inx_maps[this.markerSetId]) {
-				let property = inx_maps[this.markerSetId][postId]
-				let lat = parseFloat(property.lat)
-				let lng = parseFloat(property.lng)
-
-				if (!lat || ! lng) continue
-
-				markers.push(this.propertyMarker([lng, lat], postId))
-			}
-
-			const vectorSource = new Vector({
-				features: markers
+				const extent = this.vectorSource.getExtent()
+				map.getView().fit(extent, { size: map.getSize(), padding: [48, 32, 32, 32] })
 			})
+		},
+		addMarkers (map) {
+			const that = this
 
 			if (this.useClustering) {
 				const clusterSource = new Cluster({
 					distance: 50,
-					source: vectorSource
+					source: this.vectorSource
 				})
 
 				let styleCache = {}
@@ -283,20 +296,13 @@ export default {
 				map.addLayer(clusterVectorLayer)
 			} else {
 				const markerVectorLayer = new VectorLayer({
-					source: vectorSource
+					source: this.vectorSource
 				})
 
 				map.addLayer(markerVectorLayer)
 			}
 
-			if (this.autoFit) {
-				this.$nextTick(() => {
-					map.updateSize()
-
-					const extent = vectorSource.getExtent()
-					map.getView().fit(extent, map.getSize())
-				})
-			}
+			this.fitMapView(map)
 		},
 		addClickEventListener (map) {
 			const that = this
@@ -369,6 +375,11 @@ export default {
 		}
 	},
 	mounted () {
+		this.markers = new Collection(this.markerSet)
+		this.vectorSource = new Vector({
+			features: this.markers
+		})
+
 		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
 			this.grantConsent(null)
 		}
@@ -377,6 +388,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	a {
+		text-decoration: none;
+		box-shadow: none;
+	}
+
 	.ol-popup {
 		position: absolute;
 		min-width: 280px;

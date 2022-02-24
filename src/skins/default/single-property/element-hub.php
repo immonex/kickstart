@@ -135,7 +135,7 @@ if ( $inx_skin_enable_tabs ) :
 					basename( __DIR__ ) . '/' . $inx_skin_element_atts['template'],
 					$inx_skin_element_atts
 				);
-				endforeach;
+			endforeach;
 			?>
 		</li>
 		<?php endforeach; ?>

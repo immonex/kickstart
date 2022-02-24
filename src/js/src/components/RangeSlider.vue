@@ -1,6 +1,6 @@
 <template>
 	<div :class="mainClass">
-		<input type="hidden" :id="this.name" :name="this.name" :value="this.transferValue">
+		<input type="hidden" :name="this.name" :value="this.transferValue">
 		<div :class="mainClass + '__label-value'">
 			<span :class="mainClass + '__label'" v-if="this.label">{{ label }}:</span>
 			<span :class="mainClass + '__value'">{{ currentValueFormatted }}</span>
@@ -17,6 +17,10 @@ const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":100
 export default {
 	name: 'inx-range-slider',
 	props: {
+		formIndex: {
+			type: Number,
+			default: 0
+		},
 		name: String,
 		label: {
 			type: String,
@@ -64,7 +68,8 @@ export default {
 			stepRangesConv: {},
 			parsedRange: [],
 			currentValue: [0],
-			currentMarketingType: 'all'
+			currentMarketingType: 'all',
+			initialValueResettedOnce: false
 		}
 	},
 	computed: {
@@ -110,10 +115,6 @@ export default {
 			}
 		},
 		transferValue: function () {
-			if (typeof jQuery !== 'undefined') {
-				jQuery('input#' + this.name).trigger('change')
-			}
-
 			if ( this.isUnlimited(false) ) {
 				return ''
 			}
@@ -130,10 +131,27 @@ export default {
 		}
 	},
 	watch: {
-		'inxState.search': function (value) {
-			if (this.currentMarketingType !== this.getCurrentMarketingType()) {
+		'transferValue': function (value) {
+			if (typeof this.inxState.search.forms[this.formIndex] === 'undefined' || value === this.value) return
+
+			const formElementID = this.inxState.search.forms[this.formIndex].formElID
+			jQuery('#' + formElementID + ' input[name=' + this.name + ']').trigger('change')
+		},
+		'inxState.search.forms': function (value) {
+			const newMarketingType = this.getCurrentMarketingType()
+			if (this.currentMarketingType !== newMarketingType) {
 				this.updateRange()
-				this.currentMarketingType = this.getCurrentMarketingType()
+				if (
+					newMarketingType !== 'all' &&
+					this.value !== this.range &&
+					parseInt(this.value) !== 0 &&
+					!this.initialValueResettedOnce
+				) {
+					this.setInitialValue()
+					this.$refs.slider.noUiSlider.updateOptions({ start: this.currentValue }, false)
+					this.initialValueResettedOnce = true
+				}
+				this.currentMarketingType = newMarketingType
 			}
 		}
 	},
@@ -190,19 +208,62 @@ export default {
 			return this.currency ? formatted.replace(/\s/, ' ' + suffix) : formatted + ' ' + suffix
 		},
 		getCurrentMarketingType () {
-			if (
-				typeof this.inxState.search['inx-search-marketing-type'] !== 'undefined' &&
-				this.inxState.search['inx-search-marketing-type'].match(/verkauf|sale/)
-			) {
-				return 'sale'
-			} else if (
-				typeof this.inxState.search['inx-search-marketing-type'] !== 'undefined' &&
-				this.inxState.search['inx-search-marketing-type'].match(/miete|rent/)
-			) {
-				return 'rent'
-			} else {
+			if (typeof this.inxState.search.forms[this.formIndex]['inx-search-marketing-type'] === 'undefined') {
 				return 'all'
 			}
+			if (this.inxState.search.forms[this.formIndex]['inx-search-marketing-type'].match(/miete|rent/)) {
+				return 'rent'
+			}
+
+			return 'sale'
+		},
+		setInitialValue () {
+			if (this.initialValueSet) return
+			let initialValue
+
+			try {
+				initialValue = JSON.parse(this.value)
+			} catch (e) {
+				initialValue = 0
+			}
+
+			if (typeof initialValue === 'object') {
+				if (initialValue.length === 3) {
+					// (Single) Value array contains min/max range: ignore the latter.
+					initialValue = initialValue[0]
+				} else {
+					this.currentValue = [initialValue[0], initialValue[1]]
+
+					// Initial value is a min/max array.
+					let minValue = parseInt(initialValue[0])
+					let maxValue = parseInt(initialValue[1])
+
+					initialValue = [
+						minValue,
+						maxValue
+					]
+
+					/*initialValue = [
+						minValue >= this.min ? minValue : this.min,
+						maxValue <= this.max ? maxValue : this.max
+					]*/
+				}
+			} else {
+				// Initial value is a single number.
+				initialValue = parseInt(this.value)
+				if (
+					initialValue < this.min ||
+					initialValue >= this.max ||
+					initialValue === 'NaN'
+				) {
+					initialValue = this.min
+				}
+
+				// Convert value to a single value array.
+				initialValue = [initialValue]
+			}
+
+			this.currentValue = initialValue
 		},
 		updateRange () {
 			if (this.parsedRange.length === 6) {
@@ -250,45 +311,7 @@ export default {
 		this.currentMarketingType = this.getCurrentMarketingType()
 		this.parsedRange = JSON.parse(this.range)
 		this.updateRange()
-
-		let initialValue
-
-		try {
-			initialValue = JSON.parse(this.value)
-		} catch (e) {
-			initialValue = 0
-		}
-
-		if (typeof initialValue === 'object') {
-			if (initialValue.length === 3) {
-				// (Single) Value array contains min/max range: ignore the latter.
-				initialValue = initialValue[0]
-			} else {
-				// Initial value is a min/max array.
-				let minValue = parseInt(initialValue[0])
-				let maxValue = parseInt(initialValue[1])
-
-				initialValue = [
-					minValue >= this.min ? minValue : this.min,
-					maxValue <= this.max ? maxValue : this.max
-				]
-			}
-		} else {
-			// Initial value is a single number.
-			initialValue = parseInt(this.value)
-			if (
-				initialValue < this.min ||
-				initialValue >= this.max ||
-				initialValue === 'NaN'
-			) {
-				initialValue = this.min
-			}
-
-			// Convert value to a single value array.
-			initialValue = [initialValue]
-		}
-
-		this.currentValue = initialValue
+		this.setInitialValue()
 	},
 	mounted: function() {
 		const slider = this.$refs.slider

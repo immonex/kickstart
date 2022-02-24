@@ -157,6 +157,7 @@ class Property_Filters_Sort {
 				'hidden_fields'       => $hidden_fields,
 				'sort_options'        => $sort_options,
 				'default_sort_option' => $this->get_default_sort_option( $sort_options, $default ),
+				'form_action'         => $this->utils['string']->get_nopaging_url(),
 			)
 		);
 

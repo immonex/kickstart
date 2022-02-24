@@ -201,6 +201,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	a {
+		text-decoration: none;
+		box-shadow: none;
+	}
+
 	.ol-popup {
 		position: absolute;
 		background-color: white;

@@ -47,6 +47,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Clean and responsive default skin
 * Property location overview maps incl. clustered markers (OpenStreetMap/OpenLayers)
 * Property detail location maps (OpenStreetMap and Google Maps)
+* Dynamic updates of property lists and location map views based on the current search parameters
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
@@ -73,7 +74,7 @@ Search Form: `[inx-search-form]`
 List View: `[inx-property-list]`
 List Sort Selection: `[inx-filters-sort]`
 List Pagination: `[inx-pagination]`
-Property Overview Map: `[inx-property-map]`
+Property Location Overview Map: `[inx-property-map]`
 Property Details View: `[inx-property-details]`
 
 (See documentation mentioned below for attributes and further details.)
@@ -107,12 +108,16 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.5.16-beta =
+= 1.6.0-beta =
 * Release date: ?
+* Added new taxonomy "project" for property grouping.
+* Added (optional) search form select element for property projects (groups).
+* Added special query variable for selecting/excluding group master properties.
 * Added WP auto embed and other filters to property description processing.
 * Added custom field based setting of current property post ID.
 * Added the ability to use multiple property search forms on the same page.
-* Added a field for the full address to the backend property form.
+* Reworked and extended backend property form.
+* Added optional dynamic content updates of frontend components when changing search parameters.
 * Replaced 301 redirects to custom property list and detail pages by internal request updates.
 * Fixed detail element shortcode issue (attribute "type" not taken into account).
 

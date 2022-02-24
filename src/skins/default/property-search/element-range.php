@@ -22,6 +22,7 @@ if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 ?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
 	<inx-range-slider
+		:form-index="<?php echo ! empty( $template_data['render_count'] ) ? esc_attr( $template_data['render_count'] - 1 ) : '0'; ?>"
 		name="<?php echo esc_attr( $template_data['element_id'] ); ?>"
 		label="<?php echo esc_attr( $template_data['element']['label'] ); ?>"
 		range="<?php echo esc_attr( wp_json_encode( $template_data['element']['range'] ) ); ?>"

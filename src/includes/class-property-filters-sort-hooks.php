@@ -10,21 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Property list related actions and filters (filtering and sorting).
  */
-class Property_Filters_Sort_Hooks {
+class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 
 	/**
-	 * Various component configuration data
-	 *
-	 * @var mixed[]
+	 * Base name for frontend component instance IDs
 	 */
-	private $config;
-
-	/**
-	 * Helper/Utility objects
-	 *
-	 * @var object[]
-	 */
-	private $utils;
+	const FE_COMPONENT_ID_BASENAME = 'inx-property-filters';
 
 	/**
 	 * Related Property filters/sort object
@@ -42,6 +33,8 @@ class Property_Filters_Sort_Hooks {
 	 * @param object[] $utils Helper/Utility objects.
 	 */
 	public function __construct( $config, $utils ) {
+		parent::__construct( $config, $utils );
+
 		$this->config                = $config;
 		$this->utils                 = $utils;
 		$this->property_filters_sort = new Property_Filters_Sort( $config, $utils );
@@ -211,6 +204,11 @@ class Property_Filters_Sort_Hooks {
 			$template = 'property-list/filters-sort';
 		}
 
+		$atts = array_merge(
+			$atts,
+			$this->add_rendered_instance( $template, $atts )
+		);
+
 		echo $this->property_filters_sort->render( $template, $atts );
 	} // render_property_filters_sort
 
@@ -227,12 +225,25 @@ class Property_Filters_Sort_Hooks {
 	public function shortcode_filters_sort( $atts ) {
 		$prefix         = $this->config['public_prefix'];
 		$supported_atts = array(
+			'cid'      => '',
 			'elements' => '',
 			'exclude'  => '',
 			'default'  => '',
 		);
 
 		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}filters-sort" );
+
+		$this->rendering_vars[] = array_merge(
+			array(
+				'template' => 'property-list/filters-sort',
+			),
+			array_filter( $shortcode_atts )
+		);
+
+		$shortcode_atts = array_merge(
+			$shortcode_atts,
+			$this->add_rendered_instance( 'property-list/filters-sort', array_filter( $shortcode_atts ) )
+		);
 
 		return $this->property_filters_sort->render( 'property-list/filters-sort', $shortcode_atts );
 	} // shortcode_filters_sort

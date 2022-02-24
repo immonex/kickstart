@@ -10,21 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Property map related actions, filters and shortcodes.
  */
-class Property_Map_Hooks {
+class Property_Map_Hooks extends Property_Component_Hooks {
 
 	/**
-	 * Various component configuration data
-	 *
-	 * @var mixed[]
+	 * Base name for frontend component instance IDs
 	 */
-	private $config;
-
-	/**
-	 * Helper/Utility objects
-	 *
-	 * @var object[]
-	 */
-	private $utils;
+	const FE_COMPONENT_ID_BASENAME = 'inx-property-map';
 
 	/**
 	 * Related property map object
@@ -42,8 +33,8 @@ class Property_Map_Hooks {
 	 * @param object[] $utils Helper/Utility objects.
 	 */
 	public function __construct( $config, $utils ) {
-		$this->config       = $config;
-		$this->utils        = $utils;
+		parent::__construct( $config, $utils );
+
 		$this->property_map = new Property_Map( $config, $utils );
 
 		/**
@@ -51,6 +42,8 @@ class Property_Map_Hooks {
 		 */
 
 		add_action( 'inx_render_property_map', array( $this, 'render_property_map' ) );
+
+		add_filter( 'inx_get_property_map_markers', array( $this, 'get_property_map_markers' ), 10, 2 );
 
 		/**
 		 * Shortcodes
@@ -72,8 +65,25 @@ class Property_Map_Hooks {
 		}
 		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : 'property-list/map';
 
+		$atts = array_merge(
+			$atts,
+			$this->add_rendered_instance( $template, $atts )
+		);
+
 		echo $this->property_map->render( $template, $atts );
 	} // render_property_map
+
+	/**
+	 * Return a set of property map markers (filter callback).
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param mixed[] $markers Empty array.
+	 * @param mixed[] $atts    Rendering attributes.
+	 */
+	public function get_property_map_markers( $markers = array(), $atts = array() ) {
+		return $this->property_map->get_markers( $atts );
+	} // get_property_map_markers
 
 	/**
 	 * Return a rendered property map (based on the shortcode
@@ -104,6 +114,7 @@ class Property_Map_Hooks {
 		 * Create an array of supported shortcode attributes.
 		 */
 		$supported_atts = array(
+			'cid'             => '',
 			'lat'             => $this->config['property_list_map_lat'],
 			'lng'             => $this->config['property_list_map_lng'],
 			'zoom'            => $this->config['property_list_map_zoom'],
@@ -127,6 +138,18 @@ class Property_Map_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-map" );
+
+		$this->rendering_vars[] = array_merge(
+			array(
+				'template' => 'property-list/map',
+			),
+			array_filter( $shortcode_atts )
+		);
+
+		$shortcode_atts = array_merge(
+			$shortcode_atts,
+			$this->add_rendered_instance( 'property-list/map', array_filter( $shortcode_atts ) )
+		);
 
 		return $this->property_map->render( 'property-list/map', $shortcode_atts );
 	} // shortcode_property_map

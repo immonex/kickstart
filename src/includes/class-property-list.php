@@ -59,6 +59,15 @@ class Property_List {
 	public function render( $template = 'property-list/properties', $atts = array() ) {
 		$org_query = $this->replace_main_query( $atts );
 
+		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
+		$atts['list_query_atts'] = array_filter(
+			$atts,
+			function($value, $key) {
+				return $value && 'inx-' === substr( $key, 0, 4 );
+			},
+			ARRAY_FILTER_USE_BOTH
+		);
+
 		if ( ! isset( $atts['no_results_text'] ) || false === $atts['no_results_text'] ) {
 			$atts['no_results_text'] = $this->config['property_search_no_results_text'];
 		}
@@ -156,20 +165,35 @@ class Property_List {
 		$query_vars = array();
 
 		if ( is_archive() ) {
-			// Regular page in use for archives: map taxonomy data to search fields.
-			$archive_mapping = array(
-				'location'       => 'locality',
-				'type_of_use'    => 'type-of-use',
-				'property_type'  => 'property-type',
-				'marketing_type' => 'marketing-type',
-				'feature'        => 'feature',
-				'label'          => 'label',
+			/**
+			 * Regular page in use for archives: map taxonomy data to search fields.
+			 */
+			$inx_taxonomies = array_map(
+				function( $tax_name ) {
+					return preg_replace( '/^' . $this->config['plugin_prefix'] . '/', '', $tax_name );
+				},
+				array_keys( apply_filters( 'inx_get_taxonomies', array() ) )
 			);
+
+			$archive_mapping = array();
+			if ( count( $inx_taxonomies ) > 0 ) {
+				foreach ( $inx_taxonomies as $tax_base_name ) {
+					if ( 'location' === $tax_base_name ) {
+						$archive_mapping[ $tax_base_name ] = 'locality';
+						continue;
+					}
+
+					$archive_mapping[ $tax_base_name ] = str_replace( '_', '-', $tax_base_name );
+				}
+			}
+
 			foreach ( $archive_mapping as $tax_base_name => $query_var_base_name ) {
 				$tax_query_var = get_query_var( $this->config['plugin_prefix'] . $tax_base_name );
 				if ( $tax_query_var ) {
-					// Example: inx_property_type (taxonomy term) given > add as
-					// "search query var" inx-search-property-type.
+					/**
+					 * Example: inx_property_type (taxonomy term) given > add as
+					 * "search query var" inx-search-property-type.
+					 */
 					$query_vars[ $this->config['public_prefix'] . 'search-' . $query_var_base_name ] = $tax_query_var;
 				}
 			}

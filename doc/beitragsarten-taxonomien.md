@@ -13,6 +13,7 @@ Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (<i>Custom 
 - **inx_type_of_use** (Nutzungsarten)
 - **inx_property_type** (Objektarten)
 - **inx_marketing_type** (Vermarktungsarten)
+- **inx_project** ([Projekt/Gruppe](referenzen-status-flags.html#Gruppierung), z. B. Bauvorhaben, Wohnanlagen oder Gewerbeimmobilien mit mehreren Einheiten)
 - **inx_feature** (Ausstattungsmerkmale)
 - **inx_label** (Labels, z. B. Neu! oder "Objekt der Woche")
 
@@ -55,6 +56,9 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 | `_inx_city` | Ort/Stadt (für Abfragen; wird zusätzlich in der Taxonomie inx_location gespeichert) |
 | `_inx_state` | Bundesland/Kanton |
 | `_immonex_iso_country` | dreistelliger Ländercode ([ISO 3166 ALPHA-3](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste)) |
+| `_immonex_group_number` | **Gruppennummer** zur Gruppierung zusammengehöriger Objekte (bspw. Einheiten einer Wohnanlage) |
+| `_immonex_group_id` | **Gruppenkennung**: alternatives [Gruppierungskriterium](referenzen-status-flags.html#Gruppierung) und - in Kombination mit `_immonex_group_master` - heutzutage gängigere Alternative zur <i>Gruppennummer</i>. Die Gruppenkennung wird beim [OpenImmo-Import](schnellstart/import.html) auch als Term der <i>Projekt-Taxonomie</i> (siehe oben) übernommen. |
+| `_immonex_group_master` | Kennzeichnung von [Master-Objekten](referenzen-status-flags.html#Master-Objekte), bspw. dem Hauptobjekt einer Wohnanlage, dem mehrere Untereinheiten anhand der gleichen <i>Gruppenkennung</i> zugeordnet sind (*visible* = in der Website sichtbar, *invisible* = nicht sichtbar) |
 | `_inx_is_sale` | <i>Kaufobjekt-Flag</i> (*0* oder *1*) |
 | `_immonex_is_reference` | <i>Referenzobjekt-Flag</i> (*0* oder *1*) |
 | `_immonex_is_available` | <i>Verfügbarkeits-Flag</i> (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
@@ -62,7 +66,7 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 | `_immonex_is_reserved` | <i>Reserviert-Flag</i> (*0* oder *1*) |
 | `_immonex_is_featured`<sup>1</sup> | <i>Empfohlen-Flag</i> (*0* oder *1*) |
 | `_immonex_is_front_page_offer`<sup>1</sup> | <i>Startseiten-Angebot-Flag</i> (*0* oder *1*) |
-| `_immonex_is_demo` | <i>Demo-Objekt-Flag</i> (*0* oder *1*) |
+| `_immonex_is_demo`<sup>1</sup>| <i>Demo-Objekt-Flag</i> (*0* oder *1*) |
 
 ## Archivseiten
 
@@ -101,6 +105,12 @@ Beispiel: `.../immobilien/objektart/einfamilienhaus/`
 `.../immobilien/kaufen-mieten/TERM-SLUG` (`.../properties/buy-rent/TERM-SLUG`)
 
 Beispiel: `.../immobilien/kaufen-mieten/zu-verkaufen/`
+
+#### Projekt (Objektgruppe)
+
+`.../immobilien/projekt/TERM-SLUG` (`.../properties/project/TERM-SLUG`)
+
+Beispiel: `.../immobilien/projekt/wohnanlage-123/`
 
 #### Label
 

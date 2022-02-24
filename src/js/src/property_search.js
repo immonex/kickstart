@@ -19,20 +19,17 @@ import SearchSubmitButton from './components/SearchSubmitButton.vue'
 import Toggle from './components/Toggle.vue'
 
 const $ = jQuery
-const inxSearchFormElementIDs = []
+const searchFormElementIDs = []
 
-let inxCurrentSearchRequestStrings = []
-
-function toggleExtendedSearch() {
-	// Not implemented / required yet.
-} // toggleExtendedSearch
+let searchStateInitialized = false
+let currentSearchRequestParamsStrings = []
 
 function resetSearchForm(event = null) {
-	if (!event && inxSearchFormElementIDs.length === 0) return;
+	if (!event && searchFormElementIDs.length === 0) return;
 
 	const searchForm = event ?
 		$(event.target).closest('form')[0] :
-		document.getElementById(inxSearchFormElementIDs[0])
+		document.getElementById(searchFormElementIDs[0])
 
 	let searchFormID = '#' + searchForm.id
 
@@ -65,7 +62,7 @@ function resetSearchForm(event = null) {
 	).each(function(index, element) {
 		if (
 			!$(element).data('no-reset') &&
-			element.name.substring(0, inx_state.core.public_prefix.length + 7) === inx_state.core.public_prefix + 'search-'
+			element.name.substring(0, 11) === 'inx-search-'
 		) {
 			element.value = ''
 		}
@@ -83,47 +80,51 @@ function resetSearchForm(event = null) {
 } // resetSearchForm
 
 function updateSearchState(event = null) {
-	const searchFormIDs = event ? [$(event.target).closest('form').attr('id')] : inxSearchFormElementIDs
+	const searchFormIDs = event && typeof event === 'object' ?
+		[$(event.target).closest('form').attr('id')] :
+		searchFormElementIDs
+	searchStateInitialized = true
 
-	$.each(searchFormIDs, (i, searchFormID) => {
-		const formIndex = inxSearchFormElementIDs.indexOf(searchFormID)
+	$.each(searchFormIDs, (iForm, searchFormID) => {
+		const formIndex = searchFormElementIDs.indexOf(searchFormID)
 		const searchForm = $('#' + searchFormID)
 		const formData = searchForm.serializeArray()
 
 		$.each(formData, function (i, field) {
-		 	let fieldNameStore = field.name.replace(/\[\]$/, '')
+			const fieldNameStore = field.name.replace(/\[\]$/, '')
+			const containsMultipleValues = field.name.match(/\[\]$/)
 
-			if (
-				typeof inx_state.search.forms[formIndex][field.name] === 'undefined' &&
-				!field.name.match(/\[\]$/)
-			) {
+			if (!containsMultipleValues) {
 				inx_state.search.forms[formIndex][fieldNameStore] = field.value
-			} else if (
-				typeof inx_state.search.forms[formIndex][field.name] === 'undefined' &&
-				field.name.match(/\[\]$/)
-			) {
-				inx_state.search.forms[formIndex][fieldNameStore] = [field.value]
-			} else if (
-				Array.isArray(inx_state.search.forms[formIndex][field.name])
-			) {
-				inx_state.search.forms[formIndex][fieldNameStore].push(field.value)
-			} else if (typeof inx_state.search.forms[formIndex][field.name] === 'string') {
-				inx_state.search.forms[formIndex][fieldNameStore] = [inx_state.search.forms[formIndex][field.name], field.value]
+				return
 			}
+
+			if (typeof inx_state.search.forms[formIndex][fieldNameStore] === 'undefined') {
+				inx_state.search.forms[formIndex][fieldNameStore] = []
+			} else if (typeof inx_state.search.forms[formIndex][fieldNameStore] === 'string') {
+				inx_state.search.forms[formIndex][fieldNameStore] = [inx_state.search.forms[formIndex][fieldNameStore]]
+			}
+			inx_state.search.forms[formIndex][fieldNameStore].push(field.value)
 		})
 
-		let requestString = searchForm.serialize()
+		// Generate a parameter string for a GET search request excluding empty form fields.
+		let requestParamsString = $('#' + searchFormID).find('input, select')
+			.filter(function(i, field) {
+				return $(field).val() !== ''
+			})
+			.serialize()
 
-		if (requestString !== inxCurrentSearchRequestStrings[formIndex]) {
-			inxCurrentSearchRequestStrings[formIndex] = requestString
-			if (!inx_state.search.request_strings) {
-				inx_state.search.request_strings = []
-			}
-			inx_state.search.request_strings[formIndex] = requestString
+		let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
+		url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+		let backlinkURL = $(searchForm).attr('action') || window.location.href.split('?')[0]
+		if (requestParamsString) {
+			url += '&' + requestParamsString
+			backlinkURL += (backlinkURL.indexOf('?') === -1 ? '?' : '&') + requestParamsString
+		}
+		url += '&inx-backlink-url=' + encodeURIComponent(backlinkURL)
 
-			let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
-			url += url.indexOf('?') === -1 ? '?' : '&'
-			url += 'count=1&lang=' + inx_state.core.locale.substring(0, 2) + '&' + requestString
+		if (requestParamsString !== currentSearchRequestParamsStrings[formIndex]) {
+			currentSearchRequestParamsStrings[formIndex] = requestParamsString
 
 			axios
 				.get(url)
@@ -137,19 +138,162 @@ function updateSearchState(event = null) {
 				})
 				.catch(err => err)
 		}
+
+		if (event) {
+			const specialParams = {}
+			searchForm.find("select, input").not("[type='hidden']").each((index, field) => {
+				if (
+					$(field).attr('name').substring(0, 4) === 'inx-' &&
+					$(field).attr('name').substring(0, 11) !== 'inx-search-' &&
+					$(field).val()
+				) {
+					specialParams[$(field).attr('name')] = $(field).val()
+				}
+			})
+
+			let changeParams = {
+				url: url,
+				paramsString: requestParamsString,
+				specialParams: specialParams
+			}
+			searchForm.closest('.inx-property-search').trigger('search:change', changeParams)
+		}
 	})
 } // updateSearchState
 
-function init() {
-	if (document.getElementById(inx_state.core.public_prefix + 'sort')) {
-		$('#' + inx_state.core.public_prefix + 'sort').on('change', function() {
-			$(this).closest('form').submit()
+function updateFiltersSortRequestParams(event, requestParams) {
+	let elementID = false
+	const updateIDs = $(event.target).data('dynamic-update') || false
+	if (!updateIDs) return
+
+	if (['1', 'all'].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1) {
+		// Update all property filter/sort component instances.
+		$('.inx-property-filters').each((index, filterSortElement) => {
+			elementID = $(filterSortElement).attr('id')
+			if (elementID) {
+				inx_state.renderedInstances[elementID].requestParamsString = requestParams.paramsString || ''
+			}
 		})
+	} else {
+		for (const rawElementID of updateIDs.split(',')) {
+			elementID = rawElementID.trim()
+
+			if ($('#' + elementID).length && $('#' + elementID).hasClass('inx-property-filters')) {
+				// Update all property filter/sort component instance with the given ID.
+				inx_state.renderedInstances[elementID].requestParamsString = requestParams.paramsString || ''
+			}
+		}
 	}
 
+	if (elementID && typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
+		$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
+	}
+} // updateFiltersSortRequestParams
+
+function changeSortOrder(event) {
+	const filterSortForm = $(event.target).closest('form')
+	const filterElementID = $(event.target).closest('.inx-property-filters').attr('id')
+
+	if (
+		filterElementID &&
+		typeof inx_state.renderedInstances[filterElementID] !== 'undefined' &&
+		typeof inx_state.renderedInstances[filterElementID].requestParamsString !== 'undefined'
+	) {
+		/**
+		 * Parameters have been set dynamically via a search form component:
+		 * Delete all search related hidden fields first and add new ones with
+		 * the current values before submitting the sort/filter form.
+		 */
+		filterSortForm.find("input[type='hidden']").each((index, field) => {
+			if ($(field).attr('name').substring(0, 11) === 'inx-search-') {
+				$(field).remove()
+			}
+		})
+
+		const paramsString = inx_state.renderedInstances[filterElementID].requestParamsString
+
+		for (const param of paramsString.split('&')) {
+			const keyValue = param.split('=')
+
+			if (keyValue.length === 2 && keyValue[0] !== 'inx-sort') {
+				/**
+				 * Add new hidden fields with updated search values (except the sort order
+				 * also existent in the search form).
+				 */
+				const input = $('<input>')
+					.attr('type', 'hidden')
+					.attr('name', keyValue[0])
+					.val(keyValue[1])
+				filterSortForm.append(input)
+			}
+		}
+	}
+
+	/**
+	 * If dynamic updates based on the current search parameters are enabled,
+	 * update the (probably hidden) sort element of the search form element
+	 * if the sort order has been changed via the filter/sort bar.
+	 */
+
+	let searchFormSortElementUpdated = false
+
+	$('.inx-property-search.inx-dynamic-update').each((index, searchForm) => {
+		$($(searchForm).data('dynamic-update').split(',')).each((indexSplit, updateIDs) => {
+			if (['1', 'all', filterElementID].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1 ) {
+				$(searchForm).find("[name='inx-sort']").val($(event.target).val())
+				searchFormSortElementUpdated = true
+			}
+		})
+	})
+
+	if (searchFormSortElementUpdated) {
+		// Dynamic updates via search form instead of page reload.
+		updateSearchState(true)
+	} else {
+		filterSortForm.submit()
+	}
+} // changeSortOrder
+
+function submitSearchFormData() {
+	/**
+	 * Disable empty input and select elements to prevent empty
+	 * GET parameters in the resulting URL.
+	 */
+	$(this).find('input, select')
+		.filter(function() {
+			return !this.value || $.trim(this.value).length == 0;
+		})
+		.attr('disabled', true);
+
+	if ($(this).serializeArray().length === 0) {
+		/**
+		 * Reload the page only if no search parameters have been specified
+		 * to prevent a trailing ? in the resulting URL.
+		 */
+		window.location = this.action
+		return false
+	}
+
+	return true
+} // submitSearchFormData
+
+function initDatePickerFields() {
+	let flatpickrOptions = { 'disableMobile': true }
+	if ('de' === inx_state.core.locale.substring(0, 2)) {
+		$.extend(flatpickrOptions, {
+			'locale': German,
+			'altInput': true,
+			'altFormat': 'd.m.Y'
+		})
+	}
+	$('.inx-search-input--type--date').flatpickr(flatpickrOptions)
+} // initDatePickerFields
+
+function initSearchFormInstances() {
 	inx_state.vue_instances.property_search_forms = []
+
 	$('.inx-property-search').each((index, searchForm) => {
-		if (!inx_state.search.forms) {
+		if (typeof inx_state.search.forms === 'undefined') {
 			inx_state.search.forms = []
 		}
 		inx_state.search.forms.push({
@@ -173,30 +317,33 @@ function init() {
 
 		$(searchForm).children('form').each((indexFormEl, formEl) => {
 			const searchFormElID = '#' + formEl.id
-			inxSearchFormElementIDs.push(formEl.id)
+			searchFormElementIDs.push(formEl.id)
 			inx_state.search.forms[index].formElID = formEl.id
 
-			$(searchFormElID + ' input, ' + searchFormElID + ' select').on('change', debounce(updateSearchState, 500))
+			$(searchFormElID + ' input, ' + searchFormElID + ' select')
+				.not("[name='inx-search-distance-search-location']")
+				.on('change', debounce(updateSearchState, 500))
 			$(searchFormElID + ' .inx-form-reset').on('click', resetSearchForm)
+
+			$(searchFormElID).submit(submitSearchFormData)
 		})
 	})
 
 	if (inx_state.vue_instances.property_search_forms.length > 0) {
 		inx_state.vue_instances.property_search = inx_state.vue_instances.property_search_forms[0]
 	}
+} // initSearchFormInstances
 
-	let flatpickrOptions = { 'disableMobile': true }
-	if ('de' === inx_state.core.locale.substring(0, 2)) {
-		$.extend(flatpickrOptions, {
-			'locale': German,
-			'altInput': true,
-			'altFormat': 'd.m.Y'
-		})
-	}
-	$('.inx-search-input--type--date').flatpickr(flatpickrOptions)
+function init() {
+	initSearchFormInstances()
+	initDatePickerFields()
+	$(".inx-property-filters select[name='inx-sort']").on('change', changeSortOrder)
 
-	// DEPRECATED
-	// window.setTimeout( function() { updateSearchState() }, 1000 )
+	window.setTimeout(function() {
+		$('.inx-property-search.inx-dynamic-update').on('search:change', updateFiltersSortRequestParams)
+
+		if (!searchStateInitialized) updateSearchState();
+	}, 1000)
 } // init
 
 export { init }

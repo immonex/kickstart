@@ -21,10 +21,7 @@ $inx_skin_show_label                    = true;
 
 	<div class="inx-form-element__options uk-flex uk-flex-wrap">
 		<?php
-		if (
-				isset( $template_data['element']['options'] ) &&
-				count( $template_data['element']['options'] ) > 0
-			) :
+		if ( ! empty( $template_data['element']['options'] ) ) :
 			foreach ( $template_data['element']['options'] as $inx_skin_key => $inx_skin_value ) :
 				$inx_skin_checked = $inx_skin_key === $template_data['element_value'];
 				?>

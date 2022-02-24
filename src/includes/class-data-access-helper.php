@@ -250,19 +250,22 @@ class Data_Access_Helper {
 			$value = $query->query_vars[ $var_name ];
 		}
 
-		// Get value from GET query variables (possibly override query object values).
-		if ( ! empty( $_GET[ $var_name ] ) ) {
-			if ( is_string( $_GET[ $var_name ] ) ) {
-				$temp_value = sanitize_text_field( wp_unslash( $_GET[ $var_name ] ) );
-			} elseif ( is_array( $_GET[ $var_name ] ) ) {
-				$temp_value = array_map(
-					function ( $value ) {
-						return sanitize_text_field( wp_unslash( $value ) );
-					},
-					// @codingStandardsIgnoreLine
-					$_GET[ $var_name ]
-				);
-			}
+		$component_instance_data = $query && $query->get( 'inx-cidata' ) ?
+			$query->get( 'inx-cidata' ) :
+			false;
+
+		if ( empty( $component_instance_data ) && ! empty( $_GET['inx-cidata'] ) ) {
+			// @codingStandardsIgnoreLine
+			$component_instance_data = json_decode( wp_unslash( $_GET['inx-cidata'] ), true );
+		}
+
+		if ( $component_instance_data && ! empty( $component_instance_data[ $var_name ] ) ) {
+			// Get value from the rendering data of a related frontend component instance.
+			$temp_value = $this->sanitize_query_var_value( $component_instance_data[ $var_name ] );
+		} elseif ( ! empty( $_GET[ $var_name ] ) ) {
+			// Get value from GET query variables (possibly override query object values).
+			// @codingStandardsIgnoreLine
+			$temp_value = $this->sanitize_query_var_value( wp_unslash( $_GET[ $var_name ] ) );
 		} else {
 			$temp_value = get_query_var( $var_name, false );
 		}
@@ -279,5 +282,29 @@ class Data_Access_Helper {
 
 		return $value;
 	} // get_query_var_value
+
+	/**
+	 * Sanitize a query variable value string or array.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string|string[] $value Query variable value(s).
+	 *
+	 * @return string|string[] Sanitized value(s).
+	 */
+	public function sanitize_query_var_value( $value ) {
+		if ( is_string( $value ) ) {
+			return sanitize_text_field( $value );
+		} elseif ( is_array( $value ) ) {
+			return array_map(
+				function ( $value ) {
+					return sanitize_text_field( $value );
+				},
+				$value
+			);
+		}
+
+		return $value;
+	} // sanitize_query_var_value
 
 } // Data_Access_Helper

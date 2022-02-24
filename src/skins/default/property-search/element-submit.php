@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="inx-form-element inx-form-element--submit">
 
 	<inx-search-submit-button
-		:form-index="<?php echo ! empty( $template_data['render_count'] ) ? (int) $template_data['render_count'] : '0'; ?>"
+		:form-index="<?php echo ! empty( $template_data['render_count'] ) ? (int) $template_data['render_count'] - 1 : '0'; ?>"
 		title="<?php echo $template_data['element']['label']; ?>"
 		nom-name="<?php echo __( 'Matches', 'immonex-kickstart' ); ?>"
 		nom-one-match="<?php echo __( 'one match', 'immonex-kickstart' ); ?>"

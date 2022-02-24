@@ -28,6 +28,7 @@ Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien
 | `property-type` | Objektart(en) ([inx_property_type](../beitragsarten-taxonomien.html)) |
 | `marketing-type` | Vermarktungsart(en) ([inx_marketing_type](../beitragsarten-taxonomien.html)) |
 | `type-of-use` | Nutzungsart(en) ([inx_type_of_use](../beitragsarten-taxonomien.html)) |
+| `project` | Projekt/Gruppe ([inx_project](../beitragsarten-taxonomien.html)) |
 | `locality` | Ort(e) ([inx_location](../beitragsarten-taxonomien.html)) |
 | `labels` | Label(s) ([inx_label](../beitragsarten-taxonomien.html)) |
 | `features` | Ausstattungsmerkmale ([inx_feature](../beitragsarten-taxonomien.html)) |
@@ -59,6 +60,10 @@ Grundstücke (alle Unterkategorien) in Berlin:
 | | *no* : nein (Standardvorgabe) |
 | | *yes* : ja |
 | | *only* : ausschließlich |
+| `masters` | Gruppen-Master-Objekte berücksichtigen/anzeigen ([\_immonex_group_master](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| | *yes* : ja (Standardvorgabe) |
+| | *no* : nein |
+| | *only* : ausschließlich |
 | `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
 | | *yes* : nur verfügbare Immobilien |
 | | *no* : nur **nicht** verfügbare Immobilien |
@@ -84,8 +89,11 @@ Grundstücke (alle Unterkategorien) in Berlin:
 Häuser ab 120 m² Wohnfläche mit mindestens vier Zimmern:
 `[inx-property-list property-type="haeuser" min-rooms=4 min-area=120]`
 
-Alle Referenzobjekte:
+Alle [Referenzobjekte](../referenzen-status-flags.html):
 `[inx-property-list references="only"]`
+
+Nur [Master-Objekte](../referenzen-status-flags.html#Master-Objekte):
+`[inx-property-list masters="only"]`
 
 #### Allgemein
 
@@ -93,12 +101,13 @@ Mit den folgenden Attributen kann die Auswahl der Immobilien weiter eingegrenzt 
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
+| `cid` | individuelle **HTML-DOM-ID** des Containerelements der Komponente (optional, Standard: *inx-property-list*, bei Mehrfacheinbindung zus. Instanzen inkl. laufender Nummer *inx-property-list-2*, *-3*...) |
 | `author` | Objekte nach **Autor(en)** filtern (kommagetrennte Liste von **Benutzer-IDs** oder **Login-Namen**; **Minus zum Ausschließen** bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
 | `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
 | `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
 | `force-lang` | Sprachcode, um in [**Sonderfällen** (mehrsprachige Websites)](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
-| `no_results_text` | **eigener bzw. alternativer** Text, der anstatt der Standardmeldung (***immonex → Immobiliensuche → Keine-Ergebnisse-Meldung***) angezeigt werden soll, wenn keine zu den Auswahl-/Suchkriterien passenden Immobilienangebote vorhanden sind (leerer String = keine Meldung) |
+| `no_results_text` | **eigener bzw. alternativer** Text, der anstatt der Standardmeldung (***immonex → Einstellungen → Immobiliensuche → Keine-Ergebnisse-Meldung***) angezeigt werden soll, wenn keine zu den Auswahl-/Suchkriterien passenden Immobilienangebote vorhanden sind (leerer String = keine Meldung) |
 
 ##### Beispiele
 
@@ -107,6 +116,10 @@ Maximal vier Objekte des Benutzers *Dieter Demo*, sortiert nach Preis aufsteigen
 
 Liste mit benutzerdefinierter Meldung, falls keine passenden Immobilien vorhanden sind:
 `[inx-property-list no_results_text="Oh nein, nichts gefunden! 🤬"]`
+
+## Dynamische Aktualisierung
+
+Die Inhalte von Listenansichten können **optional** anhand der aktuellen Kriterien eines in der gleichen Seite enthaltenen [Immobilien-Suchformulars](index.html) dynamisch (ohne Neuladen der Seite) aktualisiert werden. Diese Funktion kann entweder global (für alle Komponenten auf allen Seiten) in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** oder per Attribut `dynamic-update` des [Suchformular-Shortcodes](index.html#Dynamische-Listen-amp-Karten) aktiviert werden.
 
 ## Erweiterte Anpassungen
 

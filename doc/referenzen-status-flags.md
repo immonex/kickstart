@@ -1,5 +1,5 @@
 ---
-title: Referenzen & Co.
+title: Referenzen, Gruppen & Co.
 category: grundlagen
 order: 40
 search: 1
@@ -12,6 +12,18 @@ Erfolgreich vermarktete Immobilien können entweder automatisiert beim [Import](
 > Referenzobjekte werden in [Immobilien-Listen](komponenten/liste.html) nur dann angezeigt, wenn entweder das [Shortcode-Attribut](komponenten/liste.html#Custom-Field-basiert) `references="yes"` bzw. `references="only"` oder der entsprechende [GET-Parameter](schnellstart/einbindung.html#GET-Parameter) `?inx-references=yes` bzw. `?inx-references=only` in der URL der Übersichtsseite vorhanden ist. (Hierbei stehen *yes* für "Referenzobjekte **auch** anzeigen" und *only* für "**nur** Referenzobjekte anzeigen".)
 
 ![Immobilienliste im WordPress-Backend](assets/scst-be-property-list.gif)
+
+## Gruppierung
+
+Wohn- oder Gewerbeeinheiten, die zu einer übergeordneten Immobilie gehören (z. B. Wohnanlage) können anhand einer gemeinsamen **Gruppenkennung** zusammengefasst werden. Diese wird beim [OpenImmo-Import](schnellstart/import.html) als Term (**Name**) der [Projekt-Taxonomie](beitragsarten-taxonomien.html) (`inx_project`) gespeichert.
+
+### Master-Objekte
+
+Die übergeordneten Haupt- bzw. Elternobjekte werden im OpenImmo-Jargon als <i>Master-Objekte</i> bezeichnet. Die Bezeichnung der Master-Objekte wird wiederum als **Beschreibung** des zugehörigen Gruppenkennungs-Terms importiert und kann so bspw. in einer Select-Auswahlbox des [Immobilien-Suchformulars](komponenten/index.html) verwendet werden.
+
+Unabhängig davon sieht der OpenImmo-XML-Standard pro Master-Objekt die Angabe vor, ob dieses als reguläres Immobilien-Angebot in der Ziel-Website sichtbar sein soll oder nicht. Ist das nicht der Fall, erhält der <i>Immobilien-Beitrag</i> des betreffenden Objekts beim Import den Status *ausstehend* und kann demnach im Frontend nicht abgefragt bzw. dargestellt werden.
+
+Sichtbare Master-Objekte werden in [Immobilienlisten](komponenten/liste.html) grundsätzlich mit angezeigt, können aber per [Shortcode-Attribut](komponenten/liste.html#Custom-Field-basiert) `masters="no"` oder [GET-Parameter](schnellstart/einbindung.html#GET-Parameter) `?inx-masters=no` ausgeblendet werden. Umgekehrt kann die Ausgabe mit `masters="only"` oder `?inx-masters=only` aber auch explizit auf Master-Objekte beschränkt werden.
 
 ## Weitere Status-Flags
 

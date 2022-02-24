@@ -45,6 +45,20 @@ Das [Standard-Skin](../anpassung-erweiterung/standard-skin.html) enthält bereit
 
 Soll hierfür **alternativ** eine **Seite als Vorlage** verwendet werden, die mit [Gutenberg oder einem Page-Builder](einbindung.html#Immobilien-Details) erstellt wurde, wird diese hier ausgewählt.
 
+### Immobiliensuche
+
+Enthält eine Seite neben einem [Immobilien-Suchformular](../komponenten/index.html) auch eine zugehörige [Listenansicht](../komponenten/liste.html) (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) und/oder [Standortkarte](../komponenten/karte.html), können die Inhalte dieser Komponenten **optional** dynamisch aktualisiert werden, wenn die Suchparameter verändert werden.
+
+![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.png)
+
+Ist diese Option aktiviert, gilt sie global: Auf allen Seiten mit Suchformular wirken sich Änderungen der Parameter auf alle anderen hier enthaltenen Kickstart-Frontend-Komponenten aus. Sollen stattdessen nur bestimmte Listen oder Karten auf einzelnen Seiten dynamisch aktualisiert werden, kann hierfür das Attribut `dynamic-update` des [Suchformular-Shortcodes](../komponenten/index.html) mit den IDs der entsprechenden Elemente verwendet werden:
+
+`[inx-search-form dynamic-update="inx-property-list, inx-property-map"]`
+
+### Karten & Umkreissuche
+
+Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilienstandorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative **in Suchformularen und Detailseiten**.
+
 ### Titelformen (Slugs)
 
 Die im gleichnamigen Tab anpassbaren **Slugs** bilden die Basis für die Generierung "suchmaschinenfreundlicher" URLs (Permalinks) von Immobilien-Archiv- und Detailseiten (z. B. `domain.tld/immobilien/` oder `domain.tld/immobilien/eine-wahrhaft-schraege-villa/`) sowie von Taxonomie-Archiven. Sind [Kickstart-Add-ons](../add-ons.html) installiert, die eigene Beitragsarten (*Custom Post Types*) und/oder Taxonomien ergänzen, sind deren Slugs ebenfalls hier anpassbar.
@@ -52,10 +66,6 @@ Die im gleichnamigen Tab anpassbaren **Slugs** bilden die Basis für die Generie
 Es handelt sich hierbei um Angaben in der **Hauptsprache** der Website. In [mehrsprachigen Umgebungen](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Mehrsprachige-Websites) kann eine Übersetzung mit dem hierfür eingesetzten Erweiterung erfolgen. Von Kickstart unterstützt werden hier Polylang (Pro) und WPML.
 
 > Die Änderung der vorgegebenen Slugs ist normalerweise nur in Sonderfällen notwendig, bspw. bei einer Umstellung der (Haupt)Sprache der Website.
-
-### Karten & Umkreissuche
-
-Kickstart unterstützt zwei Plattformen für die Darstellung (Karten) und Auswahl (Umkreissuche/Autovervollständigung) von Immobilienstandorten: [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in der Standardeinstellung sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative **in Suchformularen und Detailseiten**.
 
 #### Karten in Immobilien-Listenseiten
 

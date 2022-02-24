@@ -8,10 +8,8 @@ import PropertyLocationGoogleEmbedMap from './components/PropertyLocationGoogleE
 
 const $ = jQuery
 
-let wrapElementID = 'inx-property-details'
-
-function init() {
-	if (document.getElementById(wrapElementID)) {
+function initPropertyDetailInstances() {
+	if (document.getElementById('inx-property-details')) {
 		inx_state.vue_instances.property_details = new Vue({
 			el: '#inx-property-details',
 			components: {
@@ -34,10 +32,17 @@ function init() {
 			})
 		})
 	}
+} // initPropertyDetailInstances
 
+function cleanLocationURL() {
 	const url = new URL(location)
 	url.searchParams.delete('inx-backlink-url')
 	history.replaceState(null, null, url)
+} // cleanLocationURL
+
+function init() {
+	initPropertyDetailInstances()
+	cleanLocationURL()
 } // init
 
 export { init }

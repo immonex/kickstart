@@ -13,10 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $immonex_kickstart;
 
 $inx_skin_list_item_atts = array(
-	'disable_links' => ! empty( $template_data['disable_links'] ) ? $template_data['disable_links'] : '',
+	'cid'             => ! empty( $template_data['cid'] ) ? $template_data['cid'] : 'inx-property-list',
+	'render_count'    => ! empty( $template_data['render_count'] ) ? $template_data['render_count'] : 0,
+	'disable_links'   => ! empty( $template_data['disable_links'] ) ? $template_data['disable_links'] : '',
+	'list_query_atts' => ! empty( $template_data['list_query_atts'] ) ? $template_data['list_query_atts'] : array(),
 );
 ?>
-<div id="inx-property-list" class="inx-property-list<?php echo have_posts() ? '' : ' inx-property-list--is-empty'; ?> inx-container">
+<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="inx-property-list<?php echo have_posts() ? '' : ' inx-property-list--is-empty'; ?> inx-container">
 
 	<?php
 	if ( have_posts() ) :

@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.5.16-beta';
+	const PLUGIN_VERSION             = '1.6.0-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -48,6 +48,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
+		'property_search_dynamic_update'               => false,
 		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_location_slug_rewrite'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -56,6 +57,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 		'tax_marketing_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_feature_slug_rewrite'                     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_label_slug_rewrite'                       => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'tax_project_slug_rewrite'                     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'google_api_key'                               => '',
 		'distance_search_autocomplete_type'            => 'photon',
 		'distance_search_autocomplete_require_consent' => true,
@@ -113,6 +115,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 						self::PUBLIC_PREFIX . 'sort',
 						self::PUBLIC_PREFIX . 'order',
 						self::PUBLIC_PREFIX . 'references',
+						self::PUBLIC_PREFIX . 'masters',
 						self::PUBLIC_PREFIX . 'available',
 						self::PUBLIC_PREFIX . 'sold',
 						self::PUBLIC_PREFIX . 'reserved',
@@ -186,7 +189,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 		// Set plugin-specific option values that contain content
 		// to be translated (only on first activation).
 		foreach ( $this->plugin_options as $option_name => $option_value ) {
-			if ( 'INSERT_TRANSLATED_DEFAULT_VALUE' === $option_value ) {
+			if ( is_string( $option_value ) && 'INSERT_TRANSLATED_DEFAULT_VALUE' === strtoupper( $option_value ) ) {
 				switch ( $option_name ) {
 					case 'reference_price_text':
 						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
@@ -230,6 +233,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 						break;
 					case 'tax_label_slug_rewrite':
 						$this->plugin_options[ $option_name ] = _x( 'properties/label', 'Custom Taxonomy Slug', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'tax_project_slug_rewrite':
+						$this->plugin_options[ $option_name ] = _x( 'properties/project', 'Custom Taxonomy Slug', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
 				}
@@ -316,6 +323,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
 				'show_reference_prices'                    => $this->plugin_options['show_reference_prices'],
 				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
+				'property_search_dynamic_update'           => $this->plugin_options['property_search_dynamic_update'],
 				'property_search_no_results_text'          => $this->plugin_options['property_search_no_results_text'],
 				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
@@ -396,9 +404,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 
 		$search_query_vars = $this->property_search->get_search_query_vars();
 
-		wp_localize_script(
-			$this->frontend_base_js_handle,
-			'inx_state',
+		$inx_state = apply_filters(
+			'inx_js_state_vars',
 			array(
 				'core'          => array(
 					'site_url'      => get_site_url(),
@@ -419,7 +426,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 					$search_query_vars
 				),
 				'vue_instances' => (object) array(),
-			)
+			),
+			'frontend'
+		);
+
+		wp_localize_script(
+			$this->frontend_base_js_handle,
+			'inx_state',
+			$inx_state
 		);
 	} // frontend_scripts_and_styles
 
@@ -769,6 +783,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 					),
 				),
 				array(
+					'name'    => 'property_search_dynamic_update',
+					'type'    => 'checkbox',
+					'label'   => __( 'Dynamic Update', 'immonex-kickstart' ),
+					'section' => 'section_property_search',
+					'args'    => array(
+						'description' => __( 'If activated, property lists and location maps on the same page are dynamically updated when the search parameters change.', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'property_search_no_results_text',
 					'type'    => 'text',
 					'label'   => __( 'No Results Message', 'immonex-kickstart' ),
@@ -992,6 +1015,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_4_0\Base {
 					'section' => 'section_taxonomy_slugs',
 					'args'    => array(
 						'description' => __( '<strong>properties/label</strong> by default, <em>inx_label</em> if empty', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'tax_project_slug_rewrite',
+					'type'    => 'text',
+					'label'   => __( 'Project', 'immonex-kickstart' ),
+					'section' => 'section_taxonomy_slugs',
+					'args'    => array(
+						'description' => __( '<strong>properties/project</strong> by default, <em>inx_project</em> if empty', 'immonex-kickstart' ),
 					),
 				),
 			)

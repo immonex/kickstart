@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$inx_skin_component_id = ! empty( $template_data['cid'] ) ? $template_data['cid'] : 'inx-property-map';
+
 $inx_skin_marker_icon = $utils['template']->locate_template_file(
 	'images/location-pin.png'
 );
@@ -24,7 +26,7 @@ $inx_skin_osmaps_privacy_note = wp_sprintf(
 	'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
 );
 ?>
-<div id="inx-property-map" class="inx-container">
+<div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-map-container inx-container">
 	<inx-property-open-layers-map
 		:lat="<?php echo esc_attr( $template_data['lat'] ); ?>"
 		:lng="<?php echo esc_attr( $template_data['lng'] ); ?>"

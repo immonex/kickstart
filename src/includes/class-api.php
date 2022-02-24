@@ -96,22 +96,25 @@ class API {
 					"SELECT MIN(CONVERT(meta.meta_value, DECIMAL)) AS min, MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
 						JOIN $wpdb->posts post ON meta.post_id = post.ID
 						JOIN $wpdb->postmeta meta2 ON post.ID = meta2.post_id
-						JOIN $wpdb->postmeta meta3 ON post.ID = meta3.post_id
+						LEFT JOIN $wpdb->postmeta meta3 ON post.ID = meta3.post_id AND meta3.meta_key = %s
 						WHERE post.post_type = %s
 						AND post.post_status = 'publish'
 						AND meta.meta_key = %s
-						AND meta2.meta_key = %s AND meta2.meta_value = '1'
-						AND meta3.meta_key = %s AND meta3.meta_value = %s",
+						AND meta2.meta_key IN (%s) AND meta2.meta_value = '1'
+						AND (meta3.meta_value = %s OR meta3.meta_value IS NULL)",
+					"{$field_prefix}is_sale",
 					$this->config['property_post_type_name'],
 					"{$field_prefix}primary_price",
-					'_immonex_is_available',
-					"{$field_prefix}is_sale",
+					'_immonex_is_available, _immonex_is_reserved',
 					$is_sale
 				),
 				ARRAY_A
 			);
 
-			if ( empty( $result ) ) {
+			if ( empty( $result ) || empty( $result[0]['max'] ) ) {
+				// No properties of the given marketing type available: take over unrelated values later.
+				$min_max[ $min_index ] = 'Umin';
+				$min_max[ $max_index ] = 'Umax';
 				continue;
 			}
 
@@ -148,6 +151,15 @@ class API {
 				&& false === $force_values[ $max_index ]
 			) {
 				$min_max[ $max_index ] = $roundup_max;
+			}
+		}
+
+		foreach ( $min_max as $i => $value ) {
+			if ( 'Umin' === $value ) {
+				$min_max[ $i ] = $min_max[0];
+			}
+			if ( 'Umax' === $value ) {
+				$min_max[ $i ] = $min_max[1];
 			}
 		}
 

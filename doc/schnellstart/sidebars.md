@@ -17,7 +17,7 @@ Beispiel: Einbinden der Archiv-Sidebar-Inhalte in eigene [Templates/Skins](../an
 
 ```php
 <?php if ( is_active_sidebar( 'inx-property-archive' ) ) : ?>
-<div class="inx-property-archive-sidebar">
+<div>
 	<ul>
 		<?php dynamic_sidebar( 'inx-property-archive' ); ?>
 	</ul>

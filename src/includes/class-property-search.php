@@ -34,13 +34,6 @@ class Property_Search {
 	private $api;
 
 	/**
-	 * Current number or performed search form renderings
-	 *
-	 * @var int
-	 */
-	private $render_count = 0;
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -95,7 +88,8 @@ class Property_Search {
 					$value = $this->utils['data']->get_query_var_value( $var_name );
 				}
 
-				if ( false !== $value ) {
+				// Exception: inx-sort must always be present for dynamic content updates to work.
+				if ( false !== $value || 'inx-sort' === $var_name ) {
 					$hidden_fields[ $var_name ] = array(
 						'name'  => $var_name,
 						'value' => $value,
@@ -131,7 +125,7 @@ class Property_Search {
 
 		if ( count( $enabled_elements ) > 0 ) {
 			foreach ( $enabled_elements as $id => $element ) {
-				$public_id = $this->config['public_prefix'] . 'search-' . $id;
+				$public_id = $this->get_public_element_id( $id );
 
 				if ( empty( $element['hidden'] ) ) {
 					if ( ! empty( $atts[ $public_id ] ) ) {
@@ -140,6 +134,10 @@ class Property_Search {
 					}
 
 					$elements[ $id ] = $element;
+
+					if ( isset( $hidden_fields[ $public_id ] ) ) {
+						unset( $hidden_fields[ $public_id ] );
+					}
 				} else {
 					if ( ! empty( $atts[ $public_id ] ) ) {
 						$value = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
@@ -193,7 +191,7 @@ class Property_Search {
 
 		if ( count( $enabled_elements ) > 0 ) {
 			foreach ( $enabled_elements as $id => $element ) {
-				$public_id = $this->config['public_prefix'] . 'search-' . $id;
+				$public_id = $this->get_public_element_id( $id );
 
 				if (
 					! isset( $elements[ $id ] )
@@ -262,6 +260,10 @@ class Property_Search {
 			}
 		}
 
+		if ( empty( $atts['dynamic-update'] ) ) {
+			$atts['dynamic-update'] = $this->config['property_search_dynamic_update'] ? 'all' : '';
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$atts,
@@ -270,13 +272,10 @@ class Property_Search {
 				'hidden_fields'  => $hidden_fields,
 				'elements'       => $elements,
 				'extended_count' => $extended_count,
-				'render_count'   => $this->render_count,
 			)
 		);
 
 		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
-
-		$this->render_count++;
 
 		return $template_content;
 	} // render_form
@@ -474,15 +473,18 @@ class Property_Search {
 					}
 
 					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'], $include );
-					$options = $this->get_hierarchical_option_list( $terms );
+					$options = $this->get_hierarchical_option_list(
+						$terms,
+						! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false
+					);
 				}
 
 				$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
 				break;
 		}
 
-		// Prefixed ID for use as input id/name etc.
-		$public_id = "{$public_prefix}search-{$id}";
+		// Prefixed ID for use as input id/name etc. (except for IDs starting with "inx-").
+		$public_id = $this->get_public_element_id( $id );
 
 		if ( ! empty( $element['value'] ) ) {
 			$value = $element['value'];
@@ -527,7 +529,7 @@ class Property_Search {
 			if (
 				( true === $element['default'] || false !== strpos( $element['type'], 'radio' ) ) &&
 				in_array( $element['type'], array( 'select', 'tax-select', 'radio', 'tax-radio' ), true ) &&
-				count( $element['options'] ) > 0
+				! empty( $element['options'] )
 			) {
 				$value = array_keys( $element['options'] )[0];
 			} else {
@@ -642,7 +644,6 @@ class Property_Search {
 				'compare'      => '=',
 				'numeric'      => false,
 				'label'        => __( 'Type Of Use', 'immonex-kickstart' ),
-				'options'      => array(),
 				'multiple'     => false,
 				'empty_option' => __( 'All Types Of Use', 'immonex-kickstart' ),
 				'default'      => '',
@@ -658,7 +659,6 @@ class Property_Search {
 				'compare'      => '=',
 				'numeric'      => false,
 				'label'        => __( 'Property Type', 'immonex-kickstart' ),
-				'options'      => array(),
 				'multiple'     => false,
 				'empty_option' => __( 'All Property Types', 'immonex-kickstart' ),
 				'default'      => '',
@@ -674,7 +674,6 @@ class Property_Search {
 				'compare'      => '=',
 				'numeric'      => false,
 				'label'        => __( 'Marketing Type', 'immonex-kickstart' ),
-				'options'      => array(),
 				'multiple'     => false,
 				'empty_option' => __( 'For Sale or For Rent', 'immonex-kickstart' ),
 				'default'      => '',
@@ -690,12 +689,26 @@ class Property_Search {
 				'compare'      => '=',
 				'numeric'      => false,
 				'label'        => __( 'Locality', 'immonex-kickstart' ),
-				'options'      => array(),
 				'multiple'     => false,
 				'empty_option' => __( 'All Localities', 'immonex-kickstart' ),
 				'default'      => '',
 				'class'        => '',
 				'order'        => 40,
+			),
+			'project'                  => array(
+				'enabled'            => true,
+				'hidden'             => true,
+				'extended'           => false,
+				'type'               => 'tax-select',
+				'key'                => $this->config['plugin_prefix'] . 'project',
+				'compare'            => '=',
+				'numeric'            => false,
+				'label'              => __( 'Project', 'immonex-kickstart' ),
+				'empty_option'       => __( 'All Projects', 'immonex-kickstart' ),
+				'option_text_source' => 'description',
+				'default'            => '',
+				'class'              => '',
+				'order'              => 45,
 			),
 			'min-rooms'                => array(
 				'enabled'      => true,
@@ -831,7 +844,6 @@ class Property_Search {
 				'compare'  => 'AND',
 				'numeric'  => false,
 				'label'    => __( 'Features', 'immonex-kickstart' ),
-				'options'  => array(),
 				'class'    => 'inx-property-search__element--is-full-width',
 				'order'    => 220,
 			),
@@ -844,7 +856,6 @@ class Property_Search {
 				'compare'  => 'IN',
 				'numeric'  => false,
 				'label'    => __( 'Labels', 'immonex-kickstart' ),
-				'options'  => array(),
 				'multiple' => true,
 				'default'  => '',
 				'class'    => 'inx-property-search__element--is-full-width',
@@ -1181,13 +1192,44 @@ class Property_Search {
 					'compare' => 'IN',
 				),
 			);
-		} elseif (
-			'only' === strtolower( $params[ "{$prefix}references" ] )
-		) {
+		} elseif ( 'only' === strtolower( $params[ "{$prefix}references" ] ) ) {
 			$meta_query[] = array(
 				'key'     => '_immonex_is_reference',
 				'value'   => array( 1, 'on' ),
 				'compare' => 'IN',
+			);
+		}
+
+		$masters = '';
+		if (
+			! empty( $params[ "{$prefix}masters" ] )
+			&& in_array( strtolower( $params[ "{$prefix}masters" ] ), array( 'no', 'only' ), true )
+		) {
+			$masters = strtolower( $params[ "{$prefix}masters" ] );
+		}
+
+		if ( 'no' === $masters ) {
+			// Exclude (group) master properties.
+			$meta_query[] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => '_immonex_group_master',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => '_immonex_group_master',
+					'value'   => '',
+					'compare' => '=',
+				),
+			);
+		} elseif ( 'only' === $masters ) {
+			// Query (visible) group master properties only.
+			$meta_query[] = array(
+				array(
+					'key'     => '_immonex_group_master',
+					'value'   => 'visible',
+					'compare' => '=',
+				),
 			);
 		}
 
@@ -1347,27 +1389,34 @@ class Property_Search {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param \WP_Term[] $terms Array of WP term objects.
-	 * @param int        $parent Parent term ID.
-	 * @param int        $level Start level.
+	 * @param \WP_Term[]  $terms              Array of WP term objects.
+	 * @param string|bool $option_text_source Source of the option text or false to use
+	 *                                        the term name (default).
+	 * @param int         $parent             Parent term ID (optional, defaults to 0).
+	 * @param int         $level              Start level (optional, defaults to 0).
 	 *
 	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
 	 */
-	private function get_hierarchical_option_list( $terms, $parent = 0, $level = 0 ) {
+	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent = 0, $level = 0 ) {
 		$level_options = array();
 
 		if ( count( $terms ) > 0 ) {
 			foreach ( $terms as $term ) {
 				if ( $term->parent === $parent ) {
+					$option_text = $option_text_source && 'description' === $option_text_source && $term->description ?
+						$term->description :
+						$term->name;
+
 					$level_options[ $term->slug ] = str_repeat(
 						'&ndash;',
 						$level
-					) . ' ' . $term->name;
+					) . " {$option_text}";
 
 					$level_options = array_merge(
 						$level_options,
 						$this->get_hierarchical_option_list(
 							$terms,
+							$option_text_source,
 							$term->term_id,
 							$level + 1
 						)
@@ -1378,5 +1427,23 @@ class Property_Search {
 
 		return $level_options;
 	} // get_hierarchical_option_list
+
+	/**
+	 * Extend the given ID for use as HTML DOM element ID.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $id Search form element ID/key.
+	 *
+	 * @return string Prefixed ID.
+	 */
+	private function get_public_element_id( $id ) {
+		if ( 'inx-' === substr( $id, 0, 4 ) ) {
+			return $id;
+		}
+
+		// Prefixed ID for use as input id/name etc.
+		return "{$this->config['public_prefix']}search-{$id}";
+	} // get_public_element_id
 
 } // Property_Search

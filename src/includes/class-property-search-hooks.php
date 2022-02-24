@@ -10,21 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Property related actions and filters.
  */
-class Property_Search_Hooks {
+class Property_Search_Hooks extends Property_Component_Hooks {
 
 	/**
-	 * Various component configuration data
-	 *
-	 * @var mixed[]
+	 * Base name for frontend component instance IDs
 	 */
-	private $config;
-
-	/**
-	 * Helper/Utility objects
-	 *
-	 * @var object[]
-	 */
-	private $utils;
+	const FE_COMPONENT_ID_BASENAME = 'inx-property-search';
 
 	/**
 	 * Related Property search object
@@ -42,8 +33,8 @@ class Property_Search_Hooks {
 	 * @param object[] $utils Helper/Utility objects.
 	 */
 	public function __construct( $config, $utils ) {
-		$this->config          = $config;
-		$this->utils           = $utils;
+		parent::__construct( $config, $utils );
+
 		$this->property_search = new Property_Search( $config, $utils );
 
 		/**
@@ -239,6 +230,11 @@ class Property_Search_Hooks {
 			$template = 'property-search';
 		}
 
+		$atts = array_merge(
+			$atts,
+			$this->add_rendered_instance( $template, $atts )
+		);
+
 		echo $this->property_search->render_form( $template, $atts );
 	} // render_property_search_form
 
@@ -288,6 +284,8 @@ class Property_Search_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
+			'cid'                  => '',
+			'dynamic-update'       => '',
 			'force-location'       => '',
 			'force-type-of-use'    => '',
 			'force-property-type'  => '',
@@ -315,6 +313,11 @@ class Property_Search_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}search-form" );
+
+		$shortcode_atts = array_merge(
+			$shortcode_atts,
+			$this->add_rendered_instance( 'property-search', array_filter( $shortcode_atts ) )
+		);
 
 		return $this->property_search->render_form( 'property-search', $shortcode_atts );
 	} // shortcode_search_form

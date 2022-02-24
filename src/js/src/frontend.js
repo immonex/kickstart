@@ -29,9 +29,10 @@ jQuery(document).ready(function($) {
 	// Shared Comoponents
 	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => { module.init() })
 
-	// Property Search
+	// Property Search/Filters/Sort
 	if (
-		document.getElementById('inx-property-search') ||
+		document.getElementsByClassName('inx-property-search').length > 0 ||
+		document.getElementsByClassName('inx-property-filters').length > 0 ||
 		document.getElementById('inx-sort')
 	) {
 		import(/* webpackChunkName: "property_search" */ './property_search').then((module) => { module.init() })
@@ -43,7 +44,10 @@ jQuery(document).ready(function($) {
 	}
 
 	// Property Map
-	if (document.getElementById('inx-property-map')) {
+	if (
+		document.getElementsByClassName('inx-property-map-container').length > 0 ||
+		document.getElementById('inx-property-map')
+	) {
 		import(/* webpackChunkName: "property_map" */ './property_map').then((module) => { module.init() })
 	}
 

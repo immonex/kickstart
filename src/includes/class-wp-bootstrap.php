@@ -181,6 +181,32 @@ class WP_Bootstrap {
 					'with_front' => false,
 				),
 			),
+			$this->prefix . 'project'          => array(
+				'description'       => '',
+				'labels'            => array(
+					'name'              => _x( 'Projects', 'taxonomy general name', 'immonex-kickstart' ),
+					'singular_name'     => _x( 'Project', 'taxonomy singular name', 'immonex-kickstart' ),
+					'all_items'         => __( 'All Projects', 'immonex-kickstart' ),
+					'edit_item'         => __( 'Edit Project', 'immonex-kickstart' ),
+					'view_item'         => __( 'View Project', 'immonex-kickstart' ),
+					'update_item'       => __( 'Update Project', 'immonex-kickstart' ),
+					'add_new_item'      => __( 'Add New Project', 'immonex-kickstart' ),
+					'new_item_name'     => __( 'New Project', 'immonex-kickstart' ),
+					'parent_item'       => __( 'Parent Project', 'immonex-kickstart' ),
+					'parent_item_colon' => __( 'Parent Project:', 'immonex-kickstart' ),
+					'search_items'      => __( 'Search Project', 'immonex-kickstart' ),
+					'popular_items'     => __( 'Popular Projects', 'immonex-kickstart' ),
+					'not_found'         => __( 'No Projects found.', 'immonex-kickstart' ),
+				),
+				'public'            => true,
+				'show_admin_column' => false,
+				'hierarchical'      => false,
+				'show_in_rest'      => true,
+				'rewrite'           => array(
+					'slug'       => $this->plugin->tax_project_slug_rewrite,
+					'with_front' => false,
+				),
+			),
 			$this->prefix . 'feature'        => array(
 				'description'       => '',
 				'labels'            => array(
