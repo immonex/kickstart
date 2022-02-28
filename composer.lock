@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40444be7f938e1eaafc629601c3c8ca0",
+    "content-hash": "2df16b7dfebd29b9bb468ffc15c0d089",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -67,16 +67,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "dfc1260069fb451a8367ebafefd477495cbcf249"
+                "reference": "02154398dda962eedf4e63dd75119d34cb72113b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/dfc1260069fb451a8367ebafefd477495cbcf249",
-                "reference": "dfc1260069fb451a8367ebafefd477495cbcf249",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/02154398dda962eedf4e63dd75119d34cb72113b",
+                "reference": "02154398dda962eedf4e63dd75119d34cb72113b",
                 "shasum": ""
             },
             "require": {
@@ -106,9 +106,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.4.0"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.5.0"
             },
-            "time": "2021-10-14T12:31:06+00:00"
+            "time": "2022-02-25T15:51:03+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -144,12 +144,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -278,12 +278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "237f1789a7db3a0cbb8e28a75832a45b7f9fc304"
+                "reference": "e33577f1beb6621a62fb7a2b45ec1a34d93b7714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/237f1789a7db3a0cbb8e28a75832a45b7f9fc304",
-                "reference": "237f1789a7db3a0cbb8e28a75832a45b7f9fc304",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e33577f1beb6621a62fb7a2b45ec1a34d93b7714",
+                "reference": "e33577f1beb6621a62fb7a2b45ec1a34d93b7714",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-04T07:03:10+00:00"
+            "time": "2022-02-25T08:30:09+00:00"
         }
     ],
     "packages-dev": [
@@ -2527,12 +2527,12 @@
             "default-branch": true,
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\String\\": ""
-                },
                 "files": [
                     "Resources/functions.php"
                 ],
+                "psr-4": {
+                    "Symfony\\Component\\String\\": ""
+                },
                 "exclude-from-classmap": [
                     "/Tests/"
                 ]

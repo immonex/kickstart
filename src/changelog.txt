@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 1.6.0 =
+* Release date: 2022-02-28
+* Added new taxonomy "project" for property grouping.
+* Added (optional) search form select element for property projects (groups).
+* Added special query variable for selecting/excluding group master properties.
+* Added WP auto embed and other filters to property description processing.
+* Added custom field based setting of current property post ID.
+* Added the ability to use multiple property search forms on the same page.
+* Added seach form shortcode attribute for modifying countries supported by location search/autocomplete elements.
+* Reworked and extended backend property form.
+* Added optional dynamic content updates of frontend components when changing search parameters.
+* Replaced 301 redirects to custom property list and detail pages by internal request updates.
+* Fixed detail element shortcode issue (attribute "type" not taken into account).
+
 = 1.5.8 =
 * Release date: 2021-10-14
 * Fixed application of feature selection (extended search form).

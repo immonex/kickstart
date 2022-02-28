@@ -33,7 +33,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 = Main Features =
 
 * Custom post type for properties
-* Extendable custom taxonomies (property type, usage type, marketing type, location, features, labels)
+* Extendable custom taxonomies (property type, usage type, marketing type, project, location, features, labels)
 * Special status flags per real estate object (reference, available, sold...)
 * Flexible real estate search form
 * Area/Radius search (Photon or Google Maps autocomplete)
@@ -45,6 +45,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Shortcodes for embedding real estate components (suitable for use in page builder layout elements)
 * Simple but powerful templating system ("Skins")
 * Clean and responsive default skin
+* Property grouping (project taxonomy)
 * Property location overview maps incl. clustered markers (OpenStreetMap/OpenLayers)
 * Property detail location maps (OpenStreetMap and Google Maps)
 * Dynamic updates of property lists and location map views based on the current search parameters
@@ -108,8 +109,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.0-beta =
-* Release date: ?
+= 1.6.0 =
+* Release date: 2022-02-28
 * Added new taxonomy "project" for property grouping.
 * Added (optional) search form select element for property projects (groups).
 * Added special query variable for selecting/excluding group master properties.
