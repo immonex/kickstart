@@ -242,11 +242,6 @@ export default {
 						minValue,
 						maxValue
 					]
-
-					/*initialValue = [
-						minValue >= this.min ? minValue : this.min,
-						maxValue <= this.max ? maxValue : this.max
-					]*/
 				}
 			} else {
 				// Initial value is a single number.

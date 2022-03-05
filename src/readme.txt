@@ -109,6 +109,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.6.2-beta =
+* Release date: 2022-03-05
+* Optimized grid display in real estate list views.
+* Improved responsive tab navigation display in property detail views.
+* Enabled dynamic updates based on current search criteria by default.
+* Fixed search form price slider auto value range setting for rental properties.
+
 = 1.6.0 =
 * Release date: 2022-02-28
 * Added new taxonomy "project" for property grouping.
@@ -128,18 +135,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed application of feature selection (extended search form).
 * Fixed subtab display problem in Windows-based environments.
 * Updated dependencies.
-
-= 1.5.5 =
-* Release date: 2021-09-07
-* Added automatic min/max value determination for search form area value sliders.
-* Added filter hook for overwriting min/max values of search form area value sliders.
-* Added special body classes for custom property list and detail pages.
-* Reworked plugin options page (e.g. sections as subtabs).
-* Updated dependencies.
-
-= 1.5.2 =
-* Release date: 2021-09-03
-* Adjusted property taxonomy archive page headlines.
-* Fixed disregard of explicitly stated search form taxonomy terms.
 
 See changelog.txt for complete version history.

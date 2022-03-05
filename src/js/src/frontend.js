@@ -27,7 +27,10 @@ let inxPropertyDetailsInitialized = false
 // Lazy loaded Modules
 jQuery(document).ready(function($) {
 	// Shared Comoponents
-	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => { module.init() })
+	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => {
+		inx_state.shared = module;
+		module.init()
+	})
 
 	// Property Search/Filters/Sort
 	if (
@@ -59,6 +62,13 @@ jQuery(document).ready(function($) {
 		import(/* webpackChunkName: "property_details" */ './property_details').then((module) => {
 			module.init()
 			inxPropertyDetailsInitialized = true
+		})
+	}
+
+	// Container Queries (sort of...)
+	if ( document.getElementsByClassName('inx-cq').length > 0	) {
+		import(/* webpackChunkName: "container_queries" */ './container-queries').then((module) => {
+			module.init()
 		})
 	}
 })

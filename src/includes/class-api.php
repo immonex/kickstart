@@ -100,12 +100,11 @@ class API {
 						WHERE post.post_type = %s
 						AND post.post_status = 'publish'
 						AND meta.meta_key = %s
-						AND meta2.meta_key IN (%s) AND meta2.meta_value = '1'
+						AND meta2.meta_key IN ('_immonex_is_available', '_immonex_is_reserved') AND meta2.meta_value = '1'
 						AND (meta3.meta_value = %s OR meta3.meta_value IS NULL)",
 					"{$field_prefix}is_sale",
 					$this->config['property_post_type_name'],
 					"{$field_prefix}primary_price",
-					'_immonex_is_available, _immonex_is_reserved',
 					$is_sale
 				),
 				ARRAY_A

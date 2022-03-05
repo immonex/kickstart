@@ -18,32 +18,41 @@ $inx_skin_list_item_atts = array(
 	'disable_links'   => ! empty( $template_data['disable_links'] ) ? $template_data['disable_links'] : '',
 	'list_query_atts' => ! empty( $template_data['list_query_atts'] ) ? $template_data['list_query_atts'] : array(),
 );
+
+$inx_skin_container_classes = array(
+	'inx-container',
+	'inx-property-list',
+);
+if ( ! have_posts() ) {
+	$inx_skin_container_classes[] = 'inx-property-list--is-empty';
+}
 ?>
-<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="inx-property-list<?php echo have_posts() ? '' : ' inx-property-list--is-empty'; ?> inx-container">
+<div class="inx-cq">
+	<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="<?php echo implode( ' ', $inx_skin_container_classes ); ?>">
 
-	<?php
-	if ( have_posts() ) :
-		while ( have_posts() ) :
-			the_post();
-			?>
+		<?php
+		if ( have_posts() ) :
+			while ( have_posts() ) :
+				the_post();
+				?>
 
-	<div class="inx-property-list__item-wrap">
-			<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts ); ?>
-	</div>
+		<div class="inx-property-list__item-wrap">
+				<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts ); ?>
+		</div>
 
-			<?php
-		endwhile;
-	else :
-		if ( ! empty( $template_data['no_results_text'] ) ) :
-			?>
+				<?php
+			endwhile;
+		else :
+			if ( ! empty( $template_data['no_results_text'] ) ) :
+				?>
 
-	<div class="inx-property-list__no-properties">
-		<p><?php echo $template_data['no_results_text']; ?></p>
-	</div>
+		<div class="inx-property-list__no-properties">
+			<p><?php echo $template_data['no_results_text']; ?></p>
+		</div>
 
-			<?php
+				<?php
+			endif;
 		endif;
-	endif;
-	?>
-
+		?>
+	</div>
 </div>

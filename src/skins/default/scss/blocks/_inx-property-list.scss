@@ -10,11 +10,42 @@
 	margin-bottom: 2em;
 }
 
+.inx-cq-xs {
+	.inx-property-list:not(.inx-property-list--is-empty) {
+		display: grid;
+		grid-template-columns: minmax($min-list-item-width, $max-list-item-width) minmax($min-list-item-width, $max-list-item-width);
+		grid-gap: 1em;
+	}
+
+	.inx-property-list__item-wrap {
+		margin-bottom: .5em;
+	}
+}
+
+.inx-cq-sm {
+	.inx-property-list:not(.inx-property-list--is-empty) {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+
+.inx-cq-m {
+	.inx-property-list:not(.inx-property-list--is-empty) {
+		grid-template-columns: repeat(auto-fill, minmax($min-list-item-width, 1fr));
+		grid-gap: 2em;
+	}
+}
+
+.inx-cq-l {
+	.inx-property-list:not(.inx-property-list--is-empty) {
+		grid-gap: 2em;
+	}
+}
+
 @media screen and (min-width: $screen-s) {
 	.inx-property-list:not(.inx-property-list--is-empty) {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
-		grid-gap: 2em;
+		grid-template-columns: repeat(auto-fill, minmax($min-list-item-width, 1fr));
+		grid-gap: 1.5em;
 	}
 
 	.inx-property-list__item-wrap {
@@ -23,8 +54,12 @@
 }
 
 @media screen and (min-width: $screen-m) {
-	.inx-property-list__item-wrap >	.inx-property-list-item {
-		max-width: 24em;
+	:not(.inx-cq-xxs) {
+		.inx-property-list {
+			.inx-property-list__item-wrap > .inx-property-list-item {
+				max-width: $max-list-item-width;
+			}
+		}
 	}
 }
 

@@ -57,6 +57,8 @@ class Property_List {
 	 * @return string Rendered contents (HTML).
 	 */
 	public function render( $template = 'property-list/properties', $atts = array() ) {
+		global $wp_query;
+
 		$org_query = $this->replace_main_query( $atts );
 
 		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
@@ -76,7 +78,9 @@ class Property_List {
 			$this->config,
 			$atts
 		);
-		$output        = $this->utils['template']->render_php_template( $template, $template_data );
+
+		$template_data['post_count'] = $wp_query->post_count;
+		$output                      = $this->utils['template']->render_php_template( $template, $template_data );
 
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );

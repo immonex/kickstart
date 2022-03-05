@@ -102,7 +102,7 @@ if ( $inx_skin_enable_tabs ) :
 	?>
 
 <div class="inx-single-property__tabbed-content uk-padding uk-margin-large-bottom">
-	<ul class="inx-single-property__tab-nav uk-margin-bottom" uk-tab>
+	<ul class="inx-single-property__tab-nav uk-margin-bottom uk-tab inx-cq" uk-tab>
 		<?php foreach ( $inx_skin_tabbed_content_elements['tabs'] as $inx_skin_tab_id => $inx_skin_tab ) : ?>
 		<li><a href="javascript:void(0)"><?php echo $inx_skin_tab['title']; ?></a></li>
 		<?php endforeach; ?>

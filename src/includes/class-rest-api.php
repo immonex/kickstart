@@ -182,8 +182,16 @@ class REST_API {
 		$template      = ! empty( $component_instance_data['template'] ) ? $component_instance_data['template'] : '';
 		$property_list = new Property_List( $this->config, $this->utils );
 
+		$list_html = $property_list->render( $template, $component_instance_data );
+		$has_wrap  = preg_match( '/\<div class="inx-cq"\>(.*)\<\/div\>/is', $list_html, $matches );
+
+		if ( $has_wrap ) {
+			// Remove a wrap DIV element only required for pseudo container queries.
+			$list_html = trim( $matches[1] );
+		}
+
 		return array(
-			'list'       => $property_list->render( $template, $component_instance_data ),
+			'list'       => $list_html,
 			'pagination' => $property_list->get_rendered_pagination(),
 		);
 	} // get_property_list_html
