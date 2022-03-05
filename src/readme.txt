@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.9
-Stable Tag: 1.6.0
+Stable Tag: 1.6.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -109,11 +109,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.2-beta =
+= 1.6.2 =
 * Release date: 2022-03-05
 * Optimized grid display in real estate list views.
 * Improved responsive tab navigation display in property detail views.
-* Enabled dynamic updates based on current search criteria by default.
 * Fixed search form price slider auto value range setting for rental properties.
 
 = 1.6.0 =

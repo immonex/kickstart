@@ -47,7 +47,7 @@ Soll hierfür **alternativ** eine **Seite als Vorlage** verwendet werden, die mi
 
 ### Immobiliensuche
 
-Enthält eine Seite neben einem [Immobilien-Suchformular](../komponenten/index.html) auch eine zugehörige [Listenansicht](../komponenten/liste.html) (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) und/oder [Standortkarte](../komponenten/karte.html), können die Inhalte dieser Komponenten dynamisch aktualisiert werden, wenn die Suchparameter verändert werden (standardmäßig aktiv ab Plugin-Version 1.6.2).
+Enthält eine Seite neben einem [Immobilien-Suchformular](../komponenten/index.html) auch eine zugehörige [Listenansicht](../komponenten/liste.html) (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) und/oder [Standortkarte](../komponenten/karte.html), können die Inhalte dieser Komponenten dynamisch aktualisiert werden, wenn die Suchparameter verändert werden.
 
 ![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.png)
 

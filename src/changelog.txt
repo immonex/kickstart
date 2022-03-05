@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.6.2 =
+* Release date: 2022-03-05
+* Optimized grid display in real estate list views.
+* Improved responsive tab navigation display in property detail views.
+* Fixed search form price slider auto value range setting for rental properties.
+
 = 1.6.0 =
 * Release date: 2022-02-28
 * Added new taxonomy "project" for property grouping.

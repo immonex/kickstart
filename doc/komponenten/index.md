@@ -103,7 +103,7 @@ Formular mit Ausstattungsmerkmalen im primären und Vermarktungs-/Nutzungsarten 
 
 ## Dynamische Listen & Karten
 
-Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 möglich, auch die Inhalte der [Immobilienlisten](liste.html) und/oder [Standortkarten](karte.html), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden (Standardvorgabe seit Version 1.6.2):
+Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 optional möglich, auch die Inhalte der [Immobilienlisten](liste.html) und/oder [Standortkarten](karte.html), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden:
 
 ![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.png)
 
