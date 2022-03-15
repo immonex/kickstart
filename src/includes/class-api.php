@@ -59,7 +59,7 @@ class API {
 	 *
 	 * @return int[] Selected min/max and range values.
 	 */
-	public function get_primary_price_min_max( $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( 0, false, 0, false, 0, false ) ) {
+	public function get_primary_price_min_max( $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( false, false, false, false, false, false ) ) {
 		global $wpdb;
 
 		if ( ! empty( $this->cache['min_max'] ) ) {
@@ -118,19 +118,30 @@ class API {
 			}
 
 			$min           = (int) $result[0]['min'];
-			$base_min      = (int) 1 . str_repeat( '0', strlen( (string) $min ) - 1 );
-			$rounddown_min = (int) floor( $min / $base_min ) * $base_min;
-			$max           = (int) $result[0]['max'];
-			$base_max      = (int) 1 . str_repeat( '0', strlen( (string) $max ) - 1 );
-			$roundup_max   = (int) ceil( $max / $base_max ) * $base_max;
+			$rounddown_min = $this->utils['string']->smooth_round( $min, true );
+			if ( $rounddown_min < 50 ) {
+				$rounddown_min = 0;
+			}
+
+			$max         = (int) $result[0]['max'];
+			$roundup_max = $this->utils['string']->smooth_round( $max );
+			if ( $roundup_max < 100 ) {
+				$roundup_max = 100;
+			}
 
 			// Unrelated min value.
-			if ( $rounddown_min < $min_max[0] && false === $force_values[0] ) {
+			if (
+				( $rounddown_min < $min_max[0] || 0 === $min_max[0] )
+				&& false === $force_values[0]
+			) {
 				$min_max[0] = $rounddown_min;
 			}
 
 			// Min value for sale OR rent properties.
-			if ( $rounddown_min < $min_max[ $min_index ] && false === $force_values[ $min_index ] ) {
+			if (
+				( $rounddown_min < $min_max[ $min_index ] || 0 === $min_max[ $min_index ] )
+				&& false === $force_values[ $min_index ]
+			) {
 				$min_max[ $min_index ] = $rounddown_min;
 			}
 
@@ -234,8 +245,7 @@ class API {
 		}
 
 		$max         = (int) $result[0]['max'];
-		$base_max    = (int) 1 . str_repeat( '0', strlen( (string) $max ) - 1 );
-		$roundup_max = (int) ceil( $max / $base_max ) * $base_max;
+		$roundup_max = $this->utils['string']->smooth_round( $max );
 
 		$this->cache['max_area'][ $type ] = $roundup_max;
 

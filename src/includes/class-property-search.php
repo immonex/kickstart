@@ -318,7 +318,6 @@ class Property_Search {
 
 				if ( 'primary_price_' === substr( $value, 0, 14 ) ) {
 					$primary_price_min_max = $this->api->get_primary_price_min_max();
-
 					switch ( $value ) {
 						case 'primary_price_min':
 							$element[ $key ] = $primary_price_min_max[0];
@@ -959,7 +958,7 @@ class Property_Search {
 		$search_query_vars = array();
 		foreach ( $form_elements as $id => $element ) {
 			$var_name = "{$prefix}search-{$id}";
-			$value    = get_query_var( $var_name );
+			$value    = $this->utils['data']->get_query_var_value( $var_name );
 
 			if ( $value ) {
 				if ( is_array( $value ) ) {

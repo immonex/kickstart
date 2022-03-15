@@ -141,7 +141,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 		) {
 			$public_prefix = $this->config['public_prefix'];
 
-			if ( 'only' === get_query_var( "{$public_prefix}references" ) ) {
+			if ( 'only' === $this->utils['data']->get_query_var_value( "{$public_prefix}references" ) ) {
 				return __( 'Successfully marketed properties', 'immonex-kickstart' );
 			} else {
 				return __( 'Our current property offers', 'immonex-kickstart' );

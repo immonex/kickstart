@@ -55,57 +55,37 @@ class Property_Filters_Sort {
 		$prefix = $this->config['public_prefix'];
 
 		/**
-		 * Check GET variables and preserve given search options as hidden fields.
+		 * Check GET variables and preserve given search/filter options as hidden fields.
 		 */
-		$preserve_get_vars = array();
-
-		if (
-			$wp_query &&
-			isset( $wp_query->query_vars ) &&
-			count( $wp_query->query_vars ) > 0
-		) {
-			/**
-			 * Check for/include special query variables (e.g. reference flag).
-			 */
-			$special_query_vars = $this->config['special_query_vars']();
-			$special_vars       = array();
-
-			if ( count( $special_query_vars ) > 0 ) {
-				foreach ( $special_query_vars as $var_name ) {
-					if ( '{prefix}sort' !== $var_name ) {
-						$special_vars[] = $var_name;
-					}
-				}
-			}
-
-			$special_vars_substring = count( $special_vars ) > 0 ? '|' . implode( '|', $special_vars ) : '';
-
-			foreach ( $wp_query->query_vars as $var_name => $value ) {
-				if ( preg_match( "/^({$prefix}search\-{$special_vars_substring})/", $var_name ) ) {
+		$preserve_get_vars = $this->config['special_query_vars']();
+		if ( ! empty( $_GET ) ) {
+			// Add further GET vars.
+			foreach ( $_GET as $var_name => $value ) {
+				if (
+					'' !== $value &&
+					! isset( $preserve_get_vars[ $var_name ] ) &&
+					! in_array( $var_name, array( 'page', 'paged' ), true )
+				) {
 					$preserve_get_vars[] = $var_name;
 				}
 			}
 		}
 
 		$hidden_fields = array();
-
 		if ( count( $preserve_get_vars ) > 0 ) {
 			foreach ( $preserve_get_vars as $var_name ) {
-				$value = $this->utils['data']->get_query_var_value( $var_name, $wp_query );
+				if ( "{$prefix}sort" === $var_name ) {
+					continue;
+				}
+
+				if ( ! empty( $atts[ $var_name ] ) ) {
+					$value = $atts[ $var_name ];
+				} else {
+					$value = $this->utils['data']->get_query_var_value( $var_name );
+				}
 
 				if ( false !== $value ) {
-					// TODO: Add JSON check.
-					if ( is_array( $value ) ) {
-						if ( count( $value ) > 0 && $value[0] ) {
-							$value = wp_json_encode( array_map( 'stripslashes', $value ) );
-						} else {
-							$value = '';
-						}
-					} else {
-						$value = stripslashes( $value );
-					}
-
-					$hidden_fields[] = array(
+					$hidden_fields[ $var_name ] = array(
 						'name'  => $var_name,
 						'value' => $value,
 					);
@@ -208,7 +188,7 @@ class Property_Filters_Sort {
 	public function get_sort_options() {
 		$prefix = $this->config['plugin_prefix'];
 
-		if ( get_query_var( 'geo_query' ) ) {
+		if ( $this->utils['data']->get_query_var_value( 'geo_query' ) ) {
 			$sort_options = array(
 				'distance' => array(
 					'field' => 'distance',
@@ -231,7 +211,7 @@ class Property_Filters_Sort {
 			)
 		);
 
-		$marketing_type = get_query_var( $this->config['public_prefix'] . 'search-marketing-type' );
+		$marketing_type = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'search-marketing-type' );
 		if ( ! $marketing_type ) {
 			$sort_options = array_merge(
 				$sort_options,
@@ -250,8 +230,8 @@ class Property_Filters_Sort {
 			);
 		}
 
-		$references = get_query_var( $this->config['public_prefix'] . 'references' );
-		$available  = get_query_var( $this->config['public_prefix'] . 'available' );
+		$references = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'references' );
+		$available  = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'available' );
 		if ( 'only' !== $references && ! $available ) {
 			$sort_options = array_merge(
 				$sort_options,

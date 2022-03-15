@@ -12,7 +12,7 @@
 <script>
 import noUiSlider from 'nouislider'
 
-const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"1000000":10000}'
+const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"1000000":10000, "10000000":100000}'
 
 export default {
 	name: 'inx-range-slider',
@@ -132,7 +132,15 @@ export default {
 	},
 	watch: {
 		'transferValue': function (value) {
-			if (typeof this.inxState.search.forms[this.formIndex] === 'undefined' || value === this.value) return
+			if (
+				typeof this.inxState.search.forms[this.formIndex] === 'undefined' ||
+				(
+					Array.isArray(this.currentValue) &&
+					value === this.currentValue.join(',')
+				)
+			) {
+				return
+			}
 
 			const formElementID = this.inxState.search.forms[this.formIndex].formElID
 			jQuery('#' + formElementID + ' input[name=' + this.name + ']').trigger('change')
@@ -174,6 +182,22 @@ export default {
 
 			return false
 		},
+		getSmoothRoundedValue (values) {
+			if (!Array.isArray(values)) {
+				const intValue = parseInt(values)
+				if (isNaN(intValue)) return 0
+
+				values = [intValue]
+			}
+
+			values.forEach((value, index) => {
+				if (value >= 1000000) {
+					values[index] = (value / 1000000).toFixed(1) * 1000000
+				}
+			})
+
+			return values
+		},
 		getFormattedValue (value) {
 			if (value === 0 && this.replaceNull) return this.replaceNull
 
@@ -191,7 +215,11 @@ export default {
 
 			if (this.unit && !this.currency) suffix = suffix.concat(this.unit)
 
-			let args = { style: this.currency ? 'currency' : 'decimal', minimumFractionDigits: digits, maximumFractionDigits: digits }
+			let args = {
+				style: this.currency ? 'currency' : 'decimal',
+				minimumFractionDigits: digits,
+				maximumFractionDigits: digits
+			}
 			let formatted = value
 
 			if (this.currency) args.currency = this.currency;
@@ -218,7 +246,6 @@ export default {
 			return 'sale'
 		},
 		setInitialValue () {
-			if (this.initialValueSet) return
 			let initialValue
 
 			try {
@@ -232,8 +259,6 @@ export default {
 					// (Single) Value array contains min/max range: ignore the latter.
 					initialValue = initialValue[0]
 				} else {
-					this.currentValue = [initialValue[0], initialValue[1]]
-
 					// Initial value is a min/max array.
 					let minValue = parseInt(initialValue[0])
 					let maxValue = parseInt(initialValue[1])
@@ -249,7 +274,7 @@ export default {
 				if (
 					initialValue < this.min ||
 					initialValue >= this.max ||
-					initialValue === 'NaN'
+					isNaN(initialValue)
 				) {
 					initialValue = this.min
 				}
@@ -346,9 +371,11 @@ export default {
 
 		noUiSlider.create(slider, attributes)
 
-		slider.noUiSlider.on('update', function (values, handle) {
-			that.currentValue = values
-		})
+		window.setTimeout( () => {
+			slider.noUiSlider.on('update', function (values, handle) {
+				that.currentValue = that.getSmoothRoundedValue(values)
+			})
+		}, 2000 )
 	}
 }
 </script>

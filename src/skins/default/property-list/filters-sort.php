@@ -14,10 +14,7 @@ $inx_skin_component_id  = ! empty( $template_data['cid'] ) ? $template_data['cid
 $inx_skin_sort_options  = $template_data['sort_options'];
 $inx_skin_sort_var_name = $template_data['public_prefix'] . 'sort';
 
-$inx_skin_current_sort_key = get_query_var( $inx_skin_sort_var_name );
-if ( ! $inx_skin_current_sort_key ) {
-	$inx_skin_current_sort_key = $template_data['default_sort_option']['key'];
-}
+$inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template_data['default_sort_option']['key'], $inx_skin_sort_var_name );
 ?>
 <div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-filters inx-container uk-padding-small">
 	<form<?php echo ! empty( $template_data['form_action'] ) ? ' action="' . $template_data['form_action'] . '"' : ''; ?> method="get">

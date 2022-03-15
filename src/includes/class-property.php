@@ -309,7 +309,7 @@ class Property {
 			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
 		}
 
-		$get_query_backlink_url = get_query_var( "{$public_prefix}backlink-url" );
+		$get_query_backlink_url = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
 		if ( $get_query_backlink_url ) {
 			$overview_url = stripslashes( urldecode( $get_query_backlink_url ) );
 		} else {

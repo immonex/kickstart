@@ -7,7 +7,8 @@
 				:form-index="formIndex"
 				:name="nomName"
 				:one-match="nomOneMatch"
-				:no-matches="nomNoMatches">
+				:no-matches="nomNoMatches"
+				:locale="locale">
 			</inx-number-of-matches>
 		</button>
 	</div>
@@ -42,6 +43,10 @@ export default {
 		wrapClasses: {
 			type: String,
 			default: 'inx-search-submit-button'
+		},
+		locale: {
+			type: String,
+			default: 'de-DE'
 		},
 		buttonClasses: {
 			type: String,

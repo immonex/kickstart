@@ -192,7 +192,7 @@ class Property_List {
 			}
 
 			foreach ( $archive_mapping as $tax_base_name => $query_var_base_name ) {
-				$tax_query_var = get_query_var( $this->config['plugin_prefix'] . $tax_base_name );
+				$tax_query_var = $this->utils['data']->get_query_var_value( $this->config['plugin_prefix'] . $tax_base_name );
 				if ( $tax_query_var ) {
 					/**
 					 * Example: inx_property_type (taxonomy term) given > add as

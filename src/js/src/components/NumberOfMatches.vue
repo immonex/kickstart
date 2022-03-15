@@ -22,6 +22,10 @@ export default {
 			type: String,
 			default: ''
 		},
+		locale: {
+			type: String,
+			default: 'de-DE'
+		},
 		wrapClasses: {
 			type: String,
 			default: 'inx-number-of-matches'
@@ -52,7 +56,14 @@ export default {
 				value > 1 &&
 				this.name
 			) {
-				value += ' ' + this.name
+				let formatted = value
+				try {
+					formatted = value.toLocaleString(this.locale)
+				} catch (e) {
+					formatted = value.toString()
+				}
+
+				value = formatted + ' ' + this.name
 			}
 
 			return value ? value : ''

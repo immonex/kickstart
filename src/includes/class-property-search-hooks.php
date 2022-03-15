@@ -43,8 +43,6 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 
 		add_action( 'pre_get_posts', array( $this, 'adjust_property_frontend_query' ) );
 
-		add_filter( 'query_vars', array( $this, 'add_frontend_query_vars' ) );
-
 		/**
 		 * Plugin-specific actions and filters
 		 */
@@ -63,6 +61,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 	 * Add names of variables that can be used in frontend related WP queries.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 1.6.4-beta No longer used by internal code and not recommended.
 	 *
 	 * @param string[] $vars Current list of variable names.
 	 *

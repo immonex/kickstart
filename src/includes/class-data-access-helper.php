@@ -293,12 +293,20 @@ class Data_Access_Helper {
 	 * @return string|string[] Sanitized value(s).
 	 */
 	public function sanitize_query_var_value( $value ) {
+		if ( json_decode( $value ) ) {
+			return $value;
+		}
+
 		if ( is_string( $value ) ) {
-			return sanitize_text_field( $value );
+			return filter_var( $value, FILTER_SANITIZE_STRING );
 		} elseif ( is_array( $value ) ) {
 			return array_map(
 				function ( $value ) {
-					return sanitize_text_field( $value );
+					if ( json_decode( $value ) ) {
+						return $value;
+					}
+
+					return filter_var( $value, FILTER_SANITIZE_STRING );
 				},
 				$value
 			);

@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
+$inx_skin_locale       = str_replace( '_', '-', get_locale() );
 
 if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 	if ( is_array( $template_data['element']['step_ranges'] ) ) {
@@ -32,6 +33,7 @@ if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 		currency="<?php echo isset( $template_data['element']['currency'] ) ? esc_attr( $template_data['element']['currency'] ) : ''; ?>"
 		replace-null="<?php echo isset( $template_data['element']['replace_null'] ) ? esc_attr( $template_data['element']['replace_null'] ) : ''; ?>"
 		range-unlimited-term="<?php echo ! empty( $template_data['element']['unlimited_term'] ) ? esc_attr( $template_data['element']['unlimited_term'] ) : ''; ?>"
+		locale="<?php echo $inx_skin_locale ? $inx_skin_locale : 'de-DE'; ?>"
 		wrap-classes="inx-range-slider">
 	</inx-range-slider>
 </div>
