@@ -12,7 +12,7 @@
 <script>
 import noUiSlider from 'nouislider'
 
-const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"1000000":10000, "10000000":100000}'
+const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000}'
 
 export default {
 	name: 'inx-range-slider',
