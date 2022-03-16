@@ -110,9 +110,9 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 == Changelog ==
 
 = 1.6.5-beta =
-* Release date: ?
+* Release date: 2022-03-16
 * Formatted/Localized number of matches on search form submit button.
-* Improved search form price and area slider auto value range determination and handling.
+* Improved search form price and area slider auto value range determination and value stepping.
 * Improved usability of pages containing all Kickstart elements as front page.
 * Fixed price range format in backlink URLs.
 

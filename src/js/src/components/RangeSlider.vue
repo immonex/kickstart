@@ -12,7 +12,7 @@
 <script>
 import noUiSlider from 'nouislider'
 
-const defaultStepRanges = '{"100":10,"1000":50,"2000":100,"5000":500,"10000":1000}'
+const defaultStepRanges = '{"50":5,"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"100000":10000,"1000000":100000}'
 
 export default {
 	name: 'inx-range-slider',
@@ -90,8 +90,10 @@ export default {
 					let thresholdStep = parseInt(this.stepRangesConv[key])
 					if (!threshold || !thresholdStep) continue
 
-					if (this.max > threshold &&	currentStep < thresholdStep) {
+					if (threshold < this.min) {
 						currentStep = thresholdStep
+					} else {
+						break
 					}
 				}
 			}
@@ -181,6 +183,45 @@ export default {
 			}
 
 			return false
+		},
+		getRange(min, max) {
+			if (typeof this.stepRangesConv !== 'object') {
+				return {
+					'min': min,
+					'max': max
+				}
+			}
+
+			let stepCount = 2
+			for (let key in this.stepRangesConv) {
+				let threshold = parseInt(key)
+				if (!threshold) continue
+
+				if (threshold > min && threshold < max) {
+					stepCount++
+				}
+			}
+
+			let rangeSteps = {
+				'min': this.min
+			}
+			let currentPercent = 0
+			let percentInc = parseInt(100 / stepCount)
+
+			for (let key in this.stepRangesConv) {
+				let threshold = parseInt(key)
+				let thresholdStep = parseInt(this.stepRangesConv[key])
+				if (!threshold || !thresholdStep) continue
+
+				if (threshold > min && threshold < max) {
+					currentPercent += percentInc
+					rangeSteps[currentPercent + "%"] = [threshold, thresholdStep]
+				}
+			}
+
+			rangeSteps['max'] = max
+
+			return rangeSteps
 		},
 		getSmoothRoundedValue (values) {
 			if (!Array.isArray(values)) {
@@ -310,10 +351,7 @@ export default {
 					slider.noUiSlider.updateOptions(
 						{
 							start: this.currentValue,
-							range: {
-								'min': this.min,
-								'max': this.max
-							},
+							range: this.getRange(this.min, this.max),
 							step: this.step
 						},
 						false // Boolean 'fireSetEvent'
@@ -341,10 +379,7 @@ export default {
 			start: this.currentValue,
 			connect: true,
 			step: that.step,
-			range: {
-				'min': this.min,
-				'max': this.max
-			},
+			range: this.getRange(this.min, this.max),
 			format: {
 				to: function (value) {
 					return parseInt(value)
