@@ -161,7 +161,6 @@ if ( $inx_skin_media_count > 0 ) :
 
 	if ( ! $inx_skin_has_valid_ken_burns_image ) {
 		$inx_skin_enable_ken_burns_effect = false;
-		$inx_skin_animation_type          = 'fade';
 	}
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom">
@@ -184,7 +183,7 @@ if ( $inx_skin_media_count > 0 ) :
 								<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
 						</div>
 						<?php else : ?>
-						<div class="inx-gallery__image uk-position-center">
+						<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
 							<?php echo $inx_skin_img['full']; ?>
 						</div>
 						<?php endif; ?>
