@@ -278,12 +278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "e33577f1beb6621a62fb7a2b45ec1a34d93b7714"
+                "reference": "393ea10efdc908829665a00b30991808992a1c32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e33577f1beb6621a62fb7a2b45ec1a34d93b7714",
-                "reference": "e33577f1beb6621a62fb7a2b45ec1a34d93b7714",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/393ea10efdc908829665a00b30991808992a1c32",
+                "reference": "393ea10efdc908829665a00b30991808992a1c32",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T08:30:09+00:00"
+            "time": "2022-03-26T11:00:50+00:00"
         }
     ],
     "packages-dev": [
@@ -518,21 +518,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/rst-parser.git",
-                "reference": "9107ba8b1dc8dc2dda2438cd38c609c74d2c33fe"
+                "reference": "3b914d5eb8f6a91afc7462ea7794b0e05b884a35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/rst-parser/zipball/9107ba8b1dc8dc2dda2438cd38c609c74d2c33fe",
-                "reference": "9107ba8b1dc8dc2dda2438cd38c609c74d2c33fe",
+                "url": "https://api.github.com/repos/doctrine/rst-parser/zipball/3b914d5eb8f6a91afc7462ea7794b0e05b884a35",
+                "reference": "3b914d5eb8f6a91afc7462ea7794b0e05b884a35",
                 "shasum": ""
             },
             "require": {
                 "doctrine/event-manager": "^1.0",
                 "php": "^7.2 || ^8.0",
-                "symfony/filesystem": "^4.1 || ^5.0",
-                "symfony/finder": "^4.1 || ^5.0",
+                "symfony/filesystem": "^4.1 || ^5.0 || ^6.0",
+                "symfony/finder": "^4.1 || ^5.0 || ^6.0",
                 "symfony/polyfill-mbstring": "^1.0",
-                "symfony/string": "^5.3",
+                "symfony/string": "^5.3 || ^6.0",
                 "symfony/translation-contracts": "^1.1 || ^2.0",
                 "twig/twig": "^2.9 || ^3.3"
             },
@@ -544,8 +544,8 @@
                 "phpstan/phpstan-phpunit": "^0.12",
                 "phpstan/phpstan-strict-rules": "^0.12",
                 "phpunit/phpunit": "^7.5 || ^8.0 || ^9.0",
-                "symfony/css-selector": "4.4 || ^5.2",
-                "symfony/dom-crawler": "4.4 || ^5.2"
+                "symfony/css-selector": "4.4 || ^5.2 || ^6.0",
+                "symfony/dom-crawler": "4.4 || ^5.2 || ^6.0"
             },
             "default-branch": true,
             "type": "library",
@@ -582,9 +582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/rst-parser/issues",
-                "source": "https://github.com/doctrine/rst-parser/tree/0.5.x"
+                "source": "https://github.com/doctrine/rst-parser/tree/0.5.2"
             },
-            "time": "2021-11-12T16:59:54+00:00"
+            "time": "2022-03-22T13:52:20+00:00"
         },
         {
             "name": "inverisoss/wp-i18n-tools",
@@ -898,12 +898,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "93ebd0014cab80c4ea9f5e297ea48672f1b87706"
+                "reference": "77a32518733312af16a44300404e945338981de3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/93ebd0014cab80c4ea9f5e297ea48672f1b87706",
-                "reference": "93ebd0014cab80c4ea9f5e297ea48672f1b87706",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/77a32518733312af16a44300404e945338981de3",
+                "reference": "77a32518733312af16a44300404e945338981de3",
                 "shasum": ""
             },
             "require": {
@@ -939,9 +939,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.6.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.x"
             },
-            "time": "2022-01-04T19:58:01+00:00"
+            "time": "2022-03-15T21:29:03+00:00"
         },
         {
             "name": "phpspec/prophecy",

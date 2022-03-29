@@ -109,11 +109,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.5-beta =
-* Release date: 2022-03-16
+= 1.6.7-beta =
+* Release date: 2022-03-29
 * Formatted/Localized number of matches on search form submit button.
 * Improved search form price and area slider auto value range determination and value stepping.
 * Improved usability of pages containing all Kickstart elements as front page.
+* Replaced default skin gallery fade transition (if Ken Burns Effect is disabled) by a more visually appealing slide/fade variant.
+* Fixed a minor search form/sort dynamic update issue.
 * Fixed price range format in backlink URLs.
 
 = 1.6.2 =

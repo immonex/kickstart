@@ -235,18 +235,13 @@ function changeSortOrder(event) {
 	 * if the sort order has been changed via the filter/sort bar.
 	 */
 
-	let searchFormSortElementUpdated = false
-
-	$('.inx-property-search.inx-dynamic-update').each((index, searchForm) => {
-		$($(searchForm).data('dynamic-update').split(',')).each((indexSplit, updateIDs) => {
-			if (['1', 'all', filterElementID].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1 ) {
+	if ($('.inx-property-search.inx-dynamic-update').length) {
+		$('.inx-property-search.inx-dynamic-update').each((index, searchForm) => {
+			$($(searchForm).data('dynamic-update').split(',')).each((indexSplit, updateIDs) => {
 				$(searchForm).find("[name='inx-sort']").val($(event.target).val())
-				searchFormSortElementUpdated = true
-			}
+			})
 		})
-	})
 
-	if (searchFormSortElementUpdated) {
 		// Dynamic updates via search form instead of page reload.
 		updateSearchState(true)
 	} else {
