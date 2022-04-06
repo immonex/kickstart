@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
 Tested up to: 5.9
-Stable Tag: 1.6.2
+Stable Tag: 1.6.8
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -109,14 +109,15 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.7-beta =
-* Release date: 2022-03-29
+= 1.6.8 =
+* Release date: 2022-04-06
 * Formatted/Localized number of matches on search form submit button.
 * Improved search form price and area slider auto value range determination and value stepping.
 * Improved usability of pages containing all Kickstart elements as front page.
 * Replaced default skin gallery fade transition (if Ken Burns Effect is disabled) by a more visually appealing slide/fade variant.
 * Fixed a minor search form/sort dynamic update issue.
 * Fixed price range format in backlink URLs.
+* Updated dependencies.
 
 = 1.6.2 =
 * Release date: 2022-03-05
