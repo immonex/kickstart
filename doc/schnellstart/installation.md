@@ -1,10 +1,3 @@
----
-title: Installation
-category: schnellstart
-order: 10
-search: 1
----
-
 # Installation
 
 ## Automatisch
@@ -29,4 +22,4 @@ Soll eine vorhandene Version von Kickstart manuell aktualisiert werden, muss die
 
 Im Anschluss an den Upload und die Installation muss das Plugin noch per Klick auf den angezeigten Button oder den entsprechenden Link in der Plugin-Liste **aktiviert** werden.
 
-Nach erfolgreicher Installation und Aktivierung sind eine immobilienspezifische [Beitragsart sowie zugehörige Taxonomien](../beitragsarten-taxonomien.html) verfügbar und es geht weiter mit der [grundlegenden Einrichtung](einrichtung.html)...
+Nach erfolgreicher Installation und Aktivierung sind eine immobilienspezifische [Beitragsart sowie zugehörige Taxonomien](/beitragsarten-taxonomien) verfügbar und es geht weiter mit der [grundlegenden Einrichtung](einrichtung)...

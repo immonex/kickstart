@@ -1,21 +1,16 @@
----
-title: Elemente der Detailansicht (Filter)
-search: 1
----
-
 # inx_detail_page_elements (Filter)
 
-Mit diesem Filter können die Eigenschaften der für die Ausgabe verfügbaren Elemente der [Immobilien-Detailansicht](../komponenten/detailansicht.html) angepasst werden.
+Mit diesem Filter können die Eigenschaften der für die Ausgabe verfügbaren Elemente der [Immobilien-Detailansicht](/komponenten/detailansicht) angepasst werden.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` | Array der verfügbaren [Detailabschnitt-Elemente](../komponenten/detailansicht.html#Elemente-Detail-Abschnitte) |
+| `$elements` | Array der verfügbaren [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
 
 ### Das Elements-Array im Detail
 
-Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](../komponenten/detailansicht.html#Elemente-Detail-Abschnitte), die in den Attributen der Detailansicht-Shortcodes Verwendung finden.
+Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/komponenten/detailansicht#elemente-abschnitte), die in den Attributen der Detailansicht-Shortcodes Verwendung finden.
 
 ```php
 [
@@ -127,7 +122,7 @@ Die folgenden Eigenschaften sind größtenteils **templatespezifisch**, können 
 
 | Name (Typ) | Beschreibung / Werte |
 | ---------- | -------------------- |
-| `template` (string) | Name der Template-Datei (ohne Endung .php) im **Unterordner** `single-property` des [Skin-Ordners](skins.html) |
+| `template` (string) | Name der Template-Datei (ohne Endung .php) im **Unterordner** `single-property` des [Skin-Ordners](skins) |
 | `headline` (string) | Titel/Überschrift des Abschnitts |
 | `no_headline_in_tabs` (bool) | Überschriften bei **tab-basierter Ausgabe** ausblenden |
 | `optional` (bool) | Mit `true` als optional gekennzeichnete Elemente werden bei der Ausgabe nur dann berücksichtigt, wenn sie explizit im Shortcode-Attribut `elements` aufgeführt sind. |

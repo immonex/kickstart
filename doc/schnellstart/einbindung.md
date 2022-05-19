@@ -1,13 +1,6 @@
----
-title: Einbindung
-category: schnellstart
-order: 40
-search: 1
----
-
 # Frontend-Komponenten
 
-Mit Kickstart sind "out of the box" eine [Immobilien-Übersichtsseite](../beitragsarten-taxonomien.html#Immobilien-Beitrage) sowie eine vollständige [Detailansicht](../komponenten/detailansicht.html#Standard-Template) verfügbar – jeweils inkl. [Seitenleiste](sidebars.html) zur Ergänzung von Widgets. Die vom Plugin bereitgestellten Immobilien-Komponenten können aber auch mit den folgenden **Shortcodes** in beliebiger Anzahl und Kombination in Seiten oder andere Inhaltselemente eingefügt werden.
+Mit Kickstart sind "out of the box" eine [Immobilien-Übersichtsseite](/beitragsarten-taxonomien#immobilien-beiträge) sowie eine vollständige [Detailansicht](/komponenten/detailansicht#standard-template) verfügbar – jeweils inkl. [Seitenleiste](sidebars) zur Ergänzung von Widgets. Die vom Plugin bereitgestellten Immobilien-Komponenten können aber auch mit den folgenden **Shortcodes** in beliebiger Anzahl und Kombination in Seiten oder andere Inhaltselemente eingefügt werden.
 
 Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhängig voneinander, beeinflussen sich also nicht **direkt** gegenseitig. So wirkt sich bspw. die Änderung einer Auswahl im Suchformular erst **nach dem Absenden** bzw. dem Aktualisieren der kompletten Seite auf eine Listenansicht aus. Auch die Konfiguration einer Komponente per **Shortcode-Attribut** wirkt sich **nicht** automatisch auf die anderen Komponenten der Seite aus.
 
@@ -27,7 +20,7 @@ nur Nutzungsart, Objektart und Absenden-Button einbinden:
 Auswahl der Immobilien- und Vermarktungsart nicht einbinden:
 `[inx-search-form exclude="property-type, marketing-type"]`
 
-Details und vollständige Elementliste: [Komponenten → Suchformular](../komponenten/index.html)
+Details und vollständige Elementliste: [Komponenten → Suchformular](/komponenten/suchformular)
 
 ## Standortkarte
 
@@ -35,7 +28,7 @@ Details und vollständige Elementliste: [Komponenten → Suchformular](../kompon
 
 Dieser Shortcode generiert eine Karte auf OpenStreetMap-Basis, die anklickbare Immobilien-Standortmarker inkl. zugehörigen Info-Overlays mit verlinkten Objektfotos und -bezeichnungen enthält.
 
-Details: [Komponenten → Karte](../komponenten/karte.html)
+Details: [Komponenten → Karte](/komponenten/karte)
 
 ## Sortierung
 
@@ -45,7 +38,7 @@ Mit diesem Shortcode wird aktuell bei Verwendung des Standard-Skins ein Balken m
 
 Für die explizite Festlegung der Elemente der Auswahlliste bzw. das Ausschließen bestimmter Elemente stehen die optionalen Shortcode-Attribute `elements` und `exclude` zur Verfügung, die jeweils kommagetrennte Listen von Element-Keys enthalten können. Ebenfalls optional ist das Attribut `default`, mit dem Standardsortierung festgelegt werden kann.
 
-> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](../anpassung-erweiterung/filter-inx-default-sort-key.html) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
+> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
 
 ### Beispiele
 
@@ -55,41 +48,45 @@ nur Preis auf- oder absteigend (Standard) als Sortieroptionen
 Fläche und Zimmeranzahl aus der Optionsliste entfernen
 `[inx-filters-sort exclude="area_asc, rooms_asc"]`
 
-Details: [Komponenten → Sortierung](../komponenten/sortierung.html)
+Details: [Komponenten → Sortierung](/komponenten/sortierung)
 
 ## Listenansicht
 
 `[inx-property-list]`
 
-Umfang, Art und Sortierung der angezeigten Immobilien können mit **Shortcode-Attributen** bestimmt werden, nachfolgend die gängigsten. Bei der [taxonomiebasierten Auswahl](../beitragsarten-taxonomien.html#Taxonomien) und der Sortierung sind auch mehrere, kommagetrennte Angaben möglich.
+Umfang, Darstellungsart und Sortierung der angezeigten Immobilien können mit **Shortcode-Attributen** bestimmt werden, nachfolgend die gängigsten. Bei der [taxonomiebasierten Auswahl](/beitragsarten-taxonomien#Taxonomien) und der Sortierung sind auch mehrere, kommagetrennte Angaben möglich.
 
-- **Objektart/en** (Taxonomie): `property-type="OBJEKTART-SLUG"` / `property-type="SLUG1, SLUG2, SLUG3"`
-  Beispiel: nur Einfamilienhäuser
-  `[inx-property-list property-type="einfamilienhaus"]`
-  Beispiel: Ein- und Mehrfamilienhäuser
+- **Objektart/en** (Taxonomie): `property-type="OBJEKTART-SLUG"` / `property-type="SLUG1, SLUG2, SLUG3"`\
+  Beispiel: nur Einfamilienhäuser\
+  `[inx-property-list property-type="einfamilienhaus"]`\
+  Beispiel: Ein- und Mehrfamilienhäuser\
   `[inx-property-list property-type="einfamilienhaus, mehrfamilienhaus"]`
 
-- **Vermarktungsart/en** (Taxonomie): `marketing-type="VERMARKTUNGSART-SLUG"` / `marketing-type="SLUG1, SLUG2, SLUG3..."`
-  Beispiel: nur Kaufobjekte
+- **Vermarktungsart/en** (Taxonomie): `marketing-type="VERMARKTUNGSART-SLUG"` / `marketing-type="SLUG1, SLUG2, SLUG3..."`\
+  Beispiel: nur Kaufobjekte\
   `[inx-property-list marketing-type="zu-verkaufen"]`
 
-- **Ort/e** (Taxonomie): `locality="ORTSNAME-SLUG"` / `locality="SLUG1, SLUG2, SLUG3..."`
-  Beispiel: Immobilien in Trier-West und Berlin
+- **Ort/e** (Taxonomie): `locality="ORTSNAME-SLUG"` / `locality="SLUG1, SLUG2, SLUG3..."`\
+  Beispiel: Immobilien in Trier-West und Berlin\
   `[inx-property-list locality="trier-west, berlin"]`
 
-- **Label/s** (Taxonomie): `labels="LABEL-SLUG"` / `labels="SLUG1, SLUG2, SLUG3..."`
-  Beispiel: nur als "neu" gekennzeichnete Immobilien
+- **Label/s** (Taxonomie): `labels="LABEL-SLUG"` / `labels="SLUG1, SLUG2, SLUG3..."`\
+  Beispiel: nur als "neu" gekennzeichnete Immobilien\
   `[inx-property-list labels="neu"]`
 
-- **maximale Objektanzahl insgesamt/pro Seite:** `limit=ANZAHL` / `limit-page=ANZAHL`
-  Beispiel: max. vier Objekte anzeigen
+- **maximale Objektanzahl insgesamt/pro Seite:** `limit=ANZAHL` / `limit-page=ANZAHL`\
+  Beispiel: max. vier Objekte anzeigen\
   `[inx-property-list limit=4]`
 
-- **Sortierung:** `sort="SORTIERSCHLÜSSEL"` / `sort="KEY1, KEY2..."`
-  Beispiel: Kaufobjekte zuerst, anschließend nach Preis absteigend sortieren
+- **Sortierung:** `sort="SORTIERSCHLÜSSEL"` / `sort="KEY1, KEY2..."`\
+  Beispiel: Kaufobjekte zuerst, anschließend nach Preis absteigend sortieren\
   `[inx-property-list sort="marketing_type_desc, price_desc"]`
 
-Details und weitere Attribute: [Komponenten → Listenansicht](../komponenten/liste.html)
+- **Template-Datei:** `template="PFAD/DATEINAME RELATIV ZUM SKIN-ORDNER"`\
+  Beispiel: Immobilienliste als *Slider* (Karussell) anzeigen\
+  `[inx-property-list template="property-list/slider"]`
+
+Details und weitere Attribute: [Komponenten → Listenansicht](/komponenten/liste)
 
 ## Seitennavigation
 
@@ -97,13 +94,13 @@ Details und weitere Attribute: [Komponenten → Listenansicht](../komponenten/li
 
 Hiermit wird die Standard-Seitennavigation in der vom Theme vorgegebenen Optik eingebunden.
 
-Details: [Komponenten → Seitennavigation](../komponenten/seitennavigation.html)
+Details: [Komponenten → Seitennavigation](/komponenten/seitennavigation)
 
 ## Immobilien-Details
 
-> **Achtung!** Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung.html#Immobilien-Detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
+> **Achtung!** Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung#immobilien-detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
 
-Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung.html#Immobilien-Detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch <i>granular</i> in Form einzelner Angaben.
+Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung#immobilien-detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch <i>granular</i> in Form einzelner Angaben.
 
 ### Alle Details oder bestimmte Abschnitte
 
@@ -115,7 +112,7 @@ Der einfachste Anwendungsfall ist der Shortcode ohne Attribute: Hiermit werden a
 
 `[inx-property-details elements="ELEMENT_KEY1, ELEMENT_KEY2..."]`
 
-Mit dem Attribut `elements` kann explizit festgelegt werden, welche Abschnitte (Elemente) mit dem Shortcode **eingebunden** werden sollen. Als Attributwert wird hierbei ein einzelner [Element-Key](../komponenten/detailansicht.html#Elemente-Detail-Abschnitte) oder eine kommagetrennte Liste mehrerer Keys hinterlegt.
+Mit dem Attribut `elements` kann explizit festgelegt werden, welche Abschnitte (Elemente) mit dem Shortcode **eingebunden** werden sollen. Als Attributwert wird hierbei ein einzelner [Element-Key](/komponenten/detailansicht#Elemente-Detail-Abschnitte) oder eine kommagetrennte Liste mehrerer Keys hinterlegt.
 
 Jedem Element können zusätzliche Attribute (z. B. eine Absatzüberschrift) nach dem Schema `ELEMENT_KEY-attribut="ATTRIBUTWERT"` zugeordnet werden. Diese werden dann beim Rendern des zugehörigen Element-Templates berücksichtigt. (Wird nur ein einzelnes Element mit dem Shortcode eingebunden, kann das Präfix `ELEMENT_KEY-` weggelassen werden.)
 
@@ -151,7 +148,7 @@ Mit diesem Shortcode können einzelne Werte, die per [WordPress-OpenImmo-Schnitt
 - Custom-Field-Name in der Spalte <em>Destination</em>
 - XML-Pfad ([XPath](https://de.wikipedia.org/wiki/XPath)) zur Abfrage beliebiger Daten innerhalb des Objekt-Import-XML-Elements `<immobilie>`
 
-![Ausschnitt aus der OpenImmo2WP-Mapping-Tabelle für Kickstart](../assets/scst-mapping-1.png)
+![Ausschnitt aus der OpenImmo2WP-Mapping-Tabelle für Kickstart](../assets/scst-mapping-1.png)\
 Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimmo2wp/)-Mapping-Tabelle für Kickstart
 
 Mit weiteren Shortcode-Attributen, z. B. `type`, `template` und `if_empty` kann die Darstellung des Elements genauer definiert werden.
@@ -172,33 +169,33 @@ Energieverbrauchskennwert per [XPath](https://de.wikipedia.org/wiki/XPath)-Angab
 
 ---
 
-Details, weitere Optionen und vollständige Elementliste: [Komponenten → Detailansicht](../komponenten/detailansicht.html)
+Details, weitere Optionen und vollständige Elementliste: [Komponenten → Detailansicht](/komponenten/detailansicht)
 
 ## GET-Parameter
 
 Kickstart-spezifische **GET-Parameter** werden an die URL der jeweiligen Seite angehangen und wirken sich auf die Ausgabe **aller betroffenen Komponenten** aus, die hier per Shortcode eingebundenen wurden. Wird also hierüber bspw. eine bestimmte Objektart oder eine Sortierung vorgegeben, werden diese Optionen auch im Suchformular bzw. der Sortierungs-Auswahlbox voreingestellt.
 
-Die möglichen Angaben entsprechen weitgehend denen, die nach dem Absenden des [Standard-Suchformulars](../komponenten/index.html) in der URL der Ergebnisseite enthalten sind. Hinzu kommen die [Status-Flags](../referenzen-status-flags.html) für die Selektion von Referenzobjekten & Co. sowie weitere allgemeine Parameter (Ländercode, Objektanzahl, Sortierung etc.).
+Die möglichen Angaben entsprechen weitgehend denen, die nach dem Absenden des [Standard-Suchformulars](/komponenten/suchformular) in der URL der Ergebnisseite enthalten sind. Hinzu kommen die [Status-Flags](/referenzen-status-flags) für die Selektion von Referenzobjekten & Co. sowie weitere allgemeine Parameter (Ländercode, Objektanzahl, Sortierung etc.).
 
 Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`. Bei **taxonomiebasierten** Parametern werden die zugehörigen **Term-Slugs** als Werte übergeben (einzeln oder als kommagetrennte Liste).
 
 | Parameter | Beschreibung / Werte |
 | --------- | -------------------- |
 | `inx-search-description` | Schlüsselwortsuche in Titeln, Beschreibungstexten und weiteren Feldern (z. B. Objekt-ID) |
-| `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](../beitragsarten-taxonomien.html)) |
-| `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](../beitragsarten-taxonomien.html)) |
-| `inx-search-marketing-type` | Vermarktungsart (Term-Slugs der Taxonomie [inx_marketing_type](../beitragsarten-taxonomien.html)) |
-| `inx-search-project` | [Projekt/Gruppe](../referenzen-status-flags.html#Gruppierung) (Term-Slugs der Taxonomie [inx_project](../beitragsarten-taxonomien.html)) |
-| `inx-search-locality` | Ort (Term-Slugs der Taxonomie [inx_location](../beitragsarten-taxonomien.html)) |
-| `inx-search-features` | Ausstattung (Term-Slugs der Taxonomie [inx_features](../beitragsarten-taxonomien.html)) |
-| `inx-search-labels` | Labels (Term-Slugs der Taxonomie [inx_labels](../beitragsarten-taxonomien.html)) |
+| `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](/beitragsarten-taxonomien)) |
+| `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](/beitragsarten-taxonomien)) |
+| `inx-search-marketing-type` | Vermarktungsart (Term-Slugs der Taxonomie [inx_marketing_type](/beitragsarten-taxonomien)) |
+| `inx-search-project` | [Projekt/Gruppe](/referenzen-status-flags#gruppierung) (Term-Slugs der Taxonomie [inx_project](/beitragsarten-taxonomien)) |
+| `inx-search-locality` | Ort (Term-Slugs der Taxonomie [inx_location](/beitragsarten-taxonomien)) |
+| `inx-search-features` | Ausstattung (Term-Slugs der Taxonomie [inx_features](/beitragsarten-taxonomien)) |
+| `inx-search-labels` | Labels (Term-Slugs der Taxonomie [inx_labels](/beitragsarten-taxonomien)) |
 | `inx-search-min-rooms` | Mindestanzahl Zimmer/Räume (Ganzzahl) |
 | `inx-search-min-area` | Mindestfläche in m² (Ganzzahl) |
 | `inx-search-price-range` | Preisrahmen (MIN,MAX, z. B. *200000,400000*) |
 | `inx-author` | Objekte nach Autor(en) filtern (kommagetrennte Liste von Benutzer-IDs oder Login-Namen; Minus zum Ausschließen bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `inx-iso-country` | nur Objekte im Land mit den angegebenen [ISO3-Ländercodes](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste) anzeigen (z. B. *DEU* oder *DEU* oder *DEU,AUT,ESP*) |
 | `inx-references` | Referenzen anzeigen: *yes* = ja, *no* = nein (Standard), *only* = ausschließlich |
-| `inx-masters` | [Master-Objekte](../referenzen-status-flags.html#Master-Objekte) ([Objektgruppen](../referenzen-status-flags.html#Gruppierung)) anzeigen? (*yes* = ja (Standard), *no* = nein, *only* = ausschließlich) |
+| `inx-masters` | [Master-Objekte](/referenzen-status-flags#master-objekte) ([Objektgruppen](/referenzen-status-flags#gruppierung)) anzeigen? (*yes* = ja (Standard), *no* = nein, *only* = ausschließlich) |
 | `inx-available` | nur explizit **verfügbare** Objekte anzeigen: *yes* = ja, *no* = nein |
 | `inx-reserved` | nur explizit **reservierte** Objekte anzeigen: *yes* = ja, *no* = nein |
 | `inx-sold` | nur explizit **verkaufte/vermietete** Objekte anzeigen: *yes* = ja, *no* = nein |
@@ -207,8 +204,8 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-demo` | **Beispiel-/Demo-Objekte** bei der Ausgabe berücksichtigen: *no* = nein, *only* = ausschließlich |
 | `inx-limit` | **Gesamtanzahl** der anzuzeigenden Immobilien begrenzen (Ganzzahl) |
 | `inx-limit-page` | Anzahl der anzuzeigenden Immobilien **pro Seite** begrenzen (Ganzzahl) |
-| `inx-sort` | [Sortierschlüssel (Key)](../komponenten/sortierung.html#Standard-Optionen) |
-| `inx-force-lang` | Sprachcode, mit dem in [**Sonderfällen** bei mehrsprachigen Umgebungen](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache vorgegeben werden kann (z. B. *de*, *en*...) |
+| `inx-sort` | [Sortierschlüssel (Key)](/komponenten/sortierung#Standard-Optionen) |
+| `inx-force-lang` | Sprachcode, mit dem in [Sonderfällen bei mehrsprachigen Umgebungen](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#sonderfälle) eine bestimmte Sprache vorgegeben werden kann (z. B. *de*, *en*...) |
 | `inx-ref` | beliebiger, **benutzerdefinierter** Wert |
 
 ### Beispiel-URLs

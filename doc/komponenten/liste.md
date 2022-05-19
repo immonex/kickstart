@@ -1,10 +1,3 @@
----
-title: Listenansicht
-category: komponenten
-order: 30
-search: 1
----
-
 # Listenansicht
 
 Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beliebiger Anzahl eingebunden werden.
@@ -15,7 +8,7 @@ Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beli
 
 `[inx-property-list]`
 
-> In der Standardkonfiguration werden **keine** Immobilien angezeigt, die als [Referenzobjekt](../schnellstart/import.html#Referenzobjekte) markiert sind. Hierfür ist das [Shortcode-Attribut `references`](#Custom-Field-basiert) (oder alternativ der GET-Parameter `inx-references`) erforderlich.
+> In der Standardkonfiguration werden **keine** Immobilien angezeigt, die als [Referenzobjekt](/referenzen-status-flags) markiert sind. Hierfür ist das [Shortcode-Attribut `references`](#custom-field-basiert) (oder alternativ der GET-Parameter `inx-references`) erforderlich.
 
 ### Attribute
 
@@ -25,13 +18,13 @@ Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `property-type` | Objektart(en) ([inx_property_type](../beitragsarten-taxonomien.html)) |
-| `marketing-type` | Vermarktungsart(en) ([inx_marketing_type](../beitragsarten-taxonomien.html)) |
-| `type-of-use` | Nutzungsart(en) ([inx_type_of_use](../beitragsarten-taxonomien.html)) |
-| `project` | Projekt/Gruppe ([inx_project](../beitragsarten-taxonomien.html)) |
-| `locality` | Ort(e) ([inx_location](../beitragsarten-taxonomien.html)) |
-| `labels` | Label(s) ([inx_label](../beitragsarten-taxonomien.html)) |
-| `features` | Ausstattungsmerkmale ([inx_feature](../beitragsarten-taxonomien.html)) |
+| `property-type` | Objektart(en) ([inx_property_type](/beitragsarten-taxonomien)) |
+| `marketing-type` | Vermarktungsart(en) ([inx_marketing_type](/beitragsarten-taxonomien)) |
+| `type-of-use` | Nutzungsart(en) ([inx_type_of_use](/beitragsarten-taxonomien)) |
+| `project` | Projekt/Gruppe ([inx_project](/beitragsarten-taxonomien)) |
+| `locality` | Ort(e) ([inx_location](/beitragsarten-taxonomien)) |
+| `labels` | Label(s) ([inx_label](/beitragsarten-taxonomien)) |
+| `features` | Ausstattungsmerkmale ([inx_feature](/beitragsarten-taxonomien)) |
 
 ![Taxonomie-Term-Slugs](../assets/scst-tax-term-slugs.gif)
 
@@ -39,44 +32,44 @@ Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen
 
 ##### Beispiele
 
-Nur Einfamilienhäuser (Kaufobjekte):
+Nur Einfamilienhäuser (Kaufobjekte):\
 `[inx-property-list property-type="einfamilienhaus" marketing-type="zu-verkaufen"]`
 
-Neue Bungalows, Villen und Kioske:
+Neue Bungalows, Villen und Kioske:\
 `[inx-property-list property-type="bungalow, villa, kiosk" labels="neu"]`
 
-Grundstücke (alle Unterkategorien) in Berlin:
+Grundstücke (alle Unterkategorien) in Berlin:\
 `[inx-property-list property-type="grundstuecke" locality="berlin"]`
 
 #### Custom-Field-basiert
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ----------------------------- |
-| `min-rooms` | Mindestanzahl Zimmer/Räume als **Ganzzahl**, z. B. *4* ([\_inx_primary_rooms](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `min-area` | Mindestfläche als **Ganzzahl** in m², z. B. *120* ([\_inx_primary_area](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `iso-country` | Auswahl per ISO3-Code auf ein bestimmte Länder beschränken, z. B. *DEU* oder *DEU,AUT,ESP* ([\_immonex_iso_country](../beitragsarten-taxonomien.html#Custom-Fields)) |
-| `references` | Referenzobjekte berücksichtigen/anzeigen (<i>Flag</i> [\_immonex_is_reference](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `min-rooms` | Mindestanzahl Zimmer/Räume als **Ganzzahl**, z. B. *4* ([\_inx_primary_rooms](/beitragsarten-taxonomien#custom-fields)) |
+| `min-area` | Mindestfläche als **Ganzzahl** in m², z. B. *120* ([\_inx_primary_area](/beitragsarten-taxonomien#custom-fields)) |
+| `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](/beitragsarten-taxonomien#custom-fields)) |
+| `iso-country` | Auswahl per ISO3-Code auf ein bestimmte Länder beschränken, z. B. *DEU* oder *DEU,AUT,ESP* ([\_immonex_iso_country](/beitragsarten-taxonomien#custom-fields)) |
+| `references` | Referenzobjekte berücksichtigen/anzeigen (<i>Flag</i> [\_immonex_is_reference](/beitragsarten-taxonomien#custom-fields)) |
 | | *no* : nein (Standardvorgabe) |
 | | *yes* : ja |
 | | *only* : ausschließlich |
-| `masters` | Gruppen-Master-Objekte berücksichtigen/anzeigen ([\_immonex_group_master](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `masters` | Gruppen-Master-Objekte berücksichtigen/anzeigen ([\_immonex_group_master](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : ja (Standardvorgabe) |
 | | *no* : nein |
 | | *only* : ausschließlich |
-| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_available](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_available](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur verfügbare Immobilien |
 | | *no* : nur **nicht** verfügbare Immobilien |
-| `reserved` | Reserviert-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_reserved](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `reserved` | Reserviert-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_reserved](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur reservierte Immobilien |
 | | *no* : nur **nicht** reservierte Immobilien |
-| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_sold](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_sold](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur verkaufte/vermietete Immobilien |
 | | *no* : nur **nicht** verkaufte/vermietete Immobilien |
-| `featured` | Empfohlen-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_featured](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `featured` | Empfohlen-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_featured](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur empfohlene Immobilien |
 | | *no* : nur **nicht** empfohlene Immobilien |
-| `front-page-offer` | Startseiten-Angebote **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_front_page_offer](../beitragsarten-taxonomien.html#Custom-Fields)) |
+| `front-page-offer` | Startseiten-Angebote **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_front_page_offer](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur Startseiten-Angebote |
 | | *no* : nur **nicht** als Startseiten-Angebote markierte Immobilien |
 | `disable_links` | Detailseiten-Verlinkung anhand des Objektstatus **deaktivieren** |
@@ -86,13 +79,13 @@ Grundstücke (alle Unterkategorien) in Berlin:
 
 ##### Beispiele
 
-Häuser ab 120 m² Wohnfläche mit mindestens vier Zimmern:
+Häuser ab 120 m² Wohnfläche mit mindestens vier Zimmern:\
 `[inx-property-list property-type="haeuser" min-rooms=4 min-area=120]`
 
-Alle [Referenzobjekte](../referenzen-status-flags.html):
+Alle [Referenzobjekte](/referenzen-status-flags):\
 `[inx-property-list references="only"]`
 
-Nur [Master-Objekte](../referenzen-status-flags.html#Master-Objekte):
+Nur [Master-Objekte](/referenzen-status-flags#master-objekte):\
 `[inx-property-list masters="only"]`
 
 #### Allgemein
@@ -105,23 +98,27 @@ Mit den folgenden Attributen kann die Auswahl der Immobilien weiter eingegrenzt 
 | `author` | Objekte nach **Autor(en)** filtern (kommagetrennte Liste von **Benutzer-IDs** oder **Login-Namen**; **Minus zum Ausschließen** bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
 | `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
-| `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung.html#Standard-Optionen) (Mehrfachangaben als kommagetrennte Liste) |
-| `force-lang` | Sprachcode, um in [**Sonderfällen** (mehrsprachige Websites)](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html#Sonderfalle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
+| `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung#standard-optionen) (Mehrfachangaben als kommagetrennte Liste) |
+| `force-lang` | Sprachcode, um in [Sonderfällen (mehrsprachige Websites)](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#sonderfälle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
 | `no_results_text` | **eigener bzw. alternativer** Text, der anstatt der Standardmeldung (***immonex → Einstellungen → Immobiliensuche → Keine-Ergebnisse-Meldung***) angezeigt werden soll, wenn keine zu den Auswahl-/Suchkriterien passenden Immobilienangebote vorhanden sind (leerer String = keine Meldung) |
+| `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *property-list/slider*) |
 
 ##### Beispiele
 
-Maximal vier Objekte des Benutzers *Dieter Demo*, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:
+Maximal vier Objekte des Benutzers *Dieter Demo*, sortiert nach Preis aufsteigend und anschließend nach Aktualisierungsdatum absteigend:\
 `[inx-property-list author="dieter.demo" limit=4 sort="price_asc, date_desc"]`
 
-Liste mit benutzerdefinierter Meldung, falls keine passenden Immobilien vorhanden sind:
+Liste mit benutzerdefinierter Meldung, falls keine passenden Immobilien vorhanden sind:\
 `[inx-property-list no_results_text="Oh nein, nichts gefunden! 🤬"]`
+
+Immobilienliste als *Slider* (Karussell) anzeigen:\
+`[inx-property-list template="property-list/slider"]`
 
 ## Dynamische Aktualisierung
 
-Die Inhalte von Listenansichten können **optional** anhand der aktuellen Kriterien eines in der gleichen Seite enthaltenen [Immobilien-Suchformulars](index.html) dynamisch (ohne Neuladen der Seite) aktualisiert werden. Diese Funktion kann entweder global (für alle Komponenten auf allen Seiten) in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** oder per Attribut `dynamic-update` des [Suchformular-Shortcodes](index.html#Dynamische-Listen-amp-Karten) aktiviert werden.
+Die Inhalte von Listenansichten können **optional** anhand der aktuellen Kriterien eines in der gleichen Seite enthaltenen [Immobilien-Suchformulars](suchformular) dynamisch (ohne Neuladen der Seite) aktualisiert werden. Diese Funktion kann entweder global (für alle Komponenten auf allen Seiten) in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** oder per Attribut `dynamic-update` des [Suchformular-Shortcodes](suchformular#dynamische-listen-amp-karten) aktiviert werden.
 
 ## Erweiterte Anpassungen
 
-- [Templates](../anpassung-erweiterung/skins.html#Partiell)
-- [Custom Skin](../anpassung-erweiterung/standard-skin.html#Archiv-amp-Listenansicht)
+- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

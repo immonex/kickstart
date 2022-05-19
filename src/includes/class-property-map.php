@@ -13,6 +13,11 @@ namespace immonex\Kickstart;
 class Property_Map {
 
 	/**
+	 * Default property map template file
+	 */
+	const DEFAULT_TEMPLATE = 'property-list/map';
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -49,8 +54,12 @@ class Property_Map {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render( $template = 'property-list/map', $atts = array() ) {
+	public function render( $template = '', $atts = array() ) {
 		$prefix = $this->config['public_prefix'];
+
+		if ( empty( $template ) ) {
+			$template = self::DEFAULT_TEMPLATE;
+		}
 
 		$marker_set_id = ! empty( $atts['cid'] ) ? $atts['cid'] : 'inx-property-map';
 		$markers       = $this->get_markers( $atts );

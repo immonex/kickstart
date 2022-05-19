@@ -13,6 +13,11 @@ namespace immonex\Kickstart;
 class Property_Filters_Sort {
 
 	/**
+	 * Default property list filters/sort template file
+	 */
+	const DEFAULT_TEMPLATE = 'property-list/filters-sort';
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -49,10 +54,14 @@ class Property_Filters_Sort {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render( $template = 'property-list/filters-sort', $atts = array() ) {
+	public function render( $template = '', $atts = array() ) {
 		global $wp_query;
 
 		$prefix = $this->config['public_prefix'];
+
+		if ( empty( $template ) ) {
+			$template = self::DEFAULT_TEMPLATE;
+		}
 
 		/**
 		 * Check GET variables and preserve given search/filter options as hidden fields.
@@ -188,10 +197,16 @@ class Property_Filters_Sort {
 	public function get_sort_options() {
 		$prefix = $this->config['plugin_prefix'];
 
-		if ( $this->utils['data']->get_query_var_value( 'geo_query' ) ) {
+		if (
+			$this->utils['data']->get_query_var_value( 'geo_query' )
+			|| (
+				$this->utils['data']->get_query_var_value( 'inx-search-distance-search-location' )
+				&& $this->utils['data']->get_query_var_value( 'inx-search-distance-search-radius' )
+			)
+		) {
 			$sort_options = array(
 				'distance' => array(
-					'field' => 'distance',
+					'field' => 'geo_query_distance',
 					'title' => __( 'Distance', 'immonex-kickstart' ),
 					'order' => 'ASC',
 				),

@@ -1,11 +1,6 @@
----
-title: URL-Mappings für Template-Ordner definieren (Filter)
-search: 1
----
-
 # inx_template_folder_url_mappings (Filter)
 
-Wurde via [`inx_template_search_folders`](filter-inx-template-search-folders.html) ein benutzerdefinierter Basisordner für [Skins](skins.html) definiert, der sich **nicht im Webroot-Ordner** der WordPress-Installation befindet, muss diesem per Filterfunktion eine URL für die Verwendung im Frontend der Website zugeordnet werden. Dies ist notwendig, damit bspw. CSS-Dateien hierüber direkt eingebunden werden können.
+Wurde via [`inx_template_search_folders`](filter-inx-template-search-folders) ein benutzerdefinierter Basisordner für [Skins](skins) definiert, der sich **nicht im Webroot-Ordner** der WordPress-Installation befindet, muss diesem per Filterfunktion eine URL für die Verwendung im Frontend der Website zugeordnet werden. Dies ist notwendig, damit bspw. CSS-Dateien hierüber direkt eingebunden werden können.
 
 ## Parameter
 

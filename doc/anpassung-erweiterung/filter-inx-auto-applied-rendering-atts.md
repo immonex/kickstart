@@ -1,11 +1,6 @@
----
-title: Rendering-spezifische Attribute mit automatisierter Übernahme definieren (Filter)
-search: 1
----
-
 # inx_auto_applied_rendering_atts (Filter)
 
-Über diesen Filter-Hook kann die Liste von Attributen erweitert werden, die beim **Rendern von Immobilien-Templates** automatisch "durchgeschleift" werden. (In den entsprechenden Render-Funktionen kommt dann der Filter [`inx_apply_auto_rendering_atts`](filter-inx-apply-auto-rendering-atts.html) zum Einsatz.)
+Über diesen Filter-Hook kann die Liste von Attributen erweitert werden, die beim **Rendern von Immobilien-Templates** automatisch "durchgeschleift" werden. (In den entsprechenden Render-Funktionen kommt dann der Filter [`inx_apply_auto_rendering_atts`](filter-inx-apply-auto-rendering-atts) zum Einsatz.)
 
 ## Beispiel
 

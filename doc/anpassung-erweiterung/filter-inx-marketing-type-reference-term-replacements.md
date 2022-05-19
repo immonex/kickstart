@@ -1,11 +1,6 @@
----
-title: Taxonomie-Term-Anpassung bei Referenz-Status-Updates (Filter)
-search: 1
----
-
 # inx_marketing_type_reference_term_replacements (Filter)
 
-Wird im WordPress-Backend der [Referenzobjekt-Status](../referenzen-status-flags.html) einer Immobilie geändert, werden bestimmte [Taxonomie-Terms](../beitragsarten-taxonomien.html) automatisch angepasst (so wird z. B. aus "Zu Verkaufen" die Angabe "Verkauft" oder umgekehrt).
+Wird im WordPress-Backend der [Referenzobjekt-Status](/referenzen-status-flags) einer Immobilie geändert, werden bestimmte [Taxonomie-Terms](/beitragsarten-taxonomien) automatisch angepasst (so wird z. B. aus "Zu Verkaufen" die Angabe "Verkauft" oder umgekehrt).
 
 Mit diesem Filter können die entsprechenden Übersetzungen bearbeitet oder deaktiviert werden.
 

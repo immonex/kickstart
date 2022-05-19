@@ -1,11 +1,6 @@
----
-title: Suchformular-Elemente (Filter)
-search: 1
----
-
 # inx_search_form_elements (Filter)
 
-Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchformulars](../komponenten/index.html) angepasst werden.
+Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchformulars](/komponenten/suchformular) angepasst werden.
 
 ## Parameter
 
@@ -279,8 +274,8 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | | *submit*: Suchen/Absenden-Button |
 | | *reset*: Zurücksetzen des Formulars |
 | | *extended-search-toggle*: erweiterte Suche ein-/ausblenden |
-| | *photon-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Photon (sofern in den [Plugin-Optionen](../schnellstart/einrichtung.html#Karten-amp-Umkreissuche) ausgewählt)
-| | *google-places-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Goople-Places-API (sofern in den [Plugin-Optionen](../schnellstart/einrichtung.html#Karten-amp-Umkreissuche) ausgewählt)
+| | *photon-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Photon (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#karten-amp-umkreissuche) ausgewählt)
+| | *google-places-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Goople-Places-API (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#karten-amp-umkreissuche) ausgewählt)
 | `subtype` (string) | Subtyp des Elements |
 | | *date*: Datumsauswahl (Datepicker) bei Elementen des Typs *text* |
 | `key` (string) | Name des **Custom Fields** oder der **Taxonomie**, auf den sich die Suchauswahl/-eingabe bezieht |

@@ -1,8 +1,3 @@
----
-title: Kickstart-spezifische Bildgrößen definieren (Filter)
-search: 1
----
-
 # inx_image_sizes (Filter)
 
 Mit diesem Filter kann die Liste der **im Kickstart-Kontext** zu registrierenden benutzerdefinierten **Bildgrößen** erweitert werden.

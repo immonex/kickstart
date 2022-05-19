@@ -1,11 +1,6 @@
----
-title: Komponentenübergreifende Query-Parameter (Filter)
-search: 1
----
-
 # inx_special_query_vars (Filter)
 
-Eine Reihe von <i>allgemeinen Variablen</i> für die Abfrage und Darstellung von Kickstart-spezifischen Daten kann **komponentenübergreifend** definiert werden, bspw. per [GET-Parameter](schnellstart/einbindung.html#GET-Parameter) (für alle betroffenen Komponenten einer Seite) oder Shortcode-Attribut (einzelne Komponenten). Die Namen dieser Variablen beginnen immer mit dem Präfix `inx-`, Beispiele:
+Eine Reihe von <i>allgemeinen Variablen</i> für die Abfrage und Darstellung von Kickstart-spezifischen Daten kann **komponentenübergreifend** definiert werden, bspw. per [GET-Parameter](/schnellstart/einbindung#get-parameter) (für alle betroffenen Komponenten einer Seite) oder Shortcode-Attribut (einzelne Komponenten). Die Namen dieser Variablen beginnen immer mit dem Präfix `inx-`, Beispiele:
 
 - `inx-limit` (max. Anzahl von Listenelementen)
 - `inx-sort` (Sortierschlüssel für Listenansichten)
@@ -13,7 +8,7 @@ Eine Reihe von <i>allgemeinen Variablen</i> für die Abfrage und Darstellung von
 
 Sollen zusätzliche Variablen dieser Art verfügbar gemacht werden, müssen diese über den o. g. Filter-Hook registriert werden.
 
-> Die Ergänzung solcher Variablen ist vor allem bei der Entwicklung von [Add-ons](../add-ons.html) relevant.
+> Die Ergänzung solcher Variablen ist vor allem bei der Entwicklung von [Add-ons](/add-ons) relevant.
 
 ## Parameter
 

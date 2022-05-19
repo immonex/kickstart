@@ -1,10 +1,3 @@
----
-title: CSS
-category: anpassung-erweiterung
-order: 10
-search: 1
----
-
 # CSS
 
 Die einfachste Form der individuellen Anpassung stellt das Überschreiben bzw. Erweitern der vordefinierten CSS-Stile per **Customizer** dar. Die entsprechenden Klassennamen beginnen typischerweise mit dem Präfix `inx-`.

@@ -284,6 +284,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 */
 		$supported_atts = array(
 			'cid'                    => '',
+			'template'               => Property_Search::DEFAULT_TEMPLATE,
 			'dynamic-update'         => '',
 			'force-location'         => '',
 			'force-type-of-use'      => '',
@@ -313,13 +314,16 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}search-form" );
+		$template       = ! empty( $shortcode_atts['template'] ) ?
+			$shortcode_atts['template'] :
+			Property_Search::DEFAULT_TEMPLATE;
 
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
-			$this->add_rendered_instance( 'property-search', array_filter( $shortcode_atts ) )
+			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )
 		);
 
-		return $this->property_search->render_form( 'property-search', $shortcode_atts );
+		return $this->property_search->render_form( $template, $shortcode_atts );
 	} // shortcode_search_form
 
 } // Property_Search_Hooks

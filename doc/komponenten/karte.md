@@ -1,19 +1,12 @@
----
-title: Karte
-category: komponenten
-order: 40
-search: 1
----
-
 # Standortkarte
 
-Kickstart stellt **ab Version 1.2.0** eine [OpenStreetMap-basierte](https://www.openstreetmap.org/) Kartenansicht bereit, die in der [Standard-Übersichtsseite](../beitragsarten-taxonomien.html#Immobilien-Beitrage) bereits enthalten ist. Die klickbaren Standortmarker der Immobilien werden hier – je nach Zoomstufe – "geclustert" dargestellt (inkl. Objektanzahl).
+Kickstart stellt **ab Version 1.2.0** eine [OpenStreetMap-basierte](https://www.openstreetmap.org/) Kartenansicht bereit, die in der [Standard-Übersichtsseite](/beitragsarten-taxonomien#immobilien-beiträge) bereits enthalten ist. Die klickbaren Standortmarker der Immobilien werden hier – je nach Zoomstufe – "geclustert" dargestellt (inkl. Objektanzahl).
 
-> In der [Detailansicht](detailansicht.html) ist ebenfalls eine Kartenansicht enthalten, die aber unabhängig von dieser Übersichtskarte gerendert wird.
+> In der [Detailansicht](detailansicht) ist ebenfalls eine Kartenansicht enthalten, die aber unabhängig von dieser Übersichtskarte gerendert wird.
 
 ![Übersichtskarte mit Immobilien-Standortmarkern](../assets/scst-property-map-1.png)
 
-Der Kartenausschnitt wird anhand der Koordinaten der vorhandenen Immobilien automatisch ermittelt. Ist dies nicht möglich, wird auf die in den [Plugin-Optionen](../schnellstart/einrichtung.html#Karten-in-Immobilien-Listenseiten) hinterlegten Standard-Koordinaten zurückgegriffen. Hier kann die Karte in der Immobilien-Übersicht ([Standard-Archivseite](../beitragsarten-taxonomien.html#Immobilien-Beitrage)) bei Bedarf auch deaktiviert werden.
+Der Kartenausschnitt wird anhand der Koordinaten der vorhandenen Immobilien automatisch ermittelt. Ist dies nicht möglich, wird auf die in den [Plugin-Optionen](/schnellstart/einrichtung#karten-in-immobilien-listenseiten) hinterlegten Standard-Koordinaten zurückgegriffen. Hier kann die Karte in der Immobilien-Übersicht ([Standard-Archivseite](/beitragsarten-taxonomien#immobilien-beiträge)) bei Bedarf auch deaktiviert werden.
 
 Per Klick können Infofenster mit Thumbnails und Detail-Links der zum Marker gehörenden Immobilie(n) enthalten.
 
@@ -27,7 +20,7 @@ Auch bei den Karten auf den Übersichtsseiten ist eine (einmalige) Einwilligung 
 
 ### Attribute
 
-Die Attribute, mit denen Art und Umfang der in der Karte anzuzeigenden Immobilienmarker bestimmt werden können, entsprechen weitestgehend denen der [Listenansicht](liste.html).
+Die Attribute, mit denen Art und Umfang der in der Karte anzuzeigenden Immobilienmarker bestimmt werden können, entsprechen weitestgehend denen der [Listenansicht](liste).
 
 Hinzu kommen die folgenden (**optionalen**) geospezifischen Angaben:
 
@@ -36,17 +29,17 @@ Hinzu kommen die folgenden (**optionalen**) geospezifischen Angaben:
 | `lat` | Standard-Breitengrad des Karten-Mittelpunkts als **Float-Wert** (-90 bis 90), z. B. *49.8587840* \* |
 | `lng` | Standard-Längengrad des Karten-Mittelpunkts als **Float-Wert** (-180 bis 180), z. B. *6.7854410* \* |
 | `zoom` | Initial-Zoomstufe der Karte als **Ganzzahl** (8 bis 18) \* |
-| `require-consent` | Benutzer-Zustimmung vor Einbettung der Karte aktivieren (*1*) oder deaktivieren (*0*) - überschreibt die [Standardvorgabe in den Plugin-Optionen](../schnellstart/einrichtung.html#Benutzer-Zustimmung) |
+| `require-consent` | Benutzer-Zustimmung vor Einbettung der Karte aktivieren (*1*) oder deaktivieren (*0*) - überschreibt die [Standardvorgabe in den Plugin-Optionen](/schnellstart/einrichtung#benutzer-zustimmung) |
 
 \* Mittelpunkt und Zoom der Karte werden normalerweise™ anhand der Koordinaten der enthaltenen Standortmarker automatisch ermittelt.
 
 ##### Beispiel
 
-Karte mit Häusern und Initial-Zoomstufe 14:
+Karte mit Häusern und Initial-Zoomstufe 14:\
 `[inx-property-map property-type="haeuser" zoom=14]`
 
 ## Erweiterte Anpassungen
 
-- [Filter-Referenz](../anpassung-erweiterung/filters-actions.html#Standortkarten)
-- [Templates](../anpassung-erweiterung/skins.html#Partiell)
-- [Custom Skin](../anpassung-erweiterung/standard-skin.html#Archiv-amp-Listenansicht)
+- [Filter-Referenz](/anpassung-erweiterung/filters-actions#standortkarten)
+- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

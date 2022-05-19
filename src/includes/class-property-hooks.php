@@ -66,6 +66,7 @@ class Property_Hooks {
 
 		add_action( 'inx_render_property_contents', array( $this, 'render_property_contents' ), 10, 3 );
 
+		add_filter( 'inx_get_property_template_data', array( $this, 'get_property_template_data' ), 10, 2 );
 		add_filter( 'inx_get_property_images', array( $this, 'get_property_images' ), 10, 3 );
 		add_filter( 'inx_get_property_detail_item', array( $this, 'get_property_detail_item' ), 10, 3 );
 		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
@@ -91,6 +92,10 @@ class Property_Hooks {
 	 *                other post types.
 	 */
 	public function register_single_property_template( $original_template ) {
+		if ( -1 === (int) $this->config['property_details_page_id'] ) {
+			return $original_template;
+		}
+
 		global $post;
 
 		if ( $post->post_type === $this->config['property_post_type_name'] ) {
@@ -113,6 +118,10 @@ class Property_Hooks {
 	 *                other post types.
 	 */
 	public function register_property_archive_template( $original_template ) {
+		if ( -1 === (int) $this->config['property_list_page_id'] ) {
+			return $original_template;
+		}
+
 		$inx_taxonomies = apply_filters( 'inx_get_taxonomies', array() );
 
 		if (
@@ -141,7 +150,7 @@ class Property_Hooks {
 	 * @return string[] Possibly updated title parts.
 	 */
 	public function update_template_document_title( $title_parts ) {
-		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 
 		if (
 			is_admin()
@@ -172,7 +181,7 @@ class Property_Hooks {
 	 * @return string Possibly updated title.
 	 */
 	public function update_template_page_title( $title, $post_id ) {
-		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 
 		if (
 			is_admin()
@@ -233,7 +242,7 @@ class Property_Hooks {
 		}
 
 		remove_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
-		$property_post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 		if ( false === $property_post_id ) {
 			return $null;
 		}
@@ -248,6 +257,30 @@ class Property_Hooks {
 	} // update_template_page_featured_image
 
 	/**
+	 * Retrieve all data and tools relevant for rendering a property template
+	 * (filter callback).
+	 *
+	 * @since 1.6.9
+	 *
+	 * @param mixed[] $template_data Dummy template data (empty).
+	 * @param mixed[] $atts Rendering attributes (optional).
+	 *
+	 * @return mixed[] Property and related meta data.
+	 */
+	public function get_property_template_data( $template_data = array(), $atts = array() ) {
+		$post_id = is_array( $atts ) && ! empty( $atts['post_id'] ) ?
+			$atts['post_id'] :
+			$this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+
+		$property = $this->get_property_instance( $post_id );
+		if ( ! $property ) {
+			return array();
+		}
+
+		return $property->get_property_template_data( $atts );
+	} // get_property_template_data
+
+	/**
 	 * Render and return or output the contents of a property related template
 	 * (action based).
 	 *
@@ -255,13 +288,17 @@ class Property_Hooks {
 	 *
 	 * @param int|string|bool $post_id Property post ID (optional).
 	 * @param string          $template Template file (without suffix).
-	 * @param mixed[]         $atts Rendering Attributes.
+	 * @param mixed[]         $atts Rendering attributes.
 	 * @param bool            $output Flag for directly output the rendered contents (true by default).
 	 *
 	 * @return string Rendered template contents.
 	 */
-	public function render_property_contents( $post_id = false, $template = 'single-property/element-hub', $atts = array(), $output = true ) {
-		$post_id = apply_filters( 'inx_current_property_post_id', $post_id );
+	public function render_property_contents( $post_id = false, $template = '', $atts = array(), $output = true ) {
+		$post_id = $this->get_current_property_post_id( $post_id );
+
+		if ( empty( $template ) ) {
+			$template = Property::DEFAULT_TEMPLATE;
+		}
 
 		$property = $this->get_property_instance( $post_id );
 		if ( ! $property ) {
@@ -335,7 +372,7 @@ class Property_Hooks {
 	 */
 	public function get_property_images( $images = array(), $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
-			$post_id = $this->utils['general']->get_the_ID();
+			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 		}
 
 		$valid_image_types  = array( 'gallery', 'floor_plans' );
@@ -377,7 +414,7 @@ class Property_Hooks {
 	 */
 	public function get_property_detail_item( $item, $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
-			$post_id = get_the_ID();
+			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 		}
 
 		$name = ! empty( $args['name'] ) ? $args['name'] : false;
@@ -457,7 +494,7 @@ class Property_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_property_details( $atts ) {
-		$post_id = apply_filters( 'inx_current_property_post_id', $this->utils['general']->get_the_ID() );
+		$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 		if ( ! $post_id ) {
 			return '';
 		}
@@ -466,10 +503,13 @@ class Property_Hooks {
 			$atts = array();
 		}
 
-		// Permit arbritrary attributes for passing template parameters (special case!).
+		// Permit arbitrary attributes for passing template parameters (special case!).
 		$shortcode_atts = shortcode_atts( $atts, $atts, 'inx-property-details' );
+		$template       = ! empty( $shortcode_atts['template'] ) ?
+			$shortcode_atts['template'] :
+			Property::DEFAULT_TEMPLATE;
 
-		return $this->render_property_contents( $post_id, 'single-property/element-hub', $shortcode_atts, false );
+		return $this->render_property_contents( $post_id, $template, $shortcode_atts, false );
 	} // shortcode_property_details
 
 	/**
@@ -501,7 +541,7 @@ class Property_Hooks {
 		$value       = false;
 		$raw_value   = false;
 		$title       = '';
-		$property_id = apply_filters( 'inx_current_property_post_id', false );
+		$property_id = $this->get_current_property_post_id();
 		$detail_item = false;
 
 		if ( '//' === substr( $name, 0, 2 ) ) {
@@ -604,7 +644,7 @@ class Property_Hooks {
 	 * @since 1.4.0
 	 *
 	 * @param string|int $value Current output value.
-	 * @param mixed[]    $meta Metadata about the queried element.
+	 * @param mixed[]    $meta Metadata related to the queried element.
 	 *
 	 * @return string Rendered output value based on the given template string.
 	 */

@@ -1,19 +1,14 @@
----
-title: Template-Ordner ergänzen (Filter)
-search: 1
----
-
 # inx_template_search_folders (Filter)
 
-Die [Skin-Ordner](skins.html), die die Templates für die Darstellung/Ausgabe der Immobiliendaten enthalten, werden standardmäßig im Plugin-Ordner sowie im Theme- bzw. Child-Theme-Verzeichnis gesucht. Alternative, primäre **Basisordner** hierfür können über diesen Filter-Hook definiert werden.
+Die [Skin-Ordner](skins), die die Templates für die Darstellung/Ausgabe der Immobiliendaten enthalten, werden standardmäßig im Plugin-Ordner sowie im Theme- bzw. Child-Theme-Verzeichnis gesucht. Alternative, primäre **Basisordner** hierfür können über diesen Filter-Hook definiert werden.
 
-> Sind die benutzerdefinierten Skin-Ordner nicht öffentlich zugänglich (d. h. **keine** Unterordner des Webroot-Verzeichnisses der WordPress-Installation), müssen diesen via [`inx_template_folder_url_mapping`](filter-inx-template-folder-url-mappings.html) entsprechende URLs zugewiesen werden.
+> Sind die benutzerdefinierten Skin-Ordner nicht öffentlich zugänglich (d. h. **keine** Unterordner des Webroot-Verzeichnisses der WordPress-Installation), müssen diesen via [`inx_template_folder_url_mapping`](filter-inx-template-folder-url-mappings) entsprechende URLs zugewiesen werden.
 
 ## Parameter
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$folders` (array) | Liste der Basisordner, die die [Skin-Ordner](skins.html) enthalten |
+| `$folders` (array) | Liste der Basisordner, die die [Skin-Ordner](skins#ordner) enthalten |
 
 ## Rückgabewert
 

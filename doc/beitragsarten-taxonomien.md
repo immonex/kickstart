@@ -1,11 +1,6 @@
----
-title: Beitragsarten & Taxonomien
-category: grundlagen
-order: 30
-search: 1
----
-
 # Beitragsarten & Taxonomien
+
+## Taxonomien
 
 Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (<i>Custom Post Type</i>) **inx_property** sowie die folgenden zugehörigen Taxonomien registriert:
 
@@ -13,15 +8,15 @@ Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (<i>Custom 
 - **inx_type_of_use** (Nutzungsarten)
 - **inx_property_type** (Objektarten)
 - **inx_marketing_type** (Vermarktungsarten)
-- **inx_project** ([Projekt/Gruppe](referenzen-status-flags.html#Gruppierung), z. B. Bauvorhaben, Wohnanlagen oder Gewerbeimmobilien mit mehreren Einheiten)
+- **inx_project** ([Projekt/Gruppe](referenzen-status-flags#gruppierung), z. B. Bauvorhaben, Wohnanlagen oder Gewerbeimmobilien mit mehreren Einheiten)
 - **inx_feature** (Ausstattungsmerkmale)
 - **inx_label** (Labels, z. B. Neu! oder "Objekt der Woche")
 
-> Optionale [Add-ons](add-ons.html) für Kickstart können weitere Beitragsarten und Taxonomien ergänzen.
+> Optionale [Add-ons](add-ons) für Kickstart können weitere Beitragsarten und Taxonomien ergänzen.
 
 ## Custom Fields
 
-Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/import.html) eine Reihe benutzerdefinierter Felder angelegt, die mit den Werten grundlegender OpenImmo-Angaben befüllt werden (sofern übermittelt).
+Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/import) eine Reihe benutzerdefinierter Felder angelegt, die mit den Werten grundlegender OpenImmo-Angaben befüllt werden (sofern übermittelt).
 
 | Feldname | Beschreibung |
 | -------- | ------------ |
@@ -57,8 +52,8 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 | `_inx_state` | Bundesland/Kanton |
 | `_immonex_iso_country` | dreistelliger Ländercode ([ISO 3166 ALPHA-3](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste)) |
 | `_immonex_group_number` | **Gruppennummer** zur Gruppierung zusammengehöriger Objekte (bspw. Einheiten einer Wohnanlage) |
-| `_immonex_group_id` | **Gruppenkennung**: alternatives [Gruppierungskriterium](referenzen-status-flags.html#Gruppierung) und - in Kombination mit `_immonex_group_master` - heutzutage gängigere Alternative zur <i>Gruppennummer</i>. Die Gruppenkennung wird beim [OpenImmo-Import](schnellstart/import.html) auch als Term der <i>Projekt-Taxonomie</i> (siehe oben) übernommen. |
-| `_immonex_group_master` | Kennzeichnung von [Master-Objekten](referenzen-status-flags.html#Master-Objekte), bspw. dem Hauptobjekt einer Wohnanlage, dem mehrere Untereinheiten anhand der gleichen <i>Gruppenkennung</i> zugeordnet sind (*visible* = in der Website sichtbar, *invisible* = nicht sichtbar) |
+| `_immonex_group_id` | **Gruppenkennung**: alternatives [Gruppierungskriterium](referenzen-status-flags#gruppierung) und - in Kombination mit `_immonex_group_master` - heutzutage gängigere Alternative zur <i>Gruppennummer</i>. Die Gruppenkennung wird beim [OpenImmo-Import](schnellstart/import) auch als Term der <i>Projekt-Taxonomie</i> (siehe oben) übernommen. |
+| `_immonex_group_master` | Kennzeichnung von [Master-Objekten](referenzen-status-flags#master-objekte), bspw. dem Hauptobjekt einer Wohnanlage, dem mehrere Untereinheiten anhand der gleichen <i>Gruppenkennung</i> zugeordnet sind (*visible* = in der Website sichtbar, *invisible* = nicht sichtbar) |
 | `_inx_is_sale` | <i>Kaufobjekt-Flag</i> (*0* oder *1*) |
 | `_immonex_is_reference` | <i>Referenzobjekt-Flag</i> (*0* oder *1*) |
 | `_immonex_is_available` | <i>Verfügbarkeits-Flag</i> (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
@@ -72,7 +67,7 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 
 ### Immobilien-Beiträge
 
-Sobald der erste [Import von OpenImmo-Daten](import.html) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>2</sup> bzw. `.../properties/`<sup>2</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
+Sobald der erste [Import von OpenImmo-Daten](schnellstart/import) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>2</sup> bzw. `.../properties/`<sup>2</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
 
 So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
 
@@ -120,6 +115,6 @@ Beispiel: `.../immobilien/label/neu/`
 
 ---
 
-<sup>1</sup> Angabe ist nicht im regulären Umfang des OpenImmo-Standards enthalten und muss daher — abhängig vom Exportsystem (Maklersoftware) — individuell per [Mapping-Tabelle für den Import](schnellstart/import.html) definiert werden
+<sup>1</sup> Angabe ist nicht im regulären Umfang des OpenImmo-Standards enthalten und muss daher — abhängig vom Exportsystem (Maklersoftware) — individuell per [Mapping-Tabelle für den Import](schnellstart/import) definiert werden
 
-<sup>2</sup> abhängig von den in den Plugin-Optionen hinterlegten [Titelformen (Slugs)](../schnellstart/einrichtung.html#Titelformen-Slugs) und der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](../anpassung-erweiterung/uebersetzung-mehrsprachigkeit.html))
+<sup>2</sup> abhängig von den in den Plugin-Optionen hinterlegten [Titelformen (Slugs)](schnellstart/einrichtung#titelformen-slugs) und der aktuellen Website-Sprache (→ [Übersetzungen & Mehrsprachigkeit](anpassung-erweiterung/uebersetzung-mehrsprachigkeit))

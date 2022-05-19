@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_5_3\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.6.8';
+	const PLUGIN_VERSION             = '1.6.16-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -256,9 +256,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_5_3\Base {
 	 * Initialize the plugin (admin/backend only).
 	 *
 	 * @since 1.1.0
+	 *
+	 * @param bool $fire_before_hook Flag to indicate if an action hook should fire
+	 *                               before the actual method execution (optional,
+	 *                               true by default).
+	 * @param bool $fire_after_hook  Flag to indicate if an action hook should fire
+	 *                               after the actual method execution (optional,
+	 *                               true by default).
 	 */
-	public function init_plugin_admin() {
-		parent::init_plugin_admin();
+	public function init_plugin_admin( $fire_before_hook = true, $fire_after_hook = true ) {
+		parent::init_plugin_admin( $fire_before_hook, $fire_after_hook );
 
 		if ( ! get_option( 'rewrite_rules' ) ) {
 			global $wp_rewrite;
@@ -284,9 +291,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_5_3\Base {
 	 * Perform common initialization tasks.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param bool $fire_before_hook Flag to indicate if an action hook should fire
+	 *                               before the actual method execution (optional,
+	 *                               true by default).
+	 * @param bool $fire_after_hook  Flag to indicate if an action hook should fire
+	 *                               after the actual method execution (optional,
+	 *                               true by default).
 	 */
-	public function init_plugin() {
-		parent::init_plugin();
+	public function init_plugin( $fire_before_hook = true, $fire_after_hook = true ) {
+		parent::init_plugin( $fire_before_hook, $fire_after_hook );
 
 		// Plugin-specific helper/util objects.
 		$this->utils = array_merge(
@@ -581,8 +595,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_5_3\Base {
 				);
 			}
 		}
-		$pages_list    = array( __( 'none (use default archive)', 'immonex-kickstart' ) ) + $pages;
-		$pages_details = array( __( 'none (use default template)', 'immonex-kickstart' ) ) + $pages;
+		$pages_list    = array(
+			0  => __( 'none (use default template)', 'immonex-kickstart' ),
+			-1 => __( 'none (use theme template)', 'immonex-kickstart' ),
+		) + $pages;
+		$pages_details = array(
+			0  => __( 'none (use default template)', 'immonex-kickstart' ),
+			-1 => __( 'none (use theme template)', 'immonex-kickstart' ),
+		) + $pages;
 
 		// Sections (extendable by filter function).
 		$sections = apply_filters(

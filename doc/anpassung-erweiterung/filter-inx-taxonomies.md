@@ -1,11 +1,6 @@
----
-title: Immobilienspezifische Taxonomien (Filter)
-search: 1
----
-
 # inx_taxonomies (Filter)
 
-Mit diesem Filter können die Eigenschaften der [immobilienspezifischen Taxonomien](../beitragsarten-taxonomien.html) **vor** deren Registrierung bearbeitet werden.
+Mit diesem Filter können die Eigenschaften der [immobilienspezifischen Taxonomien](/beitragsarten-taxonomien) **vor** deren Registrierung bearbeitet werden.
 
 ## Parameter
 

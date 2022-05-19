@@ -1,15 +1,8 @@
----
-title: OpenImmo-Import
-category: schnellstart
-order: 30
-search: 1
----
-
 # OpenImmo-Datenimport
 
 Kickstart ist **ausschließlich** für die Präsentation von Immobilien ausgelegt und optimiert, die per **OpenImmo®-Schnittstelle** importiert werden. Eine manuelle Erfassung oder Bearbeitung der Objekte im WordPress-Backend ist zwar grundsätzlich (in begrenztem Umfang) möglich, aber nicht praxisrelevant.
 
-Eine Ausnahme stellt nur die Markierung bestimmter Immobilien als [Referenzobjekte](#Referenzobjekte) dar, die auch direkt im WP-Backend vorgenommen werden kann. (Nicht jede für die Objektverwaltung eingesetzte Maklersoftware bietet diese Möglichkeit auf der Exportseite.)
+Eine Ausnahme stellt nur die Markierung bestimmter Immobilien als [Referenzobjekte](/referenzen-status-flags) dar, die auch direkt im WP-Backend vorgenommen werden kann. (Nicht jede für die Objektverwaltung eingesetzte Maklersoftware bietet diese Möglichkeit auf der Exportseite.)
 
 > [OpenImmo®-XML](http://openimmo.de/) ist der De-facto-Standard für den Austausch von Immobiliendaten im deutschsprachigen Raum, der quasi von allen gängigen Immobilienportalen und Branchen-Softwarelösungen unterstützt wird.
 
@@ -23,6 +16,6 @@ Sollen zunächst nur Beispieldaten importiert werden, muss das entsprechende ZIP
 
 ![immonex OpenImmo2WP: Immobiliendaten importieren](../assets/scst-oi2wp-2.png)
 
-Nach dem erfolgreichen Abschluss des Importvorgangs werden die verarbeiteten Objekte unter ***immonex → Immobilien*** aufgeführt. Im Frontend kann die [Standard-Archivseite für Immobilienbeiträge](../beitragsarten-taxonomien.html#Immobilien-Beitrage) via `.../immobilien/` bzw. `.../properties/` aufgerufen werden.
+Nach dem erfolgreichen Abschluss des Importvorgangs werden die verarbeiteten Objekte unter ***immonex → Immobilien*** aufgeführt. Im Frontend kann die [Standard-Archivseite für Immobilienbeiträge](/beitragsarten-taxonomien#immobilien-beiträge) via `.../immobilien/` bzw. `.../properties/` aufgerufen werden.
 
 ![Immobilienliste im WordPress-Backend](../assets/scst-be-property-list.gif)

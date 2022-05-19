@@ -1,10 +1,3 @@
----
-title: Add-ons
-category: grundlagen
-order: 50
-search: 1
----
-
 # Add-ons
 
 Das Kickstart-Plugin selbst enthält die **essenziellen**, branchenspezifischen Komponenten, die für die Präsentation von Immobilienangeboten maßgeblich sind und quasi in jeder Makler-Website Verwendung finden: Immobiliensuche, Listen- und Detaildarstellung.
@@ -21,3 +14,4 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 ### aktuell in Vorbereitung
 
 - Schaufenster-Slideshows
+- (verbesserte) des WordPress-Page/Site-Builders [Elementor](https://elementor.com/)

@@ -1,11 +1,6 @@
----
-title: Minimal/Maximal-Werte für den Preis-Slider festlegen (Filter)
-search: 1
----
-
 # inx_search_form_primary_price_min_max_values (Filter)
 
-Die Minimal- und Maximalwerte des **Primärpreis-Sliders** im [Suchformular](../komponenten/index.html) werden normalerweise automatisch ermittelt, können aber bei Bedarf auch über diesen Filter-Hook überschrieben werden.
+Die Minimal- und Maximalwerte des **Primärpreis-Sliders** im [Suchformular](/komponenten/suchformular) werden normalerweise automatisch ermittelt, können aber bei Bedarf auch über diesen Filter-Hook überschrieben werden.
 
 ## Parameter
 

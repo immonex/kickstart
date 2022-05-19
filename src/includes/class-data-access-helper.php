@@ -222,7 +222,7 @@ class Data_Access_Helper {
 
 		if ( is_string( $list ) ) {
 			// Convert comma-separated single values (numbers, slugs).
-			if ( preg_match( '/^([0-9a-zA-Z\-_\.]+,[ ]?){1,}([0-9a-zA-Z\-_\.]+)?$/', trim( $list ) ) ) {
+			if ( preg_match( '/^([0-9a-zA-ZäöüÄÖÜß\-_\.]+,[ ]?){1,}([0-9a-zA-ZäöüÄÖÜß\-_\.]+)?$/', trim( $list ) ) ) {
 				$list = array_map( 'trim', explode( ',', trim( $list ) ) );
 			}
 		}

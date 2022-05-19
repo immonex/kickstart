@@ -1,10 +1,3 @@
----
-title: Standard-Skin / Custom Skins
-category: anpassung-erweiterung
-order: 30
-search: 1
----
-
 # Das Standard-Skin im Detail
 
 Die Dateien des Standard-Skins "Quiwi" des Kickstart-Basis-Plugins sind im Unterordner `skins/default` des Kickstart-Plugin-Verzeichnisses zu finden:
@@ -97,7 +90,7 @@ Auch hier gilt: Ein <i>Custom Skin</i> kann auch **ohne** den Einsatz eines solc
 │   └── properties.php
 ```
 
-Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](../beitragsart-taxonomien.html) ist in der Datei `archive-property.php` enthalten. Die Komponenten - [Karte](../komponenten/karte.html), [Suchformular](../komponenten/index.html), [Sortierauswahl](../komponenten/sortierung.html), [Listenansicht](../komponenten/liste.html) und [Seitennavigation](../komponenten/seitennavigation.html) - werden über die entsprechenden [Rendering Actions](filters-actions.html#Rendering) eingebunden:
+Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](/beitragsarten-taxonomien) ist in der Datei `archive-property.php` enthalten. Die Komponenten - [Karte](/komponenten/karte), [Suchformular](/komponenten/suchformular), [Sortierauswahl](/komponenten/sortierung), [Listenansicht](/komponenten/liste) und [Seitennavigation](/komponenten/seitennavigation) - werden über die entsprechenden [Rendering Actions](filters-actions.html#rendering) eingebunden:
 
 ```php
 if ( $immonex_kickstart->property_list_map_display_by_default ) {
@@ -127,7 +120,7 @@ Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlist
 │   └── element-text.php
 ```
 
-Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemente des Suchformulars](../komponenten/index.html#Elemente), deren Vorlagen - separat pro Elementart - im Ordner `property-search` hinterlegt sind.
+Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemente des Suchformulars](/komponenten/suchformular#elemente), deren Vorlagen - separat pro Elementart - im Ordner `property-search` hinterlegt sind.
 
 ### Detailansicht
 
@@ -143,11 +136,11 @@ Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemen
     └── location-pin.png
 ```
 
-Die Datei `single-property.php` enthält das Standard-Template für die **Einzelansicht** eines [Immobilien-Beitrags](../beitragsarten-taxonomien.html).
+Die Datei `single-property.php` enthält das Standard-Template für die **Einzelansicht** eines [Immobilien-Beitrags](/beitragsarten-taxonomien).
 
-Wie bei der Suche wurden die Templates der einzelnen **Elementarten** in einem Unterordner zusammengefasst: `single-property` (Jede dieser Vorlagen kann übrigens auch für mehrere, gleichartige [Elemente der Detailansicht](komponenten/detailansicht.html#Elemente-Detail-Abschnitte) eingesetzt werden.)
+Wie bei der Suche wurden die Templates der einzelnen **Elementarten** in einem Unterordner zusammengefasst: `single-property` (Jede dieser Vorlagen kann übrigens auch für mehrere, gleichartige [Elemente der Detailansicht](/komponenten/detailansicht#elemente-abschnitte) eingesetzt werden.)
 
-Eine zentrale Bedeutung kommt hier der Vorlage `single-property/element-hub.php` zu: Hierüber wird die Einbindung und - beim Standard-Skin teilweise tabbasierte - Gruppierung und Darstellung der Elemente gesteuert. Hierbei handelt es sich auch um das vorausgewählte Template, wenn die [Detail-Render-Action](action-inx-render-property-contents.html) ohne explizite Angabe einer Vorlage ausgeführt wird:
+Eine zentrale Bedeutung kommt hier der Vorlage `single-property/element-hub.php` zu: Hierüber wird die Einbindung und - beim Standard-Skin teilweise tabbasierte - Gruppierung und Darstellung der Elemente gesteuert. Hierbei handelt es sich auch um das vorausgewählte Template, wenn die [Detail-Render-Action](action-inx-render-property-contents) ohne explizite Angabe einer Vorlage ausgeführt wird:
 
 ```php
 while ( have_posts() ) {

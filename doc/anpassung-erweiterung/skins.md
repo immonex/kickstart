@@ -1,13 +1,6 @@
----
-title: Skins
-category: anpassung-erweiterung
-order: 20
-search: 1
----
-
 # Skins
 
-Ein <i>Skin</i> ist - technisch gesehen - ein einfacher Ordner, der alle für die Darstellung im **Website-Frontend** maßgeblichen Ressourcen in (möglichst) einheitlicher, strukturierter Form enthält:
+Ein *Skin* ist - technisch gesehen - ein einfacher Ordner, der alle für die Darstellung im **Website-Frontend** maßgeblichen Ressourcen in (möglichst) einheitlicher, strukturierter Form enthält:
 
 - Templates (PHP)
 - JavaScript-Dateien
@@ -23,11 +16,11 @@ Ein <i>Skin</i> ist - technisch gesehen - ein einfacher Ordner, der alle für di
 
 `.../wp-content/plugins/immonex-kickstart/skins/`
 
-Aktuell ist hier nur der Ordner des [Standard-Skins](standard-skin.html) enthalten (`default`):
+Aktuell ist hier nur der Ordner des [Standard-Skins](standard-skin) enthalten (`default`):
 
 `.../wp-content/plugins/immonex-kickstart/skins/default`
 
-> Die Ordnernamen sind unabhängig vom eigentlichen (angezeigten) Skin-Namen, der in der Datei index.php festgelegt wird.
+> Die Ordnernamen sind unabhängig vom eigentlichen (angezeigten) Skin-Namen, der in der Datei `index.php` festgelegt wird.
 
 ### Add-ons
 
@@ -35,7 +28,7 @@ Analog zum Basis-Plugin befinden sich Skins installierter Add-ons im jeweiligen 
 
 `.../wp-content/plugins/ADD-ON-ORDNERNAME/skins/`
 
-Beispiel [Team Add-on](https://de.wordpress.org/plugins/immonex-kickstart-team/):
+Beispiel [Team Add-on](https://de.wordpress.org/plugins/immonex-kickstart-team/):\
 `.../wp-content/plugins/immonex-kickstart-team/skins/`
 
 ### Custom Skins
@@ -44,14 +37,14 @@ Der passende, *update-sichere* Ort für **eigene oder angepasste** Skins ist der
 
 `.../wp-content/themes/(CHILD-)THEME-NAME/immonex-kickstart/`
 
-Für Custom **Add-on** Skins entsprechend:
-`.../wp-content/themes/(CHILD-)THEME-NAME/ADD-ON-ORDNERNAME/`
+Für Custom **Add-on** Skins entsprechend:\
+`.../wp-content/themes/(CHILD-)THEME-NAME/ADD-ON-ORDNERNAME/`\
 Beispiel [Team Add-on](https://de.wordpress.org/plugins/immonex-kickstart-team/): `.../wp-content/themes/(CHILD-)THEME-NAME/immonex-kickstart-team/`
 
 ### Auswahl
 
- ![Skin-Auswahl](../assets/scst-skin-selection-1.gif)
- [Skin-Auswahl](../schnellstart/einrichtung.html#Skin) (Basis-Plugin) unter ***immonex → Einstellungen***
+ ![Skin-Auswahl](../assets/scst-skin-selection-1.gif)\
+ [Skin-Auswahl](/schnellstart/einrichtung#skin) (Basis-Plugin) unter ***immonex → Einstellungen***
 
 Die zugehörige Ordner-Struktur könnte so aussehen:
 ```
@@ -96,11 +89,11 @@ die( "Don't event think about it!" );
 
 ### Partiell
 
-Ist ein mitgeliefertes Kickstart-Skin grundsätzlich passend und sollen nur geringfügige optische Anpassungen vorgenommen werden, ist in den meisten Fällen das [Überschreiben bzw. Ergänzen der betreffenden CSS-Stile](index.html) via Customizer ausreichend. Auch bei weitergehenden Änderungen muss aber **nicht** zwingend mit einem individuellen Skin mit vollem Dateiumfang ([Custom Skin](standard-skin.html)) gearbeitet werden.
+Ist ein mitgeliefertes Kickstart-Skin grundsätzlich passend und sollen nur geringfügige optische Anpassungen vorgenommen werden, ist in den meisten Fällen das [Überschreiben bzw. Ergänzen der betreffenden CSS-Stile](css) via Customizer ausreichend. Auch bei weitergehenden Änderungen muss aber **nicht** zwingend mit einem individuellen Skin mit vollem Dateiumfang ([Custom Skin](standard-skin)) gearbeitet werden.
 
 Stattdessen besteht die Möglichkeit, nur die anzupassenden Dateien eines  vorhandenes Plugin-Skins im Child-Theme-Ordner zu überschreiben, dessen Name dem des Basis-Skin-Ordners (im Plugin-Verzeichnis) entspricht.
 
-Sollen bspw. nur eigene Varianten der Dateien `index.css` und `single-property.php` zum Einsatz kommen, alles andere aber weiterhin vom [Standard-Skin](standard-skin.html) (Ordnername `default`) übernommen werden, ergibt sich die folgende Struktur:
+Sollen bspw. nur eigene Varianten der Dateien `index.css` und `single-property.php` zum Einsatz kommen, alles andere aber weiterhin vom [Standard-Skin](standard-skin) (Ordnername `default`) übernommen werden, ergibt sich die folgende Struktur:
 
 #### Standard-Skin-Ordner (Plugin-Verzeichnis)
 
@@ -133,7 +126,7 @@ Sollen bspw. nur eigene Varianten der Dateien `index.css` und `single-property.p
 
 ### Komplett
 
-Sollen umfangreiche Anpassungen oder einer ganz individuelle Darstellung umgesetzt werden, ist ein vollständig **benutzerdefiniertes Skin** ([Custom Skin](standard-skin.html)) die passende Wahl. Hier kann wiederum das [Standard-Skin](standard-skin.html) als Basis verwendet werden, die dann schrittweise angepasst wird.
+Sollen umfangreiche Anpassungen oder einer ganz individuelle Darstellung umgesetzt werden, ist ein vollständig **benutzerdefiniertes Skin** ([Custom Skin](standard-skin)) die passende Wahl. Hier kann wiederum das [Standard-Skin](standard-skin) als Basis verwendet werden, die dann schrittweise angepasst wird.
 
 Als Grundlage für die Entwicklung eignen sich die aktuellen [Quelldateien](https://github.com/immonex/kickstart/tree/master/src/skins/default) am besten, alternativ können hierfür aber die Inhalte des o. g. Ordners `default` im Basis-Plugin- bzw. Add-on-Skin-Ordner übernommen werden.
 
@@ -186,4 +179,4 @@ Der erste Schritt jeder Custom-Skin-Entwicklung ist die Anpassung des Namens in 
  */
 ```
 
-Hier geht's weiter: [Standard-Skin im Detail](standard-skin.html)
+Hier geht's weiter: [Standard-Skin im Detail](standard-skin)

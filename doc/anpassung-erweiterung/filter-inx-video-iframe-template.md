@@ -1,8 +1,3 @@
----
-title: Template für die Einbindung von Video-iFrames (Filter)
-search: 1
----
-
 # inx_video_iframe_template (Filter)
 
 Mit diesem Filter kann die Vorlage für die Einbindung **externer Videos** (YouTube, Vimeo) per iFrame **dynamisch** (unmittelbar vor dem Rendering) angepasst werden.

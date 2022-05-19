@@ -13,6 +13,16 @@ namespace immonex\Kickstart;
 class Property_List {
 
 	/**
+	 * Default property list template file
+	 */
+	const DEFAULT_TEMPLATE = 'property-list/properties';
+
+	/**
+	 * Default list pagination template file
+	 */
+	const DEFAULT_PAGINATION_TEMPLATE = 'property-list/pagination';
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -56,8 +66,12 @@ class Property_List {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render( $template = 'property-list/properties', $atts = array() ) {
+	public function render( $template = '', $atts = array() ) {
 		global $wp_query;
+
+		if ( empty( $template ) ) {
+			$template = self::DEFAULT_TEMPLATE;
+		}
 
 		$org_query = $this->replace_main_query( $atts );
 
@@ -139,8 +153,9 @@ class Property_List {
 	 * @return string Rendered contents (HTML).
 	 */
 	private function render_pagination( $atts = array() ) {
-		$template = isset( $atts['pagination_template'] ) && $atts['pagination_template'] ? $atts['pagination_template'] : 'property-list/pagination';
-
+		$template      = ! empty( $atts['pagination_template'] ) ?
+			$atts['pagination_template'] :
+			self::DEFAULT_PAGINATION_TEMPLATE;
 		$template_data = array_merge(
 			$this->config,
 			$atts

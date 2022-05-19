@@ -1,27 +1,20 @@
----
-title: Überblick
-category: grundlagen
-order: 10
-search: 1
----
-
 # Über dieses Plugin
 
-<img src="assets/kickstart.png" alt="immonex Kickstart Logo" class="uk-align-right">
+<img src="assets/kickstart.png" alt="immonex Kickstart Logo" style="float: right">
 
 **immonex Kickstart** erweitert **WordPress-Websites** um individuell anpassbare **Basiskomponenten** für die Einbindung OpenImmo®-basierter Immobilien-Angebote...
 
-- [Immobiliensuche](komponenten/index.html)
-- [Listen](komponenten/liste.html)
-- [Karten](komponenten/karte.html)
-- [Sortierung](komponenten/sortierung.html)
-- [Detailansicht](komponenten/detailansicht.html)
+- [Immobiliensuche](komponenten/suchformular)
+- [Listen](komponenten/liste)
+- [Karten](komponenten/karte)
+- [Sortierung](komponenten/sortierung)
+- [Detailansicht](komponenten/detailansicht)
 
-...sowie um ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons.html)).
+...sowie um ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons)).
 
 ## Praxisbeispiel
 
-[immonex ONE](https://immonex.one/), die <i>Website-Schnellstart-Lösung</i> für Immobilienmakler, wurde maßgeblich auf Basis von Kickstart und [OpenImmo2WP](schnellstart/import.html) umgesetzt.
+[immonex ONE](https://immonex.one/), die <i>Website-Schnellstart-Lösung</i> für Immobilienmakler, wurde maßgeblich auf Basis von Kickstart und [OpenImmo2WP](schnellstart/import) umgesetzt.
 
 ## Zielgruppen dieser Dokumentation
 

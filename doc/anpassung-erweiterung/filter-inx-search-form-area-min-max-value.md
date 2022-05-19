@@ -1,11 +1,6 @@
----
-title: Minimal/Maximal-Werte für Flächen-Slider festlegen oder anpassen (Filter)
-search: 1
----
-
 # inx_search_form_area_min_max_value (Filter)
 
-Die Minimal- und Maximalwerte eines **Flächen-Sliders** (z. B. Mindestwohnfläche) im [Suchformular](../komponenten/index.html) werden normalerweise automatisch ermittelt, können aber bei Bedarf auch über diesen Filter-Hook überschrieben werden.
+Die Minimal- und Maximalwerte eines **Flächen-Sliders** (z. B. Mindestwohnfläche) im [Suchformular](/komponenten/suchformular) werden normalerweise automatisch ermittelt, können aber bei Bedarf auch über diesen Filter-Hook überschrieben werden.
 
 ## Parameter
 

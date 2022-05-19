@@ -1,11 +1,6 @@
----
-title: Sortieroptionen der Frontend-Auswahlliste (Filter)
-search: 1
----
-
 # inx_property_sort_options (Filter)
 
-Die Sortieroptionen der der [Auswahlbox](../komponenten/sortierung.html), die per Shortcode `[inx-filters-sort]` eingebunden wird, können über diesen Filter-Hook angepasst werden.
+Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Shortcode `[inx-filters-sort]` eingebunden wird, können über diesen Filter-Hook angepasst werden.
 
 ## Parameter
 
@@ -69,7 +64,7 @@ Die Sortieroptionen der der [Auswahlbox](../komponenten/sortierung.html), die pe
 ]
 ```
 
-Die Keys der Unter-Arrays entsprechen den Elementnamen, die auch in den [Shortcode-Attributen](../komponenten/sortierung.html#Attribute) oder im Zusammenhang mit dem [GET-Parameter](../schnellstart/einbindung.html#GET-Parameter) `inx-sort` bzw. dem Filter-Hook [inx_default_sort_key](filter-inx-default-sort-key.html) verwendet werden können.
+Die Keys der Unter-Arrays entsprechen den Elementnamen, die auch in den [Shortcode-Attributen](/komponenten/sortierung#attribute) oder im Zusammenhang mit dem [GET-Parameter](/schnellstart/einbindung#get-parameter) `inx-sort` bzw. dem Filter-Hook [`inx_default_sort_key`](filter-inx-default-sort-key) verwendet werden können.
 
 ## Rückgabewert
 

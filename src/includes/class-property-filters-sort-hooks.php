@@ -45,6 +45,8 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 
 		add_action( 'pre_get_posts', array( $this, 'adjust_property_frontend_query' ), 20 );
 
+		add_filter( 'posts_orderby', array( $this, 'maybe_add_special_orderby_args' ), 10, 2 );
+
 		/**
 		 * Plugin-specific actions and filters
 		 */
@@ -66,39 +68,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 	 * @param \WP_Query $query WP query object.
 	 */
 	public function adjust_property_frontend_query( $query ) {
-		global $post;
-
-		if (
-			(
-				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
-				empty( $query->query_vars['execute_pre_get_posts_filter'] )
-			) ||
-			! empty( $query->query_vars['page'] ) ||
-			! empty( $query->query_vars['pagename'] ) || (
-				$query->get( 'post_type' ) &&
-				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
-			)
-		) {
-			return;
-		}
-
-		$contains_shortcode = is_a( $post, 'WP_Post' ) && (
-			has_shortcode( $post->post_content, 'inx-property-list' )
-			|| has_shortcode( $post->post_content, 'inx-property-map' )
-		);
-
-		if (
-			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
-			! $contains_shortcode && (
-				! $query->is_main_query() ||
-				is_single() ||
-				is_page() ||
-				is_admin() || (
-					is_archive() &&
-					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
-				)
-			)
-		) {
+		if ( ! $this->enable_query_adjustments( $query ) ) {
 			return;
 		}
 
@@ -192,6 +162,77 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 	} // adjust_property_frontend_query
 
 	/**
+	 * Add custom/special elements to the ORDER BY clause (filter callback).
+	 *
+	 * @since 1.6.13-beta
+	 *
+	 * @param string    $sql Current ORDER BY clause.
+	 * @param \WP_Query $query WP query object.
+	 *
+	 * @return string Possibly modified ORDER BY clause.
+	 */
+	public function maybe_add_special_orderby_args( $sql, $query ) {
+		if ( ! $this->enable_query_adjustments( $query ) ) {
+			return $sql;
+		}
+
+		$orderby = $query->get( 'orderby' );
+		if ( empty( $orderby ) ) {
+			return $sql;
+		}
+
+		$sql_meta = array();
+		if ( trim( $sql ) ) {
+			$sql_parts = explode( ', ', $sql );
+
+			foreach ( $sql_parts as $part ) {
+				if ( false !== strpos( $part, 'meta_value' ) ) {
+					$sql_meta[] = $part;
+				}
+			}
+		}
+
+		$order = $query->get( 'order' );
+		if ( empty( $order ) ) {
+			$order = 'DESC';
+		}
+
+		if ( is_string( $orderby ) ) {
+			$orderby_keys = explode( ' ', $orderby );
+			$orderby      = array();
+
+			foreach ( $orderby_keys as $i => $key ) {
+				$orderby[ $key ] = is_array( $order ) && ! empty( $order[ $i ] ) ? $order[ $i ] : $order;
+			}
+		}
+
+		$new_sql = array();
+		foreach ( $orderby as $key => $order ) {
+			if (
+				'inx_sort_' === substr( $key, 0, 9 )
+				&& count( $sql_meta ) > 0
+			) {
+				$new_sql[] = array_shift( $sql_meta );
+				continue;
+			}
+
+			$found = ! empty( $sql ) && preg_match( '/[a-z_\.]+' . $key . ' (ASC|DESC)/', $sql, $match );
+
+			if ( $found ) {
+				$new_sql[] = $match[0];
+			} else {
+				$new_sql[] = "{$key} {$order}";
+			}
+		}
+
+		if ( count( $sql_meta ) > 0 ) {
+			$new_sql = array_merge( $new_sql, $sql_meta );
+		}
+
+		return implode( ', ', $new_sql );
+	} // maybe_add_special_orderby_args
+
+	/**
 	 * Display the rendered property list filter/sort selection bar (action based).
 	 *
 	 * @since 1.0.0
@@ -199,9 +240,9 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 	 * @param string  $template Template file name (without suffix).
 	 * @param mixed[] $atts Rendering Attributes.
 	 */
-	public function render_property_filters_sort( $template = 'property-list/filters-sort', $atts = array() ) {
-		if ( ! $template ) {
-			$template = 'property-list/filters-sort';
+	public function render_property_filters_sort( $template = '', $atts = array() ) {
+		if ( empty( $template ) ) {
+			$template = Property_Filters_Sort::DEFAULT_TEMPLATE;
 		}
 
 		$atts = array_merge(
@@ -226,26 +267,74 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 		$prefix         = $this->config['public_prefix'];
 		$supported_atts = array(
 			'cid'      => '',
+			'template' => Property_Filters_Sort::DEFAULT_TEMPLATE,
 			'elements' => '',
 			'exclude'  => '',
 			'default'  => '',
 		);
 
 		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}filters-sort" );
+		$template       = ! empty( $shortcode_atts['template'] ) ?
+			$shortcode_atts['template'] :
+			Property_Filters_Sort::DEFAULT_TEMPLATE;
 
-		$this->rendering_vars[] = array_merge(
-			array(
-				'template' => 'property-list/filters-sort',
-			),
-			array_filter( $shortcode_atts )
-		);
+		$this->rendering_vars[] = array_filter( $shortcode_atts );
 
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
-			$this->add_rendered_instance( 'property-list/filters-sort', array_filter( $shortcode_atts ) )
+			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )
 		);
 
-		return $this->property_filters_sort->render( 'property-list/filters-sort', $shortcode_atts );
+		return $this->property_filters_sort->render( $template, $shortcode_atts );
 	} // shortcode_filters_sort
+
+	/**
+	 * Check if query/sort adjustments should apply.
+	 *
+	 * @since 1.6.14-beta
+	 *
+	 * @param \WP_Query $query WP query object.
+	 *
+	 * @return bool True if adjustments should apply.
+	 */
+	private function enable_query_adjustments( $query ) {
+		global $post;
+
+		if (
+			(
+				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
+				empty( $query->query_vars['execute_pre_get_posts_filter'] )
+			) ||
+			! empty( $query->query_vars['page'] ) ||
+			! empty( $query->query_vars['pagename'] ) || (
+				$query->get( 'post_type' ) &&
+				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+			)
+		) {
+			return false;
+		}
+
+		$contains_shortcode = is_a( $post, 'WP_Post' ) && (
+			has_shortcode( $post->post_content, 'inx-property-list' )
+			|| has_shortcode( $post->post_content, 'inx-property-map' )
+		);
+
+		if (
+			! isset( $query->query_vars['execute_pre_get_posts_filter'] ) &&
+			! $contains_shortcode && (
+				! $query->is_main_query() ||
+				is_single() ||
+				is_page() ||
+				is_admin() || (
+					is_archive() &&
+					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+				)
+			)
+		) {
+			return false;
+		}
+
+		return true;
+	} // enable_query_adjustments
 
 } // Property_Filters_Sort_Hooks

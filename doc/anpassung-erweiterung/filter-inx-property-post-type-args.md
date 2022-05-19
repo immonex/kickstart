@@ -1,11 +1,6 @@
----
-title: Eigenschaften des Immobilien-Beitragstyps (Filter)
-search: 1
----
-
 # inx_property_post_type_args (Filter)
 
-Mit diesem Filter können die Eigenschaften des [Beitragstyps für Immobilien-Objekte](../beitragsarten-taxonomien.html) **vor** dessen Registrierung bearbeitet werden.
+Mit diesem Filter können die Eigenschaften des [Beitragstyps für Immobilien-Objekte](/beitragsarten-taxonomien) **vor** dessen Registrierung bearbeitet werden.
 
 ## Parameter
 

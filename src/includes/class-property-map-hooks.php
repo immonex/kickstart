@@ -63,7 +63,7 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 		if ( ! is_array( $atts ) ) {
 			$atts = array();
 		}
-		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : 'property-list/map';
+		$template = ! empty( $atts['template'] ) ? $atts['template'] : Property_Map::DEFAULT_TEMPLATE;
 
 		$atts = array_merge(
 			$atts,
@@ -115,6 +115,7 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 		 */
 		$supported_atts = array(
 			'cid'             => '',
+			'template'        => Property_Map::DEFAULT_TEMPLATE,
 			'lat'             => $this->config['property_list_map_lat'],
 			'lng'             => $this->config['property_list_map_lng'],
 			'zoom'            => $this->config['property_list_map_zoom'],
@@ -138,20 +139,18 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-map" );
+		$template       = ! empty( $shortcode_atts['template'] ) ?
+			$shortcode_atts['template'] :
+			Property_Map::DEFAULT_TEMPLATE;
 
-		$this->rendering_vars[] = array_merge(
-			array(
-				'template' => 'property-list/map',
-			),
-			array_filter( $shortcode_atts )
-		);
+		$this->rendering_vars[] = array_filter( $shortcode_atts );
 
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
-			$this->add_rendered_instance( 'property-list/map', array_filter( $shortcode_atts ) )
+			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )
 		);
 
-		return $this->property_map->render( 'property-list/map', $shortcode_atts );
+		return $this->property_map->render( $template, $shortcode_atts );
 	} // shortcode_property_map
 
 } // Property_Map_Hooks

@@ -1,10 +1,3 @@
----
-title: Systemvoraussetzungen
-category: grundlagen
-order: 20
-search: 1
----
-
 # Systemvoraussetzungen
 
 - selbst-gehostete [WordPress-Installation](https://de.wordpress.org/download/)<sup>1</sup> ab Version 4.7 (empfohlen: 5.1 oder höher)
@@ -13,7 +6,7 @@ search: 1
 
 ## Datenimport & Energieskalen
 
-Für den [Import von OpenImmo-Immobiliendaten](schnellstart/import.html) wird das Zusatzplugin [immonex OpenImmo2WP](https://plugins.inveris.de/de/shop/immonex-openimmo2wp) **ab Version 4.6** benötigt.
+Für den [Import von OpenImmo-Immobiliendaten](schnellstart/import) wird das Zusatzplugin [immonex OpenImmo2WP](https://plugins.inveris.de/de/shop/immonex-openimmo2wp) **ab Version 4.6** benötigt.
 
 Kickstart unterstützt die automatisierte Einbidung von grafischen Energieskalen, die mit dem Plugin [immonex Energy Scale Pro](https://plugins.inveris.de/de/shop/immonex-energy-scale-pro) anhand der übermittelten Energieeffizenz-Daten generiert werden.
 

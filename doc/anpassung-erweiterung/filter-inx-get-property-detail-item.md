@@ -1,13 +1,8 @@
----
-title: Detail-Element einer Immobilie abrufen (Filter)
-search: 1
----
-
 # inx_get_property_detail_item (Filter)
 
-Dieser Filter dient dem **Abrufen eines Detail-Elements** einer [Immobilie](../beitragsarten-taxonomien.html) anhand von Namen und Gruppenbezeichnungen, die in der für den [OpenImmo-Import verwendeten Mapping-Tabelle](../schnellstart/import.html) hinterlegt sind.
+Dieser Filter dient dem **Abrufen eines Detail-Elements** einer [Immobilie](/beitragsarten-taxonomien) anhand von Namen und Gruppenbezeichnungen, die in der für den [OpenImmo-Import verwendeten Mapping-Tabelle](/schnellstart/import) hinterlegt sind.
 
-> Der Filter wird typischerweise in [Add-ons](../add-ons.html) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 

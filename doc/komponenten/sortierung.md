@@ -1,13 +1,6 @@
----
-title: Sortierung
-category: komponenten
-order: 20
-search: 1
----
-
 # Sortierung
 
-Soll eine [Immobilien-Listenansicht](liste.html) sortierbar gemacht werden, wird hierfür typischerweise eine Dropdown-Box mit den verfügbaren Optionen darüber eingebunden.
+Soll eine [Immobilien-Listenansicht](liste) sortierbar gemacht werden, wird hierfür typischerweise eine Dropdown-Box mit den verfügbaren Optionen darüber eingebunden.
 
 ![Sortieroptionen für Immobilienlisten](../assets/scst-filters-sort-1.gif)
 Sortieroptionen für Immobilienlisten
@@ -24,26 +17,27 @@ Sortieroptionen für Immobilienlisten
 | `elements` | Umfang und Reihenfolge der Sortieroptionen in der Liste (optional) |
 | `exclude` | Bestimmte Sortieroptionen explizit ausschließend (optional) |
 | `default` | Key der standardmäßig ausgewählten Sortieroption (optional) |
+| `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *property-list/foobar*) |
 
 Via `elements` und `exclude` können kommagetrennte Listen der u. g. Elementnamen (Keys) übergeben werden.
 
-Das Attribut `default` wird nur dann benötigt, wenn die Standardsortierung **nicht** per [GET-Parameter](../schnellstart/einbindung.html#GET-Parameter) `inx-sort` oder [Filterfunktion](../anpassung-erweiterung/filter-inx-default-sort-key.html) definiert wird bzw. die Standarsortierung **nicht** dem ersten Eintrag entspricht.
+Das Attribut `default` wird nur dann benötigt, wenn die Standardsortierung **nicht** per [GET-Parameter](/schnellstart/einbindung.html#get-parameter) `inx-sort` oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) definiert wird bzw. die Standarsortierung **nicht** dem ersten Eintrag entspricht.
 
 > Der Wert des `default` Attributs hat **keinen** direkten Einfluss auf die eigentliche Sortierung einer Immobilienliste auf der gleichen Seite. **Ohne** die Definition via GET-Parameter oder Filterfunktion muss eine abweichende Standardsortierung hier ebenfalls per Shortcode-Attribut gesetzt werden.
 
 ### Beispiele
 
-nur Preis auf- oder absteigend (Standard) als Sortieroptionen
+nur Preis auf- oder absteigend (Standard) als Sortieroptionen\
 `[inx-filters-sort elements="price_asc, price_desc" default="price_desc"]`
 
-Fläche und Zimmeranzahl aus der Optionsliste entfernen
+Fläche und Zimmeranzahl aus der Optionsliste entfernen\
 `[inx-filters-sort exclude="area_asc, rooms_asc"]`
 
 ## Standard-Optionen
 
-Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** können auch als Wert für das Sortierattribut des [Listenansicht-Shortcodes](liste.html#Shortcode) verwendet werden.
+Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** können auch als Wert für das Sortierattribut des [Listenansicht-Shortcodes](liste#shortcode) verwendet werden.
 
-| Name (Key) | Sortierung |
+| Name (Key) | Sortierung |
 | ---------- | ---------- |
 | Aktuellste (`date_desc`) | Beitragsdatum absteigend (entspricht dem Datum der letzten Objekt-Aktualisierung in der Maklersoftware) |
 | Kaufobjekte zuerst (`marketing_type_desc`) | Objekte mit <i>Verkauft-Flag</i> (*1* im Custom Field `_inx_is_sale`) oben |
@@ -57,6 +51,6 @@ Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** könne
 
 ## Erweiterte Anpassungen
 
-- [Filter-Referenz](../anpassung-erweiterung/filters-actions.html#Sortierung)
-- [Template](../anpassung-erweiterung/skins.html#Partiell)
-- [Custom Skin](../anpassung-erweiterung/standard-skin.html#Archiv-amp-Listenansicht)
+- [Filter-Referenz](/anpassung-erweiterung/filters-actions#sortierung)
+- [Template](/anpassung-erweiterung/skins#partiell)
+- [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

@@ -73,7 +73,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 	 * @param mixed[] $atts Rendering attributes.
 	 */
 	public function render_property_list( $atts = array() ) {
-		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : 'property-list/properties';
+		$template = isset( $atts['template'] ) && $atts['template'] ? $atts['template'] : Property_List::DEFAULT_TEMPLATE;
 
 		$atts = array_merge(
 			$atts,
@@ -217,9 +217,11 @@ class Property_List_Hooks extends Property_Component_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
-			'cid'             => '',
-			'disable_links'   => '',
-			'no_results_text' => false,
+			'cid'                 => '',
+			'template'            => Property_List::DEFAULT_TEMPLATE,
+			'pagination_template' => Property_List::DEFAULT_PAGINATION_TEMPLATE,
+			'disable_links'       => '',
+			'no_results_text'     => false,
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
@@ -239,20 +241,18 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			}
 		}
 		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-list" );
+		$template       = ! empty( $shortcode_atts['template'] ) ?
+			$shortcode_atts['template'] :
+			Property_List::DEFAULT_TEMPLATE;
 
-		$this->rendering_vars[] = array_merge(
-			array(
-				'template' => 'property-list/properties',
-			),
-			array_filter( $shortcode_atts )
-		);
+		$this->rendering_vars[] = array_filter( $shortcode_atts );
 
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
-			$this->add_rendered_instance( 'property-list/properties', array_filter( $shortcode_atts ) )
+			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )
 		);
 
-		return $this->property_list->render( 'property-list/properties', $shortcode_atts );
+		return $this->property_list->render( $template, $shortcode_atts );
 	} // shortcode_property_list
 
 	/**

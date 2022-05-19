@@ -1,11 +1,6 @@
----
-title: Custom Fields für die Volltextsuche (Filter)
-search: 1
----
-
 # inx_fulltext_search_fields (Filter)
 
-Bei der [Suche nach Schlüsselwörtern](../komponenten/index.html) werden regulär die Inhalte der u. g. benutzerdefinierten Felder (Custom Fields) durchsucht. Über diesen Filter-Hook können bei Bedarf weitere zu durchsuchende Felder ergänzt werden.
+Bei der [Suche nach Schlüsselwörtern](/komponenten/suchformular) werden regulär die Inhalte der u. g. benutzerdefinierten Felder (Custom Fields) durchsucht. Über diesen Filter-Hook können bei Bedarf weitere zu durchsuchende Felder ergänzt werden.
 
 ## Parameter
 

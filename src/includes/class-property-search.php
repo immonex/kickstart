@@ -13,6 +13,11 @@ namespace immonex\Kickstart;
 class Property_Search {
 
 	/**
+	 * Default property search form template file
+	 */
+	const DEFAULT_TEMPLATE = 'property-search';
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -58,8 +63,12 @@ class Property_Search {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render_form( $template = 'property-search', $atts = array() ) {
+	public function render_form( $template = '', $atts = array() ) {
 		global $wp;
+
+		if ( empty( $template ) ) {
+			$template = self::DEFAULT_TEMPLATE;
+		}
 
 		/**
 		 * Check for special GET variables and preserve their values (hidden fields).
@@ -556,7 +565,9 @@ class Property_Search {
 			)
 		);
 
-		$template = 'property-search/element-' . $element['type'];
+		$template = ! empty( $atts['template'] ) ?
+			$atts['template'] :
+			'property-search/element-' . $element['type'];
 
 		$template_content = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
 

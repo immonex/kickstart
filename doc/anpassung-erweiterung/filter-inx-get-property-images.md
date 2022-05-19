@@ -1,13 +1,8 @@
----
-title: Galerie-Bildanhänge einer Immobilie abrufen (Filter)
-search: 1
----
-
 # inx_get_property_images (Filter)
 
-Dieser Filter dient dem **Abrufen** aller Bildanhang-Daten, die zu einer **Galerie** (Fotos oder Grundrisse) eines [Immobilien-Beitrags](../beitragsarten-taxonomien.html) gehören.
+Dieser Filter dient dem **Abrufen** aller Bildanhang-Daten, die zu einer **Galerie** (Fotos oder Grundrisse) eines [Immobilien-Beitrags](/beitragsarten-taxonomien) gehören.
 
-> Der Filter wird typischerweise in [Add-ons](../add-ons.html) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 

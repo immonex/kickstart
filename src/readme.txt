@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.6
-Tested up to: 5.9
+Tested up to: 6.0
 Stable Tag: 1.6.8
 Requires PHP: 5.6
 License: GPLv2 or later
@@ -109,6 +109,17 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.6.16-beta =
+* Release date: 2022-05-19
+* Added filter hook for property template data retrieval.
+* Added select option for disabling the default property archive/single templates.
+* Added basic support for custom/special order(by) elements.
+* Added shortcode attribute for template file selection.
+* Added an alternative property list template (slider).
+* Improved recognition of taxonomy term lists in shortcode attributes.
+* Fixed backend property list sorting by reference state.
+* Updated external dependencies.
+
 = 1.6.8 =
 * Release date: 2022-04-06
 * Formatted/Localized number of matches on search form submit button.
@@ -124,19 +135,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Optimized grid display in real estate list views.
 * Improved responsive tab navigation display in property detail views.
 * Fixed search form price slider auto value range setting for rental properties.
-
-= 1.6.0 =
-* Release date: 2022-02-28
-* Added new taxonomy "project" for property grouping.
-* Added (optional) search form select element for property projects (groups).
-* Added special query variable for selecting/excluding group master properties.
-* Added WP auto embed and other filters to property description processing.
-* Added custom field based setting of current property post ID.
-* Added the ability to use multiple property search forms on the same page.
-* Added seach form shortcode attribute for modifying countries supported by location search/autocomplete elements.
-* Reworked and extended backend property form.
-* Added optional dynamic content updates of frontend components when changing search parameters.
-* Replaced 301 redirects to custom property list and detail pages by internal request updates.
-* Fixed detail element shortcode issue (attribute "type" not taken into account).
 
 See changelog.txt for complete version history.

@@ -1,21 +1,16 @@
----
-title: Standard-Sortierung von Immobilien-Listen (Filter)
-search: 1
----
-
 # inx_default_sort_key (Filter)
 
-Mit diesem Filter kann eine alternative Standard-Sortierung für die [Immobilien-Listenansicht](../komponenten/liste.html) bzw. die Vorgabeoption der entsprechenden [Auswahlbox](../komponenten/sortierung.html) festgelegt werden (normalerweise Aktualisierungsdatum absteigend - `date_desc`).
+Mit diesem Filter kann eine alternative Standard-Sortierung für die [Immobilien-Listenansicht](/komponenten/liste) bzw. die Vorgabeoption der entsprechenden [Auswahlbox](/komponenten/sortierung) festgelegt werden (normalerweise Aktualisierungsdatum absteigend - `date_desc`).
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$key` | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](../komponenten/sortierung.html#Standard-Optionen)) |
+| `$key` | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](/komponenten/sortierung#standard-optionen)) |
 
 ## Rückgabewert
 
-alternativer [Sortierschlüssel](../komponenten/sortierung.html#Standard-Optionen)
+alternativer [Sortierschlüssel](/komponenten/sortierung#standard-optionen)
 
 ## Rahmenfunktion
 

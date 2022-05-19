@@ -1,11 +1,6 @@
----
-title: Abfrage/Rendering-Attribute von Standortkarten (Filter)
-search: 1
----
-
 # inx_property_list_map_atts (Filter)
 
-Mit diesem Filter können die für die Generierung einer [Kartenansicht](../komponenten/karte.html) relevanten Attribute angepasst werden.
+Mit diesem Filter können die für die Generierung einer [Kartenansicht](/komponenten/karte) relevanten Attribute angepasst werden.
 
 ## Parameter
 

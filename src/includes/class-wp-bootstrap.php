@@ -64,6 +64,7 @@ class WP_Bootstrap {
 			'manage_edit-' . $bootstrap_data['property_post_type_name'] . '_sortable_columns',
 			array( $this, 'add_posts_custom_sortable_columns' )
 		);
+		add_filter( 'request', array( $this, 'reference_column_orderby' ) );
 		add_filter( 'parent_file', array( $this, 'set_current_menu' ) );
 		add_filter( 'body_class', array( $this, 'check_body_classes' ), 90 );
 
@@ -576,10 +577,38 @@ class WP_Bootstrap {
 	 * @return string[] Extended columns array.
 	 */
 	public function add_posts_custom_sortable_columns( $columns ) {
-		$columns['reference'] = '_immonex_is_reference';
+		$columns['reference'] = 'reference';
 
 		return $columns;
 	} // add_posts_custom_sortable_columns
+
+	/**
+	 * Make backend property lists sortable by reference state.
+	 *
+	 * @since 1.6.15-beta
+	 *
+	 * @param mixed[] $query_vars Query vars.
+	 *
+	 * @return mixed[] Possibly extended query vars.
+	 */
+	public function reference_column_orderby( $query_vars ) {
+		if (
+			is_admin()
+			&& isset( $query_vars['orderby'] )
+			&& 'reference' === $query_vars['orderby']
+		) {
+			$query_vars = array_merge(
+				$query_vars,
+				array(
+					// @codingStandardsIgnoreLine
+					'meta_key' => '_immonex_is_reference',
+					'orderby'  => 'meta_value_num',
+				)
+			);
+		}
+
+		return $query_vars;
+	} // reference_column_orderby
 
 	/**
 	 * Filter out irregular body classes (e.g. has-sidebar in property pages).

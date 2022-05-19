@@ -1,11 +1,6 @@
----
-title: Anpassung der Ausgabe einzelner Detail-Elemente (Filter)
-search: 1
----
-
 # inx_property_detail_element_output (Filter)
 
-Mit diesem Filter kann die Ausgabe von **einzelner** Elemente angepasst werden, die per Shortcode [`[inx-property-detail-element]`](../komponenten/detailansicht.html#Einzelne-Angaben) eingebunden werden.
+Mit diesem Filter kann die Ausgabe von **einzelner** Elemente angepasst werden, die per Shortcode [`[inx-property-detail-element]`](/komponenten/detailansicht#einzelne-angaben) eingebunden werden.
 
 ## Parameter
 

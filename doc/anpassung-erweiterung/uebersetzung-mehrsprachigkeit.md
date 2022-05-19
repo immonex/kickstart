@@ -1,10 +1,3 @@
----
-title: Übersetzung / Mehrsprachigkeit
-category: anpassung-erweiterung
-order: 40
-search: 1
----
-
 # Übersetzungen & Mehrsprachigkeit
 
 immonex Kickstart ist vorrangig für die Umsetzung deutschsprachiger Websites ausgelegt. Nichtsdestotrotz sind die im Basis-Plugin und den Add-ons enthaltenen Texte in englischer Sprache hinterlegt, um eine WordPress-konforme Übersetzung zu ermöglichen.
@@ -65,12 +58,12 @@ Sollen eine WordPress-Website bzw. Teile hiervon **parallel** in mehreren Sprach
 
 ### Beitragsarten und Taxonomien
 
-Sind Polylang ([Pro](https://polylang.pro/)) oder WPML installiert und aktiv und sollen Immobilien-Angebote in unterschiedlichen Sprachen veröffentlicht werden, müssen zunächst die vom Kickstart-Plugin bzw. Add-ons bereitgestellten [Beitragsarten](../beitragsarten-taxonomien.html) sowie die zugehörigen [Taxonomien](../beitragsarten-taxonomien.html) in den Optionen der eingesetzten Übersetzungs-Lösung als "übersetzbar" gekennzeichnet werden.
+Sind Polylang ([Pro](https://polylang.pro/)) oder WPML installiert und aktiv und sollen Immobilien-Angebote in unterschiedlichen Sprachen veröffentlicht werden, müssen zunächst die vom Kickstart-Plugin bzw. Add-ons bereitgestellten [Beitragsarten](/beitragsarten-taxonomien) sowie die zugehörigen [Taxonomien](/beitragsarten-taxonomien) in den Optionen der eingesetzten Übersetzungs-Lösung als "übersetzbar" gekennzeichnet werden.
 
-![Screenshot: Polylang - zu übersetzende Beitragsarten und Taxonomien auswählen](../assets/scst-polylang-cpt-tax.png)
+![Screenshot: Polylang - zu übersetzende Beitragsarten und Taxonomien auswählen](../assets/scst-polylang-cpt-tax.png)\
 Zu übersetzende Beitragsarten und Taxonomien auswählen am Beispiel von **Polylang**
 
-Die Übersetzung der in den Kickstart-Optionen hinterlegten [Titelformen (Slugs)](../schnellstart/einrichtung.html#Titelformen-Slugs), die für die Generierung "suchmaschinenfreundlicher" URLs (Permalinks) maßgeblich sind, ist möglich und muss ebenfalls in den Polylang/WPML-Optionen aktiviert werden.
+Die Übersetzung der in den Kickstart-Optionen hinterlegten [Titelformen (Slugs)](/schnellstart/einrichtung#Titelformen-Slugs), die für die Generierung "suchmaschinenfreundlicher" URLs (Permalinks) maßgeblich sind, ist möglich und muss ebenfalls in den Polylang/WPML-Optionen aktiviert werden.
 
 > Die Übersetzung von URL/Permalink-Slugs ist in der kostenlosen Standardversion von Polylang nicht enthalten, hierfür wird [Polylang Pro](https://polylang.pro/) benötigt.
 
@@ -81,14 +74,14 @@ Weitere Infos zum Thema URL-Slug-Übersetzung:
 
 ### Texte in Plugin-Optionen
 
-Inhalte, die in den [Plugin-Optionen](../schnellstart/einrichtung.html) hinterlegt sind (z. B. die Hinweise zum Objektstandort) können mit der <i>String-Translation-Funktion</i> der o. g. Sprachplugins übersetzt werden.
+Inhalte, die in den [Plugin-Optionen](/schnellstart/einrichtung) hinterlegt sind (z. B. die Hinweise zum Objektstandort) können mit der <i>String-Translation-Funktion</i> der o. g. Sprachplugins übersetzt werden.
 
 ### Sonderfälle
 
 #### Objekte nur in einer, Listen- und Detailseiten in mehreren Sprachen
 
-Sind die Immobilienangebote grundsätzlich nur in **einer** Sprache verfügbar und wird für die Ausgabe eine **mehrsprachige** [Seite als Vorlage](../schnellstart/einrichtung.html#Immobilien-Detailseite) verwendet, entspricht die Sprache der Vorlage im Normalfall der der jeweiligen Immobilie.
+Sind die Immobilienangebote grundsätzlich nur in **einer** Sprache verfügbar und wird für die Ausgabe eine **mehrsprachige** [Seite als Vorlage](/schnellstart/einrichtung#immobilien-detailseite) verwendet, entspricht die Sprache der Vorlage im Normalfall der der jeweiligen Immobilie.
 
-Soll stattdessen die Sprache der Vorlagenseite der der (ebenfalls mehrsprachigen) Listenseite (z. B. die [Standard-Immobilien-Übersicht](../schnellstart/einrichtung.html#Immobilien-Ubersicht)) entsprechen, von der aus sie aufgerufen wurde, kann dies mit dem Attribut `force-lang` im Listen-Shortcode bewerkstelligt werden, das als Wert den entsprechenden Sprachcode (zweistellig) enthält:
+Soll stattdessen die Sprache der Vorlagenseite der der (ebenfalls mehrsprachigen) Listenseite (z. B. die [Standard-Immobilien-Übersicht](/schnellstart/einrichtung#Immobilien-Ubersicht)) entsprechen, von der aus sie aufgerufen wurde, kann dies mit dem Attribut `force-lang` im Listen-Shortcode bewerkstelligt werden, das als Wert den entsprechenden Sprachcode (zweistellig) enthält:
 
 `[inx-property-list force-lang="en"]`

@@ -12,6 +12,14 @@ namespace immonex\Kickstart;
  */
 class Property {
 
+	/**
+	 * Default property list template file
+	 */
+	const DEFAULT_TEMPLATE = 'single-property/element-hub';
+
+	/**
+	 * Property description excerpt length
+	 */
 	const
 		EXCERPT_LENGTH = 128;
 
@@ -79,7 +87,51 @@ class Property {
 	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function render( $template = 'single-property/element-hub', $atts = array() ) {
+	public function render( $template = '', $atts = array() ) {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return '';
+		}
+
+		if ( empty( $template ) ) {
+			$template = self::DEFAULT_TEMPLATE;
+		}
+
+		$atts = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
+
+		/**
+		 * Generate a property/attribute specific hash value for caching purposes.
+		 */
+		$hash_array = array_merge(
+			array(
+				$this->post->ID,
+				$template,
+			),
+			$atts
+		);
+		$hash       = md5( wp_json_encode( $hash_array ) );
+
+		// Return cached contents if available.
+		if ( isset( $this->cache['rendered_template_contents'][ $hash ] ) ) {
+			return $this->cache['rendered_template_contents'][ $hash ];
+		}
+
+		$template_data = $this->get_property_template_data( $atts );
+
+		$this->cache['rendered_template_contents'][ $hash ] = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+
+		return $this->cache['rendered_template_contents'][ $hash ];
+	} // render
+
+	/**
+	 * Compile all data and tools relevant for rendering a property template.
+	 *
+	 * @since 1.6.9
+	 *
+	 * @param mixed[] $atts Rendering Attributes.
+	 *
+	 * @return mixed[] Property and related meta data.
+	 */
+	public function get_property_template_data( $atts = array() ) {
 		global $wp;
 		global $wp_query;
 
@@ -93,20 +145,17 @@ class Property {
 		$public_prefix = $this->config['public_prefix'];
 
 		/**
-		 * Generate a property-specific hash value for caching purposes.
+		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
 		$hash_array = array_merge(
-			array(
-				$this->post->ID,
-				$template,
-			),
+			array( $this->post->ID ),
 			$atts
 		);
 		$hash       = md5( wp_json_encode( $hash_array ) );
 
 		// Return cached contents if available.
-		if ( isset( $this->cache['template_content'][ $hash ] ) ) {
-			return $this->cache['template_content'][ $hash ];
+		if ( isset( $this->cache['template_raw_data'][ $hash ] ) ) {
+			return $this->cache['template_raw_data'][ $hash ];
 		}
 
 		// Get property core data (individual custom fields).
@@ -366,7 +415,7 @@ class Property {
 				'virtual_tour_embed_code' => $virtual_tour_embed_code,
 				'file_attachments'        => $file_attachments,
 				'links'                   => $links ? $links : array(),
-				'detail_page_elements'    => $this->get_detail_page_elements( $atts['element_atts'] ),
+				'detail_page_elements'    => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),
 				'flags'                   => $flags,
 				'disable_link'            => $disable_link,
 				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
@@ -393,10 +442,10 @@ class Property {
 			}
 		}
 
-		$this->cache['template_content'][ $hash ] = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+		$this->cache['template_raw_data'][ $hash ] = $template_data;
 
-		return $this->cache['template_content'][ $hash ];
-	} // render
+		return $template_data;
+	} // get_property_template_data
 
 	/**
 	 * Return a list of all detail page element keys.

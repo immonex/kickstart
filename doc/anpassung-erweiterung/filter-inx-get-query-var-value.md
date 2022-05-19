@@ -1,13 +1,8 @@
----
-title: Werte beliebiger Query-Variablen abrufen (Filter)
-search: 1
----
-
 # inx_get_query_var_value (Filter)
 
 Über diesen Filter-Hook kann der aktuelle Wert einer beliebigen [WP-Query-Variable](https://developer.wordpress.org/reference/classes/wp_query/) abgerufen werden, der ggfls. Kickstart-spezifisch angepasst wurde.
 
-> Der Filter wird typischerweise in [Add-ons](../add-ons.html) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 
