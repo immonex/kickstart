@@ -348,4 +348,20 @@ class API {
 		return $this->utils['data']->get_details_item( $grouped_details, $mapping_name, false, true );
 	} // get_custom_field_value_by_name
 
+	/**
+	 * Merge meta or taxonomy queries (utility wrapper method and filter callback for
+	 * add-ons etc.).
+	 *
+	 * @since 1.6.17-beta
+	 *
+	 * @param mixed[] $org_query Original query.
+	 * @param mixed[] $add_query Additional query.
+	 * @param string  $relation  Relation (optional, "AND" by default).
+	 *
+	 * @return mixed[] Merged query.
+	 */
+	public function merge_queries( $org_query, $add_query, $relation = 'AND' ) {
+		return $this->utils['query']->merge_queries( $org_query, $add_query, $relation );
+	} // merge_queries
+
 } // API

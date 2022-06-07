@@ -147,17 +147,11 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 			$sort_chain['date'] = 'DESC';
 		}
 
-		if ( count( $current_meta_query ) > 0 ) {
-			$meta_query = array_merge(
-				array( 'relation' => 'AND' ),
-				array( $current_meta_query ),
-				array( $sort_meta_query_chain )
-			);
-		} else {
-			$meta_query = $sort_meta_query_chain;
+		if ( count( $sort_meta_query_chain ) > 1 ) {
+			$meta_query = $this->utils['query']->merge_queries( $current_meta_query, $sort_meta_query_chain );
+			$query->set( 'meta_query', $meta_query );
 		}
 
-		$query->set( 'meta_query', $meta_query );
 		$query->set( 'orderby', $sort_chain );
 	} // adjust_property_frontend_query
 

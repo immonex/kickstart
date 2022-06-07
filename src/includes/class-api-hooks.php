@@ -50,6 +50,7 @@ class API_Hooks {
 		add_filter( 'inx_get_author_query', array( $this->api, 'get_author_query' ) );
 		add_filter( 'inx_get_custom_field_value_by_name', array( $this->api, 'get_custom_field_value_by_name' ), 10, 2 );
 		add_filter( 'inx_get_query_var_value', array( $this->api, 'get_query_var_value' ), 10, 3 );
+		add_filter( 'inx_merge_queries', array( $this->api, 'merge_queries' ), 10, 3 );
 	} // __construct
 
 } // API_Hooks
