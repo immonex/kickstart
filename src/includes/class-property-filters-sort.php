@@ -93,6 +93,10 @@ class Property_Filters_Sort {
 					$value = $this->utils['data']->get_query_var_value( $var_name );
 				}
 
+				if ( is_array( $value ) ) {
+					$value = implode( ',', $value );
+				}
+
 				if ( false !== $value ) {
 					$hidden_fields[ $var_name ] = array(
 						'name'  => $var_name,

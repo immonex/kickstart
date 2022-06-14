@@ -239,10 +239,11 @@ class Data_Access_Helper {
 	 * @param string         $var_name Variable name.
 	 * @param \WP_Query|bool $query WP query object (optional).
 	 * @param mixed          $default Default value (optional).
+	 * @param bool           $convert_list_strings List string conversion flag (optional, true by default).
 	 *
 	 * @return mixed[]|string Variable value, if existent.
 	 */
-	public function get_query_var_value( $var_name, $query = false, $default = false ) {
+	public function get_query_var_value( $var_name, $query = false, $default = false, $convert_list_strings = true ) {
 		$value = $default;
 
 		// Get value directly from query object.
@@ -277,8 +278,10 @@ class Data_Access_Helper {
 			}
 		}
 
-		// Convert string lists/comma-separated single values to arrays.
-		$value = $this->maybe_convert_list_string( $value );
+		if ( $convert_list_strings ) {
+			// Convert string lists/comma-separated single values to arrays.
+			$value = $this->maybe_convert_list_string( $value );
+		}
 
 		return $value;
 	} // get_query_var_value

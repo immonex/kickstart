@@ -14,6 +14,7 @@ $inx_skin_search_main_element_id_prefix = ! empty( $template_data['search_main_e
 $inx_skin_element_name                  = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
 $inx_skin_show_label                    = false;
 $inx_skin_multiple                      = isset( $template_data['element']['multiple'] ) && $template_data['element']['multiple'];
+$inx_skin_empty_option_value            = ! empty( $template_data['element']['empty_option_value'] ) ? $template_data['element']['empty_option_value'] : '';
 ?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
 	<?php if ( $inx_skin_show_label && $template_data['element']['label'] ) : ?>
@@ -35,9 +36,9 @@ $inx_skin_multiple                      = isset( $template_data['element']['mult
 		>
 
 		<?php if ( isset( $template_data['element']['empty_option'] ) && false !== $template_data['element']['empty_option'] ) : ?>
-		<option value=""
+		<option value="<?php echo $inx_skin_empty_option_value; ?>"
 			<?php
-			if ( '' === $template_data['element_value'] ) {
+			if ( $inx_skin_empty_option_value === $template_data['element_value'] ) {
 				echo ' selected';}
 			?>
 		><?php echo true === $template_data['element']['empty_option'] ? $template_data['element']['label'] : $template_data['element']['empty_option']; ?></option>

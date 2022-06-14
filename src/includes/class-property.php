@@ -63,19 +63,33 @@ class Property {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param \WP_Post|int|string $post_or_id Property post object or ID.
-	 * @param mixed[]             $config Various component configuration data.
-	 * @param object[]            $utils Helper/Utility objects.
+	 * @param \WP_Post|int|string|bool $post_or_id Property post object or ID (false if undefined).
+	 * @param mixed[]                  $config Various component configuration data.
+	 * @param object[]                 $utils Helper/Utility objects.
 	 */
 	public function __construct( $post_or_id, $config, $utils ) {
+		if ( false !== $post_or_id ) {
+			$this->set_post( $post_or_id );
+		}
+
+		$this->config = $config;
+		$this->utils  = $utils;
+	} // __construct
+
+	/**
+	 * (Re)Set the current property post ID or object.
+	 *
+	 * @since 1.6.18-beta
+	 *
+	 * @param \WP_Post|int|string|bool $post_or_id Property post object or ID (false if undefined).
+	 */
+	public function set_post( $post_or_id ) {
 		if ( is_numeric( $post_or_id ) ) {
 			$this->post = get_post( $post_or_id );
 		} elseif ( is_object( $post_or_id ) ) {
 			$this->post = $post_or_id;
 		}
-		$this->config = $config;
-		$this->utils  = $utils;
-	} // __construct
+	} // set_post
 
 	/**
 	 * Render property details (PHP template).
@@ -340,23 +354,15 @@ class Property {
 		$file_attachments = $this->get_file_attachments();
 
 		// Fetch links.
-		$links = get_post_meta( $this->post->ID, "_{$prefix}links", true );
+		$links = get_post_meta( $post->ID, "_{$prefix}links", true );
 
 		$permalink_url = get_permalink( $post->ID );
 
-		// Generate overview/backlink URL.
+		/**
+		 * Generate overview/backlink URL.
+		 */
 		$backlink_url = $this->get_backlink_url( $permalink_url );
-
-		$url = $permalink_url;
-		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . rawurlencode( $atts[ "{$public_prefix}ref" ] );
-		}
-		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . rawurlencode( $atts[ "{$public_prefix}force-lang" ] );
-		}
-		if ( ! empty( $backlink_url ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
-		}
+		$url          = $this->extend_url( $permalink_url, false, $atts );
 
 		$get_query_backlink_url = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
 		if ( $get_query_backlink_url ) {
@@ -1028,15 +1034,49 @@ class Property {
 	} // get_flags
 
 	/**
+	 * Add the backlink URL and special params (if set) to the property URL.
+	 *
+	 * @since 1.6.18-beta
+	 *
+	 * @param string      $permalink_url The current permalink URL.
+	 * @param bool|string $backlink_url Backlink URL (optional).
+	 * @param mixed[]     $atts Rendering attributes (optional).
+	 *
+	 * @return string Backlink URL.
+	 */
+	public function extend_url( $permalink_url, $backlink_url = false, $atts = array() ) {
+		$public_prefix = $this->config['public_prefix'];
+		$url           = $permalink_url;
+
+		if ( ! $backlink_url ) {
+			$base_url     = ! empty( $atts['base_url'] ) ? str_replace( '%_%', '', $atts['base_url'] ) : false;
+			$backlink_url = $this->get_backlink_url( $permalink_url, $base_url );
+		}
+
+		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . rawurlencode( $atts[ "{$public_prefix}ref" ] );
+		}
+		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . rawurlencode( $atts[ "{$public_prefix}force-lang" ] );
+		}
+		if ( ! empty( $backlink_url ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
+		}
+
+		return $url;
+	} // extend_url
+
+	/**
 	 * Retrieve and return special property flags (custom fields).
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string $permalink_url The current permalink URL.
+	 * @param string      $permalink_url The current permalink URL.
+	 * @param bool|string $base_url      Base URL (optional).
 	 *
 	 * @return string Backlink URL.
 	 */
-	private function get_backlink_url( $permalink_url ) {
+	public function get_backlink_url( $permalink_url, $base_url = false ) {
 		if ( $this->post->ID && isset( $this->cache['backlink_url'][ $this->post->ID ] ) ) {
 			return $this->cache['backlink_url'][ $this->post->ID ];
 		}
@@ -1051,7 +1091,14 @@ class Property {
 			return $backlink_url;
 		}
 
-		$backlink_url = home_url( add_query_arg( array(), $wp->request ) );
+		if ( $base_url ) {
+			$backlink_url = $base_url;
+		} else {
+			$path           = $wp->request;
+			$is_api_request = 'wp-json' === substr( $path, 0, 7 );
+			$backlink_url   = home_url( ! $is_api_request ? add_query_arg( array(), $path ) : null );
+		}
+
 		if ( false === strpos( $backlink_url, '?' ) ) {
 			$backlink_url = trailingslashit( $backlink_url );
 		}
@@ -1125,7 +1172,8 @@ class Property {
 					"{$public_prefix}backlink-url" !== $var_name &&
 					! in_array( $var_name, $exclude_backlink_vars, true ) &&
 					! in_array( $var_name, $existing_get_vars, true ) &&
-					! isset( $query_vars[ $var_name ] )
+					! isset( $query_vars[ $var_name ] ) &&
+					'inx-r-' !== substr( $var_name, 0, 6 )
 				) {
 					$query_vars[ $var_name ] = $value;
 				}

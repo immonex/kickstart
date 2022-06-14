@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.6.17-beta';
+	const PLUGIN_VERSION             = '1.6.19-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -97,6 +97,30 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 	private $api;
 
 	/**
+	 * OpenImmo2WP compatibility object
+	 *
+	 * @var \immonex\Kickstart\OpenImmo2WP_Compat
+	 */
+	private $oi2wp_compat;
+
+	/**
+	 * Default values of custom fields that must be available for every
+	 * property post.
+	 *
+	 * @var mixed[]
+	 */
+	private $required_property_custom_field_defaults = array(
+		'_immonex_is_available'        => 1,
+		'_immonex_is_reserved'         => 0,
+		'_immonex_is_sold'             => 0,
+		'_immonex_is_reference'        => 0,
+		'_immonex_is_demo'             => 0,
+		'_immonex_is_featured'         => 0,
+		'_immonex_is_front_page_offer' => 0,
+		'_immonex_group_master'        => '',
+	);
+
+	/**
 	 * Here we go!
 	 *
 	 * @since 1.0.0
@@ -135,6 +159,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 				self::PUBLIC_PREFIX . 'ref',
 				self::PUBLIC_PREFIX . 'force-lang',
 			),
+			'required_prop_cf_defaults'   => $this->required_property_custom_field_defaults,
 		);
 
 		parent::__construct( $plugin_slug, self::TEXTDOMAIN );
@@ -148,6 +173,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 		// Add filters for common rendering attributes.
 		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
 		add_filter( 'inx_apply_auto_rendering_atts', array( $this, 'apply_auto_rendering_atts' ) );
+
+		// Add a compatibility layer for older versions of immonex OpenImmo2WP.
+		$this->oi2wp_compat = new OpenImmo2WP_Compat( $this->bootstrap_data );
 	} // __construct
 
 	/**
@@ -248,6 +276,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 		}
 
 		$this->check_importer();
+		$this->oi2wp_compat->check_property_posts();
 
 		update_option( 'rewrite_rules', false );
 	} // activate_plugin_single_site
@@ -355,6 +384,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 				'property_details_map_note_map_marker'     => $this->plugin_options['property_details_map_note_map_marker'],
 				'property_details_map_note_map_embed'      => $this->plugin_options['property_details_map_note_map_embed'],
 				'google_api_key'                           => $this->plugin_options['google_api_key'],
+				'required_property_custom_field_defaults'  => $this->required_property_custom_field_defaults,
 			)
 		);
 

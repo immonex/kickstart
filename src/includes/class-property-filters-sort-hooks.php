@@ -210,7 +210,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 				continue;
 			}
 
-			$found = ! empty( $sql ) && preg_match( '/[a-z_\.]+' . $key . ' (ASC|DESC)/', $sql, $match );
+			$found = ! empty( $sql ) && preg_match( '/[0-9a-z_\.]+' . $key . ' (ASC|DESC)/', $sql, $match );
 
 			if ( $found ) {
 				$new_sql[] = $match[0];

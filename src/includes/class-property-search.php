@@ -97,6 +97,10 @@ class Property_Search {
 					$value = $this->utils['data']->get_query_var_value( $var_name );
 				}
 
+				if ( is_array( $value ) ) {
+					$value = implode( ',', $value );
+				}
+
 				// Exception: inx-sort must always be present for dynamic content updates to work.
 				if ( false !== $value || 'inx-sort' === $var_name ) {
 					$hidden_fields[ $var_name ] = array(
@@ -374,6 +378,7 @@ class Property_Search {
 					'orderby'    => 'name',
 					'order'      => 'ASC',
 					'hide_empty' => true,
+					'include'    => array(),
 				);
 
 				$core_taxonomies = array(
@@ -391,111 +396,60 @@ class Property_Search {
 						"{$plugin_prefix}{$tax}" === $element['key']
 						&& ! empty( $atts[ $force_att ] )
 					) {
-						$include = array_merge(
-							$include,
-							$this->get_tax_main_entries_by_slug(
-								"{$plugin_prefix}{$tax}",
-								$atts[ $force_att ]
-							)
+						$include = $this->get_tax_main_entries_by_slug(
+							"{$plugin_prefix}{$tax}",
+							$atts[ $force_att ]
 						);
 					}
 				}
 
-				if ( ! empty( $atts[ "{$public_prefix}references" ] ) ) {
-					$references = $atts[ "{$public_prefix}references" ];
+				if ( ! empty( $atts['references'] ) ) {
+					$references = $atts['references'];
 				} else {
 					$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
 				}
-				$include_references = in_array( $references, array( 'yes', 'only' ), true );
 
-				if (
-					"{$plugin_prefix}marketing_type" === $element['key']
-					&& empty( $include )
-					&& ! $include_references
-				) {
-					// Exclude reference related standard marketing type taxonomy terms.
-					$reference_marketing_type_terms = get_terms(
-						array(
-							'taxonomy' => $element['key'],
-							'name'     => array( 'verkauft', 'vermietet', 'verpachtet' ),
-							'fields'   => 'ids',
-						)
+				if ( 'yes' !== $references ) {
+					$args['object_ids'] = $this->api->get_property_ids(
+						in_array( $references, array( 'no', 'only' ), true ) ? $references : false
 					);
-
-					if ( count( $reference_marketing_type_terms ) > 0 ) {
-						$args['exclude'] = $reference_marketing_type_terms;
-					}
+				} elseif ( ! empty( $include ) ) {
+					$args['include'] = $include;
 				}
 
-				$args = apply_filters( 'inx_search_form_element_tax_args', $args, $id, $element, $atts );
-
-				$terms   = get_terms( $args );
 				$options = array();
+				$args    = apply_filters( 'inx_search_form_element_tax_args', $args, $id, $element, $atts );
+				$terms   = get_terms( $args );
 
-				if ( is_array( $terms ) ) {
-					if ( ! empty( $include ) ) {
-						/**
-						 * Filter out top-level terms that are not included in
-						 * a term ID list defined using a force-* attribute.
-						 */
-						$terms = array_filter(
-							$terms,
-							function ( $term ) use ( $include ) {
-								return 0 !== $term->parent || in_array( $term->term_id, $include, true );
-							}
-						);
-					} elseif (
-						"{$plugin_prefix}property_type" === $element['key']
-						&& ! $include_references
-					) {
-						/**
-						 * Filter out terms that only belong to reference properties
-						 * if references shall not be displayed.
-						 */
-						foreach ( $terms as $i => $term ) {
-							$args = array(
-								'post_type'  => $this->config['property_post_type_name'],
-								'tax_query'  => array(
-									array(
-										'taxonomy' => "{$plugin_prefix}property_type",
-										'terms'    => $term->term_id,
-									),
-								),
-								'meta_query' => array(
-									'relation' => 'OR',
-									array(
-										'key'     => '_immonex_is_reference',
-										'compare' => 'NOT EXISTS',
-									),
-									array(
-										'key'     => '_immonex_is_reference',
-										'value'   => array( 0, 'off', '' ),
-										'compare' => 'IN',
-									),
-								),
-								'fields'     => 'ids',
-							);
-
-							if ( 0 === count( get_posts( $args ) ) ) {
-								unset( $terms[ $i ] );
-							}
-						}
-					}
-
-					$top_level_terms_count = 0;
-					if ( count( $terms ) > 0 ) {
-						foreach ( $terms as $term ) {
-							if ( 0 === $term->parent ) {
-								$top_level_terms_count++;
-							}
-						}
-					}
-
-					$terms   = $this->maybe_add_ancestor_terms( $terms, $element['key'], $include );
+				if ( is_array( $terms ) && ! empty( $terms ) ) {
+					$terms   = $this->maybe_filter_and_add_ancestor_terms( $terms, $element['key'], $include );
 					$options = $this->get_hierarchical_option_list(
 						$terms,
 						! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false
 					);
+
+					if ( ! empty( $include ) ) {
+						$top_level_options = array();
+						foreach ( $terms as $term ) {
+							if ( in_array( $term->term_id, $include, true ) && 0 === $term->parent ) {
+								$top_level_options[ $term->slug ] = $term;
+							}
+						}
+
+						if ( 1 === count( $top_level_options ) ) {
+							/**
+							 * Exclude "empty" option if only a single regular top level option exists and set
+							 * its value as default.
+							 */
+							$element['empty_option'] = false;
+							$element['default']      = $term->slug;
+						} else {
+							$element['empty_option_value'] = implode( ',', array_keys( $top_level_slugs ) );
+							if ( empty( $element['default'] ) ) {
+								$element['default'] = $element['empty_option_value'];
+							}
+						}
+					}
 				}
 
 				$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
@@ -507,7 +461,7 @@ class Property_Search {
 		if ( ! empty( $element['value'] ) ) {
 			$value = $element['value'];
 		} else {
-			$value = $this->utils['data']->get_query_var_value( $public_id );
+			$value = $this->utils['data']->get_query_var_value( $public_id, false, false, ! empty( $element['multiple'] ) );
 		}
 
 		if ( ! $value && 'tax-' === substr( $element['type'], 0, 4 ) ) {
@@ -704,19 +658,20 @@ class Property_Search {
 				'order'        => 15,
 			),
 			'property-type'            => array(
-				'enabled'      => true,
-				'hidden'       => false,
-				'extended'     => false,
-				'type'         => 'tax-select',
-				'key'          => $this->config['plugin_prefix'] . 'property_type',
-				'compare'      => '=',
-				'numeric'      => false,
-				'label'        => __( 'Property Type', 'immonex-kickstart' ),
-				'multiple'     => false,
-				'empty_option' => __( 'All Property Types', 'immonex-kickstart' ),
-				'default'      => '',
-				'class'        => '',
-				'order'        => 20,
+				'enabled'            => true,
+				'hidden'             => false,
+				'extended'           => false,
+				'type'               => 'tax-select',
+				'key'                => $this->config['plugin_prefix'] . 'property_type',
+				'compare'            => '=',
+				'numeric'            => false,
+				'label'              => __( 'Property Type', 'immonex-kickstart' ),
+				'multiple'           => false,
+				'empty_option'       => __( 'All Property Types', 'immonex-kickstart' ),
+				'empty_option_value' => '',
+				'default'            => '',
+				'class'              => '',
+				'order'              => 20,
 			),
 			'marketing-type'           => array(
 				'enabled'      => true,
@@ -1236,16 +1191,9 @@ class Property_Search {
 		) {
 			// Properties marked as reference objects are HIDDEN by default.
 			$meta_query[] = array(
-				'relation' => 'OR',
-				array(
-					'key'     => '_immonex_is_reference',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => '_immonex_is_reference',
-					'value'   => array( 0, 'off', '' ),
-					'compare' => 'IN',
-				),
+				'key'     => '_immonex_is_reference',
+				'value'   => array( 0, 'off', '' ),
+				'compare' => 'IN',
 			);
 		} elseif ( 'only' === strtolower( $params[ "{$prefix}references" ] ) ) {
 			$meta_query[] = array(
@@ -1266,11 +1214,6 @@ class Property_Search {
 		if ( 'no' === $masters ) {
 			// Exclude (group) master properties.
 			$meta_query[] = array(
-				'relation' => 'OR',
-				array(
-					'key'     => '_immonex_group_master',
-					'compare' => 'NOT EXISTS',
-				),
 				array(
 					'key'     => '_immonex_group_master',
 					'value'   => '',
@@ -1280,11 +1223,9 @@ class Property_Search {
 		} elseif ( 'only' === $masters ) {
 			// Query (visible) group master properties only.
 			$meta_query[] = array(
-				array(
-					'key'     => '_immonex_group_master',
-					'value'   => 'visible',
-					'compare' => '=',
-				),
+				'key'     => '_immonex_group_master',
+				'value'   => 'visible',
+				'compare' => '=',
 			);
 		}
 
@@ -1305,16 +1246,9 @@ class Property_Search {
 						break;
 					case 'no':
 						$meta_query[] = array(
-							'relation' => 'OR',
-							array(
-								'key'     => "_immonex_is_{$flag}",
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key'     => "_immonex_is_{$flag}",
-								'value'   => array( 0, 'off', '' ),
-								'compare' => 'IN',
-							),
+							'key'     => "_immonex_is_{$flag}",
+							'value'   => array( 0, 'off', '' ),
+							'compare' => 'IN',
 						);
 						break;
 				}
@@ -1384,7 +1318,7 @@ class Property_Search {
 	 *
 	 * @return \WP_Term[] Possibly extended term array.
 	 */
-	private function maybe_add_ancestor_terms( $terms, $taxonomy = false, $force_main_ids = array() ) {
+	private function maybe_filter_and_add_ancestor_terms( $terms, $taxonomy = false, $force_main_ids = array() ) {
 		if ( 0 === count( $terms ) ) {
 			return $terms;
 		}
@@ -1402,6 +1336,12 @@ class Property_Search {
 
 		foreach ( $terms as $i => $term ) {
 			if ( 0 === $term->parent ) {
+				if (
+					! empty( $force_main_ids )
+					&& ! in_array( $term->term_id, $force_main_ids, true )
+				) {
+					unset( $terms[ $i ] );
+				}
 				continue;
 			}
 
@@ -1437,7 +1377,7 @@ class Property_Search {
 		}
 
 		return $terms;
-	} // maybe_add_ancestor_terms
+	} // maybe_filter_and_add_ancestor_terms
 
 	/**
 	 * Recursively create and return an hierarchical option list.

@@ -61,6 +61,7 @@ class Property_Map {
 			$template = self::DEFAULT_TEMPLATE;
 		}
 
+		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 		$marker_set_id = ! empty( $atts['cid'] ) ? $atts['cid'] : 'inx-property-map';
 		$markers       = $this->get_markers( $atts );
 
@@ -117,6 +118,7 @@ class Property_Map {
 
 		$markers      = array();
 		$property_ids = apply_filters( 'inx_get_properties', array(), $atts );
+		$property     = new Property( false, $this->config, $this->utils );
 
 		if ( ! empty( $property_ids ) ) {
 			foreach ( $property_ids as $post_id ) {
@@ -126,9 +128,12 @@ class Property_Map {
 					continue;
 				}
 
+				$property->set_post( $post_id );
+
 				$property_type_terms = wp_get_post_terms( $post_id, 'inx_property_type', array( 'fields' => 'names' ) );
 				$property_type       = is_array( $property_type_terms ) && ! empty( $property_type_terms ) ?
 					array_pop( $property_type_terms ) : '';
+				$property_url        = $property->extend_url( get_post_permalink( $post_id ), false, $atts );
 
 				$markers[ $post_id ] = array(
 					'title'         => get_the_title( $post_id ),
@@ -136,7 +141,7 @@ class Property_Map {
 					'lat'           => $lat,
 					'lng'           => $lng,
 					'thumbnail_url' => get_the_post_thumbnail_url( $post_id ),
-					'url'           => get_post_permalink( $post_id ),
+					'url'           => $property_url,
 				);
 			}
 		}

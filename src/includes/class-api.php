@@ -8,7 +8,7 @@
 namespace immonex\Kickstart;
 
 /**
- * Public methods for third-party developments.
+ * Public methods (also for third-party developments).
  */
 class API {
 
@@ -363,5 +363,49 @@ class API {
 	public function merge_queries( $org_query, $add_query, $relation = 'AND' ) {
 		return $this->utils['query']->merge_queries( $org_query, $add_query, $relation );
 	} // merge_queries
+
+	/**
+	 * Perform a low-level property post query and return all resulting IDs.
+	 *
+	 * @since 1.6.18-beta
+	 *
+	 * @param bool|string $references       Include reference properties: false = no (default),
+	 *                                      true = yes, 'only' = guess! (optional).
+	 * @param mixed[]     $post_status      Post status (optional).
+	 * @param bool        $suppress_filters Suppress filters flag (optional, true by default).
+	 *
+	 * @return int[] Post IDs.
+	 */
+	public function get_property_ids( $references = false, $post_status = 'publish', $suppress_filters = true ) {
+		$args = array(
+			'post_type'                     => $this->config['property_post_type_name'],
+			'post_status'                   => $post_status,
+			'posts_per_page'                => -1,
+			'fields'                        => 'ids',
+			'no_found_rows'                 => true,
+			'suppress_filters'              => $suppress_filters,
+			'suppress_pre_get_posts_filter' => $suppress_filters,
+		);
+
+		if ( ! $references || 'no' === $references ) {
+			$args['meta_query'] = array(
+				array(
+					'key'     => '_immonex_is_reference',
+					'value'   => array( 0, 'off', '' ),
+					'compare' => 'IN',
+				),
+			);
+		} elseif ( 'only' === $references ) {
+			$args['meta_query'] = array(
+				array(
+					'key'     => '_immonex_is_reference',
+					'value'   => array( 1, 'on' ),
+					'compare' => 'IN',
+				),
+			);
+		}
+
+		return get_posts( $args );
+	} // get_property_ids
 
 } // API
