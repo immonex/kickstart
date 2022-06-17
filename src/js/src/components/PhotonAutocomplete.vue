@@ -30,6 +30,7 @@
 			:loading="loading"
 			@search-change="asyncSearchOptions"
 			@select="localitySelected"
+			@remove="localityRemoved"
 			v-if="consentGranted"
 		>
 			<span slot="noOptions">{{ noOptions }}</span>
@@ -220,8 +221,6 @@ export default {
 								localityName = localityName.concat(', ' + state)
 							}
 
-							if (suggestions.find(element => element.name === localityName)) return
-
 							if (
 								that.filterCountries.length > 0 &&
 								locality.properties.country !== that.filterCountries[0]
@@ -229,6 +228,8 @@ export default {
 								localityName = localityName.concat(', ', locality.properties.country)
 								countryOrder = 20
 							}
+
+							if (suggestions.find(element => element.name === localityName)) return
 
 							suggestions.push({
 								ID: locality.properties.osm_id,
@@ -269,10 +270,16 @@ export default {
 		},
 		localitySelected (locality) {
 			this.transferValue = JSON.stringify([locality.lat, locality.lng, locality.name])
-
-			let el = this.$refs.transfer
+			this.fireDOMChangeEvent()
+		},
+		localityRemoved (locality) {
+			this.transferValue = ''
+			this.fireDOMChangeEvent()
+		},
+		fireDOMChangeEvent () {
+			const el = this.$refs.transfer
 			if ('createEvent' in document) {
-				let evt = document.createEvent('HTMLEvents')
+				const evt = document.createEvent('HTMLEvents')
 				evt.initEvent('change', false, true)
 				el.dispatchEvent(evt)
 			} else {

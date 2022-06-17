@@ -12,7 +12,7 @@
 			</div>
 		</div>
 
-		<input type="hidden" :id="this.name" :name="this.name" :value="this.transferValue">
+		<input ref="transfer" type="hidden" :id="this.name" :name="this.name" :value="this.transferValue">
 		<input
 			type="text"
 			:placeholder="placeholder"
@@ -154,12 +154,14 @@ export default {
 					if (lat && lng) this.transferValue = JSON.stringify([lat, lng, name])
 				}
 			}
+			this.fireDOMChangeEvent()
 		},
 		checkIfEmpty: function(event) {
 			if (event.target.value === '') {
 				this.currentPlace = {}
 				this.currentPlaceName = ''
 				this.transferValue = ''
+				this.fireDOMChangeEvent()
 			}
 		},
 		checkEnter: function(event) {
@@ -172,6 +174,16 @@ export default {
 			// Prevent form submission per enter key when autocomplete dropdown
 			// is visible.
 			if (event.key === 'Enter' && isVisible) event.preventDefault()
+		},
+		fireDOMChangeEvent () {
+			const el = this.$refs.transfer
+			if ('createEvent' in document) {
+				const evt = document.createEvent('HTMLEvents')
+				evt.initEvent('change', false, true)
+				el.dispatchEvent(evt)
+			} else {
+				el.fireEvent('onchange')
+			}
 		}
 	},
 	created () {

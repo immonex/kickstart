@@ -120,6 +120,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Improved recognition of taxonomy term lists in shortcode attributes.
 * Optimized search/filter query generation.
 * Optimized overview location map generation.
+* Reworked distance search location autocomplete elements.
 * Fixed backend property list sorting by reference state.
 * Updated external dependencies.
 

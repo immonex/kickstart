@@ -80,6 +80,20 @@ function resetSearchForm(event = null) {
 } // resetSearchForm
 
 function updateSearchState(event = null) {
+	if (event && typeof event === 'object') {
+		const formEl = $(event.target).closest('form')
+
+		if (event.target.getAttribute('name') === 'inx-search-distance-search-location') {
+			const radius = formEl.find('select[name=inx-search-distance-search-radius]').val()
+			if (!radius) return
+		}
+
+		if (event.target.getAttribute('name') === 'inx-search-distance-search-radius') {
+			const location = formEl.find('input[name=inx-search-distance-search-location]').val()
+			if (!location) return
+		}
+	}
+
 	const searchFormIDs = event && typeof event === 'object' ?
 		[$(event.target).closest('form').attr('id')] :
 		searchFormElementIDs
@@ -145,6 +159,7 @@ function updateSearchState(event = null) {
 			const specialParams = {}
 			searchForm.find("select, input").not("[type='hidden']").each((index, field) => {
 				if (
+					$(field).attr('name') &&
 					$(field).attr('name').substring(0, 4) === 'inx-' &&
 					$(field).attr('name').substring(0, 11) !== 'inx-search-' &&
 					$(field).val()
@@ -318,7 +333,7 @@ function initSearchFormInstances() {
 			inx_state.search.forms[index].formElID = formEl.id
 
 			$(searchFormElID + ' input, ' + searchFormElID + ' select')
-				.not("[name='inx-search-distance-search-location']")
+				//.not("[name='inx-search-distance-search-location']")
 				.on('change', debounce(updateSearchState, 500))
 			$(searchFormElID + ' .inx-form-reset').on('click', resetSearchForm)
 
