@@ -51,9 +51,9 @@ function resetSearchForm(event = null) {
 		element.value = $(element).data('default')
 	})
 
-	$(searchFormID + ' .multiselect__single').each(function(index, element) {
-		$(element).remove()
-	})
+	const evt = document.createEvent('HTMLEvents')
+	evt.initEvent('reset', false, true)
+	$(searchFormID + ' input[name=inx-search-distance-search-location')[0].dispatchEvent(evt)
 
 	$(
 		searchFormID + ' input[type="search"]' +
@@ -179,9 +179,26 @@ function updateSearchState(event = null) {
 } // updateSearchState
 
 function updateFiltersSortRequestParams(event, requestParams) {
+	function maybeSwitchSortOption(jqEl, isDistanceSearch) {
+		if (isDistanceSearch || jqEl.length === 0) return
+
+		const el = jqEl[0]
+		if (el.value === 'distance') {
+			for (const option of el.options) {
+				if (option.value !== 'distance') {
+					el.value = option.value
+					return
+				}
+			}
+		}
+	}
+
 	let elementID = false
 	const updateIDs = $(event.target).data('dynamic-update') || false
 	if (!updateIDs) return
+
+	const urlParams = new URLSearchParams(requestParams.url)
+	const isDistanceSearch = urlParams.has('inx-search-distance-search-location') && urlParams.has('inx-search-distance-search-radius')
 
 	if (['1', 'all'].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1) {
 		// Update all property filter/sort component instances.
@@ -189,6 +206,11 @@ function updateFiltersSortRequestParams(event, requestParams) {
 			elementID = $(filterSortElement).attr('id')
 			if (elementID) {
 				inx_state.renderedInstances[elementID].requestParamsString = requestParams.paramsString || ''
+				if (typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
+					$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
+				} else {
+					maybeSwitchSortOption($(filterSortElement).find("select[name='inx-sort']"), isDistanceSearch)
+				}
 			}
 		})
 	} else {
@@ -198,12 +220,13 @@ function updateFiltersSortRequestParams(event, requestParams) {
 			if ($('#' + elementID).length && $('#' + elementID).hasClass('inx-property-filters')) {
 				// Update all property filter/sort component instance with the given ID.
 				inx_state.renderedInstances[elementID].requestParamsString = requestParams.paramsString || ''
+				if (typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
+					$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
+				} else {
+					maybeSwitchSortOption($('#' + elementID).find("select[name='inx-sort']"), isDistanceSearch)
+				}
 			}
 		}
-	}
-
-	if (elementID && typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
-		$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
 	}
 } // updateFiltersSortRequestParams
 

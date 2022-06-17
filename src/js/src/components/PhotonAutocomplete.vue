@@ -12,7 +12,7 @@
 			</div>
 		</div>
 
-		<input ref="transfer" type="hidden" :name="this.name" :value="this.transferValue">
+		<input ref="transfer" type="hidden" :name="name" :value="transferValue">
 		<multiselect
 			ref="mselect"
 			v-model="currentPlace"
@@ -285,6 +285,10 @@ export default {
 			} else {
 				el.fireEvent('onchange')
 			}
+		},
+		reset (event) {
+			this.currentPlace = ''
+			this.transferValue = ''
 		}
 	},
 	created () {
@@ -320,6 +324,8 @@ export default {
 		) {
 			this.grantConsent(null)
 		}
+
+		this.$refs.transfer.addEventListener('reset', this.reset)
 	},
 	components: {
 		Multiselect
