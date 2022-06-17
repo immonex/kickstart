@@ -56,7 +56,7 @@ class REST_API {
 		foreach ( $content_fetch_entities as $entity ) {
 			register_rest_route(
 				$this->config['plugin_slug'] . '/v1',
-				"/{$entity}",
+				"/{$entity}(?:/(?P<id>[\d,]+))?",
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, "get_{$entity}" ),
@@ -93,8 +93,8 @@ class REST_API {
 			return $this->get_property_list_html( $request );
 		}
 
-		if ( 'json_map_markers' === $response_format ) {
-			return $this->get_property_map_markers( $request );
+		if ( in_array( $response_format, array( 'json_map_markers', 'json_map_marker_coords' ), true ) ) {
+			return $this->get_property_map_markers( $request, $response_format );
 		}
 
 		$prefix          = $this->config['public_prefix'];
@@ -202,11 +202,19 @@ class REST_API {
 	 * @since 1.6.0
 	 *
 	 * @param \WP_REST_Request $request Request object.
+	 * @param string           $response_format Response format ('json_map_markers'
+	 *                                          or 'json_map_marker_coords').
 	 *
 	 * @return mixed[] Map marker data.
 	 */
-	private function get_property_map_markers( $request ) {
+	private function get_property_map_markers( $request, $response_format = 'json_map_markers' ) {
 		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+
+		$id = $request->get_param( 'id' );
+		if ( $id ) {
+			$component_instance_data['id']   = $id;
+			$component_instance_data['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
+		}
 
 		return apply_filters( 'inx_get_property_map_markers', array(), $component_instance_data );
 	} // get_property_map_markers
@@ -221,7 +229,7 @@ class REST_API {
 	 * @return string Response format key.
 	 */
 	private function get_property_query_response_format( $request ) {
-		$formats         = array( 'json', 'json_map_markers', 'html', 'count' );
+		$formats         = array( 'json', 'json_map_markers', 'json_map_marker_coords', 'html', 'count' );
 		$response_format = $request->get_param( 'inx-r-response' );
 
 		if ( $response_format && in_array( $response_format, $formats, true ) ) {

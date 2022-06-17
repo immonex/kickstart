@@ -119,7 +119,7 @@ class Property_List {
 	} // get_rendered_pagination
 
 	/**
-	 * Retrieve and return property posts.
+	 * Retrieve and return published property posts.
 	 *
 	 * @since 1.0.0
 	 *

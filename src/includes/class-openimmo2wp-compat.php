@@ -49,8 +49,6 @@ class OpenImmo2WP_Compat {
 			'post_status'                   => 'any',
 			'posts_per_page'                => -1,
 			'fields'                        => 'ids',
-			'no_found_rows'                 => true,
-			'suppress_filters'              => true,
 			'suppress_pre_get_posts_filter' => true,
 		);
 

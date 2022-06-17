@@ -123,6 +123,8 @@ function updateSearchState(event = null) {
 		}
 		url += '&inx-backlink-url=' + encodeURIComponent(backlinkURL)
 
+		inx_state.search.backlink_url = backlinkURL
+
 		if (requestParamsString !== currentSearchRequestParamsStrings[formIndex]) {
 			currentSearchRequestParamsStrings[formIndex] = requestParamsString
 

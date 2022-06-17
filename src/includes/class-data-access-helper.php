@@ -318,4 +318,61 @@ class Data_Access_Helper {
 		return $value;
 	} // sanitize_query_var_value
 
+	/**
+	 * Perform a low-level taxonomy query and return a list of all terms grouped
+	 * by property IDs.
+	 *
+	 * @since 1.6.20-beta
+	 *
+	 * @param string $taxonomy Taxonomy to query.
+	 * @param string $return_type Return type (term 'id', 'name', 'slug' or
+	 *                            'full' for sub-arrays containing all data).
+	 *
+	 * @return mixed[] Terms grouped by property ID.
+	 */
+	public function get_all_terms_grouped_by_property( $taxonomy, $return_type = 'name' ) {
+		global $wpdb;
+
+		// @codingStandardsIgnoreLine
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT p.ID AS post_id, t.term_id AS id, t.name, t.slug FROM $wpdb->posts p
+				INNER JOIN $wpdb->term_relationships j1 ON p.ID = j1.object_id
+				INNER JOIN $wpdb->term_taxonomy j2 ON j1.term_taxonomy_id = j2.term_taxonomy_id
+				INNER JOIN $wpdb->terms t ON j2.term_id = t.term_id
+				WHERE p.post_type = %s
+				AND p.post_status = %s
+				AND j2.taxonomy = %s",
+				$this->bootstrap_data['property_post_type_name'],
+				'publish',
+				$taxonomy
+			),
+			ARRAY_A
+		);
+
+		$property_terms = array();
+
+		if ( ! empty( $result ) ) {
+			foreach ( $result as $property_term ) {
+				if ( ! isset( $property_terms[ $property_term['post_id'] ] ) ) {
+					switch ( $return_type ) {
+						case 'name':
+						case 'slug':
+						case 'id':
+							$property_terms[ $property_term['post_id'] ][] = $property_term[ $return_type ];
+							break;
+						default:
+							$property_terms[ $property_term['post_id'] ][] = array(
+								'id'   => $property_term['id'],
+								'name' => $property_term['name'],
+								'slug' => $property_term['slug'],
+							);
+					}
+				}
+			}
+		}
+
+		return $property_terms;
+	} // get_all_terms_grouped_by_property
+
 } // Data_Access_Helper

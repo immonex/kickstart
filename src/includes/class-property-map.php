@@ -115,13 +115,20 @@ class Property_Map {
 			$atts,
 			array( 'fields' => 'ids' )
 		);
+		if ( empty( $atts['type'] ) ) {
+			$atts['type'] = 'coords';
+		}
 
 		$markers      = array();
-		$property_ids = apply_filters( 'inx_get_properties', array(), $atts );
-		$property     = new Property( false, $this->config, $this->utils );
+		$property_ids = ! empty( $atts['id'] ) ?
+			array_filter( explode( ',', $atts['id'] ) ) :
+			apply_filters( 'inx_get_properties', array(), $atts );
 
 		if ( ! empty( $property_ids ) ) {
-			foreach ( $property_ids as $post_id ) {
+			$property                = new Property( false, $this->config, $this->utils );
+			$all_property_type_terms = $this->utils['data']->get_all_terms_grouped_by_property( 'inx_property_type' );
+
+			foreach ( $property_ids as $i => $post_id ) {
 				$lat = get_post_meta( $post_id, '_inx_lat', true );
 				$lng = get_post_meta( $post_id, '_inx_lng', true );
 				if ( ! $lat || ! $lng ) {
@@ -130,19 +137,22 @@ class Property_Map {
 
 				$property->set_post( $post_id );
 
-				$property_type_terms = wp_get_post_terms( $post_id, 'inx_property_type', array( 'fields' => 'names' ) );
-				$property_type       = is_array( $property_type_terms ) && ! empty( $property_type_terms ) ?
-					array_pop( $property_type_terms ) : '';
-				$property_url        = $property->extend_url( get_post_permalink( $post_id ), false, $atts );
+				$property_type = ! empty( $all_property_type_terms[ $post_id ] ) ?
+					array_shift( $all_property_type_terms[ $post_id ] ) : '';
+				$property_url  = $property->extend_url( get_post_permalink( $post_id ), false, $atts );
 
-				$markers[ $post_id ] = array(
-					'title'         => get_the_title( $post_id ),
-					'type'          => $property_type,
-					'lat'           => $lat,
-					'lng'           => $lng,
-					'thumbnail_url' => get_the_post_thumbnail_url( $post_id ),
-					'url'           => $property_url,
-				);
+				if ( ! empty( $atts['type'] ) && 'coords' === $atts['type'] ) {
+					$markers[ $post_id ] = array( $lat, $lng );
+				} else {
+					$markers[ $post_id ] = array(
+						'title'         => get_the_title( $post_id ),
+						'type'          => $property_type,
+						'lat'           => $lat,
+						'lng'           => $lng,
+						'thumbnail_url' => get_the_post_thumbnail_url( $post_id ),
+						'url'           => $property_url,
+					);
+				}
 			}
 		}
 

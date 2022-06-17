@@ -31,6 +31,8 @@ import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import {Cluster, OSM, Vector} from 'ol/source'
 import {easeIn, easeOut} from 'ol/easing'
+import axios from 'axios'
+import {addBacklinkURL} from '../shared_components'
 
 export default {
 	name: 'inx-property-open-layers-map',
@@ -90,7 +92,8 @@ export default {
 			map: null,
 			currentZoom: 0,
 			markers: null,
-			vectorSource: null
+			vectorSource: null,
+			markerPropertyData: {}
 		}
 	},
 	computed: {
@@ -107,9 +110,10 @@ export default {
 			const markers = []
 
 			for (let postId in this.inxMaps[this.markerSetId]) {
-				const property = this.inxMaps[this.markerSetId][postId]
-				const lat = parseFloat(property.lat)
-				const lng = parseFloat(property.lng)
+				const markerData = this.inxMaps[this.markerSetId][postId]
+
+				const lat = parseFloat(Array.isArray(markerData) ? markerData[0] : markerData.lat)
+				const lng = parseFloat(Array.isArray(markerData) ? markerData[1] : markerData.lng)
 
 				if (!lat || ! lng) continue
 				markers.push(this.propertyMarker([lng, lat], postId))
@@ -151,7 +155,24 @@ export default {
 		sanitizeUrl (url) {
     		return url.replace('[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]', '')
 		},
-		showPopup (event, postIds, coords) {
+		async fetchMarkerPropertyData (propertyPostIds) {
+			if (this.markerPropertyData[propertyPostIds]) {
+				return this.markerPropertyData[propertyPostIds]
+			}
+
+			let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/' + propertyPostIds + '/'
+				+ '?inx-r-response=json_map_markers&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+
+			try {
+				const response = await axios.get(url)
+
+				this.markerPropertyData[propertyPostIds] = response.data
+				return this.markerPropertyData[propertyPostIds]
+			} catch (e) {
+				return false
+			}
+		},
+		async showPopup (event, postIds, coords) {
 			const contentEl = this.$refs.popupContent;
 			const viewExtent = this.map.getView().calculateExtent()
 			const viewWidth = viewExtent[2] - viewExtent[0]
@@ -178,8 +199,14 @@ export default {
 			let content = ''
 			let wrapStyle = ''
 
+			const propertyData = await this.fetchMarkerPropertyData(postIds.join(','))
+			if (!propertyData) return
+
 			for (let i = 0; i < postIds.length; i++) {
-				property = this.inxMaps[this.markerSetId][postIds[i]]
+				const property = propertyData[postIds[i]]
+				if (!property) continue
+
+				property.url = addBacklinkURL(property.url)
 
 				wrapStyle = 'padding:16px; font-size:85%; line-height:120%; text-align:center'
 				if (postIds.length > 1 && i < postIds.length - 1) {
@@ -241,11 +268,12 @@ export default {
 			return marker
 		},
 		updateMarkers(newMarkers) {
+			this.hidePopup()
 			this.markers.clear()
 			this.markers.extend(newMarkers)
 		},
 		fitMapView (map) {
-			if (!map || !this.autoFit) return
+			if (!map || !this.autoFit || this.markers.getLength() === 0) return
 
 			this.$nextTick(() => {
 				map.updateSize()

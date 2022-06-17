@@ -100,7 +100,8 @@ class API {
 						WHERE post.post_type = %s
 						AND post.post_status = 'publish'
 						AND meta.meta_key = %s
-						AND meta2.meta_key IN ('_immonex_is_available', '_immonex_is_reserved') AND meta2.meta_value = '1'
+						AND meta2.meta_key IN ('_immonex_is_available', '_immonex_is_reserved')
+						AND meta2.meta_value = '1'
 						AND (meta3.meta_value = %s OR meta3.meta_value IS NULL)",
 					"{$field_prefix}is_sale",
 					$this->config['property_post_type_name'],
@@ -231,7 +232,8 @@ class API {
 					WHERE post.post_type = %s
 					AND post.post_status = 'publish'
 					AND meta.meta_key = %s
-					AND meta2.meta_key = %s AND meta2.meta_value = '1'",
+					AND meta2.meta_key = %s
+					AND meta2.meta_value = '1'",
 				$this->config['property_post_type_name'],
 				$field_name,
 				'_immonex_is_available'
@@ -382,7 +384,6 @@ class API {
 			'post_status'                   => $post_status,
 			'posts_per_page'                => -1,
 			'fields'                        => 'ids',
-			'no_found_rows'                 => true,
 			'suppress_filters'              => $suppress_filters,
 			'suppress_pre_get_posts_filter' => $suppress_filters,
 		);

@@ -134,7 +134,7 @@ class Property_Search {
 		}
 
 		$elements         = array();
-		$enabled_elements = $this->get_search_form_elements( true, false, false );
+		$enabled_elements = $this->get_search_form_elements( true, false, false, $atts );
 
 		if ( count( $enabled_elements ) > 0 ) {
 			foreach ( $enabled_elements as $id => $element ) {
@@ -621,13 +621,14 @@ class Property_Search {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param bool $enabled_only Return only enabled elements? (false by default).
-	 * @param bool $always_include_default_elements Ignore possibly deleted elements? (false by default).
-	 * @param bool $suppress_filters Suppress any filters? (false by default).
+	 * @param bool    $enabled_only Return only enabled elements? (false by default).
+	 * @param bool    $always_include_default_elements Ignore possibly deleted elements? (false by default).
+	 * @param bool    $suppress_filters Suppress any filters? (false by default).
+	 * @param mixed[] $rendering_atts Rendering attributes (optional).
 	 *
 	 * @return mixed[] Search form elements.
 	 */
-	public function get_search_form_elements( $enabled_only = false, $always_include_default_elements = false, $suppress_filters = false ) {
+	public function get_search_form_elements( $enabled_only = false, $always_include_default_elements = false, $suppress_filters = false, $rendering_atts = array() ) {
 		$all_elements = array(
 			'description'              => array(
 				'enabled'     => true,
@@ -683,7 +684,9 @@ class Property_Search {
 				'numeric'      => false,
 				'label'        => __( 'Marketing Type', 'immonex-kickstart' ),
 				'multiple'     => false,
-				'empty_option' => __( 'For Sale or For Rent', 'immonex-kickstart' ),
+				'empty_option' => isset( $rendering_atts['inx-references'] ) && 'only' === $rendering_atts['inx-references'] ?
+					__( 'Sold / Rented', 'immonex-kickstart' ) :
+					__( 'For Sale / For Rent', 'immonex-kickstart' ),
 				'default'      => '',
 				'class'        => '',
 				'order'        => 30,
