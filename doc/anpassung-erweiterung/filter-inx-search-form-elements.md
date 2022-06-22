@@ -50,6 +50,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 		'numeric' => false,
 		'label' => __( 'Property Type', 'immonex-kickstart' ),
 		'multiple' => false,
+		'top_level_only' => false,
 		'empty_option' => __( 'All Property Types', 'immonex-kickstart' ),
 		'default' => '',
 		'class' => '',
@@ -282,6 +283,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | `compare` (string) | WP Query Compare Operator |
 | `numeric` (bool) | Abfrage eines numerischen Werts (*true* / *false*) |
 | `multiple` (bool) | Mehrfachauswahl bei Elementen des Typs `select` oder `tax-select` (*true* / *false*) |
+| `top_level_only` (bool) | Auswahloptionen hierarchischer Taxonomien auf die Hauptebene beschränken, d. h. alle Unteroptionen ausblenden (*true* / *false*) |
 | `range` (string) | Minimal- und Maximalwert beim gleichnamigen Elementtyp im Format *MIN,MAX* (z. B. 0,10) **oder** alternativ... |
 | | *primary_price_min_max*: automatische Preisrahmen-Ermittlung (Kauf- und Mietpreise) |
 | | *primary_area_min_max*: automatische Ermittlung des Primärflächen-Rahmens |

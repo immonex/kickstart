@@ -294,6 +294,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			'results-page-id'        => false,
 			'elements'               => '',
 			'exclude'                => '',
+			'top-level-only'         => false,
 			'autocomplete-countries' => '',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {

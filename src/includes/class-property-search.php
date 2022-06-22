@@ -422,10 +422,15 @@ class Property_Search {
 				$terms   = get_terms( $args );
 
 				if ( is_array( $terms ) && ! empty( $terms ) ) {
+					$top_level_only = ! empty( $atts['top-level-only'] ) || ! empty( $element['top_level_only'] );
+
 					$terms   = $this->maybe_filter_and_add_ancestor_terms( $terms, $element['key'], $include );
 					$options = $this->get_hierarchical_option_list(
 						$terms,
-						! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false
+						! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false,
+						0,
+						0,
+						$top_level_only
 					);
 
 					if ( ! empty( $include ) ) {
@@ -668,6 +673,7 @@ class Property_Search {
 				'numeric'            => false,
 				'label'              => __( 'Property Type', 'immonex-kickstart' ),
 				'multiple'           => false,
+				'top_level_only'     => false,
 				'empty_option'       => __( 'All Property Types', 'immonex-kickstart' ),
 				'empty_option_value' => '',
 				'default'            => '',
@@ -1392,10 +1398,12 @@ class Property_Search {
 	 *                                        the term name (default).
 	 * @param int         $parent             Parent term ID (optional, defaults to 0).
 	 * @param int         $level              Start level (optional, defaults to 0).
+	 * @param bool        $top_level_only     Optional flag for returning only top-level options
+	 *                                        (false by default).
 	 *
 	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
 	 */
-	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent = 0, $level = 0 ) {
+	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent = 0, $level = 0, $top_level_only = false ) {
 		$level_options = array();
 
 		if ( count( $terms ) > 0 ) {
@@ -1410,15 +1418,17 @@ class Property_Search {
 						$level
 					) . " {$option_text}";
 
-					$level_options = array_merge(
-						$level_options,
-						$this->get_hierarchical_option_list(
-							$terms,
-							$option_text_source,
-							$term->term_id,
-							$level + 1
-						)
-					);
+					if ( ! $top_level_only ) {
+						$level_options = array_merge(
+							$level_options,
+							$this->get_hierarchical_option_list(
+								$terms,
+								$option_text_source,
+								$term->term_id,
+								$level + 1
+							)
+						);
+					}
 				}
 			}
 		}

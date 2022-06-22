@@ -32,6 +32,7 @@ if ( $inx_skin_rendering_atts['render_count'] > 1 ) {
 	$inx_skin_form_element_id .= '-' . $template_data['render_count'];
 }
 $inx_skin_rendering_atts['search_form_element_id'] = $inx_skin_form_element_id;
+$inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['top-level-only'] );
 ?>
 <div
 	id="<?php echo $inx_skin_main_element_id; ?>"
