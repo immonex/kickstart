@@ -1119,7 +1119,7 @@ class Property {
 		) {
 			// Link to property post type archive page if default URL belongs to
 			// the front page or equals the current permalink URL.
-			$backlink_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
+			$backlink_url = false;
 
 			if ( $this->config['property_list_page_id'] ) {
 				// Specific page stated as overview page: overwrite archive URL.
@@ -1128,6 +1128,10 @@ class Property {
 				if ( $page_url ) {
 					$backlink_url = $page_url;
 				}
+			}
+
+			if ( ! $backlink_url ) {
+				$backlink_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
 			}
 
 			// Exclude limit query variables from backlink in this case.

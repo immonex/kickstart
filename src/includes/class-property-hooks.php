@@ -711,7 +711,8 @@ class Property_Hooks {
 
 	/**
 	 * "Rewrite" the current request to use the selected property detail page
-	 * as frame template.
+	 * as frame template or redirect to the default list view if the detail page
+	 * has been called up directly.
 	 *
 	 * @since 1.5.10-beta
 	 *
@@ -720,13 +721,20 @@ class Property_Hooks {
 	 * @return mixed[] Original or modified WP Request arguments.
 	 */
 	public function internal_page_rewrite( $request ) {
+		$details_page_id = $this->config['property_details_page_id'];
+		if ( empty( $details_page_id ) ) {
+			return $request;
+		}
+
+		$forward_to_list_view = false;
+
 		if (
 			isset( $request['post_type'] )
 			&& $this->config['property_post_type_name'] === $request['post_type']
 			&& ! empty( $request[ $this->config['property_post_type_name'] ] )
 			&& ! empty( $request['name'] )
 		) {
-			$details_page = get_page( $this->config['property_details_page_id'] );
+			$details_page = $details_page_id ? get_page( $details_page_id ) : false;
 			if ( empty( $details_page ) ) {
 				return $request;
 			}
@@ -756,6 +764,39 @@ class Property_Hooks {
 			unset( $request['post_type'] );
 			unset( $request['inx_property'] );
 			unset( $request['name'] );
+		} elseif (
+			! empty( $request['page_id'] )
+			&& $request['page_id'] === $details_page_id
+		) {
+			$forward_to_list_view = true;
+		} elseif ( ! empty( $request['pagename'] ) ) {
+			$details_page = get_page_by_path( $request['pagename'] );
+			if ( $details_page->ID === (int) $details_page_id ) {
+				$forward_to_list_view = true;
+			}
+		}
+
+		if ( $forward_to_list_view ) {
+			/**
+			 * Redirect selected detail page to the default list view if called up
+			 * directly (without property ID).
+			 */
+			if ( $this->config['property_list_page_id'] ) {
+				// Specific page stated as overview page.
+				$page_id           = apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'] );
+				$property_list_url = get_permalink( $page_id );
+			}
+
+			if ( empty( $property_list_url ) ) {
+				$property_list_url = get_post_type_archive_link( $this->config['property_post_type_name'] );
+			}
+
+			$property_list_url = apply_filters( 'inx_forward_to_list_view_url', $property_list_url );
+
+			if ( $property_list_url ) {
+				wp_safe_redirect( $property_list_url, 301 );
+				exit;
+			}
 		}
 
 		return $request;

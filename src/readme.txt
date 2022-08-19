@@ -109,8 +109,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.21-beta =
-* Release date: 2022-06-21
+= 1.6.22-beta =
+* Release date: 2022-07-02
 * Added filter hook for property template data retrieval.
 * Added filter hook for merging meta/taxonomy queries.
 * Added select option for disabling the default property archive/single templates.
@@ -118,6 +118,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added shortcode attribute for template file selection.
 * Added an alternative property list template (slider).
 * Added search form shortcode attribute for limiting taxonomy based select options to top-level elements.
+* Added automatic redirect to default list view when calling up the selected property detail page directly.
 * Improved recognition of taxonomy term lists in shortcode attributes.
 * Optimized search/filter query generation.
 * Optimized overview location map generation.
