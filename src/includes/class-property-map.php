@@ -32,6 +32,13 @@ class Property_Map {
 	private $utils;
 
 	/**
+	 * API object
+	 *
+	 * @var \immonex\Kickstart\API
+	 */
+	private $api;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.2.0
@@ -42,6 +49,7 @@ class Property_Map {
 	public function __construct( $config, $utils ) {
 		$this->config = $config;
 		$this->utils  = $utils;
+		$this->api    = new API( $config, $utils );
 	} // __construct
 
 	/**
@@ -63,7 +71,9 @@ class Property_Map {
 
 		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 		$marker_set_id = ! empty( $atts['cid'] ) ? $atts['cid'] : 'inx-property-map';
-		$markers       = $this->get_markers( $atts );
+
+		// Initial marker data are NOT directly delivered within the page anymore (get_markers).
+		$markers = array();
 
 		wp_localize_script(
 			"{$prefix}frontend",
@@ -127,13 +137,14 @@ class Property_Map {
 		if ( ! empty( $property_ids ) ) {
 			$property                = new Property( false, $this->config, $this->utils );
 			$all_property_type_terms = $this->utils['data']->get_all_terms_grouped_by_property( 'inx_property_type' );
+			$property_coords         = $this->api->get_all_property_coords();
 
 			foreach ( $property_ids as $i => $post_id ) {
-				$lat = get_post_meta( $post_id, '_inx_lat', true );
-				$lng = get_post_meta( $post_id, '_inx_lng', true );
-				if ( ! $lat || ! $lng ) {
+				if ( ! isset( $property_coords[ $post_id ] ) ) {
 					continue;
 				}
+				$lat = $property_coords[ $post_id ]['lat'];
+				$lng = $property_coords[ $post_id ]['lng'];
 
 				$property->set_post( $post_id );
 

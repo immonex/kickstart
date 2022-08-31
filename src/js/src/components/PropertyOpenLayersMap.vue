@@ -91,7 +91,6 @@ export default {
 			popupVisible: false,
 			map: null,
 			currentZoom: 0,
-			markers: null,
 			vectorSource: null,
 			markerPropertyData: {}
 		}
@@ -146,7 +145,7 @@ export default {
 			})
 		},
 		isCluster (feature) {
-			if (feature && feature.get('features') !== 'undefined') {
+			if (feature && typeof feature.get('features') !== 'undefined') {
 				return true
 			}
 
@@ -174,13 +173,14 @@ export default {
 		},
 		async showPopup (event, postIds, coords) {
 			const contentEl = this.$refs.popupContent;
+			const resolution = this.map.getView().getResolution()
 			const viewExtent = this.map.getView().calculateExtent()
 			const viewWidth = viewExtent[2] - viewExtent[0]
 			const viewHeight = viewExtent[3] - viewExtent[1]
 
 			let center = [coords[0], coords[1]]
-			center[0] = center[0] + ((viewWidth * 0.5) / 2)
-			center[1] = center[1] + ((viewHeight * 0.9) / 2)
+			center[0] = center[0] + 90 * resolution // ((viewWidth * 0.3) / 2)
+			center[1] = center[1] + (viewHeight * 0.9) / 2
 
 			this.map.getView().animate(
 				{
@@ -199,7 +199,7 @@ export default {
 			let content = ''
 			let wrapStyle = ''
 
-			const propertyData = await this.fetchMarkerPropertyData(postIds.join(','))
+			const propertyData = await this.fetchMarkerPropertyData(postIds.slice(0, 64).join(','))
 			if (!propertyData) return
 
 			for (let i = 0; i < postIds.length; i++) {
@@ -269,11 +269,11 @@ export default {
 		},
 		updateMarkers(newMarkers) {
 			this.hidePopup()
-			this.markers.clear()
-			this.markers.extend(newMarkers)
+			this.vectorSource.clear()
+			this.vectorSource.addFeatures(newMarkers)
 		},
 		fitMapView (map) {
-			if (!map || !this.autoFit || this.markers.getLength() === 0) return
+			if (!map || !this.autoFit || this.markerSet.length === 0) return
 
 			this.$nextTick(() => {
 				map.updateSize()
@@ -343,9 +343,19 @@ export default {
 				})
 
 				if (that.isCluster(feature)) {
-					feature.get('features').forEach(property => {
-						propertyPostIds.push(property.get('name'))
-					})
+					if (feature.get('features').length > 1 && that.currentZoom < this.getView().getMaxZoom()) {
+						that.currentZoom++
+
+						map.getView().animate({
+							center: feature.getGeometry().getCoordinates(),
+							zoom: that.currentZoom,
+							duration: 500
+						})
+					} else {
+						feature.get('features').forEach(property => {
+							propertyPostIds.push(property.get('name'))
+						})
+					}
 				} else if (feature) {
 					propertyPostIds.push(feature.get('name'))
 				}
@@ -403,9 +413,8 @@ export default {
 		}
 	},
 	mounted () {
-		this.markers = new Collection(this.markerSet)
 		this.vectorSource = new Vector({
-			features: this.markers
+			features: this.markerSet
 		})
 
 		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {

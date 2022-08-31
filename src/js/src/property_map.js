@@ -7,8 +7,13 @@ import PropertyOpenLayersMap from './components/PropertyOpenLayersMap.vue'
 
 const $ = jQuery
 
-function updateMaps(event, requestParams) {
-	let updateIDs = $(event.target).data('dynamic-update') || false
+async function updateMaps(event, requestParams) {
+	let updateIDs = false
+	if (typeof event === 'string') {
+		updateIDs = event
+	} else {
+		updateIDs = $(event.target).data('dynamic-update')
+	}
 	if (!updateIDs) return
 
 	if (['1', 'all'].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1) {
@@ -31,8 +36,12 @@ function updateMaps(event, requestParams) {
 		if ($('#' + elementID).length && $('#' + elementID).hasClass('inx-property-map-container')) {
 			let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 			url += '?inx-r-response=json_map_markers&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
-			if (requestParams.paramsString) {
-				url += '&' + requestParams.paramsString
+			if (requestParams) {
+				if (typeof requestParams === 'string') {
+					url += '&' + requestParams
+				} else if (requestParams.paramsString) {
+					url += '&' + requestParams.paramsString
+				}
 			}
 
 			let markerSetID = 'inx-property-map'
@@ -42,7 +51,7 @@ function updateMaps(event, requestParams) {
 				url += '&inx-r-cidata=' + encodeURIComponent(JSON.stringify(componentInstanceData))
 			}
 
-			axios
+			await axios
 				.get(url)
 				.then(response => {
 					if (response.data) {
@@ -67,8 +76,12 @@ function initMapInstances() {
 	})
 } // initMapInstances
 
-function init() {
+async function init() {
+	let requestParams = (new URL(document.location)).searchParams
+	await updateMaps('all', requestParams.toString())
+
 	initMapInstances()
+
 	window.setTimeout(() => { $('.inx-property-search.inx-dynamic-update').on('search:change', updateMaps) }, 1000)
 } // init
 

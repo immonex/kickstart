@@ -156,6 +156,14 @@ class Property_Backend_Form {
 			),
 			array(
 				'box'             => 'core',
+				'name'            => __( 'For Sale', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => "{$prefix}is_sale",
+				'type'            => 'checkbox',
+				'sanitization_cb' => array( $this, 'convert_cb_value' ),
+			),
+			array(
+				'box'             => 'core',
 				'name'            => __( 'Available', 'immonex-kickstart' ),
 				'desc'            => '',
 				'id'              => '_immonex_is_available',

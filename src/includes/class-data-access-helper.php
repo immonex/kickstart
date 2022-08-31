@@ -108,10 +108,11 @@ class Data_Access_Helper {
 	 * @since 1.1.0
 	 *
 	 * @param int|string $post_id Property Post ID to fetch detail data for.
+	 * @param string[]   $exclude List of mapping names or sources to exclude (optional).
 	 *
 	 * @return mixed[] Grouped üroperty details.
 	 */
-	public function fetch_property_details( $post_id ) {
+	public function fetch_property_details( $post_id, $exclude = array() ) {
 		$details = get_post_meta( $post_id, '_' . $this->bootstrap_data['plugin_prefix'] . 'details', true );
 		if ( ! $details ) {
 			return array();
@@ -120,6 +121,24 @@ class Data_Access_Helper {
 		$grouped_details = array();
 		if ( count( $details ) > 0 ) {
 			foreach ( $details as $title => $detail ) {
+				if ( is_array( $exclude ) && ! empty( $exclude ) ) {
+					$detail_mapping_source = '';
+					if ( ! empty( $detail['meta_json'] ) ) {
+						$detail_meta = json_decode( $detail['meta_json'], true );
+						if ( ! empty( $detail_meta['mapping_source'] ) ) {
+							$detail_mapping_source = $detail_meta['mapping_source'];
+						}
+					}
+
+					if (
+						( $detail_mapping_source && in_array( $detail_mapping_source, $exclude, true ) )
+						|| ( $detail['name'] && in_array( $detail['name'], $exclude, true ) )
+					) {
+						// Skip excluded detail.
+						continue;
+					}
+				}
+
 				$grouped_details[ $detail['group'] ? $detail['group'] : 'ungruppiert' ][] = array_merge(
 					array( 'title' => $title ),
 					$detail
@@ -296,7 +315,7 @@ class Data_Access_Helper {
 	 * @return string|string[] Sanitized value(s).
 	 */
 	public function sanitize_query_var_value( $value ) {
-		if ( json_decode( $value ) ) {
+		if ( is_string( $value ) && json_decode( $value ) ) {
 			return $value;
 		}
 

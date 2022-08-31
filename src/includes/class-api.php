@@ -52,18 +52,24 @@ class API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param bool    $ignore_cache Omit fetching the related cached transient value
+	 *                              (optional, defaults to false).
 	 * @param int[]   $default_values Default ranges (selected min, selected max,
 	 *                                range min (sale), range max (sale),
-	 *                                range min (rent), range max (rent)).
-	 * @param mixed[] $force_values Force specific values (if !== false).
+	 *                                range min (rent), range max (rent), optional).
+	 * @param mixed[] $force_values Force specific values (if !== false, optional).
 	 *
 	 * @return int[] Selected min/max and range values.
 	 */
-	public function get_primary_price_min_max( $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( false, false, false, false, false, false ) ) {
+	public function get_primary_price_min_max( $ignore_cache = false, $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( false, false, false, false, false, false ) ) {
 		global $wpdb;
 
-		if ( ! empty( $this->cache['min_max'] ) ) {
-			return $this->cache['min_max'];
+		$transient_key = $this->config['plugin_prefix'] . 'primary_price_min_max';
+		if ( ! $ignore_cache ) {
+			$cached_min_max = get_transient( $transient_key );
+			if ( ! empty( $cached_min_max ) ) {
+				return $cached_min_max;
+			}
 		}
 
 		$field_prefix = '_' . $this->config['plugin_prefix'];
@@ -174,7 +180,7 @@ class API {
 			}
 		}
 
-		$this->cache['min_max'] = $min_max;
+		set_transient( $transient_key, $min_max, 86400 );
 
 		return $min_max;
 	} // get_primary_price_min_max
@@ -188,12 +194,14 @@ class API {
 	 * @param string $type Area type (primary, living, commercial, retail, office,
 	 *                     gastronomy, plot, usable, basement, attic, misc,
 	 *                     garden, total).
+	 * @param bool   $ignore_cache Omit fetching the related cached transient value
+	 *                             (optional, defaults to false).
 	 * @param int    $default Default value to return if no appropriate data are
 	 *                        available (optional, defaults to 400).
 	 *
 	 * @return int Maximum or default value.
 	 */
-	public function get_area_max( $type, $default = 400 ) {
+	public function get_area_max( $type, $ignore_cache = false, $default = 400 ) {
 		global $wpdb;
 
 		$valid_area_types = array(
@@ -215,8 +223,12 @@ class API {
 			return $default;
 		}
 
-		if ( ! empty( $this->cache['max_area'][ $type ] ) ) {
-			return $this->cache['max_area'][ $type ];
+		$transient_key = $this->config['plugin_prefix'] . "{$type}_area_max";
+		if ( ! $ignore_cache ) {
+			$cached_max = get_transient( $transient_key );
+			if ( ! empty( $cached_max ) ) {
+				return $cached_max;
+			}
 		}
 
 		$field_prefix = '_' . $this->config['plugin_prefix'];
@@ -249,7 +261,7 @@ class API {
 		$max         = (int) $result[0]['max'];
 		$roundup_max = $this->utils['string']->smooth_round( $max );
 
-		$this->cache['max_area'][ $type ] = $roundup_max;
+		set_transient( $transient_key, $roundup_max, 86400 );
 
 		return $roundup_max;
 	} // get_area_max
@@ -408,5 +420,49 @@ class API {
 
 		return get_posts( $args );
 	} // get_property_ids
+
+	/**
+	 * Perform a low-level property geo coordinates query.
+	 *
+	 * @since 1.6.25-beta
+	 *
+	 * @return mixed[] Property geo coordinates (lat/lng), indexed by property post IDs.
+	 */
+	public function get_all_property_coords() {
+		global $wpdb;
+
+		// @codingStandardsIgnoreLine
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post.ID AS post_id, meta.meta_value AS lat, meta2.meta_value AS lng
+					FROM $wpdb->posts post
+					LEFT JOIN $wpdb->postmeta meta ON post.ID = meta.post_id
+					LEFT JOIN $wpdb->postmeta meta2 ON meta.post_id = meta2.post_id
+					WHERE post.post_type = %s
+					AND post.post_status = 'publish'
+					AND meta.meta_key = '_inx_lat'
+					AND meta2.meta_key = '_inx_lng'",
+				$this->config['property_post_type_name']
+			),
+			ARRAY_A
+		);
+
+		$coords = array();
+
+		if ( ! empty( $result ) ) {
+			foreach ( $result as $coord ) {
+				if ( empty( $coord['lat'] ) || empty( $coord['lng'] ) ) {
+					continue;
+				}
+
+				$coords[ $coord['post_id'] ] = array(
+					'lat' => $coord['lat'],
+					'lng' => $coord['lng'],
+				);
+			}
+		}
+
+		return $coords;
+	} // get_all_property_coords
 
 } // API

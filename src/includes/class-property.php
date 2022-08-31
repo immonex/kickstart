@@ -802,7 +802,12 @@ class Property {
 			return $this->details;
 		}
 
-		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID );
+		$exclude = array();
+		if ( ! $this->config['show_seller_commission'] ) {
+			$exclude[] = 'preise->innen_courtage*';
+		}
+
+		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID, $exclude );
 		$this->details   = $grouped_details;
 
 		return $grouped_details;

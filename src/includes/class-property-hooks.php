@@ -27,6 +27,13 @@ class Property_Hooks {
 	private $utils;
 
 	/**
+	 * API object
+	 *
+	 * @var \immonex\Kickstart\API
+	 */
+	private $api;
+
+	/**
 	 * Current property object instance
 	 *
 	 * @var \immonex\Kickstart\Property
@@ -44,6 +51,7 @@ class Property_Hooks {
 	public function __construct( $config, $utils ) {
 		$this->config = $config;
 		$this->utils  = $utils;
+		$this->api    = new API( $config, $utils );
 
 		/**
 		 * WP actions and filters
@@ -59,6 +67,12 @@ class Property_Hooks {
 		if ( ! is_admin() && $this->config['property_details_page_id'] ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
 		}
+
+		/**
+		 * OpenImmo2WP actions and filters
+		 */
+
+		add_action( 'immonex_oi2wp_property_imported', array( $this, 'maybe_update_min_max_transients' ), 120, 2 );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -801,6 +815,53 @@ class Property_Hooks {
 
 		return $request;
 	} // internal_page_rewrite
+
+	/**
+	 * Maybe update a related min/max value (transient).
+	 *
+	 * @since 1.6.25-beta
+	 *
+	 * @param int|string        $post_id Property post ID.
+	 * @param \SimpleXMLElement $immobilie Property XML object.
+	 *
+	 * @return mixed[] Original or modified WP Request arguments.
+	 */
+	public function maybe_update_min_max_transients( $post_id, $immobilie ) {
+		$property_meta = get_post_meta( $post_id );
+		if ( empty( $property_meta ) ) {
+			return;
+		}
+
+		$area_types = array(
+			'primary',
+			'living',
+			'commercial',
+			'retail',
+			'office',
+			'gastronomy',
+			'plot',
+			'usable',
+			'basement',
+			'attic',
+			'misc',
+			'garden',
+			'total',
+		);
+
+		$field_prefix = '_' . $this->config['plugin_prefix'];
+
+		foreach ( $area_types as $type ) {
+			$field_name = "{$field_prefix}{$type}_area";
+
+			if ( isset( $property_meta[ $field_name ] ) ) {
+				// Max. area transient will (also) be upated automatically with the next call.
+				$area_max = $this->api->get_area_max( $type, true );
+			}
+		}
+
+		// Primary price min/max transient will be updated with the next call.
+		$primary_price_min_max = $this->api->get_primary_price_min_max( true );
+	} // maybe_update_min_max_transients
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element
