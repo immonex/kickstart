@@ -1,5 +1,25 @@
 == Changelog ==
 
+= 1.7.0 =
+* Release date: 2022-08-31
+* Added filter hook for property template data retrieval.
+* Added filter hook for merging meta/taxonomy queries.
+* Added select option for disabling the default property archive/single templates.
+* Added basic support for custom/special order(by) elements.
+* Added shortcode attribute for template file selection.
+* Added an alternative property list template (slider).
+* Added search form shortcode attribute for limiting taxonomy based select options to top-level elements.
+* Added automatic redirect to default list view when calling up the selected property detail page directly.
+* Added option to display the (inner) seller commission in property detail pages (now inactive by default).
+* Improved recognition of taxonomy term lists in shortcode attributes.
+* Optimized search/filter query generation.
+* Optimized overview location map generation and marker handling.
+* Reworked distance search location autocomplete elements.
+* Optimized/Cached min/max value queries.
+* Fixed taxonomy sort bug regarding search form elements.
+* Fixed backend property list sorting by reference state.
+* Updated external dependencies.
+
 = 1.6.8 =
 * Release date: 2022-04-06
 * Formatted/Localized number of matches on search form submit button.

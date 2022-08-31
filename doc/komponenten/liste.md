@@ -28,7 +28,7 @@ Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien
 
 ![Taxonomie-Term-Slugs](../assets/scst-tax-term-slugs.gif)
 
-Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (<i>Terms</i>) verwendet (einzeln oder mehrfach als kommagetrennte Liste).
+Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (*Terms*) verwendet (einzeln oder mehrfach als kommagetrennte Liste).
 
 ##### Beispiele
 
@@ -49,7 +49,7 @@ Grundstücke (alle Unterkategorien) in Berlin:\
 | `min-area` | Mindestfläche als **Ganzzahl** in m², z. B. *120* ([\_inx_primary_area](/beitragsarten-taxonomien#custom-fields)) |
 | `price-range` | Preisrahmen als kommagetrennte Min/Max-Ganzzahlen, z. B. *200000,400000* ([\_inx_primary_price](/beitragsarten-taxonomien#custom-fields)) |
 | `iso-country` | Auswahl per ISO3-Code auf ein bestimmte Länder beschränken, z. B. *DEU* oder *DEU,AUT,ESP* ([\_immonex_iso_country](/beitragsarten-taxonomien#custom-fields)) |
-| `references` | Referenzobjekte berücksichtigen/anzeigen (<i>Flag</i> [\_immonex_is_reference](/beitragsarten-taxonomien#custom-fields)) |
+| `references` | Referenzobjekte berücksichtigen/anzeigen (*Flag* [\_immonex_is_reference](/beitragsarten-taxonomien#custom-fields)) |
 | | *no* : nein (Standardvorgabe) |
 | | *yes* : ja |
 | | *only* : ausschließlich |
@@ -57,19 +57,19 @@ Grundstücke (alle Unterkategorien) in Berlin:\
 | | *yes* : ja (Standardvorgabe) |
 | | *no* : nein |
 | | *only* : ausschließlich |
-| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_available](/beitragsarten-taxonomien#custom-fields)) |
+| `available` | Objekt-Verfügbarkeit **explizit** berücksichtigen (*Flag* [\_immonex_is_available](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur verfügbare Immobilien |
 | | *no* : nur **nicht** verfügbare Immobilien |
-| `reserved` | Reserviert-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_reserved](/beitragsarten-taxonomien#custom-fields)) |
+| `reserved` | Reserviert-Status **explizit** berücksichtigen (*Flag* [\_immonex_is_reserved](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur reservierte Immobilien |
 | | *no* : nur **nicht** reservierte Immobilien |
-| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_sold](/beitragsarten-taxonomien#custom-fields)) |
+| `sold` | Verkauft/Vermietet-Status **explizit** berücksichtigen (*Flag* [\_immonex_is_sold](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur verkaufte/vermietete Immobilien |
 | | *no* : nur **nicht** verkaufte/vermietete Immobilien |
-| `featured` | Empfohlen-Status **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_featured](/beitragsarten-taxonomien#custom-fields)) |
+| `featured` | Empfohlen-Status **explizit** berücksichtigen (*Flag* [\_immonex_is_featured](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur empfohlene Immobilien |
 | | *no* : nur **nicht** empfohlene Immobilien |
-| `front-page-offer` | Startseiten-Angebote **explizit** berücksichtigen (<i>Flag</i> [\_immonex_is_front_page_offer](/beitragsarten-taxonomien#custom-fields)) |
+| `front-page-offer` | Startseiten-Angebote **explizit** berücksichtigen (*Flag* [\_immonex_is_front_page_offer](/beitragsarten-taxonomien#custom-fields)) |
 | | *yes* : nur Startseiten-Angebote |
 | | *no* : nur **nicht** als Startseiten-Angebote markierte Immobilien |
 | `disable_links` | Detailseiten-Verlinkung anhand des Objektstatus **deaktivieren** |

@@ -2,7 +2,7 @@
 
 Mit diesem Filter kann **ein Teil** der Elemente des [immonex-Menüs](/schnellstart/einrichtung) in der Hauptnavigation des WordPress-Backends modifiziert oder erweitert werden.
 
-Auf vom Plugin oder Add-ons registrierte Beitragsarten (<i>Custom Post Types</i>) kann immer über die Elemente am Anfang des immonex-Menüs zugegriffen werden, auf die Plugin-Optionen über den letzten Untermenüpunkt. Dieser Filter bezieht sich auf die Menüpunkte **dazwischen** ([Immobilien-Taxonomien](/beitragsarten-taxonomien) etc.).
+Auf vom Plugin oder Add-ons registrierte Beitragsarten (*Custom Post Types*) kann immer über die Elemente am Anfang des immonex-Menüs zugegriffen werden, auf die Plugin-Optionen über den letzten Untermenüpunkt. Dieser Filter bezieht sich auf die Menüpunkte **dazwischen** ([Immobilien-Taxonomien](/beitragsarten-taxonomien) etc.).
 
 ## Parameter
 

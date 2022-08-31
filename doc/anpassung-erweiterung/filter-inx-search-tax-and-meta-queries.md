@@ -1,6 +1,6 @@
 # inx_search_tax_and_meta_queries (Filter)
 
-Über diesen Filter-Hook können die Taxonomie-, Meta- (<i>Custom Fields</i>) sowie Geo-Abfragen erweitert werden, die im Rahmen der [Suche](/komponenten/suchformular) nach Immobilienobjekten bzw. der [Listenausgabe](/komponenten/liste) generiert werden.
+Über diesen Filter-Hook können die Taxonomie-, Meta- (*Custom Fields*) sowie Geo-Abfragen erweitert werden, die im Rahmen der [Suche](/komponenten/suchformular) nach Immobilienobjekten bzw. der [Listenausgabe](/komponenten/liste) generiert werden.
 
 > Dieser Filter ist vor allem bei der Entwicklung von [Add-ons](/add-ons) relevant, die eigene Parameter und Abfragen ergänzen.
 

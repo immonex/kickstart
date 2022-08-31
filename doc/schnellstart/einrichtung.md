@@ -103,4 +103,4 @@ Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei Google Maps)
 
 Die Zustimmung zur Nutzung eines Dienstes gilt für alle Geo-Dienste und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
 
->**Keine Panik!** Hierbei handelt es sich **nicht** um ein <i>Tracking-Cookie</i>, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!
+>**Keine Panik!** Hierbei handelt es sich **nicht** um ein *Tracking-Cookie*, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!

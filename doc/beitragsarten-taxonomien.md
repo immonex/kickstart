@@ -1,8 +1,8 @@
 # Beitragsarten & Taxonomien
 
-## Taxonomien
+## CPT & Taxonomien
 
-Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (<i>Custom Post Type</i>) **inx_property** sowie die folgenden zugehörigen Taxonomien registriert:
+Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (*Custom Post Type* oder kurz *CPT*) **inx_property** sowie die folgenden zugehörigen Taxonomien registriert:
 
 - **inx_location** (Orte)
 - **inx_type_of_use** (Nutzungsarten)
@@ -52,16 +52,16 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 | `_inx_state` | Bundesland/Kanton |
 | `_immonex_iso_country` | dreistelliger Ländercode ([ISO 3166 ALPHA-3](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste)) |
 | `_immonex_group_number` | **Gruppennummer** zur Gruppierung zusammengehöriger Objekte (bspw. Einheiten einer Wohnanlage) |
-| `_immonex_group_id` | **Gruppenkennung**: alternatives [Gruppierungskriterium](referenzen-status-flags#gruppierung) und - in Kombination mit `_immonex_group_master` - heutzutage gängigere Alternative zur <i>Gruppennummer</i>. Die Gruppenkennung wird beim [OpenImmo-Import](schnellstart/import) auch als Term der <i>Projekt-Taxonomie</i> (siehe oben) übernommen. |
-| `_immonex_group_master` | Kennzeichnung von [Master-Objekten](referenzen-status-flags#master-objekte), bspw. dem Hauptobjekt einer Wohnanlage, dem mehrere Untereinheiten anhand der gleichen <i>Gruppenkennung</i> zugeordnet sind (*visible* = in der Website sichtbar, *invisible* = nicht sichtbar) |
-| `_inx_is_sale` | <i>Kaufobjekt-Flag</i> (*0* oder *1*) |
-| `_immonex_is_reference` | <i>Referenzobjekt-Flag</i> (*0* oder *1*) |
-| `_immonex_is_available` | <i>Verfügbarkeits-Flag</i> (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
-| `_immonex_is_sold` | <i>Verkauft-Flag</i> (*0* oder *1*) |
-| `_immonex_is_reserved` | <i>Reserviert-Flag</i> (*0* oder *1*) |
-| `_immonex_is_featured`<sup>1</sup> | <i>Empfohlen-Flag</i> (*0* oder *1*) |
-| `_immonex_is_front_page_offer`<sup>1</sup> | <i>Startseiten-Angebot-Flag</i> (*0* oder *1*) |
-| `_immonex_is_demo`<sup>1</sup>| <i>Demo-Objekt-Flag</i> (*0* oder *1*) |
+| `_immonex_group_id` | **Gruppenkennung**: alternatives [Gruppierungskriterium](referenzen-status-flags#gruppierung) und - in Kombination mit `_immonex_group_master` - heutzutage gängigere Alternative zur *Gruppennummer*. Die Gruppenkennung wird beim [OpenImmo-Import](schnellstart/import) auch als Term der *Projekt-Taxonomie* (siehe oben) übernommen. |
+| `_immonex_group_master` | Kennzeichnung von [Master-Objekten](referenzen-status-flags#master-objekte), bspw. dem Hauptobjekt einer Wohnanlage, dem mehrere Untereinheiten anhand der gleichen *Gruppenkennung* zugeordnet sind (*visible* = in der Website sichtbar, *invisible* = nicht sichtbar) |
+| `_inx_is_sale` | *Kaufobjekt-Flag* (*0* oder *1*) |
+| `_immonex_is_reference` | *Referenzobjekt-Flag* (*0* oder *1*) |
+| `_immonex_is_available` | *Verfügbarkeits-Flag* (*1* wenn nicht verkauft/reserviert, ansonsten *0*) |
+| `_immonex_is_sold` | *Verkauft-Flag* (*0* oder *1*) |
+| `_immonex_is_reserved` | *Reserviert-Flag* (*0* oder *1*) |
+| `_immonex_is_featured`<sup>1</sup> | *Empfohlen-Flag* (*0* oder *1*) |
+| `_immonex_is_front_page_offer`<sup>1</sup> | *Startseiten-Angebot-Flag* (*0* oder *1*) |
+| `_immonex_is_demo`<sup>1</sup>| *Demo-Objekt-Flag* (*0* oder *1*) |
 
 ## Archivseiten
 
@@ -69,13 +69,13 @@ Mit jedem Immobilien-Beitrag (**inx_property**) wird beim [Import](schnellstart/
 
 Sobald der erste [Import von OpenImmo-Daten](schnellstart/import) durchgeführt wurde, ist die **Standard-Archivseite** der Immobilienangebote unter `https://domain.tld/immobilien/`<sup>2</sup> bzw. `.../properties/`<sup>2</sup> bei nicht deutschsprachigen Websites abrufbar. Sie enthält neben der eigentlichen Listenansicht auch ein Suchformular, eine Auswahlbox für die Sortierung sowie eine Seitennavigation.
 
-So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme <i>Twenty Twenty</i> ohne Anpassungen aus:
+So sieht die Immobilien-Archivseite im Website-Frontend mit dem WordPress-Standard-Theme *Twenty Twenty* ohne Anpassungen aus:
 
 ![Immobilien-Archivseite im Frontend](assets/scst-fe-property-archive.png)
 
 ### Taxonomie-Archive
 
-Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen <i>Slugs</i><sup>2</sup> (Taxonomie und Taxonomie-Term) aufgerufen werden:
+Die **Archivseiten** der o. g. Plugin-Taxonomien können durch Anhängen der jeweiligen *Slugs*<sup>2</sup> (Taxonomie und Taxonomie-Term) aufgerufen werden:
 
 #### Stadt-/Ortsname
 

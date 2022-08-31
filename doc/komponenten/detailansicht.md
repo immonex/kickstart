@@ -61,7 +61,7 @@ Beispiel: Energieausweis-Daten mit Überschrift "Energieeffizienz" und Grundriss
 
 #### Elemente (Abschnitte)
 
-Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` übernommen werden, wobei jeder <i>Key</i> für einen bestimmten Abschnitt steht.
+Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` übernommen werden, wobei jeder *Key* für einen bestimmten Abschnitt steht.
 
 | Key | Beschreibung |
 | --- | ------------ |
@@ -100,7 +100,7 @@ nur Energieausweis-Abschnitte:\
 
 `[inx-property-detail-element name="ELEMENT_ODER_FELDNAME"]`
 
-Eine <i>granularere</i> Form der Einbindung der Immobilien-Details ist mit diesem Shortcode möglich. Die Auswahl des anzuzeigenden Wertes kann hierbei entweder auf Basis der von der [OpenImmo-Schnittstelle](/schnellstart/import) genutzten <i>Mapping-Tabelle</i> (Element- bzw. Custom-Field-Name) oder mit einer XML-Pfadangabe ([XPath](https://de.wikipedia.org/wiki/XPath)).
+Eine *granularere* Form der Einbindung der Immobilien-Details ist mit diesem Shortcode möglich. Die Auswahl des anzuzeigenden Wertes kann hierbei entweder auf Basis der von der [OpenImmo-Schnittstelle](/schnellstart/import) genutzten *Mapping-Tabelle* (Element- bzw. Custom-Field-Name) oder mit einer XML-Pfadangabe ([XPath](https://de.wikipedia.org/wiki/XPath)).
 
 ![Ausschnitt aus der OpenImmo2WP-Mapping-Tabelle für Kickstart](../assets/scst-mapping-1.png)\
 Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimmo2wp/)-Mapping-Tabelle für Kickstart
@@ -110,21 +110,21 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
 | `name` | einzubindendes Detailelement als... |
-| | **Mapping-Name**, z. B. <i>freitexte.objektbeschreibung</i> (Bezeichnung, die in der Spalte <i>Name</i> der <i>Mapping-Tabelle</i> hinterlegt ist, die für den [OpenImmo-Import](/schnellstart/import) eingesetzt wird) |
-| | **Custom-Field-Name**, z. B. <i>\_inx_property_id</i> (Name des als Zielfeld in der Spalte <i>Destination</i> der Import-Mapping-Tabelle hinterlegten **Custom Fields**) |
-| | [XPath-Angabe](https://de.wikipedia.org/wiki/XPath) zur Abfrage eines beliebigen Werts innerhalb des **Import-XML-Elements** `<immobilie>` des Objekts, z. B. <i>//zustand_angaben/baujahr</i> (beginnt immer mit `//`) |
+| | **Mapping-Name**, z. B. *freitexte.objektbeschreibung* (Bezeichnung, die in der Spalte *Name* der *Mapping-Tabelle* hinterlegt ist, die für den [OpenImmo-Import](/schnellstart/import) eingesetzt wird) |
+| | **Custom-Field-Name**, z. B. *\_inx_property_id* (Name des als Zielfeld in der Spalte *Destination* der Import-Mapping-Tabelle hinterlegten **Custom Fields**) |
+| | [XPath-Angabe](https://de.wikipedia.org/wiki/XPath) zur Abfrage eines beliebigen Werts innerhalb des **Import-XML-Elements** `<immobilie>` des Objekts, z. B. *//zustand_angaben/baujahr* (beginnt immer mit `//`) |
 | `group` | in der Mapping-Tabelle hinterlegte **Gruppenbezeichnung** als Ergänzung zum Elementnamen - wird nur in Sonderfällen benötigt (optional) |
 | `template` | Vorlage für die Ausgabe, in der folgende Platzhalter verwendet werden können (optional) |
 | | *{value}* : Wert des Elements |
 | | *{value,number,2}* : Variante des Elementwerts, formatiert als Zahl mit der angegebenen Anzahl an Nachkommastellen |
-| | *{title}* : Bezeichnung des Elements aus der entsprechenden <i>Title-Spalte</i> der Mapping-Tabelle, sofern vorhanden |
-| | *{title,: }* : Variante der Bezeichnung mit einem Zusatztext (im Beispiel: <i>Doppelpunkt und Leerzeichen</i>), der angehangen wird, wenn ein Titel verfügbar ist |
-| | *{currency}* : Standard-Währung, z. B. <i>EUR</i> (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
-| | *{currency_symbol}* : Standard-Währungssymbol, z. B. <i>€</i> (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
-| | *{area_unit}* : Standard-Flächeneinheit, im Regelfall <i>m²</i> (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
+| | *{title}* : Bezeichnung des Elements aus der entsprechenden *Title-Spalte* der Mapping-Tabelle, sofern vorhanden |
+| | *{title,: }* : Variante der Bezeichnung mit einem Zusatztext (im Beispiel: *Doppelpunkt und Leerzeichen*), der angehangen wird, wenn ein Titel verfügbar ist |
+| | *{currency}* : Standard-Währung, z. B. *EUR* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
+| | *{currency_symbol}* : Standard-Währungssymbol, z. B. *€* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
+| | *{area_unit}* : Standard-Flächeneinheit, im Regelfall *m²* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
 | `type` | Typ des Elements, mit dem ein **vordefiniertes** Template für die Ausgabe ausgewählt werden kann (optional) |
-| | *price* : formatierte Preisangabe inkl. Währung, z. B. <i>350.000,00 €</i> (entspricht dem Template `{value,number,2} {currency_symbol}`) |
-| | *area* : formatierte Flächenangabe, z. B. <i>814,00 m²</i> (entspricht dem Template `{value,number,2} {area_unit}`) |
+| | *price* : formatierte Preisangabe inkl. Währung, z. B. *350.000,00 €* (entspricht dem Template `{value,number,2} {currency_symbol}`) |
+| | *area* : formatierte Flächenangabe, z. B. *814,00 m²* (entspricht dem Template `{value,number,2} {area_unit}`) |
 | `if_empty` | auszugebender **Alternativtext**, falls das Element leer oder nicht verfügbar ist (optional) |
 
 #### Beispiele

@@ -11,9 +11,9 @@ Dieser Filter dient dem **Abrufen eines Detail-Elements** einer [Immobilie](/bei
 | `$item` | Standardvorgabe (im Regelfall *false*) |
 | `$post_id` | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
 | `$args` | zusätzliche Parameter |
-| | **`name`** (**obligatorisch**, <i>Mapping-Name</i> des gewünschten Elements) |
-| | `group` (<i>Mapping-Gruppe</i> des Elements) |
-| | `value_only` (nur Wert zurückliefern?): *true* (Standard) oder *false* (Array mit Wert und <i>Import-Metadaten</i>) |
+| | **`name`** (**obligatorisch**, *Mapping-Name* des gewünschten Elements) |
+| | `group` (*Mapping-Gruppe* des Elements) |
+| | `value_only` (nur Wert zurückliefern?): *true* (Standard) oder *false* (Array mit Wert und *Import-Metadaten*) |
 
 ## Rückgabewert
 

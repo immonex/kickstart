@@ -100,7 +100,7 @@ Details: [Komponenten → Seitennavigation](/komponenten/seitennavigation)
 
 > **Achtung!** Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung#immobilien-detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
 
-Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung#immobilien-detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch <i>granular</i> in Form einzelner Angaben.
+Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung#immobilien-detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch *granular* in Form einzelner Angaben.
 
 ### Alle Details oder bestimmte Abschnitte
 

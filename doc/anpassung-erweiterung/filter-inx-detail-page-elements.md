@@ -131,8 +131,8 @@ Die folgenden Eigenschaften sind größtenteils **templatespezifisch**, können 
 
 | Name (Typ) | Beschreibung / Werte |
 | ---------- | -------------------- |
-| `groups` (string) | kommagetrennte Liste von Bezeichnungen der Gruppen, deren zugehörige Angaben angezeigt werden sollen (Mit Gruppen werden in der <i>Import-Mapping-Tabelle</i> thematisch verwandte OpenImmo-Daten zusammengefasst.) |
-| `description_text_field` (string) | alternativer Name des einzubindenden **Custom Fields**, der in der <i>Import-Mapping-Tabelle</i> definiert wurde |
+| `groups` (string) | kommagetrennte Liste von Bezeichnungen der Gruppen, deren zugehörige Angaben angezeigt werden sollen (Mit Gruppen werden in der *Import-Mapping-Tabelle* thematisch verwandte OpenImmo-Daten zusammengefasst.) |
+| `description_text_field` (string) | alternativer Name des einzubindenden **Custom Fields**, der in der *Import-Mapping-Tabelle* definiert wurde |
 
 ##### Template **gallery**
 

@@ -20,8 +20,8 @@ Standard-Suchformular (ohne Anpassungen)
 | | *all* oder *1* : alle Listen- und Kartenkomponenten der Seite (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) |
 | | *inx-property-map, inx-property-list* (Beispiel): kommagetrennte Liste von **HTML-DOM-IDs** der zu aktualisierenden Komponenten (eigene IDs können per Attribut `cid` festgelegt werden) |
 | `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
-| `references` | Angaben wie <i>verkauft</i> oder <i>vermietet</i> werden in der Auswahlliste des Elements **Vermarktungsart** (`marketing-type`) standardmäßig ausgefiltert. Mit *yes* als Attributwert kann diese Filterung **deaktiviert** werden (optional). |
-| `top-level-only` | Auswahloptionen [hierarchischer Taxonomien](/beitragsarten-taxonomien) (z. B. Objektart) (optional) auf die **Hauptkategorien** der ersten Ebene beschränken (Attributwert <i>1</i>) |
+| `references` | Angaben wie *verkauft* oder *vermietet* werden in der Auswahlliste des Elements **Vermarktungsart** (`marketing-type`) standardmäßig ausgefiltert. Mit *yes* als Attributwert kann diese Filterung **deaktiviert** werden (optional). |
+| `top-level-only` | Auswahloptionen [hierarchischer Taxonomien](/beitragsarten-taxonomien) (z. B. Objektart) (optional) auf die **Hauptkategorien** der ersten Ebene beschränken (Attributwert *1*) |
 | `force-location` | Auswahloptionen des Elements `locality` (Objektstandort) auf die **Hauptkategorien** (Terms der [Taxonomie inx_location](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste) |
 | `force-type-of-use` | Auswahloptionen des Elements `type-of-use` (Nutzungsart) auf die **Hauptkategorien** (Terms der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste, z. B. *wohnimmobilie*) |
 | `force-property-type` | Auswahloptionen des Elements `property-type` (Objektart) auf die **Hauptkategorien** (Terms der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste, z. B. *wohnungen, haeuser*) |
@@ -39,7 +39,7 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | Key | Beschreibung |
 | --- | ------------ |
 | `description` (1) | Textfeld zur Suche nach Schlüsselwörtern in Objekttiteln, Beschreibungstexten und weiteren Feldern (z. B. Objektnummer) |
-| `type-of-use` | Dropdown-Einzelauswahl der **Nutzungsart** (Begriff bzw. <i>Term</i> der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) |
+| `type-of-use` | Dropdown-Einzelauswahl der **Nutzungsart** (Begriff bzw. *Term* der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) |
 | `property-type` (2) | Dropdown-Einzelauswahl der **Objektart** (Term der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) |
 | `marketing-type` (3) | Dropdown-Einzelauswahl der **Vermarktungsart** (Term der [Taxonomie inx_marketing_type](/beitragsarten-taxonomien)) |
 | `locality` (4) | Dropdown-Einzelauswahl des **Objekt-Standorts** - Ort/Stadt oder Orts-/Stadtteil (Term der [Taxonomie inx_location](/beitragsarten-taxonomien)) |
@@ -59,8 +59,8 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | --- | ------------ |
 | `distance-search-location` (11) | Ortssuche mit Autovervollständigung für die Umkreissuche (siehe Shortcode-Attribut `autocomplete-countries` oben) |
 | `distance-search-radius` (12) | Dropdown-Auswahl des Radius für die Umkreissuche |
-| `features` (13) | Checkboxen zur Auswahl gewünschter Ausstattungsmerkmale (<i>Terms</i> der [Taxonomie inx_feature](/beitragsarten-taxonomien)) |
-| `labels` | Checkboxen zur Auswahl gewünschter Labels (<i>Terms</i> der [Taxonomie inx_label](/beitragsarten-taxonomien); **optional** - nur bei expliziter Einbindung per Attribut `elements`) |
+| `features` (13) | Checkboxen zur Auswahl gewünschter Ausstattungsmerkmale (*Terms* der [Taxonomie inx_feature](/beitragsarten-taxonomien)) |
+| `labels` | Checkboxen zur Auswahl gewünschter Labels (*Terms* der [Taxonomie inx_label](/beitragsarten-taxonomien); **optional** - nur bei expliziter Einbindung per Attribut `elements`) |
 
 ## Umfang/Aufteilung
 

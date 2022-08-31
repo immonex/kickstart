@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.6.8",
+  "version": "1.7.0",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "config": {
@@ -35,9 +35,9 @@
     "lws-index": "^2.0.0",
     "lws-static": "^2.0.0",
     "mini-css-extract-plugin": "^1.6.2",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.1",
     "rimraf": "^3.0.2",
-    "sass-loader": "^11.1.1",
+    "sass-loader": "^13.0.2",
     "style-loader": "^2.0.0",
     "trim-newlines": ">=3.0.1",
     "vue-loader": "^15.9.7",

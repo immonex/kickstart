@@ -14,7 +14,7 @@
 
 ## Praxisbeispiel
 
-[immonex ONE](https://immonex.one/), die <i>Website-Schnellstart-Lösung</i> für Immobilienmakler, wurde maßgeblich auf Basis von Kickstart und [OpenImmo2WP](schnellstart/import) umgesetzt.
+[immonex ONE](https://immonex.one/), die *Website-Schnellstart-Lösung* für Immobilienmakler, wurde maßgeblich auf Basis von Kickstart und [OpenImmo2WP](schnellstart/import) umgesetzt.
 
 ## Zielgruppen dieser Dokumentation
 

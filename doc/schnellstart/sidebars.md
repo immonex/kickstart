@@ -1,6 +1,6 @@
 # Sidebars
 
-Kickstart registriert zwei Seitenleisten (<i>Sidebars</i>) für die [Immobilien-Archivseite](/beitragsarten-taxonomien#immobilien-beiträge) und die [Detailansicht](/komponenten/detailansicht#standard-template), die via ***Design → Widgets*** oder per **Customizer** mit Widgets befüllt werden können.
+Kickstart registriert zwei Seitenleisten (*Sidebars*) für die [Immobilien-Archivseite](/beitragsarten-taxonomien#immobilien-beiträge) und die [Detailansicht](/komponenten/detailansicht#standard-template), die via ***Design → Widgets*** oder per **Customizer** mit Widgets befüllt werden können.
 
 ![Screenshot: Kickstart-Sidebars](../assets/scst-sidebars-1.png)
 

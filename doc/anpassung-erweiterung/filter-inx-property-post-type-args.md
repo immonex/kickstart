@@ -10,7 +10,7 @@ Mit diesem Filter können die Eigenschaften des [Beitragstyps für Immobilien-Ob
 
 ## Rückgabewert
 
-angepasstes Eigenschaften-Array für die Registrierung des <i>Custom Post Types</i> für Immobilien
+angepasstes Eigenschaften-Array für die Registrierung des *Custom Post Types* für Immobilien
 
 ## Rahmenfunktion
 

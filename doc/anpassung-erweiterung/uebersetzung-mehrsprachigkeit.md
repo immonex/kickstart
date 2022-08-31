@@ -14,7 +14,7 @@ Die Übersetzungen von translate.wordpress.org werden automatisch in den globale
 └── immonex-kickstart-de_DE_formal.mo
 ```
 
-In den jeweiligen Plugin-Ordnern (Kickstart und Add-ons) ist **zusätzlich** ein Ordner namens `languages` zu finden, der neben einer aktuellen <i>POT-Datei</i> (Vorlage für neue Übersetzungen) auch die folgenden PO- (Übersetzungs-Quelldatei) und MO-Versionen (kompilierte Übersetzungen) enthält:
+In den jeweiligen Plugin-Ordnern (Kickstart und Add-ons) ist **zusätzlich** ein Ordner namens `languages` zu finden, der neben einer aktuellen *POT-Datei* (Vorlage für neue Übersetzungen) auch die folgenden PO- (Übersetzungs-Quelldatei) und MO-Versionen (kompilierte Übersetzungen) enthält:
 
 ```
 .../wp-content/plugins/immonex-kickstart
@@ -74,7 +74,7 @@ Weitere Infos zum Thema URL-Slug-Übersetzung:
 
 ### Texte in Plugin-Optionen
 
-Inhalte, die in den [Plugin-Optionen](/schnellstart/einrichtung) hinterlegt sind (z. B. die Hinweise zum Objektstandort) können mit der <i>String-Translation-Funktion</i> der o. g. Sprachplugins übersetzt werden.
+Inhalte, die in den [Plugin-Optionen](/schnellstart/einrichtung) hinterlegt sind (z. B. die Hinweise zum Objektstandort) können mit der *String-Translation-Funktion* der o. g. Sprachplugins übersetzt werden.
 
 ### Sonderfälle
 

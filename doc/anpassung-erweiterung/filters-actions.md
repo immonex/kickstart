@@ -36,10 +36,7 @@
 - [inx_video_iframe_template](filter-inx-video-iframe-template) (Template für die Einbindung von Video-iFrames)
 - [inx_tabbed_content_elements](filter-inx-tabbed-content-elements) (Elementaufteilung bei tabbasierter Darstellung)
 - [inx_property_detail_element_output](filter-inx-property-detail-element-output) (Anpassung der Ausgabe einzelner Detail-Elemente)
-
-### Sonstiges
-
-- [inx_marketing_type_reference_term_replacements](filter-inx-marketing-type-reference-term-replacements) (Taxonomie-Term-Anpassung bei Referenz-Status-Updates)
+- [inx_forward_to_list_view_url](filter-inx-forward-to-list-view-url) (URL der Listen-Weiterleitung beim direkten Aufruf der Detailseite)
 
 ### Rendering / Templates
 
@@ -47,6 +44,14 @@
 - [inx_apply_auto_rendering_atts](filter-inx-apply-auto-rendering-atts) (Rendering-Auto-Attribute übernehmen)
 - [inx_template_search_folders](filter-inx-template-search-folders) (Basisordner für Skins/Templates ergänzen)
 - [inx_template_folder_url_mappings](filter-inx-template-folder-url-mappings) (URL-Zuordnungen für nicht öffentlich zugängliche Template/Skin-Dateisystem-Basisordner definieren)
+
+### Kompatibilität
+
+- [inx_required_property_custom_field_defaults](filter-inx-required-property-custom-field-defaults) (Standardvorgaben obligatorischer Custom Fields von Immobilienbeiträgen beim OpenImmo-Import)
+
+### Sonstiges
+
+- [inx_marketing_type_reference_term_replacements](filter-inx-marketing-type-reference-term-replacements) (Taxonomie-Term-Anpassung bei Referenz-Status-Updates)
 
 ### Datenabfrage (API Wrapper)
 

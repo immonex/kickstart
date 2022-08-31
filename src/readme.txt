@@ -1,9 +1,9 @@
 === immonex Kickstart ===
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
-Requires at least: 4.6
+Requires at least: 4.7
 Tested up to: 6.0
-Stable Tag: 1.6.8
+Stable Tag: 1.7.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -109,8 +109,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.6.25-beta =
-* Release date: 2022-08-30
+= 1.7.0 =
+* Release date: 2022-08-31
 * Added filter hook for property template data retrieval.
 * Added filter hook for merging meta/taxonomy queries.
 * Added select option for disabling the default property archive/single templates.
