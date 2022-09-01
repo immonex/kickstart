@@ -55,7 +55,10 @@ class Data_Access_Helper {
 	 *
 	 * @return mixed[]|string|int Array of field data or value only.
 	 */
-	public function get_custom_field_by( $type = 'name', $key_or_name, $post_id, $value_only = false ) {
+	public function get_custom_field_by( $type, $key_or_name, $post_id, $value_only = false ) {
+		if ( empty( $type ) ) {
+			$type = 'name';
+		}
 		if ( 'name' === $type ) {
 			$meta_key = get_post_meta( $post_id, $key_or_name, true );
 		} else {

@@ -41,8 +41,8 @@ class WP_Bootstrap {
 	 * @param mixed[]                      $bootstrap_data Plugin bootstrap data.
 	 * @param \immonex\Kickstart\Kickstart $plugin Main plugin object.
 	 */
-	public function __construct( $bootstrap_data = array(), $plugin ) {
-		$this->data   = $bootstrap_data;
+	public function __construct( $bootstrap_data, $plugin ) {
+		$this->data   = is_array( $bootstrap_data ) ? $bootstrap_data : array();
 		$this->prefix = $bootstrap_data['plugin_prefix'];
 		$this->plugin = $plugin;
 
