@@ -16,7 +16,9 @@ Die meisten Optionen sind selbsterklärend oder mit einer Beschreibung versehen.
 
 ### Allgemein
 
-#### Skin
+#### Design & Struktur
+
+##### Skin
 
 Ein so genanntes [Skin](/anpassung-erweiterung/skins) bildet die Grundlage für individuelle Anpassungen und umfasst alle Dateien, die für die **Ausgabe und Darstellung** der vom Plugin bereitgestellten Komponenten im **Website-Frontend** maßgeblich sind (Layoutvorlagen, Stile, Ausgabelogik etc.).
 
@@ -25,6 +27,12 @@ Die Auswahl eines alternativen Skins kann also eine vollkommen andere Form der A
 Das aktuell mitgelieferte [Standard-Skin "Quiwi"](/anpassung-erweiterung/standard-skin) basiert auf dem optisch ansprechenden und "leichtgewichtigen" Frontend-Framework [UIkit](https://getuikit.com/). [Kickstart-Add-ons](/add-ons) können wiederum Skins für ihre eigenen Frontend-Module mitbringen, die dann in den jeweiligen Add-on-Options-Tabs zur Auswahl stehen.
 
 Detaillierte Infos zur Anpassung vorhandener und Entwicklung eigener Skins sind unter [Anpassung & Erweiterung](/anpassung-erweiterung/skins) zu finden.
+
+#### Preise
+
+##### Verkäufer-/Innenprovision anzeigen
+
+Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger relevant und wird daher in den [Immobilien-Detailansichten](/komponenten/detailansicht) standardmäßig **nicht** angezeigt. Diese Option ermöglicht die Berücksichtigung bei der Ausgabe, falls nötig.
 
 #### Immobilien-Übersicht
 
