@@ -106,6 +106,7 @@ do_action( 'inx_render_pagination', array(
 	'is_regular_archive_page' => true
 ) );
 ```
+
 Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Standortkarte (`map.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
 
 > Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
