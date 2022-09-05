@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.7.1  =
+* Release date: 2022-09-05
+* Fixed a sort order/request issue.
+
 = 1.7.0 =
 * Release date: 2022-08-31
 * Added filter hook for property template data retrieval.
