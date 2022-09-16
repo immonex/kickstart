@@ -203,14 +203,14 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 		$new_sql = array();
 		foreach ( $orderby as $key => $order ) {
 			if (
-				'inx_sort_' === substr( $key, 0, 9 )
+				'inx_' === substr( $key, 0, 4 )
 				&& count( $sql_meta ) > 0
 			) {
 				$new_sql[] = array_shift( $sql_meta );
 				continue;
 			}
 
-			$found = ! empty( $sql ) && preg_match( '/[0-9A-Za-z_\.]+' . $key . ' (ASC|DESC)/', $sql, $match );
+			$found = ! empty( $sql ) && preg_match( '/[^\/\\\ ]+' . $key . ' (ASC|DESC)/', $sql, $match );
 
 			if ( $found ) {
 				$new_sql[] = $match[0];

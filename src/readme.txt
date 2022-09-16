@@ -109,6 +109,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.7.3-beta =
+* Release date: 2022-09-16
+* Optimized OpenImmo import related DB queries.
+* Fixed a property post ID related bug (special case).
+* Extended previous sort order/request fix.
+
 = 1.7.1  =
 * Release date: 2022-09-05
 * Fixed a sort order/request issue.
@@ -132,15 +138,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed taxonomy sort bug regarding search form elements.
 * Fixed backend property list sorting by reference state.
 * Updated external dependencies.
-
-= 1.6.8 =
-* Release date: 2022-04-06
-* Formatted/Localized number of matches on search form submit button.
-* Improved search form price and area slider auto value range determination and value stepping.
-* Improved usability of pages containing all Kickstart elements as front page.
-* Replaced default skin gallery fade transition (if Ken Burns Effect is disabled) by a more visually appealing slide/fade variant.
-* Fixed a minor search form/sort dynamic update issue.
-* Fixed price range format in backlink URLs.
-* Updated dependencies.
 
 See changelog.txt for complete version history.

@@ -463,7 +463,7 @@ class Property_Hooks {
 				if ( isset( $wp_query->query ) && ! empty( $wp_query->query['inx-property-id'] ) ) {
 					$post_id = $wp_query->query['inx-property-id'];
 				} else {
-					foreach ( array( 'inx-property-id', 'inx_property_id', '_inx_property_id' ) as $field_name ) {
+					foreach ( array( 'inx-property-id', 'inx_property_id', '_inx_post_id' ) as $field_name ) {
 						$temp_id = get_post_meta( get_the_ID(), $field_name, true );
 						if ( $temp_id ) {
 							$post_id = $temp_id;
@@ -817,14 +817,12 @@ class Property_Hooks {
 	} // internal_page_rewrite
 
 	/**
-	 * Maybe update a related min/max value (transient).
+	 * Maybe update related area and primary price min/max values (transients).
 	 *
 	 * @since 1.6.25-beta
 	 *
 	 * @param int|string        $post_id Property post ID.
 	 * @param \SimpleXMLElement $immobilie Property XML object.
-	 *
-	 * @return mixed[] Original or modified WP Request arguments.
 	 */
 	public function maybe_update_min_max_transients( $post_id, $immobilie ) {
 		$property_meta = get_post_meta( $post_id );
@@ -853,15 +851,64 @@ class Property_Hooks {
 		foreach ( $area_types as $type ) {
 			$field_name = "{$field_prefix}{$type}_area";
 
-			if ( isset( $property_meta[ $field_name ] ) ) {
-				// Max. area transient will (also) be upated automatically with the next call.
-				$area_max = $this->api->get_area_max( $type, true );
+			if (
+				! empty( $property_meta[ $field_name ] )
+				&& ! empty( $property_meta[ $field_name ][0] )
+			) {
+				$transient_key = $this->config['plugin_prefix'] . "{$type}_area_max";
+				$cached_max    = get_transient( $transient_key );
+
+				$property_max = $property_meta[ $field_name ][0];
+				$roundup_max  = $this->utils['string']->smooth_round( $property_max );
+
+				if ( ! $cached_max || $roundup_max > $cached_max ) {
+					set_transient( $transient_key, $roundup_max, 86400 );
+				}
 			}
 		}
 
-		// Primary price min/max transient will be updated with the next call.
-		$primary_price_min_max = $this->api->get_primary_price_min_max( true );
+		if (
+			! empty( $property_meta[ "{$field_prefix}primary_price" ] )
+			&& ! empty( $property_meta[ "{$field_prefix}primary_price" ][0] )
+		) {
+			$is_sale = 'true' === strtolower( (string) $immobilie->objektkategorie->vermarktungsart['KAUF'] ) ||
+				'1' === (string) $immobilie->objektkategorie->vermarktungsart['KAUF'];
+
+			$primary_price         = (int) $property_meta[ "{$field_prefix}primary_price" ][0];
+			$primary_price_roundup = $this->utils['string']->smooth_round( $primary_price, true );
+			if ( $primary_price_roundup < 100 ) {
+				$primary_price_roundup = 100;
+			}
+
+			$transient_key  = $this->config['plugin_prefix'] . 'primary_price_min_max';
+			$cached_min_max = get_transient( $transient_key );
+
+			if ( ! $cached_min_max ) {
+				set_transient( $transient_key, array( 0, $primary_price_roundup, 0, $primary_price_roundup, 0, 500 ), 86400 );
+			} elseif ( $is_sale && isset( $cached_min_max[3] ) && $primary_price_roundup > $cached_min_max[3] ) {
+				$cached_min_max[1] = $primary_price_roundup;
+				$cached_min_max[3] = $primary_price_roundup;
+				set_transient( $transient_key, $cached_min_max, 86400 );
+			} elseif ( ! $is_sale && isset( $cached_min_max[5] ) && $primary_price_roundup > $cached_min_max[5] ) {
+				$cached_min_max[5] = $primary_price_roundup;
+				set_transient( $transient_key, $cached_min_max, 86400 );
+			}
+		}
 	} // maybe_update_min_max_transients
+
+	/**
+	 * Maybe update the primary price min/max values (transient).
+	 *
+	 * @since 1.7.3-beta
+	 *
+	 * @param string $import_dir Import directory.
+	 */
+	public function maybe_update_primary_price_min_max_transient( $import_dir ) {
+		$transient_key  = $this->config['plugin_prefix'] . 'primary_price_min_max';
+		$cached_min_max = get_transient( $transient_key );
+
+		$primary_price_min_max = $this->api->get_primary_price_min_max( true );
+	} // maybe_update_primary_price_min_max_transient
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element
