@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 1.7.5 =
+* Release date: 2022-09-22
+* Optimized OpenImmo import related DB queries.
+* Fixed a property post ID related bug (special case).
+* Extended previous sort order/request fix.
+* Improved plugin option validation.
+* Simplified file/folder structure.
+* Updated dependencies.
+
 = 1.7.1  =
 * Release date: 2022-09-05
 * Fixed a sort order/request issue.
