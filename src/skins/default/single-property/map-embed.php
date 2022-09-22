@@ -2,7 +2,7 @@
 /**
  * Shared map embed code
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

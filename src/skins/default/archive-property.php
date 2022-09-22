@@ -2,7 +2,7 @@
 /**
  * Default archive template for the property post type
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

@@ -2,7 +2,7 @@
 /**
  * CMB2-based property edit form
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

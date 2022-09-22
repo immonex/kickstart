@@ -2,7 +2,7 @@
 /**
  * Class Geo_Data
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

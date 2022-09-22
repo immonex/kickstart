@@ -2,7 +2,7 @@
 /**
  * Class Property_Map
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

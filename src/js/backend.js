@@ -10,7 +10,7 @@ import beToggleReference from './non-vue-components/beToggleReference'
 inx_state.beToggleReference = beToggleReference
 
 // (S)CSS
-import '../../scss/backend.scss'
+import '../scss/backend.scss'
 
 function inxBeExtendDetailTitles($) {
 	$('#_inx_details_repeat .postbox.cmb-row.cmb-repeatable-grouping').each(function() {

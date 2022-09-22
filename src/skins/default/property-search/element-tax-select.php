@@ -2,7 +2,7 @@
 /**
  * Template for property search form element (taxonomy dropdown select box)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

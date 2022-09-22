@@ -2,7 +2,7 @@
 /**
  * Class WP_Bootstrap
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

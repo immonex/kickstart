@@ -2,7 +2,7 @@
 /**
  * Template for property search form element (reset link)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

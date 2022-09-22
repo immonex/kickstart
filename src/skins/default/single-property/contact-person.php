@@ -2,7 +2,7 @@
 /**
  * Template for property contact person (agent)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

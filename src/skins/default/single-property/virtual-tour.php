@@ -2,7 +2,7 @@
 /**
  * Template for embedding external 360° views or virtual tours
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

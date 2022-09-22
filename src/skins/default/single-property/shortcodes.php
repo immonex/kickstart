@@ -2,7 +2,7 @@
 /**
  * Template for embedding shortcode based output in property details sections
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

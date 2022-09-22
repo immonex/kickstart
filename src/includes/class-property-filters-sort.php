@@ -2,7 +2,7 @@
 /**
  * Class Property_Filters_Sort
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

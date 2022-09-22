@@ -2,7 +2,7 @@
 /**
  * Class Data_Access_Helper
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

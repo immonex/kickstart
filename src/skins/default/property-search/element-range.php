@@ -2,7 +2,7 @@
 /**
  * Template for property search form element (value range slider)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

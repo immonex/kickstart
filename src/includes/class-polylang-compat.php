@@ -2,7 +2,7 @@
 /**
  * Class Polylang_Compat
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

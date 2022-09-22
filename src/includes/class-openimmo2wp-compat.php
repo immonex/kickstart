@@ -2,7 +2,7 @@
 /**
  * Class OpenImmo2WP_Compat
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

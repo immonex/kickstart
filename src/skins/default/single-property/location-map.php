@@ -2,7 +2,7 @@
 /**
  * Template for property location map (only)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

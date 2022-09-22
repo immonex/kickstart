@@ -2,7 +2,7 @@
 /**
  * Template for property details footer
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

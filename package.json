@@ -34,7 +34,7 @@
     "lws": "^3.1.0",
     "lws-index": "^2.0.0",
     "lws-static": "^2.0.0",
-    "mini-css-extract-plugin": "^1.6.2",
+    "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^7.0.1",
     "rimraf": "^3.0.2",
     "sass-loader": "^13.0.2",
@@ -47,7 +47,7 @@
     "webpack-merge": "^5.8.0"
   },
   "scripts": {
-    "clean": "rimraf build/* && rimraf dist/* && rm -f src/js/*.js src/js/*.css src/js/*.txt",
+    "clean": "rimraf 'src/assets/@(js|css)' && rimraf build/* && rimraf dist/*",
     "prebuild": "composer install --no-dev && npm run clean -s",
     "build:scripts": "webpack --config webpack.prod.js",
     "build:scripts-dev": "webpack --config webpack.dev.js",
@@ -55,7 +55,7 @@
     "build:clean-core": "rimraf 'build/vendor/immonex/wp-free-plugin-core/!(src|assets|languages|README*|LICENSE)'",
     "build:clean-cmb2": "rimraf 'build/vendor/cmb2/cmb2/languages/cmb2-!(de_*|en_*|fr_*|nl_*|es_*|it_*)' && rimraf 'build/vendor/cmb2/cmb2/@(tests|apigen|coverage*)'",
     "build:clean-vendor": "rimraf 'build/vendor/**/@(bin|sass|example*|Grunt*|grunt*|gulp*|phpunit*|Dock*|composer.*|package.json|package-lock.json)' && rimraf 'build/vendor/**/.[^.]*'",
-    "build:del-scss-js-sources": "rimraf 'build/**/@(scss)' && rimraf 'build/**/js/src' && rimraf 'build/**/*.scss'",
+    "build:del-scss-js-sources": "rimraf build/**/scss && rimraf build/**/*.scss && rimraf build/js && rimraf build/skins/**/js/src",
     "build:zip": "mv build $npm_package_config_pluginFolderName && mkdir -p dist && zip -rq dist/$npm_package_config_pluginFolderName.zip $npm_package_config_pluginFolderName && mv $npm_package_config_pluginFolderName build",
     "build": "npm run build:scripts && npm run build:copy && npm run build:clean-core && npm run build:clean-cmb2 && npm run build:clean-vendor && npm run build:del-scss-js-sources && npm run build:zip",
     "postbuild": "composer install --ignore-platform-reqs",

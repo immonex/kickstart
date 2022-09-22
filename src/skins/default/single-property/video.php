@@ -2,7 +2,7 @@
 /**
  * Template for embedding external videos (YouTube/Vimeo)
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

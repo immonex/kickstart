@@ -1,9 +1,8 @@
 # Project
 build/
 dist/
-src/js/*.js
-src/js/*.css
-src/js/*.txt
+src/assets/js
+src/assets/css
 
 # Environment Configuration
 .env

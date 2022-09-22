@@ -2,7 +2,7 @@
 /**
  * Shared map-related initialization
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

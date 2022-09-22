@@ -2,7 +2,7 @@
 /**
  * Class Kickstart
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;
@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_7_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.7.3-beta';
+	const PLUGIN_VERSION             = '1.7.5-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -787,9 +787,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'label'   => __( 'Area Measuring Unit', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
-						'description' => '',
-						'class'       => 'small-text',
-						'max_length'  => 8,
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 8,
+						'default_if_empty' => 'm²',
 					),
 				),
 				array(
@@ -798,9 +799,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'label'   => __( 'Currency Code', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
-						'description' => '',
-						'class'       => 'small-text',
-						'max_length'  => 3,
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 3,
+						'default_if_empty' => 'EUR',
 					),
 				),
 				array(
@@ -809,8 +811,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'label'   => __( 'Currency Symbol', 'immonex-kickstart' ),
 					'section' => 'section_units',
 					'args'    => array(
-						'description' => '',
-						'class'       => 'small-text',
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 1,
+						'default_if_empty' => '€',
 					),
 				),
 				array(
@@ -900,9 +904,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'args'    => array(
 						'description' => __( 'Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840.', 'immonex-kickstart' ),
 						'class'       => 'medium-text',
-						'force_type'  => 'float',
-						'min'         => -90,
-						'max'         => 90,
+						'min'         => -90.0,
+						'max'         => 90.0,
 					),
 				),
 				array(
@@ -913,9 +916,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'args'    => array(
 						'description' => __( 'Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410.', 'immonex-kickstart' ),
 						'class'       => 'medium-text',
-						'force_type'  => 'float',
-						'min'         => -180,
-						'max'         => 180,
+						'min'         => -180.0,
+						'max'         => 180.0,
 					),
 				),
 				array(
@@ -926,7 +928,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'args'    => array(
 						'description' => __( '2 to 18', 'immonex-kickstart' ),
 						'class'       => 'small-text',
-						'force_type'  => 'int',
 						'min'         => 2,
 						'max'         => 18,
 					),
@@ -959,7 +960,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_6_0\Base {
 					'args'    => array(
 						'description' => __( '8 to 18', 'immonex-kickstart' ),
 						'class'       => 'small-text',
-						'force_type'  => 'int',
 						'min'         => 8,
 						'max'         => 18,
 					),

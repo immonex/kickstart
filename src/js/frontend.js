@@ -20,7 +20,7 @@ import inxState from './state'
 Vue.mixin(inxState)
 
 // (S)CSS
-import '../../scss/frontend.scss'
+import '../scss/frontend.scss'
 
 let inxPropertyDetailsInitialized = false
 

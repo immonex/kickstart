@@ -2,7 +2,7 @@
 /**
  * Property search form main template
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

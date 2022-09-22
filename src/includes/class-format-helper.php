@@ -2,7 +2,7 @@
 /**
  * Class Format_Helper
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

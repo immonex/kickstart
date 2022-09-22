@@ -2,7 +2,7 @@
 /**
  * Default main template for property detail views
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

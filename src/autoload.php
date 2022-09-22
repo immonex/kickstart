@@ -2,7 +2,7 @@
 /**
  * Autoloader registration
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

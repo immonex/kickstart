@@ -2,7 +2,7 @@
 /**
  * Template for property list pagination
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

@@ -2,7 +2,7 @@
 /**
  * Class REST_API
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

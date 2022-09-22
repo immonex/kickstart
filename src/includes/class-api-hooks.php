@@ -2,7 +2,7 @@
 /**
  * API_Hooks class
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

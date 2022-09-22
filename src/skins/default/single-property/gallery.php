@@ -2,7 +2,7 @@
 /**
  * Template for property photo/floor plan galleries
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

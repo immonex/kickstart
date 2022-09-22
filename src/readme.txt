@@ -109,11 +109,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.7.3-beta =
-* Release date: 2022-09-16
+= 1.7.5-beta =
+* Release date: 2022-09-22
 * Optimized OpenImmo import related DB queries.
 * Fixed a property post ID related bug (special case).
 * Extended previous sort order/request fix.
+* Improved plugin option validation.
+* Simplified file/folder structure.
+* Updated dependencies.
 
 = 1.7.1  =
 * Release date: 2022-09-05

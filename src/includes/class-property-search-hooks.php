@@ -2,7 +2,7 @@
 /**
  * Class Property_Search_Hooks
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 namespace immonex\Kickstart;

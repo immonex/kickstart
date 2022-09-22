@@ -2,7 +2,7 @@
 /**
  * Template for combining/arranging multiple property details sections
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.

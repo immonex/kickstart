@@ -2,7 +2,7 @@
 /**
  * Template for downloads and link lists
  *
- * @package immonex-kickstart
+ * @package immonex\Kickstart
  */
 
 // Exit if accessed directly.
