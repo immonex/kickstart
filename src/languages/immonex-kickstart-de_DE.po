@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2022-08-30 11:06:07+00:00\n"
-"PO-Revision-Date: 2022-08-30 13:07+0200\n"
+"POT-Creation-Date: 2022-09-27 04:48:53+00:00\n"
+"PO-Revision-Date: 2022-09-27 06:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -336,19 +336,19 @@ msgstr ""
 msgid "Area Measuring Unit"
 msgstr "Flächen-Maßeinheit"
 
-#: includes/class-kickstart.php:798
+#: includes/class-kickstart.php:799
 msgid "Currency Code"
 msgstr "Währungscode"
 
-#: includes/class-kickstart.php:809
+#: includes/class-kickstart.php:811
 msgid "Currency Symbol"
 msgstr "Währungssymbol"
 
-#: includes/class-kickstart.php:819
+#: includes/class-kickstart.php:823
 msgid "Show Reference Prices"
 msgstr "Referenzobjekt-Preise anzeigen"
 
-#: includes/class-kickstart.php:822
+#: includes/class-kickstart.php:826
 msgid ""
 "Activate this option if the prices of reference properties should be "
 "displayed."
@@ -356,11 +356,11 @@ msgstr ""
 "Diese Option muss aktiviert werden, wenn die Preise von Referenzobjekten "
 "angezeigt werden sollen."
 
-#: includes/class-kickstart.php:828
+#: includes/class-kickstart.php:832
 msgid "Reference Price Text"
 msgstr "Referenzpreis-Text"
 
-#: includes/class-kickstart.php:831
+#: includes/class-kickstart.php:835
 msgid ""
 "This text is displayed if reference prices should <strong>not</strong> be "
 "published."
@@ -368,12 +368,12 @@ msgstr ""
 "Dieser Text wird angezeigt, wenn Preise von Referenzobjekten <strong>nicht</"
 "strong> veröffentlicht werden sollen."
 
-#: includes/class-kickstart.php:837
+#: includes/class-kickstart.php:841
 msgid "Show Contact Section"
 msgstr "Kontaktabschnitt anzeigen"
 
 #. translators: %s = Kickstart Team URL (WP Plugin Repository)
-#: includes/class-kickstart.php:842
+#: includes/class-kickstart.php:846
 msgid ""
 "Activate this option if the contact section (including agent information and "
 "form if the <a href=\"%s\" target=\"_blank\">Team Add-on</a> is installed) "
@@ -383,11 +383,11 @@ msgstr ""
 "Formular bei installiertem <a href=\"%s\" target=\"_blank\">Team Add-on</a>) "
 "in <strong>Detailseiten von Referenzobjekten</strong> angezeigt werden soll."
 
-#: includes/class-kickstart.php:850
+#: includes/class-kickstart.php:854
 msgid "Show Seller/Internal Commission"
 msgstr "Verkäufer-/Innenprovision anzeigen"
 
-#: includes/class-kickstart.php:853
+#: includes/class-kickstart.php:857
 msgid ""
 "Activate this option if the seller commission (inner commission) should be "
 "displayed on property detail pages."
@@ -395,11 +395,11 @@ msgstr ""
 "Diese Option muss aktiviert werden, wenn die Verkäuferprovision "
 "(Innenprovision) in Immobilien-Detailseiten angezeigt werden soll."
 
-#: includes/class-kickstart.php:859
+#: includes/class-kickstart.php:863
 msgid "Dynamic Update"
 msgstr "Dynamische Aktualisierung"
 
-#: includes/class-kickstart.php:862
+#: includes/class-kickstart.php:866
 msgid ""
 "If activated, property lists and location maps on the same page are "
 "dynamically updated when the search parameters change."
@@ -408,21 +408,21 @@ msgstr ""
 "auf der gleichen Seite dynamisch aktualisiert, wenn sich die Suchparameter "
 "ändern."
 
-#: includes/class-kickstart.php:868
+#: includes/class-kickstart.php:872
 msgid "No Results Message"
 msgstr "Keine-Ergebnisse-Meldung"
 
-#: includes/class-kickstart.php:871
+#: includes/class-kickstart.php:875
 msgid "This message is displayed when a property search returns no results."
 msgstr ""
 "Diese Meldung wird angezeigt, wenn eine Immobiliensuche keine Ergebnisse "
 "liefert."
 
-#: includes/class-kickstart.php:878
+#: includes/class-kickstart.php:882
 msgid "Autocompletion"
 msgstr "Autovervollständigung"
 
-#: includes/class-kickstart.php:881
+#: includes/class-kickstart.php:885
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
@@ -431,7 +431,7 @@ msgstr ""
 "der Immobilien-Suchformulare zum Einsatz kommt (keine = Umkreissuche "
 "deaktivieren)."
 
-#: includes/class-kickstart.php:882
+#: includes/class-kickstart.php:886
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API tab)."
@@ -439,53 +439,53 @@ msgstr ""
 "Für die <strong>Google Places</strong> basierte Variante ist ein passender "
 "API-Schlüssel erforderlich (siehe Tab \"Google Maps API\")."
 
-#: includes/class-kickstart.php:889
-msgid "Display in Archive Pages"
-msgstr "In Archivseiten anzeigen"
+#: includes/class-kickstart.php:893
+msgid "Display in Lists/Archive"
+msgstr "In Listen/Archiv anzeigen"
 
-#: includes/class-kickstart.php:892
+#: includes/class-kickstart.php:896
 msgid ""
-"If active, the property marker map will be shown in the default list "
-"(archive) pages."
+"If active, the property marker map will be shown in the <strong>default list "
+"(archive)</strong> pages."
 msgstr ""
-"Wenn aktiviert, wird die Immobilien-Markerkarte in den Standard-Listenseiten "
-"(Archiv) angezeigt."
+"Wenn aktiviert, wird die Immobilien-Markerkarte in den <strong>Standard-"
+"Listenseiten (Archiv)</strong> angezeigt."
 
-#: includes/class-kickstart.php:898
+#: includes/class-kickstart.php:902
 msgid "Default Latitude"
 msgstr "Standard-Breitengrad"
 
-#: includes/class-kickstart.php:901
+#: includes/class-kickstart.php:905
 msgid ""
 "Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
 msgstr ""
 "Initial-Breitengrad des <strong>Karten-Mittelpunkts</strong> (-90 bis 90), "
 "z. B. 49.8587840."
 
-#: includes/class-kickstart.php:911
+#: includes/class-kickstart.php:914
 msgid "Default Longitude"
 msgstr "Standard-Längengrad"
 
-#: includes/class-kickstart.php:914
+#: includes/class-kickstart.php:917
 msgid ""
 "Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
 msgstr ""
 "Initial-Längengrad des <strong>Karten-Mittelpunkts</strong> (-180 bis 180), "
 "z. B. 6.7854410."
 
-#: includes/class-kickstart.php:924 includes/class-kickstart.php:957
+#: includes/class-kickstart.php:926 includes/class-kickstart.php:958
 msgid "Default Zoom Level"
 msgstr "Standard-Zoomstufe"
 
-#: includes/class-kickstart.php:927
+#: includes/class-kickstart.php:929
 msgid "2 to 18"
 msgstr "2 bis 18"
 
-#: includes/class-kickstart.php:937
+#: includes/class-kickstart.php:938
 msgid "Auto-Fit Map Bounds"
 msgstr "Auto-Kartengrenzen"
 
-#: includes/class-kickstart.php:940
+#: includes/class-kickstart.php:941
 msgid ""
 "Automatically set map bounds and zoom level to include all property location "
 "markers."
@@ -493,11 +493,11 @@ msgstr ""
 "Kartengrenzen und Zoomstufe automatisch so anpassen, dass alle Immobilien-"
 "Standortmarker enthalten sind."
 
-#: includes/class-kickstart.php:946
+#: includes/class-kickstart.php:947
 msgid "Map Type"
 msgstr "Kartentyp"
 
-#: includes/class-kickstart.php:949
+#: includes/class-kickstart.php:950
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
@@ -505,7 +505,7 @@ msgstr ""
 "Auswahl des Typs der Karte, die in den Immobilien-Detailseiten angezeigt "
 "werden (keine = Kartenansicht deaktivieren)."
 
-#: includes/class-kickstart.php:950
+#: includes/class-kickstart.php:951
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
@@ -513,7 +513,7 @@ msgstr ""
 "Für die <strong>Google Maps</strong> basierte Variante ist ein passender API-"
 "Schlüssel erforderlich (siehe Abschnitt \"Google Maps API\" unten)."
 
-#: includes/class-kickstart.php:960
+#: includes/class-kickstart.php:961
 msgid "8 to 18"
 msgstr "8 bis 18"
 

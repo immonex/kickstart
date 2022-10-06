@@ -64,7 +64,7 @@ class Property_Hooks {
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
-		if ( ! is_admin() && $this->config['property_details_page_id'] ) {
+		if ( $this->config['property_details_page_id'] && ! current_user_can( 'edit_posts' ) ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
 		}
 

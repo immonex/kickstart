@@ -535,44 +535,40 @@ class Property {
 		$image_list = get_post_meta( $this->post->ID, $custom_field_name, true );
 
 		if (
-			is_array( $image_list ) &&
-			count( $image_list ) > 0 &&
-			! is_numeric( $image_list[ key( $ids ) ] )
+			! is_array( $image_list ) ||
+			0 === count( $image_list )
 		) {
-			/**
-			 * Image list array consists of attachment IDs an related URLs.
-			 */
+			return array();
+		}
+
+		if ( is_numeric( $image_list[ key( $image_list ) ] ) ) {
+			// Image list array contains attachment IDs only.
+			$attachment_ids = array_values( $image_list );
+		} else {
+			// Image list array contains key-value pairs (attachment ID : URL).
 			if ( 'ids' === $return ) {
 				return array_keys( $image_list );
 			} elseif ( 'urls' === $return ) {
 				return array_values( $image_list );
-			} else {
-				$ids = array_keys( $image_list );
 			}
+
+			$attachment_ids = array_keys( $image_list );
 		}
 
 		if ( 'ids' === $return ) {
-			return $ids;
-		}
-
-		if (
-			'urls' === $return &&
-			count( $ids ) > 0
-		) {
-			$urls = array();
-			foreach ( $ids as $id ) {
-				$urls[] = wp_get_attachment_url( $id );
-			}
-
-			return $urls;
+			return $attachment_ids;
 		}
 
 		$images = array();
-		if ( count( $ids ) > 0 ) {
-			foreach ( $ids as $id ) {
-				$image = get_post( $id );
-				if ( $image ) {
-					$images[] = $image;
+		if ( ! empty( $attachment_ids ) > 0 ) {
+			foreach ( $attachment_ids as $id ) {
+				if ( 'urls' === $return ) {
+					$images[] = wp_get_attachment_url( $id );
+				} else {
+					$image = get_post( $id );
+					if ( $image ) {
+						$images[] = $image;
+					}
 				}
 			}
 		}

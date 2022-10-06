@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.6.25-beta\n"
+"Project-Id-Version: immonex Kickstart 1.7.6-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2022-08-30 11:06:07+00:00\n"
+"POT-Creation-Date: 2022-09-27 04:48:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,153 +278,153 @@ msgstr ""
 msgid "Area Measuring Unit"
 msgstr ""
 
-#: includes/class-kickstart.php:798
+#: includes/class-kickstart.php:799
 msgid "Currency Code"
 msgstr ""
 
-#: includes/class-kickstart.php:809
+#: includes/class-kickstart.php:811
 msgid "Currency Symbol"
 msgstr ""
 
-#: includes/class-kickstart.php:819
+#: includes/class-kickstart.php:823
 msgid "Show Reference Prices"
 msgstr ""
 
-#: includes/class-kickstart.php:822
+#: includes/class-kickstart.php:826
 msgid ""
 "Activate this option if the prices of reference properties should be "
 "displayed."
 msgstr ""
 
-#: includes/class-kickstart.php:828
+#: includes/class-kickstart.php:832
 msgid "Reference Price Text"
 msgstr ""
 
-#: includes/class-kickstart.php:831
+#: includes/class-kickstart.php:835
 msgid ""
 "This text is displayed if reference prices should <strong>not</strong> be "
 "published."
 msgstr ""
 
-#: includes/class-kickstart.php:837
+#: includes/class-kickstart.php:841
 msgid "Show Contact Section"
 msgstr ""
 
 #. translators: %s = Kickstart Team URL (WP Plugin Repository)
-#: includes/class-kickstart.php:842
+#: includes/class-kickstart.php:846
 msgid ""
 "Activate this option if the contact section (including agent information and "
 "form if the <a href=\"%s\" target=\"_blank\">Team Add-on</a> is installed) "
 "should be displayed on <strong>reference property detail pages</strong>."
 msgstr ""
 
-#: includes/class-kickstart.php:850
+#: includes/class-kickstart.php:854
 msgid "Show Seller/Internal Commission"
 msgstr ""
 
-#: includes/class-kickstart.php:853
+#: includes/class-kickstart.php:857
 msgid ""
 "Activate this option if the seller commission (inner commission) should be "
 "displayed on property detail pages."
 msgstr ""
 
-#: includes/class-kickstart.php:859
+#: includes/class-kickstart.php:863
 msgid "Dynamic Update"
 msgstr ""
 
-#: includes/class-kickstart.php:862
+#: includes/class-kickstart.php:866
 msgid ""
 "If activated, property lists and location maps on the same page are "
 "dynamically updated when the search parameters change."
 msgstr ""
 
-#: includes/class-kickstart.php:868
+#: includes/class-kickstart.php:872
 msgid "No Results Message"
 msgstr ""
 
-#: includes/class-kickstart.php:871
+#: includes/class-kickstart.php:875
 msgid "This message is displayed when a property search returns no results."
 msgstr ""
 
-#: includes/class-kickstart.php:878
+#: includes/class-kickstart.php:882
 msgid "Autocompletion"
 msgstr ""
 
-#: includes/class-kickstart.php:881
+#: includes/class-kickstart.php:885
 msgid ""
 "Select the autocomplete solution to use for the distance search in property "
 "search forms (none = disable distance search)."
 msgstr ""
 
-#: includes/class-kickstart.php:882
+#: includes/class-kickstart.php:886
 msgid ""
 "For the <strong>Google Places</strong> based variant, providing an "
 "appropriate API key is required (see Google Maps API tab)."
 msgstr ""
 
-#: includes/class-kickstart.php:889
-msgid "Display in Archive Pages"
+#: includes/class-kickstart.php:893
+msgid "Display in Lists/Archive"
 msgstr ""
 
-#: includes/class-kickstart.php:892
+#: includes/class-kickstart.php:896
 msgid ""
-"If active, the property marker map will be shown in the default list "
-"(archive) pages."
+"If active, the property marker map will be shown in the <strong>default list "
+"(archive)</strong> pages."
 msgstr ""
 
-#: includes/class-kickstart.php:898
+#: includes/class-kickstart.php:902
 msgid "Default Latitude"
 msgstr ""
 
-#: includes/class-kickstart.php:901
+#: includes/class-kickstart.php:905
 msgid ""
 "Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
 msgstr ""
 
-#: includes/class-kickstart.php:911
+#: includes/class-kickstart.php:914
 msgid "Default Longitude"
 msgstr ""
 
-#: includes/class-kickstart.php:914
+#: includes/class-kickstart.php:917
 msgid ""
 "Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
 msgstr ""
 
-#: includes/class-kickstart.php:924 includes/class-kickstart.php:957
+#: includes/class-kickstart.php:926 includes/class-kickstart.php:958
 msgid "Default Zoom Level"
 msgstr ""
 
-#: includes/class-kickstart.php:927
+#: includes/class-kickstart.php:929
 msgid "2 to 18"
 msgstr ""
 
-#: includes/class-kickstart.php:937
+#: includes/class-kickstart.php:938
 msgid "Auto-Fit Map Bounds"
 msgstr ""
 
-#: includes/class-kickstart.php:940
+#: includes/class-kickstart.php:941
 msgid ""
 "Automatically set map bounds and zoom level to include all property location "
 "markers."
 msgstr ""
 
-#: includes/class-kickstart.php:946
+#: includes/class-kickstart.php:947
 msgid "Map Type"
 msgstr ""
 
-#: includes/class-kickstart.php:949
+#: includes/class-kickstart.php:950
 msgid ""
 "Select the type of map to be displayed on property detail pages (none = "
 "disable map)."
 msgstr ""
 
-#: includes/class-kickstart.php:950
+#: includes/class-kickstart.php:951
 msgid ""
 "For the <strong>Google Maps</strong> based variants, providing an "
 "appropriate API key is required (see Google Maps API section below)."
 msgstr ""
 
-#: includes/class-kickstart.php:960
+#: includes/class-kickstart.php:961
 msgid "8 to 18"
 msgstr ""
 

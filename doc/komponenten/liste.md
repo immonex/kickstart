@@ -14,7 +14,7 @@ Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beli
 
 Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien festgelegt werden.
 
-#### Taxonomienbasiert
+#### Taxonomiebasiert
 
 | Name | Beschreibung |
 | ---- | ------------ |

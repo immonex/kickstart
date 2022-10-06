@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_7_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_7_8\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.7.5';
+	const PLUGIN_VERSION             = '1.7.8';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -890,10 +890,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_7_0\Base {
 				array(
 					'name'    => 'property_list_map_display_by_default',
 					'type'    => 'checkbox',
-					'label'   => __( 'Display in Archive Pages', 'immonex-kickstart' ),
+					'label'   => __( 'Display in Lists/Archive', 'immonex-kickstart' ),
 					'section' => 'section_property_list_maps',
 					'args'    => array(
-						'description' => __( 'If active, the property marker map will be shown in the default list (archive) pages.', 'immonex-kickstart' ),
+						'description' => __( 'If active, the property marker map will be shown in the <strong>default list (archive)</strong> pages.', 'immonex-kickstart' ),
 					),
 				),
 				array(

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "612299c9a1dfb07577fe725ca032e95c",
+    "content-hash": "a8b874c72b04b1bb7282b3106c4178ab",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -67,16 +67,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.7.0",
+            "version": "1.7.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "6e055c6ee93de62c9179067cb2bd77161fc121c4"
+                "reference": "5f892bf69214b92a927476f090953a952e65dd91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/6e055c6ee93de62c9179067cb2bd77161fc121c4",
-                "reference": "6e055c6ee93de62c9179067cb2bd77161fc121c4",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/5f892bf69214b92a927476f090953a952e65dd91",
+                "reference": "5f892bf69214b92a927476f090953a952e65dd91",
                 "shasum": ""
             },
             "require": {
@@ -106,9 +106,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.7.0"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.7.8"
             },
-            "time": "2022-09-21T16:08:31+00:00"
+            "time": "2022-10-06T07:13:31+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -279,12 +279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "40b6f59430cc17999406a5557c9e178704e92fa8"
+                "reference": "6ddd95c7096220acfd9d6db1ed3e7de89a27e698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/40b6f59430cc17999406a5557c9e178704e92fa8",
-                "reference": "40b6f59430cc17999406a5557c9e178704e92fa8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6ddd95c7096220acfd9d6db1ed3e7de89a27e698",
+                "reference": "6ddd95c7096220acfd9d6db1ed3e7de89a27e698",
                 "shasum": ""
             },
             "require": {
@@ -348,7 +348,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-14T13:29:42+00:00"
+            "time": "2022-10-05T06:26:51+00:00"
         }
     ],
     "packages-dev": [
@@ -2515,12 +2515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "2900c668a32138a34118740de3e4d5a701801f53"
+                "reference": "e0d2cc30112f1a32ff83a35841012be29af99802"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/2900c668a32138a34118740de3e4d5a701801f53",
-                "reference": "2900c668a32138a34118740de3e4d5a701801f53",
+                "url": "https://api.github.com/repos/symfony/string/zipball/e0d2cc30112f1a32ff83a35841012be29af99802",
+                "reference": "e0d2cc30112f1a32ff83a35841012be29af99802",
                 "shasum": ""
             },
             "require": {
@@ -2593,7 +2593,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-01T01:52:16+00:00"
+            "time": "2022-10-03T15:15:50+00:00"
         },
         {
             "name": "symfony/translation-contracts",

@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.7.8 =
+* Release date: 2022-10-06
+* Reworked automatic single property template page redirect.
+* Fixed property image list creation used by add-ons.
+* Fixed saving of UTF-8 option strings.
+* Updated plugin option labels to be more precise.
+
 = 1.7.5 =
 * Release date: 2022-09-22
 * Optimized OpenImmo import related DB queries.

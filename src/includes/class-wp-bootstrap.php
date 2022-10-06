@@ -329,7 +329,7 @@ class WP_Bootstrap {
 
 		$submenu_items = apply_filters( 'inx_submenu_items', $submenu_items );
 
-		if ( $submenu_items && count( $submenu_items ) > 0 ) {
+		if ( is_array( $submenu_items ) && count( $submenu_items ) > 0 ) {
 			usort(
 				$submenu_items,
 				function ( $a, $b ) {
