@@ -126,6 +126,7 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 | | *price* : formatierte Preisangabe inkl. Währung, z. B. *350.000,00 €* (entspricht dem Template `{value,number,2} {currency_symbol}`) |
 | | *area* : formatierte Flächenangabe, z. B. *814,00 m²* (entspricht dem Template `{value,number,2} {area_unit}`) |
 | `if_empty` | auszugebender **Alternativtext**, falls das Element leer oder nicht verfügbar ist (optional) |
+| `post_id` | **optionale** Angabe einer alternativen Immobilien-Beitrags-ID (Standard: ID des aktuellen Objekts) |
 
 #### Beispiele
 
@@ -140,6 +141,8 @@ Alternative Variante der Preiseinbindung mit identischer Ausgabe:\
 
 Kaufpreis pro m² per [XPath](https://de.wikipedia.org/wiki/XPath)-Angabe ermitteln und Alternativtext anzeigen, falls nicht verfügbar:\
 `[inx-property-detail-element name="//preise/kaufpreis_pro_qm" if_empty="auf Anfrage"]`
+
+> Weitergehende individuelle Anpassungen der Ausgabe einzelner Angaben können über den Filter-Hook [`inx_property_detail_element_output`](/anpassung-erweiterung/filter-inx-property-detail-element-output) realisiert werden.
 
 ## Erweiterte Anpassungen
 

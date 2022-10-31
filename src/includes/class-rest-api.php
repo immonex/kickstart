@@ -208,15 +208,23 @@ class REST_API {
 	 * @return mixed[] Map marker data.
 	 */
 	private function get_property_map_markers( $request, $response_format = 'json_map_markers' ) {
-		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+		$atts = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+		$id   = $request->get_param( 'id' );
 
-		$id = $request->get_param( 'id' );
 		if ( $id ) {
-			$component_instance_data['id']   = $id;
-			$component_instance_data['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
+			$atts['id']   = $id;
+			$atts['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
 		}
 
-		return apply_filters( 'inx_get_property_map_markers', array(), $component_instance_data );
+		if (
+			$request->get_param( 'inx-r-lang' ) &&
+			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
+		) {
+			$atts['lang']             = sanitize_key( $request->get_param( 'inx-r-lang' ) );
+			$atts['suppress_filters'] = false;
+		}
+
+		return apply_filters( 'inx_get_property_map_markers', array(), $atts );
 	} // get_property_map_markers
 
 	/**

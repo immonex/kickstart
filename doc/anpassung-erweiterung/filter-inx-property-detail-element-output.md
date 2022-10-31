@@ -15,6 +15,8 @@ Mit diesem Filter kann die Ausgabe von **einzelner** Elemente angepasst werden, 
 | | `template` (string): Vorlage für die Ausgabe/Formatierung (Basis für die Generierung von `$value`) |
 | | `if_empty` (string): Alternativtext, sofern der Elementwert leer ist |
 | | `detail_item` (array): zusätzliche Daten zum Element, sofern für die Abfrage dessen *Mapping-Name* verwendet wurde |
+| | `post_id` (int\|string): ID des [Immobilien-Beitrags](/beitragsarten-taxonomien) |
+| | `immobilie` ([SimpleXMLElement](https://www.php.net/manual/de/class.simplexmlelement.php)): SimpleXML-Objekt der OpenImmo-Daten des Objekts |
 
 ## Rückgabewert
 

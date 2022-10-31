@@ -49,6 +49,8 @@ class Property_Hooks {
 	 * @param object[] $utils Helper/Utility objects.
 	 */
 	public function __construct( $config, $utils ) {
+		global $pagenow;
+
 		$this->config = $config;
 		$this->utils  = $utils;
 		$this->api    = new API( $config, $utils );
@@ -64,7 +66,10 @@ class Property_Hooks {
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
-		if ( $this->config['property_details_page_id'] && ! current_user_can( 'edit_posts' ) ) {
+		// @codingStandardsIgnoreLine
+		$is_frontend_page_request = isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|preview\=/', $_SERVER['REQUEST_URI'] );
+
+		if ( $is_frontend_page_request && $this->config['property_details_page_id'] ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
 		}
 
@@ -538,6 +543,7 @@ class Property_Hooks {
 	 */
 	public function shortcode_property_detail_element( $atts ) {
 		$default_atts = array(
+			'post_id'  => '',
 			'name'     => '',
 			'group'    => '',
 			'type'     => '',
@@ -551,24 +557,32 @@ class Property_Hooks {
 			return $shortcode_atts['if_empty'];
 		}
 
+		$property_id = ! empty( $atts['post_id'] ) ?
+			(int) $atts['post_id'] :
+			$this->get_current_property_post_id();
+		$property    = $this->get_property_instance( $property_id );
+
+		if (
+			! is_a( $property, '\immonex\Kickstart\Property' )
+			|| ! is_a( $property->post, 'WP_Post' )
+		) {
+			return $shortcode_atts['if_empty'];
+		}
+
+		$core_data   = $property->get_core_data();
+		$oi_data     = $property->get_openimmo_data();
 		$name        = trim( sanitize_text_field( $shortcode_atts['name'] ) );
 		$value       = false;
 		$raw_value   = false;
 		$title       = '';
-		$property_id = $this->get_current_property_post_id();
 		$detail_item = false;
 
-		if ( '//' === substr( $name, 0, 2 ) ) {
+		if ( '//' === substr( $name, 0, 2 ) && $oi_data['oi_immobilie'] ) {
 			/**
 			 * Queried element most likely is an XML path -> apply XPath to
 			 * property XML source if available.
 			 */
-			$property_xml_source = get_post_meta( $property_id, '_immonex_property_xml_source', true );
-
-			if ( $property_xml_source ) {
-				$property = new \SimpleXMLElement( $property_xml_source );
-				$value    = (string) $property->xpath( $name )[0];
-			}
+			$value = (string) $oi_data['oi_immobilie']->xpath( $name )[0];
 		} else {
 			/**
 			 * Try to retrieve an OpenImmo value based on its name stated in
@@ -594,15 +608,32 @@ class Property_Hooks {
 				$value = $detail_item['value'];
 
 				if ( ! empty( $detail_item['meta_json'] ) ) {
-					$meta_meta = json_decode( $detail_item['meta_json'], true );
-					if ( ! empty( $meta_meta['value_before_filter'] ) ) {
-						$raw_value = $meta_meta['value_before_filter'];
+					$detail_item['meta'] = json_decode( $detail_item['meta_json'], true );
+					if ( ! empty( $detail_item['meta']['value_before_filter'] ) ) {
+						$raw_value = $detail_item['meta']['value_before_filter'];
 					}
 				}
 			}
 
 			if ( ! empty( $detail_item['title'] ) ) {
 				$title = $detail_item['title'];
+			}
+		}
+
+		if ( ! $value ) {
+			// Alternative: Look up the name in the property core data.
+			if ( ! empty( $core_data[ $name ] ) ) {
+				$detail_item = $core_data[ $name ];
+				$value       = ! empty( $detail_item['value_formatted'] ) ?
+					$detail_item['value_formatted'] :
+					$detail_item['value'];
+				$raw_value   = ! empty( $detail_item['meta']['meta_value_before_filter'] ) ?
+					$detail_item['meta']['meta_value_before_filter'] :
+					$detail_item['value'];
+
+				if ( ! empty( $detail_item['meta']['mapping_parent'] ) ) {
+					$title = $detail_item['meta']['mapping_parent'];
+				}
 			}
 		}
 
@@ -646,6 +677,8 @@ class Property_Hooks {
 				'template'      => $shortcode_atts['template'],
 				'if_empty'      => $shortcode_atts['if_empty'],
 				'detail_item'   => $detail_item,
+				'post_id'       => $property_id,
+				'immobilie'     => $oi_data['oi_immobilie'],
 			)
 		);
 
@@ -748,7 +781,8 @@ class Property_Hooks {
 			&& ! empty( $request[ $this->config['property_post_type_name'] ] )
 			&& ! empty( $request['name'] )
 		) {
-			$details_page = $details_page_id ? get_page( $details_page_id ) : false;
+			$details_page_id = apply_filters( 'inx_element_translation_id', $details_page_id );
+			$details_page    = $details_page_id ? get_post( $details_page_id, 'OBJECT', 'display' ) : false;
 			if ( empty( $details_page ) ) {
 				return $request;
 			}
@@ -782,10 +816,16 @@ class Property_Hooks {
 			! empty( $request['page_id'] )
 			&& $request['page_id'] === $details_page_id
 		) {
-			$forward_to_list_view = true;
+			if ( ! empty( $_GET['inx-property-id'] ) ) {
+				$request['inx-property-id'] = (int) $_GET['inx-property-id'];
+			} else {
+				$forward_to_list_view = true;
+			}
 		} elseif ( ! empty( $request['pagename'] ) ) {
 			$details_page = get_page_by_path( $request['pagename'] );
-			if ( $details_page->ID === (int) $details_page_id ) {
+			if ( ! empty( $_GET['inx-property-id'] ) ) {
+				$request['inx-property-id'] = (int) $_GET['inx-property-id'];
+			} elseif ( $details_page->ID === (int) $details_page_id ) {
 				$forward_to_list_view = true;
 			}
 		}

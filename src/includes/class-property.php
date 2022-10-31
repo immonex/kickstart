@@ -577,7 +577,7 @@ class Property {
 	} // get_images
 
 	/**
-	 * Return property detail item.
+	 * Return a property detail item.
 	 *
 	 * @since 1.0.0
 	 *
@@ -599,7 +599,11 @@ class Property {
 	 *
 	 * @return mixed[] Property core data.
 	 */
-	private function get_core_data() {
+	public function get_core_data() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
 		if ( $this->post->ID && isset( $this->cache['core_data'][ $this->post->ID ] ) ) {
 			return $this->cache['core_data'][ $this->post->ID ];
 		}
@@ -695,19 +699,26 @@ class Property {
 	} // get_core_data
 
 	/**
-	 * Retrieve and return the property OpenImmo data (XML).
+	 * Retrieve and return the property OpenImmo data (XML source, SimpleXML object
+	 * + extracted type(s) of use, marketing type(s) and corresponding CSS classes).
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string[] Property core data.
+	 * @return mixed[] Property OpenImmo data.
 	 */
-	private function get_openimmo_data() {
+	public function get_openimmo_data() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
 		if ( $this->post->ID && isset( $this->cache['openimmo_data'][ $this->post->ID ] ) ) {
 			return $this->cache['openimmo_data'][ $this->post->ID ];
 		}
 
 		$prefix         = $this->config['public_prefix'];
 		$no_data_return = array(
+			'oi_xml_source'      => '',
+			'oi_immobilie'       => false,
 			'oi_nutzungsart'     => array(),
 			'oi_vermarktungsart' => array(),
 			'oi_css_classes'     => array(),
@@ -778,6 +789,8 @@ class Property {
 		}
 
 		$this->cache['openimmo_data'][ $this->post->ID ] = array(
+			'oi_xml_source'      => $xml_source,
+			'oi_immobilie'       => $immobilie,
 			'oi_nutzungsart'     => $oi_nutzungsart,
 			'oi_vermarktungsart' => $oi_vermarktungsart,
 			'oi_css_classes'     => $oi_css_classes,
@@ -794,6 +807,10 @@ class Property {
 	 * @return mixed[] Property details.
 	 */
 	private function get_details() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
 		if ( ! empty( $this->details ) ) {
 			return $this->details;
 		}

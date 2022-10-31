@@ -346,6 +346,13 @@ export default {
 
 				const slider = this.$refs.slider
 				if (typeof slider !== 'undefined') {
+					let disabled = false
+					if (this.min === this.max) {
+						this.min = 0
+						if (this.max === 0) this.max = 10000000
+						disabled = true
+					}
+
 					this.currentValue = [this.min, this.max]
 
 					slider.noUiSlider.updateOptions(
@@ -356,6 +363,12 @@ export default {
 						},
 						false // Boolean 'fireSetEvent'
 					)
+
+					if (disabled) {
+						slider.setAttribute('disabled', true)
+					} else {
+						slider.removeAttribute('disabled')
+					}
 				}
 			} else {
 				this.min = this.parsedRange[0]

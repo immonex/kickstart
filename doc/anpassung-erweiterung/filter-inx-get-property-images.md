@@ -8,7 +8,7 @@ Dieser Filter dient dem **Abrufen** aller Bildanhang-Daten, die zu einer **Galer
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$images` | Standardvorgabe (im Regelfall ein leeres Array) |
+| `$images` | leeres Array |
 | `$post_id` | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
 | `$args` | Optionale Parameter |
 | | `type` (Bildtyp): *gallery* (Galeriefotos, Standard) oder *floor_plans* (Grundrisse) |

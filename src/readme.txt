@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 4.7
-Tested up to: 6.0
-Stable Tag: 1.7.8
+Tested up to: 6.1
+Stable Tag: 1.7.11
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -109,6 +109,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.7.11 =
+* Release date: 2022-10-31
+* Extended meta data of filter hook inx-property-detail-element.
+* Improved compatibility in multilingual environments (WPML/Polylang).
+* Fixed minor property search form JS bug.
+* Reworked automatic single property template page redirect - again.
+
 = 1.7.8 =
 * Release date: 2022-10-06
 * Reworked automatic single property template page redirect.
@@ -124,9 +131,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Improved plugin option validation.
 * Simplified file/folder structure.
 * Updated dependencies.
-
-= 1.7.1  =
-* Release date: 2022-09-05
-* Fixed a sort order/request issue.
 
 See changelog.txt for complete version history.

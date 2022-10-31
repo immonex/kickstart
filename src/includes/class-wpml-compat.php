@@ -227,15 +227,16 @@ class WPML_Compat {
 	 * @return mixed[] Link array with (possibly) extended URLs.
 	 */
 	public function extend_language_switcher_urls( $urls ) {
-		$property_id = isset( $_GET['inx-property-id'] ) ? (int) $_GET['inx-property-id'] : '';
+		$property_id = apply_filters( 'inx_current_property_post_id', '' );
 		if ( ! $property_id || empty( $urls ) ) {
 			return $urls;
 		}
 
 		foreach ( $urls as $lang => $link ) {
-			$url       = $link['url'];
-			$get_vars  = array();
-			$url_parts = wp_parse_url( $url );
+			$url                     = $link['url'];
+			$get_vars                = array();
+			$url_parts               = wp_parse_url( $url );
+			$property_translation_id = $this->get_translation_id( $property_id, 'post', $lang );
 
 			if ( ! empty( $url_parts['query'] ) ) {
 				parse_str( $url_parts['query'], $get_query_vars );
@@ -249,8 +250,17 @@ class WPML_Compat {
 				}
 			}
 
-			if ( $property_id && ! isset( $get_vars['inx-property-id'] ) ) {
-				$get_vars['inx-property-id'] = $this->get_translation_id( $property_id, 'post', $lang );
+			// @codingStandardsIgnoreStart
+			$current_lang = apply_filters( 'wpml_current_language', null );
+			do_action( 'wpml_switch_language', $lang );
+			$pl_url = get_permalink( $property_translation_id );
+			do_action( 'wpml_switch_language', $current_lang );
+			// @codingStandardsIgnoreEnd
+
+			if ( $pl_url ) {
+				$url = $pl_url;
+			} elseif ( ! isset( $get_vars['inx-property-id'] ) ) {
+				$get_vars['inx-property-id'] = $property_translation_id;
 			}
 
 			$raw_url = false === strpos( $url, '?' ) ? $url : substr( $url, 0, strpos( $url, '?' ) );

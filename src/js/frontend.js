@@ -66,7 +66,7 @@ jQuery(document).ready(function($) {
 	}
 
 	// Container Queries (sort of...)
-	if ( document.getElementsByClassName('inx-cq').length > 0	) {
+	if (document.getElementsByClassName('inx-cq').length > 0) {
 		import(/* webpackChunkName: "container_queries" */ './container-queries').then((module) => {
 			module.init()
 		})

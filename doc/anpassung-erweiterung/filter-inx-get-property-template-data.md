@@ -8,9 +8,9 @@ Dieser Filter dient dem **Abrufen** aller für das Rendering eines Detailansicht
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template_data` | Standardvorgabe (im Regelfall ein leeres Array) |
+| `$template_data` | leeres Array |
 | `$args` | Optionale Parameter |
-| | `post_id`: ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
+| | `post_id`: ID des Immobilien-Beitrags (optional, Standard: automatische Ermittlung) |
 
 ## Rückgabewert
 
