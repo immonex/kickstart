@@ -109,6 +109,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.7.12-beta =
+* Release date: 2022-11-11
+* Added filter hook inx_property_template_data_details for modifying property template rendering data.
+* Reworked several property search methods.
+
 = 1.7.11 =
 * Release date: 2022-10-31
 * Extended meta data of filter hook inx-property-detail-element.
@@ -122,14 +127,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed property image list creation used by add-ons.
 * Fixed saving of UTF-8 option strings.
 * Updated plugin option labels to be more precise.
-
-= 1.7.5 =
-* Release date: 2022-09-22
-* Optimized OpenImmo import related DB queries.
-* Fixed a property post ID related bug (special case).
-* Extended previous sort order/request fix.
-* Improved plugin option validation.
-* Simplified file/folder structure.
-* Updated dependencies.
 
 See changelog.txt for complete version history.

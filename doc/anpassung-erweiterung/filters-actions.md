@@ -35,10 +35,11 @@
 - [inx_detail_page_elements](filter-inx-detail-page-elements) (Elemente der Detailansicht)
 - [inx_video_iframe_template](filter-inx-video-iframe-template) (Template für die Einbindung von Video-iFrames)
 - [inx_tabbed_content_elements](filter-inx-tabbed-content-elements) (Elementaufteilung bei tabbasierter Darstellung)
+- [inx_property_template_data_details](filter-inx-property-template-data-details) (Anpassung der Detaildaten einer Immobilie vor dem Rendern des Templates)
 - [inx_property_detail_element_output](filter-inx-property-detail-element-output) (Anpassung der Ausgabe einzelner Detail-Elemente)
 - [inx_forward_to_list_view_url](filter-inx-forward-to-list-view-url) (URL der Listen-Weiterleitung beim direkten Aufruf der Detailseite)
 
-### Rendering / Templates
+### Rendering / Templates (allgemein)
 
 - [inx_auto_applied_rendering_atts](filter-inx-auto-applied-rendering-atts) (Rendering-spezifische Attribute mit automatisierter Übernahme definieren)
 - [inx_apply_auto_rendering_atts](filter-inx-apply-auto-rendering-atts) (Rendering-Auto-Attribute übernehmen)

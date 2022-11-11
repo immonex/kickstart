@@ -221,7 +221,7 @@ class Property_Search {
 					);
 				}
 
-				if ( '-autocomplete' === substr( $element['type'], -13 ) ) {
+				if ( isset( $elements[ $id ] ) && '-autocomplete' === substr( $element['type'], -13 ) ) {
 					if ( ! empty( $atts['autocomplete-countries'] ) ) {
 						$elements[ $id ]['countries'] = $atts['autocomplete-countries'];
 					}
@@ -359,105 +359,107 @@ class Property_Search {
 			}
 		}
 
-		switch ( $element['type'] ) {
-			case 'range':
-				if (
-					is_string( $element['range'] ) &&
-					false !== strpos( $element['range'], ',' )
-				) {
-					// Convert range string to integer array.
-					$element['range'] = array_map( 'intval', explode( ',', $element['range'] ) );
-				}
-				break;
-			case 'tax-select':
-			case 'tax-checkbox':
-			case 'tax-radio':
-				$include = array();
-				$args    = array(
-					'taxonomy'   => $element['key'],
-					'orderby'    => 'name',
-					'order'      => 'ASC',
-					'hide_empty' => true,
-					'include'    => array(),
-				);
-
-				$core_taxonomies = array(
-					'location',
-					'type_of_use',
-					'property_type',
-					'marketing_type',
-					'feature',
-				);
-
-				foreach ( $core_taxonomies as $tax ) {
-					$force_att = 'force-' . str_replace( '_', '-', $tax );
-
+		if ( ! empty( $element['type'] ) ) {
+			switch ( $element['type'] ) {
+				case 'range':
 					if (
-						"{$plugin_prefix}{$tax}" === $element['key']
-						&& ! empty( $atts[ $force_att ] )
+						is_string( $element['range'] ) &&
+						false !== strpos( $element['range'], ',' )
 					) {
-						$include = $this->get_tax_main_entries_by_slug(
-							"{$plugin_prefix}{$tax}",
-							$atts[ $force_att ]
+						// Convert range string to integer array.
+						$element['range'] = array_map( 'intval', explode( ',', $element['range'] ) );
+					}
+					break;
+				case 'tax-select':
+				case 'tax-checkbox':
+				case 'tax-radio':
+					$include = array();
+					$args    = array(
+						'taxonomy'   => $element['key'],
+						'orderby'    => 'name',
+						'order'      => 'ASC',
+						'hide_empty' => true,
+						'include'    => array(),
+					);
+
+					$core_taxonomies = array(
+						'location',
+						'type_of_use',
+						'property_type',
+						'marketing_type',
+						'feature',
+					);
+
+					foreach ( $core_taxonomies as $tax ) {
+						$force_att = 'force-' . str_replace( '_', '-', $tax );
+
+						if (
+							"{$plugin_prefix}{$tax}" === $element['key']
+							&& ! empty( $atts[ $force_att ] )
+						) {
+							$include = $this->get_tax_main_entries_by_slug(
+								"{$plugin_prefix}{$tax}",
+								$atts[ $force_att ]
+							);
+						}
+					}
+
+					if ( ! empty( $atts['references'] ) ) {
+						$references = $atts['references'];
+					} else {
+						$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
+					}
+
+					if ( 'yes' !== $references ) {
+						$args['object_ids'] = $this->api->get_property_ids(
+							in_array( $references, array( 'no', 'only' ), true ) ? $references : false
 						);
+					} elseif ( ! empty( $include ) ) {
+						$args['include'] = $include;
 					}
-				}
 
-				if ( ! empty( $atts['references'] ) ) {
-					$references = $atts['references'];
-				} else {
-					$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
-				}
+					$options = array();
+					$args    = apply_filters( 'inx_search_form_element_tax_args', $args, $id, $element, $atts );
+					$terms   = get_terms( $args );
 
-				if ( 'yes' !== $references ) {
-					$args['object_ids'] = $this->api->get_property_ids(
-						in_array( $references, array( 'no', 'only' ), true ) ? $references : false
-					);
-				} elseif ( ! empty( $include ) ) {
-					$args['include'] = $include;
-				}
+					if ( is_array( $terms ) && ! empty( $terms ) ) {
+						$top_level_only = ! empty( $atts['top-level-only'] ) || ! empty( $element['top_level_only'] );
 
-				$options = array();
-				$args    = apply_filters( 'inx_search_form_element_tax_args', $args, $id, $element, $atts );
-				$terms   = get_terms( $args );
+						$terms   = $this->maybe_filter_and_add_ancestor_terms( $terms, $element['key'], $include );
+						$options = $this->get_hierarchical_option_list(
+							$terms,
+							! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false,
+							0,
+							0,
+							$top_level_only
+						);
 
-				if ( is_array( $terms ) && ! empty( $terms ) ) {
-					$top_level_only = ! empty( $atts['top-level-only'] ) || ! empty( $element['top_level_only'] );
-
-					$terms   = $this->maybe_filter_and_add_ancestor_terms( $terms, $element['key'], $include );
-					$options = $this->get_hierarchical_option_list(
-						$terms,
-						! empty( $element['option_text_source'] ) ? $element['option_text_source'] : false,
-						0,
-						0,
-						$top_level_only
-					);
-
-					if ( ! empty( $include ) ) {
-						$top_level_options = array();
-						foreach ( $terms as $term ) {
-							if ( in_array( $term->term_id, $include, true ) && 0 === $term->parent ) {
-								$top_level_options[ $term->slug ] = $term;
+						if ( ! empty( $include ) ) {
+							$top_level_options = array();
+							foreach ( $terms as $term ) {
+								if ( in_array( $term->term_id, $include, true ) && 0 === $term->parent ) {
+									$top_level_options[ $term->slug ] = $term;
+								}
 							}
-						}
 
-						if ( 1 === count( $top_level_options ) ) {
-							/**
-							 * Exclude "empty" option if only a single regular top level option exists and set
-							 * its value as default.
-							 */
-							$element['empty_option'] = false;
-							$element['default']      = $term->slug;
-						} else {
-							$element['empty_option_value'] = implode( ',', array_keys( $top_level_slugs ) );
-							if ( empty( $element['default'] ) ) {
-								$element['default'] = $element['empty_option_value'];
+							if ( 1 === count( $top_level_options ) ) {
+								/**
+								 * Exclude "empty" option if only a single regular top level option exists and set
+								 * its value as default.
+								 */
+								$element['empty_option'] = false;
+								$element['default']      = $term->slug;
+							} else {
+								$element['empty_option_value'] = implode( ',', array_keys( $top_level_slugs ) );
+								if ( empty( $element['default'] ) ) {
+									$element['default'] = $element['empty_option_value'];
+								}
 							}
 						}
 					}
-				}
 
-				$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
+					$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
+			}
 		}
 
 		// Prefixed ID for use as input id/name etc. (except for IDs starting with "inx-").
@@ -469,7 +471,7 @@ class Property_Search {
 			$value = $this->utils['data']->get_query_var_value( $public_id, false, false, ! empty( $element['multiple'] ) );
 		}
 
-		if ( ! $value && 'tax-' === substr( $element['type'], 0, 4 ) ) {
+		if ( ! $value && ! empty( $element['type'] ) && 'tax-' === substr( $element['type'], 0, 4 ) ) {
 			$qo = get_queried_object();
 			if (
 				$qo &&
@@ -523,6 +525,10 @@ class Property_Search {
 				'element'       => $element,
 			)
 		);
+
+		if ( empty( $atts['template'] ) && empty( $element['type'] ) ) {
+			return '';
+		}
 
 		$template = ! empty( $atts['template'] ) ?
 			$atts['template'] :

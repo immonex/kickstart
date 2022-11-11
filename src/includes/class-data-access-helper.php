@@ -113,7 +113,7 @@ class Data_Access_Helper {
 	 * @param int|string $post_id Property Post ID to fetch detail data for.
 	 * @param string[]   $exclude List of mapping names or sources to exclude (optional).
 	 *
-	 * @return mixed[] Grouped üroperty details.
+	 * @return mixed[] Grouped property details.
 	 */
 	public function fetch_property_details( $post_id, $exclude = array() ) {
 		$details = get_post_meta( $post_id, '_' . $this->bootstrap_data['plugin_prefix'] . 'details', true );
