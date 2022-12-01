@@ -42,7 +42,7 @@ Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** könne
 | Aktuellste (`date_desc`) | Beitragsdatum absteigend (entspricht dem Datum der letzten Objekt-Aktualisierung in der Maklersoftware) |
 | Kaufobjekte zuerst (`marketing_type_desc`) | Objekte mit *Verkauft-Flag* (*1* im Custom Field `_inx_is_sale`) oben |
 | Mietobjekte zuerst (`marketing_type_asc`) | Objekte ohne *Verkauft-Flag* (*0* im Custom Field `_inx_is_sale`) oben |
-| Verfügbare zuerst (`availability_desc`) | Objekte mit *Verfügbarkeits-Flag* (*1* im Custom Field `_inx_is_available`) oben |
+| Verfügbare zuerst (`availability_desc`) | Objekte mit *Verfügbarkeits-Flag* (*1* im Custom Field `_immonex_is_available`) oben |
 | Preis aufsteigend (`price_asc`) | Primärpreis (Custom Field `_inx_primary_price`) aufsteigend |
 | Preis absteigend (`price_desc`) | Primärpreis (Custom Field `_inx_primary_price`) absteigend |
 | Fläche aufsteigend (`area_asc`) | Primärfläche (Custom Field `_inx_primary_area`) aufsteigend |

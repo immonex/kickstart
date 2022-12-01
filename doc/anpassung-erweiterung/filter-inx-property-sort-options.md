@@ -34,7 +34,7 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
     ]
     'availability_desc' => [
         'field' => '_immonex_is_available',
-        'title' => __( 'Available first', 'immonex-kickstart' ), //Verfügbare zuerst,
+        'title' => __( 'Available first', 'immonex-kickstart' ), // Verfügbare zuerst
         'order' => 'DESC'
     ],
     'price_asc' => [

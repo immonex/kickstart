@@ -179,7 +179,7 @@ class Property {
 		$oi_data = $this->get_openimmo_data();
 
 		// Fetch details (group sections).
-		$property_details = apply_filters( 'inx_property_template_data_details', $this->get_details(), $this->post->ID );
+		$property_details = $this->get_details();
 
 		/**
 		 * Type of use
@@ -823,7 +823,7 @@ class Property {
 		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID, $exclude );
 		$this->details   = $grouped_details;
 
-		return $grouped_details;
+		return apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 	} // get_details
 
 	/**
