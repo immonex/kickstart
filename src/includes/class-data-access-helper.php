@@ -289,7 +289,11 @@ class Data_Access_Helper {
 			// Get value from GET query variables (possibly override query object values).
 			// @codingStandardsIgnoreLine
 			$temp_value = $this->sanitize_query_var_value( wp_unslash( $_GET[ $var_name ] ) );
-		} else {
+		} elseif ( is_page() ) {
+			$temp_value = get_post_meta( get_the_ID(), $var_name );
+		}
+
+		if ( empty( $temp_value ) ) {
 			$temp_value = get_query_var( $var_name, false );
 		}
 

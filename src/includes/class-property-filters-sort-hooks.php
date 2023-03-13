@@ -267,7 +267,9 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 			'default'  => '',
 		);
 
-		$shortcode_atts = shortcode_atts( $supported_atts, $atts, "{$prefix}filters-sort" );
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $supported_atts, $atts, "{$prefix}filters-sort" )
+		);
 		$template       = ! empty( $shortcode_atts['template'] ) ?
 			$shortcode_atts['template'] :
 			Property_Filters_Sort::DEFAULT_TEMPLATE;

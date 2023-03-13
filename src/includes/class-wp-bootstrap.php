@@ -403,7 +403,7 @@ class WP_Bootstrap {
 				'show_ui'      => true,
 				'show_in_menu' => $this->prefix . 'menu',
 				'show_in_rest' => true,
-				'supports'     => array( 'title', 'editor', 'author', 'thumbnail' ),
+				'supports'     => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' ),
 				'map_meta_cap' => true,
 				'rewrite'      => array(
 					'slug'       => $this->plugin->property_post_type_slug_rewrite,

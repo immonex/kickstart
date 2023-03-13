@@ -314,7 +314,9 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 				}
 			}
 		}
-		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}search-form" );
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}search-form" )
+		);
 		$template       = ! empty( $shortcode_atts['template'] ) ?
 			$shortcode_atts['template'] :
 			Property_Search::DEFAULT_TEMPLATE;

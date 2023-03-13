@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( $template_data['video'] ) :
 	switch ( $template_data['video']['type'] ) {
 		case 'youtube':
-			$inx_skin_video_iframe_template = '<iframe src="https://www.youtube.com/embed/{id}?autoplay=0&amp;showinfo=0&amp;rel=0&amp;modestbranding=1&amp;playsinline=1" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" class="inx-video-iframe" uk-responsive uk-video="automute: true"></iframe>';
+			$inx_skin_video_iframe_template = '<iframe src="https://{youtube_domain}/embed/{id}" frameborder="0" allowfullscreen allow="{youtube_allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}"></iframe>';
 			break;
 		case 'vimeo':
 			$inx_skin_video_iframe_template = '<iframe src="https://player.vimeo.com/video/{id}" frameborder="0" class="inx-video-iframe" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
@@ -30,8 +30,22 @@ if ( $template_data['video'] ) :
 	);
 
 	$inx_skin_video_iframe = str_replace(
-		array( '{id}', '{url}' ),
-		array( $template_data['video']['id'], $template_data['video']['url'] ),
+		array(
+			'{id}',
+			'{url}',
+			'{youtube_domain}',
+			'{youtube_allow}',
+			'{autoplay}',
+			'{automute}',
+		),
+		array(
+			$template_data['video']['id'],
+			$template_data['video']['url'],
+			$template_data['video']['youtube_domain'],
+			$template_data['video']['youtube_allow'],
+			$template_data['video']['autoplay'] ? 'true' : 'false',
+			$template_data['video']['automute'] ? 'true' : 'false',
+		),
 		$inx_skin_video_iframe_template
 	);
 

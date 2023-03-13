@@ -109,10 +109,17 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.7.12-beta =
-* Release date: 2022-11-11
+= 1.7.21-beta =
+* Release date: 2023-02-20
 * Added filter hook inx_property_template_data_details for modifying property template rendering data.
 * Reworked several property search methods.
+* Reworked YouTube video embedding.
+* Optimized property cluster zoom in overview maps.
+* Improved property detail data full-text search.
+* Added automatic replacements of rental-specific property detail titles.
+* Extended possibilities to use XPath expressions in property detail element shortcodes.
+* Extended excerpt handling for property post type.
+* Fixed a rounding bug in the search form range slider component.
 
 = 1.7.11 =
 * Release date: 2022-10-31

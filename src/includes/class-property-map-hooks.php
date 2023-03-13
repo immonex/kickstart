@@ -138,7 +138,9 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 				}
 			}
 		}
-		$shortcode_atts = shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-map" );
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-map" )
+		);
 		$template       = ! empty( $shortcode_atts['template'] ) ?
 			$shortcode_atts['template'] :
 			Property_Map::DEFAULT_TEMPLATE;

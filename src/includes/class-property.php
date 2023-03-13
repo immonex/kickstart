@@ -345,7 +345,7 @@ class Property {
 		}
 
 		// Fetch external video data.
-		$video_data = $this->get_video_data();
+		$video_data = $this->get_video_data( $atts );
 
 		// Fetch virtual tour embed code.
 		$virtual_tour_embed_code = get_post_meta( $post->ID, "_{$prefix}virtual_tour_embed_code", true );
@@ -393,6 +393,8 @@ class Property {
 			$disable_link = true;
 		}
 
+		$excerpt_content = trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+
 		$template_data = array_merge(
 			$this->config,
 			$core_data,
@@ -407,7 +409,7 @@ class Property {
 				'property_type'           => $property_type,
 				'title'                   => $post->post_title,
 				'main_description'        => $post->post_content,
-				'excerpt'                 => $this->utils['string']->get_excerpt( $post->post_excerpt, self::EXCERPT_LENGTH, '…' ),
+				'excerpt'                 => $this->utils['string']->get_excerpt( $excerpt_content, self::EXCERPT_LENGTH, '…' ),
 				'full_address'            => $this->utils['data']->get_custom_field_by( 'key', '_' . $prefix . 'full_address', $post->ID, true ),
 				'permalink_url'           => $permalink_url,
 				'url'                     => $url,
@@ -956,9 +958,11 @@ class Property {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param mixed[] $atts Template rendering attributes (optional).
+	 *
 	 * @return mixed[] Property video data.
 	 */
-	private function get_video_data() {
+	private function get_video_data( $atts = array() ) {
 		if ( $this->post->ID && isset( $this->cache['video_data'][ $this->post->ID ] ) ) {
 			return $this->cache['video_data'][ $this->post->ID ];
 		}
@@ -973,9 +977,21 @@ class Property {
 			return false;
 		}
 
+		$autoplay   = isset( $atts['autoplay'] ) && in_array( (string) $atts['autoplay'], array( '1', 'true' ), true );
+		$video_atts = array(
+			'autoplay'       => $autoplay,
+			'automute'       => ! isset( $atts['automute'] ) || in_array( (string) $atts['automute'], array( '1', 'true' ), true ),
+			'youtube_domain' => ! isset( $atts['youtube-nocookie'] ) || in_array( (string) $atts['youtube-nocookie'], array( '1', 'true' ), true )
+				? 'www.youtube-nocookie.com' : 'www.youtube.com',
+			'youtube_allow'  => ! empty( $atts['youtube-allow'] ) ?
+				$template_data['youtube-allow'] :
+				'accelerometer; encrypted-media; gyroscope' . ( $autoplay ? '; autoplay' : '' ),
+		);
+
 		$this->cache['video_data'][ $this->post->ID ] = array_merge(
 			$video_parts,
-			array( 'url' => $video_url )
+			array( 'url' => $video_url ),
+			$video_atts
 		);
 
 		return $this->cache['video_data'][ $this->post->ID ];

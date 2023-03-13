@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.6\n"
+"Project-Id-Version: immonex Kickstart 1.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2022-09-27 04:48:53+00:00\n"
-"PO-Revision-Date: 2022-09-27 06:49+0200\n"
+"POT-Creation-Date: 2023-01-26 08:16:35+00:00\n"
+"PO-Revision-Date: 2023-01-26 09:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: includes/class-kickstart.php:224 includes/class-property.php:681
 msgid "Price on demand"
@@ -109,8 +109,8 @@ msgid ""
 "strong> at <a href=\"%s\" target=\"_blank\">immonex.dev</a>."
 msgstr ""
 "<strong>immonex OpenImmo2WP</strong> sowie passende OpenImmo-Demodaten sind "
-"<strong>kostenfrei für Test- und Entwicklungszwecke</strong> unter <a href="
-"\"%s\" target=\"_blank\">immonex.dev</a> verfügbar."
+"<strong>kostenfrei für Test- und Entwicklungszwecke</strong> unter <a "
+"href=\"%s\" target=\"_blank\">immonex.dev</a> verfügbar."
 
 #: includes/class-kickstart.php:573
 msgid "General"
@@ -149,11 +149,11 @@ msgid "Reference Properties"
 msgstr "Referenzobjekte"
 
 #: includes/class-kickstart.php:661 includes/class-property.php:500
-#: includes/class-property.php:845
+#: includes/class-property.php:858
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-kickstart.php:671 includes/class-property-search.php:827
+#: includes/class-kickstart.php:671 includes/class-property-search.php:842
 msgid "Distance Search"
 msgstr "Umkreissuche"
 
@@ -171,16 +171,16 @@ msgstr "Karten in Immobilien-Listenseiten"
 #. translators: %1$s = OpenStreetMap URL, %2$s = OpenLayers URL.
 #: includes/class-kickstart.php:679
 msgid ""
-"Maps on property list pages are rendered using <a href=\"%1$s\" target="
-"\"_blank\">OpenStreetMap</a> and <a href=\"%2$s\" target=\"_blank"
-"\">OpenLayers</a>. Center and zoom level are usually determined "
-"automatically based on the property markers included. Initial values can be "
-"entered in the following fields."
+"Maps on property list pages are rendered using <a href=\"%1$s\" "
+"target=\"_blank\">OpenStreetMap</a> and <a href=\"%2$s\" "
+"target=\"_blank\">OpenLayers</a>. Center and zoom level are usually "
+"determined automatically based on the property markers included. Initial "
+"values can be entered in the following fields."
 msgstr ""
-"Karten in Immobilien-Listenseiten werden mittels <a href=\"%1$s\" target="
-"\"_blank\">OpenStreetMap</a> und <a href=\"%2$s\" target=\"_blank"
-"\">OpenLayers</a> gerendert. Karten-Mittelpunkt und Zoomstufe werden "
-"normalerweise anhand der enthaltenen Immobilien-Marker automatisch "
+"Karten in Immobilien-Listenseiten werden mittels <a href=\"%1$s\" "
+"target=\"_blank\">OpenStreetMap</a> und <a href=\"%2$s\" "
+"target=\"_blank\">OpenLayers</a> gerendert. Karten-Mittelpunkt und Zoomstufe "
+"werden normalerweise anhand der enthaltenen Immobilien-Marker automatisch "
 "ermittelt. Die entsprechenden Initialwerte können in den folgenden Feldern "
 "hinterlegt werden."
 
@@ -237,19 +237,19 @@ msgid ""
 "The following <strong>rewrite slugs</strong> are used for creating \"SEO "
 "friendly\" permalinks for property/agency/agent archive and detail pages, e."
 "g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/"
-"a-really-maniac-mansion/</strong>. In multilingual enviroments using <a href="
-"\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a href=\"%2$s\" target="
-"\"_blank\">WPML</a>, these slugs can be translated with the corresponding "
-"<em>string translation</em> functionality."
+"a-really-maniac-mansion/</strong>. In multilingual enviroments using <a "
+"href=\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a href=\"%2$s\" "
+"target=\"_blank\">WPML</a>, these slugs can be translated with the "
+"corresponding <em>string translation</em> functionality."
 msgstr ""
 "Die folgenden <strong>Rewrite Slugs</strong> werden für die Generierung "
 "\"SEO-freundlicher\" Permalinks für Immobilien/Agentur/Ansprechpartner-"
 "Archiv- und Detailseiten verwendet, z. B. <strong>domain.tld/immobilien/</"
 "strong> oder <strong>domain.tld/immobilien/eine-wahrhaft-verrueckte-villa/</"
-"strong>. In mehrsprachigen Umgebungen auf Basis von <a href=\"%1$s\" target="
-"\"_blank\">Polylang Pro</a> oder <a href=\"%2$s\" target=\"_blank\">WPML</a> "
-"können diese Slugs mit der jeweiligen <em>String-Translation-Funktion</em> "
-"übersetzt werden."
+"strong>. In mehrsprachigen Umgebungen auf Basis von <a href=\"%1$s\" "
+"target=\"_blank\">Polylang Pro</a> oder <a href=\"%2$s\" "
+"target=\"_blank\">WPML</a> können diese Slugs mit der jeweiligen <em>String-"
+"Translation-Funktion</em> übersetzt werden."
 
 #: includes/class-kickstart.php:711
 msgid "Taxonomies"
@@ -608,7 +608,7 @@ msgstr ""
 "<strong>immobilien</strong>). Falls leer, wird <em>inx_property</em> als "
 "Basis-Slug verwendet."
 
-#: includes/class-kickstart.php:1040 includes/class-property-search.php:708
+#: includes/class-kickstart.php:1040 includes/class-property-search.php:723
 msgid "Locality"
 msgstr "Ort"
 
@@ -632,7 +632,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/nutzungsart</strong>, "
 "<em>inx_type_of_use</em> falls leer"
 
-#: includes/class-kickstart.php:1058 includes/class-property-search.php:674
+#: includes/class-kickstart.php:1058 includes/class-property-search.php:689
 msgid "Property Type"
 msgstr "Objektart"
 
@@ -644,7 +644,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/objektart</strong>, "
 "<em>inx_property_type</em> falls leer"
 
-#: includes/class-kickstart.php:1067 includes/class-property-search.php:691
+#: includes/class-kickstart.php:1067 includes/class-property-search.php:706
 msgid "Marketing Type"
 msgstr "Vermarktungsart"
 
@@ -678,7 +678,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/label</strong>, <em>inx_label</em> falls "
 "leer"
 
-#: includes/class-kickstart.php:1094 includes/class-property-search.php:723
+#: includes/class-kickstart.php:1094 includes/class-property-search.php:738
 msgid "Project"
 msgstr "Projekt"
 
@@ -700,12 +700,12 @@ msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:865 includes/class-property.php:488
-#: includes/class-property.php:889
+#: includes/class-property-search.php:880 includes/class-property.php:488
+#: includes/class-property.php:902
 msgid "Features"
 msgstr "Ausstattung"
 
-#: includes/class-property-backend-form.php:105 includes/class-property.php:903
+#: includes/class-property-backend-form.php:105 includes/class-property.php:916
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -722,7 +722,7 @@ msgstr "Standort/Geo"
 msgid "Rooms"
 msgstr "Zimmer"
 
-#: includes/class-property-backend-form.php:124 includes/class-property.php:850
+#: includes/class-property-backend-form.php:124 includes/class-property.php:863
 msgid "Areas"
 msgstr "Flächen"
 
@@ -921,7 +921,7 @@ msgstr "Bilder & Anhänge"
 msgid "Gallery Images"
 msgstr "Galeriebilder"
 
-#: includes/class-property-backend-form.php:559 includes/class-property.php:894
+#: includes/class-property-backend-form.php:559 includes/class-property.php:907
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -993,6 +993,14 @@ msgstr "Preis (absteigend)"
 msgid "Area"
 msgstr "Fläche"
 
+#: includes/class-property-hooks.php:711
+msgid "Buyer's Commission"
+msgstr "Käuferprovision"
+
+#: includes/class-property-hooks.php:711
+msgid "Tenant Commission"
+msgstr "Mieterprovision"
+
 #: includes/class-property-list-hooks.php:145
 msgid "Successfully marketed properties"
 msgstr "Erfolgreich vermarktete Immobilien"
@@ -1009,92 +1017,92 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-search.php:647
+#: includes/class-property-search.php:662
 msgid "Keyword or Property ID"
 msgstr "Schlüsselwort oder Objektnr."
 
-#: includes/class-property-search.php:659
+#: includes/class-property-search.php:674
 msgid "Type Of Use"
 msgstr "Nutzungsart"
 
-#: includes/class-property-search.php:661 includes/class-wp-bootstrap.php:112
+#: includes/class-property-search.php:676 includes/class-wp-bootstrap.php:112
 msgid "All Types Of Use"
 msgstr "Alle Nutzungsarten"
 
-#: includes/class-property-search.php:677 includes/class-wp-bootstrap.php:138
+#: includes/class-property-search.php:692 includes/class-wp-bootstrap.php:138
 msgid "All Property Types"
 msgstr "Alle Objektarten"
 
-#: includes/class-property-search.php:694
+#: includes/class-property-search.php:709
 msgid "Sold / Rented"
 msgstr "Verkauft / Vermietet"
 
-#: includes/class-property-search.php:695
+#: includes/class-property-search.php:710
 msgid "For Sale / For Rent"
 msgstr "Zu Verkaufen / Zu Vermieten"
 
-#: includes/class-property-search.php:710
+#: includes/class-property-search.php:725
 msgid "All Localities"
 msgstr "Alle Orte"
 
-#: includes/class-property-search.php:724 includes/class-wp-bootstrap.php:190
+#: includes/class-property-search.php:739 includes/class-wp-bootstrap.php:190
 msgid "All Projects"
 msgstr "Alle Projekte"
 
-#: includes/class-property-search.php:740
-#: includes/class-property-search.php:758
+#: includes/class-property-search.php:755
+#: includes/class-property-search.php:773
 msgid "not specified"
 msgstr "keine Angabe"
 
-#: includes/class-property-search.php:744
+#: includes/class-property-search.php:759
 msgid "Min. Rooms"
 msgstr "Zimmer (min)"
 
-#: includes/class-property-search.php:762
+#: includes/class-property-search.php:777
 msgid "Min. Living Area"
 msgstr "Wohnfläche (min)"
 
-#: includes/class-property-search.php:776
+#: includes/class-property-search.php:791
 msgid "unlimited"
 msgstr "unbegrenzt"
 
-#: includes/class-property-search.php:779
+#: includes/class-property-search.php:794
 msgid "Price Range"
 msgstr "Preisrahmen"
 
-#: includes/class-property-search.php:791
+#: includes/class-property-search.php:806
 msgid "Show"
 msgstr "Anzeigen"
 
-#: includes/class-property-search.php:803
+#: includes/class-property-search.php:818
 msgid "Reset Search Form"
 msgstr "Suchformular zurücksetzen"
 
-#: includes/class-property-search.php:815
+#: includes/class-property-search.php:830
 msgid "Extended and Distance Search"
 msgstr "Erweitert / Umkreissuche"
 
-#: includes/class-property-search.php:828
+#: includes/class-property-search.php:843
 msgid "Locality Name (Distance Search)"
 msgstr "Ort oder Ortsteil (Umkreissuche)"
 
-#: includes/class-property-search.php:829
+#: includes/class-property-search.php:844
 msgid "Type to search..."
 msgstr "Tippen zum Suchen…"
 
-#: includes/class-property-search.php:830
+#: includes/class-property-search.php:845
 msgid "No matching localities found."
 msgstr "Keine passenden Orte gefunden."
 
-#: includes/class-property-search.php:844
+#: includes/class-property-search.php:859
 msgid "Distance Search Radius"
 msgstr "Radius der Umkreissuche"
 
-#: includes/class-property-search.php:852
+#: includes/class-property-search.php:867
 msgid "Radius (km)"
 msgstr "Umkreis (km)"
 
-#: includes/class-property-search.php:877
+#: includes/class-property-search.php:892
 msgid "Labels"
 msgstr "Labels"
 
@@ -1110,15 +1118,15 @@ msgstr "Energieausweis"
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:504 includes/class-property.php:907
+#: includes/class-property.php:504 includes/class-property.php:920
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:855
+#: includes/class-property.php:868
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:920
+#: includes/class-property.php:933
 #: skins/default/single-property/contact-person.php:97
 msgid "Your contact person with us"
 msgstr "Dein Kontakt bei uns"
@@ -2006,8 +2014,8 @@ msgstr ""
 "der OSMF im Vereinigten Königreich und in anderen Ländern betrieben werden. "
 "Der Betreiber dieser Website hat keine Kontrolle über solche Verbindungen "
 "und die Verarbeitung Ihrer Daten durch die OSMF. Weitere Informationen zur "
-"Verarbeitung von Benutzerdaten durch die OSMF finden Sie in der <a href=\"%s"
-"\">OSMF-Datenschutzrichtlinie</a>."
+"Verarbeitung von Benutzerdaten durch die OSMF finden Sie in der <a "
+"href=\"%s\">OSMF-Datenschutzrichtlinie</a>."
 
 #: skins/default/property-list/map.php:38
 #: skins/default/single-property/map-embed.php:23
@@ -2038,8 +2046,8 @@ msgid ""
 "see our <a href=\"%2$s\" target=\"_blank\">privacy policy</a>!"
 msgstr ""
 "Diese Website nutzt %1$s für die Autovervollständigung von Ortsnamen und die "
-"Kartendarstellung, siehe unsere <a href=\"%2$s\" target=\"_blank"
-"\">Datenschutzerklärung</a>!"
+"Kartendarstellung, siehe unsere <a href=\"%2$s\" "
+"target=\"_blank\">Datenschutzerklärung</a>!"
 
 #: skins/default/property-search/element-google-places-autocomplete.php:24
 #: skins/default/property-search/element-photon-autocomplete.php:26
@@ -2092,8 +2100,8 @@ msgstr ""
 "Nutzung dieser Daten sowie Ihren persönlichen Optionen bzgl. Privatsphäre "
 "sind in der <a href=\"%1$s\" target=\"_blank\">Datenschutzerklärung von "
 "Google</a> verfügbar. Ausführliche Anleitungen zur Verwaltung der eigenen "
-"Daten im Zusammenhang mit Google-Produkten sind auch hier zu finden: <a href="
-"\"%2$s\" target=\"_blank\">dataliberation.org</a>\n"
+"Daten im Zusammenhang mit Google-Produkten sind auch hier zu finden: <a "
+"href=\"%2$s\" target=\"_blank\">dataliberation.org</a>\n"
 "\n"
 "Mit dem Klick auf den folgenden Button erlauben Sie die Übermittlung der bei "
 "der Nutzung der Kartenfunktion erhobenen Daten an Google im Einklang mit der "
@@ -2178,8 +2186,8 @@ msgstr "https://immonex.dev/"
 #~ msgstr ""
 #~ "Hier kann eine benutzerdefinierter bzw. lokalisierter <strong>Basis-Slug</"
 #~ "strong> für die Immobilien-Beiträge hinterlegt werden. Das sollte ein "
-#~ "einzelner Begriff in seiner Pluralform sein (normalerweise \"immobilien"
-#~ "\")."
+#~ "einzelner Begriff in seiner Pluralform sein (normalerweise "
+#~ "\"immobilien\")."
 
 #~ msgid "Your Contact Person with us"
 #~ msgstr "Ihr Kontakt bei uns"
@@ -2277,20 +2285,20 @@ msgstr "https://immonex.dev/"
 #~ msgstr "Das ist kein Framework."
 
 #~ msgid ""
-#~ "There is a new version of %1$s available. <a target=\"_blank\" class="
-#~ "\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+#~ "There is a new version of %1$s available. <a target=\"_blank\" "
+#~ "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 #~ msgstr ""
-#~ "Es ist eine neue Version von %1$s verfügbar. <a target=\"_blank\" class="
-#~ "\"thickbox\" href=\"%2$s\">Details zur Version %3$s anzeigen</a>."
+#~ "Es ist eine neue Version von %1$s verfügbar. <a target=\"_blank\" "
+#~ "class=\"thickbox\" href=\"%2$s\">Details zur Version %3$s anzeigen</a>."
 
 #~ msgid ""
-#~ "There is a new version of %1$s available. <a target=\"_blank\" class="
-#~ "\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
-#~ "\">update now</a>."
+#~ "There is a new version of %1$s available. <a target=\"_blank\" "
+#~ "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a "
+#~ "href=\"%4$s\">update now</a>."
 #~ msgstr ""
-#~ "Es ist eine neue Version von %1$s verfügbar. <a target=\"_blank\" class="
-#~ "\"thickbox\" href=\"%2$s\">Details der Version %3$s anzeigen</a> oder <a "
-#~ "href=\"%4$s\">jetzt aktualisieren</a>."
+#~ "Es ist eine neue Version von %1$s verfügbar. <a target=\"_blank\" "
+#~ "class=\"thickbox\" href=\"%2$s\">Details der Version %3$s anzeigen</a> "
+#~ "oder <a href=\"%4$s\">jetzt aktualisieren</a>."
 
 #~ msgid "You do not have permission to install plugin updates"
 #~ msgstr "Die Berechtigung zum Installieren von Plugin-Updates fehlt."

@@ -125,6 +125,7 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 | `type` | Typ des Elements, mit dem ein **vordefiniertes** Template für die Ausgabe ausgewählt werden kann (optional) |
 | | *price* : formatierte Preisangabe inkl. Währung, z. B. *350.000,00 €* (entspricht dem Template `{value,number,2} {currency_symbol}`) |
 | | *area* : formatierte Flächenangabe, z. B. *814,00 m²* (entspricht dem Template `{value,number,2} {area_unit}`) |
+| `convert_urls` | Wert *1* zum Konvertieren enthaltener URLs in Links (optional) |
 | `if_empty` | auszugebender **Alternativtext**, falls das Element leer oder nicht verfügbar ist (optional) |
 | `post_id` | **optionale** Angabe einer alternativen Immobilien-Beitrags-ID (Standard: ID des aktuellen Objekts) |
 

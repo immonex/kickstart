@@ -74,7 +74,7 @@ $inx_skin_show_virtual_tour = $template_data['virtual_tour_embed_code'] && (
 if ( $inx_skin_show_video ) {
 	switch ( $template_data['video']['type'] ) {
 		case 'youtube':
-			$inx_skin_video_iframe_template = '<iframe src="https://www.youtube.com/embed/{id}?autoplay=0&amp;showinfo=0&amp;rel=0&amp;modestbranding=1&amp;playsinline=1" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" class="inx-video-iframe" uk-responsive uk-video="automute: true"></iframe>';
+			$inx_skin_video_iframe_template = '<iframe src="https://{youtube_domain}/embed/{id}" frameborder="0" allowfullscreen allow="{youtube_allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}"></iframe>';
 			$inx_skin_video_icon            = 'youtube';
 			break;
 		case 'vimeo':
@@ -89,8 +89,22 @@ if ( $inx_skin_show_video ) {
 
 	$inx_skin_video_iframe_template = apply_filters( 'inx_video_iframe_template', $inx_skin_video_iframe_template, $template_data['video'] );
 	$inx_skin_video_iframe          = str_replace(
-		array( '{id}', '{url}' ),
-		array( $template_data['video']['id'], $template_data['video']['url'] ),
+		array(
+			'{id}',
+			'{url}',
+			'{youtube_domain}',
+			'{youtube_allow}',
+			'{autoplay}',
+			'{automute}',
+		),
+		array(
+			$template_data['video']['id'],
+			$template_data['video']['url'],
+			$template_data['video']['youtube_domain'],
+			$template_data['video']['youtube_allow'],
+			$template_data['video']['autoplay'] ? 'true' : 'false',
+			$template_data['video']['automute'] ? 'true' : 'false',
+		),
 		$inx_skin_video_iframe_template
 	);
 
@@ -176,7 +190,7 @@ if ( $inx_skin_media_count > 0 ) :
 				if ( count( $inx_skin_gallery_images ) > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 						?>
-				<li>
+				<li class="noHover">
 					<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
 						<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
 						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">

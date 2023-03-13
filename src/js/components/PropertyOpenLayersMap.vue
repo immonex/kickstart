@@ -344,12 +344,15 @@ export default {
 
 				if (that.isCluster(feature)) {
 					if (feature.get('features').length > 1 && that.currentZoom < this.getView().getMaxZoom()) {
-						that.currentZoom++
+						const clusterVectorSource = new Vector({
+							features: feature.get('features')
+						})
 
-						map.getView().animate({
-							center: feature.getGeometry().getCoordinates(),
-							zoom: that.currentZoom,
-							duration: 500
+						that.$nextTick(() => {
+							map.updateSize()
+
+							const extent = clusterVectorSource.getExtent()
+							map.getView().fit(extent, { size: map.getSize(), padding: [48, 32, 32, 32], duration: 500 })
 						})
 					} else {
 						feature.get('features').forEach(property => {

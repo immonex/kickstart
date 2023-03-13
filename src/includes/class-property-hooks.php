@@ -89,6 +89,7 @@ class Property_Hooks {
 		add_filter( 'inx_get_property_images', array( $this, 'get_property_images' ), 10, 3 );
 		add_filter( 'inx_get_property_detail_item', array( $this, 'get_property_detail_item' ), 10, 3 );
 		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
+		add_filter( 'inx_property_template_data_details', array( $this, 'adjust_rental_details' ), 10, 2 );
 		add_filter( 'inx_property_detail_element_output', array( $this, 'render_property_detail_element_output' ), 10, 2 );
 
 		/**
@@ -345,9 +346,11 @@ class Property_Hooks {
 				$shortcode_elements;
 
 			if ( count( $elements ) > 0 ) {
-				// Assign shortcode attributes to the related elements for output
-				// rendering (only if required - given default values will be
-				// overridden).
+				/**
+				 * Assign shortcode attributes to the related elements for output
+				 * rendering (only if required - given default values will be
+				 * overridden).
+				 */
 				foreach ( $elements as $i => $element_key ) {
 					$element_atts[ $element_key ] = array();
 					foreach ( $atts as $attr_key => $attr_value ) {
@@ -523,7 +526,9 @@ class Property_Hooks {
 		}
 
 		// Permit arbitrary attributes for passing template parameters (special case!).
-		$shortcode_atts = shortcode_atts( $atts, $atts, 'inx-property-details' );
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $atts, $atts, 'inx-property-details' )
+		);
 		$template       = ! empty( $shortcode_atts['template'] ) ?
 			$shortcode_atts['template'] :
 			Property::DEFAULT_TEMPLATE;
@@ -543,15 +548,18 @@ class Property_Hooks {
 	 */
 	public function shortcode_property_detail_element( $atts ) {
 		$default_atts = array(
-			'post_id'  => '',
-			'name'     => '',
-			'group'    => '',
-			'type'     => '',
-			'template' => '{value}',
-			'if_empty' => '',
+			'post_id'      => '',
+			'name'         => '',
+			'group'        => '',
+			'type'         => '',
+			'template'     => '{value}',
+			'convert_urls' => false,
+			'if_empty'     => '',
 		);
 
-		$shortcode_atts = shortcode_atts( $default_atts, $atts, 'inx-property-detail-element' );
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $default_atts, $atts, 'inx-property-detail-element' )
+		);
 
 		if ( empty( $shortcode_atts['name'] ) ) {
 			return $shortcode_atts['if_empty'];
@@ -571,7 +579,7 @@ class Property_Hooks {
 
 		$core_data   = $property->get_core_data();
 		$oi_data     = $property->get_openimmo_data();
-		$name        = trim( sanitize_text_field( $shortcode_atts['name'] ) );
+		$name        = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ) );
 		$value       = false;
 		$raw_value   = false;
 		$title       = '';
@@ -582,7 +590,10 @@ class Property_Hooks {
 			 * Queried element most likely is an XML path -> apply XPath to
 			 * property XML source if available.
 			 */
-			$value = (string) $oi_data['oi_immobilie']->xpath( $name )[0];
+			$value_xpath = $oi_data['oi_immobilie']->xpath( $name );
+			if ( ! empty( $value_xpath ) ) {
+				$value = (string) $value_xpath[0];
+			}
 		} else {
 			/**
 			 * Try to retrieve an OpenImmo value based on its name stated in
@@ -646,9 +657,12 @@ class Property_Hooks {
 			// Alternative: Fetch the value of a generic custom field.
 			$value = get_post_meta( $property_id, $name, true );
 
-			if ( $value && '_inx_' === substr( $value, 0, 5 ) ) {
-				// Retrieve the actual value from the field determined before.
-				$value = get_post_meta( $property_id, $value, true );
+			if ( $value ) {
+				// Try to retrieve the actual value from a field with the same name as the value determined before.
+				$value_temp = get_post_meta( $property_id, $value, true );
+				if ( $value_temp ) {
+					$value = $value_temp;
+				}
 			}
 		}
 
@@ -666,6 +680,10 @@ class Property_Hooks {
 			}
 		}
 
+		if ( $shortcode_atts['convert_urls'] && is_string( $value ) ) {
+			$value = $this->utils['string']->convert_urls( $value );
+		}
+
 		$rendered_content = apply_filters(
 			'inx_property_detail_element_output',
 			$value,
@@ -674,7 +692,7 @@ class Property_Hooks {
 				'initial_value' => $value,
 				'raw_value'     => $raw_value,
 				'title'         => $title,
-				'template'      => $shortcode_atts['template'],
+				'template'      => html_entity_decode( $shortcode_atts['template'] ),
 				'if_empty'      => $shortcode_atts['if_empty'],
 				'detail_item'   => $detail_item,
 				'post_id'       => $property_id,
@@ -684,6 +702,40 @@ class Property_Hooks {
 
 		return $rendered_content;
 	} // shortcode_property_detail_element
+
+	/**
+	 * Maybe adjust rental property specific titles etc. (callback).
+	 *
+	 * @since 1.7.18-beta
+	 *
+	 * @param mixed[] $details     Grouped array of property details (template data).
+	 * @param int     $property_id Property post ID.
+	 *
+	 * @return string Rendered output value based on the given template string.
+	 */
+	public function adjust_rental_details( $details, $property_id ) {
+		if ( empty( $details ) || get_post_meta( $property_id, '_inx_is_sale', true ) ) {
+			return $details;
+		}
+
+		$replace = array(
+			__( "Buyer's Commission", 'immonex-kickstart' ) => __( 'Tenant Commission', 'immonex-kickstart' ),
+		);
+
+		foreach ( $details as $group => $items ) {
+			if ( empty( $items ) ) {
+				continue;
+			}
+
+			foreach ( $items as $i => $item ) {
+				if ( ! empty( $item['title'] ) && isset( $replace[ $item['title'] ] ) ) {
+					$details[ $group ][ $i ]['title'] = $replace[ $item['title'] ];
+				}
+			}
+		}
+
+		return $details;
+	} // adjust_rental_details
 
 	/**
 	 * Render the output of the property detail element shortcode (callback).
@@ -825,7 +877,7 @@ class Property_Hooks {
 			$details_page = get_page_by_path( $request['pagename'] );
 			if ( ! empty( $_GET['inx-property-id'] ) ) {
 				$request['inx-property-id'] = (int) $_GET['inx-property-id'];
-			} elseif ( $details_page->ID === (int) $details_page_id ) {
+			} elseif ( ! empty( $details_page ) && $details_page->ID === (int) $details_page_id ) {
 				$forward_to_list_view = true;
 			}
 		}

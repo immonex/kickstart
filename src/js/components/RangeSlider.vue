@@ -174,8 +174,8 @@ export default {
 						this.currentValue.length === 1 &&
 						0 === this.currentValue[0]
 					) || (
-						this.currentValue[0] === this.min &&
-						this.currentValue[1] === this.max
+						this.currentValue[0] <= this.min &&
+						this.currentValue[1] >= this.max
 					)
 				)
 			) {
@@ -233,7 +233,7 @@ export default {
 
 			values.forEach((value, index) => {
 				if (value >= 1000000) {
-					values[index] = (value / 1000000).toFixed(1) * 1000000
+					values[index] = Math.ceil(value / 100000) * 100000
 				}
 			})
 

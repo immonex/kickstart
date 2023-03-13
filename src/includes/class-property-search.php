@@ -140,10 +140,20 @@ class Property_Search {
 			foreach ( $enabled_elements as $id => $element ) {
 				$public_id = $this->get_public_element_id( $id );
 
+				// Prioritize element values submitted as GET param.
+				$value = isset( $_GET[ $public_id ] ) ?
+					// @codingStandardsIgnoreLine
+					$this->utils['data']->sanitize_query_var_value( wp_unslash( $_GET[ $public_id ] ) ) :
+					false;
+
+				if ( ! $value && ! empty( $atts[ $public_id ] ) ) {
+					// Assign a shortcode attribute value if not set via GET.
+					$value = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
+				}
+
 				if ( empty( $element['hidden'] ) ) {
-					if ( ! empty( $atts[ $public_id ] ) ) {
-						// Loop through value that has been set via shortcode attribute.
-						$element['value'] = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
+					if ( $value ) {
+						$element['value'] = $value;
 					}
 
 					$elements[ $id ] = $element;
@@ -152,11 +162,10 @@ class Property_Search {
 						unset( $hidden_fields[ $public_id ] );
 					}
 				} else {
-					if ( ! empty( $atts[ $public_id ] ) ) {
-						$value = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
-					} else {
+					if ( ! $value ) {
 						$value = $this->utils['data']->get_query_var_value( $public_id );
 					}
+
 					if ( $value ) {
 						$hidden_fields[ $public_id ] = array(
 							'name'  => $public_id,
@@ -1144,18 +1153,21 @@ class Property_Search {
 						! $element['key'] ||
 						'fulltext' === $element['key']
 					) {
-						// Use specific custom fields for "fulltext search".
+						// Use specific custom fields for "full-text search".
 						$fulltext_search_fields = $this->get_fulltext_search_fields();
 
 						if ( count( $fulltext_search_fields ) > 0 ) {
 							$fulltext_fields_subquery = array( 'relation' => 'OR' );
+							$temp_value_array         = is_array( $value ) ? $value : array( $value );
 
 							foreach ( $fulltext_search_fields as $meta_key ) {
-								$fulltext_fields_subquery[] = array(
-									'key'     => $meta_key,
-									'value'   => $value,
-									'compare' => 'LIKE',
-								);
+								foreach ( $temp_value_array as $temp_value ) {
+									$fulltext_fields_subquery[] = array(
+										'key'     => $meta_key,
+										'value'   => $temp_value,
+										'compare' => 'LIKE',
+									);
+								}
 							}
 
 							$meta_query[] = $fulltext_fields_subquery;
