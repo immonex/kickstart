@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften der für die Ausgabe verfügbaren El
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` | Array der verfügbaren [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
+| `$elements` (array) | Verfügbare [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
 
 ### Das Elements-Array im Detail
 

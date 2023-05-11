@@ -577,7 +577,7 @@ class Property_Hooks {
 			return $shortcode_atts['if_empty'];
 		}
 
-		$core_data   = $property->get_core_data();
+		$core_data   = $property->get_core_data( 'inx-property-detail-element shortcode', $shortcode_atts );
 		$oi_data     = $property->get_openimmo_data();
 		$name        = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ) );
 		$value       = false;

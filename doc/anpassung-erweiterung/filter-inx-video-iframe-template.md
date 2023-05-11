@@ -6,8 +6,8 @@ Mit diesem Filter kann die Vorlage für die Einbindung **externer Videos** (YouT
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template` | iFrame-HTML-Code |
-| `$video` | Daten des einzubindenden Videos als Array mit folgenden Elementen, die per Platzhalter `{type}`, `{id}` und `{url}` in den Template-String übernommen werden können: |
+| `$template` (string) | iFrame-HTML-Code |
+| `$video` (array) | Daten des einzubindenden Videos mit folgenden Elementen, die per Platzhalter `{type}`, `{id}` und `{url}` in den Template-String übernommen werden können: |
 | | `type` (Videoplattform-Anbieter): *youtube* oder *vimeo* |
 | | `id` (anbieterspezifische Video-ID) |
 | | `url` (Video-URL) |

@@ -8,9 +8,9 @@ Dieser Filter dient dem **Abrufen eines Detail-Elements** einer [Immobilie](/bei
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$item` | Standardvorgabe (im Regelfall *false*) |
-| `$post_id` | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
-| `$args` | zusätzliche Parameter |
+| `$item` (mixed\|bool) | Standardvorgabe (im Regelfall *false*) |
+| `$post_id` (int\|string) | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
+| `$args` (array) | zusätzliche Parameter |
 | | **`name`** (**obligatorisch**, *Mapping-Name* des gewünschten Elements) |
 | | `group` (*Mapping-Gruppe* des Elements) |
 | | `value_only` (nur Wert zurückliefern?): *true* (Standard) oder *false* (Array mit Wert und *Import-Metadaten*) |

@@ -39,12 +39,19 @@
 - [inx_property_detail_element_output](filter-inx-property-detail-element-output) (Anpassung der Ausgabe einzelner Detail-Elemente)
 - [inx_forward_to_list_view_url](filter-inx-forward-to-list-view-url) (URL der Listen-Weiterleitung beim direkten Aufruf der Detailseite)
 
-### Rendering / Templates (allgemein)
+### Rendering / Templates
+
+#### Allgemein
 
 - [inx_auto_applied_rendering_atts](filter-inx-auto-applied-rendering-atts) (Rendering-spezifische Attribute mit automatisierter Übernahme definieren)
 - [inx_apply_auto_rendering_atts](filter-inx-apply-auto-rendering-atts) (Rendering-Auto-Attribute übernehmen)
 - [inx_template_search_folders](filter-inx-template-search-folders) (Basisordner für Skins/Templates ergänzen)
 - [inx_template_folder_url_mappings](filter-inx-template-folder-url-mappings) (URL-Zuordnungen für nicht öffentlich zugängliche Template/Skin-Dateisystem-Basisordner definieren)
+
+#### Immobilien
+
+- [inx_property_core_data_custom_fields](filter-inx-property-core-data-custom-fields) (Custom Fields der Immobilien-Kerndaten)
+- [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
 
 ### Kompatibilität
 

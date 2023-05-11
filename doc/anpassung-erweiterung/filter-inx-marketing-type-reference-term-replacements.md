@@ -8,7 +8,7 @@ Mit diesem Filter können die entsprechenden Übersetzungen bearbeitet oder deak
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$replace_terms` | Array anzupassender Taxonomie-Terms und die entsprechenden Ersetzungen oder *false* zum Deaktivieren |
+| `$replace_terms` (array) | Key-Value-Liste anzupassender Taxonomie-Terms und die entsprechenden Ersetzungen oder *false* zum Deaktivieren |
 
 ### Standard-Replace-Terms-Array
 

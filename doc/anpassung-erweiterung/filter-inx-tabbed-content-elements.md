@@ -6,7 +6,7 @@ Mit diesem Filter kann die Aufteilung der Elemente der [Immobilien-Detailansicht
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` | Array mit folgenden Unterarrays, die die Tab-Definitionen sowie Key-Listen von [Detailabschnitt-Elementen](/komponenten/detailansicht#elemente-abschnitte) enthalten |
+| `$elements` (array) | Array mit folgenden Unterarrays, die die Tab-Definitionen sowie Key-Listen von [Detailabschnitt-Elementen](/komponenten/detailansicht#elemente-abschnitte) enthalten |
 | | `before_tabs`: Elemente, die **vor** dem Tab-Abschnitt angezeigt werden |
 | | `tabs`: Liste der Tabs inkl. Bezeichnungen und enthaltenen Elementen |
 | | `after_tabs`: Elemente, die **nach** dem Tab-Abschnitt angezeigt werden |

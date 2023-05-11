@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften der [immobilienspezifischen Taxonomi
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$taxonomies` | Array mit Eigenschaften **aller** Taxonomien, die vom Kickstart-Plugin registriert werden |
+| `$taxonomies` (array) | Eigenschaften **aller** Taxonomien, die vom Kickstart-Plugin registriert werden |
 
 ### Taxonomies-Array im Detail
 

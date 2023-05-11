@@ -6,7 +6,7 @@ Mit diesem Filter kann eine alternative Standard-Sortierung für die [Immobilien
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$key` | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](/komponenten/sortierung#standard-optionen)) |
+| `$key` (string) | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](/komponenten/sortierung#standard-optionen)) |
 
 ## Rückgabewert
 

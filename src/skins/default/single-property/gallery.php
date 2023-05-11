@@ -242,8 +242,8 @@ if ( $inx_skin_media_count > 0 ) :
 								?>
 						<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo $inx_skin_i; ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
 								<?php
-								endforeach;
-							endif;
+							endforeach;
+						endif;
 						?>
 					</ul>
 

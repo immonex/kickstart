@@ -10,7 +10,7 @@ module.exports = {
         frontend: './src/js/frontend.js',
         backend: './src/js/backend.js'
     },
-    ...glob.sync('./src/skins/**/js/src/index.js').reduce((acc, path) => {
+    ...glob.sync('./src/skins/**/js/src/index.js', { dotRelative: true }).reduce((acc, path) => {
         let entry = path.replace('./src/skins/', '../../skins/')
         entry = entry.replace('/js/src/index.js', '/js/index')
         acc[entry] = path
@@ -62,19 +62,12 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        exclude: /node_modules|build/,
-        use: [{
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: (url, resourcePath, context) => {
-                const relativePath = path.relative(context, resourcePath);
-                return '../../../' + relativePath;
-              },
-              publicPath: '../fonts'
-            }
-        }]
+          test: /\.(woff(2)?|ttf|eot)$/,
+          exclude: /node_modules|build/,
+          type: 'asset/resource',
+          generator: {
+              filename: '[name][ext]'
+          },
       }
     ]
   },

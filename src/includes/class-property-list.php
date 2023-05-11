@@ -94,7 +94,13 @@ class Property_List {
 		);
 
 		$template_data['post_count'] = $wp_query->post_count;
-		$output                      = $this->utils['template']->render_php_template( $template, $template_data );
+		$output                      = apply_filters(
+			'inx_rendered_property_list_template_contents',
+			$this->utils['template']->render_php_template( $template, $template_data ),
+			$template,
+			$template_data,
+			$atts
+		);
 
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );
@@ -160,7 +166,13 @@ class Property_List {
 			$this->config,
 			$atts
 		);
-		$output        = $this->utils['template']->render_php_template( $template, $template_data );
+		$output        = apply_filters(
+			'inx_rendered_pagination_template_contents',
+			$this->utils['template']->render_php_template( $template, $template_data ),
+			$template,
+			$template_data,
+			$atts
+		);
 
 		return $output;
 	} // render_pagination

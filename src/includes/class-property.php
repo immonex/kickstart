@@ -112,6 +112,10 @@ class Property {
 
 		$atts = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 
+		if ( ! isset( $atts['template'] ) ) {
+			$atts['template'] = $template;
+		}
+
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
@@ -131,7 +135,13 @@ class Property {
 
 		$template_data = $this->get_property_template_data( $atts );
 
-		$this->cache['rendered_template_contents'][ $hash ] = $this->utils['template']->render_php_template( $template, $template_data, $this->utils );
+		$this->cache['rendered_template_contents'][ $hash ] = apply_filters(
+			'inx_rendered_property_template_contents',
+			$this->utils['template']->render_php_template( $template, $template_data, $this->utils ),
+			$template,
+			$template_data,
+			$atts
+		);
 
 		return $this->cache['rendered_template_contents'][ $hash ];
 	} // render
@@ -173,7 +183,7 @@ class Property {
 		}
 
 		// Get property core data (individual custom fields).
-		$core_data = $this->get_core_data();
+		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
 
 		// Extract some OpenImmo related property base data.
 		$oi_data = $this->get_openimmo_data();
@@ -599,9 +609,12 @@ class Property {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string  $context      Context in which the data are requested (optional).
+	 * @param mixed[] $context_atts Contextual attributes (optional).
+	 *
 	 * @return mixed[] Property core data.
 	 */
-	public function get_core_data() {
+	public function get_core_data( $context = '', $context_atts = array() ) {
 		if ( ! is_a( $this->post, 'WP_Post' ) ) {
 			return array();
 		}
@@ -613,42 +626,44 @@ class Property {
 		$prefix       = $this->config['plugin_prefix'];
 		$is_reference = get_post_meta( $this->post->ID, '_immonex_is_reference', true );
 
-		// TODO: Add central definition / filter.
-		$custom_fields = array(
-			'property_id',
-			'build_year',
-			'primary_area',
-			'plot_area',
-			'commercial_area',
-			'retail_area',
-			'office_area',
-			'gastronomy_area',
-			'storage_area',
-			'usable_area',
-			'living_area',
-			'basement_area',
-			'attic_area',
-			'misc_area',
-			'garden_area',
-			'total_area',
-			'primary_rooms',
-			'bedrooms',
-			'living_bedrooms',
-			'bathrooms',
-			'total_rooms',
-			'primary_price',
-			'price_time_unit',
-			'primary_units',
-			'living_units',
-			'commercial_units',
-			'zipcode',
-			'city',
-			'state',
+		$custom_fields = apply_filters(
+			'inx_property_core_data_custom_fields',
+			array(
+				'property_id',
+				'build_year',
+				'primary_area',
+				'plot_area',
+				'commercial_area',
+				'retail_area',
+				'office_area',
+				'gastronomy_area',
+				'storage_area',
+				'usable_area',
+				'living_area',
+				'basement_area',
+				'attic_area',
+				'misc_area',
+				'garden_area',
+				'total_area',
+				'primary_rooms',
+				'bedrooms',
+				'living_bedrooms',
+				'bathrooms',
+				'total_rooms',
+				'primary_price',
+				'price_time_unit',
+				'primary_units',
+				'living_units',
+				'commercial_units',
+				'zipcode',
+				'city',
+				'state',
+			)
 		);
 		$core_data     = array();
 
 		foreach ( $custom_fields as $field_name ) {
-			$field_meta_key  = '_' . $prefix . $field_name;
+			$field_meta_key  = "_{$prefix}{$field_name}";
 			$field_meta_data = get_post_meta( $this->post->ID, '_' . $field_meta_key, true );
 
 			$value = get_post_meta( $this->post->ID, $field_meta_key, true );
@@ -694,6 +709,15 @@ class Property {
 				'title'           => $field_meta_data && isset( $field_meta_data['mapping_parent'] ) ? $field_meta_data['mapping_parent'] : '',
 			);
 		}
+
+		$meta      = array_merge(
+			$context_atts,
+			array(
+				'property_id' => $this->post->ID,
+				'context'     => $context,
+			)
+		);
+		$core_data = apply_filters( 'inx_property_core_data', $core_data, $meta );
 
 		$this->cache['core_data'][ $this->post->ID ] = $core_data;
 

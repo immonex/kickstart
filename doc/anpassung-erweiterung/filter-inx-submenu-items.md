@@ -8,7 +8,7 @@ Auf vom Plugin oder Add-ons registrierte Beitragsarten (*Custom Post Types*) kan
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$items` | Array der Untermenüpunkte (mittlerer Abschnitt) |
+| `$items` (array) | Liste der Untermenüpunkte (mittlerer Abschnitt) |
 
 ### Items-Array im Detail
 

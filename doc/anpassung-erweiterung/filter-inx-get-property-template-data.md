@@ -8,8 +8,8 @@ Dieser Filter dient dem **Abrufen** aller für das Rendering eines Detailansicht
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template_data` | leeres Array |
-| `$args` | Optionale Parameter |
+| `$template_data` (array) | leeres Array |
+| `$args` (array) | Optionale Parameter |
 | | `post_id`: ID des Immobilien-Beitrags (optional, Standard: automatische Ermittlung) |
 
 ## Rückgabewert
