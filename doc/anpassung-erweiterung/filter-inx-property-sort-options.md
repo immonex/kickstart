@@ -31,7 +31,7 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
         'field' => '_inx_is_sale',
         'title' => __( 'For Rent first', 'immonex-kickstart' ), // Mietobjekte zuerst
         'order' => 'ASC'
-    ]
+    ],
     'availability_desc' => [
         'field' => '_immonex_is_available',
         'title' => __( 'Available first', 'immonex-kickstart' ), // Verfügbare zuerst
@@ -39,7 +39,7 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
     ],
     'price_asc' => [
         'field' => '_inx_primary_price',
-        'title' => __( 'Available first', 'immonex-kickstart' ), // Preis (aufsteigend)
+        'title' => __( 'Price (low to high)', 'immonex-kickstart' ), // Preis (aufsteigend)
         'order' => 'ASC',
         'type' => 'NUMERIC'
     ],
@@ -47,19 +47,19 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
         'field' => '_inx_primary_price',
         'title' => __( 'Price (high to low)', 'immonex-kickstart' ), // Preis (absteigend)
         'order' => 'DESC',
-        'type' => 'NUMERIC'
+        'type'  => 'NUMERIC'
     ],
     'area_asc' => [
         'field' => '_inx_primary_area',
         'title' => __( 'Area', 'immonex-kickstart' ), // Fläche
         'order' => 'ASC',
-        'type' => 'NUMERIC'
+        'type'  => 'NUMERIC'
     ],
     'rooms_asc' => [
         'field' => '_inx_primary_rooms',
         'title' => __( 'Rooms', 'immonex-kickstart' ), // Zimmer
         'order' => 'ASC',
-        'type' => 'NUMERIC'
+        'type'  => 'NUMERIC'
     ]
 ]
 ```

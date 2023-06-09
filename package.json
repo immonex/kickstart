@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.7.11",
+  "version": "1.7.25",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "config": {
@@ -56,7 +56,7 @@
     "build:clean-cmb2": "rimraf --glob 'build/vendor/cmb2/cmb2/languages/cmb2-!(de_*|en_*|fr_*|nl_*|es_*|it_*)' && rimraf --glob 'build/vendor/cmb2/cmb2/@(tests|apigen|coverage*)'",
     "build:clean-vendor": "rimraf --glob 'build/vendor/**/@(bin|sass|example*|Grunt*|grunt*|gulp*|phpunit*|Dock*|composer.*|package.json|package-lock.json)' && rimraf --glob 'build/vendor/**/.[^.]*'",
     "build:del-scss-js-sources": "rimraf --glob build/**/scss && rimraf --glob build/**/*.scss && rimraf --glob build/js && rimraf --glob build/skins/**/js/src",
-    "build:zip": "mv build $npm_package_config_pluginFolderName && mkdir -p dist && zip -rq dist/$npm_package_config_pluginFolderName.zip $npm_package_config_pluginFolderName && mv $npm_package_config_pluginFolderName build",
+    "build:zip": "mv build $npm_package_config_pluginFolderName && mkdir -p dist && zip -rq dist/$npm_package_config_pluginFolderName.zip $npm_package_config_pluginFolderName -x '**/.DS_Store' && mv $npm_package_config_pluginFolderName build",
     "build": "npm run build:scripts && npm run build:copy && npm run build:clean-core && npm run build:clean-cmb2 && npm run build:clean-vendor && npm run build:del-scss-js-sources && npm run build:zip",
     "postbuild": "composer install --ignore-platform-reqs",
     "watch": "webpack --watch --config webpack.dev.js",
