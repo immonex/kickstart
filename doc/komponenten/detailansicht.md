@@ -32,6 +32,8 @@ Mit diesem Shortcode kann eine beliebige Anzahl [vordefinierter Abschnitte](#ele
 
 #### Attribute
 
+##### Allgemein
+
 Sollen nur bestimmte Detail-Abschnitte eingebunden werden, kann der entsprechende Umfang mit den Attributen `elements` **oder** `exclude` festgelegt werden (einzeln oder als kommagetrennte Liste).
 
 | Name | Beschreibung / Attributwerte |
@@ -42,6 +44,17 @@ Sollen nur bestimmte Detail-Abschnitte eingebunden werden, kann der entsprechend
 | | *0* : deaktivieren (Standard bei Nutzung von `elements` oder `exclude`) |
 | | *1* : aktivieren (Standard bei Einbindung aller Elemente) |
 | `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *single-property/foobar*) |
+
+##### Video
+
+Die folgenden Attribute sind für die [Elemente](#elemente-abschnitte) `gallery` und `video` relevant.
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `autoplay` | YouTube-Videos automatisch starten: *0* (nein, Standard) oder *1* (ja) |
+| `automute` | YouTube-Videos stummschalten: *1* (ja, Standard) oder *0* (nein) |
+| `youtube-nocookie` | Domain ohne Tracking für YouTube-iFrames verwenden: *1* (ja, `www.youtube-nocookie.com`, Standard) oder *0* (nein, `www.youtube.com`) |
+| `youtube-allow` | Inhalte des `allow`-Attributs für YouTube-iFrames (Standard: *accelerometer; encrypted-media; gyroscope*, zusätzlich *autoplay* sofern aktiviert) |
 
 ##### Template-Parameter per Attribut setzen
 

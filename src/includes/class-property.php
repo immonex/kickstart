@@ -1008,7 +1008,7 @@ class Property {
 			'youtube_domain' => ! isset( $atts['youtube-nocookie'] ) || in_array( (string) $atts['youtube-nocookie'], array( '1', 'true' ), true )
 				? 'www.youtube-nocookie.com' : 'www.youtube.com',
 			'youtube_allow'  => ! empty( $atts['youtube-allow'] ) ?
-				$template_data['youtube-allow'] :
+				$atts['youtube-allow'] :
 				'accelerometer; encrypted-media; gyroscope' . ( $autoplay ? '; autoplay' : '' ),
 		);
 

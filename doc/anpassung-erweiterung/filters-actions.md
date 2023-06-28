@@ -88,3 +88,7 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 - [inx_render_pagination](action-inx-render-pagination) (Seitennavigation der Listenansicht)
 - [inx_render_property_filters_sort](action-inx-render-property-filters-sort) (Element zur Auswahl der Sortierung)
 - [inx_render_property_contents](action-inx-render-property-contents) (Immobilien-Details)
+
+### Mehrsprachigkeit
+
+- [inx_rest_set_query_language](action-inx-rest-set-query-language) (Sprache für REST-API-basierte Abfragen festlegen)

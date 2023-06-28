@@ -145,6 +145,15 @@ Die folgenden Eigenschaften sind größtenteils **templatespezifisch**, können 
 | `enable_virtual_tour` (bool) | externe 360°-Ansichten/virtuelle Touren (z. B. Ogulo oder IS24) in der Galerie anzeigen? |
 | `enable_ken_burns_effect` (bool) | Ken-Burns-Effekt aktivieren? (Animation statischer Bilder **bei ausreichender Bildgröße**) |
 
+##### Template **gallery** und **video**
+
+| Name | Beschreibung |
+| ---- | ------------ |
+| `autoplay` (bool) | YouTube-Video automatisch starten: *false* (Standard) oder *true*) |
+| `automute` (bool) | YouTube-Video automatisch stummschalten: *true* (Standard) oder *false* |
+| `youtube_allow` (string) | Inhalte des `allow`-Attributs für YouTube-iFrames (Standard: *accelerometer; encrypted-media; gyroscope*), zusätzlich *autoplay* sofern aktiviert |
+| `youtube_domain` (string) | YouTube-Domain: *www.youtube-nocookie.com* (Standard) oder *www.youtube.com* |
+
 ##### Template **shortcodes**
 
 | Name (Typ) | Beschreibung / Werte |

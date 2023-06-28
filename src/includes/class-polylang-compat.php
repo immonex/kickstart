@@ -54,6 +54,8 @@ class Polylang_Compat {
 		add_filter( 'inx_is_translated_post_type', array( $this, 'is_translated_post_type' ), 10, 2 );
 
 		add_filter( 'pll_the_language_link', array( $this, 'extend_language_switcher_urls' ), 10, 2 );
+
+		add_action( 'inx_rest_set_query_language', array( $this, 'switch_language' ), 10, 2 );
 	} // __construct
 
 	/**
@@ -188,5 +190,18 @@ class Polylang_Compat {
 
 		return add_query_arg( $get_vars, trailingslashit( $raw_url ) );
 	} // extend_language_switcher_urls
+
+	/**
+	 * Switch current language using the WPML(!) API (action callback).
+	 *
+	 * @since 1.7.26-beta
+	 *
+	 * @param string           $lang    Language code (ISO-639-1).
+	 * @param \WP_REST_Request $request Request object.
+	 */
+	public function switch_language( $lang, $request ) {
+		// @codingStandardsIgnoreLine
+		do_action( 'wpml_switch_language', $lang );
+	} // switch_language
 
 } // Polylang_Compat

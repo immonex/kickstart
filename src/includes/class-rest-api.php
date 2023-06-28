@@ -89,6 +89,13 @@ class REST_API {
 	public function get_properties( \WP_REST_Request $request ) {
 		$response_format = $this->get_property_query_response_format( $request );
 
+		if (
+			$request->get_param( 'inx-r-lang' ) &&
+			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
+		) {
+			do_action( 'inx_rest_set_query_language', $lang, $request );
+		}
+
 		if ( 'html' === $response_format ) {
 			return $this->get_property_list_html( $request );
 		}
@@ -153,13 +160,7 @@ class REST_API {
 			$args['suppress_filters'] = false;
 		}
 
-		if (
-			$request->get_param( 'inx-r-lang' ) &&
-			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
-		) {
-			$args['lang']             = sanitize_key( $request->get_param( 'inx-r-lang' ) );
-			$args['suppress_filters'] = false;
-		}
+		$this->maybe_add_lang_args( $args, $request );
 
 		$properties = $property_list->get_properties( $args );
 
@@ -178,6 +179,8 @@ class REST_API {
 	private function get_property_list_html( $request ) {
 		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
 		unset( $component_instance_data['is_regular_archive_page'] );
+
+		$this->maybe_add_lang_args( $component_instance_data, $request );
 
 		$template      = ! empty( $component_instance_data['template'] ) ? $component_instance_data['template'] : '';
 		$property_list = new Property_List( $this->config, $this->utils );
@@ -208,21 +211,15 @@ class REST_API {
 	 * @return mixed[] Map marker data.
 	 */
 	private function get_property_map_markers( $request, $response_format = 'json_map_markers' ) {
-		$atts = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+		$args = json_decode( $request->get_param( 'inx-r-cidata' ), true );
 		$id   = $request->get_param( 'id' );
 
 		if ( $id ) {
-			$atts['id']   = $id;
-			$atts['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
+			$args['id']   = $id;
+			$args['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
 		}
 
-		if (
-			$request->get_param( 'inx-r-lang' ) &&
-			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
-		) {
-			$atts['lang']             = sanitize_key( $request->get_param( 'inx-r-lang' ) );
-			$atts['suppress_filters'] = false;
-		}
+		$this->maybe_add_lang_args( $args, $request );
 
 		return apply_filters( 'inx_get_property_map_markers', array(), $atts );
 	} // get_property_map_markers
@@ -380,5 +377,24 @@ class REST_API {
 
 		wp_add_object_terms( $post_id, $add_replacement_terms, $taxonomy );
 	} // maybe_update_marketing_type_term
+
+	/**
+	 * Maybe update the marketing type term of a property after a status update.
+	 *
+	 * @since 1.7.26-beta
+	 *
+	 * @param mixed[]          $args    Property query arguments.
+	 * @param \WP_REST_Request $request Request object.
+	 */
+	private function maybe_add_lang_args( &$args, $request ) {
+		if (
+			$request->get_param( 'inx-r-lang' ) &&
+			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
+		) {
+			$lang                     = $request->get_param( 'inx-r-lang' );
+			$args['lang']             = sanitize_key( $lang );
+			$args['suppress_filters'] = false;
+		}
+	} // maybe_add_lang_args
 
 } // REST_API

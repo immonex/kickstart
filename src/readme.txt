@@ -109,6 +109,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.7.26-beta =
+* Release date: 2023-06-28
+* Added action hook inx_rest_set_query_language.
+* Fixed multilingual property query on dynamic list view updates.
+
 = 1.7.25 =
 * Release date: 2023-06-09
 * Added various filter hooks for modifying property/list template rendering data.

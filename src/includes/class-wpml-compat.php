@@ -56,6 +56,8 @@ class WPML_Compat {
 		add_filter( 'inx_page_list_all_languages', array( $this, 'get_all_pages' ) );
 
 		add_filter( 'icl_ls_languages', array( $this, 'extend_language_switcher_urls' ) );
+
+		add_action( 'inx-rest-set-query-language', array( $this, 'switch_language' ), 10, 2 );
 	} // __construct
 
 	/**
@@ -270,5 +272,18 @@ class WPML_Compat {
 
 		return $urls;
 	} // extend_language_switcher_urls
+
+	/**
+	 * Switch current WPML language (action callback).
+	 *
+	 * @since 1.7.26-beta
+	 *
+	 * @param string           $lang    Language code (ISO-639-1).
+	 * @param \WP_REST_Request $request Request object.
+	 */
+	public function switch_language( $lang, $request ) {
+		// @codingStandardsIgnoreLine
+		do_action( 'wpml_switch_language', $lang );
+	} // switch_language
 
 } // WPML_Compat
