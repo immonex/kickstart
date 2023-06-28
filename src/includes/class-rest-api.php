@@ -93,7 +93,7 @@ class REST_API {
 			$request->get_param( 'inx-r-lang' ) &&
 			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
 		) {
-			do_action( 'inx_rest_set_query_language', $lang, $request );
+			do_action( 'inx_rest_set_query_language', $request->get_param( 'inx-r-lang' ), $request );
 		}
 
 		if ( 'html' === $response_format ) {
@@ -221,7 +221,7 @@ class REST_API {
 
 		$this->maybe_add_lang_args( $args, $request );
 
-		return apply_filters( 'inx_get_property_map_markers', array(), $atts );
+		return apply_filters( 'inx_get_property_map_markers', array(), $args );
 	} // get_property_map_markers
 
 	/**
