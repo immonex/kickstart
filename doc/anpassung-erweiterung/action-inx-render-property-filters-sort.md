@@ -2,7 +2,7 @@
 
 Über diesen Action-Hook kann eine [Auswahlbox für die Sortierung der Listenansicht](/komponenten/sortierung) in eine Template-Datei eingebunden werden.
 
-> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
+?> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
 
 ## Parameter
 
@@ -18,3 +18,5 @@ Die folgenden Aufrufe der *Render-Action* erfolgen typischerweise in einer **Tem
 ```php
 do_action( 'inx_render_property_filters_sort' );
 ```
+
+[](_backlink.md ':include')

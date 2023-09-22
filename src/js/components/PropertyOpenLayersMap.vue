@@ -31,6 +31,8 @@ import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import {Cluster, OSM, Vector} from 'ol/source'
 import {easeIn, easeOut} from 'ol/easing'
+import 'ol/ol.css';
+
 import axios from 'axios'
 import {addBacklinkURL} from '../shared_components'
 

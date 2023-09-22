@@ -10,12 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$inx_skin_show_label   = false;
-$inx_skin_element_name = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
-$inx_skin_placeholder  = ! empty( $template_data['element']['placeholder'] ) ? $template_data['element']['placeholder'] : '';
-$inx_skin_no_options   = ! empty( $template_data['element']['no_options'] ) ? $template_data['element']['no_options'] : '';
-$inx_skin_no_results   = ! empty( $template_data['element']['no_results'] ) ? $template_data['element']['no_results'] : '';
-$inx_skin_countries    = ! empty( $template_data['element']['country_list'] ) ? $template_data['element']['country_list'] : '';
+$inx_skin_show_label     = false;
+$inx_skin_element_name   = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
+$inx_skin_placeholder    = ! empty( $template_data['element']['placeholder'] ) ? $template_data['element']['placeholder'] : '';
+$inx_skin_no_options     = ! empty( $template_data['element']['no_options'] ) ? $template_data['element']['no_options'] : '';
+$inx_skin_no_results     = ! empty( $template_data['element']['no_results'] ) ? $template_data['element']['no_results'] : '';
+$inx_skin_countries      = ! empty( $template_data['element']['countries'] ) ? $template_data['element']['countries'] : '';
+$inx_skin_osm_place_tags = ! empty( $template_data['element']['osm_place_tags'] ) ? $template_data['element']['osm_place_tags'] : '';
 
 $inx_skin_privacy_note = wp_sprintf(
 	/* translators: %1 = Photon/OpenStreetMap, %2 = Privacy Policy URL */
@@ -35,6 +36,9 @@ $inx_skin_consent_button_text = __( 'Agreed!', 'immonex-kickstart' );
 		placeholder="<?php echo esc_attr( $inx_skin_placeholder ); ?>"
 		<?php if ( $inx_skin_countries ) : ?>
 		countries="<?php echo esc_attr( $inx_skin_countries ); ?>"
+		<?php endif; ?>
+		<?php if ( $inx_skin_osm_place_tags ) : ?>
+		osm-place-tags="<?php echo esc_attr( $inx_skin_osm_place_tags ); ?>"
 		<?php endif; ?>
 		no-options="<?php echo esc_attr( $inx_skin_no_options ); ?>"
 		no-results="<?php echo esc_attr( $inx_skin_no_results ); ?>"

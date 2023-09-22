@@ -40,7 +40,7 @@ function cleanLocationURL() {
 	history.replaceState(null, null, url)
 } // cleanLocationURL
 
-function init() {
+async function init() {
 	initPropertyDetailInstances()
 	cleanLocationURL()
 } // init

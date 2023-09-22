@@ -8,7 +8,7 @@ Mit diesem Filter können die entsprechenden Übersetzungen bearbeitet oder deak
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$replace_terms` (array) | Key-Value-Liste anzupassender Taxonomie-Terms und die entsprechenden Ersetzungen oder *false* zum Deaktivieren |
+| **`$replace_terms`** (array) | Key-Value-Liste anzupassender Taxonomie-Terms und die entsprechenden Ersetzungen oder *false* zum Deaktivieren |
 
 ### Standard-Replace-Terms-Array
 
@@ -36,7 +36,7 @@ angepasstes Ersetzungs-Array oder *false* zum Deaktivieren
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_marketing_type_reference_term_replacements', 'mysite_modify_marketing_type_replacements' );
@@ -48,3 +48,5 @@ function mysite_modify_marketing_type_replacements( $replace_terms ) {
 } // mysite_modify_marketing_type_replacements
 
 ```
+
+[](_backlink.md ':include')

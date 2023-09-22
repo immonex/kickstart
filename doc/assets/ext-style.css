@@ -1,0 +1,127 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.markdown-section em {
+	font-weight: 500;
+}
+
+.markdown-section strong > em {
+	font-weight: 700;
+}
+
+body:not(.dark) .markdown-section em {
+	color: var(--text-color);
+}
+
+body:not(.dark) .markdown-section strong {
+	color: #38382C;
+}
+body:not(.dark) .markdown-section a.link-anchor strong,
+body:not(.dark) .markdown-section a.link-anchor em {
+	color: var(--link-anchor-color);
+}
+body:not(.dark) .markdown-section a.link-internal strong,
+body:not(.dark) .markdown-section a.link-internal em {
+	color: var(--link-internal-color);
+}
+body:not(.dark) .markdown-section a.link-external strong,
+body:not(.dark) .markdown-section a.link-external em {
+	color: var(--link-external-color);
+}
+
+.markdown-section pre.tree {
+	padding: 16px;
+	font-family: monospace;
+	font-size:.8rem;
+	line-height:1rem;
+	overflow:hidden
+}
+
+.markdown-section blockquote {
+	margin: 2em 0;
+	padding: 16px;
+	border-left: 8px solid #E77906;
+	color: #E0E0E0;
+	background-color: #434341;
+}
+
+.markdown-section blockquote p {
+	margin: 0;
+	font-weight: 400 !important;
+}
+
+body:not(.dark) .markdown-section blockquote strong,
+body:not(.dark) .markdown-section blockquote em {
+	color: #E8E8E7 !important;
+}
+
+.markdown-section blockquote a.link-internal {
+	color: var(--link-internal-color-lighter);
+}
+
+.markdown-section blockquote a.link-external {
+	color: var(--link-external-color-lighter);
+}
+
+.markdown-section .textblock {
+	padding: 16px;
+	background-color: #F8F8F8;
+}
+
+.dark .token.tag {
+	color: #64A3DC;
+}
+
+.dark .token.punctuation {
+	color: #5480A9;
+}
+
+.markdown-section p.tip {
+	border-left-color: #E77906;
+	background-color: #F7ECE1;
+}
+
+.markdown-section p.tip::before {
+	top: 10px;
+	left: -17px;
+	width: 30px;
+	height: 30px;
+	color: #FFF;
+	background-color: #E77906;
+	font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 30px;
+	content: "!";
+}
+
+.markdown-section p.warn {
+	border-bottom-right-radius: 2px;
+	border-left: 4px solid #445AFF;
+	border-top-right-radius: 2px;
+	margin: 2em 0;
+	padding: 12px 24px 12px 30px;
+	position: relative;
+	background-color: #E8E8E7;
+}
+
+.dark .markdown-section p.warn {
+	background-color: #2232A2;
+}
+
+.markdown-section p.warn::before {
+	position: absolute;
+	top: 10px;
+	left: -17px;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: #445AFF;
+	color: #FFF;
+	font-size: 32px;
+	font-weight: 400;
+	text-align: center;
+	line-height: 30px;
+	content: "\1F6C8";
+}

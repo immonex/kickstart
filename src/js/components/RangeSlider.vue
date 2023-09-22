@@ -11,6 +11,7 @@
 
 <script>
 import noUiSlider from 'nouislider'
+import 'nouislider/src/nouislider.less'
 
 const defaultStepRanges = '{"50":5,"100":10,"1000":50,"2000":100,"5000":500,"10000":1000,"100000":10000,"1000000":100000}'
 
@@ -69,7 +70,8 @@ export default {
 			parsedRange: [],
 			currentValue: [0],
 			currentMarketingType: 'all',
-			initialValueResettedOnce: false
+			initialValueResettedOnce: false,
+			initialValueChangedOnce: false
 		}
 	},
 	computed: {
@@ -137,12 +139,19 @@ export default {
 			if (
 				typeof this.inxState.search.forms[this.formIndex] === 'undefined' ||
 				(
-					Array.isArray(this.currentValue) &&
-					value === this.currentValue.join(',')
+					value === this.value &&
+					! this.initialValueChangedOnce
+				) ||
+				(
+					typeof this.value === 'string' &&
+					JSON.stringify([parseInt(this.value)]) === value &&
+					! this.initialValueChangedOnce
 				)
 			) {
 				return
 			}
+
+			this.initialValueChangedOnce = true
 
 			const formElementID = this.inxState.search.forms[this.formIndex].formElID
 			jQuery('#' + formElementID + ' input[name=' + this.name + ']').trigger('change')
@@ -277,7 +286,10 @@ export default {
 			return this.currency ? formatted.replace(/\s/, ' ' + suffix) : formatted + ' ' + suffix
 		},
 		getCurrentMarketingType () {
-			if (typeof this.inxState.search.forms[this.formIndex]['inx-search-marketing-type'] === 'undefined') {
+			if (
+				typeof this.inxState.search.forms[this.formIndex]['inx-search-marketing-type'] === 'undefined' ||
+				! this.inxState.search.forms[this.formIndex]['inx-search-marketing-type']
+			) {
 				return 'all'
 			}
 			if (this.inxState.search.forms[this.formIndex]['inx-search-marketing-type'].match(/miete|rent/)) {
@@ -329,8 +341,21 @@ export default {
 		updateRange () {
 			if (this.parsedRange.length === 6) {
 				let current = this.getCurrentMarketingType()
+				let initialValue = false
 
-				if (current === 'sale') {
+				try {
+					initialValue = JSON.parse(this.value)
+				} catch (e) {}
+
+				if (
+					current === 'all' &&
+					typeof initialValue === 'object' &&
+					[3, 4].includes(initialValue.length)
+				) {
+					// Take min/max range values from initial value.
+					this.min = parseInt(initialValue[initialValue.length - 2])
+					this.max = parseInt(initialValue[initialValue.length - 1])
+				} else if (current === 'sale') {
 					// Min/Max range for properties that are for sale.
 					this.min = this.parsedRange[2]
 					this.max = this.parsedRange[3]
@@ -376,6 +401,12 @@ export default {
 			}
 
 			this.stepRangesConv = JSON.parse(this.stepRanges ? this.stepRanges : defaultStepRanges)
+		},
+		updateCurrentValue (values, handle) {
+			const newValue = this.getSmoothRoundedValue(values)
+			if (JSON.stringify(this.currentValue) === JSON.stringify(newValue)) return
+
+			this.currentValue = newValue
 		}
 	},
 	created: function () {
@@ -419,11 +450,7 @@ export default {
 
 		noUiSlider.create(slider, attributes)
 
-		window.setTimeout( () => {
-			slider.noUiSlider.on('update', function (values, handle) {
-				that.currentValue = that.getSmoothRoundedValue(values)
-			})
-		}, 2000 )
+		slider.noUiSlider.on('update', that.updateCurrentValue)
 	}
 }
 </script>

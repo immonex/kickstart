@@ -8,25 +8,28 @@ immonex Kickstart ist vorrangig für die Umsetzung deutschsprachiger Websites au
 
 Die Übersetzungen von translate.wordpress.org werden automatisch in den globalen WordPress-Übersetzungsordner `.../wp-content/languages/plugins` heruntergeladen, sofern diese für die unter ***Einstellungen → Allgemein*** eingestellte Website-Sprache verfügbar sind:
 
-```
+<pre class="tree">
 .../wp-content/languages/plugins
+╷
 ├── immonex-kickstart-de_DE_formal.po
 └── immonex-kickstart-de_DE_formal.mo
-```
+</pre>
 
 In den jeweiligen Plugin-Ordnern (Kickstart und Add-ons) ist **zusätzlich** ein Ordner namens `languages` zu finden, der neben einer aktuellen *POT-Datei* (Vorlage für neue Übersetzungen) auch die folgenden PO- (Übersetzungs-Quelldatei) und MO-Versionen (kompilierte Übersetzungen) enthält:
 
-```
+<pre class="tree">
 .../wp-content/plugins/immonex-kickstart
+╷
 └── languages
+    ╷
     ├── immonex-kickstart.pot
     ├── immonex-kickstart-de_DE.po
     ├── immonex-kickstart-de_DE.mo
     ├── immonex-kickstart-de_DE_formal.po
     └── immonex-kickstart-de_DE_formal.mo
-```
+</pre>
 
-> **ACHTUNG!** Die Übersetzungen im o. g. globalen WP-Sprachordner haben Priorität, die Dateien in den Plugin-Ordnern werden im Regelfall **nicht** eingebunden.
+!> Die Übersetzungen im o. g. globalen WP-Sprachordner haben Priorität, die Dateien in den Plugin-Ordnern werden im Regelfall **nicht** eingebunden.
 
 ### Besonderheit bei Beta-Versionen
 
@@ -65,7 +68,7 @@ Zu übersetzende Beitragsarten und Taxonomien auswählen am Beispiel von **Polyl
 
 Die Übersetzung der in den Kickstart-Optionen hinterlegten [Titelformen (Slugs)](/schnellstart/einrichtung#Titelformen-Slugs), die für die Generierung "suchmaschinenfreundlicher" URLs (Permalinks) maßgeblich sind, ist möglich und muss ebenfalls in den Polylang/WPML-Optionen aktiviert werden.
 
-> Die Übersetzung von URL/Permalink-Slugs ist in der kostenlosen Standardversion von Polylang nicht enthalten, hierfür wird [Polylang Pro](https://polylang.pro/) benötigt.
+?> Die Übersetzung von URL/Permalink-Slugs ist in der kostenlosen Standardversion von Polylang nicht enthalten, hierfür wird [Polylang Pro](https://polylang.pro/) benötigt.
 
 Weitere Infos zum Thema URL-Slug-Übersetzung:
 

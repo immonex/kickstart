@@ -4,14 +4,14 @@
 
 Mit dem Hook [inx_property_core_data_custom_fields](filter-inx-property-core-data-custom-fields) können bei Bedarf die [Custom Fields](../beitragsarten-taxonomien?id=custom-fields) geändert oder ergänzt werden, die die Kerndaten enthalten.
 
-> **Achtung!** Es sollten nur die **formatierten Werte** geändert werden, da ein Großteil der weiteren Daten für die interne Verarbeitung benötigt wird.
+!> Es sollten nur die **formatierten Werte** geändert werden, da ein Großteil der weiteren Daten für die interne Verarbeitung benötigt wird.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$core_data` (array) | Kerndaten |
-| `$meta` (array) | Kontextspezifische Metadaten |
+| **`$core_data`** (array) | Kerndaten |
+| `$meta` (array) | kontextspezifische Metadaten |
 
 ### Das Core-Data-Array im Detail
 
@@ -341,7 +341,9 @@ Orinal-Array mit angepassten **Ausgabewerten**.
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden. Nachfolgend eine konkrete Beispielfunktion, mit der die Ausgabe der Kaltmiete durch einen Zusatz ergänzt wird, wenn ein Template des Kickstart-Add-ons *Showtime* gerendert wird.
+[](_info-snippet-einbindung.md ':include')
+
+Nachfolgend eine konkrete Beispielfunktion, mit der die Ausgabe der Kaltmiete durch einen Zusatz ergänzt wird, wenn ein Template des Kickstart-Add-ons *Showtime* gerendert wird.
 
 ```php
 /**
@@ -366,3 +368,5 @@ function mysite_extend_cold_rent( $core_data, $meta ) {
 	return $core_data;
 } // mysite_extend_cold_rent
 ```
+
+[](_backlink.md ':include')

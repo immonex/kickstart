@@ -6,7 +6,7 @@ Wurde via [`inx_template_search_folders`](filter-inx-template-search-folders) ei
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$folder_mappings` (array) | Liste beliebiger Zuordnungen: jeweils Dateisystem-Pfad ➞ URL |
+| **`$folder_mappings`** (array) | Liste beliebiger Zuordnungen: jeweils Dateisystem-Pfad ➞ URL |
 
 ## Rückgabewert
 
@@ -14,7 +14,7 @@ Mapping-Array
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_template_folder_url_mappings', 'mysite_skin_base_folder_url_mapping' );
@@ -25,3 +25,5 @@ function mysite_skin_base_folder_url_mapping( $folder_mappings ) {
 	return $folder_mappings;
 } // mysite_skin_base_folder_url_mapping
 ```
+
+[](_backlink.md ':include')

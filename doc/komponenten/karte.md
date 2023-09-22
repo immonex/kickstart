@@ -2,7 +2,7 @@
 
 Kickstart stellt **ab Version 1.2.0** eine [OpenStreetMap-basierte](https://www.openstreetmap.org/) Kartenansicht bereit, die in der [Standard-Übersichtsseite](/beitragsarten-taxonomien#immobilien-beiträge) bereits enthalten ist. Die klickbaren Standortmarker der Immobilien werden hier – je nach Zoomstufe – "geclustert" dargestellt (inkl. Objektanzahl).
 
-> In der [Detailansicht](detailansicht) ist ebenfalls eine Kartenansicht enthalten, die aber unabhängig von dieser Übersichtskarte gerendert wird.
+!> In der [Detailansicht](detailansicht) ist ebenfalls eine Kartenansicht enthalten, die aber unabhängig von dieser Übersichtskarte gerendert wird.
 
 ![Übersichtskarte mit Immobilien-Standortmarkern](../assets/scst-property-map-1.png)
 

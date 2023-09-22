@@ -25,12 +25,11 @@ import '../scss/frontend.scss'
 let inxPropertyDetailsInitialized = false
 
 // Lazy loaded Modules
-jQuery(document).ready(function($) {
-	// Shared Comoponents
-	import(/* webpackChunkName: "shared_components" */ './shared_components').then((module) => {
-		inx_state.shared = module;
-		module.init()
-	})
+jQuery(document).ready(async function($) {
+	// Shared Components
+	const shared = await import(/* webpackChunkName: "shared_components" */ './shared_components')
+	inx_state.shared = shared
+	await shared.init()
 
 	// Property Search/Filters/Sort
 	if (
@@ -38,12 +37,14 @@ jQuery(document).ready(function($) {
 		document.getElementsByClassName('inx-property-filters').length > 0 ||
 		document.getElementById('inx-sort')
 	) {
-		import(/* webpackChunkName: "property_search" */ './property_search').then((module) => { module.init() })
+		const search = await import(/* webpackChunkName: "property_search" */ './property_search')
+		await search.init()
 	}
 
 	// Property Lists
 	if (document.getElementsByClassName('inx-property-list').length > 0) {
-		import(/* webpackChunkName: "property_lists" */ './property_lists').then((module) => { module.init() })
+		const lists = await import(/* webpackChunkName: "property_lists" */ './property_lists')
+		await lists.init()
 	}
 
 	// Property Map
@@ -51,7 +52,8 @@ jQuery(document).ready(function($) {
 		document.getElementsByClassName('inx-property-map-container').length > 0 ||
 		document.getElementById('inx-property-map')
 	) {
-		import(/* webpackChunkName: "property_map" */ './property_map').then((module) => { module.init() })
+		const map = await import(/* webpackChunkName: "property_map" */ './property_map')
+		await map.init()
 	}
 
 	// Property Details
@@ -59,16 +61,14 @@ jQuery(document).ready(function($) {
 		document.getElementById('inx-property-details') ||
 		document.getElementsByClassName('inx-single-property__section').length > 0
 	) {
-		import(/* webpackChunkName: "property_details" */ './property_details').then((module) => {
-			module.init()
-			inxPropertyDetailsInitialized = true
-		})
+		const details = await import(/* webpackChunkName: "property_details" */ './property_details')
+		await details.init()
+		inxPropertyDetailsInitialized = true
 	}
 
 	// Container Queries (sort of...)
 	if (document.getElementsByClassName('inx-cq').length > 0) {
-		import(/* webpackChunkName: "container_queries" */ './container-queries').then((module) => {
-			module.init()
-		})
+		const cq = await import(/* webpackChunkName: "container_queries" */ './container-queries')
+		await cq.init()
 	}
 })

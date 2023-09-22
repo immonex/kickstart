@@ -873,7 +873,7 @@ class Property {
 				'enable_caption_display'  => true,
 				'enable_video'            => true,
 				'enable_virtual_tour'     => true,
-				'enable_ken_burns_effect' => true,
+				'enable_ken_burns_effect' => $this->config['enable_ken_burns_effect'],
 			),
 			'main_description'     => array(
 				'template' => 'description-text',
@@ -964,8 +964,10 @@ class Property {
 		);
 
 		if ( count( $element_atts ) > 0 ) {
-			// Override default element attributes with alternative values
-			// stated via shortcode attribute or the like.
+			/**
+			 * Override default element attributes with alternative values
+			 * stated via shortcode attribute or the like.
+			 */
 			foreach ( $element_atts as $element_key => $atts ) {
 				if ( isset( $elements[ $element_key ] ) ) {
 					$elements[ $element_key ] = array_merge( $elements[ $element_key ], $atts );

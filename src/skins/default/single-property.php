@@ -18,7 +18,10 @@ get_header();
 	<?php
 	while ( have_posts() ) {
 		the_post();
+
+		do_action( 'inx_before_render_single_property' );
 		do_action( 'inx_render_property_contents' );
+		do_action( 'inx_after_render_single_property' );
 	}
 	?>
 		</div>

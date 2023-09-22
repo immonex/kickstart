@@ -247,8 +247,6 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			$shortcode_atts['template'] :
 			Property_List::DEFAULT_TEMPLATE;
 
-		$this->rendering_vars[] = array_filter( $shortcode_atts );
-
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
 			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )

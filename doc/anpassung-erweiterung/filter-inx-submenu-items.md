@@ -8,7 +8,7 @@ Auf vom Plugin oder Add-ons registrierte Beitragsarten (*Custom Post Types*) kan
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$items` (array) | Liste der Untermenüpunkte (mittlerer Abschnitt) |
+| **`$items`** (array) | Liste der Untermenüpunkte (mittlerer Abschnitt) |
 
 ### Items-Array im Detail
 
@@ -61,7 +61,7 @@ angepasstes oder erweitertes Array der Untermenüpunkte
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_submenu_items', 'mysite_modify_inx_submenu_items' );
@@ -72,3 +72,5 @@ function mysite_modify_inx_submenu_items( $items ) {
 	return $items;
 } // mysite_modify_inx_submenu_items
 ```
+
+[](_backlink.md ':include')

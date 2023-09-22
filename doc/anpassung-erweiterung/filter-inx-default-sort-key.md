@@ -6,7 +6,7 @@ Mit diesem Filter kann eine alternative Standard-Sortierung für die [Immobilien
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$key` (string) | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](/komponenten/sortierung#standard-optionen)) |
+| **`$key`** (string) | Schlüssel der Sortierung (entspricht dem [Optionskey der Sortierungs-Komponente](/komponenten/sortierung#standard-optionen)) |
 
 ## Rückgabewert
 
@@ -14,7 +14,7 @@ alternativer [Sortierschlüssel](/komponenten/sortierung#standard-optionen)
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_default_sort_key', 'mysite_modify_default_sort_key' );
@@ -24,3 +24,5 @@ function mysite_modify_default_sort_key( $key ) {
 	return 'area_asc';
 } // mysite_modify_default_sort_key
 ```
+
+[](_backlink.md ':include')

@@ -8,7 +8,7 @@ Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beli
 
 `[inx-property-list]`
 
-> In der Standardkonfiguration werden **keine** Immobilien angezeigt, die als [Referenzobjekt](/referenzen-status-flags) markiert sind. Hierfür ist das [Shortcode-Attribut `references`](#custom-field-basiert) (oder alternativ der GET-Parameter `inx-references`) erforderlich.
+!> In der Standardkonfiguration werden **keine** Immobilien angezeigt, die als [Referenzobjekt](/referenzen-status-flags) markiert sind. Hierfür ist das [Shortcode-Attribut `references`](#custom-field-basiert) (oder alternativ der GET-Parameter `inx-references`) erforderlich.
 
 ### Attribute
 
@@ -97,7 +97,7 @@ Mit den folgenden Attributen kann die Auswahl der Immobilien weiter eingegrenzt 
 | `cid` | individuelle **HTML-DOM-ID** des Containerelements der Komponente (optional, Standard: *inx-property-list*, bei Mehrfacheinbindung zus. Instanzen inkl. laufender Nummer *inx-property-list-2*, *-3*...) |
 | `author` | Objekte nach **Autor(en)** filtern (kommagetrennte Liste von **Benutzer-IDs** oder **Login-Namen**; **Minus zum Ausschließen** bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `limit` | **Gesamtanzahl** der anzuzeigenden Objekte begrenzen |
-| `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten) |
+| `limit-page` | Anzahl der Objekte **pro Seite** begrenzen (Standardvorgabe: ***immonex → Einstellungen → Design & Struktur → Immobilien pro Seite***  bzw. die unter ***Einstellungen → Lesen*** hinterlegte max. Beitragsanzahl für Blogseiten bei Kickstart < 1.8) |
 | `sort` | Sortierung der Liste anhand eines oder mehrerer [Sortierungs-Keys](sortierung#standard-optionen) (Mehrfachangaben als kommagetrennte Liste) |
 | `force-lang` | Sprachcode, um in [Sonderfällen (mehrsprachige Websites)](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#sonderfälle) eine bestimmte Sprache für die verlinkten Immobilien-Detailseiten festzulegen (z. B. *de*, *en*...) |
 | `no_results_text` | **eigener bzw. alternativer** Text, der anstatt der Standardmeldung (***immonex → Einstellungen → Immobiliensuche → Keine-Ergebnisse-Meldung***) angezeigt werden soll, wenn keine zu den Auswahl-/Suchkriterien passenden Immobilienangebote vorhanden sind (leerer String = keine Meldung) |

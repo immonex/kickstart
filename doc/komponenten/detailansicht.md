@@ -4,7 +4,7 @@
 
 Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#karten-amp-umkreissuche), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
 
-> Die Standard-Detailansicht kann auch durch die Ergänzung von **Widgets** in der zugehörigen [Sidebar](/schnellstart/sidebars) erweitert werden.
+?> Die Standard-Detailansicht kann auch durch die Ergänzung von **Widgets** in der zugehörigen [Sidebar](/schnellstart/sidebars) erweitert werden.
 
 ![Standard-Detailansicht](../assets/scst-property-details-1.jpg)
 
@@ -79,7 +79,7 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | Key | Beschreibung |
 | --- | ------------ |
 | `head` (1) | Header mit Objekttitel, Nutzungs-/Objektart, Standort und Kerndaten |
-| `gallery` (2) | primäre Fotogalerie, die standardmäßig auch Videos und virtuelle 360°-Touren enthält |
+| `gallery` (2) | **primäre** Fotogalerie, die standardmäßig auch Videos und virtuelle 360°-Touren enthält<br><br>Bei Verwendung des Standard-Skins werden Bilder in der passenden Größe hier per "*Ken-Burns-Effekt*" animiert, der unter ***immonex → Einstellungen → Layout & Design*** oder per [Filterfunktion (inx_detail_page_elements)](/anpassung-erweiterung/filter-inx-detail-page-elements) deaktiviert werden kann. |
 | `main_description` (8) | Haupt-Beschreibungstext |
 | `prices` | Preise und Angaben zur Courtage etc. |
 | `areas` | Flächenangaben |
@@ -156,7 +156,7 @@ Alternative Variante der Preiseinbindung mit identischer Ausgabe:\
 Kaufpreis pro m² per [XPath](https://de.wikipedia.org/wiki/XPath)-Angabe ermitteln und Alternativtext anzeigen, falls nicht verfügbar:\
 `[inx-property-detail-element name="//preise/kaufpreis_pro_qm" if_empty="auf Anfrage"]`
 
-> Weitergehende individuelle Anpassungen der Ausgabe einzelner Angaben können über den Filter-Hook [`inx_property_detail_element_output`](/anpassung-erweiterung/filter-inx-property-detail-element-output) realisiert werden.
+?> Weitergehende individuelle Anpassungen der Ausgabe einzelner Angaben können über den Filter-Hook [`inx_property_detail_element_output`](/anpassung-erweiterung/filter-inx-property-detail-element-output) realisiert werden.
 
 ## Erweiterte Anpassungen
 

@@ -12,7 +12,7 @@ Kickstart unterstützt die automatisierte Einbidung von grafischen Energieskalen
 
 ![Energy Scale Pro Energieskalen](assets/scst-esp.png)
 
-> Aktuelle Versionen von OpenImmo2WP und Energy Scale Pro sowie passende OpenImmo-Demodaten sind für Test- und Entwicklungszwecke **kostenlos** unter [immonex.dev](https://immonex.dev/) verfügbar!
+?> Aktuelle Versionen von OpenImmo2WP und Energy Scale Pro sowie passende OpenImmo-Demodaten sind für Test- und Entwicklungszwecke **kostenlos** unter [immonex.dev](https://immonex.dev/) verfügbar!
 
 ---
 

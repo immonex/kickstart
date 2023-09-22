@@ -2,7 +2,7 @@
 
 Über diesen Action-Hook kann eine [Immobilien-Listenansicht](/komponenten/liste) in eine Template-Datei eingebunden werden.
 
-> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
+?> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
 
 ## Parameter
 
@@ -22,3 +22,5 @@ do_action( 'inx_render_property_list', [
 	'is_regular_archive_page' => true
 ] );
 ```
+
+[](_backlink.md ':include')

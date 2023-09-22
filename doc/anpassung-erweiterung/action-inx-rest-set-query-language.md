@@ -13,7 +13,7 @@ Die entsprechende Umschaltung der Abfragesprache erfolgt auf der WordPress-Seite
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Hooks wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 /**
@@ -26,3 +26,5 @@ function mysite_do_on_rest_lang_switch( $lang, $request ) {
 	// do something
 } // mysite_do_on_rest_lang_switch
 ```
+
+[](_backlink.md ':include')

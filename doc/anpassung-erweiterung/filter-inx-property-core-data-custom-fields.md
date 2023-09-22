@@ -4,13 +4,13 @@ Mit diesem Filter kann die Liste der [Custom Fields](../beitragsarten-taxonomien
 
 Die eigentlichen Inhalte der Kerndaten-Felder können vor der Ausgabe via Hook [inx_property_core_data](filter-inx-property-core-data) angepasst werden.
 
-> **Achtung!** Ein Teil der über diesen Filter-Hook modifizierbaren Felder wird sowohl für die interne Verarbeitung als auch bei der Ausgabe innerhalb der Standard-Templates/Skins verwendet. Es sollten daher nur **Ergänzungen** vorgenommen werden.
+!> Ein Teil der über diesen Filter-Hook modifizierbaren Felder wird sowohl für die interne Verarbeitung als auch bei der Ausgabe innerhalb der Standard-Templates/Skins verwendet. Es sollten daher nur **Ergänzungen** vorgenommen werden.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$field_names` (array) | Liste der Feldnamen |
+| **`$field_names`** (array) | Liste der Feldnamen |
 
 ### Das Field-Names-Array im Detail
 
@@ -56,7 +56,7 @@ angepasste Feldnamen-Liste
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_property_core_data_custom_fields', 'mysite_extend_property_core_data_custom_fields' );
@@ -68,3 +68,5 @@ function mysite_extend_property_core_data_custom_fields( $field_names ) {
 	return $field_names;
 } // mysite_extend_property_core_data_custom_fields
 ```
+
+[](_backlink.md ':include')

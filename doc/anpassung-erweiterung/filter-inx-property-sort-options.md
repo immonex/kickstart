@@ -6,7 +6,7 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$sort_options` | Array mit allen Daten der Sortieroptionen |
+| **`$sort_options`** (array) | jeweils ein Unterarray mit den zugehörigen Daten **pro Sortieroption** |
 
 ### Sort-Options-Array im Detail
 
@@ -72,7 +72,7 @@ angepasstes Sortier-Optionen-Array
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_property_sort_options', 'mysite_modify_property_sort_options' );
@@ -84,3 +84,5 @@ function mysite_modify_property_sort_options( $sort_options ) {
     return $sort_options;
 } // mysite_modify_property_sort_options
 ```
+
+[](_backlink.md ':include')

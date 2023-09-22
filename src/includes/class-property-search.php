@@ -18,6 +18,11 @@ class Property_Search {
 	const DEFAULT_TEMPLATE = 'property-search';
 
 	/**
+	 * Default property search form debounce delay
+	 */
+	const DEFAULT_SEARCH_FORM_DEBOUNCE_DELAY = 600;
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -236,7 +241,11 @@ class Property_Search {
 					}
 
 					if ( 'photon-autocomplete' === $element['type'] ) {
-						// Convert country codes to name list for Photon-based location autocompletion.
+						if ( ! empty( $atts['autocomplete-osm-place-tags'] ) ) {
+							$elements[ $id ]['osm_place_tags'] = $atts['autocomplete-osm-place-tags'];
+						}
+
+						// DEPRECATED: Convert country codes to name list for Photon-based location autocompletion.
 						$elements[ $id ]['country_list'] = $this->get_photon_autocomplete_countries( $elements[ $id ]['countries'] );
 					}
 				}
@@ -406,23 +415,25 @@ class Property_Search {
 							"{$plugin_prefix}{$tax}" === $element['key']
 							&& ! empty( $atts[ $force_att ] )
 						) {
-							$include = $this->get_tax_main_entries_by_slug(
-								"{$plugin_prefix}{$tax}",
-								$atts[ $force_att ]
-							);
+							$include = $this->get_tax_main_entries_by_slug( "{$plugin_prefix}{$tax}", $atts[ $force_att ] );
 						}
 					}
 
-					if ( ! empty( $atts['references'] ) ) {
-						$references = $atts['references'];
-					} else {
-						$references = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
+					if ( empty( $atts['references'] ) ) {
+						$atts['references'] = $this->utils['data']->get_query_var_value( "{$public_prefix}references" );
 					}
 
-					if ( 'yes' !== $references ) {
-						$args['object_ids'] = $this->api->get_property_ids(
-							in_array( $references, array( 'no', 'only' ), true ) ? $references : false
+					$property_meta_query = array();
+					$this->add_reference_meta_queries( $property_meta_query, $atts, false );
+					$this->add_masters_queries( $property_meta_query, $atts, false );
+					$this->add_special_flag_queries( $property_meta_query, $atts, false );
+					$this->add_country_query( $property_meta_query, $atts, false );
+
+					if ( ! empty( $property_meta_query ) ) {
+						$property_query_args = array(
+							'meta_query' => $property_meta_query,
 						);
+						$args['object_ids']  = $this->api->get_property_ids( false, 'publish', true, $property_query_args );
 					} elseif ( ! empty( $include ) ) {
 						$args['include'] = $include;
 					}
@@ -443,26 +454,31 @@ class Property_Search {
 							$top_level_only
 						);
 
-						if ( ! empty( $include ) ) {
-							$top_level_options = array();
+						$top_level_options = array();
+						if ( ! empty( $terms ) ) {
 							foreach ( $terms as $term ) {
-								if ( in_array( $term->term_id, $include, true ) && 0 === $term->parent ) {
+								if ( 0 === $term->parent ) {
 									$top_level_options[ $term->slug ] = $term;
 								}
 							}
+						}
 
-							if ( 1 === count( $top_level_options ) ) {
-								/**
-								 * Exclude "empty" option if only a single regular top level option exists and set
-								 * its value as default.
-								 */
-								$element['empty_option'] = false;
-								$element['default']      = $term->slug;
-							} else {
-								$element['empty_option_value'] = implode( ',', array_keys( $top_level_slugs ) );
-								if ( empty( $element['default'] ) ) {
-									$element['default'] = $element['empty_option_value'];
-								}
+						if ( 1 === count( $top_level_options ) ) {
+							/**
+							 * Exclude "empty" option if only a single regular top level option exists and
+							 * set its value as default.
+							 */
+							$element['empty_option'] = false;
+							$element['default']      = array_keys( $top_level_options )[0];
+						} elseif ( ! empty( $include ) ) {
+							/**
+							 * If stated explicitely (force-...), set a comma-separated list string containing
+							 * all given taxonomy term slugs as "empty" option value. Otherwise there would be no
+							 * taxonomy-based filtering if no option is selected.
+							 */
+							$element['empty_option_value'] = implode( ',', array_keys( $top_level_options ) );
+							if ( empty( $element['default'] ) ) {
+								$element['default'] = $element['empty_option_value'];
 							}
 						}
 					}
@@ -551,6 +567,8 @@ class Property_Search {
 	/**
 	 * Convert country code strings to country name lists for Photon-based
 	 * location autocompletion.
+	 *
+	 * @deprecated To be removed in version 2.
 	 *
 	 * @param string $country_codes Comma-separated Country code list
 	 *                              (ISO 3166 ALPHA-2/3).
@@ -832,21 +850,22 @@ class Property_Search {
 				'order'    => 100,
 			),
 			'distance-search-location' => array(
-				'enabled'     => $this->config['distance_search_autocomplete_type'] ? true : false,
-				'hidden'      => false,
-				'extended'    => true,
-				'type'        => $this->config['distance_search_autocomplete_type'] ? $this->config['distance_search_autocomplete_type'] . '-autocomplete' : '',
-				'key'         => 'distance_search_location',
-				'compare'     => '=',
-				'numeric'     => false,
-				'label'       => __( 'Distance Search', 'immonex-kickstart' ),
-				'placeholder' => __( 'Locality Name (Distance Search)', 'immonex-kickstart' ),
-				'no_options'  => __( 'Type to search...', 'immonex-kickstart' ),
-				'no_results'  => __( 'No matching localities found.', 'immonex-kickstart' ),
-				'countries'   => 'google-places' === $this->config['distance_search_autocomplete_type'] ?
+				'enabled'        => $this->config['distance_search_autocomplete_type'] ? true : false,
+				'hidden'         => false,
+				'extended'       => true,
+				'type'           => $this->config['distance_search_autocomplete_type'] ? $this->config['distance_search_autocomplete_type'] . '-autocomplete' : '',
+				'key'            => 'distance_search_location',
+				'compare'        => '=',
+				'numeric'        => false,
+				'label'          => __( 'Distance Search', 'immonex-kickstart' ),
+				'placeholder'    => __( 'Locality Name (Distance Search)', 'immonex-kickstart' ),
+				'no_options'     => __( 'Type to search...', 'immonex-kickstart' ),
+				'no_results'     => __( 'No matching localities found.', 'immonex-kickstart' ),
+				'countries'      => 'google-places' === $this->config['distance_search_autocomplete_type'] ?
 					'de,at,ch,be,nl' : 'de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr',
-				'class'       => 'inx-property-search__element--is-first-grid-col',
-				'order'       => 200,
+				'osm_place_tags' => 'city,town,village,borough,suburb',
+				'class'          => 'inx-property-search__element--is-first-grid-col',
+				'order'          => 200,
 			),
 			'distance-search-radius'   => array(
 				'enabled'      => $this->config['distance_search_autocomplete_type'] ? true : false,
@@ -1040,8 +1059,8 @@ class Property_Search {
 		$form_elements = $this->get_search_form_elements( false, true, false );
 		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
 			return array(
-				'tax_query'  => false,
-				'meta_query' => false,
+				'tax_query'  => array(),
+				'meta_query' => array(),
 			);
 		}
 
@@ -1051,14 +1070,11 @@ class Property_Search {
 
 		foreach ( $form_elements as $id => $element ) {
 			$var_name = $prefix . 'search-' . $id;
-			if ( ! in_array( $var_name, array_keys( $params ), true ) ) {
+			if ( empty( $params[ $var_name ] ) ) {
 				continue;
 			}
 
 			$value = $params[ $var_name ];
-			if ( ! $value ) {
-				continue;
-			}
 
 			if ( is_string( $value ) ) {
 				$json = json_decode( stripslashes( $value ) );
@@ -1212,6 +1228,44 @@ class Property_Search {
 			}
 		}
 
+		$this->add_reference_meta_queries( $meta_query, $params, true );
+		$this->add_masters_queries( $meta_query, $params, true );
+		$this->add_special_flag_queries( $meta_query, $params, true );
+		$this->add_country_query( $meta_query, $params, true );
+
+		$geo_query = $this->get_geo_query( $distance_search );
+
+		if ( 1 === count( $tax_query ) ) {
+			$tax_query = array();
+		}
+		if ( 1 === count( $meta_query ) ) {
+			$meta_query = array();
+		}
+
+		return apply_filters(
+			'inx_search_tax_and_meta_queries',
+			array(
+				'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
+				'meta_query' => count( $meta_query ) > 1 ? $meta_query : false,
+				'geo_query'  => $geo_query,
+			),
+			$params,
+			$prefix
+		);
+	} // get_tax_and_meta_queries
+
+	/**
+	 * Possibly add meta queries related to reference properties.
+	 *
+	 * @since 1.7.28-beta
+	 *
+	 * @param mixed[] $meta_query Current destination meta query array.
+	 * @param mixed[] $params     Query parameters.
+	 * @param bool    $add_prefix Whether to add the public prefix to the query parameter names.
+	 */
+	private function add_reference_meta_queries( &$meta_query, $params, $add_prefix ) {
+		$prefix = $add_prefix ? $this->config['public_prefix'] : '';
+
 		if (
 			empty( $params[ "{$prefix}references" ] ) ||
 			'no' === strtolower( $params[ "{$prefix}references" ] )
@@ -1229,14 +1283,25 @@ class Property_Search {
 				'compare' => 'IN',
 			);
 		}
+	} // add_reference_meta_queries
 
-		$masters = '';
-		if (
-			! empty( $params[ "{$prefix}masters" ] )
-			&& in_array( strtolower( $params[ "{$prefix}masters" ] ), array( 'no', 'only' ), true )
-		) {
-			$masters = strtolower( $params[ "{$prefix}masters" ] );
+	/**
+	 * Possibly add meta queries related to group master properties.
+	 *
+	 * @since 1.7.28-beta
+	 *
+	 * @param mixed[] $meta_query Current destination meta query array.
+	 * @param mixed[] $params     Query parameters.
+	 * @param bool    $add_prefix Whether to add the public prefix to the query parameter names.
+	 */
+	private function add_masters_queries( &$meta_query, $params, $add_prefix ) {
+		$prefix = $add_prefix ? $this->config['public_prefix'] : '';
+
+		if ( empty( $params[ "{$prefix}masters" ] ) ) {
+			return;
 		}
+
+		$masters = strtolower( $params[ "{$prefix}masters" ] );
 
 		if ( 'no' === $masters ) {
 			// Exclude (group) master properties.
@@ -1247,7 +1312,10 @@ class Property_Search {
 					'compare' => '=',
 				),
 			);
-		} elseif ( 'only' === $masters ) {
+			return;
+		}
+
+		if ( 'only' === $masters ) {
 			// Query (visible) group master properties only.
 			$meta_query[] = array(
 				'key'     => '_immonex_group_master',
@@ -1255,8 +1323,27 @@ class Property_Search {
 				'compare' => '=',
 			);
 		}
+	} // add_masters_queries
 
-		$special_flags = array( 'available', 'sold', 'reserved', 'featured', 'front_page_offer', 'demo' );
+	/**
+	 * Possibly add meta queries related to special flags (available, sold, reserved...).
+	 *
+	 * @since 1.7.28-beta
+	 *
+	 * @param mixed[] $meta_query Current destination meta query array.
+	 * @param mixed[] $params     Query parameters.
+	 * @param bool    $add_prefix Whether to add the public prefix to the query parameter names.
+	 */
+	private function add_special_flag_queries( &$meta_query, $params, $add_prefix ) {
+		$prefix        = $add_prefix ? $this->config['public_prefix'] : '';
+		$special_flags = array(
+			'available',
+			'sold',
+			'reserved',
+			'featured',
+			'front_page_offer',
+			'demo',
+		);
 
 		foreach ( $special_flags as $flag ) {
 			$flag_key = str_replace( '_', '-', "{$prefix}{$flag}" );
@@ -1281,57 +1368,74 @@ class Property_Search {
 				}
 			}
 		}
+	} // add_special_flag_queries
 
-		if ( ! empty( $params[ "{$prefix}iso-country" ] ) ) {
-			$country_code = $this->utils['data']->maybe_convert_list_string( $params[ "{$prefix}iso-country" ] );
+	/**
+	 * Possibly add a country code related meta query argument.
+	 *
+	 * @since 1.7.28-beta
+	 *
+	 * @param mixed[] $meta_query Current destination meta query array.
+	 * @param mixed[] $params     Query parameters.
+	 * @param bool    $add_prefix Whether to add the public prefix to the query parameter name.
+	 */
+	private function add_country_query( &$meta_query, $params, $add_prefix ) {
+		$prefix = $add_prefix ? $this->config['public_prefix'] : '';
 
-			if ( is_array( $country_code ) ) {
-				$country_code = array_map(
-					function ( $value ) {
-						return strtoupper( substr( $value, 0, 3 ) );
-					},
-					$country_code
-				);
-			} else {
-				$country_code = strtoupper( substr( $params[ "{$prefix}iso-country" ], 0, 3 ) );
-			}
-
-			$meta_query[] = array(
-				'key'     => '_immonex_iso_country',
-				'value'   => $country_code,
-				'compare' => is_array( $country_code ) ? 'IN' : '=',
-			);
+		if ( empty( $params[ "{$prefix}iso-country" ] ) ) {
+			return;
 		}
 
-		$geo_query = false;
-		if (
-			isset( $distance_search['lat'] ) &&
-			isset( $distance_search['lng'] ) &&
-			isset( $distance_search['radius'] )
-		) {
-			$plugin_prefix = $this->config['plugin_prefix'];
+		$country_code = $this->utils['data']->maybe_convert_list_string( $params[ "{$prefix}iso-country" ] );
 
-			$geo_query = array(
-				'lat_field' => "_{$plugin_prefix}lat",
-				'lng_field' => "_{$plugin_prefix}lng",
-				'latitude'  => $distance_search['lat'],
-				'longitude' => $distance_search['lng'],
-				'distance'  => $distance_search['radius'],
-				'units'     => 'km',
+		if ( is_array( $country_code ) ) {
+			$country_code = array_map(
+				function ( $value ) {
+					return strtoupper( substr( $value, 0, 3 ) );
+				},
+				$country_code
 			);
+		} else {
+			$country_code = strtoupper( substr( $params[ "{$prefix}iso-country" ], 0, 3 ) );
 		}
 
-		return apply_filters(
-			'inx_search_tax_and_meta_queries',
-			array(
-				'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
-				'meta_query' => count( $meta_query ) > 1 ? $meta_query : false,
-				'geo_query'  => $geo_query,
-			),
-			$params,
-			$prefix
+		$meta_query[] = array(
+			'key'     => '_immonex_iso_country',
+			'value'   => $country_code,
+			'compare' => is_array( $country_code ) ? 'IN' : '=',
 		);
-	} // get_tax_and_meta_queries
+	} // add_country_query
+
+	/**
+	 * Combine data for geo/distance search related queries.
+	 *
+	 * @since 1.7.28-beta
+	 *
+	 * @param mixed[] $distance_search Distance search parameters.
+	 *
+	 * @return mixed[]|false Combined data for geo/distance search related queries
+	 *                       or false if no related data are available.
+	 */
+	private function get_geo_query( $distance_search ) {
+		if (
+			empty( $distance_search['lat'] ) ||
+			empty( $distance_search['lng'] ) ||
+			empty( $distance_search['radius'] )
+		) {
+			return false;
+		}
+
+		$prefix = $this->config['plugin_prefix'];
+
+		return array(
+			'lat_field' => "_{$prefix}lat",
+			'lng_field' => "_{$prefix}lng",
+			'latitude'  => $distance_search['lat'],
+			'longitude' => $distance_search['lng'],
+			'distance'  => $distance_search['radius'],
+			'units'     => 'km',
+		);
+	} // get_geo_query
 
 	/**
 	 * Maybe add ancestor taxonomy terms before building hierarchical

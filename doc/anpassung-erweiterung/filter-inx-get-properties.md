@@ -2,13 +2,13 @@
 
 Mit diesem Filter können Immobilienbeiträge anhand der angegebenen Kriterien abgerufen oder deren Anzahl ermittelt werden.
 
-> Der Filter wird vor allem in [Add-ons](/add-ons) oder anderen Plugins/Themes eingesetzt.
+?> Der Filter wird vor allem in [Add-ons](/add-ons) oder anderen Plugins/Themes eingesetzt.
 
 ## Parameter
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$properties` (array\|int) | Array der Immobilien-Posts/IDs oder Anzahl |
+| **`$properties`** (array\|int) | Array der Immobilien-Posts/IDs oder Anzahl |
 | `$args` (array) | Kriterien für [WP_Query-Abfragen](https://developer.wordpress.org/reference/classes/wp_query/parse_query/) (Hier können auch [allgemeine Kickstart-Parameter](/schnellstart/einbindung#get-parameter) verwendet werden. Ist `count` mit dem Wert *true* enthalten, wird nur die Anzahl der Ergebnisse zurückgeliefert.) |
 
 ## Rückgabewert
@@ -44,3 +44,5 @@ $property_count = apply_filters(
 // $property_count
 5
 ```
+
+[](_backlink.md ':include')

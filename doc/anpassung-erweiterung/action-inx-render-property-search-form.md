@@ -2,7 +2,7 @@
 
 Über diesen Action-Hook kann das [Immobilien-Suchformular](/komponenten/suchformular) in eine Template-Datei eingebunden werden.
 
-> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
+?> Das Rendern von (Teil)Komponenten erfolgt **anstelle von direkten Funktionsaufrufen** per Action-Hook, da so u. a. auch in [Add-ons](/add-ons) oder anderen Plugins/Themes **nicht** explizit die Verfügbarkeit des Kickstart-Basisplugins geprüft werden muss. *Render Actions* können auch als *Low-Level-Varianten* der hierauf aufbauenden Shortcodes betrachtet werden.
 
 ## Parameter
 
@@ -11,7 +11,7 @@
 | `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins#ordner) (Standard: *property-search*) |
 | `$atts` | Array optionaler Attribute (Keys und mögliche Werte entsprechen den [Attributen des Suchformular-Shortcodes](/komponenten/suchformular#attribute)) |
 
-> Im Array `$atts` können auch weitere, beliebige Attribute zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`).
+?> Im Array `$atts` können auch weitere, beliebige Attribute zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`).
 
 ## Code-Beispiele
 
@@ -35,3 +35,5 @@ do_action(
 	]
 );
 ```
+
+[](_backlink.md ':include')

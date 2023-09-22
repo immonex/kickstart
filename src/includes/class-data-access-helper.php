@@ -327,7 +327,7 @@ class Data_Access_Helper {
 		}
 
 		if ( is_string( $value ) ) {
-			return filter_var( $value, FILTER_SANITIZE_STRING );
+			return htmlspecialchars( $value, ENT_NOQUOTES );
 		} elseif ( is_array( $value ) ) {
 			return array_map(
 				function ( $value ) {
@@ -335,7 +335,7 @@ class Data_Access_Helper {
 						return $value;
 					}
 
-					return filter_var( $value, FILTER_SANITIZE_STRING );
+					return htmlspecialchars( $value, ENT_NOQUOTES );
 				},
 				$value
 			);

@@ -195,16 +195,19 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			$query->set( 'suppress_filters', false );
 		}
 
+		$hard_limit = false;
 		if ( isset( $search_query_vars[ $prefix . 'limit' ] ) && (int) $search_query_vars[ $prefix . 'limit' ] ) {
 			$hard_limit = (int) $search_query_vars[ $prefix . 'limit' ];
-		} else {
-			$hard_limit = false;
 		}
 
+		$page_limit = false;
 		if ( isset( $search_query_vars[ $prefix . 'limit-page' ] ) && (int) $search_query_vars[ $prefix . 'limit-page' ] ) {
 			$page_limit = (int) $search_query_vars[ $prefix . 'limit-page' ];
-		} else {
-			$page_limit = false;
+		} elseif (
+			! empty( $this->config['properties_per_page'] )
+			&& ! $query->get( 'posts_per_page' )
+		) {
+			$page_limit = (int) $this->config['properties_per_page'];
 		}
 
 		if ( $hard_limit || $page_limit ) {
@@ -283,19 +286,20 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 * (Default values are not required here.)
 		 */
 		$supported_atts = array(
-			'cid'                    => '',
-			'template'               => Property_Search::DEFAULT_TEMPLATE,
-			'dynamic-update'         => '',
-			'force-location'         => '',
-			'force-type-of-use'      => '',
-			'force-property-type'    => '',
-			'force-marketing-type'   => '',
-			'force-feature'          => '',
-			'results-page-id'        => false,
-			'elements'               => '',
-			'exclude'                => '',
-			'top-level-only'         => false,
-			'autocomplete-countries' => '',
+			'cid'                         => '',
+			'template'                    => Property_Search::DEFAULT_TEMPLATE,
+			'dynamic-update'              => '',
+			'force-location'              => '',
+			'force-type-of-use'           => '',
+			'force-property-type'         => '',
+			'force-marketing-type'        => '',
+			'force-feature'               => '',
+			'results-page-id'             => false,
+			'elements'                    => '',
+			'exclude'                     => '',
+			'top-level-only'              => false,
+			'autocomplete-countries'      => '',
+			'autocomplete-osm-place-tags' => '',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

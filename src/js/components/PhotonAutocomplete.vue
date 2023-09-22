@@ -43,6 +43,8 @@
 import axios from 'axios'
 import debounce from 'debounce'
 import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+
 import Qs from 'qs'
 
 export default {
@@ -67,10 +69,7 @@ export default {
 		},
 		countries: {
 			type: String,
-			default: 'Deutschland, Germany, Österreich, Austria, Schweiz, Switzerland, Luxemburg,' +
-				'Luxembourg, Belgien, Belgium, Frankreich, France, Niederlande, Netherlands,' +
-				'Dänemark, Denmark, Polen, Poland, Spanien, Spain, Portugal, Italien, Italy,' +
-				'Griechenland, Greece'
+			default: 'de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr'
 		},
 		limit: {
 			type: Number,
@@ -78,11 +77,11 @@ export default {
 		},
 		locationBiasLat: {
 			type: Number,
-			default: 51.163375 // Breitengrad des geographischen Mittelpunkts Deutschlands
+			default: 51.163375 // Latitude of the geographical center of Germany
 		},
 		locationBiasLng: {
 			type: Number,
-			default: 10.447683 // Längengrad des geographischen Mittelpunkts Deutschlands
+			default: 10.447683 // Longitude of the geographical center of Germany
 		},
 		locationBiasScale: {
 			type: Number,
@@ -91,6 +90,10 @@ export default {
 		lang: {
 			type: String,
 			default: 'de'
+		},
+		osmPlaceTags: {
+			type: String,
+			default: 'city,town,village,borough,suburb'
 		},
 		wrapClasses: {
 			type: String,
@@ -120,6 +123,9 @@ export default {
 			currentPlace: null,
 			transferValue: '',
 			filterCountries: [],
+			filterCountriesAreCodes: false,
+			filterPlaceTags: [],
+			filterPlaceQueryTags: [],
 			locationSuggestions: [],
 			loading: false,
 			consentGranted: false
@@ -151,7 +157,7 @@ export default {
 			try {
 				var params = {
 					q: query,
-					// osm_tag: ['place:city', 'place:town', 'place:village', 'place:suburb', 'place:highway'],
+					osm_tag: this.filterPlaceQueryTags,
 					limit: 25
 				}
 
@@ -177,36 +183,33 @@ export default {
 
 				let data = geoPrediction.data
 				let that = this
-
 				if (data.hasOwnProperty('type') && data.type === 'FeatureCollection') {
 					data.features.forEach(function (locality) {
 						if (
 							(that.limit > 0 && suggestions.length === that.limit) ||
-							locality.geometry.type !== 'Point' ||
-							! locality.properties.city
+							! locality.geometry.coordinates ||
+							(! locality.properties.city && !locality.properties.name)
 						) return
 
-						if (
-							that.filterCountries.indexOf(locality.properties.country) !== -1 ||
-							that.filterCountries.length === 0
-						) {
-							let localityName = locality.properties.name;
-							let typeOrder = 30
-							let countryOrder = 10
+						let countryIndex = that.getCountryIndex(locality)
+
+						if (countryIndex !== false) {
+							let localityName = locality.properties.name
+							let localityType = locality.properties.osm_value
+							let typeOrder = that.filterPlaceTags.indexOf(localityType)
 
 							if (
-								locality.properties.osm_value === 'city' ||
-								locality.properties.osm_value === 'town' ||
-								locality.properties.osm_value === 'village'
+								['borough', 'suburb'].includes(localityType)
+								&& locality.properties.city
 							) {
-								typeOrder = 10
-							} else if (locality.properties.osm_value === 'suburb') {
-								if (locality.properties.city) {
-									localityName = localityName.concat(' (' + locality.properties.city + ')')
-								}
+								localityName = localityName += ' (' + locality.properties.city + ')'
+							}
 
-								typeOrder = 20
-							} else if (locality.properties.city) {
+
+							if (
+								!['city', 'town', 'village', 'borough', 'suburb'].includes(localityType) &&
+								locality.properties.city
+							) {
 								localityName = locality.properties.city
 								if (locality.properties.district && locality.properties.district !== localityName) {
 									localityName += ' (' + locality.properties.district + ')'
@@ -217,16 +220,15 @@ export default {
 
 							let state = locality.properties.state ? locality.properties.state : ''
 
-							if (state && suggestions.filter(element => element.name === localityName && element.state !== state).length > 0) {
-								localityName = localityName.concat(', ' + state)
+							if (
+								state &&
+								suggestions.filter(element => element.name === localityName && element.state !== state).length > 0
+							) {
+								localityName += ', ' + state
 							}
 
-							if (
-								that.filterCountries.length > 0 &&
-								locality.properties.country !== that.filterCountries[0]
-							) {
-								localityName = localityName.concat(', ', locality.properties.country)
-								countryOrder = 20
+							if (countryIndex !== 1) {
+								localityName += ', ' + locality.properties.country
 							}
 
 							if (suggestions.find(element => element.name === localityName)) return
@@ -234,10 +236,10 @@ export default {
 							suggestions.push({
 								ID: locality.properties.osm_id,
 								name: localityName,
-								type: locality.properties.osm_type,
+								type: locality.properties.osm_value,
 								typeOrder: typeOrder,
 								country: locality.properties.country,
-								countryOrder: countryOrder,
+								countryOrder: countryIndex,
 								state: state,
 								lat: locality.geometry.coordinates[1],
 								lng: locality.geometry.coordinates[0]
@@ -267,6 +269,27 @@ export default {
 			this.loading = false
 
 			return suggestions
+		},
+		getCountryIndex(locality) {
+			if (this.filterCountries.length === 0) return 0
+
+			let index
+
+			if (this.filterCountriesAreCodes) {
+				index = this.filterCountries.indexOf(locality.properties.countrycode)
+
+				return index !== -1 ? index + 1 : false
+			} else {
+				index = this.filterCountries.indexOf(locality.properties.country.toUpperCase())
+				if (index === -1) return false
+				if (index === 0) return 1
+
+				/**
+				 * Divide index by 2 and round up, because country NAME based lists
+				 * contain the names in English and German.
+				 */
+				return Math.ceil(index / 2)
+			}
 		},
 		localitySelected (locality) {
 			this.transferValue = JSON.stringify([locality.lat, locality.lng, locality.name])
@@ -303,9 +326,9 @@ export default {
 			Array.isArray(initialValue) &&
 			initialValue.length === 3
 		) {
-			// Intitial value is an array (Latitude, Longitude, Locality Name).
-			// Set original string as transfer value.
-			this.transferValue = this.value
+			// Use stringified version of initial value as transfer value (latitude, longitude, locality name).
+			this.transferValue = JSON.stringify([initialValue[0], initialValue[1], initialValue[2]])
+
 			// Use locality name as input field value.
 			this.currentPlace = {
 				ID: 0,
@@ -316,7 +339,12 @@ export default {
 		}
 	},
 	mounted () {
-		this.filterCountries = this.countries.split(',').map(name => name.trim())
+		this.filterCountries = this.countries.split(',').map(name => name.toUpperCase().trim()).filter(e => e)
+		this.filterCountriesAreCodes = this.filterCountries.length > 0 && this.filterCountries[0].length === 2
+
+		this.filterPlaceTags = this.osmPlaceTags.split(',').map(name => name.toLowerCase().trim()).filter(e => e)
+		if (this.filterPlaceTags.length === 0) this.filterPlaceTags = ['city', 'town', 'village', 'borough', 'suburb']
+		this.filterPlaceQueryTags = this.filterPlaceTags.map(name => 'place:' + name)
 
 		if (
 			!this.requireConsent ||

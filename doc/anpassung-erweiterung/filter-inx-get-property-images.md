@@ -2,17 +2,17 @@
 
 Dieser Filter dient dem **Abrufen** aller Bildanhang-Daten, die zu einer **Galerie** (Fotos oder Grundrisse) eines [Immobilien-Beitrags](/beitragsarten-taxonomien) gehören.
 
-> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+?> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$images` (array) | leeres Array |
+| **`$images`** (array) | leeres Array |
 | `$post_id` (int|string) | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
 | `$args` (array) | Optionale Parameter |
-| | `type` (Bildtyp): *gallery* (Galeriefotos, Standard) oder *floor_plans* (Grundrisse) |
-| | `return` (Return-Typ): *objects* ([WP_Post-Objekte](https://developer.wordpress.org/reference/classes/wp_post/), Standard), *ids* (Attachment-IDs) oder *urls* (URLs) |
+| | `type` (Bildtyp) → *gallery* (Galeriefotos, Standard) oder *floor_plans* (Grundrisse) |
+| | `return` (Return-Typ) → *objects* ([WP_Post-Objekte](https://developer.wordpress.org/reference/classes/wp_post/), Standard), *ids* (Attachment-IDs) oder *urls* (URLs) |
 
 ## Rückgabewert
 
@@ -51,3 +51,5 @@ $floor_plan_ids = apply_filters(
 // $floor_plan_ids
 [ 17286, 17289 ]
 ```
+
+[](_backlink.md ':include')

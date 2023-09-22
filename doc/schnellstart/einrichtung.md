@@ -66,7 +66,7 @@ Die im gleichnamigen Tab anpassbaren **Slugs** bilden die Basis für die Generie
 
 Es handelt sich hierbei um Angaben in der **Hauptsprache** der Website. In [mehrsprachigen Umgebungen](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#mehrsprachige-websites) kann eine Übersetzung mit dem hierfür eingesetzten Erweiterung erfolgen. Von Kickstart unterstützt werden hier Polylang (Pro) und WPML.
 
-> Die Änderung der vorgegebenen Slugs ist normalerweise nur in Sonderfällen notwendig, bspw. bei einer Umstellung der (Haupt)Sprache der Website.
+!> Die Änderung der vorgegebenen Slugs ist normalerweise nur in Sonderfällen notwendig, bspw. bei einer Umstellung der (Haupt)Sprache der Website.
 
 #### Karten in Immobilien-Listenseiten
 
@@ -94,7 +94,27 @@ Google-Maps-Karte mit Ort oder Stadtteil (iFrame)
 
 #### Autovervollständigung
 
-Wird die Google Places API für die Auswahl der Standorte für die **Umkreissuche** im erweiterten [Immobilien-Suchformular](/komponenten/suchformular) verwendet, beschränkt sich die Suche nach bzw. Autovervollständigung von Ortsnamen standardmäßig auf folgende Länder: Deutschland, Österreich, Schweiz, Belgien, Niederlande, bei Nutzung der alternativen [Photon](https://photon.komoot.io/)-Variante kommen noch folgende Länder hinzu: Luxemburg, Frankreich, Dänemark, Polen, Spanien, Portugal, Italien, und Griechenland. Eine Anpassung der Länderlisten ist per Attribut `autocomplete-countries` des [Suchformular-Shortcodes](/komponenten/suchformular#attribute) `[inx-search-form]` oder über den Filter-Hook [inx-search-form-elements](/anpassung-erweiterung/filter-inx-search-form-elements) möglich.
+Wird die Google Places API für die Standortauswahl der **Umkreissuche** im erweiterten [Immobilien-Suchformular](/komponenten/suchformular) verwendet, beschränkt sich die Suche nach bzw. Autovervollständigung von Ortsnamen standardmäßig auf die Länder Deutschland, Österreich, Schweiz, Belgien und die Niederlande (→ *de, at, ch, be, nl*).
+
+Eine Anpassung dieser Vorgabe ist per Attribut `autocomplete-countries` des [Suchformular-Shortcodes](/komponenten/suchformular#attribute) `[inx-search-form]` oder über den Filter-Hook [inx-search-form-elements](/anpassung-erweiterung/filter-inx-search-form-elements) in Form einer kommagetrennten [Ländercode-Liste (ISO alpha-2)](https://www.nationsonline.org/oneworld/countrycodes.htm) möglich, Beispiel:
+
+`[inx-search-form autocomplete-countries="de,at,ch,lu,be,fr"]`
+
+Bei Nutzung der alternativen [Photon](https://photon.komoot.io/)-Variante kommen bei der *Standardvorgabe* noch folgende Länder hinzu: Luxemburg, Frankreich, Dänemark, Polen, Spanien, Portugal, Italien und Griechenland. Darüber hinaus erfolgt hier auch eine Sortierung der Ortsvorschläge anhand der Position des zugehörigen Landes in der *ISO-Code-Liste* (→ *de, at, ch, lu, be, fr, nl, dk, pl, es, pt, it, gr*).
+
+Bei der Photon-basierten Ortssuche gibt es noch zwei weitere Besonderheiten:
+
+Der Ländername wird bei allen Städten/Orten angehangen, wenn das jeweilige Land bzw. dessen ISO-Code **nicht** mit dem ersten Code in der o. g. Liste übereinstimmt:
+
+- München
+- Nesselwang
+- Salzburg, Österreich
+- Innsbruck, Österreich
+- Basel, Schweiz
+
+Außerdem können die Abfrageergebnisse hier mittels [OpenStreetMap-Place-Tags](https://wiki.openstreetmap.org/wiki/DE&colon;Key&colon;place) gefiltert und ebenfalls sortiert werden. Das Shortcode-Attribut heißt in diesem Fall `autocomplete-osm-place-tags` (Standard: *city, town, village, borough, suburb*):
+
+`[inx-search-form autocomplete-place-tags="city,village"]`
 
 Die Umkreissuche kann generell deaktiviert werden, indem bei *Autovervollständigung* die Option `keine` ausgewählt wird.
 
@@ -111,4 +131,4 @@ Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei Google Maps)
 
 Die Zustimmung zur Nutzung eines Dienstes gilt für alle Geo-Dienste und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
 
->**Keine Panik!** Hierbei handelt es sich **nicht** um ein *Tracking-Cookie*, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!
+!>**Keine Panik!** Hierbei handelt es sich **nicht** um ein *Tracking-Cookie*, für das gemäß DSGVO eine separate Einwilligung einzuholen ist!

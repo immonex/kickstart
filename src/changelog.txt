@@ -1,5 +1,23 @@
 == Changelog ==
 
+= 1.8.0 =
+* Release date: 2023-09-22
+* Added option for default number of properties per page in list views.
+* Added option for disabling the "Ken Burns Effect" in property detail views.
+* Added 8 new action hooks for inserting contents during output (default skin).
+* Added action hook inx_rest_set_query_language.
+* Added filter inx_search_form_debounce_delay.
+* Reworked excerpt generation.
+* Reworked area and price min/max determination after OpenImmo imports.
+* Reworked/Extended property search form element rendering and JS (i.a. improved dynamic list/map updates).
+* Reworked Photon/OSM based location autocomplete.
+* Reworked default skin CSS/JS folder structure and moved CSS of third-party components to plugin core.
+* Fixed multilingual property query on dynamic list view updates.
+* Fixed a minor price range search form element bug.
+* Improved cache busting of lazy-loaded JS files.
+* Improved PHP 8.2 and WordPress 6.3/6.4 compatibility.
+* Updated external dependencies.
+
 = 1.7.25 =
 * Release date: 2023-06-09
 * Added various filter hooks for modifying property/list template rendering data.

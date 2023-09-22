@@ -10,27 +10,40 @@ Ebenso verhält es sich bei **Add-on-Standard-Skins**, wobei hier der jeweilige 
 
 Die Verwendung dieser Ordner als Vorlage für die Entwicklung eigener, sogenannter *Custom Skins* ist grundsätzlich möglich, besser hierfür eignen sich allerdings die aktuellen Quelldateien im jeweiligen Dev-Repository ([Kickstart-Basis-Plugin bei GitHub](https://github.com/immonex/kickstart/tree/master/src/skins/default)). Diese enthalten zusätzlich u. a. die für das Skin relevanten JavaScript- und SCSS-Quellcodes.
 
-```
+<pre class="tree">
 default
+╷
 ├── index.php
-├── css
-│   └── index.css
-├── scss
-│   ├── blocks
+├── /assets &larr; <em class="token important">ab Plugin-Version 1.8: kompilierte CSS- und JS-Dateien</em>
+│   ╷
+│   ├── index.css
+│   └── index.js
+│
+├── /js &larr; <em class="token important">ab Plugin-Version 1.8: nur JS-Quelldatei</em>
+│   ╷
+│   └── index.js
+│
+├── /scss &larr; <em class="token important">(S)CSS-Quelldateien</em>
+│   ╷
+│   ├── /blocks
+│   │   ╷
 │   │   ├── _immonex-widget.scss
-│   │   ├── ...
+│   │   ├── …
 │   │   └── _inx-video-iframe.scss
+│   │
 │   ├── _base.scss
 │   ├── _config.scss
 │   ├── _mixins.scss
 │   ├── _uikit-custom.scss
 │   └── index.scss
-├── fonts
+│
+├── /fonts
+│   ╷
 │   ├── _flaticon.scss
-│   ├── ...
+│   ├── …
 │   └── Flaticon.woff
-...
-```
+…
+</pre>
 
 ## Skin-Name
 
@@ -44,51 +57,78 @@ Die Datei `index.php` enthält lediglich den Namen des Skins, der im WP-Backend 
 
 ## CSS & Sass
 
-Der Ordner `css` enthält nur die Datei `index.css`, die **automatisch** eingebunden wird. Hier sind alle für das Skin relevanten CSS-Stile enthalten. Beim Standard-Skin wird diese auf Basis der Daten im Ordner `scss` mit dem CSS-Präprozessor [Sass](https://sass-lang.com/) kompiliert.
+Die Datei `assets/index.css` (bis Plugin-Version 1.8: `css/index.css`) enthält alle für das Skin relevanten CSS-Stile und wird im Website-Frontend **automatisch** eingebunden. Beim Standard-Skin wird diese auf Basis der Daten im Ordner `scss` mit dem CSS-Präprozessor [Sass](https://sass-lang.com/) kompiliert.
 
 Hier wurde ein komponentenbasierter Ansatz verfolgt, der weitgehend der [BEM-Methodik](https://en.bem.info/methodology/key-concepts/) (Block, Element, Modifier) mit der Namenskonvention [Two Dashes style](https://en.bem.info/methodology/naming-convention/#two-dashes-style) entspricht.
 
-In der Einstiegsdatei `index.scss` werden neben den skinspezifischen Block-Dateien (`blocks`) und **Schriftarten** (`fonts`) auch die (S)CSS-Dateien externer Libraries eingebunden, die im Frontend zum Einsatz kommen:
+Alle skinspezifischen Module (`blocks`) sowie Konfigurationsvariablen, Mixins und Grundelemente werden über die Einstiegsdatei `index.scss` eingebunden.
+
+Ab der Plugin-Version 1.8 gehören hierzu **nicht mehr** die (S)CSS-Dateien folgender externer Libraries, die im Frontend zum Einsatz kommen:
 
 - [UIkit](https://getuikit.com/)
 - [noUiSlider](https://refreshless.com/nouislider/)
 - [Vue-multiselect](https://vue-multiselect.js.org/)
 - [OpenLayers](https://openlayers.org/)
 
+Diese werden stattdessen über das Kern-Plugin eingebunden, um Inkompatibilitäten nach Updates zu vermeiden.
+
+Auch die im Unterordner `fonts` enthaltenen Schriftarten werden seit Kickstart 1.8 nicht mehr via `index.scss` eingebunden, sondern über die JavaScript-Einstiegsdatei `index.js` (siehe unten).
+
 Die für die *Blöcke* und *Elemente* verwendeten CSS-Klassennamen sind übrigens nicht nur in den PHP-Dateien des Skins enthalten, sondern (teilweise) auch in den skinübergreifenden [Vue.js-Komponenten](https://vuejs.org/), die vom Kickstart-Plugin bereitgestellt werden (Standortkarten/-Autovervollständigung, spezielle Elemente des Suchformulars...). Die Benennung sollte also in eigenen Skins beibehalten werden, sofern diese Komponenten auch hier zum Einsatz kommen.
 
-> Bei der Entwicklung eines *Custom Skins* ist der Einsatz eines CSS-Präprozessors optional. Die **Produktivversion** des Skins, die im Child-Theme-Ordner hinterlegt ist, muss nur den Ordner `css` bzw. die Datei `index.css` enthalten.
+?> Bei der Entwicklung eines *Custom Skins* ist der Einsatz eines CSS-Präprozessors optional. Die **Produktivversion** des Skins, die im Child-Theme-Ordner hinterlegt ist, muss nur die Datei `assets/index.css` bzw. `css/index.css` enthalten.
 
 ## JavaScript
 
-```
-├── js
-│   ├── src
-│   │   └── index.js
-│   └── index.js
-```
+<pre class="tree">
+…
+├── /assets
+│   ╷
+│   ├── …
+│   └── index.js &larr; <em class="token important">ab Plugin-Version 1.8: kompilierte JS-Datei im Ordner assets</em>
+│
+├── /js
+│   ╷
+│   └── index.js &larr; <em class="token important">ab Plugin-Version 1.8: Quelldatei im Ordner js</em>
+…
+</pre>
 
-Auch der JavaScript-Code, der für das Skin eingebunden werden soll, ist in einer einzelnen Datei gebündelt: `js/index.js`
+Auch der JavaScript-Code, der für das Skin eingebunden werden soll, ist in einer einzelnen Datei gebündelt: `assets/index.js` (ab Plugin-Version 1.8, vorher `js/index.js`).
 
-Beim Standard-Skin sowie allen weiteren Skins, die (zukünftig) mit Kickstart oder hierauf basierenden Add-ons ausgeliefert werden, wird diese Bündelung im Rahmen der Entwicklung automatisiert mit dem "JavaScript-Modul-Packer" [webpack](https://webpack.js.org/) umgesetzt. Die Quelldateien befinden sich im Unterordner `js/src`. (Auch die Verarbeitung der o. g. SCSS-Dateien erfolgt hierüber.)
+Beim Standard-Skin sowie allen weiteren Skins, die (zukünftig) mit Kickstart oder hierauf basierenden Add-ons ausgeliefert werden, wird diese Bündelung im Rahmen der Entwicklung automatisiert mit dem "JavaScript-Modul-Packer" [webpack](https://webpack.js.org/) umgesetzt.
 
-Auch hier gilt: Ein *Custom Skin* kann auch **ohne** den Einsatz eines solchen Bundlers entwickelt werden. Sofern überhaupt spezieller JavaScript-Code hierfür benötigt wird, ist eine Datei `index.js` ausreichend. (Im Regelfall wird sich der Umfang des Skin-JS-Codes ohnehin in einem überschaubaren Rahmen bewegen.)
+Die Quelldateien befinden sich im Unterordner `js` (ab Plugin-Version 1.8, vorher `js/src`).
+
+Beim Standard-Skin enthält die Einstiegs-Quelldatei `index.js` auch Anweisungen für die Einbindung eines Skin-Symbolfonts sowie der o. g. SCSS-Hauptdatei:
+
+```js
+// Vendor specific styles & fonts
+import '../fonts/_flaticon.css';
+
+// (S)CSS
+import '../scss/index.scss';
+````
+
+?> Auch hier gilt: Ein *Custom Skin* kann auch **ohne** den Einsatz eines solchen Bundlers entwickelt werden. Sofern überhaupt spezieller JavaScript-Code hierfür benötigt wird, ist eine Datei `index.js` ausreichend. (Im Regelfall wird sich der Umfang des Skin-JS-Codes ohnehin in einem überschaubaren Rahmen bewegen.)
 
 ## Frontend-Komponenten
 
-> Alle folgenden Abschnitte beziehen sich nur auf das Standard-Skin des **Basis-Plugins**, Add-ons bringen im Regelfall ihre eigenen Komponenten und benutzerdefinierten Beitragsarten (*Custom Post Types*) mit.
+?> Alle folgenden Abschnitte beziehen sich nur auf das Standard-Skin des **Basis-Plugins**, Add-ons bringen im Regelfall ihre eigenen Komponenten und benutzerdefinierten Beitragsarten (*Custom Post Types*) mit.
 
 ### Archiv & Listenansicht
 
-```
+<pre class="tree">
+…
 ├── archive-property.php
-├── property-list
+├── /property-list
+│   ╷
 │   ├── filters-sort.php
 │   ├── list-item.php
 │   ├── map.php
 │   ├── pagination.php
 │   └── properties.php
-```
+…
+</pre>
 
 Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](/beitragsarten-taxonomien) ist in der Datei `archive-property.php` enthalten. Die Komponenten - [Karte](/komponenten/karte), [Suchformular](/komponenten/suchformular), [Sortierauswahl](/komponenten/sortierung), [Listenansicht](/komponenten/liste) und [Seitennavigation](/komponenten/seitennavigation) - werden über die entsprechenden [Rendering Actions](filters-actions.html#rendering) eingebunden:
 
@@ -109,33 +149,40 @@ do_action( 'inx_render_pagination', array(
 
 Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Standortkarte (`map.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
 
-> Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
+?> Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
 
 ### Suchformular
 
-```
+<pre class="tree">
+…
 ├── property-search.php
-├── property-search
+├── /property-search
+│   ╷
 │   ├── element-checkbox.php
-│   ├── ...
+│   ├── …
 │   └── element-text.php
-```
+…
+</pre>
 
 Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemente des Suchformulars](/komponenten/suchformular#elemente), deren Vorlagen - separat pro Elementart - im Ordner `property-search` hinterlegt sind.
 
 ### Detailansicht
 
-```
+<pre class="tree">
+…
 ├── single-property.php
-├── single-property
+├── /single-property
+│   ╷
 │   ├── contact-person.php
-│   ├── ...
+│   ├── …
 │   ├── element-hub.php
-│   ├── ...
+│   ├── …
 │   └── virtual-tour.php
-└── images
+│
+└── /images
+    ╷
     └── location-pin.png
-```
+</pre>
 
 Die Datei `single-property.php` enthält das Standard-Template für die **Einzelansicht** eines [Immobilien-Beitrags](/beitragsarten-taxonomien).
 

@@ -10,16 +10,17 @@ module.exports = {
         frontend: './src/js/frontend.js',
         backend: './src/js/backend.js'
     },
-    ...glob.sync('./src/skins/**/js/src/index.js', { dotRelative: true }).reduce((acc, path) => {
+    ...glob.sync('./src/skins/**/js/index.js', { dotRelative: true }).reduce((acc, path) => {
         let entry = path.replace('./src/skins/', '../../skins/')
-        entry = entry.replace('/js/src/index.js', '/js/index')
+        entry = entry.replace('/js/index.js', '/assets/index')
         acc[entry] = path
         return acc
     }, {})
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'src/assets/js')
+    path: path.resolve(__dirname, 'src/assets/js'),
+    chunkFilename: '[name].js?id=[chunkhash]'
   },
   resolve: {
     fallback: {
@@ -34,7 +35,23 @@ module.exports = {
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
-        exclude: /node_modules|build/,
+        exclude: /build/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader',
+            options: { url: false }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        exclude: /build/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -43,7 +60,7 @@ module.exports = {
             loader: 'css-loader'
           },
           {
-            loader: 'sass-loader'
+            loader: 'less-loader'
           }
         ]
       },
@@ -66,7 +83,8 @@ module.exports = {
           exclude: /node_modules|build/,
           type: 'asset/resource',
           generator: {
-              filename: '[name][ext]'
+            filename: '[name][ext]',
+            emit: false
           },
       }
     ]

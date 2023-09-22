@@ -15,8 +15,10 @@ $color-action-element-inverse: #F8F8F8;
 $color-link: $color-action-element;
 $color-link-highlighted: $color-action-element-highlighted;
 
-// Third party dependencies
-@import "~flatpickr/dist/themes/light.css";
+// UIkit
+@import "uikit/src/scss/variables-theme.scss";
+@import "uikit/src/scss/mixins-theme.scss";
+@import "_uikit-custom.scss";
 
 // Mixins
 @import "_mixins.scss";

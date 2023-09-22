@@ -25,7 +25,7 @@ const updateContainerSizeClasses = function() {
 	})
 } // updateContainerSizeClasses
 
-function init() {
+async function init() {
 	const throttledUpdate = typeof updateContainerSizeClasses.inxThrottle !== 'undefined' ?
 		updateContainerSizeClasses.inxThrottle(1000) :
 		updateContainerSizeClasses

@@ -2,18 +2,18 @@
 
 Dieser Filter dient dem **Abrufen eines Detail-Elements** einer [Immobilie](/beitragsarten-taxonomien) anhand von Namen und Gruppenbezeichnungen, die in der für den [OpenImmo-Import verwendeten Mapping-Tabelle](/schnellstart/import) hinterlegt sind.
 
-> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+?> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$item` (mixed\|bool) | Standardvorgabe (im Regelfall *false*) |
+| **`$item`** (array\|bool) | Standardvorgabe (im Regelfall *false*) |
 | `$post_id` (int\|string) | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
 | `$args` (array) | zusätzliche Parameter |
-| | **`name`** (**obligatorisch**, *Mapping-Name* des gewünschten Elements) |
-| | `group` (*Mapping-Gruppe* des Elements) |
-| | `value_only` (nur Wert zurückliefern?): *true* (Standard) oder *false* (Array mit Wert und *Import-Metadaten*) |
+| | **`name`** (string) → *Mapping-Name* des gewünschten Elements (**obligatorisch**) |
+| | `group` (string) → *Mapping-Gruppe* des Elements |
+| | `value_only` (bool) → *true* (nur Wert zurückliefern; Standard) oder *false* (Array mit Wert und *Import-Metadaten*) |
 
 ## Rückgabewert
 
@@ -61,3 +61,5 @@ $epass_type = apply_filters(
 	'meta_json' => '{"mapping_source":"zustand_angaben->energiepass->epart","value_before_filter":"BEDARF"}'
 ]
 ```
+
+[](_backlink.md ':include')

@@ -2,7 +2,7 @@
 
 Erfolgreich vermarktete Immobilien können entweder automatisiert beim [Import](schnellstart/import) oder manuell im WordPress-Backend (***immonex → Immobilien***) als Referenzobjekt markiert werden (Wert *1* im Custom Field `_immonex_is_reference`). Beim Import erfolgt die Kennzeichnung anhand einer in der *Mapping-Tabelle* hinterlegten Zuordnung.
 
-> Referenzobjekte werden in [Immobilien-Listen](komponenten/liste) nur dann angezeigt, wenn entweder das [Shortcode-Attribut](komponenten/liste#custom-field-basiert) `references="yes"` bzw. `references="only"` oder der entsprechende [GET-Parameter](schnellstart/einbindung#get-parameter) `?inx-references=yes` bzw. `?inx-references=only` in der URL der Übersichtsseite vorhanden ist. (Hierbei stehen *yes* für "Referenzobjekte **auch** anzeigen" und *only* für "**nur** Referenzobjekte anzeigen".)
+!> Referenzobjekte werden in [Immobilien-Listen](komponenten/liste) nur dann angezeigt, wenn entweder das [Shortcode-Attribut](komponenten/liste#custom-field-basiert) `references="yes"` bzw. `references="only"` oder der entsprechende [GET-Parameter](schnellstart/einbindung#get-parameter) `?inx-references=yes` bzw. `?inx-references=only` in der URL der Übersichtsseite vorhanden ist. (Hierbei stehen *yes* für "Referenzobjekte **auch** anzeigen" und *only* für "**nur** Referenzobjekte anzeigen".)
 
 ![Immobilienliste im WordPress-Backend](assets/scst-be-property-list.gif)
 

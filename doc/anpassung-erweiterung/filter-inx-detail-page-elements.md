@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften der für die Ausgabe verfügbaren El
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` (array) | Verfügbare [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
+| **`$elements`** (array) | verfügbare [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
 
 ### Das Elements-Array im Detail
 
@@ -31,17 +31,17 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/
 	'prices' => [
 		'template' => 'details',
 		'groups' => 'preise',
-		'headline' => __( 'Prices', 'inx' )
+		'headline' => __( 'Prices', 'immonex-kickstart' )
 	],
 	'areas' => [
 		'template' => 'details',
 		'groups' => 'flaechen',
-		'headline' => __( 'Areas', 'inx' )
+		'headline' => __( 'Areas', 'immonex-kickstart' )
 	],
 	'condition' => [
 		'template' => 'details',
 		'groups' => 'zustand',
-		'headline' => __( 'Condition & Development', 'inx' )
+		'headline' => __( 'Condition & Development', 'immonex-kickstart' )
 	],
 	'epass' => [
 		'template' => 'details',
@@ -75,12 +75,12 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/
 	'features' => [
 		'template' => 'features',
 		'groups' => 'ausstattung',
-		'headline' => __( 'Features', 'inx' )
+		'headline' => __( 'Features', 'immonex-kickstart' )
 	],
 	'floor_plans' => [
 		'template' => 'gallery',
 		'image_selection_custom_field' => '_inx_floor_plans',
-		'headline' => __( 'Floor Plans', 'inx' ),
+		'headline' => __( 'Floor Plans', 'immonex-kickstart' ),
 		'animation_type' => 'scale',
 		'enable_caption_display' => true,
 		'enable_ken_burns_effect' => false
@@ -89,11 +89,11 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/
 		'template' => 'details',
 		'description_text_field' => 'freitexte.sonstige_angaben',
 		'groups' => 'sonstiges',
-		'headline' => __( 'Miscellaneous', 'inx' )
+		'headline' => __( 'Miscellaneous', 'immonex-kickstart' )
 	],
 	'downloads_links' => [
 		'template' => 'downloads-and-links',
-		'headline' => __( 'Downloads & Links', 'inx' )
+		'headline' => __( 'Downloads & Links', 'immonex-kickstart' )
 	],
 	'video' => [
 		'template' => 'video',
@@ -106,7 +106,7 @@ Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/
 	'contact_person' => [
 		'template' => 'contact-person',
 		'groups' => 'kontakt',
-		'headline' => __( 'Your Agent', 'inx' )
+		'headline' => __( 'Your Agent', 'immonex-kickstart' )
 	],
 	'footer' => [
 		'template' => 'footer'
@@ -166,7 +166,7 @@ angepasstes Array verfügbarer Detailabschnitt-Elemente
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_detail_page_elements', 'mysite_modify_available_detail_elements' );
@@ -177,3 +177,5 @@ function mysite_modify_available_detail_elements( $elements ) {
 	return $elements;
 } // mysite_modify_available_detail_elements
 ```
+
+[](_backlink.md ':include')

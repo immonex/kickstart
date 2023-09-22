@@ -6,7 +6,7 @@ Wird bspw. in einer Template-Datei die ID des aktuell anzuzeigenden [Immobilien-
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$post_id` (int\|string) | Standardvorgabe, z. B. der per `get_the_ID()` ermittelte Wert |
+| **`$post_id`** (int\|string) | Standardvorgabe, z. B. der per `get_the_ID()` ermittelte Wert |
 
 ## Rückgabewert
 
@@ -17,3 +17,5 @@ aktuelle Immobilien-Beitrags-ID
 ```php
 $property_id = apply_filters( 'inx_current_property_post_id', get_the_ID() );
 ```
+
+[](_backlink.md ':include')

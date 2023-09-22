@@ -9,12 +9,13 @@
     "minimum-stability": "dev",
     "require": {
         "cmb2/cmb2": "dev-master",
-        "immonex/wp-free-plugin-core": "1.8.8"
+        "immonex/wp-free-plugin-core": "1.8.21"
     },
     "require-dev": {
         "inverisoss/wp-i18n-tools": "^1.0",
         "phpunit/phpunit": "^7",
-        "doctrine/rst-parser": "@dev"
+        "doctrine/rst-parser": "@dev",
+        "yoast/phpunit-polyfills": "1.x-dev"
     },
     "autoload": {
         "psr-4": { "immonex\\Kickstart\\": ["includes", "src/includes"] },

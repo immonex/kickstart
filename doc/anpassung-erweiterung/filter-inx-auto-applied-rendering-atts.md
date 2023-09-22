@@ -16,7 +16,7 @@ Standardmäßig werden das Attribut für benutzerdefinierte Angaben, `ref` bzw. 
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$atts` (array) | Liste der Attribut**namen** |
+| **`$atts`** (array) | Liste der Attribut**namen** |
 
 ## Rückgabewert
 
@@ -24,15 +24,17 @@ erweiterte Liste der Attributnamen
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_auto_applied_rendering_atts', 'mysite_extend_auto_rendering_atts' );
 
 function mysite_extend_auto_rendering_atts( $atts ) {
 	// Rendering-Auto-Attribut inx-myvar ergänzen.
-	$atts[] = "inx-myvar";
+	$atts[] = "inx-myvar";
 
 	return $atts;
 } // mysite_extend_auto_rendering_atts
 ```
+
+[](_backlink.md ':include')

@@ -12,7 +12,7 @@ Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (*Custom Po
 - **inx_feature** (Ausstattungsmerkmale)
 - **inx_label** (Labels, z. B. Neu! oder "Objekt der Woche")
 
-> Optionale [Add-ons](add-ons) für Kickstart können weitere Beitragsarten und Taxonomien ergänzen.
+?> Optionale [Add-ons](add-ons) für Kickstart können weitere Beitragsarten und Taxonomien ergänzen.
 
 ## Custom Fields
 

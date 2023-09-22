@@ -2,13 +2,13 @@
 
 Über diesen Filter-Hook können die Taxonomie-, Meta- (*Custom Fields*) sowie Geo-Abfragen erweitert werden, die im Rahmen der [Suche](/komponenten/suchformular) nach Immobilienobjekten bzw. der [Listenausgabe](/komponenten/liste) generiert werden.
 
-> Dieser Filter ist vor allem bei der Entwicklung von [Add-ons](/add-ons) relevant, die eigene Parameter und Abfragen ergänzen.
+?> Dieser Filter ist vor allem bei der Entwicklung von [Add-ons](/add-ons) relevant, die eigene Parameter und Abfragen ergänzen.
 
 ## Parameter
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$queries` (array) | Array mit drei Unterelementen (`tax_query`, `meta_query` und `geo_query`), die die entsprechenden [WP-Query-Abfragen](https://developer.wordpress.org/reference/classes/wp_query/) bzw. Parameter enthalten |
+| **`$queries`** (array) | Array mit drei Unterelementen (`tax_query`, `meta_query` und `geo_query`), die die entsprechenden [WP-Query-Abfragen](https://developer.wordpress.org/reference/classes/wp_query/) bzw. Parameter enthalten |
 | `$params` (array) | Suchkriterien, anhand der die Abfragen generiert wurden |
 | `$prefix` (string) | Kickstart-Präfix (`inx-`), das in den meisten Fällen den Variablen-/Parameternamen vorangestellt wird |
 
@@ -61,7 +61,7 @@ Das Element `geo_query` kommt bei der Nutzung der Umkreissuche zum Einsatz und e
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_search_tax_and_meta_queries', 'mysite_modify_property_search_queries', 10, 3 );
@@ -72,3 +72,5 @@ function mysite_modify_property_search_queries( $queries, $params, $prefix ) {
 	return $queries;
 } // mysite_modify_property_search_queries
 ```
+
+[](_backlink.md ':include')

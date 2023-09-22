@@ -6,7 +6,7 @@ Die Minimal- und Maximalwerte des **Primärpreis-Sliders** im [Suchformular](/ko
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$force_values` (array) | aktuelle Min/Max-Vorgaben (genau 6 `int` / `bool` Werte) |
+| **`$force_values`** (array) | aktuelle Min/Max-Vorgaben (genau 6 `int` / `bool` Werte) |
 
 ### Das Werte-Array im Detail
 
@@ -26,7 +26,7 @@ aktualisierte Min/Max-Vorgabewerte
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_search_form_primary_price_min_max_values', 'mysite_force_price_slider_min_max_values' );
@@ -40,3 +40,5 @@ function mysite_force_price_slider_min_max_values( $force_values ) {
 	return array( 0, false, 200000, 800000, 200, 1000 );
 } // mysite_force_price_slider_min_max_values
 ```
+
+[](_backlink.md ':include')

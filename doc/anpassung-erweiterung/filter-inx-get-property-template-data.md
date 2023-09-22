@@ -2,15 +2,15 @@
 
 Dieser Filter dient dem **Abrufen** aller für das Rendering eines Detailansicht-Templates relevanten "Rohdaten"/Objektinstanzen eines [Immobilien-Beitrags](/beitragsarten-taxonomien).
 
-> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
+?> Der Filter wird typischerweise in [Add-ons](/add-ons) oder anderen Plugins/Themes **anstelle von direkten Funktionsaufrufen** eingesetzt, bei denen ansonsten immer die Verfügbarkeit des Kickstart-Basisplugins geprüft werden müsste.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template_data` (array) | leeres Array |
+| **`$template_data`** (array) | leeres Array |
 | `$args` (array) | Optionale Parameter |
-| | `post_id`: ID des Immobilien-Beitrags (optional, Standard: automatische Ermittlung) |
+| | `post_id` (string\|int) → ID des Immobilien-Beitrags (optional, Standard: automatische Ermittlung) |
 
 ## Rückgabewert
 
@@ -37,3 +37,5 @@ function mysite_save_property_template_data() {
 	}
 } // mysite_save_property_template_data
 ```
+
+[](_backlink.md ':include')

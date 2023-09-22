@@ -6,10 +6,10 @@ Mit diesem Filter kann die Aufteilung der Elemente der [Immobilien-Detailansicht
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` (array) | Array mit folgenden Unterarrays, die die Tab-Definitionen sowie Key-Listen von [Detailabschnitt-Elementen](/komponenten/detailansicht#elemente-abschnitte) enthalten |
-| | `before_tabs`: Elemente, die **vor** dem Tab-Abschnitt angezeigt werden |
-| | `tabs`: Liste der Tabs inkl. Bezeichnungen und enthaltenen Elementen |
-| | `after_tabs`: Elemente, die **nach** dem Tab-Abschnitt angezeigt werden |
+| **`$elements`** (array) | Array mit folgenden Unterarrays, die die Tab-Definitionen sowie Key-Listen von [Detailabschnitt-Elementen](/komponenten/detailansicht#elemente-abschnitte) enthalten |
+| | `before_tabs` → Elemente, die **vor** dem Tab-Abschnitt angezeigt werden |
+| | `tabs` → Liste der Tabs inkl. Bezeichnungen und enthaltenen Elementen |
+| | `after_tabs` → Elemente, die **nach** dem Tab-Abschnitt angezeigt werden |
 
 ### Das Elements-Array im Detail
 
@@ -67,7 +67,7 @@ angepasstes Tab-Array
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_tabbed_content_elements', 'mysite_modify_tabbed_content_elements' );
@@ -82,3 +82,5 @@ function mysite_modify_tabbed_content_elements( $elements ) {
 	return $elements;
 } // mysite_modify_tabbed_content_elements
 ```
+
+[](_backlink.md ':include')

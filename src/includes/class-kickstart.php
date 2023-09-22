@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_21\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.7.26-beta';
+	const PLUGIN_VERSION             = '1.8.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -39,9 +39,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 		'plugin_version'                               => self::PLUGIN_VERSION,
 		'skin'                                         => 'default',
 		'property_list_page_id'                        => 0,
+		'properties_per_page'                          => 0,
 		'property_details_page_id'                     => 0,
 		'apply_wpautop_details_page'                   => false,
 		'heading_base_level'                           => 1,
+		'enable_ken_burns_effect'                      => true,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
 		'currency_symbol'                              => '€',
@@ -75,6 +77,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 		'property_details_map_note_map_embed'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'deferred_tasks'                               => array(),
 	);
+
+	/**
+	 * Distance search autocomplete types
+	 *
+	 * @var mixed[]
+	 */
+	private $distance_search_autocomplete_types;
 
 	/**
 	 * List of available property location map types (key => name)
@@ -272,6 +281,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 			}
 		}
 
+		if ( empty( $this->plugin_options['properties_per_page'] ) ) {
+			$this->plugin_options['properties_per_page'] = get_option( 'posts_per_page' );
+		}
+
 		if ( $option_string_translated ) {
 			update_option( $this->plugin_options_name, $this->plugin_options );
 		}
@@ -331,7 +344,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 	 */
 	public function init_plugin( $fire_before_hook = true, $fire_after_hook = true ) {
 		parent::init_plugin( $fire_before_hook, $fire_after_hook );
-
 		// Plugin-specific helper/util objects.
 		$this->utils = array_merge(
 			$this->utils,
@@ -360,9 +372,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 			array(
 				'skin'                                     => $this->plugin_options['skin'],
 				'property_list_page_id'                    => $this->plugin_options['property_list_page_id'],
+				'properties_per_page'                      => $this->plugin_options['properties_per_page'],
 				'property_details_page_id'                 => $this->plugin_options['property_details_page_id'],
 				'apply_wpautop_details_page'               => $this->plugin_options['apply_wpautop_details_page'],
 				'heading_base_level'                       => $this->plugin_options['heading_base_level'],
+				'enable_ken_burns_effect'                  => $this->plugin_options['enable_ken_burns_effect'],
 				'area_unit'                                => $this->plugin_options['area_unit'],
 				'currency'                                 => $this->plugin_options['currency'],
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
@@ -467,8 +481,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 						 * (allows multiple forms), but remains as copy (containing the value of
 						 * the first form) for compatibility reasons.
 						 */
-						'number_of_matches' => '',
-						'forms'             => array(),
+						'number_of_matches'   => '',
+						'forms'               => array(),
+						'form_debounce_delay' => (int) apply_filters( 'inx_search_form_debounce_delay', Property_Search::DEFAULT_SEARCH_FORM_DEBOUNCE_DELAY ),
 					),
 					$search_query_vars
 				),
@@ -689,7 +704,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 				),
 				'section_google_maps_api'      => array(
 					'title'       => 'Google Maps API',
-					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
+					'description' => wp_sprintf(
+						'%s<br><br>%s',
+						__( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). Please provide a valid API key in this case.', 'immonex-kickstart' ),
+						wp_sprintf(
+							// translators: %1$s = Detail Maps Tab JS, %2$s = Overview Maps Tab JS.
+							__( '<strong>Please note!</strong> <em>Google Maps</em> are currently only available in <a href="%1$s">property detail pages</a>, overview maps in <a href="%2$s">list views</a> are generally <em>OpenStreetMap-based</em>.', 'immonex-kickstart' ),
+							'javascript:setActiveSectionTab(3)',
+							'javascript:setActiveSectionTab(2)'
+						)
+					),
 					'tab'         => 'tab_geo',
 				),
 				'section_geo_user_consent'     => array(
@@ -749,6 +773,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 					),
 				),
 				array(
+					'name'    => 'properties_per_page',
+					'type'    => 'number',
+					'label'   => __( 'Properties per Page', 'immonex-kickstart' ),
+					'section' => 'section_design_structure',
+					'args'    => array(
+						'description'      => __( '<strong>Default</strong> number of properties to display <strong>per page</strong> in list views', 'immonex-kickstart' ),
+						'class'            => 'small-text',
+						'min'              => 1,
+						'default_if_empty' => get_option( 'posts_per_page' ),
+					),
+				),
+				array(
 					'name'    => 'property_details_page_id',
 					'type'    => 'select',
 					'label'   => __( 'Property Details Page', 'immonex-kickstart' ),
@@ -779,6 +815,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 							2 => 'H2',
 							3 => 'H3',
 						),
+					),
+				),
+				array(
+					'name'    => 'enable_ken_burns_effect',
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable Ken Burns Effect', 'immonex-kickstart' ),
+					'section' => 'section_design_structure',
+					'args'    => array(
+						'description' => __( 'Enable animations ("Ken Burns Effect") in the <strong>primary</strong> photo gallery of the property detail pages, if supported by the skin.', 'immonex-kickstart' ),
 					),
 				),
 				array(
@@ -922,7 +967,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 				),
 				array(
 					'name'    => 'property_list_map_zoom',
-					'type'    => 'text',
+					'type'    => 'number',
 					'label'   => __( 'Default Zoom Level', 'immonex-kickstart' ),
 					'section' => 'section_property_list_maps',
 					'args'    => array(
@@ -954,7 +999,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_8\Base {
 				),
 				array(
 					'name'    => 'property_details_map_zoom',
-					'type'    => 'text',
+					'type'    => 'number',
 					'label'   => __( 'Default Zoom Level', 'immonex-kickstart' ),
 					'section' => 'section_property_detail_maps',
 					'args'    => array(

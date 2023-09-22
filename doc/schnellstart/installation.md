@@ -16,7 +16,7 @@ Das Plugin kann alternativ auch via ***Plugins → Installieren → Plugin hochl
 
 Soll eine vorhandene Version von Kickstart manuell aktualisiert werden, muss diese zunächst in der Liste der installierten Plugins deaktiviert und dann gelöscht werden.
 
-> Alle Immobiliendaten und Plugin-Einstellungen bleiben auch beim Deaktivieren/Löschen erhalten und werden bei der Installation der neuen Version übernommen.
+?> Alle Immobiliendaten und Plugin-Einstellungen bleiben auch beim Deaktivieren/Löschen erhalten und werden bei der Installation der neuen Version übernommen.
 
 ![manuelle Installation](../assets/scst-manual-install-1.gif)
 

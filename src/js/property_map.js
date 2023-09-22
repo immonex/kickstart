@@ -1,6 +1,7 @@
 // Vue & Co.
 import Vue from 'vue'
 import axios from 'axios'
+import debounce from 'debounce'
 
 // immonex Kickstart Components
 import PropertyOpenLayersMap from './components/PropertyOpenLayersMap.vue'
@@ -82,7 +83,12 @@ async function init() {
 
 	initMapInstances()
 
-	window.setTimeout(() => { $('.inx-property-search.inx-dynamic-update').on('search:change', updateMaps) }, 1000)
+	let debounceDelay = 600
+	try {
+		debounceDelay = inx_state.search.form_debounce_delay ? inx_state.search.form_debounce_delay : debounceDelay
+	} catch {}
+
+	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updateMaps, debounceDelay))
 } // init
 
 export { init }

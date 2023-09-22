@@ -28,6 +28,8 @@ if ( ! have_posts() ) {
 }
 ?>
 <div class="inx-cq">
+	<?php do_action( 'inx_before_render_property_list', have_posts() ); ?>
+
 	<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="<?php echo implode( ' ', $inx_skin_container_classes ); ?>">
 		<?php
 		if ( have_posts() ) :
@@ -35,9 +37,13 @@ if ( ! have_posts() ) {
 				the_post();
 				?>
 
-		<div class="inx-property-list__item-wrap">
-				<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts ); ?>
-		</div>
+				<div class="inx-property-list__item-wrap">
+				<?php
+				do_action( 'inx_before_render_property_list_item' );
+				do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts );
+				do_action( 'inx_after_render_property_list_item' );
+				?>
+				</div>
 
 				<?php
 			endwhile;
@@ -45,13 +51,15 @@ if ( ! have_posts() ) {
 			if ( ! empty( $template_data['no_results_text'] ) ) :
 				?>
 
-		<div class="inx-property-list__no-properties">
-			<p><?php echo $template_data['no_results_text']; ?></p>
-		</div>
+				<div class="inx-property-list__no-properties">
+					<p><?php echo $template_data['no_results_text']; ?></p>
+				</div>
 
 				<?php
 			endif;
 		endif;
 		?>
 	</div>
+
+	<?php do_action( 'inx_after_render_property_list', have_posts() ); ?>
 </div>

@@ -86,6 +86,8 @@ if ( $inx_skin_enable_tabs ) :
 	if ( ! empty( $inx_skin_tabbed_content_elements['before_tabs'] ) ) :
 		foreach ( $inx_skin_tabbed_content_elements['before_tabs'] as $inx_skin_element_key ) {
 			if ( isset( $inx_skin_page_elements[ $inx_skin_element_key ] ) ) {
+				do_action( "inx_before_render_detail_element_{$inx_skin_element_key}", 'before_tabs' );
+
 				if ( ! empty( $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] ) ) {
 					call_user_func_array( 'do_action', $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] );
 				} else {
@@ -96,6 +98,8 @@ if ( $inx_skin_enable_tabs ) :
 						$inx_skin_page_elements[ $inx_skin_element_key ]
 					);
 				}
+
+				do_action( "inx_after_render_detail_element_{$inx_skin_element_key}", 'before_tabs' );
 			}
 		}
 	endif;
@@ -129,12 +133,16 @@ if ( $inx_skin_enable_tabs ) :
 					$inx_skin_element_atts['headline'] = '';
 				}
 
+				do_action( "inx_before_render_detail_element_{$inx_skin_part_id}", 'tab_content' );
+
 				do_action(
 					'inx_render_property_contents',
 					false,
 					basename( __DIR__ ) . '/' . $inx_skin_element_atts['template'],
 					$inx_skin_element_atts
 				);
+
+				do_action( "inx_after_render_detail_element_{$inx_skin_part_id}", 'tab_content' );
 			endforeach;
 			?>
 		</li>
@@ -146,6 +154,8 @@ if ( $inx_skin_enable_tabs ) :
 	if ( ! empty( $inx_skin_tabbed_content_elements['after_tabs'] ) ) :
 		foreach ( $inx_skin_tabbed_content_elements['after_tabs'] as $inx_skin_element_key ) {
 			if ( isset( $inx_skin_page_elements[ $inx_skin_element_key ] ) ) {
+				do_action( "inx_before_render_detail_element_{$inx_skin_element_key}", 'after_tabs' );
+
 				if ( ! empty( $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] ) ) {
 					call_user_func_array( 'do_action', $inx_skin_page_elements[ $inx_skin_element_key ]['do_action'] );
 				} else {
@@ -156,11 +166,15 @@ if ( $inx_skin_enable_tabs ) :
 						$inx_skin_page_elements[ $inx_skin_element_key ]
 					);
 				}
+
+				do_action( "inx_after_render_detail_element_{$inx_skin_element_key}", 'after_tabs' );
 			}
 		}
 	endif;
 else :
-	foreach ( $inx_skin_page_elements as $inx_skin_element_atts ) {
+	foreach ( $inx_skin_page_elements as $inx_skin_element_key => $inx_skin_element_atts ) {
+		do_action( "inx_before_render_detail_element_{$inx_skin_element_key}", 'no_tabs' );
+
 		if ( ! empty( $inx_skin_element_atts['do_action'] ) ) {
 			call_user_func_array( 'do_action', $inx_skin_element_atts['do_action'] );
 		} else {
@@ -171,5 +185,7 @@ else :
 				$inx_skin_element_atts
 			);
 		}
+
+		do_action( "inx_after_render_detail_element_{$inx_skin_element_key}", 'no_tabs' );
 	}
 endif;

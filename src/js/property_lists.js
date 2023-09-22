@@ -1,4 +1,5 @@
 import axios from 'axios'
+import debounce from 'debounce'
 
 const $ = jQuery
 
@@ -13,6 +14,8 @@ function maybeHideEmptyFilterPanel() {
 } // maybeHideEmptyFilterPanel
 
 function updatePropertyLists(event, requestParams) {
+	if (!requestParams.searchStateInitialized) return
+
 	let updateIDs = $(event.target).data('dynamic-update') || false
 	if (!updateIDs) return
 
@@ -54,9 +57,15 @@ function updatePropertyLists(event, requestParams) {
 	}
 } // updatePropertyLists
 
-function init() {
+async function init() {
 	maybeHideEmptyFilterPanel()
-	window.setTimeout(() => { $('.inx-property-search.inx-dynamic-update').on('search:change', updatePropertyLists) }, 2000)
+
+	let debounceDelay = 600
+	try {
+		debounceDelay = inx_state.search.form_debounce_delay ? inx_state.search.form_debounce_delay : debounceDelay
+	} catch {}
+
+	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updatePropertyLists, debounceDelay))
 } // init
 
 export { init }

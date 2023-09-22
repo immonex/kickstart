@@ -39,7 +39,8 @@ $inx_skin_empty_option_value            = ! empty( $template_data['element']['em
 		<option value="<?php echo $inx_skin_empty_option_value; ?>"
 			<?php
 			if ( $inx_skin_empty_option_value === $template_data['element_value'] ) {
-				echo ' selected';}
+				echo ' selected';
+			}
 			?>
 		><?php echo true === $template_data['element']['empty_option'] ? $template_data['element']['label'] : $template_data['element']['empty_option']; ?></option>
 		<?php endif; ?>

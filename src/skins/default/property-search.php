@@ -17,13 +17,20 @@ $inx_skin_rendering_atts  = array(
 	'search_main_element_id' => $inx_skin_main_element_id,
 	'render_count'           => ! empty( $template_data['render_count'] ) ? $template_data['render_count'] : 0,
 	'extended_count'         => $template_data['extended_count'],
-	'references'             => ! empty( $template_data[ "{$template_data['public_prefix']}references" ] ) ?
-		$template_data[ "{$template_data['public_prefix']}references" ] : false,
 );
 
 foreach ( $template_data as $inx_skin_key => $inx_skin_value ) {
 	if ( 'force-' === substr( $inx_skin_key, 0, 6 ) ) {
 		$inx_skin_rendering_atts[ $inx_skin_key ] = $inx_skin_value;
+		continue;
+	}
+
+	if (
+		'inx-' === substr( $inx_skin_key, 0, 4 )
+		&& ! empty( $inx_skin_value )
+		&& ! isset( $inx_skin_rendering_atts[ substr( $inx_skin_key, 4 ) ] )
+	) {
+		$inx_skin_rendering_atts[ substr( $inx_skin_key, 4 ) ] = $inx_skin_value;
 	}
 }
 

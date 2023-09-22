@@ -130,15 +130,13 @@ export default {
 				}
 			}
 
-			// Create the autocomplete object, restricting the search to geographical
-			// location types.
+			// Create the autocomplete object, restricting the search to geographical location types.
 			this.autocomplete = new this.google.maps.places.Autocomplete(
 				this.$refs.input,
 				options
 			);
 
-			// When the user selects an address from the dropdown, populate the address
-			// fields in the form.
+			// When the user selects an address from the dropdown, populate the address fields in the form.
 			this.autocomplete.addListener('place_changed', this.placeChanged);
 		},
 		placeChanged: function() {
@@ -171,8 +169,7 @@ export default {
 				isVisible = selectElements[0].offsetParent !== null
 			}
 
-			// Prevent form submission per enter key when autocomplete dropdown
-			// is visible.
+			// Prevent form submission per enter key when autocomplete dropdown is visible.
 			if (event.key === 'Enter' && isVisible) event.preventDefault()
 		},
 		fireDOMChangeEvent () {
@@ -198,9 +195,9 @@ export default {
 			Array.isArray(initialValue) &&
 			initialValue.length === 3
 		) {
-			// Intitial value is an array (Latitude, Longitude, Locality Name).
-			// Set original string as transfer value.
-			this.transferValue = this.value
+			// Use stringified version of initial value as transfer value (latitude, longitude, locality name).
+			this.transferValue = JSON.stringify([initialValue[0], initialValue[1], initialValue[2]])
+
 			// Use locality name as input field value.
 			this.currentPlaceName = initialValue[2]
 		}

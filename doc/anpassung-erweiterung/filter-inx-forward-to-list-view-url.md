@@ -6,7 +6,7 @@ Wurde für die Ausgabe der [Immobiliendetails](/komponenten/detailansicht) in de
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$property_list_url` (string) | URL der Standard-Listenansicht |
+| **`$property_list_url`** (string) | URL der Standard-Listenansicht |
 
 ## Rückgabewert
 
@@ -14,7 +14,7 @@ alternative URL
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_forward_to_list_view_url', 'mysite_set_list_view_forwarding_url' );
@@ -24,3 +24,5 @@ function mysite_set_list_view_forwarding_url( $property_list_url ) {
 	return 'https://immobilienmakler-website.de/immobilienangebot/';
 } // mysite_set_list_view_forwarding_url
 ```
+
+[](_backlink.md ':include')

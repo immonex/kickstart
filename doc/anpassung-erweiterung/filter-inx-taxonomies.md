@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften der [immobilienspezifischen Taxonomi
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$taxonomies` (array) | Eigenschaften **aller** Taxonomien, die vom Kickstart-Plugin registriert werden |
+| **`$taxonomies`** (array) | Eigenschaften **aller** Taxonomien, die vom Kickstart-Plugin registriert werden |
 
 ### Taxonomies-Array im Detail
 
@@ -76,7 +76,7 @@ angepasstes oder erweitertes Array mit allen für die Registrierung der **Immobi
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_taxonomies', 'mysite_modify_property_taxonomies' );
@@ -87,3 +87,5 @@ function mysite_modify_property_taxonomies( $taxonomies ) {
 	return $taxonomies;
 } // mysite_modify_property_taxonomies
 ```
+
+[](_backlink.md ':include')

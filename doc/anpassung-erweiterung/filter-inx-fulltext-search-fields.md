@@ -6,7 +6,7 @@ Bei der [Suche nach Schlüsselwörtern](/komponenten/suchformular) werden regul�
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$fields` (array) | Feldnamen-Liste |
+| **`$fields`** (array) | Feldnamen-Liste |
 
 ### Standardumfang der Feldliste
 
@@ -28,7 +28,7 @@ angepasste/erweiterte Feldnamen-Liste
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_fulltext_search_fields', 'mysite_add_fulltext_search_fields' );
@@ -40,3 +40,5 @@ function mysite_add_fulltext_search_fields( $fields ) {
 	return $fields;
 } // mysite_add_fulltext_search_fields
 ```
+
+[](_backlink.md ':include')

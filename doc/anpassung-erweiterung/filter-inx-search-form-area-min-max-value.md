@@ -6,21 +6,21 @@ Die Minimal- und Maximalwerte eines **Flächen-Sliders** (z. B. Mindestwohnfläc
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$min_max` (array) | aktuelle Min/Max-Vorgaben in m² (zwei `int`-Werte, wobei der Mindestwert im Regelfall 0 ist) |
+| **`$min_max`** (array) | aktuelle Min/Max-Vorgaben in m² (zwei `int`-Werte, wobei der Mindestwert im Regelfall 0 ist) |
 | `$area_type` (string) | Flächenart, auf den sich der per Slider festgelegte Wert bezieht |
-| | *primary*: Primärfläche |
-| | *living*: Wohnfläche |
-| | *commercial*: Gewerbefläche |
-| | *retail*: Verkaufsfläche |
-| | *office*: Bürofläche |
-| | *gastronomy*: Gastronomie/Hotellerie-Fläche |
-| | *plot*: Grundstücksfläche |
-| | *usable*: Nutzfläche |
-| | *basement*: Kellerfläche |
-| | *attic*: Dachbodenfläche |
-| | *garden*: Gartenfläche |
-| | *misc*: Rahmens sonstige Fläche |
-| | *total*: Gesamtfläche |
+| | *primary* → Primärfläche |
+| | *living* → Wohnfläche |
+| | *commercial* → Gewerbefläche |
+| | *retail* → Verkaufsfläche |
+| | *office* → Bürofläche |
+| | *gastronomy* → Gastronomie/Hotellerie-Fläche |
+| | *plot* → Grundstücksfläche |
+| | *usable* → Nutzfläche |
+| | *basement* → Kellerfläche |
+| | *attic* → Dachbodenfläche |
+| | *garden* → Gartenfläche |
+| | *misc* → Rahmens sonstige Fläche |
+| | *total* → Gesamtfläche |
 
 ## Rückgabewert
 
@@ -28,7 +28,7 @@ aktualisierte Min/Max-Vorgabewerte als Array mit zwei Elementen
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_search_form_area_min_max_value', 'mysite_force_area_slider_min_max_values', 10, 2 );
@@ -45,3 +45,5 @@ function mysite_force_area_slider_min_max_values( $min_max, $area_type ) {
 	return $min_max;
 } // mysite_force_area_slider_min_max_values
 ```
+
+[](_backlink.md ':include')

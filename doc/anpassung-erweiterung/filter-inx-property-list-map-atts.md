@@ -6,7 +6,7 @@ Mit diesem Filter können die für die Generierung einer [Kartenansicht](/kompon
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$atts` | Array der Abfrage/Rendering-Attribute |
+| **`$atts`** | Abfrage/Rendering-Attribute |
 
 ### Das Attribut-Array im Detail
 
@@ -64,7 +64,7 @@ angepasstes Attribut-Array
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_property_list_map_atts', 'mysite_modify_property_map_atts' );
@@ -75,3 +75,5 @@ function mysite_modify_property_map_atts( $atts ) {
 	return $atts;
 } // mysite_modify_property_map_atts
 ```
+
+[](_backlink.md ':include')

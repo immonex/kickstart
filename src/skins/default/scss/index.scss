@@ -1,27 +1,6 @@
 // Skin/Template config
 @import "_config.scss";
 
-
-// Vendor specific styles & fonts
-
-// UIkit
-@import "uikit/src/scss/variables-theme.scss";
-@import "uikit/src/scss/mixins-theme.scss";
-// @import "uikit/src/scss/uikit-theme.scss";
-@import "_uikit-custom.scss";
-
-// noUiSlider
-@import url(~nouislider/dist/nouislider.min.css);
-
-// Vue-multiselect
-@import url(~vue-multiselect/dist/vue-multiselect.min.css);
-
-// OpenLayers
-@import url(~ol/ol.css);
-
-@import "../fonts/_flaticon.scss";
-
-
 // Mixins
 @import "_mixins.scss";
 

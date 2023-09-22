@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
-Tested up to: 6.3
-Stable Tag: 1.7.25
+Tested up to: 6.4
+Stable Tag: 1.8.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -109,10 +109,23 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.7.26-beta =
-* Release date: 2023-06-28
+= 1.8.0 =
+* Release date: 2023-09-22
+* Added option for default number of properties per page in list views.
+* Added option for disabling the "Ken Burns Effect" in property detail views.
+* Added 8 new action hooks for inserting contents during output (default skin).
 * Added action hook inx_rest_set_query_language.
+* Added filter inx_search_form_debounce_delay.
+* Reworked excerpt generation.
+* Reworked area and price min/max determination after OpenImmo imports.
+* Reworked/Extended property search form element rendering and JS (i.a. improved dynamic list/map updates).
+* Reworked Photon/OSM based location autocomplete.
+* Reworked default skin CSS/JS folder structure and moved CSS of third-party components to plugin core.
 * Fixed multilingual property query on dynamic list view updates.
+* Fixed a minor price range search form element bug.
+* Improved cache busting of lazy-loaded JS files.
+* Improved PHP 8.2 and WordPress 6.3/6.4 compatibility.
+* Updated external dependencies.
 
 = 1.7.25 =
 * Release date: 2023-06-09
@@ -133,12 +146,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Improved compatibility in multilingual environments (WPML/Polylang).
 * Fixed minor property search form JS bug.
 * Reworked automatic single property template page redirect - again.
-
-= 1.7.8 =
-* Release date: 2022-10-06
-* Reworked automatic single property template page redirect.
-* Fixed property image list creation used by add-ons.
-* Fixed saving of UTF-8 option strings.
-* Updated plugin option labels to be more precise.
 
 See changelog.txt for complete version history.

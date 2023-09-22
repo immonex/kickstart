@@ -4,7 +4,7 @@ Mit Kickstart sind "out of the box" eine [Immobilien-Übersichtsseite](/beitrags
 
 Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhängig voneinander, beeinflussen sich also nicht **direkt** gegenseitig. So wirkt sich bspw. die Änderung einer Auswahl im Suchformular erst **nach dem Absenden** bzw. dem Aktualisieren der kompletten Seite auf eine Listenansicht aus. Auch die Konfiguration einer Komponente per **Shortcode-Attribut** wirkt sich **nicht** automatisch auf die anderen Komponenten der Seite aus.
 
-> Eine **komponentenübergreifende** Konfiguration ist aber mittels [GET-Parametern](#GET-Parameter) möglich.
+?> Eine **komponentenübergreifende** Konfiguration ist aber mittels [GET-Parametern](#GET-Parameter) möglich.
 
 ## Suchformular
 
@@ -38,7 +38,7 @@ Mit diesem Shortcode wird aktuell bei Verwendung des Standard-Skins ein Balken m
 
 Für die explizite Festlegung der Elemente der Auswahlliste bzw. das Ausschließen bestimmter Elemente stehen die optionalen Shortcode-Attribute `elements` und `exclude` zur Verfügung, die jeweils kommagetrennte Listen von Element-Keys enthalten können. Ebenfalls optional ist das Attribut `default`, mit dem Standardsortierung festgelegt werden kann.
 
-> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
+!> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
 
 ### Beispiele
 
@@ -98,7 +98,7 @@ Details: [Komponenten → Seitennavigation](/komponenten/seitennavigation)
 
 ## Immobilien-Details
 
-> **Achtung!** Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung#immobilien-detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
+!> Die folgenden Shortcodes kommen nur dann zum Einsatz, wenn eine **[Seite](einrichtung#immobilien-detailseite)** als Rahmenvorlage für die Immobilien-Details verwendet wird. Bei der Nutzung des Standard-Templates des Immobilien-Beitragstyps werden sie nicht benötigt.
 
 Wurde eine [Seite als Vorlage für die Detailansicht](einrichtung#immobilien-detailseite) ausgewählt, können hier per Shortcode die gewünschten Immobilien-Inhalte in die gewünschten Layout-Container-Elemente eingebettet werden - komplett, abschnittsweise oder bei Bedarf auch *granular* in Form einzelner Angaben.
 

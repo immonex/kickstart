@@ -27,7 +27,8 @@ Standard-Suchformular (ohne Anpassungen)
 | `force-property-type` | Auswahloptionen des Elements `property-type` (Objektart) auf die **Hauptkategorien** (Terms der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste, z. B. *wohnungen, haeuser*) |
 | `force-marketing-type` | Auswahloptionen des Elements `marketing-type` (Vermarktungsart) auf die **Hauptkategorien** (Terms der [Taxonomie inx_marketing_type](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste, z. B. *zu-verkaufen*) |
 | `force-feature` | Auswahloptionen des Elements `features` (Ausstattungsmerkmale) auf die **Hauptkategorien** (Terms der [Taxonomie inx_feature](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste) |
-| `autocomplete-countries` | Kommagetrennte Liste von Codes gem. [ISO 3166-1 ALPHA-2](https://www.nationsonline.org/oneworld/countrycodes.htm) der Länder, die bei der Autovervollständigung von Ortsnamen des Elements `distance-search-location` (11) unterstützt werden sollen (Standard bei aktivierter [Photon](https://photon.komoot.io/)-Ortssuche: *de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr*, bei Nutzung der [Google-Places-API](https://developers.google.com/maps/documentation/places/web-service/autocomplete) (max. 5): *de,at,ch,be,nl* |
+| `autocomplete-countries` | kommagetrennte Liste von Codes gem. [ISO 3166-1 ALPHA-2](https://www.nationsonline.org/oneworld/countrycodes.htm) der Länder, die bei der Autovervollständigung von Ortsnamen des Elements `distance-search-location` (11) berücksichtigt werden sollen (Standard bei aktivierter [Photon](https://photon.komoot.io/)-Ortssuche: *de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr*, bei Nutzung der [Google-Places-API](https://developers.google.com/maps/documentation/places/web-service/autocomplete) (max. 5): *de,at,ch,be,nl* |
+| `autocomplete-osm-place-tags` | kommagetrennte Liste von [OpenStreetMap-Place-Tags](https://wiki.openstreetmap.org/wiki/DE&colon;Key&colon;place) zur Filterung und Priorisierung der via [Photon](https://photon.komoot.io/) ermittelten Orte (Autovervollständigung) für das Element `distance-search-location` (11) der Umkreissuche (Standard: `city,town,village,borough,suburb`) |
 | `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *property-search/foobar*) |
 
 #### Elemente
@@ -57,7 +58,7 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 
 | Key | Beschreibung |
 | --- | ------------ |
-| `distance-search-location` (11) | Ortssuche mit Autovervollständigung für die Umkreissuche (siehe Shortcode-Attribut `autocomplete-countries` oben) |
+| `distance-search-location` (11) | Ortsauswahl mit Autovervollständigung für die Umkreissuche (siehe Shortcode-Attribute `autocomplete-countries` und `autocomplete-osm-place-tags` oben) |
 | `distance-search-radius` (12) | Dropdown-Auswahl des Radius für die Umkreissuche |
 | `features` (13) | Checkboxen zur Auswahl gewünschter Ausstattungsmerkmale (*Terms* der [Taxonomie inx_feature](/beitragsarten-taxonomien)) |
 | `labels` | Checkboxen zur Auswahl gewünschter Labels (*Terms* der [Taxonomie inx_label](/beitragsarten-taxonomien); **optional** - nur bei expliziter Einbindung per Attribut `elements`) |

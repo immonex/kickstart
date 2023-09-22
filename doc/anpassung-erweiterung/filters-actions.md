@@ -20,6 +20,7 @@
 - [inx_search_form_primary_price_min_max_values](filter-inx-search-form-primary-price-min-max-values) (Minimal/Maximal-Werte für den Preis-Slider festlegen)
 - [inx_search_form_area_min_max_value](filter-inx-search-form-area-min-max-value) (Minimal/Maximal-Werte für Flächen-Slider festlegen oder anpassen)
 - [inx_fulltext_search_fields](filter-inx-fulltext-search-fields) (Custom Fields für die Volltextsuche)
+- [inx_search_form_debounce_delay](filter-inx-search-form-debounce-delay) (Debounce-Verzögerung bei Änderung der Suchkriterien)
 
 ### Standortkarten
 
@@ -52,6 +53,7 @@
 
 - [inx_property_core_data_custom_fields](filter-inx-property-core-data-custom-fields) (Custom Fields der Immobilien-Kerndaten)
 - [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
+- [inx_rendered_property_template_contents](filter-inx-rendered-property-template-contents) (Anpassung der gerenderten Inhalte eines Immobilien-Detail-Templates)
 
 ### Kompatibilität
 
@@ -81,6 +83,10 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 
 ### Rendering
 
+#### Einbindung / Ausgabe
+
+Die folgenden Hooks dienen der vorrangig der **Einbindung** von Kickstart-Komponenten in Templates und somit der **Ausgabe** von Immobiliendaten.
+
 - [inx_render_property_map](action-inx-render-property-map) (Immobilien-Standortkarte)
 - [inx_render_property_search_form](action-inx-render-property-search-form) (Immobilien-Suchformular)
 - [inx_render_property_search_form_element](action-inx-render-property-search-form-element) (Suchformular-Element)
@@ -88,6 +94,19 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 - [inx_render_pagination](action-inx-render-pagination) (Seitennavigation der Listenansicht)
 - [inx_render_property_filters_sort](action-inx-render-property-filters-sort) (Element zur Auswahl der Sortierung)
 - [inx_render_property_contents](action-inx-render-property-contents) (Immobilien-Details)
+
+#### Ergänzung
+
+Mit diesen Hooks können beliebige **zusätzliche** Inhalte **vor oder nach** der Ausgabe der Immobiliendaten-Elemente eingefügt werden.
+
+- [inx_before_render_property_list](action-inx-before-render-property-list) (vor der Ausgabe einer Immobilienliste)
+- [inx_after_render_property_list](action-inx-after-render-property-list) (nach der Ausgabe einer Immobilienliste)
+- [inx_before_render_property_list_item](action-inx-before-render-property-list-item) (vor der Ausgabe eines Immobilien-Listenelements)
+- [inx_after_render_property_list_item](action-inx-after-render-property-list-item) (nach der Ausgabe eines Immobilien-Listenelements)
+- [inx_before_render_single_property](action-inx-before-render-single-property) (vor der Objektdatenausgabe per Standard-Template)
+- [inx_after_render_single_property](action-inx-after-render-single-property) (nach der Objektdatenausgabe per Standard-Template)
+- [inx_before_render_detail_element_{$element_key}](action-inx-before-render-detail-element) (vor der Ausgabe eines Detail-Elements)
+- [inx_after_render_detail_element_{$element_key}](action-inx-after-render-detail-element) (nach der Ausgabe eines Detail-Elements)
 
 ### Mehrsprachigkeit
 

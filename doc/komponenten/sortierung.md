@@ -23,7 +23,7 @@ Via `elements` und `exclude` können kommagetrennte Listen der u. g. Elementname
 
 Das Attribut `default` wird nur dann benötigt, wenn die Standardsortierung **nicht** per [GET-Parameter](/schnellstart/einbindung.html#get-parameter) `inx-sort` oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) definiert wird bzw. die Standarsortierung **nicht** dem ersten Eintrag entspricht.
 
-> Der Wert des `default` Attributs hat **keinen** direkten Einfluss auf die eigentliche Sortierung einer Immobilienliste auf der gleichen Seite. **Ohne** die Definition via GET-Parameter oder Filterfunktion muss eine abweichende Standardsortierung hier ebenfalls per Shortcode-Attribut gesetzt werden.
+!> Der Wert des `default` Attributs hat **keinen** direkten Einfluss auf die eigentliche Sortierung einer Immobilienliste auf der gleichen Seite. **Ohne** die Definition via GET-Parameter oder Filterfunktion muss eine abweichende Standardsortierung hier ebenfalls per Shortcode-Attribut gesetzt werden.
 
 ### Beispiele
 

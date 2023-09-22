@@ -8,7 +8,7 @@ Die Link-URL wird vorab in der verweisenden Seite automatisch generiert, wobei h
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$var_names` (array) | Liste der auszuschließenden Variablennamen |
+| **`$var_names`** (array) | Liste der auszuschließenden Variablennamen |
 
 ## Rückgabewert
 
@@ -16,7 +16,7 @@ aktualisierte/erweiterte Liste von GET-Variablennamen
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_exclude_backlink_vars', 'mysite_exclude_backlink_vars' );
@@ -29,3 +29,5 @@ function mysite_exclude_backlink_vars( $var_names ) {
 	return $var_names;
 } // mysite_exclude_backlink_vars
 ```
+
+[](_backlink.md ':include')

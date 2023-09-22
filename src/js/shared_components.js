@@ -71,7 +71,7 @@ function addBacklinkURL(url, backlinkURL = false) {
 	return sourceURL.toString()
 } // addBacklinkURL
 
-function init() {
+async function init() {
 	$(window).on('resize', function() {
 		$('.inx-squared-image').each(function() {
 			$(this).height($(this).width())

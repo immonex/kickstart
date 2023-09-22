@@ -9,6 +9,7 @@ import noUiSlider from 'nouislider'
 // flatpickr
 import flatpickr from 'flatpickr'
 import { German } from 'flatpickr/dist/l10n/de.js'
+import 'flatpickr/dist/themes/light.css'
 
 // immonex Kickstart Components
 import RangeSlider from './components/RangeSlider.vue'
@@ -23,6 +24,7 @@ const searchFormElementIDs = []
 
 let searchStateInitialized = false
 let currentSearchRequestParamsStrings = []
+let debouncedInvokeComponentUpdates
 
 function resetSearchForm(event = null) {
 	if (!event && searchFormElementIDs.length === 0) return;
@@ -74,7 +76,7 @@ function resetSearchForm(event = null) {
 
 	$(searchFormID + ' .inx-form-element--radio input[type="radio"]').first().checked = true
 
-	updateSearchState(event)
+	updateSearchState()
 
 	return false
 } // resetSearchForm
@@ -97,7 +99,6 @@ function updateSearchState(event = null) {
 	const searchFormIDs = event && typeof event === 'object' ?
 		[$(event.target).closest('form').attr('id')] :
 		searchFormElementIDs
-	searchStateInitialized = true
 
 	$.each(searchFormIDs, (iForm, searchFormID) => {
 		const formIndex = searchFormElementIDs.indexOf(searchFormID)
@@ -121,62 +122,73 @@ function updateSearchState(event = null) {
 			inx_state.search.forms[formIndex][fieldNameStore].push(field.value)
 		})
 
-		// Generate a parameter string for a GET search request excluding empty form fields.
-		let requestParamsString = $('#' + searchFormID).find('input, select')
-			.filter(function(i, field) {
-				return $(field).val() !== ''
-			})
-			.serialize()
+		inx_state.search = Object.assign({}, inx_state.search)
 
-		let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
-		url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
-		let backlinkURL = $(searchForm).attr('action') || window.location.href.split('?')[0]
-		if (requestParamsString) {
-			url += '&' + requestParamsString
-			backlinkURL += (backlinkURL.indexOf('?') === -1 ? '?' : '&') + requestParamsString
-		}
-		url += '&inx-backlink-url=' + encodeURIComponent(backlinkURL)
-
-		inx_state.search.backlink_url = backlinkURL
-
-		if (requestParamsString !== currentSearchRequestParamsStrings[formIndex]) {
-			currentSearchRequestParamsStrings[formIndex] = requestParamsString
-
-			axios
-				.get(url)
-				.then(response => {
-					inx_state.search.forms[formIndex].numberOfMatches = response.data
-					if (formIndex === 0) {
-						inx_state.search.number_of_matches = response.data
-					}
-
-					inx_state.search = Object.assign({}, inx_state.search)
-				})
-				.catch(err => err)
-		}
-
-		if (event) {
-			const specialParams = {}
-			searchForm.find("select, input").not("[type='hidden']").each((index, field) => {
-				if (
-					$(field).attr('name') &&
-					$(field).attr('name').substring(0, 4) === 'inx-' &&
-					$(field).attr('name').substring(0, 11) !== 'inx-search-' &&
-					$(field).val()
-				) {
-					specialParams[$(field).attr('name')] = $(field).val()
-				}
-			})
-
-			let changeParams = {
-				url: url,
-				paramsString: requestParamsString,
-				specialParams: specialParams
-			}
-			searchForm.closest('.inx-property-search').trigger('search:change', changeParams)
-		}
+		debouncedInvokeComponentUpdates(searchFormID, searchForm, formIndex)
 	})
 } // updateSearchState
+
+function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
+	// Generate a parameter string for a GET search request excluding empty form fields.
+	let requestParamsString = $('#' + searchFormID).find('input, select')
+		.filter(function(i, field) {
+			return $(field).val() !== ''
+		})
+		.serialize()
+
+	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
+	url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+	let backlinkURL = $(searchForm).attr('action') || window.location.href.split('?')[0]
+	if (requestParamsString) {
+		url += '&' + requestParamsString
+		backlinkURL += (backlinkURL.indexOf('?') === -1 ? '?' : '&') + requestParamsString
+	}
+	url += '&inx-backlink-url=' + encodeURIComponent(backlinkURL)
+
+	inx_state.search.backlink_url = backlinkURL
+
+	const specialParams = {}
+	searchForm.find("select, input").not("[type='hidden']").each((index, field) => {
+		if (
+			$(field).attr('name') &&
+			$(field).attr('name').substring(0, 4) === 'inx-' &&
+			$(field).attr('name').substring(0, 11) !== 'inx-search-' &&
+			$(field).val()
+		) {
+			specialParams[$(field).attr('name')] = $(field).val()
+		}
+	})
+
+	let changeParams = {
+		url: url,
+		paramsString: requestParamsString,
+		specialParams: specialParams,
+		formIndex: formIndex,
+		searchStateInitialized: searchStateInitialized
+	}
+
+	searchForm.closest('.inx-property-search').trigger('search:change', changeParams)
+
+	searchStateInitialized = true
+} // invokeComponentUpdates
+
+function updateNumberOfMatches(event, changeParams) {
+	if (changeParams.paramsString !== currentSearchRequestParamsStrings[changeParams.formIndex]) {
+		currentSearchRequestParamsStrings[changeParams.formIndex] = changeParams.paramsString
+
+		axios
+			.get(changeParams.url)
+			.then(response => {
+				inx_state.search.forms[changeParams.formIndex].numberOfMatches = response.data
+				if (changeParams.formIndex === 0) {
+					inx_state.search.number_of_matches = response.data
+				}
+
+				inx_state.search = Object.assign({}, inx_state.search)
+			})
+			.catch(err => err)
+	}
+} // updateNumberOfMatches
 
 function updateFiltersSortRequestParams(event, requestParams) {
 	function maybeSwitchSortOption(jqEl, isDistanceSearch) {
@@ -324,7 +336,7 @@ function initDatePickerFields() {
 	$('.inx-search-input--type--date').flatpickr(flatpickrOptions)
 } // initDatePickerFields
 
-function initSearchFormInstances() {
+function initSearchFormInstances(debounceDelay) {
 	inx_state.vue_instances.property_search_forms = []
 
 	$('.inx-property-search').each((index, searchForm) => {
@@ -355,9 +367,7 @@ function initSearchFormInstances() {
 			searchFormElementIDs.push(formEl.id)
 			inx_state.search.forms[index].formElID = formEl.id
 
-			$(searchFormElID + ' input, ' + searchFormElID + ' select')
-				//.not("[name='inx-search-distance-search-location']")
-				.on('change', debounce(updateSearchState, 500))
+			$(searchFormElID + ' input, ' + searchFormElID + ' select').on('change', updateSearchState)
 			$(searchFormElID + ' .inx-form-reset').on('click', resetSearchForm)
 
 			$(searchFormElID).submit(submitSearchFormData)
@@ -369,16 +379,22 @@ function initSearchFormInstances() {
 	}
 } // initSearchFormInstances
 
-function init() {
-	initSearchFormInstances()
+async function init() {
+	let debounceDelay = 600
+	try {
+		debounceDelay = inx_state.search.form_debounce_delay ? inx_state.search.form_debounce_delay : debounceDelay
+	} catch {}
+
+	debouncedInvokeComponentUpdates = debounce(invokeComponentUpdates, debounceDelay)
+
+	initSearchFormInstances(debounceDelay)
 	initDatePickerFields()
 	$(".inx-property-filters select[name='inx-sort']").on('change', changeSortOrder)
 
-	window.setTimeout(function() {
-		$('.inx-property-search.inx-dynamic-update').on('search:change', updateFiltersSortRequestParams)
+	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updateFiltersSortRequestParams, debounceDelay))
+	$('.inx-property-search').on('search:change', debounce(updateNumberOfMatches, debounceDelay))
 
-		if (!searchStateInitialized) updateSearchState();
-	}, 1000)
+	window.setTimeout(() => { if (!searchStateInitialized) updateSearchState() }, debounceDelay);
 } // init
 
 export { init }

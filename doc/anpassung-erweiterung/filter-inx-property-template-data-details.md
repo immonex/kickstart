@@ -10,7 +10,7 @@ Hierbei handelt es sich um die Daten, denen in der [Mapping-Tabelle für den Ope
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$detail_groups` (array) | gruppierte Immobilien-Detailangaben |
+| **`$detail_groups`** (array) | gruppierte Immobilien-Detailangaben |
 | `post_id` (int\|string) | ID des [Immobilien-Beitrags](/beitragsarten-taxonomien) |
 
 ### Das Detail-Groups-Array im Detail
@@ -197,7 +197,7 @@ angepasste Template-Detailinhalte
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_property_template_data_details', 'mysite_modify_property_template_details', 10, 2 );
@@ -218,3 +218,5 @@ function mysite_modify_property_template_details( $detail_groups, $post_id ) {
 	return $detail_groups;
 } // mysite_modify_property_template_details
 ```
+
+[](_backlink.md ':include')

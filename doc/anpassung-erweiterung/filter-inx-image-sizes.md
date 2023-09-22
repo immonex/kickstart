@@ -6,7 +6,7 @@ Mit diesem Filter kann die Liste der **im Kickstart-Kontext** zu registrierenden
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$image_sizes` (Array) | Array mit jeweils einem Unterelement pro Bildgröße, die registriert werden soll |
+| **`$image_sizes`** (array) | Array mit jeweils einem Unterelement pro Bildgröße, die registriert werden soll |
 
 ### Das Image-Sizes-Array im Detail
 
@@ -28,7 +28,7 @@ erweitertes Bildgrößen-Array
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_image_sizes', 'mysite_extend_kickstart_image_sizes' );
@@ -44,3 +44,5 @@ function mysite_extend_kickstart_image_sizes( $image_sizes ) {
 	return $image_sizes;
 } // mysite_extend_kickstart_image_sizes
 ```
+
+[](_backlink.md ':include')

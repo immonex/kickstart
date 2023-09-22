@@ -23,6 +23,7 @@ permission: public
 ## Dient zur Kategorisierung in der Projektliste (https://docs.immonex.de/projects)
 category: Plugins
 
-# "-" vor der Bezeichnung deaktiviert das Standardmodul
-use:
-  - -zoomImage
+plugins:
+  docsify:
+    css: assets/ext-style.css
+    js: assets/docsify-plugin-scroll-bug-fix.js

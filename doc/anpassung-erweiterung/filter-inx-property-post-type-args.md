@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften des [Beitragstyps für Immobilien-Ob
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$args` | Array mit Eigenschaften des Immobilien-Beitragstyps (siehe [Parameter $args der WP-Funktion register_post_type](https://developer.wordpress.org/reference/functions/register_post_type/#parameters)) |
+| **`$args`** (array) | Array mit Eigenschaften des Immobilien-Beitragstyps (siehe [Parameter $args der WP-Funktion register_post_type](https://developer.wordpress.org/reference/functions/register_post_type/#parameters)) |
 
 ## Rückgabewert
 
@@ -14,7 +14,7 @@ angepasstes Eigenschaften-Array für die Registrierung des *Custom Post Types* f
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_property_post_type_args', 'mysite_modify_property_post_type_args' );
@@ -25,3 +25,5 @@ function mysite_modify_property_post_type_args( $args ) {
 	return $args;
 } // mysite_modify_property_post_type_args
 ```
+
+[](_backlink.md ':include')

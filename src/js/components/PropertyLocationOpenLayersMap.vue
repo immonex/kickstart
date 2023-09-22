@@ -29,6 +29,8 @@ import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import {OSM, Vector} from 'ol/source'
 
+import 'ol/ol.css';
+
 /* UIkit */
 import UIkit from 'uikit'
 

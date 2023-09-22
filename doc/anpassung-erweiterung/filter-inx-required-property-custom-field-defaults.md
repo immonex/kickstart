@@ -8,7 +8,7 @@ Dieser Filter-Hook dient dazu, die zugehörigen **Standardwerte** im Rahmen des 
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| `$required_property_custom_field_defaults` (array) | Namen und Standardwerte der obligatorischen Custom Fields |
+| **`$required_property_custom_field_defaults`** (array) | Namen und Standardwerte der obligatorischen Custom Fields |
 
 ### Standardumfang des Defaults-Arrays
 
@@ -33,7 +33,7 @@ angepasste Standardvorgaben (nur Werte, **nicht die Feldnamen**)
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_required_property_custom_field_defaults', 'mysite_adjust_property_cf_defaults' );
@@ -45,3 +45,5 @@ function mysite_adjust_property_cf_defaults( $required_property_custom_field_def
 	return $required_property_custom_field_defaults;
 } // mysite_adjust_property_cf_defaults
 ```
+
+[](_backlink.md ':include')

@@ -6,7 +6,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$elements` (array) | Array aller Suchformular-Elemente |
+| **`$elements`** (array) | alle Suchformular-Elemente |
 
 ### Das Elements-Array im Detail
 
@@ -326,7 +326,7 @@ angepasstes Array aller Suchformular-Elemente (siehe oben)
 
 ## Rahmenfunktion
 
-Eine Funktion zur Nutzung des Filters wird typischerweise in der folgenden Form in der Datei **functions.php** des **Child-Themes** oder per Code-Snippets-Plugin eingebunden.
+[](_info-snippet-einbindung.md ':include')
 
 ```php
 add_filter( 'inx_search_form_elements', 'mysite_modify_search_form_elements' );
@@ -337,3 +337,5 @@ function mysite_modify_search_form_elements( $elements ) {
 	return $elements;
 } // mysite_modify_search_form_elements
 ```
+
+[](_backlink.md ':include')

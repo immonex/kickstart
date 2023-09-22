@@ -1,9 +1,9 @@
-.inx-range-slider__label-value {
+.inx-range-slider .inx-range-slider__label-value {
 	margin-bottom: .5em;
 }
 
-.inx-range-slider__nouislider {
-	height: .3em;
+.inx-range-slider .inx-range-slider__nouislider {
+	height: .4em;
 	font-size: 1.2em;
 
 	.noUi-horizontal {
@@ -11,6 +11,7 @@
 	}
 
 	.noUi-handle {
+		right: -14px;
 		width: 1.1em;
 		height: 1.1em;
 		border-radius: 50%;

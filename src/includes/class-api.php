@@ -384,21 +384,30 @@ class API {
 	 * @since 1.6.18-beta
 	 *
 	 * @param bool|string $references       Include reference properties: false = no (default),
-	 *                                      true = yes, 'only' = guess! (optional).
+	 *                                           true = yes, 'only' = guess! (optional, only considered
+	 *                                           if $custom_args is empty).
 	 * @param mixed[]     $post_status      Post status (optional).
 	 * @param bool        $suppress_filters Suppress filters flag (optional, true by default).
+	 * @param mixed[]     $custom_args      Custom query arguments (optional).
 	 *
 	 * @return int[] Post IDs.
 	 */
-	public function get_property_ids( $references = false, $post_status = 'publish', $suppress_filters = true ) {
-		$args = array(
-			'post_type'                     => $this->config['property_post_type_name'],
-			'post_status'                   => $post_status,
-			'posts_per_page'                => -1,
-			'fields'                        => 'ids',
-			'suppress_filters'              => $suppress_filters,
-			'suppress_pre_get_posts_filter' => $suppress_filters,
+	public function get_property_ids( $references = false, $post_status = 'publish', $suppress_filters = true, $custom_args = array() ) {
+		$args = array_merge(
+			array(
+				'post_type'                     => $this->config['property_post_type_name'],
+				'post_status'                   => $post_status,
+				'posts_per_page'                => -1,
+				'fields'                        => 'ids',
+				'suppress_filters'              => $suppress_filters,
+				'suppress_pre_get_posts_filter' => $suppress_filters,
+			),
+			$custom_args
 		);
+
+		if ( ! empty( $custom_args ) ) {
+			return get_posts( $args );
+		}
 
 		if ( ! $references || 'no' === $references ) {
 			$args['meta_query'] = array(
