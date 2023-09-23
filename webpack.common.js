@@ -20,7 +20,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src/assets/js'),
-    chunkFilename: '[name].js?id=[chunkhash]'
+    chunkFilename: '[name].[chunkhash].js'
   },
   resolve: {
     fallback: {
@@ -94,7 +94,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: path => path.chunk.name.indexOf('/js/') !== -1 ?
         path.chunk.name.replace('/js/', '/css/') + '.css' :
-        '../css/[name].css'
+        '../css/[name].css',
+      chunkFilename: path => path.chunk.name.indexOf('/js/') !== -1 ?
+        path.chunk.name.replace('/js/', '/css/') + '.css' :
+        '../css/[name].[chunkhash].css'
     })
   ]
 }
