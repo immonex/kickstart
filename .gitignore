@@ -3,6 +3,7 @@ build/
 dist/
 src/assets/js
 src/assets/css
+src/skins/default/assets
 
 # Environment Configuration
 .env

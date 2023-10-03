@@ -88,7 +88,7 @@ Die Dateien `index.css` und `index.js` des aktiven Skins werden im Frontend auto
 - `frontend.css` / `frontend.js`
 - `skin.css` / `skin.js`
 
-Je nach Umfang bietet es sich an, bei der Entwicklung mit mehreren Quelldateien zu arbeiten, die anschließend per Bundler bzw. Präprozessor à la [webpack](https://webpack.js.org/), [Sass](https://sass-lang.com/) & Co. kompiliert werden. Die kompilierten und/oder minimierten Varianten der Dateien können in diesem Fall auch im Ordner `assets` gespeichert werden:
+Je nach Umfang bietet es sich an, bei der **Entwicklung** mit mehreren Quelldateien zu arbeiten, die anschließend per Bundler bzw. Präprozessor à la [webpack](https://webpack.js.org/), [Sass](https://sass-lang.com/) & Co. kompiliert werden. Die *kompilierten und/oder minimierten* Varianten der Dateien sollten in diesem Fall im Ordner `assets` gespeichert werden:
 
 <pre class="tree">
 skin-name
@@ -104,6 +104,7 @@ Auch die Aufteilung der CSS- und JS-Dateien in separate Unterordner ist hier mö
 
 <pre class="tree">
 …
+╷
 ├── /assets
 │   ╷
 │   ├── /css
@@ -222,7 +223,7 @@ Das Custom Skin wird unter einem **eigenen Ordnernamen** in den Unterordner `imm
 ╷
 └── /my-custom-add-on-skin
     ╷
-    ├── /css
+    ├── /assets
     │   ╷
     │   └── index.css
     │

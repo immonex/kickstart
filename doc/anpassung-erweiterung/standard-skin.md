@@ -12,9 +12,11 @@ Die Verwendung dieser Ordner als Vorlage für die Entwicklung eigener, sogenannt
 
 <pre class="tree">
 default
+…
 ╷
 ├── index.php
-├── /assets &larr; <em class="token important">ab Plugin-Version 1.8: kompilierte CSS- und JS-Dateien</em>
+│
+├── /assets &larr; <em class="token important">ab Plugin-Version 1.8: kompilierte CSS- und JS-Dateien</em> (nach Build-Kommando)
 │   ╷
 │   ├── index.css
 │   └── index.js
@@ -59,6 +61,8 @@ Die Datei `index.php` enthält lediglich den Namen des Skins, der im WP-Backend 
 
 Die Datei `assets/index.css` (bis Plugin-Version 1.8: `css/index.css`) enthält alle für das Skin relevanten CSS-Stile und wird im Website-Frontend **automatisch** eingebunden. Beim Standard-Skin wird diese auf Basis der Daten im Ordner `scss` mit dem CSS-Präprozessor [Sass](https://sass-lang.com/) kompiliert.
 
+!> Wird das [Git-Repository des Plugins](https://github.com/immonex/kickstart/tree/master/src/skins/default) als Grundlage für die Entwicklung eines eigenen Skins verwendet, wird der Ordner `assets` beim erstmaligen Aufruf eines Build-Befehls angelegt (z. B. `npm run build` oder `npm run watch`).
+
 Hier wurde ein komponentenbasierter Ansatz verfolgt, der weitgehend der [BEM-Methodik](https://en.bem.info/methodology/key-concepts/) (Block, Element, Modifier) mit der Namenskonvention [Two Dashes style](https://en.bem.info/methodology/naming-convention/#two-dashes-style) entspricht.
 
 Alle skinspezifischen Module (`blocks`) sowie Konfigurationsvariablen, Mixins und Grundelemente werden über die Einstiegsdatei `index.scss` eingebunden.
@@ -82,6 +86,7 @@ Die für die *Blöcke* und *Elemente* verwendeten CSS-Klassennamen sind übrigen
 
 <pre class="tree">
 …
+╷
 ├── /assets
 │   ╷
 │   ├── …
@@ -97,7 +102,7 @@ Auch der JavaScript-Code, der für das Skin eingebunden werden soll, ist in eine
 
 Beim Standard-Skin sowie allen weiteren Skins, die (zukünftig) mit Kickstart oder hierauf basierenden Add-ons ausgeliefert werden, wird diese Bündelung im Rahmen der Entwicklung automatisiert mit dem "JavaScript-Modul-Packer" [webpack](https://webpack.js.org/) umgesetzt.
 
-Die Quelldateien befinden sich im Unterordner `js` (ab Plugin-Version 1.8, vorher `js/src`).
+Die **Quelldateien** befinden sich im Unterordner `js` (ab Plugin-Version 1.8, vorher `js/src`).
 
 Beim Standard-Skin enthält die Einstiegs-Quelldatei `index.js` auch Anweisungen für die Einbindung eines Skin-Symbolfonts sowie der o. g. SCSS-Hauptdatei:
 
@@ -119,6 +124,7 @@ import '../scss/index.scss';
 
 <pre class="tree">
 …
+╷
 ├── archive-property.php
 ├── /property-list
 │   ╷
@@ -155,6 +161,7 @@ Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlist
 
 <pre class="tree">
 …
+╷
 ├── property-search.php
 ├── /property-search
 │   ╷
@@ -170,6 +177,7 @@ Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemen
 
 <pre class="tree">
 …
+╷
 ├── single-property.php
 ├── /single-property
 │   ╷

@@ -109,9 +109,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.8.1-beta =
-* Release date: 2023-09-23
+= 1.8.2-beta =
+* Release date: 2023-10-03
 * Added hashes to names dynamically loaded JS/CSS files (cache busting).
+* Fixed query order adjustments (special cases only).
 
 = 1.8.0 =
 * Release date: 2023-09-22

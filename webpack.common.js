@@ -20,7 +20,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src/assets/js'),
-    chunkFilename: '[name].[chunkhash].js'
+    chunkFilename: '[name].[chunkhash:8].js'
   },
   resolve: {
     fallback: {
@@ -85,7 +85,7 @@ module.exports = {
           generator: {
             filename: '[name][ext]',
             emit: false
-          },
+          }
       }
     ]
   },
@@ -97,7 +97,7 @@ module.exports = {
         '../css/[name].css',
       chunkFilename: path => path.chunk.name.indexOf('/js/') !== -1 ?
         path.chunk.name.replace('/js/', '/css/') + '.css' :
-        '../css/[name].[chunkhash].css'
+        '../css/[name].[chunkhash:8].css'
     })
   ]
 }

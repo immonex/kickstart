@@ -186,17 +186,15 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 			}
 		}
 
-		$order = $query->get( 'order' );
-		if ( empty( $order ) ) {
-			$order = 'DESC';
-		}
+		$query_order = $query->get( 'order' );
 
 		if ( is_string( $orderby ) ) {
 			$orderby_keys = explode( ' ', $orderby );
 			$orderby      = array();
 
 			foreach ( $orderby_keys as $i => $key ) {
-				$orderby[ $key ] = is_array( $order ) && ! empty( $order[ $i ] ) ? $order[ $i ] : $order;
+				$default_order   = empty( $query_order ) && 'date' === $key ? 'DESC' : $query_order;
+				$orderby[ $key ] = is_array( $query_order ) && ! empty( $query_order[ $i ] ) ? $query_order[ $i ] : $default_order;
 			}
 		}
 
@@ -210,7 +208,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 				continue;
 			}
 
-			$found = ! empty( $sql ) && preg_match( '/[^\/\\\ ]+' . $key . ' (ASC|DESC)/', $sql, $match );
+			$found = ! empty( $sql ) && preg_match( '/(^|[^\/\\\ ]+)' . $key . '($| ASC| DESC|[,\(\)0-9]+)/i', $sql, $match );
 
 			if ( $found ) {
 				$new_sql[] = $match[0];
@@ -294,6 +292,11 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 	private function enable_query_adjustments( $query ) {
 		global $post;
 
+		$query_post_type = $query->get( 'post_type' );
+		if ( ! $query_post_type ) {
+			return false;
+		}
+
 		if (
 			(
 				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
@@ -301,7 +304,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 			) ||
 			! empty( $query->query_vars['page'] ) ||
 			! empty( $query->query_vars['pagename'] ) || (
-				$query->get( 'post_type' ) &&
+				$query_post_type &&
 				$this->config['property_post_type_name'] !== $query->get( 'post_type' )
 			)
 		) {
@@ -321,7 +324,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 				is_page() ||
 				is_admin() || (
 					is_archive() &&
-					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
+					$this->config['property_post_type_name'] !== $query_post_type
 				)
 			)
 		) {
