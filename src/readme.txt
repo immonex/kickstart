@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
-Tested up to: 6.4
-Stable Tag: 1.8.0
+Tested up to: 6.4.1
+Stable Tag: 1.8.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,7 +82,7 @@ Property Details View: `[inx-property-details]`
 
 [1] Alternative: Unzip the plugin ZIP archive, copy it to the folder `wp-content/plugins` and activate the plugin in the WordPress backend under *Plugins > Installed Plugins* afterwards.
 
-[2] Current and fully functional versions of premium immonex plugins as well as OpenImmo demo data are available **free of charge** at the [immonex Developer Portal](https://immonex.dev/) for testing/development purposes.
+[2] Current and fully functional versions of premium immonex plugins as well as OpenImmo demo data are available **free of charge** at the [immonex Developer Portal](https://immonex.dev/) for testing/development and demonstration purposes.
 
 = Documentation & Development =
 
@@ -109,10 +109,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.8.2-beta =
-* Release date: 2023-10-03
-* Added hashes to names dynamically loaded JS/CSS files (cache busting).
+= 1.8.5 =
+* Release date: 2023-11-10
+* Added hashes to names of dynamically loaded JS/CSS files (improved cache busting).
 * Fixed query order adjustments (special cases only).
+* Fixed search form price range slider rounding issue.
+* Disabled automatic detail to list view redirects when Divi Builder is active.
+* Updated dependencies.
 
 = 1.8.0 =
 * Release date: 2023-09-22
@@ -145,11 +148,4 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a rounding bug in the search form range slider component.
 * Updated external dependencies.
 
-= 1.7.11 =
-* Release date: 2022-10-31
-* Extended meta data of filter hook inx-property-detail-element.
-* Improved compatibility in multilingual environments (WPML/Polylang).
-* Fixed minor property search form JS bug.
-* Reworked automatic single property template page redirect - again.
-
-See changelog.txt for complete version history.
+See changelog.txt for the complete version history.

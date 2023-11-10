@@ -84,6 +84,7 @@ export default {
 				return this.stepRangesConv
 			}
 
+			const rangeDiff = this.max - this.min
 			let currentStep = 1
 
 			if (typeof this.stepRangesConv === 'object') {
@@ -92,7 +93,7 @@ export default {
 					let thresholdStep = parseInt(this.stepRangesConv[key])
 					if (!threshold || !thresholdStep) continue
 
-					if (threshold < this.min) {
+					if (threshold < this.min && thresholdStep < rangeDiff) {
 						currentStep = thresholdStep
 					} else {
 						break
@@ -222,7 +223,7 @@ export default {
 				let thresholdStep = parseInt(this.stepRangesConv[key])
 				if (!threshold || !thresholdStep) continue
 
-				if (threshold > min && threshold < max) {
+				if (threshold > min && threshold + thresholdStep < max) {
 					currentPercent += percentInc
 					rangeSteps[currentPercent + "%"] = [threshold, thresholdStep]
 				}
@@ -242,7 +243,9 @@ export default {
 
 			values.forEach((value, index) => {
 				if (value >= 1000000) {
-					values[index] = Math.ceil(value / 100000) * 100000
+					values[index] = index % 2 ?
+						Math.ceil(value / this.step) * this.step :
+						Math.floor(value / this.step) * this.step
 				}
 			})
 
@@ -252,11 +255,12 @@ export default {
 			if (value === 0 && this.replaceNull) return this.replaceNull
 
 			let suffix = ''
-			let digits = 0
+			let minDigits = 0
+			let maxDigits = 0
 
 			if (value >= 1000000) {
 				value = value / 1000000
-				digits = 1
+				maxDigits = this.step >= 100000 ? 1 : 3
 				suffix = 'Mio. '
 			} else if (value >= 10000) {
 				value = value / 1000
@@ -267,8 +271,8 @@ export default {
 
 			let args = {
 				style: this.currency ? 'currency' : 'decimal',
-				minimumFractionDigits: digits,
-				maximumFractionDigits: digits
+				minimumFractionDigits: minDigits,
+				maximumFractionDigits: maxDigits
 			}
 			let formatted = value
 

@@ -67,7 +67,7 @@ class Property_Hooks {
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
 		// @codingStandardsIgnoreLine
-		$is_frontend_page_request = isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|preview\=/', $_SERVER['REQUEST_URI'] );
+		$is_frontend_page_request = isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|preview\=|et_fb\=1/', $_SERVER['REQUEST_URI'] );
 
 		if ( $is_frontend_page_request && $this->config['property_details_page_id'] ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );

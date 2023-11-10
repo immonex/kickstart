@@ -20,8 +20,7 @@ class Property {
 	/**
 	 * Property description excerpt length
 	 */
-	const
-		EXCERPT_LENGTH = 128;
+	const EXCERPT_LENGTH = 128;
 
 	/**
 	 * Property post object
@@ -545,6 +544,9 @@ class Property {
 		$custom_field_name = 'floor_plans' === $type ? "{$field_prefix}floor_plans" : "{$field_prefix}gallery_images";
 
 		$image_list = get_post_meta( $this->post->ID, $custom_field_name, true );
+		if ( is_array( $image_list ) ) {
+			$image_list = array_filter( $image_list );
+		}
 
 		if (
 			! is_array( $image_list ) ||
@@ -575,7 +577,10 @@ class Property {
 		if ( ! empty( $attachment_ids ) > 0 ) {
 			foreach ( $attachment_ids as $id ) {
 				if ( 'urls' === $return ) {
-					$images[] = wp_get_attachment_url( $id );
+					$att_url = wp_get_attachment_url( $id );
+					if ( $att_url ) {
+						$images[] = $att_url;
+					}
 				} else {
 					$image = get_post( $id );
 					if ( $image ) {

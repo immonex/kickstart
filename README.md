@@ -2,7 +2,7 @@
 
 # immonex Kickstart
 
-immonex Kickstart is a **WordPress plugin** that provides customizable basic components (property seach, list and detail views) for integrating imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons - separate plugins that extend the functionality on the same foundation.
+immonex Kickstart is a **WordPress plugin** that provides essential customizable components (property seach, list and detail views, location maps etc.) for publishing imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons - separate plugins that extend the functionality on the same foundation.
 
 **immonex**® is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
 

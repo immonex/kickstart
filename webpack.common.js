@@ -95,7 +95,7 @@ module.exports = {
       filename: path => path.chunk.name.indexOf('/js/') !== -1 ?
         path.chunk.name.replace('/js/', '/css/') + '.css' :
         '../css/[name].css',
-      chunkFilename: path => path.chunk.name.indexOf('/js/') !== -1 ?
+      chunkFilename: path => path.chunk.name && path.chunk.name.indexOf('/js/') !== -1 ?
         path.chunk.name.replace('/js/', '/css/') + '.css' :
         '../css/[name].[chunkhash:8].css'
     })
