@@ -15,7 +15,7 @@
 - [inx_search_form_element_tax_args](filter-inx-search-form-element-tax-args) (Parameter für den Abruf der Optionen taxonomiebasierter Auswahlelemente)
 - [inx_search_form_element_tax_options](filter-inx-search-form-element-tax-options) (Optionen taxonomiebasierter Auswahlelemente) 
 - [inx_search_tax_and_meta_queries](filter-inx-search-tax-and-meta-queries) (Taxonomie- und Meta-Queries der Immobiliensuche)
-- [inx_special_query_vars](filter-inx-special-query-vars) (Komponentenübergreifende Query-Parameter)
+- [inx_special_query_vars](filter-inx-special-query-vars) (allgemeine Abfrage-Parameter)
 - [inx_exclude_backlink_vars](filter-inx-exclude-backlink-vars) (GET-Variablen aus Backlinks ausfiltern)
 - [inx_search_form_primary_price_min_max_values](filter-inx-search-form-primary-price-min-max-values) (Minimal/Maximal-Werte für den Preis-Slider festlegen)
 - [inx_search_form_area_min_max_value](filter-inx-search-form-area-min-max-value) (Minimal/Maximal-Werte für Flächen-Slider festlegen oder anpassen)
@@ -78,6 +78,7 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 - [inx_get_property_template_data](filter-inx-get-property-template-data) (komplette "Rohdaten" für das Template-Rendering einer Immobilie abrufen)
 - [inx_get_property_images](filter-inx-get-property-images) (Galerie-Bildanhänge einer Immobilie abrufen)
 - [inx_get_property_detail_item](filter-inx-get-property-detail-item) (Detail-Element einer Immobilie abrufen)
+- [inx_add_special_vars_from_post_meta](filter-inx-add-special-vars-from-post-meta) (globale Abfrage-Parameter aus Custom Fields abrufen/ergänzen)
 
 ## Actions
 

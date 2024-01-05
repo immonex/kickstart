@@ -58,37 +58,6 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 	} // __construct
 
 	/**
-	 * Add names of variables that can be used in frontend related WP queries.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.6.4-beta No longer used by internal code and not recommended.
-	 *
-	 * @param string[] $vars Current list of variable names.
-	 *
-	 * @return string[] Extended list of variable names.
-	 */
-	public function add_frontend_query_vars( $vars ) {
-		$prefix             = $this->config['public_prefix'];
-		$special_query_vars = $this->config['special_query_vars']();
-
-		if ( count( $special_query_vars ) > 0 ) {
-			foreach ( $special_query_vars as $var_name ) {
-				$vars[] = $var_name;
-			}
-		}
-
-		$form_elements = $this->property_search->get_search_form_elements();
-
-		if ( count( $form_elements ) > 0 ) {
-			foreach ( $form_elements as $id => $element ) {
-				$vars[] = $prefix . 'search-' . $id;
-			}
-		}
-
-		return $vars;
-	} // add_frontend_query_vars
-
-	/**
 	 * Adjust frontend related property WP queries.
 	 *
 	 * @since 1.0.0
@@ -301,6 +270,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			'autocomplete-countries'      => '',
 			'autocomplete-osm-place-tags' => '',
 		);
+
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
 		}
@@ -309,7 +279,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		$prefixed_atts = array();
 		if ( is_array( $atts ) && count( $atts ) > 0 ) {
 			foreach ( $atts as $key => $value ) {
-				if ( in_array( $key, array_keys( $supported_atts ), true ) ) {
+				if ( isset( $supported_atts[ $key ] ) ) {
 					$prefixed_atts[ $key ] = $value;
 				} elseif ( in_array( "{$prefix}search-{$key}", $query_and_search_var_names, true ) ) {
 					$prefixed_atts[ "{$prefix}search-{$key}" ] = $value;

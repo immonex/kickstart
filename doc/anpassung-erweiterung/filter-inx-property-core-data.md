@@ -359,7 +359,8 @@ function mysite_extend_cold_rent( $core_data, $meta ) {
 		&& isset( $core_data['primary_price']['meta']['mapping_source'] )
 		&& in_array(
 			$core_data['primary_price']['meta']['mapping_source'],
-			array( 'preise->kaltmiete', 'preise->nettokaltmiete' )
+			[ 'preise->kaltmiete', 'preise->nettokaltmiete' ],
+			true
 		)
 	) {
 		$core_data['primary_price']['value_formatted'] .= ' zzgl. NK';

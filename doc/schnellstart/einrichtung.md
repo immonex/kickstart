@@ -28,23 +28,33 @@ Das aktuell mitgelieferte [Standard-Skin "Quiwi"](/anpassung-erweiterung/standar
 
 Detaillierte Infos zur Anpassung vorhandener und Entwicklung eigener Skins sind unter [Anpassung & Erweiterung](/anpassung-erweiterung/skins) zu finden.
 
+##### Immobilien-Übersicht
+
+Als primäre Übersicht und Ausgabeziel für zugehörige Suchergebnisse fungiert das [Standard-Archiv für Immobilienbeiträge](/beitragsarten-taxonomien#immobilien-beiträge).
+
+Soll stattdessen eine bestimmte **Seite** aufgerufen werden, die den [Listen-Shortcode `[inx-property-list]`](/komponenten/liste) enthält, kann diese entweder hier ausgewählt oder in Form der ID über das [Suchformular-Shortcode-Attribut `results-page-id`](/komponenten/suchformular#attribute) festgelegt werden.
+
+Neben einer regulären Seite kann auch ein *alternatives Archiv* für Immobilienbeiträge verwendet werden, das vom Theme oder einem anderen Plugin (bspw. Page/Site Builder) bereitgestellt wird. Die passende Auswahloption ist in diesem Fall `keine (Theme-Template verwenden)`.
+
+?> Enthält die Seite, in die das [Suchformular](/komponenten/suchformular) eingebunden ist, auch eine [Listenansicht](/komponenten/liste), wird diese automatisch für die Ausgabe der Ergebnisse beim Klick auf den Suchbutton verwendet, sofern keine alternative Zielseite per Shortcode-Attribut definiert wurde.
+
+##### Immobilien-Detailseite
+
+Im [Standard-Skin](/anpassung-erweiterung/standard-skin) ist eine **auf Code-Basis anpassbare** Seitenvorlage (*Single Post Template*) für Immobilien-Beiträge enthalten, die alle relevanten Inhalte (Beschreibungstexte, Grunddaten, Preise, Ausstattungsmerkmale, Lage, Fotogalerie, Grundrisse etc.) umfasst.
+
+Als Alternative kann auch hierfür – analog zur Übersicht – eine **Seite als Vorlage** ausgewählt werden, die [Shortcodes für die Einbindung der Immobilien-Details](einbindung#immobilien-details) enthält. Gleiches gilt für die auszuwählende Option zur Nutzung eines alternativen *Single Post Templates*, das vom Theme oder einem anderen Plugin registriert wird: `keine (Theme-Template verwenden)`
+
+##### Galeriebild-Links
+
+Sofern aktiviert (Standardvorgabe), sind die Hauptbilder der Galerien in den Immobilien-Detailseiten mit den entsprechenden Großansichten verlinkt, die im Regelfall in einer *Lightbox* angezeigt werden.
+
+!> Im Überschneidungen mit den Funktionalitäten des Themes etc. zu vermeiden, stellt das Kickstart-Plugin selbst **keine Lightbox-Funktion** bereit. Im Bedarfsfall kann diese aber mit einem Zusatzplugin nachgerüstet werden (z. B. [WP Featherlight](https://de.wordpress.org/plugins/wp-featherlight/) oder [Responsive Lightbox & Gallery](https://de.wordpress.org/plugins/responsive-lightbox/)).
+
 #### Preise
 
 ##### Verkäufer-/Innenprovision anzeigen
 
 Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger relevant und wird daher in den [Immobilien-Detailansichten](/komponenten/detailansicht) standardmäßig **nicht** angezeigt. Diese Option ermöglicht die Berücksichtigung bei der Ausgabe, falls nötig.
-
-#### Immobilien-Übersicht
-
-Enthält eine Seite ein Immobilien-Suchformular, aber **keine** Listenausgabe und **keine** Angabe einer Zielseite für die Ausgabe der Ergebnisse ([Attribut des Suchformular-Shortcodes](/komponenten/suchformular#attribute)), wird hierfür normalwerweise die [Standard-Archivseite](/beitragsarten-taxonomien#immobilien-beiträge) verwendet.
-
-Hier kann **alternativ** eine beliebige andere Seite ausgewählt werden, die den Shortcode `[inx-property-list]` enthält.
-
-#### Immobilien-Detailseite
-
-Das [Standard-Skin](/anpassung-erweiterung/standard-skin) enthält bereits eine **auf Code-Basis anpassbare** Seitenvorlage, in der alle verfügbaren Elemente für die Immobilien-Detailansicht (Beschreibungstexte, Grunddaten, Preise, Ausstattungsmerkmale, Lage, Fotogalerie, Grundrisse etc.) zusammengefasst sind.
-
-Soll hierfür **alternativ** eine **Seite als Vorlage** verwendet werden, die mit [Gutenberg oder einem Page-Builder](einbindung#immobilien-details) erstellt wurde, wird diese hier ausgewählt.
 
 ### Immobiliensuche
 

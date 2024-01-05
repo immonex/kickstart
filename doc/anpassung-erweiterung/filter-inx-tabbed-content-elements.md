@@ -74,7 +74,7 @@ add_filter( 'inx_tabbed_content_elements', 'mysite_modify_tabbed_content_element
 
 function mysite_modify_tabbed_content_elements( $elements ) {
 	// Karte aus Standort-Tab entfernen...
-	$elements['tabs']['location']['elements'] = array( 'location_description' );
+	$elements['tabs']['location']['elements'] = [ 'location_description' ];
 
 	// ...und stattdessen unterhalb des Tab-Bereichs anzeigen.
 	array_unshift( $elements['after_tabs'], 'location_map' );

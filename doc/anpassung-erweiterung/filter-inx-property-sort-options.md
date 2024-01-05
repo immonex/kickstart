@@ -64,7 +64,7 @@ Die Sortieroptionen der der [Auswahlbox](/komponenten/sortierung), die per Short
 ]
 ```
 
-Die Keys der Unter-Arrays entsprechen den Elementnamen, die auch in den [Shortcode-Attributen](/komponenten/sortierung#attribute) oder im Zusammenhang mit dem [GET-Parameter](/schnellstart/einbindung#get-parameter) `inx-sort` bzw. dem Filter-Hook [`inx_default_sort_key`](filter-inx-default-sort-key) verwendet werden können.
+Die Keys der Unter-Arrays entsprechen den Elementnamen, die auch in den [Shortcode-Attributen](/komponenten/sortierung#attribute) oder im Zusammenhang mit dem [GET-Parameter](/schnellstart/einbindung#globale-abfrage-parameter) `inx-sort` bzw. dem Filter-Hook [`inx_default_sort_key`](filter-inx-default-sort-key) verwendet werden können.
 
 ## Rückgabewert
 

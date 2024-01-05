@@ -20,7 +20,7 @@ Mapping-Array
 add_filter( 'inx_template_folder_url_mappings', 'mysite_skin_base_folder_url_mapping' );
 
 function mysite_skin_base_folder_url_mapping( $folder_mappings ) {
-	$folder_mappings = array( '/var/my_fs/path' => 'https://domain.tld/my_path/' );
+	$folder_mappings = [ '/var/my_fs/path' => 'https://domain.tld/my_path/' ];
 
 	return $folder_mappings;
 } // mysite_skin_base_folder_url_mapping

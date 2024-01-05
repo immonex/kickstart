@@ -191,7 +191,9 @@ if ( $inx_skin_media_count > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 						?>
 				<li class="noHover">
+					<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
 					<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
+					<?php endif; ?>
 						<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
 						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
 								<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
@@ -201,11 +203,13 @@ if ( $inx_skin_media_count > 0 ) :
 							<?php echo $inx_skin_img['full']; ?>
 						</div>
 						<?php endif; ?>
+					<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
 					</a>
+					<?php endif; ?>
 
-						<?php if ( $inx_skin_show_caption && $inx_skin_img['caption'] ) : ?>
+					<?php if ( $inx_skin_show_caption && $inx_skin_img['caption'] ) : ?>
 					<div class="inx-gallery__image-caption uk-position-bottom uk-overlay uk-overlay-default uk-padding-small uk-text-center">
-								<?php echo $inx_skin_img['caption']; ?>
+						<?php echo $inx_skin_img['caption']; ?>
 					</div>
 					<?php endif; ?>
 				</li>

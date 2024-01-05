@@ -4,7 +4,7 @@ Mit Kickstart sind "out of the box" eine [Immobilien-Übersichtsseite](/beitrags
 
 Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhängig voneinander, beeinflussen sich also nicht **direkt** gegenseitig. So wirkt sich bspw. die Änderung einer Auswahl im Suchformular erst **nach dem Absenden** bzw. dem Aktualisieren der kompletten Seite auf eine Listenansicht aus. Auch die Konfiguration einer Komponente per **Shortcode-Attribut** wirkt sich **nicht** automatisch auf die anderen Komponenten der Seite aus.
 
-?> Eine **komponentenübergreifende** Konfiguration ist aber mittels [GET-Parametern](#GET-Parameter) möglich.
+?> Eine **komponentenübergreifende** Konfiguration ist aber mittels [globalen Parametern](#globale-abfrage-parameter) möglich.
 
 ## Suchformular
 
@@ -38,7 +38,7 @@ Mit diesem Shortcode wird aktuell bei Verwendung des Standard-Skins ein Balken m
 
 Für die explizite Festlegung der Elemente der Auswahlliste bzw. das Ausschließen bestimmter Elemente stehen die optionalen Shortcode-Attribute `elements` und `exclude` zur Verfügung, die jeweils kommagetrennte Listen von Element-Keys enthalten können. Ebenfalls optional ist das Attribut `default`, mit dem Standardsortierung festgelegt werden kann.
 
-!> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Parameter](#GET-Parameter) oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
+!> Die per Shortcode-Attribut übergebene Standardsortierung hat keinen direkten Einfluss auf die eigentliche Sortierung der in der gleichen Seite enthaltenen Immobilien-Liste. Diese Angabe kann "global" per [GET-Variable](#get-variablen), [Custom Field](#individuelle-felder) oder [Filterfunktion](/anpassung-erweiterung/filter-inx-default-sort-key) gesetzt werden oder alternativ auch im Listen-Shortcode hinterlegt werden. (Bei den GET-/Custom-Field- und Filter-Varianten wird das `default` Attribut nicht benötigt.)
 
 ### Beispiele
 
@@ -171,27 +171,20 @@ Energieverbrauchskennwert per [XPath](https://de.wikipedia.org/wiki/XPath)-Angab
 
 Details, weitere Optionen und vollständige Elementliste: [Komponenten → Detailansicht](/komponenten/detailansicht)
 
-## GET-Parameter
+## Globale Abfrage-Parameter
 
-Kickstart-spezifische **GET-Parameter** werden an die URL der jeweiligen Seite angehangen und wirken sich auf die Ausgabe **aller betroffenen Komponenten** aus, die hier per Shortcode eingebundenen wurden. Wird also hierüber bspw. eine bestimmte Objektart oder eine Sortierung vorgegeben, werden diese Optionen auch im Suchformular bzw. der Sortierungs-Auswahlbox voreingestellt.
+*Globale* Parameter für die Abfrage/Filterung und Sortierung von Immobilienobjekten (aka *Query-Parameter*) wirken sich auf die Ausgabe **aller** Kickstart-Komponenten ([Immobilienlisten](/komponenten/liste), [Standort-Übersichtskarten](/komponenten/karte), [Suchformular](/komponenten/suchformular) etc.) aus, die per Shortcode in eine Seite eingebunden werden.
+
+So können bspw. bestimmte Objektarten, Ländercodes für den Immobilienstandort und/oder eine Sortierung vorgegeben werden – entweder als [GET-Variablen](#get-variablen) oder in Form von [individuellen Feldern](#individuelle-felder) (*Custom Fields*).
 
 Die möglichen Angaben entsprechen weitgehend denen, die nach dem Absenden des [Standard-Suchformulars](/komponenten/suchformular) in der URL der Ergebnisseite enthalten sind. Hinzu kommen die [Status-Flags](/referenzen-status-flags) für die Selektion von Referenzobjekten & Co. sowie weitere allgemeine Parameter (Ländercode, Objektanzahl, Sortierung etc.).
 
-Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`. Bei **taxonomiebasierten** Parametern werden die zugehörigen **Term-Slugs** als Werte übergeben (einzeln oder als kommagetrennte Liste).
+Die Namen der Parameter beginnen immer mit dem Präfix `inx-` (allgemein) oder `inx-search-` (suchspezifisch). Bei **taxonomiebasierten** Parametern werden die zugehörigen **Term-Slugs** als Werte übergeben (einzeln oder als kommagetrennte Liste).
 
-| Parameter | Beschreibung / Werte |
-| --------- | -------------------- |
-| `inx-search-description` | Schlüsselwortsuche in Titeln, Beschreibungstexten und weiteren Feldern (z. B. Objekt-ID) |
-| `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](/beitragsarten-taxonomien)) |
-| `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](/beitragsarten-taxonomien)) |
-| `inx-search-marketing-type` | Vermarktungsart (Term-Slugs der Taxonomie [inx_marketing_type](/beitragsarten-taxonomien)) |
-| `inx-search-project` | [Projekt/Gruppe](/referenzen-status-flags#gruppierung) (Term-Slugs der Taxonomie [inx_project](/beitragsarten-taxonomien)) |
-| `inx-search-locality` | Ort (Term-Slugs der Taxonomie [inx_location](/beitragsarten-taxonomien)) |
-| `inx-search-features` | Ausstattung (Term-Slugs der Taxonomie [inx_features](/beitragsarten-taxonomien)) |
-| `inx-search-labels` | Labels (Term-Slugs der Taxonomie [inx_labels](/beitragsarten-taxonomien)) |
-| `inx-search-min-rooms` | Mindestanzahl Zimmer/Räume (Ganzzahl) |
-| `inx-search-min-area` | Mindestfläche in m² (Ganzzahl) |
-| `inx-search-price-range` | Preisrahmen (MIN,MAX, z. B. *200000,400000*) |
+### Allgemeine Parameter
+
+| Parameter (Key) | Beschreibung / Werte |
+| --------------- | -------------------- |
 | `inx-author` | Objekte nach Autor(en) filtern (kommagetrennte Liste von Benutzer-IDs oder Login-Namen; Minus zum Ausschließen bestimmter Benutzer, z. B. *128,264*, *maklerx,agentur-y,dieter.demo* oder *-1,-2,-10*) |
 | `inx-iso-country` | nur Objekte im Land mit den angegebenen [ISO3-Ländercodes](https://de.wikipedia.org/wiki/ISO-3166-1-Kodierliste) anzeigen (z. B. *DEU* oder *DEU* oder *DEU,AUT,ESP*) |
 | `inx-references` | Referenzen anzeigen: *yes* = ja, *no* = nein (Standard), *only* = ausschließlich |
@@ -208,7 +201,27 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` oder `inx-search-`
 | `inx-force-lang` | Sprachcode, mit dem in [Sonderfällen bei mehrsprachigen Umgebungen](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#sonderfälle) eine bestimmte Sprache vorgegeben werden kann (z. B. *de*, *en*...) |
 | `inx-ref` | beliebiger, **benutzerdefinierter** Wert |
 
-### Beispiel-URLs
+### Suchspezifische Parameter
+
+| Parameter (Key) | Beschreibung / Werte |
+| --------------- | -------------------- |
+| `inx-search-description` | Schlüsselwortsuche in Titeln, Beschreibungstexten und weiteren Feldern (z. B. Objekt-ID) |
+| `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](/beitragsarten-taxonomien)) |
+| `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](/beitragsarten-taxonomien)) |
+| `inx-search-marketing-type` | Vermarktungsart (Term-Slugs der Taxonomie [inx_marketing_type](/beitragsarten-taxonomien)) |
+| `inx-search-project` | [Projekt/Gruppe](/referenzen-status-flags#gruppierung) (Term-Slugs der Taxonomie [inx_project](/beitragsarten-taxonomien)) |
+| `inx-search-locality` | Ort (Term-Slugs der Taxonomie [inx_location](/beitragsarten-taxonomien)) |
+| `inx-search-features` | Ausstattung (Term-Slugs der Taxonomie [inx_features](/beitragsarten-taxonomien)) |
+| `inx-search-labels` | Labels (Term-Slugs der Taxonomie [inx_labels](/beitragsarten-taxonomien)) |
+| `inx-search-min-rooms` | Mindestanzahl Zimmer/Räume (Ganzzahl) |
+| `inx-search-min-area` | Mindestfläche in m² (Ganzzahl) |
+| `inx-search-price-range` | Preisrahmen (MIN,MAX, z. B. *200000,400000*) |
+
+### GET-Variablen
+
+*GET-Parameter* (aka *GET-Variablen*) werden im Format `name=wert` an die URL der Seite angehangen, die die Kickstart-Elemente (Shortcodes) enthält.
+
+#### Beispiel-URLs
 
 Nur zu verkaufende Einfamilienhäuser anzeigen:
 `https://www.immobilienmakler-website.de/immobilien/?inx-search-property-type=einfamilienhaus&inx-search-marketing-type=zu-verkaufen`
@@ -218,3 +231,16 @@ Barrierefreie Immobilien mit Wintergarten anzeigen:
 
 Maximal fünf Objekte nach Preis absteigend sortiert anzeigen:
 `https://www.immobilienmakler-website.de/immobilien/?inx-limit=5&inx-sort=price_desc`
+
+Nur Immobilien in Spanien (*ISO-Ländercode* `ESP`) anzeigen:
+`https://www.immobilienmakler-website.de/immobilien/?inx-iso-country=ESP`
+
+### Individuelle Felder
+
+Voraussetzung für die Ergänzung von seitenbezogenen *Custom Fields* (auch *individuelle Felder* bzw. *Metadaten* genannt) im jeweiligen WP-Backend-Bearbeitungsformular unter ***Ansicht anpassen (⋮) → Voreinstellungen → Bedienfelder → [Zusätzlich] Individuelle Felder***.
+
+![Individuelle Felder im WP-Backend-Bearbeitungsformular für Seiten aktivieren](../assets/scst-wp-backend-formular-individuelle-felder-aktivieren.png)
+
+Namen (*Keys*) und Werte der Parameter können dann in den entsprechenden Feldern hinterlegt werden. (Noch nicht in der Auswalliste enthaltene Parameter können per Klick auf den Button ***Neu eingeben*** hinzugefügt werden.)
+
+![Globale Query-Parameter als individuelle Felder festlegen](../assets/scst-globale-parameter-individuelle-felder.png)

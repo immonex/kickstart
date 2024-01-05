@@ -9,7 +9,7 @@ Mit diesem Filter können Immobilienbeiträge anhand der angegebenen Kriterien a
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
 | **`$properties`** (array\|int) | Array der Immobilien-Posts/IDs oder Anzahl |
-| `$args` (array) | Kriterien für [WP_Query-Abfragen](https://developer.wordpress.org/reference/classes/wp_query/parse_query/) (Hier können auch [allgemeine Kickstart-Parameter](/schnellstart/einbindung#get-parameter) verwendet werden. Ist `count` mit dem Wert *true* enthalten, wird nur die Anzahl der Ergebnisse zurückgeliefert.) |
+| `$args` (array) | Kriterien für [WP_Query-Abfragen](https://developer.wordpress.org/reference/classes/wp_query/parse_query/) (Hier können auch [allgemeine Kickstart-Parameter](/schnellstart/einbindung#globale-abfrage-parameter) verwendet werden. Ist `count` mit dem Wert *true* enthalten, wird nur die Anzahl der Ergebnisse zurückgeliefert.) |
 
 ## Rückgabewert
 

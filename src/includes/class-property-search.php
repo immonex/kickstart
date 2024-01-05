@@ -96,13 +96,15 @@ class Property_Search {
 		$hidden_fields = array();
 		if ( count( $preserve_get_vars ) > 0 ) {
 			foreach ( $preserve_get_vars as $var_name ) {
-				if ( ! empty( $atts[ $var_name ] ) ) {
-					$value = $atts[ $var_name ];
-				} else {
-					$value = $this->utils['data']->get_query_var_value( $var_name );
+				$value = ! empty( $atts[ $var_name ] ) ?
+					$atts[ $var_name ] :
+					$this->utils['data']->get_query_var_value( $var_name );
+
+				if ( $value && ! isset( $atts[ $var_name ] ) ) {
+					$atts[ $var_name ] = $value;
 				}
 
-				if ( is_array( $value ) ) {
+				if ( $value && is_array( $value ) ) {
 					$value = implode( ',', $value );
 				}
 
@@ -1088,7 +1090,7 @@ class Property_Search {
 					$sanitized_value_array = array();
 					foreach ( $value as $single_value ) {
 						$sanitized_value = sanitize_text_field( $single_value );
-						if ( $element['numeric'] ) {
+						if ( ! empty( $element['numeric'] ) ) {
 							$sanitized_value = $this->utils['string']->get_float( $sanitized_value );
 						}
 						$sanitized_value_array[] = $sanitized_value;
@@ -1107,7 +1109,7 @@ class Property_Search {
 				}
 			} else {
 				$value = sanitize_text_field( $value );
-				if ( $element['numeric'] ) {
+				if ( ! empty( $element['numeric'] ) ) {
 					$value = $this->utils['string']->get_float( $value );
 				}
 				if ( ! $value ) {
@@ -1220,8 +1222,8 @@ class Property_Search {
 							$meta_query[] = array(
 								'key'     => $element['key'],
 								'value'   => $value,
-								'type'    => isset( $element['numeric'] ) && $element['numeric'] ? 'NUMERIC' : 'CHAR',
-								'compare' => isset( $element['compare'] ) && $element['compare'] ? $element['compare'] : '=',
+								'type'    => ! empty( $element['numeric'] ) ? 'NUMERIC' : 'CHAR',
+								'compare' => ! empty( $element['compare'] ) ? $element['compare'] : '=',
 							);
 						}
 					}

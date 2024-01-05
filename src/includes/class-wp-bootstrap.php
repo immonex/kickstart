@@ -12,6 +12,8 @@ namespace immonex\Kickstart;
  */
 class WP_Bootstrap {
 
+	const ENABLE_LOCATION_TERM_EXTRA_FIELDS = false;
+
 	/**
 	 * Array of bootstrap data
 	 *
@@ -32,6 +34,13 @@ class WP_Bootstrap {
 	 * @var \immonex\Kickstart\Kickstart
 	 */
 	private $plugin;
+
+	/**
+	 * Location term extra field definitions
+	 *
+	 * @var mixed[]
+	 */
+	private $location_term_extra_fields;
 
 	/**
 	 * Constructor
@@ -55,6 +64,12 @@ class WP_Bootstrap {
 			'manage_' . $bootstrap_data['property_post_type_name'] . '_posts_custom_column',
 			array( $this, 'add_posts_custom_columns' )
 		);
+
+		// The following location term extra fields MAY be used in future releases.
+		add_action( $this->prefix . 'location_add_form_fields', array( $this, 'add_location_term_extra_fields' ) );
+		add_action( $this->prefix . 'location_edit_form_fields', array( $this, 'add_location_term_extra_fields' ), 10, 2 );
+		add_action( 'created_' . $this->prefix . 'location', array( $this, 'save_location_term_extra_fields' ) );
+		add_action( 'edited_' . $this->prefix . 'location', array( $this, 'save_location_term_extra_fields' ) );
 
 		add_filter(
 			'manage_edit-' . $bootstrap_data['property_post_type_name'] . '_columns',
@@ -449,6 +464,71 @@ class WP_Bootstrap {
 	} // register_taxonomies
 
 	/**
+	 * Render location term extra form fields (action callback).
+	 *
+	 * @since 1.8.7-beta
+	 * @internal May be used in future releases.
+	 *
+	 * @param \WP_Term|string $term_or_taxonomy WP_Term instance or taxonomy name.
+	 * @param string          $taxonomy         Taxonomy name (optional).
+	 */
+	public function add_location_term_extra_fields( $term_or_taxonomy, $taxonomy = '' ) {
+		if ( ! apply_filters( 'inx_enable_location_term_extra_fields', self::ENABLE_LOCATION_TERM_EXTRA_FIELDS ) ) {
+			return;
+		}
+
+		$extra_fields = $this->get_location_term_extra_fields();
+
+		if ( is_a( $term_or_taxonomy, '\WP_Term' ) ) {
+			$term = $term_or_taxonomy;
+
+			foreach ( $extra_fields as $field_id => $field ) {
+				$extra_fields[ $field_id ]['value'] = get_term_meta( $term->term_id, $field_id, true );
+			}
+		}
+
+		foreach ( $extra_fields as $field_id => $field ) :
+			?>
+		<tr class="form-field">
+			<th><label for="<?php echo $field_id; ?>"><?php echo $field['label']; ?></label></th>
+			<td>
+				<input name="<?php echo $field_id; ?>" id="<?php echo $field_id; ?>" type="text" value="<?php echo esc_attr( $field['value'] ); ?>">
+				<p class="description"><?php echo $field['description']; ?></p>
+			</td>
+		</tr>
+			<?php
+		endforeach;
+	} // add_location_term_extra_fields
+
+	/**
+	 * Save location term extra field values (action callback).
+	 *
+	 * @since 1.8.7-beta
+	 * @internal May be used in future releases.
+	 *
+	 * @param int $term_id Term ID.
+	 */
+	public function save_location_term_extra_fields( $term_id ) {
+		if ( ! apply_filters( 'inx_enable_location_term_extra_fields', self::ENABLE_LOCATION_TERM_EXTRA_FIELDS ) ) {
+			return;
+		}
+
+		$extra_fields = $this->get_location_term_extra_fields();
+
+		foreach ( $extra_fields as $field_id => $field ) {
+			// @codingStandardsIgnoreStart
+			$value = isset( $_POST[ $field_id ] ) ?
+				sanitize_text_field( wp_unslash( $_POST[ $field_id ] ) ) :
+				false;
+			// @codingStandardsIgnoreEnd
+
+			if ( false !== $value ) {
+				update_term_meta( $term_id, $field_id, $value );
+			}
+		}
+	} // save_location_term_extra_fields
+
+	/**
 	 * Register plugin-specific sidebars.
 	 *
 	 * @since 1.0.0
@@ -632,5 +712,43 @@ class WP_Bootstrap {
 
 		return $classes;
 	} // check_body_classes
+
+	/**
+	 * Define and return the location term extra fields.
+	 *
+	 * @since 1.8.7-beta
+	 * @internal May be used in future releases.
+	 *
+	 * @return mixed[] Extra field definitions.
+	 */
+	private function get_location_term_extra_fields() {
+		if ( ! apply_filters( 'inx_enable_location_term_extra_fields', self::ENABLE_LOCATION_TERM_EXTRA_FIELDS ) ) {
+			return;
+		}
+
+		if ( empty( $this->location_term_extra_fields ) ) {
+			$this->location_term_extra_fields = apply_filters(
+				'inx_location_term_extra_fields',
+				array(
+					"_{$this->prefix}iso_country"  => array(
+						'label'       => __( 'Country Code (ISO3)', 'immonex-kickstart' ),
+						'description' => wp_sprintf(
+							// translators: %s = Wikipedia URL.
+							__( 'see <a href="%s" target="_blank">ISO-3166-1 ALPHA-3</a>', 'immonex-kickstart' ),
+							'https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3'
+						),
+						'value'       => '',
+					),
+					"_{$this->prefix}state_region" => array(
+						'label'       => __( 'State/Region', 'immonex-kickstart' ),
+						'description' => __( 'State or region in which this city or village is located.', 'immonex-kickstart' ),
+						'value'       => '',
+					),
+				)
+			);
+		}
+
+		return $this->location_term_extra_fields;
+	} // get_location_term_extra_fields
 
 } // class WP_Bootstrap

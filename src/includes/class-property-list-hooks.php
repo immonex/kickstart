@@ -56,6 +56,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 		add_action( 'inx_render_pagination', array( $this, 'render_pagination' ) );
 
 		add_filter( 'inx_get_properties', array( $this, 'get_properties' ), 10, 2 );
+		add_filter( 'inx_add_special_vars_from_post_meta', array( $this, 'add_special_vars_from_post_meta' ), 10, 2 );
 
 		/**
 		 * Shortcodes
@@ -114,12 +115,55 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			$count = false;
 		}
 
+		if ( ! empty( $args['base_url'] ) ) {
+			$args = apply_filters( 'inx_add_special_vars_from_post_meta', $args, $args['base_url'] );
+		}
+
 		$args['execute_pre_get_posts_filter'] = true;
 
 		$properties = $this->property_list->get_properties( $args );
 
 		return $count ? count( $properties ) : $properties;
 	} // get_properties
+
+	/**
+	 * Maybe add values of "special variables" stored in post/page custom fields
+	 * to the given attribute array.
+	 *
+	 * @since 1.8.7-beta
+	 *
+	 * @param mixed[] $atts           Original attribute array.
+	 * @param mixed[] $post_id_or_url Post/Page ID or URL.
+	 *
+	 * @return mixed[] Possibly extended attribute array.
+	 */
+	public function add_special_vars_from_post_meta( $atts, $post_id_or_url ) {
+		$post_id = is_numeric( $post_id_or_url ) ?
+			(int) $post_id_or_url :
+			url_to_postid( str_replace( '%_%', '', $post_id_or_url ) );
+
+		if ( ! $post_id ) {
+			return $atts;
+		}
+
+		$special_query_vars = $this->config['special_query_vars']();
+		if ( empty( $special_query_vars ) || ! is_array( $special_query_vars ) ) {
+			return $atts;
+		}
+
+		foreach ( $special_query_vars as $var_name ) {
+			if ( isset( $atts[ $var_name ] ) ) {
+				continue;
+			}
+
+			$value = get_post_meta( $post_id, $var_name, true );
+			if ( $value ) {
+				$atts[ $var_name ] = $value;
+			}
+		}
+
+		return $atts;
+	} // add_special_vars_from_post_meta
 
 	/**
 	 * Generate alternative titles for property related archive pages.

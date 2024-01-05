@@ -109,6 +109,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.8.9-beta =
+* Release date: 2024-01-05
+* Added option for enabling/disabling gallery image links (full size/lightbox).
+* Reworked retrieving of special variable/flag values.
+* Updated dependencies.
+
 = 1.8.5 =
 * Release date: 2023-11-10
 * Added hashes to names of dynamically loaded JS/CSS files (improved cache busting).
@@ -133,19 +139,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a minor price range search form element bug.
 * Improved cache busting of lazy-loaded JS files.
 * Improved PHP 8.2 and WordPress 6.3/6.4 compatibility.
-* Updated external dependencies.
-
-= 1.7.25 =
-* Release date: 2023-06-09
-* Added various filter hooks for modifying property/list template rendering data.
-* Reworked several property search methods.
-* Reworked YouTube video embedding.
-* Optimized property cluster zoom in overview maps.
-* Improved property detail data full-text search.
-* Added automatic replacements of rental-specific property detail titles.
-* Extended possibilities to use XPath expressions in property detail element shortcodes.
-* Extended excerpt handling for property post type.
-* Fixed a rounding bug in the search form range slider component.
 * Updated external dependencies.
 
 See changelog.txt for the complete version history.

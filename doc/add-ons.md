@@ -10,8 +10,12 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 
 - [Team](https://de.wordpress.org/plugins/immonex-kickstart-team/) ([Dokumentation](https://docs.immonex.de/kickstart-team/))
   Agentur/Kontaktpersonen-Listen, -Profile und objektbezogene Kontaktformulare
+- [Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows/) ([Dokumentation](https://docs.immonex.de/kickstart-slideshows/))
+  Immobilienbildergalerien und Slideshows
 
 ### aktuell in Vorbereitung
 
-- Schaufenster-Slideshows
 - (verbesserte) des WordPress-Page/Site-Builders [Elementor](https://elementor.com/)
+- druckoptimierte PDF-Exposés
+
+... und weitere!

@@ -37,7 +37,7 @@ function mysite_force_price_slider_min_max_values( $force_values ) {
 	 * vorgeben (200.000 bis 800.000 für Kaufobjekte, 200 bis 1.000 für
 	 * Mietobjekte).
 	 */
-	return array( 0, false, 200000, 800000, 200, 1000 );
+	return [ 0, false, 200000, 800000, 200, 1000 ];
 } // mysite_force_price_slider_min_max_values
 ```
 

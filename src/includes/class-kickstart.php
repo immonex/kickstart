@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.8.5';
+	const PLUGIN_VERSION             = '1.8.9-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -43,6 +43,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
 		'property_details_page_id'                     => 0,
 		'apply_wpautop_details_page'                   => false,
 		'heading_base_level'                           => 1,
+		'enable_gallery_image_links'                   => true,
 		'enable_ken_burns_effect'                      => true,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
@@ -51,7 +52,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
 		'show_seller_commission'                       => false,
-		'property_search_dynamic_update'               => false,
+		'property_search_dynamic_update'               => true,
 		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_location_slug_rewrite'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -376,6 +377,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
 				'property_details_page_id'                 => $this->plugin_options['property_details_page_id'],
 				'apply_wpautop_details_page'               => $this->plugin_options['apply_wpautop_details_page'],
 				'heading_base_level'                       => $this->plugin_options['heading_base_level'],
+				'enable_gallery_image_links'               => $this->plugin_options['enable_gallery_image_links'],
 				'enable_ken_burns_effect'                  => $this->plugin_options['enable_ken_burns_effect'],
 				'area_unit'                                => $this->plugin_options['area_unit'],
 				'currency'                                 => $this->plugin_options['currency'],
@@ -778,7 +780,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
 					'label'   => __( 'Properties per Page', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
-						'description'      => __( '<strong>Default</strong> number of properties to display <strong>per page</strong> in list views', 'immonex-kickstart' ),
+						'description'      => __( '<strong>Default</strong> number of properties to display <strong>per page</strong> in list views', 'immonex-kickstart' ) . ' ' .
+						                      __( '(can be overridden per shortcode attribute, e.g. <code>[inx-property-list <strong>limit-page="6"</strong>]</code>)', 'immonex-kickstart' ),
 						'class'            => 'small-text',
 						'min'              => 1,
 						'default_if_empty' => get_option( 'posts_per_page' ),
@@ -818,9 +821,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_8_25\Base {
 					),
 				),
 				array(
+					'name'    => 'enable_gallery_image_links',
+					'type'    => 'checkbox',
+					'label'   => __( 'Gallery Image Links', 'immonex-kickstart' ),
+					'section' => 'section_design_structure',
+					'args'    => array(
+						'description' => __( 'Enable image links (full size/lightbox) in galleries on property detail pages, if supported by the skin (link) and the theme (lightbox).', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'enable_ken_burns_effect',
 					'type'    => 'checkbox',
-					'label'   => __( 'Enable Ken Burns Effect', 'immonex-kickstart' ),
+					'label'   => __( 'Ken Burns Effect', 'immonex-kickstart' ),
 					'section' => 'section_design_structure',
 					'args'    => array(
 						'description' => __( 'Enable animations ("Ken Burns Effect") in the <strong>primary</strong> photo gallery of the property detail pages, if supported by the skin.', 'immonex-kickstart' ),
