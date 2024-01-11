@@ -109,8 +109,8 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.8.9-beta =
-* Release date: 2024-01-05
+= 1.8.11-beta =
+* Release date: 2024-01-10
 * Added option for enabling/disabling gallery image links (full size/lightbox).
 * Reworked retrieving of special variable/flag values.
 * Updated dependencies.
