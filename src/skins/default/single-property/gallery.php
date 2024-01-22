@@ -70,6 +70,7 @@ $inx_skin_show_virtual_tour = $template_data['virtual_tour_embed_code'] && (
 	( isset( $template_data['enable_virtual_tour'] ) && $template_data['enable_virtual_tour'] ) ||
 	( ! isset( $template_data['enable_virtual_tour'] ) && $inx_skin_is_default_gallery )
 );
+$inx_skin_virtual_tour_url  = isset( $template_data['virtual_tour_url'] ) ? $template_data['virtual_tour_url'] : '';
 
 if ( $inx_skin_show_video ) {
 	switch ( $template_data['video']['type'] ) {
@@ -190,29 +191,29 @@ if ( $inx_skin_media_count > 0 ) :
 				if ( count( $inx_skin_gallery_images ) > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 						?>
-				<li class="noHover">
-					<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
-					<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
-					<?php endif; ?>
-						<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
-						<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
-								<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
-						</div>
-						<?php else : ?>
-						<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
-							<?php echo $inx_skin_img['full']; ?>
-						</div>
-						<?php endif; ?>
-					<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
-					</a>
-					<?php endif; ?>
+						<li class="noHover">
+							<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
+							<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
+							<?php endif; ?>
+								<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
+								<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
+									<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
+								</div>
+								<?php else : ?>
+								<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
+									<?php echo $inx_skin_img['full']; ?>
+								</div>
+								<?php endif; ?>
+							<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
+							</a>
+							<?php endif; ?>
 
-					<?php if ( $inx_skin_show_caption && $inx_skin_img['caption'] ) : ?>
-					<div class="inx-gallery__image-caption uk-position-bottom uk-overlay uk-overlay-default uk-padding-small uk-text-center">
-						<?php echo $inx_skin_img['caption']; ?>
-					</div>
-					<?php endif; ?>
-				</li>
+							<?php if ( $inx_skin_show_caption && $inx_skin_img['caption'] ) : ?>
+							<div class="inx-gallery__image-caption uk-position-bottom uk-overlay uk-overlay-default uk-padding-small uk-text-center">
+								<?php echo $inx_skin_img['caption']; ?>
+							</div>
+							<?php endif; ?>
+						</li>
 						<?php
 					endforeach;
 				endif;
@@ -220,13 +221,51 @@ if ( $inx_skin_media_count > 0 ) :
 
 				<?php if ( $inx_skin_show_video ) : ?>
 				<li>
-					<?php echo $inx_skin_video_iframe; ?>
+					<?php
+					if ( $template_data['videos_require_consent'] ) :
+						$inx_skin_video_user_consent = apply_filters( 'inx_get_user_consent_content', '', $template_data['video']['url'], 'video' );
+						?>
+						<div style="height:100%; overflow:auto">
+							<inx-embed-consent-request
+								type="video"
+								content="<?php echo esc_attr( $inx_skin_video_iframe ); ?>"
+								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
+								button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+								icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
+							></inx-embed-consent-request>
+						</div>
+						<?php
+					else :
+						echo $inx_skin_video_iframe;
+					endif;
+					?>
 				</li>
 				<?php endif; ?>
 
 				<?php if ( $inx_skin_show_virtual_tour ) : ?>
 				<li>
-					<?php echo $template_data['virtual_tour_embed_code']; ?>
+					<?php
+					if ( $template_data['virtual_tours_require_consent'] ) :
+						$inx_skin_virtual_tour_user_consent = apply_filters( 'inx_get_user_consent_content', '', $inx_skin_virtual_tour_url, 'virtual_tour' );
+						?>
+						<div style="height:100%; overflow:auto">
+							<inx-embed-consent-request
+								type="virtual_tour"
+								content="<?php echo esc_attr( $template_data['virtual_tour_embed_code'] ); ?>"
+								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['text'] ) ); ?>"
+								button-text="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['button_text'] ) ); ?>"
+								icon-tag="<?php echo ! empty( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ) : ''; ?>"
+								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
+							></inx-embed-consent-request>
+						</div>
+						<?php
+					else :
+						echo $template_data['virtual_tour_embed_code'];
+					endif;
+					?>
 				</li>
 				<?php endif; ?>
 			</ul>
@@ -261,9 +300,11 @@ if ( $inx_skin_media_count > 0 ) :
 				<ul class="inx-thumbnail-nav__items uk-slider-items">
 					<?php if ( count( $inx_skin_gallery_images ) > 0 ) : ?>
 					<li class="inx-thumbnail-nav__item uk-hidden@s" uk-slideshow-item="0">
-						<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
-							<div uk-icon="icon: image; ratio: 2"></div>
-						</div>
+						<a href="#">
+							<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
+								<div uk-icon="icon: image; ratio: 2"></div>
+							</div>
+						</a>
 					</li>
 					<?php endif; ?>
 
@@ -281,7 +322,7 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + 1; ?>">
 						<a href="#">
 							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
-								<div style="padding:.1em; border-radius:50%; color:#f0f0f0; background-color:#303030; font-size:1.4em">360&deg;</div>
+								<div class="inx-icon inx-icon--360"></div>
 							</div>
 						</a>
 					</li>

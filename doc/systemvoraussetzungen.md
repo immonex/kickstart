@@ -1,7 +1,7 @@
 # Systemvoraussetzungen
 
 - selbst-gehostete [WordPress-Installation](https://de.wordpress.org/download/)<sup>1</sup> ab Version 4.7 (empfohlen: 5.1 oder höher)
-- PHP ab Version 5.6 (empfohlen: 7.2 oder höher)
+- PHP ab Version 5.6 (empfohlen: 7.4 oder höher)
 - mindestens 128 MB Arbeitsspeicher pro PHP-Prozess (OpenImmo-Import)
 
 ## Datenimport & Energieskalen

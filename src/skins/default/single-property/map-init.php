@@ -22,23 +22,8 @@ if (
 		$template_data['google_api_key'] :
 		false;
 
-	$inx_skin_gmaps_privacy_note = wp_sprintf(
-		/* translators: %1 = Google Privacy Policy, %2 = dataliberation.org */
-		__(
-			'This website utilizes Google Maps services. Google collects and processes certain, possibly personal data when using the maps services. Detailed informationen about scope and usage of this data as well as your personal privacy options is available in <a href="%1$s" target="_blank">Google\'s privacy policy</a>. Comprehensive instructions on how to manage your own data related to Google products can also be found here: <a href="%2$s" target="_blank">dataliberation.org</a>
-
-By clicking on the following button, you permit submission of data collected during using the map function to Google in accordance with the privacy policy mentioned above.',
-			'immonex-kickstart'
-		),
-		'https://policies.google.com/privacy',
-		'https://www.dataliberation.org/'
-	);
-
-	$inx_skin_osmaps_privacy_note = wp_sprintf(
-		/* translators: %s = OSM Privacy Policy URL */
-		__( 'This website utilizes map services provided by the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom (short OSMF). Your Internet browser or application will connect to servers operated by the OSMF located in the United Kingdom and in other countries. The operator of this site has no control over such connections and processing of your data by the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%s">OSMF privacy policy</a>.', 'immonex-kickstart' ),
-		'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
-	);
+	$inx_skin_gmaps_user_consent  = apply_filters( 'inx_get_user_consent_content', '', 'gmaps', 'geo' );
+	$inx_skin_osmaps_user_consent = apply_filters( 'inx_get_user_consent_content', '', 'osmaps', 'geo' );
 
 	switch ( $template_data['property_details_map_type'] ) {
 		case 'ol_osm_map_marker':

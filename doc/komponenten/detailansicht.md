@@ -2,7 +2,7 @@
 
 ## Standard-Template
 
-Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#karten-amp-umkreissuche), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
+Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#umkreissuche), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
 
 ?> Die Standard-Detailansicht kann auch durch die Ergänzung von **Widgets** in der zugehörigen [Sidebar](/schnellstart/sidebars) erweitert werden.
 

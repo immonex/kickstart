@@ -1,0 +1,53 @@
+.inx-icon {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+}
+.inx-icon--ratio--2 {
+	font-size: 200% !important;
+}
+.inx-icon--ratio--2.uk-icon svg {
+	width: 200%;
+	height: 200%;
+}
+.inx-icon--ratio--3 {
+	font-size: 300% !important;
+}
+.inx-icon--ratio--3.uk-icon svg {
+	width: 300%;
+	height: 300%;
+}
+.inx-icon--ratio--4 {
+	font-size: 400% !important;
+}
+.inx-icon--ratio--4.uk-icon svg {
+	width: 400%;
+	height: 400%;
+}
+.inx-icon--ratio--8 {
+	font-size: 800% !important;
+}
+.inx-icon--ratio--8.uk-icon svg {
+	width: 800%;
+	height: 800%;
+}
+
+.inx-icon--top,
+.inx-icon--top.uk-icon {
+	vertical-align: top;
+}
+
+.inx-icon--360 {
+	height: 1.8em;
+	width: 2.4em;
+	padding: .12em .12em .12em .04em;
+	border-radius: 50%;
+	background-color: currentcolor;
+	line-height: 1.5em;
+	font-size: 1.5em;
+	white-space: nowrap;
+}
+.inx-icon--360::before {
+	content: '360°';
+	color:#FFF;
+}

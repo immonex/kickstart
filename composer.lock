@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbc680f50ea3e88c7a4a328e0f23e3fd",
+    "content-hash": "128f4f642ad70bc8915d910a3021c170",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.9.2",
+            "version": "1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "418b29f5a3cb112c74899411c283d2e98eccd4fd"
+                "reference": "decb3584a1113dfc2f9a03489ba51510cb89769b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/418b29f5a3cb112c74899411c283d2e98eccd4fd",
-                "reference": "418b29f5a3cb112c74899411c283d2e98eccd4fd",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/decb3584a1113dfc2f9a03489ba51510cb89769b",
+                "reference": "decb3584a1113dfc2f9a03489ba51510cb89769b",
                 "shasum": ""
             },
             "require": {
@@ -147,9 +147,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.9.2"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.9.4"
             },
-            "time": "2024-01-10T16:22:43+00:00"
+            "time": "2024-01-19T15:24:43+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -471,12 +471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "8b4aa84fe12f12ff2c04b7bf610ef1d9956fe8ab"
+                "reference": "4c179c8a64fece77e17ef299d1a2a3f908993107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/8b4aa84fe12f12ff2c04b7bf610ef1d9956fe8ab",
-                "reference": "8b4aa84fe12f12ff2c04b7bf610ef1d9956fe8ab",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4c179c8a64fece77e17ef299d1a2a3f908993107",
+                "reference": "4c179c8a64fece77e17ef299d1a2a3f908993107",
                 "shasum": ""
             },
             "require": {
@@ -543,7 +543,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-05T17:52:53+00:00"
+            "time": "2024-01-12T11:20:12+00:00"
         }
     ],
     "packages-dev": [
@@ -1149,12 +1149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "e03361ca67e7e88452c46c28caca34309be40f53"
+                "reference": "bc3dc91a5e9b14aa06d1d9e90647c5c5a2cc5353"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/e03361ca67e7e88452c46c28caca34309be40f53",
-                "reference": "e03361ca67e7e88452c46c28caca34309be40f53",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/bc3dc91a5e9b14aa06d1d9e90647c5c5a2cc5353",
+                "reference": "bc3dc91a5e9b14aa06d1d9e90647c5c5a2cc5353",
                 "shasum": ""
             },
             "require": {
@@ -1200,7 +1200,7 @@
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
                 "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.x"
             },
-            "time": "2023-12-24T20:03:22+00:00"
+            "time": "2024-01-18T19:15:27+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -2662,12 +2662,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "e3f98bfc7885c957488f443df82d97814a3ce061"
+                "reference": "aea0cc80be4ef21bda64210d466106a3b0f40eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/e3f98bfc7885c957488f443df82d97814a3ce061",
-                "reference": "e3f98bfc7885c957488f443df82d97814a3ce061",
+                "url": "https://api.github.com/repos/symfony/string/zipball/aea0cc80be4ef21bda64210d466106a3b0f40eba",
+                "reference": "aea0cc80be4ef21bda64210d466106a3b0f40eba",
                 "shasum": ""
             },
             "require": {
@@ -2740,7 +2740,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-09T13:20:28+00:00"
+            "time": "2024-01-19T07:36:14+00:00"
         },
         {
             "name": "symfony/translation-contracts",

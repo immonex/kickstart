@@ -25,7 +25,9 @@ $color-link-highlighted: $color-action-element-highlighted;
 
 // Blocks (Modules)
 @import "blocks/_inx-button.scss";
+@import "blocks/_inx-embed-consent-request.scss";
 @import "blocks/_inx-gradient.scss";
+@import "blocks/_inx-icon.scss";
 @import "blocks/_inx-link.scss";
 @import "blocks/_inx-squared-image.scss";
 @import "blocks/_inx-switch.scss";

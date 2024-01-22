@@ -29,7 +29,7 @@ Hinzu kommen die folgenden (**optionalen**) geospezifischen Angaben:
 | `lat` | Standard-Breitengrad des Karten-Mittelpunkts als **Float-Wert** (-90 bis 90), z. B. *49.8587840* \* |
 | `lng` | Standard-Längengrad des Karten-Mittelpunkts als **Float-Wert** (-180 bis 180), z. B. *6.7854410* \* |
 | `zoom` | Initial-Zoomstufe der Karte als **Ganzzahl** (8 bis 18) \* |
-| `require-consent` | Benutzer-Zustimmung vor Einbettung der Karte aktivieren (*1*) oder deaktivieren (*0*) - überschreibt die [Standardvorgabe in den Plugin-Optionen](/schnellstart/einrichtung#benutzer-zustimmung) |
+| `require-consent` | Benutzer-Zustimmung vor Einbettung der Karte aktivieren (*1*) oder deaktivieren (*0*) - überschreibt die [Standardvorgabe in den Plugin-Optionen](/schnellstart/einrichtung#benutzereinwilligung) |
 
 \* Mittelpunkt und Zoom der Karte werden normalerweise™ anhand der Koordinaten der enthaltenen Standortmarker automatisch ermittelt.
 

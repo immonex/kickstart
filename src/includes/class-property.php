@@ -356,8 +356,15 @@ class Property {
 		// Fetch external video data.
 		$video_data = $this->get_video_data( $atts );
 
-		// Fetch virtual tour embed code.
+		// Fetch virtual tour embed code and extract the URL if existing.
 		$virtual_tour_embed_code = get_post_meta( $post->ID, "_{$prefix}virtual_tour_embed_code", true );
+		$virtual_tour_url        = '';
+		if ( $virtual_tour_embed_code ) {
+			preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
+			if ( ! empty( $matches ) ) {
+				$virtual_tour_url = $matches[0];
+			}
+		}
 
 		// Fetch file attachments.
 		$file_attachments = $this->get_file_attachments();
@@ -430,6 +437,7 @@ class Property {
 				'labels'                  => $labels,
 				'video'                   => $video_data,
 				'virtual_tour_embed_code' => $virtual_tour_embed_code,
+				'virtual_tour_url'        => $virtual_tour_url,
 				'file_attachments'        => $file_attachments,
 				'links'                   => $links ? $links : array(),
 				'detail_page_elements'    => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),

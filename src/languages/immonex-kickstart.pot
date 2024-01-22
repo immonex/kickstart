@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the immonex Kickstart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.8.8-beta\n"
+"Project-Id-Version: immonex Kickstart 1.9.0-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2024-01-05 09:27:44+00:00\n"
+"POT-Creation-Date: 2024-01-21 14:24:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,79 +12,79 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/class-kickstart.php:234 includes/class-property.php:703
+#: includes/class-kickstart.php:243 includes/class-property.php:711
 msgid "Price on demand"
 msgstr ""
 
-#: includes/class-kickstart.php:238
+#: includes/class-kickstart.php:247
 msgid "Currently there are no properties that match the search criteria."
 msgstr ""
 
-#: includes/class-kickstart.php:242
+#: includes/class-kickstart.php:251
 msgid "The real property location may differ from the marker position."
 msgstr ""
 
-#: includes/class-kickstart.php:246
+#: includes/class-kickstart.php:255
 msgid "The map roughly shows the location in which the property is located."
 msgstr ""
 
-#: includes/class-kickstart.php:250
+#: includes/class-kickstart.php:259
 msgctxt "Custom Post Type Slug (plural only!)"
 msgid "properties"
 msgstr ""
 
-#: includes/class-kickstart.php:254
+#: includes/class-kickstart.php:263
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/location"
 msgstr ""
 
-#: includes/class-kickstart.php:258
+#: includes/class-kickstart.php:267
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/type-of-use"
 msgstr ""
 
-#: includes/class-kickstart.php:262
+#: includes/class-kickstart.php:271
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/type"
 msgstr ""
 
-#: includes/class-kickstart.php:266
+#: includes/class-kickstart.php:275
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/buy-rent"
 msgstr ""
 
-#: includes/class-kickstart.php:270
+#: includes/class-kickstart.php:279
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/feature"
 msgstr ""
 
-#: includes/class-kickstart.php:274
+#: includes/class-kickstart.php:283
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/label"
 msgstr ""
 
-#: includes/class-kickstart.php:278
+#: includes/class-kickstart.php:287
 msgctxt "Custom Taxonomy Slug"
 msgid "properties/project"
 msgstr ""
 
-#: includes/class-kickstart.php:359 includes/class-kickstart.php:365
+#: includes/class-kickstart.php:368 includes/class-kickstart.php:374
 msgid "none"
 msgstr ""
 
-#: includes/class-kickstart.php:366
+#: includes/class-kickstart.php:375
 msgid "OpenLayers/OpenStreetMap Map with property location marker"
 msgstr ""
 
-#: includes/class-kickstart.php:367
+#: includes/class-kickstart.php:376
 msgid "Google Map with property location marker"
 msgstr ""
 
-#: includes/class-kickstart.php:368
+#: includes/class-kickstart.php:377
 msgid "Google Map showing the property's neighborhood"
 msgstr ""
 
-#: includes/class-kickstart.php:516
+#: includes/class-kickstart.php:533
 msgid ""
 "An <strong>OpenImmo import solution</strong> that supports <strong>immonex "
 "Kickstart</strong> is required to provide the real estate offers to be "
@@ -92,69 +92,92 @@ msgid ""
 msgstr ""
 
 #. translators: %s = immonex.dev full URL
-#: includes/class-kickstart.php:518
+#: includes/class-kickstart.php:535
 msgid ""
 "<strong>immonex OpenImmo2WP</strong> and suitable OpenImmo demo data are "
 "available <strong>free of charge for testing and development purposes</"
 "strong> at <a href=\"%s\" target=\"_blank\">immonex.dev</a>."
 msgstr ""
 
-#: includes/class-kickstart.php:590
+#: includes/class-kickstart.php:607 includes/class-kickstart.php:723
+#: includes/class-kickstart.php:738 includes/class-kickstart.php:748
 msgid "General"
 msgstr ""
 
-#: includes/class-kickstart.php:597
-msgid "Property Search"
+#: includes/class-kickstart.php:614
+msgid "Lists"
 msgstr ""
 
-#: includes/class-kickstart.php:602
-msgid "Maps &amp; Distance Search"
+#: includes/class-kickstart.php:621
+msgid "Detail View"
 msgstr ""
 
-#: includes/class-kickstart.php:609
+#: includes/class-kickstart.php:628
+msgid "Search"
+msgstr ""
+
+#: includes/class-kickstart.php:635
 msgid "Slugs"
 msgstr ""
 
-#: includes/class-kickstart.php:649 includes/class-kickstart.php:653
+#: includes/class-kickstart.php:675 includes/class-kickstart.php:679
 msgid "none (use default template)"
 msgstr ""
 
-#: includes/class-kickstart.php:650 includes/class-kickstart.php:654
+#: includes/class-kickstart.php:676 includes/class-kickstart.php:680
 msgid "none (use theme template)"
 msgstr ""
 
-#: includes/class-kickstart.php:663
+#: includes/class-kickstart.php:689
 msgid "Design & Structure"
 msgstr ""
 
-#: includes/class-kickstart.php:668
+#: includes/class-kickstart.php:694
 msgid "Measuring Units & Currency"
 msgstr ""
 
-#: includes/class-kickstart.php:673
+#: includes/class-kickstart.php:699
 msgid "Reference Properties"
 msgstr ""
 
-#: includes/class-kickstart.php:678 includes/class-property.php:511
-#: includes/class-property.php:889
-msgid "Prices"
+#: includes/class-kickstart.php:704
+msgid "External Services"
 msgstr ""
 
-#: includes/class-kickstart.php:688 includes/class-property-search.php:862
-msgid "Distance Search"
-msgstr ""
-
-#: includes/class-kickstart.php:689
+#: includes/class-kickstart.php:707
 msgid ""
-"If enabled, the property search form includes a distance search feature."
+"This plugin <strong>optionally</strong> uses the <strong>Google Maps "
+"JavaScript API (incl. Places library)</strong> as well as the <strong>Maps "
+"Embed API</strong> (maps, locality autocomplete). An appropriate API key is "
+"required in this case."
 msgstr ""
 
-#: includes/class-kickstart.php:693
-msgid "Maps on Property List Pages"
+#. translators: %1$s and %2$s = Tab/Section URLs
+#: includes/class-kickstart.php:710
+msgid ""
+"<strong>Please note!</strong> <em>Google Maps</em> are currently only "
+"available in <a href=\"%1$s\">property detail pages</a>, overview maps in <a "
+"href=\"%2$s\">list views</a> are generally <em>OpenStreetMap-based</em>."
+msgstr ""
+
+#: includes/class-kickstart.php:718
+msgid "User Consent"
+msgstr ""
+
+#: includes/class-kickstart.php:719
+msgid ""
+"If third-party services are used in the website frontend that connect to "
+"remote servers (iFrame embedding or API requests), user consent can be "
+"obtained in advance. The following options can be disabled if another plugin "
+"is used for this purpose."
+msgstr ""
+
+#: includes/class-kickstart.php:728
+msgid "Overview Maps"
 msgstr ""
 
 #. translators: %1$s = OpenStreetMap URL, %2$s = OpenLayers URL.
-#: includes/class-kickstart.php:696
+#: includes/class-kickstart.php:731
 msgid ""
 "Maps on property list pages are rendered using <a href=\"%1$s\" "
 "target=\"_blank\">OpenStreetMap</a> and <a href=\"%2$s\" "
@@ -163,11 +186,11 @@ msgid ""
 "values can be entered in the following fields."
 msgstr ""
 
-#: includes/class-kickstart.php:703
-msgid "Maps on Property Detail Pages"
+#: includes/class-kickstart.php:743
+msgid "Location Map"
 msgstr ""
 
-#: includes/class-kickstart.php:704
+#: includes/class-kickstart.php:744
 msgid ""
 "This plugin currently supports two types of Maps on the property detail "
 "pages: A marker based one showing the property's (approximate) position "
@@ -175,39 +198,21 @@ msgid ""
 "highlighting the respective district/neighborhood."
 msgstr ""
 
-#: includes/class-kickstart.php:711
+#: includes/class-kickstart.php:753 includes/class-property-search.php:862
+msgid "Distance Search"
+msgstr ""
+
+#: includes/class-kickstart.php:754
 msgid ""
-"This plugin <strong>optionally</strong> uses the <strong>Google Maps "
-"JavaScript API (incl. Places library)</strong> as well as the <strong>Maps "
-"Embed API</strong> (maps, locality autocomplete). Please provide a valid API "
-"key in this case."
+"If enabled, the property search form includes a distance search feature."
 msgstr ""
 
-#. translators: %1$s = Detail Maps Tab JS, %2$s = Overview Maps Tab JS.
-#: includes/class-kickstart.php:714
-msgid ""
-"<strong>Please note!</strong> <em>Google Maps</em> are currently only "
-"available in <a href=\"%1$s\">property detail pages</a>, overview maps in <a "
-"href=\"%2$s\">list views</a> are generally <em>OpenStreetMap-based</em>."
-msgstr ""
-
-#: includes/class-kickstart.php:722
-msgid "User Consent"
-msgstr ""
-
-#: includes/class-kickstart.php:723
-msgid ""
-"Here it can be determined for which external geospatial services the users "
-"have to give consent before these are being embedding in the website "
-"frontend. (Consent to one service applies to all geo services.)"
-msgstr ""
-
-#: includes/class-kickstart.php:727
+#: includes/class-kickstart.php:758
 msgid "Post Type"
 msgstr ""
 
 #. translators: %1$s = Polylang Pro URL, %2$s = WPML URL
-#: includes/class-kickstart.php:730
+#: includes/class-kickstart.php:761
 msgid ""
 "The following <strong>rewrite slugs</strong> are used for creating \"SEO "
 "friendly\" permalinks for property/agency/agent archive and detail pages, e."
@@ -218,293 +223,105 @@ msgid ""
 "corresponding <em>string translation</em> functionality."
 msgstr ""
 
-#: includes/class-kickstart.php:737
+#: includes/class-kickstart.php:768
 msgid "Taxonomies"
 msgstr ""
 
-#: includes/class-kickstart.php:738
+#: includes/class-kickstart.php:769
 msgid ""
 "Taxonomy archive pages have their own <strong>rewrite slugs</strong> that "
-"may contain slashes. In most cases a combination of the post type slug above "
-"and the taxonomy name makes the most sense, e.g. <strong>properties/type</"
+"may contain slashes. In most cases a combination of the post type slug and "
+"the taxonomy name makes the most sense, e.g. <strong>properties/type</"
 "strong> will make the permalink URLs look like <strong>domain.tld/properties/"
 "type/flats/</strong>. The following slugs should be entered in the "
 "<strong>main language</strong> of the website, too."
 msgstr ""
 
-#: includes/class-kickstart.php:760
+#: includes/class-kickstart.php:791
 msgid "Skin"
 msgstr ""
 
-#: includes/class-kickstart.php:763
-msgid ""
-"A skin is a set of templates for all immonex Kickstart related pages and "
-"elements."
-msgstr ""
-
-#: includes/class-kickstart.php:770
-msgid "Property Overview"
-msgstr ""
-
-#: includes/class-kickstart.php:773
-msgid ""
-"Use the specified page as <strong>default</strong> property overview/list "
-"page (instead of the property post type archive)."
-msgstr ""
-
-#: includes/class-kickstart.php:780
-msgid "Properties per Page"
-msgstr ""
-
-#: includes/class-kickstart.php:783
-msgid ""
-"<strong>Default</strong> number of properties to display <strong>per page</"
-"strong> in list views"
-msgstr ""
-
-#: includes/class-kickstart.php:784
-msgid ""
-"(can be overridden per shortcode attribute, e.g. <code>[inx-property-list "
-"<strong>limit-page=\"6\"</strong>]</code>)"
-msgstr ""
-
-#: includes/class-kickstart.php:793
-msgid "Property Details Page"
-msgstr ""
-
+#. translators: %s = skin (incl. link)
 #: includes/class-kickstart.php:796
 msgid ""
-"Use the specified page as base for displaying the property details (instead "
-"of the default template)."
+"A %s is a folder that contains a set of templates for all immonex Kickstart "
+"related pages and elements."
 msgstr ""
 
-#: includes/class-kickstart.php:803
-msgid "Apply wpautop"
+#: includes/class-kickstart.php:797
+msgid "skin"
 msgstr ""
 
 #: includes/class-kickstart.php:806
+msgid "Apply wpautop"
+msgstr ""
+
+#: includes/class-kickstart.php:809
 msgid ""
 "Activate to add new lines and paragraphs in description texts on detail "
 "pages automatically (<em>wpautop</em>)."
 msgstr ""
 
-#: includes/class-kickstart.php:812
+#: includes/class-kickstart.php:815
 msgid "Heading Base Level"
 msgstr ""
 
-#: includes/class-kickstart.php:815
+#: includes/class-kickstart.php:818
 msgid ""
 "Level that immonex related headlines (e.g. on property list and detail "
 "pages) should start with."
 msgstr ""
 
-#: includes/class-kickstart.php:826
-msgid "Gallery Image Links"
-msgstr ""
-
 #: includes/class-kickstart.php:829
-msgid ""
-"Enable image links (full size/lightbox) in galleries on property detail "
-"pages, if supported by the skin (link) and the theme (lightbox)."
-msgstr ""
-
-#: includes/class-kickstart.php:835
-msgid "Ken Burns Effect"
-msgstr ""
-
-#: includes/class-kickstart.php:838
-msgid ""
-"Enable animations (\"Ken Burns Effect\") in the <strong>primary</strong> "
-"photo gallery of the property detail pages, if supported by the skin."
-msgstr ""
-
-#: includes/class-kickstart.php:844
 msgid "Area Measuring Unit"
 msgstr ""
 
-#: includes/class-kickstart.php:856
+#: includes/class-kickstart.php:841
 msgid "Currency Code"
 msgstr ""
 
-#: includes/class-kickstart.php:868
+#: includes/class-kickstart.php:853
 msgid "Currency Symbol"
 msgstr ""
 
-#: includes/class-kickstart.php:880
+#: includes/class-kickstart.php:865
 msgid "Show Reference Prices"
 msgstr ""
 
-#: includes/class-kickstart.php:883
+#: includes/class-kickstart.php:868
 msgid ""
 "Activate this option if the prices of reference properties should be "
 "displayed."
 msgstr ""
 
-#: includes/class-kickstart.php:889
+#: includes/class-kickstart.php:874
 msgid "Reference Price Text"
 msgstr ""
 
-#: includes/class-kickstart.php:892
+#: includes/class-kickstart.php:877
 msgid ""
 "This text is displayed if reference prices should <strong>not</strong> be "
 "published."
 msgstr ""
 
-#: includes/class-kickstart.php:898
+#: includes/class-kickstart.php:883
 msgid "Show Contact Section"
 msgstr ""
 
 #. translators: %s = Kickstart Team URL (WP Plugin Repository)
-#: includes/class-kickstart.php:903
+#: includes/class-kickstart.php:888
 msgid ""
 "Activate this option if the contact section (including agent information and "
 "form if the <a href=\"%s\" target=\"_blank\">Team Add-on</a> is installed) "
 "should be displayed on <strong>reference property detail pages</strong>."
 msgstr ""
 
-#: includes/class-kickstart.php:911
-msgid "Show Seller/Internal Commission"
-msgstr ""
-
-#: includes/class-kickstart.php:914
-msgid ""
-"Activate this option if the seller commission (inner commission) should be "
-"displayed on property detail pages."
-msgstr ""
-
-#: includes/class-kickstart.php:920
-msgid "Dynamic Update"
-msgstr ""
-
-#: includes/class-kickstart.php:923
-msgid ""
-"If activated, property lists and location maps on the same page are "
-"dynamically updated when the search parameters change."
-msgstr ""
-
-#: includes/class-kickstart.php:929
-msgid "No Results Message"
-msgstr ""
-
-#: includes/class-kickstart.php:932
-msgid "This message is displayed when a property search returns no results."
-msgstr ""
-
-#: includes/class-kickstart.php:939
-msgid "Autocompletion"
-msgstr ""
-
-#: includes/class-kickstart.php:942
-msgid ""
-"Select the autocomplete solution to use for the distance search in property "
-"search forms (none = disable distance search)."
-msgstr ""
-
-#: includes/class-kickstart.php:943
-msgid ""
-"For the <strong>Google Places</strong> based variant, providing an "
-"appropriate API key is required (see Google Maps API tab)."
-msgstr ""
-
-#: includes/class-kickstart.php:950
-msgid "Display in Lists/Archive"
-msgstr ""
-
-#: includes/class-kickstart.php:953
-msgid ""
-"If active, the property marker map will be shown in the <strong>default list "
-"(archive)</strong> pages."
-msgstr ""
-
-#: includes/class-kickstart.php:959
-msgid "Default Latitude"
-msgstr ""
-
-#: includes/class-kickstart.php:962
-msgid ""
-"Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
-msgstr ""
-
-#: includes/class-kickstart.php:971
-msgid "Default Longitude"
-msgstr ""
-
-#: includes/class-kickstart.php:974
-msgid ""
-"Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
-msgstr ""
-
-#: includes/class-kickstart.php:983 includes/class-kickstart.php:1015
-msgid "Default Zoom Level"
-msgstr ""
-
-#: includes/class-kickstart.php:986
-msgid "2 to 18"
-msgstr ""
-
-#: includes/class-kickstart.php:995
-msgid "Auto-Fit Map Bounds"
-msgstr ""
-
-#: includes/class-kickstart.php:998
-msgid ""
-"Automatically set map bounds and zoom level to include all property location "
-"markers."
-msgstr ""
-
-#: includes/class-kickstart.php:1004
-msgid "Map Type"
-msgstr ""
-
-#: includes/class-kickstart.php:1007
-msgid ""
-"Select the type of map to be displayed on property detail pages (none = "
-"disable map)."
-msgstr ""
-
-#: includes/class-kickstart.php:1008
-msgid ""
-"For the <strong>Google Maps</strong> based variants, providing an "
-"appropriate API key is required (see Google Maps API section below)."
-msgstr ""
-
-#: includes/class-kickstart.php:1018
-msgid "8 to 18"
-msgstr ""
-
-#: includes/class-kickstart.php:1027
-msgid "Info Window Note"
-msgstr ""
-
-#: includes/class-kickstart.php:1030
-msgid ""
-"If stated, this note gets displayed within a map info window above the "
-"property location marker."
-msgstr ""
-
-#: includes/class-kickstart.php:1037
-msgid "Marker Map Note"
-msgstr ""
-
-#: includes/class-kickstart.php:1040
-msgid "This note gets displayed below <strong>marker based</strong> maps."
-msgstr ""
-
-#: includes/class-kickstart.php:1047
-msgid "Neighborhood Map Note"
-msgstr ""
-
-#: includes/class-kickstart.php:1050
-msgid ""
-"This note gets displayed below <strong>neighborhood based</strong> maps."
-msgstr ""
-
-#: includes/class-kickstart.php:1057
+#: includes/class-kickstart.php:896
 msgid "Google Maps API Key"
 msgstr ""
 
 #. translators: %s = Google Developer Docs URL
-#: includes/class-kickstart.php:1062
+#: includes/class-kickstart.php:901
 msgid ""
 "Provide an key suitable for using the Google APIs mentioned abobe. You can "
 "find information about getting and configuring such a key on the respective "
@@ -513,100 +330,323 @@ msgid ""
 "project!)</strong>"
 msgstr ""
 
-#: includes/class-kickstart.php:1070
+#: includes/class-kickstart.php:910
 msgid "Embedded Maps"
+msgstr ""
+
+#: includes/class-kickstart.php:913
+msgid ""
+"Request consent for embedding Google and OpenStreetMap based maps on "
+"property list and detail pages."
+msgstr ""
+
+#: includes/class-kickstart.php:919
+msgid "Location Autocompletion"
+msgstr ""
+
+#: includes/class-kickstart.php:922
+msgid ""
+"Request consent for using location autocompletion services in the property "
+"search form (radius/distance search)."
+msgstr ""
+
+#: includes/class-kickstart.php:928
+msgid "Videos"
+msgstr ""
+
+#: includes/class-kickstart.php:931
+msgid ""
+"Request user consent for embedding external video players like YouTube and "
+"Vimeo."
+msgstr ""
+
+#: includes/class-kickstart.php:937
+msgid "Virtual Tours"
+msgstr ""
+
+#: includes/class-kickstart.php:940
+msgid ""
+"Request user consent before embedding external viewers for interactive 3D "
+"images, 360° views and virtual tours."
+msgstr ""
+
+#: includes/class-kickstart.php:946
+msgid "Property Overview"
+msgstr ""
+
+#. translators: %s = property post type archive (incl. link)
+#: includes/class-kickstart.php:951
+msgid ""
+"Use the specified page as <strong>default</strong> property overview/list "
+"page (instead of the %s)."
+msgstr ""
+
+#: includes/class-kickstart.php:952
+msgid "property post type archive"
+msgstr ""
+
+#: includes/class-kickstart.php:961
+msgid "Properties per Page"
+msgstr ""
+
+#: includes/class-kickstart.php:964
+msgid ""
+"<strong>Default</strong> number of properties to display <strong>per page</"
+"strong> in list views"
+msgstr ""
+
+#: includes/class-kickstart.php:965
+msgid ""
+"(can be overridden per shortcode attribute, e.g. <code>[inx-property-list "
+"<strong>limit-page=\"6\"</strong>]</code>)"
+msgstr ""
+
+#: includes/class-kickstart.php:974
+msgid "Display in Lists/Archive"
+msgstr ""
+
+#. translators: %s = "default list pages (archive)" incl. link
+#: includes/class-kickstart.php:979
+msgid "If active, the property marker map will be shown in the %s pages."
+msgstr ""
+
+#: includes/class-kickstart.php:980
+msgid "default list pages (archive)"
+msgstr ""
+
+#: includes/class-kickstart.php:987
+msgid "Default Latitude"
+msgstr ""
+
+#: includes/class-kickstart.php:990
+msgid ""
+"Initial <strong>map center</strong> latitude (-90 to 90), e.g. 49.8587840."
+msgstr ""
+
+#: includes/class-kickstart.php:999
+msgid "Default Longitude"
+msgstr ""
+
+#: includes/class-kickstart.php:1002
+msgid ""
+"Initial <strong>map center</strong> longitude (-180 to 180), e.g. 6.7854410."
+msgstr ""
+
+#: includes/class-kickstart.php:1011 includes/class-kickstart.php:1085
+msgid "Default Zoom Level"
+msgstr ""
+
+#: includes/class-kickstart.php:1014
+msgid "2 to 18"
+msgstr ""
+
+#: includes/class-kickstart.php:1023
+msgid "Auto-Fit Map Bounds"
+msgstr ""
+
+#: includes/class-kickstart.php:1026
+msgid ""
+"Automatically set map bounds and zoom level to include all property location "
+"markers."
+msgstr ""
+
+#: includes/class-kickstart.php:1032
+msgid "Property Details Page"
+msgstr ""
+
+#: includes/class-kickstart.php:1035
+msgid ""
+"Use the specified page as base for displaying the property details (instead "
+"of the default template)."
+msgstr ""
+
+#: includes/class-kickstart.php:1043
+msgid "Gallery Image Links"
+msgstr ""
+
+#: includes/class-kickstart.php:1046
+msgid ""
+"Enable image links (full size/lightbox) in galleries on property detail "
+"pages, if supported by the skin (link) and the theme (lightbox)."
+msgstr ""
+
+#: includes/class-kickstart.php:1052
+msgid "Ken Burns Effect"
+msgstr ""
+
+#: includes/class-kickstart.php:1055
+msgid ""
+"Enable animations (\"Ken Burns Effect\") in the <strong>primary</strong> "
+"photo gallery of the property detail pages, if supported by the skin."
+msgstr ""
+
+#: includes/class-kickstart.php:1061
+msgid "Show Seller/Internal Commission"
+msgstr ""
+
+#: includes/class-kickstart.php:1064
+msgid ""
+"Seller commission (inner commission) display in property detail pages is "
+"disabled by default, but can be enabled using this option if required."
+msgstr ""
+
+#: includes/class-kickstart.php:1070
+msgid "Map Type"
 msgstr ""
 
 #: includes/class-kickstart.php:1073
 msgid ""
-"This consent applies to Google and OpenStreetMap based maps on property list "
-"and detail pages."
+"Select the type of map to be displayed on property detail pages (none = "
+"disable map)."
 msgstr ""
 
-#: includes/class-kickstart.php:1079
-msgid "Location Autocompletion"
-msgstr ""
-
-#: includes/class-kickstart.php:1082
+#. translators: %s = Tab/Section URL
+#: includes/class-kickstart.php:1076
 msgid ""
-"An external location autocompletion service is used in the property search "
-"form (radius/distance search)."
+"For the <strong>Google Maps</strong> based variants, an appropriate API key "
+"is required (see tab <a href=\"%s\">General &rarr; External Services</a>)."
 msgstr ""
 
-#: includes/class-kickstart.php:1088 includes/class-wp-bootstrap.php:407
+#: includes/class-kickstart.php:1088
+msgid "8 to 18"
+msgstr ""
+
+#: includes/class-kickstart.php:1097
+msgid "Info Window Note"
+msgstr ""
+
+#: includes/class-kickstart.php:1100
+msgid ""
+"If stated, this note gets displayed within a map info window above the "
+"property location marker."
+msgstr ""
+
+#: includes/class-kickstart.php:1107
+msgid "Marker Map Note"
+msgstr ""
+
+#: includes/class-kickstart.php:1110
+msgid "This note gets displayed below <strong>marker based</strong> maps."
+msgstr ""
+
+#: includes/class-kickstart.php:1117
+msgid "Neighborhood Map Note"
+msgstr ""
+
+#: includes/class-kickstart.php:1120
+msgid ""
+"This note gets displayed below <strong>neighborhood based</strong> maps."
+msgstr ""
+
+#: includes/class-kickstart.php:1127
+msgid "Dynamic Update"
+msgstr ""
+
+#: includes/class-kickstart.php:1130
+msgid ""
+"If activated, property lists and location maps on the same page are "
+"dynamically updated when the search parameters change."
+msgstr ""
+
+#: includes/class-kickstart.php:1136
+msgid "No Results Message"
+msgstr ""
+
+#: includes/class-kickstart.php:1139
+msgid "This message is displayed when a property search returns no results."
+msgstr ""
+
+#: includes/class-kickstart.php:1146
+msgid "Autocompletion"
+msgstr ""
+
+#: includes/class-kickstart.php:1149
+msgid ""
+"Select the autocomplete solution to use for the distance search in property "
+"search forms (none = disable distance search)."
+msgstr ""
+
+#. translators: %s = Tab/Section URL
+#: includes/class-kickstart.php:1152
+msgid ""
+"For the <strong>Google Places</strong> based variant, an appropriate API key "
+"is required (see tab <a href=\"%s\">General &rarr; External Services</a>)."
+msgstr ""
+
+#: includes/class-kickstart.php:1161 includes/class-wp-bootstrap.php:407
 msgid "Property"
 msgstr ""
 
-#: includes/class-kickstart.php:1091
+#: includes/class-kickstart.php:1164
 msgid ""
 "This should be a single term in its plural form and in the site's "
 "<strong>main language</strong> (usually <strong>properties</strong>). If "
 "empty, <em>inx_property</em> will be used as base slug."
 msgstr ""
 
-#: includes/class-kickstart.php:1097 includes/class-property-search.php:743
+#: includes/class-kickstart.php:1170 includes/class-property-search.php:743
 msgid "Locality"
 msgstr ""
 
-#: includes/class-kickstart.php:1100
+#: includes/class-kickstart.php:1173
 msgid ""
 "<strong>properties/location</strong> by default, <em>inx_location</em> if "
 "empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1106
+#: includes/class-kickstart.php:1179
 msgid "Type of Use"
 msgstr ""
 
-#: includes/class-kickstart.php:1109
+#: includes/class-kickstart.php:1182
 msgid ""
 "<strong>properties/type-of-use</strong> by default, <em>inx_type_of_use</em> "
 "if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1115 includes/class-property-search.php:709
+#: includes/class-kickstart.php:1188 includes/class-property-search.php:709
 msgid "Property Type"
 msgstr ""
 
-#: includes/class-kickstart.php:1118
+#: includes/class-kickstart.php:1191
 msgid ""
 "<strong>properties/type</strong> by default, <em>inx_property_type</em> if "
 "empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1124 includes/class-property-search.php:726
+#: includes/class-kickstart.php:1197 includes/class-property-search.php:726
 msgid "Marketing Type"
 msgstr ""
 
-#: includes/class-kickstart.php:1127
+#: includes/class-kickstart.php:1200
 msgid ""
 "<strong>properties/buy-rent</strong> by default, <em>inx_marketing_type</em> "
 "if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1133
+#: includes/class-kickstart.php:1206
 msgid "Feature"
 msgstr ""
 
-#: includes/class-kickstart.php:1136
+#: includes/class-kickstart.php:1209
 msgid ""
 "<strong>properties/feature</strong> by default, <em>inx_feature</em> if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1142
+#: includes/class-kickstart.php:1215
 msgid "Label"
 msgstr ""
 
-#: includes/class-kickstart.php:1145
+#: includes/class-kickstart.php:1218
 msgid ""
 "<strong>properties/label</strong> by default, <em>inx_label</em> if empty"
 msgstr ""
 
-#: includes/class-kickstart.php:1151 includes/class-property-search.php:758
+#: includes/class-kickstart.php:1224 includes/class-property-search.php:758
 msgid "Project"
 msgstr ""
 
-#: includes/class-kickstart.php:1154
+#: includes/class-kickstart.php:1227
 msgid ""
 "<strong>properties/project</strong> by default, <em>inx_project</em> if empty"
 msgstr ""
@@ -622,12 +662,12 @@ msgid "Location"
 msgstr ""
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:901 includes/class-property.php:499
-#: includes/class-property.php:933
+#: includes/class-property-search.php:901 includes/class-property.php:507
+#: includes/class-property.php:941
 msgid "Features"
 msgstr ""
 
-#: includes/class-property-backend-form.php:105 includes/class-property.php:947
+#: includes/class-property-backend-form.php:105 includes/class-property.php:955
 msgid "Miscellaneous"
 msgstr ""
 
@@ -644,7 +684,7 @@ msgstr ""
 msgid "Rooms"
 msgstr ""
 
-#: includes/class-property-backend-form.php:124 includes/class-property.php:894
+#: includes/class-property-backend-form.php:124 includes/class-property.php:902
 msgid "Areas"
 msgstr ""
 
@@ -844,7 +884,7 @@ msgstr ""
 msgid "Gallery Images"
 msgstr ""
 
-#: includes/class-property-backend-form.php:559 includes/class-property.php:938
+#: includes/class-property-backend-form.php:559 includes/class-property.php:946
 msgid "Floor Plans"
 msgstr ""
 
@@ -852,7 +892,7 @@ msgstr ""
 msgid "Document Attachments (PDF)"
 msgstr ""
 
-#: includes/class-property-backend-form.php:580 includes/class-property.php:495
+#: includes/class-property-backend-form.php:580 includes/class-property.php:503
 msgid "Details"
 msgstr ""
 
@@ -1029,29 +1069,149 @@ msgstr ""
 msgid "Labels"
 msgstr ""
 
-#: includes/class-property.php:491
+#: includes/class-property.php:499
 msgid "The Property"
 msgstr ""
 
-#: includes/class-property.php:503
+#: includes/class-property.php:511
 msgid "Energy Pass"
 msgstr ""
 
-#: includes/class-property.php:507
+#: includes/class-property.php:515
 msgid "Location & Infrastructure"
 msgstr ""
 
-#: includes/class-property.php:515 includes/class-property.php:951
+#: includes/class-property.php:519 includes/class-property.php:897
+msgid "Prices"
+msgstr ""
+
+#: includes/class-property.php:523 includes/class-property.php:959
 msgid "Downloads & Links"
 msgstr ""
 
-#: includes/class-property.php:899
+#: includes/class-property.php:907
 msgid "Condition & Development"
 msgstr ""
 
-#: includes/class-property.php:964
+#: includes/class-property.php:972
 #: skins/default/single-property/contact-person.php:97
 msgid "Your contact person with us"
+msgstr ""
+
+#: includes/class-user-consent.php:66 includes/class-user-consent.php:225
+#: skins/default/property-search/element-google-places-autocomplete.php:24
+#: skins/default/property-search/element-photon-autocomplete.php:27
+msgid "Agreed!"
+msgstr ""
+
+#. translators: %1 = Google Privacy Policy, %2 = dataliberation.org
+#: includes/class-user-consent.php:118
+msgid ""
+"This website utilizes Google Maps services. Google collects and processes "
+"certain, possibly personal data when using the maps services. Detailed "
+"informationen about scope and usage of this data as well as your personal "
+"privacy options is available in <a href=\"%1$s\" target=\"_blank\">Google's "
+"privacy policy</a>. Comprehensive instructions on how to manage your own "
+"data related to Google products can also be found here: <a href=\"%2$s\" "
+"target=\"_blank\">dataliberation.org</a>\n"
+"\n"
+"By clicking on the following button, you permit submission of data collected "
+"during using the map function to Google in accordance with the privacy "
+"policy mentioned above."
+msgstr ""
+
+#: includes/class-user-consent.php:127 includes/class-user-consent.php:146
+#: skins/default/property-list/map.php:38
+msgid "Agreed, show maps!"
+msgstr ""
+
+#. translators: %s = OSM Privacy Policy URL
+#: includes/class-user-consent.php:138
+msgid ""
+"This website utilizes map services provided by the OpenStreetMap Foundation, "
+"St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom "
+"(short OSMF). Your Internet browser or application will connect to servers "
+"operated by the OSMF located in the United Kingdom and in other countries.\n"
+"\n"
+"The operator of this site has no control over such connections and "
+"processing of your data by the OSMF. You can find more information on the "
+"processing of user data by the OSMF in the <a href=\"%s\">OSMF privacy "
+"policy</a>."
+msgstr ""
+
+#. translators: %s = YouTube Data Protection Info URL
+#: includes/class-user-consent.php:153
+msgid ""
+"This embedded video is provided by YouTube, LLC, 901 Cherry Ave, San Bruno, "
+"CA 94066, USA.\n"
+"\n"
+"When playing the video, a connection to the Youtube servers is established. "
+"Youtube will be informed which pages you visit. If you are logged into your "
+"Youtube account, Youtube can assign your surfing behavior to you "
+"individually. You can prevent this by logging out of your YouTube account "
+"beforehand (see <a href=\"%s\" target=\"_blank\">YouTube's data protection "
+"information</a> for details)."
+msgstr ""
+
+#: includes/class-user-consent.php:161 includes/class-user-consent.php:176
+msgid "Agreed, show video!"
+msgstr ""
+
+#. translators: %s = Vimeo Privacy Policy URL
+#: includes/class-user-consent.php:168
+msgid ""
+"This embedded video is provided by Vimeo, Inc., 555 West 18th Street, New "
+"York, New York 10011, USA.\n"
+"\n"
+"When playing the video, a connection to the Vimeo servers is established. "
+"Vimeo will be informed which pages you visit. If you are logged into your "
+"Vimeo account, Vimeo can assign your surfing behavior to you individually. "
+"You can prevent this by logging out of your Vimeo account beforehand (see <a "
+"href=\"%s\" target=\"_blank\">Vimeo's Privacy Policy</a> for details)."
+msgstr ""
+
+#. translators: %s = Matterport Privacy Policy URL
+#: includes/class-user-consent.php:183
+msgid ""
+"This interactive 360° virtual tour is provided by Matterport, Inc. in 352 E. "
+"Java Dr., Sunnyvale, CA 94089, USA.\n"
+"\n"
+"When confirmed, the viewer is loaded from a Matterport server. The operator "
+"of this site has no control over such connections and the the associated "
+"processing of user-related data. Please see <a href=\"%s\" "
+"target=\"_blank\">Matterport's Privacy Policy</a> for details."
+msgstr ""
+
+#: includes/class-user-consent.php:191
+msgid "Agreed, show virtual tour!"
+msgstr ""
+
+#: includes/class-user-consent.php:212
+msgid "for displaying maps and providing location based functions"
+msgstr ""
+
+#: includes/class-user-consent.php:213
+msgid "for embedding video contents"
+msgstr ""
+
+#: includes/class-user-consent.php:214
+msgid "for embedding interactive 3D images, 360° views and virtual tours"
+msgstr ""
+
+#: includes/class-user-consent.php:223
+msgid "for providing specific functions to improve the usability"
+msgstr ""
+
+#: includes/class-user-consent.php:230
+msgid "This website utilizes an external service"
+msgstr ""
+
+#: includes/class-user-consent.php:233
+msgid ""
+"When confirmed, the web browser will connect to servers operated by the "
+"service provider that <strong>may</strong> be located outside of the EU. The "
+"operator of this site has no control over such connections and the "
+"associated processing of user-related data."
 msgstr ""
 
 #: includes/class-wp-bootstrap.php:99
@@ -1906,7 +2066,6 @@ msgstr ""
 
 #. translators: %s = OSM Privacy Policy URL
 #: skins/default/property-list/map.php:25
-#: skins/default/single-property/map-init.php:39
 msgid ""
 "This website utilizes map services provided by the OpenStreetMap Foundation, "
 "St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom "
@@ -1916,13 +2075,6 @@ msgid ""
 "processing of your data by the OSMF. You can find more information on the "
 "processing of user data by the OSMF in the <a href=\"%s\">OSMF privacy "
 "policy</a>."
-msgstr ""
-
-#: skins/default/property-list/map.php:38
-#: skins/default/single-property/map-embed.php:23
-#: skins/default/single-property/map-embed.php:36
-#: skins/default/single-property/map-embed.php:47
-msgid "Agreed, show maps!"
 msgstr ""
 
 #: skins/default/property-list/pagination.php:14
@@ -1947,11 +2099,6 @@ msgid ""
 "see our <a href=\"%2$s\" target=\"_blank\">privacy policy</a>!"
 msgstr ""
 
-#: skins/default/property-search/element-google-places-autocomplete.php:24
-#: skins/default/property-search/element-photon-autocomplete.php:27
-msgid "Agreed!"
-msgstr ""
-
 #: skins/default/property-search/element-reset.php:18
 msgid "Reset Form"
 msgstr ""
@@ -1972,25 +2119,14 @@ msgstr ""
 msgid "Back to overview"
 msgstr ""
 
+#: skins/default/single-property/gallery.php:236
+#: skins/default/single-property/gallery.php:261
+msgid "Privacy Policy"
+msgstr ""
+
 #: skins/default/single-property/location-description.php:26
 #: skins/default/single-property/location-info.php:26
 msgid "Location and Infrastructure"
-msgstr ""
-
-#. translators: %1 = Google Privacy Policy, %2 = dataliberation.org
-#: skins/default/single-property/map-init.php:27
-msgid ""
-"This website utilizes Google Maps services. Google collects and processes "
-"certain, possibly personal data when using the maps services. Detailed "
-"informationen about scope and usage of this data as well as your personal "
-"privacy options is available in <a href=\"%1$s\" target=\"_blank\">Google's "
-"privacy policy</a>. Comprehensive instructions on how to manage your own "
-"data related to Google products can also be found here: <a href=\"%2$s\" "
-"target=\"_blank\">dataliberation.org</a>\n"
-"\n"
-"By clicking on the following button, you permit submission of data collected "
-"during using the map function to Google in accordance with the privacy "
-"policy mentioned above."
 msgstr ""
 
 #. Plugin Name of the plugin/theme

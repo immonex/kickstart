@@ -109,10 +109,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.8.11-beta =
-* Release date: 2024-01-10
+= 1.9.0-beta =
+* Release date: 2024-01-21
+* Added user consent options for embedded video and virtual tour players.
+* Added 3 user consent content related filter hooks.
+* Reworked plugin options structure.
 * Added option for enabling/disabling gallery image links (full size/lightbox).
 * Reworked retrieving of special variable/flag values.
+* Fixed translation file selection (beta versions only).
 * Updated dependencies.
 
 = 1.8.5 =

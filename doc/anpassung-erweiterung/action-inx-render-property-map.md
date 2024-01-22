@@ -10,8 +10,8 @@
 | ---- | ------------ |
 | `$atts` | Array beliebiger optionaler Attribute, die zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`). Im Standard-Skin werden aktuell nur die folgenden **optionalen** Angaben berücksichtigt: |
 | | `template` (zu rendernde Template-Datei im [Skin-Ordner](skins#ordner), Standard: *property-list/map*) |
-| | `lat` (Standard-Breitengrad des [Kartenmittelpunkts](/schnellstart/einrichtung#karten-in-immobilien-listenseiten) als **Float-Wert** zwischen -90 und 90, z. B. *49.8587840* \*) |
-| | `lng` (Längengrad des [Kartenmittelpunkts](/schnellstart/einrichtung#karten-in-immobilien-listenseiten) als **Float-Wert** zwischen -180 bis 180, z. B. *6.7854410* \*) |
+| | `lat` (Standard-Breitengrad des [Kartenmittelpunkts](/schnellstart/einrichtung?id=Übersichtskarten) als **Float-Wert** zwischen -90 und 90, z. B. *49.8587840* \*) |
+| | `lng` (Längengrad des [Kartenmittelpunkts](/schnellstart/einrichtung?id=Übersichtskarten) als **Float-Wert** zwischen -180 bis 180, z. B. *6.7854410* \*) |
 | | `zoom` (Initial-Zoomstufe der Karte als **Ganzzahl** zwischen 8 und 18 \*) |
 
 \* Mittelpunkt und Zoom der Karte werden normalerweise™ anhand der Koordinaten der enthaltenen Standortmarker automatisch ermittelt.

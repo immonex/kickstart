@@ -5,6 +5,7 @@ import Vue from 'vue'
 import PropertyLocationOpenLayersMap from './components/PropertyLocationOpenLayersMap.vue'
 import PropertyLocationGoogleMap from './components/PropertyLocationGoogleMap.vue'
 import PropertyLocationGoogleEmbedMap from './components/PropertyLocationGoogleEmbedMap.vue'
+import EmbedConsentRequest from './components/EmbedConsentRequest.vue'
 
 const $ = jQuery
 
@@ -15,7 +16,8 @@ function initPropertyDetailInstances() {
 			components: {
 				'inx-property-location-open-layers-map': PropertyLocationOpenLayersMap,
 				'inx-property-location-google-map': PropertyLocationGoogleMap,
-				'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap
+				'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap,
+				'inx-embed-consent-request': EmbedConsentRequest
 			}
 		})
 	} else {
@@ -27,7 +29,8 @@ function initPropertyDetailInstances() {
 				components: {
 					'inx-property-location-open-layers-map': PropertyLocationOpenLayersMap,
 					'inx-property-location-google-map': PropertyLocationGoogleMap,
-					'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap
+					'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap,
+					'inx-embed-consent-request': EmbedConsentRequest
 				}
 			})
 		})

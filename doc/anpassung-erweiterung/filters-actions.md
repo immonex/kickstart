@@ -40,6 +40,12 @@
 - [inx_property_detail_element_output](filter-inx-property-detail-element-output) (Anpassung der Ausgabe einzelner Detail-Elemente)
 - [inx_forward_to_list_view_url](filter-inx-forward-to-list-view-url) (URL der Listen-Weiterleitung beim direkten Aufruf der Detailseite)
 
+### Benutzereinwilligung
+
+- [inx_user_consent_contents](filter-inx-user-consent-contents) (Inhalte aller Benutzereinwilligungs-Abfragen)
+- [inx_get_user_consent_content](filter-inx-get-user-consent-content) (Inhalte eines bestimmten Nutzereinwilligungstyps bzw. Fallback-Angaben)
+- [inx_user_consent_default_button_text](filter-inx-user-consent-default-button-text) (Standardtext für Bestätigungsbuttons von Benutzereinwilligungen)
+
 ### Rendering / Templates
 
 #### Allgemein

@@ -275,8 +275,8 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | | *submit*: Suchen/Absenden-Button |
 | | *reset*: Zurücksetzen des Formulars |
 | | *extended-search-toggle*: erweiterte Suche ein-/ausblenden |
-| | *photon-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Photon (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#karten-amp-umkreissuche) ausgewählt)
-| | *google-places-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Goople-Places-API (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#karten-amp-umkreissuche) ausgewählt)
+| | *photon-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Photon (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#umkreissuche) ausgewählt)
+| | *google-places-autocomplete*: Ortsauswahl für Umkreissuche, Autovervollständigung via Goople-Places-API (sofern in den [Plugin-Optionen](/schnellstart/einrichtung#umkreissuche) ausgewählt)
 | `subtype` (string) | Subtyp des Elements |
 | | *date*: Datumsauswahl (Datepicker) bei Elementen des Typs *text* |
 | `key` (string) | Name des **Custom Fields** oder der **Taxonomie**, auf den sich die Suchauswahl/-eingabe bezieht |
