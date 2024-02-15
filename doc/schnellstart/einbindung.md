@@ -205,6 +205,7 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` (allgemein) oder `
 
 | Parameter (Key) | Beschreibung / Werte |
 | --------------- | -------------------- |
+| `inx-search-title-desc` | Schlüsselwortsuche in Titeln und Beschreibungstexten – analog zum WP-Suchparameter `s` (nur für Sonderfälle, im Regelfall wird hierfür die erweiterte Variante `inx-search-description` verwendet) |
 | `inx-search-description` | Schlüsselwortsuche in Titeln, Beschreibungstexten und weiteren Feldern (z. B. Objekt-ID) |
 | `inx-search-type-of-use` | Nutzungsart (Term-Slugs der Taxonomie [inx_type_of_use](/beitragsarten-taxonomien)) |
 | `inx-search-property-type` | Objektart (Term-Slugs der Taxonomie [inx_property_type](/beitragsarten-taxonomien)) |

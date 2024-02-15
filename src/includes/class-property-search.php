@@ -56,6 +56,8 @@ class Property_Search {
 		$this->utils  = $utils;
 
 		$this->api = new API( $config, $utils );
+
+		add_filter( 'inx_required_property_custom_field_defaults', array( $this, 'add_fulltext_search_fields_to_required_cf' ) );
 	} // __construct
 
 	/**
@@ -631,13 +633,15 @@ class Property_Search {
 
 	/**
 	 * Create and return a name list of custom fields to be browsed on
-	 * full-text searches.
+	 * full-text searches (also used as filter callback).
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string[] $fields Empty array (callback usage).
+	 *
 	 * @return string[] Custom field names.
 	 */
-	public function get_fulltext_search_fields() {
+	public function get_fulltext_search_fields( $fields = array() ) {
 		$prefix = '_' . $this->config['plugin_prefix'];
 
 		$fields = array(
@@ -656,6 +660,26 @@ class Property_Search {
 	} // get_fulltext_search_fields
 
 	/**
+	 * Add fulltext search fields to the list of required custom fields.
+	 *
+	 * @since 1.9.1-beta
+	 *
+	 * @param mixed[] $defaults Required custom field default values.
+	 *
+	 * @return mixed[] Extended defaults.
+	 */
+	public function add_fulltext_search_fields_to_required_cf( $defaults ) {
+		$ft_fields         = $this->get_fulltext_search_fields();
+		$ft_field_defaults = array();
+
+		foreach ( $ft_fields as $field ) {
+			$ft_field_defaults[ $field ] = '';
+		}
+
+		return array_merge( $defaults, $ft_field_defaults );
+	} // add_fulltext_search_fields_to_required_cf
+
+	/**
 	 * Create and return an array of available search form elements including
 	 * the specific configuration attributes.
 	 *
@@ -670,6 +694,19 @@ class Property_Search {
 	 */
 	public function get_search_form_elements( $enabled_only = false, $always_include_default_elements = false, $suppress_filters = false, $rendering_atts = array() ) {
 		$all_elements = array(
+			'title-desc'               => array(
+				'enabled'     => true,
+				'hidden'      => true,
+				'extended'    => false,
+				'type'        => 'text',
+				'key'         => 's',
+				'compare'     => 'LIKE',
+				'numeric'     => false,
+				'label'       => '',
+				'placeholder' => __( 'Keyword', 'immonex-kickstart' ),
+				'class'       => '',
+				'order'       => 5,
+			),
 			'description'              => array(
 				'enabled'     => true,
 				'hidden'      => false,
@@ -1071,6 +1108,10 @@ class Property_Search {
 		$meta_query      = array( 'relation' => 'AND' );
 
 		foreach ( $form_elements as $id => $element ) {
+			if ( 's' === $element['key'] ) {
+				continue;
+			}
+
 			$var_name = $prefix . 'search-' . $id;
 			if ( empty( $params[ $var_name ] ) ) {
 				continue;
@@ -1175,17 +1216,68 @@ class Property_Search {
 						$fulltext_search_fields = $this->get_fulltext_search_fields();
 
 						if ( count( $fulltext_search_fields ) > 0 ) {
-							$fulltext_fields_subquery = array( 'relation' => 'OR' );
-							$temp_value_array         = is_array( $value ) ? $value : array( $value );
+							if ( is_string( $value ) ) {
+								$value = explode( ' ', $value );
+							}
 
-							foreach ( $fulltext_search_fields as $meta_key ) {
-								foreach ( $temp_value_array as $temp_value ) {
-									$fulltext_fields_subquery[] = array(
+							$temp_value_array = is_array( $value ) ? $value : array( $value );
+							$fulltext_queries = array(
+								'include' => array(),
+								'exclude' => array(),
+							);
+
+							foreach ( $temp_value_array as $temp_value ) {
+								$temp_value = trim( (string) $temp_value );
+								if ( strlen( $temp_value ) < 2 ) {
+									continue;
+								}
+
+								if ( '-' === $temp_value[0] ) {
+									$temp_value    = substr( $temp_value, 1 );
+									$query_type    = 'exclude';
+									$query_compare = 'NOT LIKE';
+								} else {
+									$query_type    = 'include';
+									$query_compare = 'LIKE';
+								}
+
+								foreach ( $fulltext_search_fields as $i => $meta_key ) {
+									$fulltext_queries[ $query_type ][] = array(
 										'key'     => $meta_key,
 										'value'   => $temp_value,
-										'compare' => 'LIKE',
+										'compare' => $query_compare,
 									);
 								}
+							}
+
+							if (
+								! empty( $fulltext_queries['include'] )
+								&& empty( $fulltext_queries['exclude'] )
+							) {
+								$fulltext_fields_subquery = array_merge(
+									array( 'relation' => 'OR' ),
+									$fulltext_queries['include']
+								);
+							} elseif (
+								! empty( $fulltext_queries['exclude'] )
+								&& empty( $fulltext_queries['include'] )
+							) {
+								$fulltext_fields_subquery = array_merge(
+									array( 'relation' => 'AND' ),
+									$fulltext_queries['exclude']
+								);
+							} else {
+								$fulltext_fields_subquery = array(
+									'relation' => 'AND',
+									array_merge(
+										array( 'relation' => 'OR' ),
+										$fulltext_queries['include']
+									),
+									array_merge(
+										array( 'relation' => 'AND' ),
+										$fulltext_queries['exclude']
+									),
+								);
 							}
 
 							$meta_query[] = $fulltext_fields_subquery;
@@ -1200,8 +1292,10 @@ class Property_Search {
 								'compare' => 'BETWEEN',
 							);
 						} elseif ( is_array( $value ) && 4 === count( $value ) ) {
-							// Number range including initial min/max values given
-							// (ignore if values match initial values).
+							/**
+							 * Number range including initial min/max values given
+							 * (ignore if values match initial values).
+							 */
 							if (
 								$value[0] !== $value[2] ||
 								$value[1] !== $value[3]
@@ -1244,7 +1338,7 @@ class Property_Search {
 			$meta_query = array();
 		}
 
-		return apply_filters(
+		$queries = apply_filters(
 			'inx_search_tax_and_meta_queries',
 			array(
 				'tax_query'  => count( $tax_query ) > 1 ? $tax_query : false,
@@ -1254,6 +1348,8 @@ class Property_Search {
 			$params,
 			$prefix
 		);
+
+		return $queries;
 	} // get_tax_and_meta_queries
 
 	/**

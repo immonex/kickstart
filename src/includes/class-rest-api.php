@@ -143,6 +143,10 @@ class REST_API {
 			'fields' => 'count' === $response_format ? 'ids' : 'all',
 		);
 
+		if ( ! empty( $search_query_vars[ "{$prefix}search-title-desc" ] ) ) {
+			$args['s'] = $search_query_vars[ "{$prefix}search-title-desc" ];
+		}
+
 		if ( ! empty( $search_query_vars[ $prefix . 'author' ] ) ) {
 			$author_query                  = $property_search->get_author_query( $search_query_vars[ "{$prefix}author" ] );
 			$args[ $author_query['type'] ] = $author_query['user_ids'];

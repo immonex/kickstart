@@ -17,7 +17,7 @@ $inx_skin_placeholder                   = ! empty( $template_data['element']['pl
 $inx_skin_type                          = ! empty( $template_data['element']['subtype'] ) ? $template_data['element']['subtype'] : '';
 
 if ( ! $inx_skin_type ) {
-	if ( 'inx-search-description' === $template_data['element_id'] ) {
+	if ( in_array( $template_data['element_id'], array( 'inx-search-description', 'inx-search-title-desc' ), true ) ) {
 		$inx_skin_type = 'search';
 	} elseif ( ! empty( $template_data['element']['numeric'] ) ) {
 		$inx_skin_type = 'number';

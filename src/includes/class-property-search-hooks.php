@@ -150,6 +150,10 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			}
 		}
 
+		if ( ! empty( $search_query_vars[ "{$prefix}search-title-desc" ] ) ) {
+			$query->set( 's', $search_query_vars[ "{$prefix}search-title-desc" ] );
+		}
+
 		$tax_and_meta_queries = $this->property_search->get_tax_and_meta_queries( $search_query_vars );
 
 		if ( $tax_and_meta_queries['tax_query'] ) {

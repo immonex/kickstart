@@ -109,6 +109,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.1 =
+* Release date: 2024-02-15
+* Extended fulltext search possibilities.
+* Added search element (inx-)title-desc for querying regular property title and description fields (special cases).
+* Updated dependencies.
+
 = 1.9.0 =
 * Release date: 2024-01-22
 * Added user consent options for embedded video and virtual tour players.
@@ -126,23 +132,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed search form price range slider rounding issue.
 * Disabled automatic detail to list view redirects when Divi Builder is active.
 * Updated dependencies.
-
-= 1.8.0 =
-* Release date: 2023-09-22
-* Added option for default number of properties per page in list views.
-* Added option for disabling the "Ken Burns Effect" in property detail views.
-* Added 8 new action hooks for inserting contents during output (default skin).
-* Added action hook inx_rest_set_query_language.
-* Added filter inx_search_form_debounce_delay.
-* Reworked excerpt generation.
-* Reworked area and price min/max determination after OpenImmo imports.
-* Reworked/Extended property search form element rendering and JS (i.a. improved dynamic list/map updates).
-* Reworked Photon/OSM based location autocomplete.
-* Reworked default skin CSS/JS folder structure and moved CSS of third-party components to plugin core.
-* Fixed multilingual property query on dynamic list view updates.
-* Fixed a minor price range search form element bug.
-* Improved cache busting of lazy-loaded JS files.
-* Improved PHP 8.2 and WordPress 6.3/6.4 compatibility.
-* Updated external dependencies.
 
 See changelog.txt for the complete version history.

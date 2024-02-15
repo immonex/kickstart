@@ -12,6 +12,19 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 
 ```php
 [
+	'title-desc' => [
+		'enabled' => true,
+		'hidden' => true,
+		'extended' => false,
+		'type' => 'text',
+		'key' => 's',
+		'compare' => 'LIKE',
+		'numeric' => false,
+		'label' => '',
+		'placeholder' => __( 'Keyword', 'immonex-kickstart' ),
+		'class' => '',
+		'order' => 5
+	],
 	'description' => [
 		'enabled' => true,
 		'hidden' => false,

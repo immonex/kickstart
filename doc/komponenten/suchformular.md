@@ -39,6 +39,7 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 
 | Key | Beschreibung |
 | --- | ------------ |
+| `title-desc` | Textfeld zur Suche nach Schlüsselwörtern in den *regulären* Titel- und Beschreibungsfeldern der [Immobilien-Beiträge](/beitragsarten-taxonomien) (nur für Sonderfälle, im Formular wird hierfür standardmäßig `description` verwendet) |
 | `description` (1) | Textfeld zur Suche nach Schlüsselwörtern in Objekttiteln, Beschreibungstexten und weiteren Feldern (z. B. Objektnummer) |
 | `type-of-use` | Dropdown-Einzelauswahl der **Nutzungsart** (Begriff bzw. *Term* der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) |
 | `property-type` (2) | Dropdown-Einzelauswahl der **Objektart** (Term der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) |
@@ -101,7 +102,7 @@ Formular mit Ausstattungsmerkmalen im primären und Vermarktungs-/Nutzungsarten 
 
 Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 optional möglich, auch die Inhalte der [Immobilienlisten](liste) und/oder [Standortkarten](karte), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden:
 
-![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.png)
+![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.gif)
 
 Alternativ kann die dynamische Aktualisierung mit dem Shortcode-Attribut `dynamic-update` aber auch auf einzelne Seiten oder spezifische Komponenten beschränkt werden. Als Attributwert werden hierbei entweder die **HTML-DOM-IDs** der betr. Container-Elemente (einzeln bzw. als kommagetrennte Liste) oder *all* respektive *1* für alle Kickstart-Komponenten der gleichen **Seite** angegeben. (IDs zusätzlicher Elemente für die Seitennavigation oder die Filterung/Sortierung der Immobilienlisten müssen hier **nicht** aufgeführt werden, da diese automatisch mit aktualisiert werden.)
 

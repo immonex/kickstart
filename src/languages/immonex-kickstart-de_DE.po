@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/immonex-kickstart\n"
-"POT-Creation-Date: 2024-01-21 14:24:13+00:00\n"
-"PO-Revision-Date: 2024-01-21 15:28+0100\n"
+"POT-Creation-Date: 2024-02-15 13:46:18+00:00\n"
+"PO-Revision-Date: 2024-02-15 14:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -234,7 +234,7 @@ msgstr ""
 "(OpenStreetMap oder Google) sowie eine Google-Embed-API-Version zur "
 "Darstellung/Hervorhebung des Orts bzw. Stadtteils."
 
-#: includes/class-kickstart.php:753 includes/class-property-search.php:862
+#: includes/class-kickstart.php:753 includes/class-property-search.php:899
 msgid "Distance Search"
 msgstr "Umkreissuche"
 
@@ -711,7 +711,7 @@ msgstr ""
 "<strong>immobilien</strong>). Falls leer, wird <em>inx_property</em> als "
 "Basis-Slug verwendet."
 
-#: includes/class-kickstart.php:1170 includes/class-property-search.php:743
+#: includes/class-kickstart.php:1170 includes/class-property-search.php:780
 msgid "Locality"
 msgstr "Ort"
 
@@ -735,7 +735,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/nutzungsart</strong>, "
 "<em>inx_type_of_use</em> falls leer"
 
-#: includes/class-kickstart.php:1188 includes/class-property-search.php:709
+#: includes/class-kickstart.php:1188 includes/class-property-search.php:746
 msgid "Property Type"
 msgstr "Objektart"
 
@@ -747,7 +747,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/objektart</strong>, "
 "<em>inx_property_type</em> falls leer"
 
-#: includes/class-kickstart.php:1197 includes/class-property-search.php:726
+#: includes/class-kickstart.php:1197 includes/class-property-search.php:763
 msgid "Marketing Type"
 msgstr "Vermarktungsart"
 
@@ -781,7 +781,7 @@ msgstr ""
 "Standardvorgabe <strong>immobilien/label</strong>, <em>inx_label</em> falls "
 "leer"
 
-#: includes/class-kickstart.php:1224 includes/class-property-search.php:758
+#: includes/class-kickstart.php:1224 includes/class-property-search.php:795
 msgid "Project"
 msgstr "Projekt"
 
@@ -803,7 +803,7 @@ msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
-#: includes/class-property-search.php:901 includes/class-property.php:507
+#: includes/class-property-search.php:938 includes/class-property.php:507
 #: includes/class-property.php:941
 msgid "Features"
 msgstr "Ausstattung"
@@ -1121,92 +1121,96 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-search.php:682
+#: includes/class-property-search.php:706
+msgid "Keyword"
+msgstr "Schlüsselwort"
+
+#: includes/class-property-search.php:719
 msgid "Keyword or Property ID"
 msgstr "Schlüsselwort oder Objektnr."
 
-#: includes/class-property-search.php:694
+#: includes/class-property-search.php:731
 msgid "Type Of Use"
 msgstr "Nutzungsart"
 
-#: includes/class-property-search.php:696 includes/class-wp-bootstrap.php:127
+#: includes/class-property-search.php:733 includes/class-wp-bootstrap.php:127
 msgid "All Types Of Use"
 msgstr "Alle Nutzungsarten"
 
-#: includes/class-property-search.php:712 includes/class-wp-bootstrap.php:153
+#: includes/class-property-search.php:749 includes/class-wp-bootstrap.php:153
 msgid "All Property Types"
 msgstr "Alle Objektarten"
 
-#: includes/class-property-search.php:729
+#: includes/class-property-search.php:766
 msgid "Sold / Rented"
 msgstr "Verkauft / Vermietet"
 
-#: includes/class-property-search.php:730
+#: includes/class-property-search.php:767
 msgid "For Sale / For Rent"
 msgstr "Zu Verkaufen / Zu Vermieten"
 
-#: includes/class-property-search.php:745
+#: includes/class-property-search.php:782
 msgid "All Localities"
 msgstr "Alle Orte"
 
-#: includes/class-property-search.php:759 includes/class-wp-bootstrap.php:205
+#: includes/class-property-search.php:796 includes/class-wp-bootstrap.php:205
 msgid "All Projects"
 msgstr "Alle Projekte"
 
-#: includes/class-property-search.php:775
-#: includes/class-property-search.php:793
+#: includes/class-property-search.php:812
+#: includes/class-property-search.php:830
 msgid "not specified"
 msgstr "keine Angabe"
 
-#: includes/class-property-search.php:779
+#: includes/class-property-search.php:816
 msgid "Min. Rooms"
 msgstr "Zimmer (min)"
 
-#: includes/class-property-search.php:797
+#: includes/class-property-search.php:834
 msgid "Min. Living Area"
 msgstr "Wohnfläche (min)"
 
-#: includes/class-property-search.php:811
+#: includes/class-property-search.php:848
 msgid "unlimited"
 msgstr "unbegrenzt"
 
-#: includes/class-property-search.php:814
+#: includes/class-property-search.php:851
 msgid "Price Range"
 msgstr "Preisrahmen"
 
-#: includes/class-property-search.php:826
+#: includes/class-property-search.php:863
 msgid "Show"
 msgstr "Anzeigen"
 
-#: includes/class-property-search.php:838
+#: includes/class-property-search.php:875
 msgid "Reset Search Form"
 msgstr "Suchformular zurücksetzen"
 
-#: includes/class-property-search.php:850
+#: includes/class-property-search.php:887
 msgid "Extended and Distance Search"
 msgstr "Erweitert / Umkreissuche"
 
-#: includes/class-property-search.php:863
+#: includes/class-property-search.php:900
 msgid "Locality Name (Distance Search)"
 msgstr "Ort oder Ortsteil (Umkreissuche)"
 
-#: includes/class-property-search.php:864
+#: includes/class-property-search.php:901
 msgid "Type to search..."
 msgstr "Tippen zum Suchen…"
 
-#: includes/class-property-search.php:865
+#: includes/class-property-search.php:902
 msgid "No matching localities found."
 msgstr "Keine passenden Orte gefunden."
 
-#: includes/class-property-search.php:880
+#: includes/class-property-search.php:917
 msgid "Distance Search Radius"
 msgstr "Radius der Umkreissuche"
 
-#: includes/class-property-search.php:888
+#: includes/class-property-search.php:925
 msgid "Radius (km)"
 msgstr "Umkreis (km)"
 
-#: includes/class-property-search.php:913
+#: includes/class-property-search.php:950
 msgid "Labels"
 msgstr "Labels"
 
@@ -2388,6 +2392,9 @@ msgstr "inveris OHG / immonex"
 #. Author URI of the plugin/theme
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
+
+#~ msgid "Search Property Titles and Descriptions..."
+#~ msgstr "In Immobilientiteln und -beschreibungen suchen..."
 
 #~ msgid ""
 #~ "Activate this option if the seller commission (inner commission) should "

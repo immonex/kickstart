@@ -39,6 +39,7 @@ Die Attributliste enthält neben den geo- bzw. kartenspezifischen Angaben (Breit
 	'inx-agency' => '',
 	'inx-agent' => '',
 	'inx-primary-agent' => '',
+	'inx-search-title-desc' => '',
 	'inx-search-description' => '',
 	'inx-search-type-of-use' => '',
 	'inx-search-property-type' => '',
