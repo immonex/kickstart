@@ -265,7 +265,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			'template'            => Property_List::DEFAULT_TEMPLATE,
 			'pagination_template' => Property_List::DEFAULT_PAGINATION_TEMPLATE,
 			'disable_links'       => '',
-			'no_results_text'     => false,
+			'no_results_text'     => '-',
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

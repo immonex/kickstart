@@ -137,15 +137,12 @@ ul.inx-single-property__tab-nav.uk-tab {
 
 .inx-single-property__video-wrap {
 	position: relative;
+	aspect-ratio: 16 / 9;
 
 	iframe {
 		position: absolute;
 		width: 100%;
 		height: 100%;
-	}
-
-	@media screen and (min-width: $screen-s) {
-		min-height: 24em;
 	}
 }
 

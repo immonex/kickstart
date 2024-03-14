@@ -38,6 +38,10 @@ if ( $inx_skin_item_count > 0 ) :
 			);
 
 			foreach ( $template_data['file_attachments'] as $inx_skin_attachment ) :
+				if ( empty( $inx_skin_attachment ) ) {
+					continue;
+				}
+
 				if ( in_array( $inx_skin_attachment['subtype'], $inx_skin_attachment_types, true ) ) {
 					// Attachment is a document.
 					$inx_skin_icon = 'copy';

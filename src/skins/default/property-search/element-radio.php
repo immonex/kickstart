@@ -23,21 +23,25 @@ $inx_skin_show_label                    = true;
 		<?php
 		if ( ! empty( $template_data['element']['options'] ) ) :
 			foreach ( $template_data['element']['options'] as $inx_skin_key => $inx_skin_value ) :
-				$inx_skin_checked = $inx_skin_key === $template_data['element_value'];
+				$inx_skin_checked  = $inx_skin_key === $template_data['element_value'];
+				$inx_skin_excluded = preg_match( '/\(X (.*?)\)/', $inx_skin_value, $inx_skin_matches );
+				if ( $inx_skin_excluded ) {
+					$inx_skin_value = $inx_skin_matches[1];
+				}
 				?>
 		<div class="inx-form-element__option uk-margin-right">
 			<input type="radio"
 				id="<?php echo esc_attr( $inx_skin_search_main_element_id_prefix . $template_data['element_id'] . '_' . $inx_skin_key ); ?>"
 				name="<?php echo $template_data['element_id']; ?>"
 				value="<?php echo esc_attr( $inx_skin_key ); ?>"
-				class="inx-radio uk-radio"
+				class="inx-radio uk-radio<?php echo $inx_skin_excluded ? ' inx-radio--is-excluded' : ''; ?>"
 				<?php
 				if ( $inx_skin_checked ) {
 					echo ' checked';}
 				?>
 			>
 
-			<label for="<?php echo esc_attr( $template_data['element_id'] . '_' . $inx_skin_key ); ?>" class="inx-label inx-label--radio"><?php echo esc_html( $inx_skin_value ); ?></label>
+			<label for="<?php echo esc_attr( $template_data['element_id'] . '_' . $inx_skin_key ); ?>" class="inx-label inx-label--radio<?php echo $inx_skin_excluded ? ' inx-label--is-excluded' : ''; ?>"><?php echo esc_html( $inx_skin_value ); ?></label>
 		</div>
 				<?php
 				endforeach;

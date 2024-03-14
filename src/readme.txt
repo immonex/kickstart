@@ -109,10 +109,17 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.9.1 =
-* Release date: 2024-02-15
-* Extended fulltext search possibilities.
+= 1.9.9-beta =
+* Release date: 2024-03-13
 * Added search element (inx-)title-desc for querying regular property title and description fields (special cases).
+* Added ability to exclude properties from lists based on taxonomy terms.
+* Added support for PDF files in floor plan and energy pass galleries.
+* Extended fulltext search possibilities.
+* Improved gallery navigation arrow display (especially on small screens and touch devices).
+* Improved search form range slider value display.
+* Reworked application of inx_search_form_primary_price_min_max_values filters.
+* Fixed a warning related to manually entered test data.
+* Fixed several minor gallery display issues.
 * Updated dependencies.
 
 = 1.9.0 =

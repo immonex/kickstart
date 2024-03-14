@@ -141,7 +141,7 @@ if ( $inx_skin_media_count > 0 ) :
 		}
 
 		if ( $inx_skin_image[2] > INX_SKIN_MAX_IMAGE_HEIGHT ) {
-			$inx_skin_image[1] = $inx_skin_image[1] * INX_SKIN_MAX_IMAGE_HEIGHT / $inx_skin_image[2];
+			$inx_skin_image[1] = (int) $inx_skin_image[1] * INX_SKIN_MAX_IMAGE_HEIGHT / $inx_skin_image[2];
 			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
 		}
 
@@ -156,14 +156,15 @@ if ( $inx_skin_media_count > 0 ) :
 
 		if ( $inx_skin_image[1] / $inx_skin_image[2] < $inx_skin_current_ratio[0] / $inx_skin_current_ratio[1] ) {
 			$inx_skin_current_ratio = array(
-				$inx_skin_image[1], // Image width.
-				$inx_skin_image[2], // Image height.
+				(int) $inx_skin_image[1], // Image width.
+				(int) $inx_skin_image[2], // Image height.
 			);
 		}
 
 		$inx_skin_gallery_images[] = array(
+			'is_pdf'           => 'application/pdf' === get_post_mime_type( $inx_skin_id ),
 			'full'             => wp_get_attachment_image( $inx_skin_id, 'full' ),
-			'full_src'         => $inx_skin_image[0],
+			'full_src'         => wp_get_attachment_url( $inx_skin_id ),
 			'thumbnail'        => wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
 			'caption'          => wp_get_attachment_caption( $inx_skin_id ),
 			'ken_burns_effect' => $inx_skin_image_enable_ken_burns_effect,
@@ -193,7 +194,7 @@ if ( $inx_skin_media_count > 0 ) :
 						?>
 						<li class="noHover">
 							<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
-							<a href="<?php echo $inx_skin_img['full_src']; ?>" rel="lightbox">
+							<a href="<?php echo $inx_skin_img['full_src']; ?>" <?php echo $inx_skin_img['is_pdf'] ? 'target="_blank"' : 'rel="lightbox"'; ?>>
 							<?php endif; ?>
 								<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
 								<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
@@ -212,6 +213,10 @@ if ( $inx_skin_media_count > 0 ) :
 							<div class="inx-gallery__image-caption uk-position-bottom uk-overlay uk-overlay-default uk-padding-small uk-text-center">
 								<?php echo $inx_skin_img['caption']; ?>
 							</div>
+							<?php endif; ?>
+
+							<?php if ( $inx_skin_img['is_pdf'] ) : ?>
+							<a href="<?php echo $inx_skin_img['full_src']; ?>" target="_blank" class="uk-badge inx-badge inx-badge--size--m inx-badge--type--pdf uk-position-top-right uk-position-small">PDF</a>
 							<?php endif; ?>
 						</li>
 						<?php
@@ -270,13 +275,23 @@ if ( $inx_skin_media_count > 0 ) :
 				<?php endif; ?>
 			</ul>
 
-			<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover" uk-slideshow-item="previous">&#10094;</a>
-			<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slideshow-item="next">&#10095;</a>
+			<div class="uk-visible@s uk-hidden-touch">
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover uk-visible" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slideshow-item="next">&#10095;</a>
+			</div>
+			<div class="uk-hidden@s uk-hidden-touch">
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+			</div>
+			<div class="uk-hidden-notouch">
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+			</div>
 		</div>
 
 		<?php if ( $inx_skin_media_count > 1 ) : ?>
 		<div class="inx-thumbnail-nav">
-			<div class="inx-thumbnail-nav__flexible uk-visible@s<?php echo $inx_skin_fixed_thumb_nav ? ' uk-margin-right' : ''; ?>" uk-slider="finite: true">
+			<div class="inx-thumbnail-nav__flexible uk-visible@s<?php echo $inx_skin_fixed_thumb_nav ? ' uk-margin-right' : ''; ?>" uk-slider="active: all; finite: true">
 				<div class="uk-position-relative uk-visible-toggle">
 					<ul class="inx-thumbnail-nav__items uk-slider-items">
 						<?php
@@ -290,8 +305,18 @@ if ( $inx_skin_media_count > 0 ) :
 						?>
 					</ul>
 
-					<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover" uk-slider-item="previous">&#10094; </a>
-					<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slider-item="next"> &#10095;</a>
+					<div class="uk-visible@s uk-hidden-touch">
+						<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover" uk-slider-item="previous">&#10094; </a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slider-item="next"> &#10095;</a>
+					</div>
+					<div class="uk-hidden@s uk-hidden-touch">
+						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+					</div>
+					<div class="uk-hidden-notouch">
+						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+					</div>
 				</div>
 			</div>
 

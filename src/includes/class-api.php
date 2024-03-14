@@ -52,17 +52,25 @@ class API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param bool    $ignore_cache Omit fetching the related cached transient value
-	 *                              (optional, defaults to false).
-	 * @param int[]   $default_values Default ranges (selected min, selected max,
-	 *                                range min (sale), range max (sale),
-	 *                                range min (rent), range max (rent), optional).
-	 * @param mixed[] $force_values Force specific values (if !== false, optional).
+	 * @param bool         $ignore_cache Omit fetching the related cached transient value
+	 *                                   (optional, defaults to false).
+	 * @param int[]        $default_values Default ranges (selected min, selected max,
+	 *                                     range min (sale), range max (sale),
+	 *                                     range min (rent), range max (rent), optional).
+	 * @param bool|mixed[] $force_values Force specific values (if !== false, optional).
 	 *
 	 * @return int[] Selected min/max and range values.
 	 */
-	public function get_primary_price_min_max( $ignore_cache = false, $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = array( false, false, false, false, false, false ) ) {
+	public function get_primary_price_min_max( $ignore_cache = false, $default_values = array( 0, 500000, 0, 500000, 0, 500 ), $force_values = false ) {
 		global $wpdb;
+
+		$forced_values = $this->sanitize_forced_primary_price_min_max_values(
+			apply_filters( 'inx_search_form_primary_price_min_max_values', $force_values )
+		);
+
+		if ( $forced_values['complete'] ) {
+			return $forced_values['sanitized'];
+		}
 
 		$transient_key = $this->config['plugin_prefix'] . 'primary_price_min_max';
 		if ( ! $ignore_cache ) {
@@ -75,16 +83,12 @@ class API {
 		$field_prefix = '_' . $this->config['plugin_prefix'];
 		$min_max      = is_array( $default_values ) && 6 === count( $default_values ) ? $default_values : array( 0, 0, 0, 0, 0, 0 );
 
-		$force_values = apply_filters( 'inx_search_form_primary_price_min_max_values', $force_values );
+		$force_values = $forced_values['sanitized'];
 
-		if ( is_array( $force_values ) && count( $force_values ) > 0 ) {
-			foreach ( $force_values as $i => $value ) {
-				if ( false !== $value ) {
-					$min_max[ $i ] = $value;
-				}
+		foreach ( $force_values as $i => $value ) {
+			if ( false !== $value ) {
+				$min_max[ $i ] = $value;
 			}
-		} else {
-			$force_values = array( false, false, false, false );
 		}
 
 		$marketing_types = array(
@@ -473,5 +477,53 @@ class API {
 
 		return $coords;
 	} // get_all_property_coords
+
+	/**
+	 * Check and sanitize "forced" min/max values for property prices.
+	 *
+	 * @since 1.9.9-beta
+	 *
+	 * @param bool|mixed[] $force_values Force value array or false.
+	 *
+	 * @return mixed[] Array with two sub arrays: sanitized values and
+	 *                 complete flag (true for six numeric values).
+	 */
+	private function sanitize_forced_primary_price_min_max_values( $force_values ) {
+		if ( ! is_array( $force_values ) || empty( $force_values ) ) {
+			return array(
+				'sanitized' => array( false, false, false, false, false, false ),
+				'complete'  => false,
+			);
+		}
+
+		$sanitized = array();
+
+		for ( $i = 0; $i < 6; $i++ ) {
+			$sanitized[ $i ] = isset( $force_values[ $i ] )
+				&& is_numeric( $force_values[ $i ] )
+				&& (int) $force_values[ $i ] >= 0
+				? (int) $force_values[ $i ] : false;
+		}
+
+		for ( $i = 0; $i < 6; $i++ ) {
+			if ( 0 === $i % 2 && false !== $sanitized[ $i ] && false !== $sanitized[ $i + 1 ] ) {
+				$pair                = array( $sanitized[ $i ], $sanitized[ $i + 1 ] );
+				$sanitized[ $i ]     = min( $pair );
+				$sanitized[ $i + 1 ] = max( $pair );
+			}
+		}
+
+		if ( false === $sanitized[0] && false !== $sanitized[2] && false !== $sanitized[4] ) {
+			$sanitized[0] = min( $sanitized[2], $sanitized[4] );
+		}
+		if ( false === $sanitized[1] && false !== $sanitized[3] && false !== $sanitized[5] ) {
+			$sanitized[1] = max( $sanitized[3], $sanitized[5] );
+		}
+
+		return array(
+			'sanitized' => $sanitized,
+			'complete'  => ! in_array( false, $sanitized, true ),
+		);
+	} // sanitize_forced_primary_price_min_max_values
 
 } // API

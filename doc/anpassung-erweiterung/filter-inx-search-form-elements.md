@@ -351,4 +351,8 @@ function mysite_modify_search_form_elements( $elements ) {
 } // mysite_modify_search_form_elements
 ```
 
+### Siehe auch
+
+- Praxisbeispiel: [Typ der Taxonomie-Select-Elemente anpassen](/komponenten/suchformular?id=taxonomie-mehrfachauswahl)
+
 [](_backlink.md ':include')

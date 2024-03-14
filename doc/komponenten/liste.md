@@ -28,12 +28,19 @@ Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien
 
 ![Taxonomie-Term-Slugs](../assets/scst-tax-term-slugs.gif)
 
-Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (*Terms*) verwendet (einzeln oder mehrfach als kommagetrennte Liste).
+Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (*Terms*) verwendet, entweder einzeln oder in Form einer kommagetrennte Liste mehrerer Slugs.
+
+Mit einem `-` vor dem Slug können auch Immobilien **ausgeschlossen** werden, denen der betreffende Term zugeordnet ist.
+
+!> Ist neben der Listenansicht auch ein [Suchformular](suchformular) in der Seite enthalten, muss der Typ der zugehörigen Select-Elemente ggfls. per [Filterfunktion](suchformular?id=taxonomie-mehrfachauswahl) umgestellt werden, wenn bei bestimmten Taxonomien eine **Mehrfachauswahl** möglich sein soll.
 
 ##### Beispiele
 
 Nur Einfamilienhäuser (Kaufobjekte):\
 `[inx-property-list property-type="einfamilienhaus" marketing-type="zu-verkaufen"]`
+
+Alle Häuser außer Einfamilienhäuser:\
+`[inx-property-list property-type="haeuser, -einfamilienhaus"]`
 
 Neue Bungalows, Villen und Kioske:\
 `[inx-property-list property-type="bungalow, villa, kiosk" labels="neu"]`

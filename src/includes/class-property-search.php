@@ -487,6 +487,52 @@ class Property_Search {
 						}
 					}
 
+					if ( ! empty( $element['value'] ) ) {
+						if ( ! empty( $element['multiple'] ) ) {
+							$element['value'] = $this->utils['data']->maybe_convert_list_string( $value );
+						}
+						$values = is_array( $element['value'] ) ? $element['value'] : array( $element['value'] );
+
+						foreach ( $values as $value ) {
+							if ( ! is_string( $value ) || empty( $value ) || '-' !== $value[0] ) {
+								continue;
+							}
+
+							$real_option_key = substr( $value, 1 );
+							$option_pos      = array_search( $real_option_key, array_keys( $options ), true );
+							if ( false !== $option_pos ) {
+								$is_sub            = '–' === $options[ $real_option_key ] || '&ndash;' === substr( $options[ $real_option_key ], 0, 7 );
+								$remaining_options = array_slice( $options, $option_pos + 1, null, true );
+
+								if ( ! $is_sub && count( $remaining_options ) > 0 ) {
+									foreach ( $remaining_options as $key => $option_value ) {
+										if (
+											! empty( $option_value )
+											&& (
+												'–' === $option_value[0]
+												|| '&ndash;' === substr( $option_value, 0, 7 )
+											)
+										) {
+											array_shift( $remaining_options );
+										} else {
+											break;
+										}
+									}
+								}
+
+								$excluded_option_text = $is_sub ?
+									preg_replace( '/(–|&ndash;)/', '$1 (X ', $options[ $real_option_key ] ) . ')' :
+									'(X ' . $options[ $real_option_key ] . ')';
+
+								$options = array_merge(
+									array_slice( $options, 0, $option_pos, true ),
+									array( $value => $excluded_option_text ),
+									$remaining_options
+								);
+							}
+						}
+					}
+
 					$element['options'] = apply_filters( 'inx_search_form_element_tax_options', $options, $id, $element, $atts );
 			}
 		}
@@ -522,8 +568,11 @@ class Property_Search {
 			}
 		}
 
-		if ( is_array( $value ) && 1 === count( $value ) ) {
-			// Convert an array with a single element to a single value.
+		if ( empty( $element['multiple'] ) && is_array( $value ) && 1 === count( $value ) ) {
+			/**
+			 * Convert an array with a single element to a single value
+			 * (non-multiple elements only).
+			 */
 			$value = $value[0];
 		}
 
@@ -931,7 +980,7 @@ class Property_Search {
 				'enabled'  => true,
 				'hidden'   => false,
 				'extended' => true,
-				'type'     => 'tax-checkbox',
+				'type'     => 'tax-radio',
 				'key'      => $this->config['plugin_prefix'] . 'feature',
 				'compare'  => 'AND',
 				'numeric'  => false,
@@ -1183,29 +1232,43 @@ class Property_Search {
 				case 'google-places-autocomplete':
 					break;
 				case 'tax-select':
-					$operator = isset( $element['compare'] ) &&
-						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ), true ) ?
-						strtoupper( $element['compare'] ) : 'IN';
-
-					$tax_query[] = array(
-						'taxonomy' => $element['key'],
-						'field'    => 'slug',
-						'operator' => $operator,
-						'terms'    => is_array( $value ) ? $value : array( $value ),
-					);
-					break;
 				case 'tax-checkbox':
 				case 'tax-radio':
-					$operator = isset( $element['compare'] ) &&
+					$default_operator = 'tax-checkbox' === $element['type'] ? 'AND' : 'IN';
+					$operator         = isset( $element['compare'] ) &&
 						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ), true ) ?
-						strtoupper( $element['compare'] ) : 'AND';
+						strtoupper( $element['compare'] ) : $default_operator;
 
-					$tax_query[] = array(
-						'taxonomy' => $element['key'],
-						'field'    => 'slug',
-						'operator' => $operator,
-						'terms'    => is_array( $value ) ? $value : array( $value ),
-					);
+					$include_terms = array();
+					$exclude_terms = array();
+
+					$values = is_array( $value ) ? $value : array( $value );
+
+					foreach ( $values as $value ) {
+						if ( '-' === $value[0] ) {
+							$exclude_terms[] = substr( $value, 1 );
+						} else {
+							$include_terms[] = $value;
+						}
+					}
+
+					if ( ! empty( $include_terms ) ) {
+						$tax_query[] = array(
+							'taxonomy' => $element['key'],
+							'field'    => 'slug',
+							'operator' => $operator,
+							'terms'    => $include_terms,
+						);
+					}
+
+					if ( ! empty( $exclude_terms ) ) {
+						$tax_query[] = array(
+							'taxonomy' => $element['key'],
+							'field'    => 'slug',
+							'operator' => 'NOT IN',
+							'terms'    => $exclude_terms,
+						);
+					}
 					break;
 				default:
 					if (

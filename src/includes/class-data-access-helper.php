@@ -126,6 +126,7 @@ class Data_Access_Helper {
 			foreach ( $details as $title => $detail ) {
 				if ( is_array( $exclude ) && ! empty( $exclude ) ) {
 					$detail_mapping_source = '';
+
 					if ( ! empty( $detail['meta_json'] ) ) {
 						$detail_meta = json_decode( $detail['meta_json'], true );
 						if ( ! empty( $detail_meta['mapping_source'] ) ) {
@@ -142,7 +143,7 @@ class Data_Access_Helper {
 					}
 				}
 
-				$grouped_details[ $detail['group'] ? $detail['group'] : 'ungruppiert' ][] = array_merge(
+				$grouped_details[ ! empty( $detail['group'] ) ? $detail['group'] : 'ungruppiert' ][] = array_merge(
 					array( 'title' => $title ),
 					$detail
 				);
@@ -202,10 +203,7 @@ class Data_Access_Helper {
 		$items = array();
 
 		foreach ( $groups as $group ) {
-			if (
-				isset( $details[ $group ] ) &&
-				count( $details[ $group ] ) > 0
-			) {
+			if ( ! empty( $details[ $group ] ) ) {
 				foreach ( $details[ $group ] as $item_details ) {
 					$items[] = array_merge(
 						array(

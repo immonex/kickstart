@@ -84,7 +84,7 @@ class Property_List {
 			ARRAY_FILTER_USE_BOTH
 		);
 
-		if ( ! isset( $atts['no_results_text'] ) || false === $atts['no_results_text'] ) {
+		if ( ! isset( $atts['no_results_text'] ) || '-' === $atts['no_results_text'] ) {
 			$atts['no_results_text'] = $this->config['property_search_no_results_text'];
 		}
 

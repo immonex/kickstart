@@ -36,14 +36,19 @@ if ( ! empty( $template_data['element']['options'] ) ) :
 		} else {
 			$inx_skin_checked = false;
 		}
+
+		$inx_skin_excluded = preg_match( '/\(X (.*?)\)/', $inx_skin_value, $inx_skin_matches );
+		if ( $inx_skin_excluded ) {
+			$inx_skin_value = $inx_skin_matches[1];
+		}
 		?>
 		<div class="inx-form-element__option uk-margin-right">
-			<label class="inx-label inx-label--checkbox">
+			<label class="inx-label inx-label--checkbox<?php echo $inx_skin_excluded ? ' inx-label--is-excluded' : ''; ?>">
 				<input type="checkbox"
 					id="<?php echo esc_attr( $inx_skin_search_main_element_id_prefix . $template_data['element_id'] . '_' . $inx_skin_key ); ?>"
 					name="<?php echo $template_data['element_id']; ?>[]"
 					value="<?php echo esc_attr( $inx_skin_key ); ?>"
-					class="inx-checkbox uk-checkbox"
+					class="inx-checkbox uk-checkbox<?php echo $inx_skin_excluded ? ' inx-checkbox--is-excluded' : ''; ?>"
 					<?php echo $inx_skin_checked ? ' checked' : ''; ?>
 				>
 

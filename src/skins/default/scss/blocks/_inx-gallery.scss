@@ -1,13 +1,15 @@
 .inx-gallery__slidenav {
-	color: #e0e0e0;
+	color: #F0F0F0;
 	font-size: 5em;
 	font-weight: normal;
-	text-decoration: none;
-	text-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
+	text-decoration: none !important;
+	text-shadow: 0 0 2px #202020, 1px 2px 5px rgba(0, 0, 0, .85);
 
-	&:hover {
-		color: #fff;
-		text-decoration: none;
+	&:hover,
+	&:focus,
+	&:active {
+		color: #F0F0F0;
+		text-decoration: none !important;
 	}
 }
 

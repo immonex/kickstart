@@ -41,11 +41,11 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | --- | ------------ |
 | `title-desc` | Textfeld zur Suche nach Schlüsselwörtern in den *regulären* Titel- und Beschreibungsfeldern der [Immobilien-Beiträge](/beitragsarten-taxonomien) (nur für Sonderfälle, im Formular wird hierfür standardmäßig `description` verwendet) |
 | `description` (1) | Textfeld zur Suche nach Schlüsselwörtern in Objekttiteln, Beschreibungstexten und weiteren Feldern (z. B. Objektnummer) |
-| `type-of-use` | Dropdown-Einzelauswahl der **Nutzungsart** (Begriff bzw. *Term* der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) |
-| `property-type` (2) | Dropdown-Einzelauswahl der **Objektart** (Term der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) |
-| `marketing-type` (3) | Dropdown-Einzelauswahl der **Vermarktungsart** (Term der [Taxonomie inx_marketing_type](/beitragsarten-taxonomien)) |
-| `locality` (4) | Dropdown-Einzelauswahl des **Objekt-Standorts** - Ort/Stadt oder Orts-/Stadtteil (Term der [Taxonomie inx_location](/beitragsarten-taxonomien)) |
-| `project`* | Dropdown-Einzelauswahl eines **Projekts** ([Objektgruppe](/referenzen-status-flags#gruppierung), Term der [Taxonomie inx_project](/beitragsarten-taxonomien)) |
+| `type-of-use` | Dropdown-Einzelauswahl* der **Nutzungsart** (Begriff bzw. *Term* der [Taxonomie inx_type_of_use](/beitragsarten-taxonomien)) |
+| `property-type` (2) | Dropdown-Einzelauswahl* der **Objektart** (Term der [Taxonomie inx_property_type](/beitragsarten-taxonomien)) |
+| `marketing-type` (3) | Dropdown-Einzelauswahl* der **Vermarktungsart** (Term der [Taxonomie inx_marketing_type](/beitragsarten-taxonomien)) |
+| `locality` (4) | Dropdown-Einzelauswahl* des **Objekt-Standorts** - Ort/Stadt oder Orts-/Stadtteil (Term der [Taxonomie inx_location](/beitragsarten-taxonomien)) |
+| `project`** | Dropdown-Einzelauswahl* eines **Projekts** ([Objektgruppe](/referenzen-status-flags#gruppierung), Term der [Taxonomie inx_project](/beitragsarten-taxonomien)) |
 | `min-rooms` (5) | Auswahlslider für die minimale Zimmer-/Raumanzahl ([Custom Field \_inx_primary_rooms](/beitragsarten-taxonomien#custom-fields)) |
 | `min-area` (6) | Auswahlslider für die minimale Wohnfläche in m² ([Custom Field \_inx_living_area](/beitragsarten-taxonomien#custom-fields); Maximalwert wird anhand der vorhandenen Objekte automatisch ermittelt) |
 | `price-range` (7) | Auswahlslider für den Preisrahmen ([Custom Field \_inx_primary_price](/beitragsarten-taxonomien#custom-fields); Maximalpreis wird anhand der vorhandenen Objekte automatisch ermittelt) |
@@ -53,7 +53,9 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | `reset` (9) | Link zum Zurücksetzen des Formulars |
 | `toggle-extended` (10) | Link zum Aufklappen des Abschnitts der erweiterten Suche |
 
-\* Die Projektauswahl ist standardmäßig ausgeblendet und muss über das Attribut `elements` oder den Filter-Hook [inx_search_form_elements](/anpassung-erweiterung/filter-inx-search-form-elements) explizit eingeblendet werden.
+\* Soll eine **Mehrfachauswahl** von Terms bestimmter Taxonomien möglich sein, kann der Typ der entsprechenden Select-Elemente per [Filterfunktion](#taxonomie-mehrfachauswahl) angepasst werden (siehe unten).
+
+** Die Projektauswahl ist standardmäßig ausgeblendet und muss über das Attribut `elements` oder den Filter-Hook [inx_search_form_elements](/anpassung-erweiterung/filter-inx-search-form-elements) explizit eingeblendet werden.
 
 ##### Erweitert (aufklappbar)
 
@@ -63,6 +65,31 @@ Die folgenden Schlüssel können als Werte der Attribute `elements` und `exclude
 | `distance-search-radius` (12) | Dropdown-Auswahl des Radius für die Umkreissuche |
 | `features` (13) | Checkboxen zur Auswahl gewünschter Ausstattungsmerkmale (*Terms* der [Taxonomie inx_feature](/beitragsarten-taxonomien)) |
 | `labels` | Checkboxen zur Auswahl gewünschter Labels (*Terms* der [Taxonomie inx_label](/beitragsarten-taxonomien); **optional** - nur bei expliziter Einbindung per Attribut `elements`) |
+
+##### Taxonomie-Mehrfachauswahl
+
+In den meisten Fällen ist die Auswahl einzelner Taxonomie-Begriffe im Suchformular am sinnvollsten. Die Select-Elemente können aber bei Bedarf mit der folgenden Filterfunktion via Hook [inx_search_form_elements](/anpassung-erweiterung/filter-inx-search-form-elements) in **Mehrfachauswahl-Elemente** umgewandelt werden:
+
+```php
+/**
+ * [immonex Kickstart] Taxonomie-Auswahlelemente des Suchformulars von Einzel- auf
+ * Mehrfachauswahl umstellen.
+ */
+
+add_filter( 'inx_search_form_elements', 'mysite_adjust_property_search_form_tax_select_type' );
+
+function mysite_adjust_property_search_form_tax_select_type( $elements ) {
+	$elements['type-of-use']['multiple']    = true;
+	$elements['property-type']['multiple']  = true;
+	$elements['marketing-type']['multiple'] = true;
+	$elements['locality']['multiple']       = true;
+	$elements['project']['multiple']        = true;
+
+	return $elements;
+} // mysite_adjust_property_search_form_tax_select_type
+```
+
+Die Funktion kann entweder in der Datei `functions.php` des aktiven **Child-Themes** ergänzt oder per Code-Snippets-Plugin eingebunden werden.
 
 ## Umfang/Aufteilung
 

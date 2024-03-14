@@ -110,8 +110,8 @@ export default {
 
 			if (typeof this.currentValue === 'object') {
 				if ( this.currentValue.length === 2 ) {
-					const from = this.getFormattedValue(this.currentValue[0])
-					const to = this.getFormattedValue(this.currentValue[1])
+					const from = this.getFormattedValue(this.currentValue[0], false)
+					const to = this.getFormattedValue(this.currentValue[1], false)
 
 					return from + ' - ' + to
 				} else {
@@ -251,8 +251,8 @@ export default {
 
 			return values
 		},
-		getFormattedValue (value) {
-			if (value === 0 && this.replaceNull) return this.replaceNull
+		getFormattedValue (value, isSingleValue = true) {
+			if (isSingleValue && value === 0 && this.replaceNull) return this.replaceNull
 
 			let suffix = ''
 			let minDigits = 0
@@ -267,7 +267,7 @@ export default {
 				suffix = this.currency ? 'T' : 'Tsd. '
 			}
 
-			if (this.unit && !this.currency) suffix = suffix.concat(this.unit)
+			if (value > 0 && this.unit && !this.currency) suffix = suffix.concat(this.unit)
 
 			let args = {
 				style: this.currency ? 'currency' : 'decimal',

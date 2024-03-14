@@ -10,22 +10,21 @@
 
 .inx-thumbnail-nav__flexible {
 	flex: 1 1 auto;
+	max-width: 100%;
 }
 
 .inx-thumbnail-nav__item {
-	margin: .5em;
-}
-
-.inx-thumbnail-nav__item:first-child {
-	margin-left: 0;
+	margin-right: 5px;
 }
 
 .inx-thumbnail-nav__item:last-child {
-	padding-right: 13em;
+	margin-right: 0;
 }
 
-.inx-thumbnail-nav__item:not(.uk-active) {
-	opacity: .6;
+.inx-thumbnail-nav__items:not(.uk-transition) {
+	.inx-thumbnail-nav__item:not(.uk-active) {
+		opacity: .6;
+	}
 }
 
 .inx-thumbnail-nav__fixed {

@@ -2,4 +2,9 @@
 .inx-label--radio {
 	font-size: 1em;
 	display: inline;
+
+	&.inx-label--is-excluded {
+		text-decoration: line-through;
+		opacity: 0.5;
+	}
 }

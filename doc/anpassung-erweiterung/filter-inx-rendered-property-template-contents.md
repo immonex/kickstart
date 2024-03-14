@@ -47,7 +47,7 @@ function mysite_extend_property_detail_contents( $contents, $template, $template
 		$shares_info = wp_sprintf( '%d Geschäftsanteilen zu je 500,00 €', (int) $shares );
 
 		$contents .= wp_sprintf(
-			'<p>Voraussetzung für eine Mitgliedschaft: Zeichnung von %s.</p>'
+			'<p>Voraussetzung für eine Mitgliedschaft: Zeichnung von %s.</p>',
 			$shares_info
 		);
 	}

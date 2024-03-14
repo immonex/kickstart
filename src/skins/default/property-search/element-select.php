@@ -73,7 +73,17 @@ $inx_skin_empty_option_value            = ! empty( $template_data['element']['em
 					$inx_skin_selected = false;
 				}
 				?>
-		<option value="<?php echo esc_attr( $inx_skin_key ); ?>"<?php echo $inx_skin_selected ? ' selected' : ''; ?>><?php echo esc_html( $inx_skin_value ); ?></option>
+				<option
+					value="<?php echo esc_attr( $inx_skin_key ); ?>"
+					<?php if ( preg_match( '/\(X .*?\)/', $inx_skin_value ) ) : ?>
+					class="inx-form-element__option--is-excluded"
+					<?php endif; ?>
+					<?php if ( $inx_skin_selected ) : ?>
+					selected
+					<?php endif; ?>
+				>
+					<?php echo esc_html( $inx_skin_value ); ?>
+				</option>
 				<?php
 			endforeach;
 		endif;
