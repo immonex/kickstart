@@ -27,16 +27,25 @@ class Data_Access_Helper {
 	private $bootstrap_data;
 
 	/**
+	 * Helper/Utility objects
+	 *
+	 * @var object[]
+	 */
+	protected $utils;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $plugin_options Plugin options.
-	 * @param mixed[] $bootstrap_data Bootstrap data.
+	 * @param mixed[]  $plugin_options Plugin options.
+	 * @param mixed[]  $bootstrap_data Bootstrap data.
+	 * @param object[] $utils          Helper/Utility objects.
 	 */
-	public function __construct( $plugin_options, $bootstrap_data ) {
+	public function __construct( $plugin_options, $bootstrap_data, $utils ) {
 		$this->plugin_options = $plugin_options;
 		$this->bootstrap_data = $bootstrap_data;
+		$this->utils          = $utils;
 	} // __construct
 
 	/**
@@ -44,14 +53,14 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|bool $type "name" if the custom field name containing the
-	 *                          actual value is stored in another custom field
-	 *                          named as the following param.
+	 * @param string|bool $type        "name" if the custom field name containing the
+	 *                                 actual value is stored in another custom field
+	 *                                 named as the following param.
 	 * @param string      $key_or_name Custom field key (= field contains the actual
 	 *                                 value) or name (= field contains the "real"
 	 *                                 field name).
-	 * @param int|string  $post_id Related post ID.
-	 * @param bool        $value_only Return value only? (false by default).
+	 * @param int|string  $post_id     Related post ID.
+	 * @param bool        $value_only  Return value only? (false by default).
 	 *
 	 * @return mixed[]|string|int Array of field data or value only.
 	 */
@@ -158,9 +167,9 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[]     $details Full array of property details.
-	 * @param string      $name Name of item to retrieve.
-	 * @param string|bool $group Name of item group (optional).
+	 * @param mixed[]     $details    Full array of property details.
+	 * @param string      $name       Name of item to retrieve.
+	 * @param string|bool $group      Name of item group (optional).
 	 * @param bool        $value_only Return item value only? (false by default).
 	 *
 	 * @return mixed[]|bool Item data or value only, false if not found.
@@ -186,12 +195,13 @@ class Data_Access_Helper {
 	} // get_details_item
 
 	/**
-	 * Return a specific group of items out of a property details array.
+	 * Return all items of the specified groups out of a full property details
+	 * set as a flat array.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param mixed[]  $details Full array of property details.
-	 * @param string[] $groups List of item group names (optional).
+	 * @param string[] $groups  List of item group names (optional).
 	 *
 	 * @return mixed[] Group items.
 	 */
@@ -204,14 +214,7 @@ class Data_Access_Helper {
 
 		foreach ( $groups as $group ) {
 			if ( ! empty( $details[ $group ] ) ) {
-				foreach ( $details[ $group ] as $item_details ) {
-					$items[] = array_merge(
-						array(
-							'group' => $group,
-						),
-						$item_details
-					);
-				}
+				$items = array_merge( $items, $details[ $group ] );
 			}
 		}
 
@@ -219,46 +222,14 @@ class Data_Access_Helper {
 	} // get_group_items
 
 	/**
-	 * Check and (maybe) convert a comma-separated list string to an array.
-	 *
-	 * @since 1.1.3b
-	 *
-	 * @param string $list List string to check/convert.
-	 *
-	 * @return string[]|string Possibly converte.
-	 */
-	public function maybe_convert_list_string( $list ) {
-		if (
-			! is_string( $list ) ||
-			empty( $list )
-		) {
-			return $list;
-		}
-
-		if ( preg_match( '/^\(.*\)$/', $list ) ) {
-			// Convert lists (item 1, item 2, item 3...).
-			$list = array_map( 'trim', explode( ',', substr( $list, 1, -1 ) ) );
-		}
-
-		if ( is_string( $list ) ) {
-			// Convert comma-separated single values (numbers, slugs).
-			if ( preg_match( '/^([0-9a-zA-ZäöüÄÖÜß\-_\.]+,[ ]?){1,}([0-9a-zA-ZäöüÄÖÜß\-_\.]+)?$/', trim( $list ) ) ) {
-				$list = array_map( 'trim', explode( ',', trim( $list ) ) );
-			}
-		}
-
-		return $list;
-	} // maybe_convert_list_string
-
-	/**
 	 * Retrieve and return the (possibly converted) value of the given
 	 * query variable.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string         $var_name Variable name.
-	 * @param \WP_Query|bool $query WP query object (optional).
-	 * @param mixed          $default Default value (optional).
+	 * @param string         $var_name             Variable name.
+	 * @param \WP_Query|bool $query                WP query object (optional).
+	 * @param mixed          $default              Default value (optional).
 	 * @param bool           $convert_list_strings List string conversion flag (optional, true by default).
 	 *
 	 * @return mixed[]|string Variable value, if existent.
@@ -304,7 +275,7 @@ class Data_Access_Helper {
 
 		if ( $convert_list_strings ) {
 			// Convert string lists/comma-separated single values to arrays.
-			$value = $this->maybe_convert_list_string( $value );
+			$value = $this->utils['string']->split_list_string( $value, 'list_or_single' );
 		}
 
 		return $value;
@@ -348,7 +319,7 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.6.20-beta
 	 *
-	 * @param string $taxonomy Taxonomy to query.
+	 * @param string $taxonomy    Taxonomy to query.
 	 * @param string $return_type Return type (term 'id', 'name', 'slug' or
 	 *                            'full' for sub-arrays containing all data).
 	 *

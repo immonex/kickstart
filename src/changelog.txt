@@ -1,5 +1,21 @@
 == Changelog ==
 
+= 1.9.13 =
+* Release date: 2024-05-17
+* Added new map types/variations (overview and detail page maps).
+* Added search element (inx-)title-desc for querying regular property title and description fields (special cases).
+* Added ability to exclude properties from lists based on taxonomy terms.
+* Added support for PDF files in floor plan and energy pass galleries.
+* Added a default value to a callback method for the the_title filter to prevent issues regarding incorrect calls by other plugins.
+* Extended fulltext search possibilities.
+* Improved gallery navigation arrow display (especially on small screens and touch devices).
+* Improved search form range slider value display.
+* Reworked application of inx_search_form_primary_price_min_max_values filters.
+* Fixed a warning related to manually entered test data.
+* Fixed several minor gallery display issues.
+* Fixed a minor search form reset bug.
+* Updated dependencies.
+
 = 1.9.0 =
 * Release date: 2024-01-22
 * Added user consent options for embedded video and virtual tour players.

@@ -28,22 +28,22 @@ Das aktuell mitgelieferte [Standard-Skin "Quiwi"](/anpassung-erweiterung/standar
 
 Detaillierte Infos zur Anpassung vorhandener und Entwicklung eigener Skins sind unter [Anpassung & Erweiterung](/anpassung-erweiterung/skins) zu finden.
 
-#### Externe Dienste
-
-##### Google Maps API Key
-
-Für die Nutzung der Google-Maps-Dienste ist ein passender API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
-
 #### Benutzereinwilligung
 
-Da für die Nutzung/Einbettung externer Dienste (Karten, Videos, virtuelle Touren etc.) hinsichtlich der [EU-DSGVO](https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung) die **vorherige** Einholung einer expliziten Zustimmung durch die Website-Besucher erforderlich sein **kann**, ist diese standardmäßig aktiviert.
+Da für die Nutzung/Einbettung externer Dienste (Karten, Ortsauswahl/Geocodierung, Videos, virtuelle Touren etc.) hinsichtlich der [EU-DSGVO](https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung) die **vorherige** Einholung einer expliziten Zustimmung durch die Website-Besucher erforderlich sein **kann**, ist diese standardmäßig aktiviert.
 
 ![Zustimmung zur Einbindung von OpenStreetMap-Karten](../assets/scst-osm-map-consent.png)\
-Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei Google Maps)
+Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei alternativen Diensten wie Google Maps etc.)
 
 Die Zustimmung zur Nutzung eines Dienstes gilt hierbei für alle Dienste der gleichen Art und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
 
 !>**Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen ist!
+
+#### Externe Dienste
+
+##### Google Maps API Key
+
+Für die Nutzung der Google-Maps-Dienste ist ein **passender** API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
 
 ### Listen
 
@@ -61,14 +61,32 @@ Neben einer regulären Seite kann auch ein *alternatives Archiv* für Immobilien
 
 #### Übersichtskarten
 
-![Übersichtskarte mit Immobilien-Standortmarkern](../assets/scst-property-map-1.png)
-Übersichtskarte mit Immobilien-Standortmarkern
+![Übersichtskarte mit Immobilien-Standortmarkern (OpenStreetMap)](../assets/scst-property-map-1.png)\
+Übersichtskarte mit Immobilien-Standortmarkern (OpenStreetMap)
 
-Die Karte der Immobilienstandorte kann auf Basis der Plattform [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) in beliebige Seiten eingebunden werden.
+Eine Karte mit den Standorten der aktuellen Immobilien-Angebote kann in Form einer JavaScript-Komponente auf Basis der [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers) in beliebige Seiten eingebunden werden. Als Quellen für die Geodaten werden die folgenden Anbieter/Dienste unterstützt:
 
-In der [Standard-Übersichtsseite (Archiv)](/beitragsarten-taxonomien#immobilien-beiträge) der Immobilienbeiträge ist sie immer enthalten, sofern sie nicht in den Plugin-Optionen deaktiviert wurde.
+- OpenStreetMap ([openstreetmap.de](https://www.openstreetmap.de/)/[openstreetmap.org](https://www.openstreetmap.org/))
+- [OpenTopoMap](https://opentopomap.org/) ([OSM-Wiki](https://wiki.openstreetmap.org/wiki/DE:OpenTopoMap))
+- [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview?hl=de)
 
-Hier können zudem können hier die initiale **Zoomstufe** sowie die **Koordinaten des Kartenmittelpunkts** festgelegt werden. (Letztere sind allerdings nur dann relevant, wenn der Kartenausschnitt nicht anhand der vorhandenen Immobilien automatisch ermittelt werden kann.)
+##### Kartentyp
+
+Mit der Auswahl des Kartentyps wird die Darstellung der Karte bestimmt: Standard ist hierbei die *klassische Straßenkartenansicht*, alternativ kann aber auch eine *topographische* oder *Hybrid-Ansicht* mit Satellitenbildern und einer Straßenkarten-Ebene darüber aktiviert werden.
+
+![Topographische Karte mit Immobilien-Standortmarkern (Google Maps Terrain)](../assets/scst-property-map-2.png)\
+Topographische Karte mit Höhenrelief (Google Maps *Terrain*)
+
+![Satellitenbilder mit Straßenkartenebene (Google Maps Hybrid)](../assets/scst-property-map-3.png)\
+Kombinierte Satelliten- und Straßenkartenansicht (Google Maps *Hybrid*)
+
+In der [Standard-Übersichtsseite (Archiv)](/beitragsarten-taxonomien#immobilien-beiträge) der Immobilienbeiträge ist die Karte immer enthalten, sofern ein Kartentyp ausgewählt wurde.
+
+##### Koordinaten, Zoomstufe und Auto-Kartengrenzen
+
+Kartenmittelpunkt und Zoom werden normalerweise anhand der enthaltenen Immobilien-Standortmarker **automatisch ermittelt**.
+
+Wird die betr. Option (***Auto-Kartengrenzen***) deaktiviert, kann alternativ mit den im gleichen Optionstab angegebenen Koordinaten des Zentrums und einem Zoomwert auch ein fixer Kartenausschnitt definiert werden.
 
 Weitere Infos hier: [Immobilien-Übersichtskarten](/komponenten/karte)
 
@@ -94,20 +112,25 @@ Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger re
 
 #### Standortkarte
 
-Für die kartenbasierte Visualisierung einzelner Immobilienstandorte in **Detailseiten** werden die Plattformen [OpenStreetMap](https://www.openstreetmap.de/) (per [OpenLayers-Bibliothek](https://de.wikipedia.org/wiki/OpenLayers)) als Standardvorgabe sowie [Google Maps](https://cloud.google.com/maps-platform/) als Alternative unterstützt. Beide ermöglichen die Darstellung der Standorte in Form von (Punkt)Markern, Google Maps zusätzlich eine "gröbere" Variante, bei der nur der Ort bzw. Orts-/Stadtteil markiert ist, in dem sich das Objekt befindet.
+Die Möglichkeiten zur Visualisierung des Standorts in der Detailansicht einer Immobilie entsprechen weitgehend denen der [Übersichtskarten](#Übersichtskarten). Als Alternative zur punktgenauen Darstellung per Marker werden hier auch *Umgebungskarten* unterstützt, bei denen nur der Ort bzw. Stadtteil hervorgehoben ist, in dem sich das Objekt befindet ([Google Maps Embed API](https://developers.google.com/maps/documentation/embed/get-started?hl=de)).
 
-Die Plugin-Optionen sehen bei Karten mit **Standortmarkern** zwei Infotexte für die Ausgabe in einem **Infofenster-Overlay** innerhalb der Karte oder in Form eines kurzen **Hinweises unterhalb der Karte** vor. (Normalerweise ist einer hiervon ausreichend.)
+Die Plugin-Optionen sehen bei Karten mit **Standortmarkern** zwei Infotexte für die Ausgabe in einem Infofenster-Overlay innerhalb der Karte oder in Form eines kurzen Hinweises unterhalb der Karte vor. (Normalerweise ist einer hiervon ausreichend.)
 
-Bei Google Maps, die per iFrame eingebunden werden und nur einen Ort bzw. Stadtteil zeigen (Embed API), ist nur der *Ortsteilkarten-Hinweis* relevant.
+Bei via iFrame eingebundenen Umgebungskarten (Ort oder Stadtteil) ist hingegen nur der *Ortsteilkarten-Hinweis* relevant.
+
+##### Beispiele
 
 ![OpenStreetMap-basierte Standortkarte](../assets/scst-osm-map.gif)\
-OpenStreetMap/OpenLayers-basierte Karte mit Standortmarker
+OpenStreetMap/OpenLayers-basierte Straßenkarte mit Standortmarker
 
 ![Google-Maps-basierte Standortkarte](../assets/scst-google-map.gif)\
-Google-Maps-Karte mit Standortmarker
+Google-Maps-Straßenkarte mit Standortmarker
 
-![Google-Maps-Karte mit Ort/Stadtteil](../assets/scst-google-embed-map.gif)\
-Google-Maps-Karte mit Ort oder Stadtteil (iFrame)
+![topographische Google-Maps-Standortkarte](../assets/scst-google-map-terrain.gif)\
+topographische Google-Maps-*Terrain*-Straßenkarte mit Standortmarker
+
+![Google-Maps-Umgebungskarte mit Ort/Stadtteil](../assets/scst-google-embed-map.gif)\
+Google-Maps-Umgebungskarte mit Ort oder Stadtteil (iFrame)
 
 ### Suche
 
@@ -115,7 +138,7 @@ Google-Maps-Karte mit Ort oder Stadtteil (iFrame)
 
 ##### Dynamische Aktualisierung
 
-Enthält eine Seite neben einem [Immobilien-Suchformular](/komponenten/suchformular) auch eine zugehörige [Listenansicht](/komponenten/liste) (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) und/oder [Standortkarte](/komponenten/karte), können die Inhalte dieser Komponenten dynamisch aktualisiert werden, wenn die Suchparameter verändert werden.
+Enthält eine Seite neben einem [Immobilien-Suchformular](/komponenten/suchformular) auch eine zugehörige [Listenansicht](/komponenten/liste) (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) und/oder [Standort-Übersichtskarte](/komponenten/karte), können die Inhalte dieser Komponenten dynamisch aktualisiert werden, wenn die Suchparameter verändert werden.
 
 ![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.gif)
 

@@ -11,11 +11,18 @@
 </template>
 
 <script>
-import gmapsInit from '../gmaps'
+import { Loader } from '@googlemaps/js-api-loader'
+
+import { getSvgImgSrc } from '../shared_components'
+import pinIconSvgSource from '../../assets/marker-pin.source.svg'
 
 export default {
 	name: 'inx-property-location-google-map',
 	props: {
+		options: {
+			type: String,
+			default: ''
+		},
 		lat: {
 			type: Number,
 			default: 49.8587840
@@ -28,18 +35,27 @@ export default {
 			type: Number,
 			default: 12
 		},
-		pinFillColor: {
+		markerFillColor: {
 			type: String,
-			default: '#808080'
+			default: '#E77906'
 		},
-		pinFillOpacity: {
+		markerFillOpacity: {
 			type: Number,
-			default: .7
+			default: .8
 		},
-		pinStrokeColor: {
+		markerStrokeColor: {
 			type: String,
 			default: '#404040'
 		},
+		markerStrokeWidth: {
+			type: Number,
+			default: 3
+		},
+		markerScale: {
+			type: Number,
+			default: .75,
+		},
+		markerIconUrl: false,
 		infowindow: {
 			type: String,
 			default: ''
@@ -73,7 +89,8 @@ export default {
 		return {
 			id: null,
 			consentGranted: false,
-			google: null
+			google: null,
+			defaultMapTypeId: 'terrain'
 		}
 	},
 	computed: {
@@ -96,41 +113,85 @@ export default {
 			}
 
 			this.consentGranted = true
-			this.google = await gmapsInit(this.apiKey)
+
+			const loader = new Loader({
+				apiKey: this.apiKey,
+				version: 'weekly'
+			})
+			await loader.load()
+
+			this.google = {
+				core: await google.maps.importLibrary('core'),
+				maps: await google.maps.importLibrary('maps'),
+				marker: await google.maps.importLibrary('marker')
+			}
+
 			this.createMap()
 		},
 		createMap() {
 			if (!this.google) return
 
 			const mapElement = this.$refs.map
+			const options = this.options ? JSON.parse(atob(this.options)) : {}
 
-			const map = new this.google.maps.Map(mapElement, {
-				center: {lat: this.lat, lng: this.lng},
-				zoom: this.zoom,
-				disableDefaultUI: true,
-				zoomControl: true
-			})
+			options.mapId = 'inx-property-location-map-' + this.id
+			if (!options.center) options.center = {}
+			options.center.lat = this.lat
+			options.center.lng = this.lng
+			options.zoom = this.zoom
 
-			var markerIcon = {
-				path: 'M256,0C153.755,0,70.573,83.182,70.573,185.426c0,126.888,165.939,313.167,173.004,321.035 c6.636,7.391,18.222,7.378,24.846,0c7.065-7.868,173.004-194.147,173.004-321.035C441.425,83.182,358.244,0,256,0z M256,278.719 c-51.442,0-93.292-41.851-93.292-93.293S204.559,92.134,256,92.134s93.291,41.851,93.291,93.293S307.441,278.719,256,278.719z',
-				scale: .1,
-				fillColor: this.pinFillColor,
-				fillOpacity: this.pinFillOpacity,
-				strokeColor: this.pinStrokeColor,
-				strokeWeight: 2
-			};
+			if (!options.mapTypeId) options.mapTypeId = this.defaultMapTypeId
+			if (!options.disableDefaultUI) options.disableDefaultUI = true
+			if (!options.zoomControl) options.zoomControl = true
 
-			const marker = new this.google.maps.Marker({
+			const map = new this.google.maps.Map(mapElement, options)
+			const markerScale = this.markerScale ? Math.min(1, this.markerScale) : 1
+			let markerContent
+
+			if (this.markerIconUrl) {
+				/**
+				 * Custom Marker Icon
+				 */
+
+				const markerIconImg = document.createElement('img')
+				markerIconImg.src =	this.markerIconUrl
+
+				if (this.markerScale != 1) {
+					markerIconImg.style.cssText = 'width:' + (markerScale * 100) + '%' + '; height:auto; margin-left:' + ((1 - markerScale) / 2 * 100) + '%'
+				}
+
+				markerContent = markerIconImg
+			} else {
+				/**
+				 * SVG Marker Pin
+				 */
+
+				const markerStyle = '--fillColor:' + this.markerFillColor
+					+ ' ;--fillOpacity:' + this.markerFillOpacity
+					+ ' ;--strokeWidth:' + this.markerStrokeWidth
+					+ ' ;--strokeColor:' + this.markerStrokeColor
+
+				const parser = new DOMParser();
+				const pinSvgElement = parser.parseFromString(pinIconSvgSource, 'image/svg+xml').documentElement
+				pinSvgElement.style.cssText = markerStyle
+
+				if (markerScale != 1) {
+					pinSvgElement.setAttribute('width', Math.floor(pinSvgElement.getAttribute('width') * markerScale))
+					pinSvgElement.setAttribute('height', Math.floor(pinSvgElement.getAttribute('height') * markerScale))
+				}
+
+				markerContent = pinSvgElement
+			}
+
+			const marker = new this.google.marker.AdvancedMarkerElement({
 				map: map,
-				icon: markerIcon,
-				draggable: false,
-				animation: this.google.maps.Animation.DROP,
-				position: {lat: this.lat, lng: this.lng}
+				content: markerContent,
+				position: {lat: this.lat, lng: this.lng},
 			})
 
 			if (this.infowindow) {
 				const infowindow = new this.google.maps.InfoWindow({
-					pixelOffset: new this.google.maps.Size(0, 10),
+					pixelOffset: new this.google.core.Size(0, 5),
 					content: '<div class="inx-property-location-map__infowindow">' + this.infowindow + '</div>'
 				})
 

@@ -23,6 +23,65 @@ class Property {
 	const EXCERPT_LENGTH = 128;
 
 	/**
+	 * Location map types
+	 */
+	const LOCATION_MAP_TYPES = array(
+		'ol_osm_map_marker',
+		'ol_osm_map_german',
+		'ol_osm_map_otm',
+		'gmap_marker',
+		'gmap_terrain',
+		'gmap_hybrid',
+		'gmap_embed',
+		'gmap_embed_sat',
+	);
+
+	/**
+	 * Google Maps JS API map type IDs (first element = default)
+	 */
+	const GOOGLE_MAP_TYPES = array( 'roadmap', 'terrain', 'hybrid', 'satellite' );
+
+	/**
+	 * Google Maps Embed API map type IDs (first element = default)
+	 */
+	const GOOGLE_EMBED_MAP_TYPES = array( 'roadmap', 'satellite' );
+
+	/**
+	 * Location map zoom (min, max, default)
+	 */
+	const LOCATION_MAP_ZOOM = array( 8, 18, 12 );
+
+	/**
+	 * Location map default marker fill color
+	 */
+	const LOCATION_MAP_MARKER_FILL_COLOR = '#E77906';
+
+	/**
+	 * Location map default marker fill opacity
+	 */
+	const LOCATION_MAP_MARKER_FILL_OPACITY = .8;
+
+	/**
+	 * Location map default marker stroke color
+	 */
+	const LOCATION_MAP_MARKER_STROKE_COLOR = '#404040';
+
+	/**
+	 * Location map default marker stroke width
+	 */
+	const LOCATION_MAP_MARKER_STROKE_WIDTH = 3;
+
+	/**
+	 * Location map default marker scale
+	 */
+	const LOCATION_MAP_MARKER_SCALE = .75;
+
+	/**
+	 * OPTIONAL location map marker icon file (relative to the SKIN folder)
+	 */
+	const LOCATION_MAP_MARKER_ICON = 'images/map-location-pin.png';
+
+	/**
 	 * Property post object
 	 *
 	 * @var \WP_Post
@@ -159,7 +218,7 @@ class Property {
 		global $wp_query;
 
 		if ( ! is_a( $this->post, 'WP_Post' ) ) {
-			return '';
+			return array();
 		}
 
 		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
@@ -356,7 +415,9 @@ class Property {
 		// Fetch external video data.
 		$video_data = $this->get_video_data( $atts );
 
-		// Fetch virtual tour embed code and extract the URL if existing.
+		/**
+		 * Fetch virtual tour embed code and extract the URL if existing.
+		 */
 		$virtual_tour_embed_code = get_post_meta( $post->ID, "_{$prefix}virtual_tour_embed_code", true );
 		$virtual_tour_url        = '';
 		if ( $virtual_tour_embed_code ) {
@@ -466,6 +527,16 @@ class Property {
 				unset( $template_data['detail_page_elements']['contact_person'] );
 			}
 		}
+
+		if (
+			! empty( $template_data['detail_page_elements']['location_map']['type'] )
+			&& $template_data['detail_page_elements']['location_map']['type'] !== $template_data['property_details_map_type']
+		) {
+			// For skin compatibility reasons.
+			$template_data['property_details_map_type'] = $template_data['detail_page_elements']['location_map']['type'];
+		}
+
+		$template_data = apply_filters( 'inx_property_template_data', $template_data, $atts );
 
 		$this->cache['template_raw_data'][ $hash ] = $template_data;
 
@@ -839,6 +910,102 @@ class Property {
 	} // get_openimmo_data
 
 	/**
+	 * Return OpenLayers/OSM or Google Maps API specific JS (source) options.
+	 * Split an (optional) option string into an array and replace default
+	 * values with the provided ones.
+	 *
+	 * @since 1.9.13-beta
+	 *
+	 * @param string $map_type      Map type key.
+	 * @param string $option_string Optional comma-separated key/value list of map options
+	 *                              (shortcode).
+	 *
+	 * @return mixed[] Map options.
+	 */
+	public function get_map_options( $map_type, $option_string = '' ) {
+		$defaults = apply_filters(
+			'inx_property_location_map_options',
+			array(
+				'ol_osm_map_marker' => array(
+					'crossOrigin' => 'anonymous',
+					'maxZoom'     => self::LOCATION_MAP_ZOOM[1],
+					'opaque'      => true,
+				),
+				'ol_osm_map_german' => array(
+					'crossOrigin'  => 'anonymous',
+					'maxZoom'      => self::LOCATION_MAP_ZOOM[1],
+					'opaque'       => true,
+					'url'          => 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
+					'attributions' => __( 'Data from <a href="https://www.openstreetmap.org/">OpenStreetMap</a> - Published under <a href="https://opendatacommons.org/licenses/odbl/">ODbL</a>', 'immonex-kickstart' ),
+				),
+				'ol_osm_map_otm'    => array(
+					'crossOrigin'  => 'anonymous',
+					'maxZoom'      => 15,
+					'opaque'       => true,
+					'url'          => 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
+					'attributions' => __( 'map data: © <a href="https://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, <a href="https://viewfinderpanoramas.org/" target="_blank">SRTM</a> | map style: © <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/"">CC-BY-SA</a>)', 'immonex-kickstart' ),
+				),
+				'gmap_marker'       => array(
+					'mapTypeId'        => self::GOOGLE_MAP_TYPES[0],
+					'disableDefaultUI' => true,
+					'zoomControl'      => true,
+				),
+				'gmap_terrain'      => array(
+					'mapTypeId'        => 'terrain',
+					'disableDefaultUI' => true,
+					'zoomControl'      => true,
+				),
+				'gmap_hybrid'       => array(
+					'mapTypeId'        => 'hybrid',
+					'disableDefaultUI' => true,
+					'zoomControl'      => true,
+				),
+				'gmap_embed'        => array(
+					'mapType' => 'roadmap',
+				),
+				'gmap_embed_sat'    => array(
+					'mapType' => 'satellite',
+				),
+			)
+		);
+
+		if ( ! isset( $defaults[ $map_type ] ) ) {
+			return array();
+		}
+
+		$map_options = $defaults[ $map_type ];
+		$filter_func = function ( $value ) {
+			return ! in_array( $value, array( '', null ), true );
+		};
+
+		if ( ! trim( $option_string ) ) {
+			return array_filter( $map_options, $filter_func );
+		}
+
+		$ext_options = $this->utils['string']->split_list_string( $option_string, 'key_value' );
+
+		if ( ! empty( $ext_options ) && is_array( $ext_options ) ) {
+			$map_options = array_merge( $map_options, $ext_options );
+		}
+
+		if (
+			'gmap_embed' === substr( $map_type, 0, 10 )
+			&& ! empty( $map_options['mapType'] )
+			&& ! in_array( $map_options['mapType'], self::GOOGLE_EMBED_MAP_TYPES, true )
+		) {
+			$map_options['mapType'] = self::GOOGLE_EMBED_MAP_TYPES[0];
+		} elseif (
+			'gmap' === substr( $map_type, 0, 4 )
+			&& ! empty( $map_options['mapTypeId'] )
+			&& ! in_array( $map_options['mapTypeId'], self::GOOGLE_MAP_TYPES, true )
+		) {
+			$map_options['mapTypeId'] = self::GOOGLE_MAP_TYPES[0];
+		}
+
+		return array_filter( $map_options, $filter_func );
+	} // get_map_options
+
+	/**
 	 * Retrieve and return "grouped" property details (serialized custom field data).
 	 *
 	 * @since 1.0.0
@@ -933,7 +1100,16 @@ class Property {
 			),
 			'location_map'         => array(
 				'template'            => 'location-map',
+				'type'                => $this->config['property_details_map_type'],
+				'zoom'                => $this->config['property_details_map_zoom'],
+				'marker_fill_color'   => self::LOCATION_MAP_MARKER_FILL_COLOR,
+				'marker_fill_opacity' => self::LOCATION_MAP_MARKER_FILL_OPACITY,
+				'marker_stroke_color' => self::LOCATION_MAP_MARKER_STROKE_COLOR,
+				'marker_stroke_width' => self::LOCATION_MAP_MARKER_STROKE_WIDTH,
+				'marker_scale'        => self::LOCATION_MAP_MARKER_SCALE,
+				'marker_icon_url'     => $this->utils['template']->get_template_file_url( self::LOCATION_MAP_MARKER_ICON ),
 				'no_headline_in_tabs' => true,
+				'options'             => '',
 			),
 			'features'             => array(
 				'template' => 'features',
@@ -988,8 +1164,72 @@ class Property {
 			}
 		}
 
+		$elements = $this->sanitize_extend_location_map_data( $elements );
+
 		return apply_filters( 'inx_detail_page_elements', $elements );
 	} // get_detail_page_elements
+
+	/**
+	 * Sanitize and extend location map element data.
+	 *
+	 * @since 1.9.13
+	 *
+	 * @param mixed[] $elements Data of ALL property detail elements.
+	 *
+	 * @return mixed[] Sanitized/Extended detail element data.
+	 */
+	private function sanitize_extend_location_map_data( $elements ) {
+		if ( empty( $elements['location_map'] ) ) {
+			return $elements;
+		}
+
+		if (
+			! empty( $elements['location_map']['type'] )
+			&& ! in_array( $elements['location_map']['type'], self::LOCATION_MAP_TYPES, true )
+		) {
+			if ( false !== strpos( strtolower( $elements['location_map']['type'] ), 'osm' ) ) {
+				$elements['location_map']['type'] = 'ol_osm_map_marker';
+			} elseif ( false !== strpos( strtolower( $elements['location_map']['type'] ), 'gmap' ) ) {
+				$elements['location_map']['type'] = 'gmap_marker';
+			} else {
+				$elements['location_map']['type'] = $this->config['property_details_map_type'];
+			}
+		}
+
+		if (
+			false !== strpos( $elements['location_map']['type'], 'gmap' )
+			&& empty( $this->config['google_api_key'] )
+		) {
+			$elements['location_map']['type'] = self::LOCATION_MAP_TYPES[0];
+		}
+
+		if (
+			! empty( $elements['location_map']['zoom'] )
+			&& (
+				(int) $elements['location_map']['zoom'] < self::LOCATION_MAP_ZOOM[0]
+				|| (int) $elements['location_map']['zoom'] > self::LOCATION_MAP_ZOOM[1]
+			)
+		) {
+			$elements['location_map']['zoom'] = $this->config['property_details_map_zoom'];
+		}
+
+		if (
+			! empty( $elements['location_map']['marker_scale'] )
+			&& (
+				(int) $elements['location_map']['marker_scale'] < 0
+				|| (int) $elements['location_map']['marker_scale'] > 1
+			)
+		) {
+			$elements['location_map']['marker_scale'] = self::LOCATION_MAP_MARKER_SCALE;
+		}
+
+		$elements['location_map']['options'] = $this->get_map_options(
+			$elements['location_map']['type'],
+			$elements['location_map']['options']
+		);
+
+		return $elements;
+	} // sanitize_extend_location_map_data
 
 	/**
 	 * Retrieve, split and return data of an external, property related video,

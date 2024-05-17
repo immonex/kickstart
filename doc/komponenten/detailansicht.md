@@ -2,7 +2,7 @@
 
 ## Standard-Template
 
-Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#umkreissuche), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
+Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#standortkarte), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.
 
 ?> Die Standard-Detailansicht kann auch durch die Ergänzung von **Widgets** in der zugehörigen [Sidebar](/schnellstart/sidebars) erweitert werden.
 
@@ -28,53 +28,13 @@ Die folgenden Shortcodes können mehrfach pro Seite verwendet werden.
 
 `[inx-property-details]`
 
-Mit diesem Shortcode kann eine beliebige Anzahl [vordefinierter Abschnitte](#elemente-abschnitte) eingebunden werden, die jeweils thematisch gruppierte Import-Daten der Immobilie in einem hierzu passenden Layout enthalten. Ohne Angabe von Elementen per Attribut werden - analog zum Standard-Template - alle Detail-Abschnitte eingebunden.
+Wie in den obigen Beispiel-Screenshots des [Standard-Templates](#standard-template) zu sehen ist, sind Immobilien-Detailseiten in der Regel in mehrere Abschnitte (a.k.a. *Elemente*) unterteilt, die die OpenImmo-Daten der importierten Objekte thematisch gruppiert und in einer passenden Form enthalten (z. B. Haupt-Beschreibungstext, Flächen, Ausstattung, Preise, Standort etc.).
 
-#### Attribute
+Enthält der o. g. Shortcode **keine** Attribute, werden hiermit – analog zum [Standard-Template](#standard-template) – alle der folgenden Elemente eingebunden, die nicht als optional gekennzeichnet sind.
 
-##### Allgemein
+Soll die Ausgabe stattdessen nur bestimmte Abschnitte umfassen, kann der Umfang mit den nachfolgend beschriebenen [Attributen](#attribute) `elements` **oder** `exclude` festgelegt werden.
 
-Sollen nur bestimmte Detail-Abschnitte eingebunden werden, kann der entsprechende Umfang mit den Attributen `elements` **oder** `exclude` festgelegt werden (einzeln oder als kommagetrennte Liste).
-
-| Name | Beschreibung / Attributwerte |
-| ---- | ---------------------------- |
-| `elements` | Keys explizit **einzubindender** Detail-Abschnitte (optional) |
-| `exclude` | Keys explizit **auszuschließender** Detail-Abschnitte (optional) |
-| `enable-tabs` (3) | **tab-basierte Darstellung** der zentralen Info-Blöcke (siehe Screenshot), sofern vom gewählten Skin unterstützt (Umfang und Aufteilung können via Filter-Hook [inx_tabbed_content_elements](/anpassung-erweiterung/filter-inx-tabbed-content-elements) angepasst werden) |
-| | *0* : deaktivieren (Standard bei Nutzung von `elements` oder `exclude`) |
-| | *1* : aktivieren (Standard bei Einbindung aller Elemente) |
-| `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *single-property/foobar*) |
-
-##### Video
-
-Die folgenden Attribute sind für die [Elemente](#elemente-abschnitte) `gallery` und `video` relevant.
-
-| Name | Beschreibung / Attributwerte |
-| ---- | ---------------------------- |
-| `autoplay` | YouTube-Videos automatisch starten: *0* (nein, Standard) oder *1* (ja) |
-| `automute` | YouTube-Videos stummschalten: *1* (ja, Standard) oder *0* (nein) |
-| `youtube-nocookie` | Domain ohne Tracking für YouTube-iFrames verwenden: *1* (ja, `www.youtube-nocookie.com`, Standard) oder *0* (nein, `www.youtube.com`) |
-| `youtube-allow` | Inhalte des `allow`-Attributs für YouTube-iFrames (Standard: *accelerometer; encrypted-media; gyroscope*, zusätzlich *autoplay* sofern aktiviert) |
-
-##### Template-Parameter per Attribut setzen
-
-Eine Besonderheit stellt bei diesem Shortcode die Möglichkeit dar, **Template-Parameter** durch die Ergänzung beliebiger weiterer Attribute "durchzuschleifen". Das kann in **Sonderfällen** nützlich sein, bspw. wenn mit einem Element gleichzeitig eine **alternative** Überschrift (`headline`) für dessen Abschnitt übergeben werden soll.
-
-Beispiel: Energieausweis-Daten mit Überschrift "Energieeffizienz" einbinden\
-`[inx-property-details elements="epass" headline="Energieeffizenz"]`
-
-Die Angabe "Energieeffizienz" ist so bei der Ausgabe des betreffenden Templates der Energieausweis-Daten ([PHP-Datei im Skin](/anpassung-erweiterung/skins)) im Template-Daten-Array verfügbar, wobei der **Key dem Attributnamen entspricht**: `$template_data['headline']`
-
-Werden mit einem Shortcode mehrere Elemente gleichzeitig eingebunden, für die jeweils eigene Template-Parameter übergeben werden sollen, enthält der jeweilige **Attributname** den zugehörigen **Elementnamen als Präfix**: `ELEMENTNAME-KEY`
-
-Beispiel: Energieausweis-Daten mit Überschrift "Energieeffizienz" und Grundriss-Galerie mit Überschrift "Grundrisse" einbinden\
-`[inx-property-details elements="epass, floor_plans" epass-headline="Energieeffizenz" floor_plans-headline="Grundrisse"]`
-
-(Eventuell vorhandene Standardwerte werden von den per Attribut übermittelten Angaben überschrieben.)
-
-#### Elemente (Abschnitte)
-
-Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` übernommen werden, wobei jeder *Key* für einen bestimmten Abschnitt steht.
+#### Elemente
 
 | Key | Beschreibung |
 | --- | ------------ |
@@ -87,7 +47,7 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | `epass` | Daten des Energieausweises |
 | `epass_images` | übermittelte Bildanhänge, die zum Energieausweis gehören |
 | `epass_energy_scale` | Energieskala (grafische Visualisierung der Energieklasse), sofern das Plugin [immonex Energy Scale Pro](/systemvoraussetzungen#datenimport-amp-energieskalen) installiert ist |
-| `location_map` (9) | Standortkarte |
+| `location_map` (9) | Standortkarte (OpenStreetMap/OpenTopoMap oder Google Maps)<br><br>Typauswahl unter ***immonex → Einstellungen → Detailansicht → Standortkarte*** (alternativ auch per [Shortcode-Attribut](#standortkarte) oder Filterfunktion) |
 | `location_description` (9) | Standortbeschreibung und -details |
 | `location` | Kombination von `location_map` und `location_description`: Standortbeschreibung/-details **und** Karte (**optionales Element \***) |
 | `features` (4) | Ausstattung der Immobilie (Beschreibung, Merkmale etc.) |
@@ -100,6 +60,82 @@ Folgende Schlüssel können als **Attributwerte** für `elements` und `exclude` 
 | `footer` (7) | Footer mit Link zur Übersichtsseite |
 
 **\* Optionale Elemente** werden nur bei expliziter Nennung im Shortcode-Attribut `elements` eingebunden.
+
+#### Attribute
+
+Bei diesem Shortcode wird zwischen allgemeinen, elementspezifischen und speziellen *Template-Parameter-Attributen* unterschieden.
+
+##### Allgemein
+
+Diese Attribute beziehen sich auf die komplette Shortcode-Ausgabe:
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `elements` | Keys explizit **einzubindender** Detail-Abschnitte (optional) |
+| `exclude` | Keys explizit **auszuschließender** Detail-Abschnitte (optional) |
+| `enable-tabs` (3) | **tab-basierte Darstellung** der zentralen Info-Blöcke (siehe Screenshot), sofern vom gewählten Skin unterstützt (Umfang und Aufteilung können via Filter-Hook [inx_tabbed_content_elements](/anpassung-erweiterung/filter-inx-tabbed-content-elements) angepasst werden) |
+| | *0* : deaktivieren (Standard bei Nutzung von `elements` oder `exclude`) |
+| | *1* : aktivieren (Standard bei Einbindung aller Elemente) |
+| `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *single-property/foobar*) |
+
+##### Video
+
+Für die [Elemente](#elemente) `gallery` und `video` relevante Attribute:
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `autoplay` | YouTube-Videos automatisch starten: *0* (nein, Standard) oder *1* (ja) |
+| `automute` | YouTube-Videos stummschalten: *1* (ja, Standard) oder *0* (nein) |
+| `youtube-nocookie` | Domain ohne Tracking für YouTube-iFrames verwenden: *1* (ja, `www.youtube-nocookie.com`, Standard) oder *0* (nein, `www.youtube.com`) |
+| `youtube-allow` | Inhalte des `allow`-Attributs für YouTube-iFrames (Standard: *accelerometer; encrypted-media; gyroscope*, zusätzlich *autoplay* sofern aktiviert) |
+
+##### Standortkarte
+
+Die folgenden Attribute beziehen sich auf die [Kartenelemente](#elemente) `location_map` und `location`. Hiermit können der Kartentyp und die Optik der enthaltene Markergrafik angepasst werden.
+
+![Standard-Kartenmarker](../assets/standard-map-marker.png)\
+Der Standard-Kartenmarker (*SVG*): Größe, Farbe, Linienstärke und Transparenzgrad können mit den `marker_*`-Attributen modifiziert werden.
+
+!> Der reguläre Typ der Standortkarte wird in den [Plugin-Optionen](/schnellstart/einrichtung?id=standortkarte) festgelegt, eine Änderung per Shortcode-Attribut ist nur in Sonderfällen notwendig.
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `type` | Kartenanbieter/-stil (überschreibt den in den Plugin-Optionen [ausgewählten Kartentyp](/schnellstart/einrichtung?id=standortkarte)) |
+| | *ol_osm_map_marker* : OpenStreetMap-Straßenkarte mit Marker |
+| | *ol_osm_map_german* : OpenStreetMap-Straßenkarte mit Marker, [deutscher Stil](https://openstreetmap.de/germanstyle/) (**Standardvorgabe**) |
+| | *ol_osm_map_otm* : topographische Karte mit Höhenrelief und Marker auf Basis von OpenTopoMap/OpenStreetMap |
+| | *gmap_marker* : Google Map mit Marker (Straßenkarte) |
+| | *gmap_terrain* : Google Map *Terrain* mit Marker (topographische Ansicht mit Straßenkarten-Ebene) |
+| | *gmap_hybrid* : Google Map *Hybrid* mit Marker (Satellitenbilder mit Straßenkarten-Ebene) |
+| | *gmap_embed* : Google Umgebungskarte mit Ort oder Stadtteil (Straßenkarten) |
+| | *gmap_embed_sat* : Google Umgebungskarte mit Ort oder Stadtteil (Satellitenbilder mit Straßenkarten-Ebene) |
+| `template` | alternative **PHP**-Template-Datei im [Skin-Ordner](/anpassung-erweiterung/skins) (relativer Pfad, Standard: *property-list/map*) |
+| `marker_fill_color` | Marker-Füllfarbe (Standard: <span style="font-weight:500; font-style:italic; color:#E77906">#E77906</span>) |
+| `marker_fill_opacity` | Marker-Transparenz (*0 - 1*, Standard: *0.8*) |
+| `marker_stroke_color` | Marker-Linienfarbe (Standard: <span style="font-weight:500; font-style:italic; color:#404040">#404040</span>) |
+| `marker_stroke_width` | Marker-Linienstärke (Standard: *3*) |
+| `marker_scale` | Marker-Skalierung (*0 - 1*, Standard: *0.75*) |
+| `marker_icon_url` | URL einer **alternativen** PNG-Markergrafik, die anstelle der Standard-SVG-Variante verwendet werden soll (Ist die Datei `images/map-location-pin.png`) im [Skin-Ordner](/anpassung-erweiterung/skins) enthalten, wird diese automatisch übernommen.) |
+| `google_api_key` | API-Schlüssel für die Nutzung der Google Maps JavaScript und APIs (überschreibt die in den [Plugin-Optionen](/schnellstart/einrichtung?id=google-maps-api-key) hinterlegte Angabe) |
+| `options` | zusätzliche Optionen für die JavaScript-Karten-Objekte als kommagetrennte Liste von Key/Value-Paaren – abhängig vom Kartentyp bzw. der Plattform dahinter (Beispiel: *maxZoom: 15, opaque: false*) |
+| | *ol_osm_\** : [OpenLayers/OpenStreetMap](https://openlayers.org/en/latest/apidoc/module-ol_source_OSM-OSM.html) |
+| | *gmap_[marker\|terrain\|hybrid]* : [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/reference/map?hl=de#MapOptions) |
+
+##### Template-Parameter
+
+Variable Daten werden in den PHP-Template-Dateien des [Skins](/anpassung-erweiterung/standard-skin) für die Ausgabe im Website-Frontend in einem Array namens `$template_data` bereitgestellt. Bei diesem Shortcode besteht die Möglichkeit, bestimmte Inhalte dieses Arrays per Attribut zu ergänzen bzw. anzupassen. Das kann **in Sonderfällen** nützlich sein kann, bspw. wenn eine vom Plugin vorgegebene Standardbezeichnung ersetzt werden soll.
+
+Ein Beispiel: Es soll ein Abschnitt eingebunden werden, der die Energieausweis-Daten der Immobilie enthält. Anstatt dem Standardtitel "Energieausweis" (→ `$template_data['headline']`) soll dieser mit der alternativen Überschrift "Energieeffizienz" versehen werden: 
+
+Der Key des *Array-Elements* wird in diesem Fall eins zu eins als Attributname übernommen:
+
+`[inx-property-details elements="epass" headline="Energieeffizenz"]`
+
+Werden mit einem Shortcode anstatt eines einzelnen mehrere Elemente eingebunden, müssen die betr. Attributnamen durch Voranstellen des Elementnamens gefolgt von einem `-` erweitert werden, um eine eindeutige Zuordnung zu gewährleisten: `ELEMENTNAME-ARRAY_KEY`
+
+Hierzu ein weiteres Beispiel mit den Überschriften "Energieeffizienz" für den Energieausweis-Abschnitt und "Grundrisse/Lagepläne" für die Grundriss-Galerie:
+
+`[inx-property-details elements="epass, floor_plans" epass-headline="Energieeffizenz" floor_plans-headline="Grundrisse/Lagepläne"]`
 
 #### Beispiele
 
@@ -126,7 +162,7 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 | | **Mapping-Name**, z. B. *freitexte.objektbeschreibung* (Bezeichnung, die in der Spalte *Name* der *Mapping-Tabelle* hinterlegt ist, die für den [OpenImmo-Import](/schnellstart/import) eingesetzt wird) |
 | | **Custom-Field-Name**, z. B. *\_inx_property_id* (Name des als Zielfeld in der Spalte *Destination* der Import-Mapping-Tabelle hinterlegten **Custom Fields**) |
 | | [XPath-Angabe](https://de.wikipedia.org/wiki/XPath) zur Abfrage eines beliebigen Werts innerhalb des **Import-XML-Elements** `<immobilie>` des Objekts, z. B. *//zustand_angaben/baujahr* (beginnt immer mit `//`) |
-| `group` | in der Mapping-Tabelle hinterlegte **Gruppenbezeichnung** als Ergänzung zum Elementnamen - wird nur in Sonderfällen benötigt (optional) |
+| `group` | in der Mapping-Tabelle angegebene **Gruppenbezeichnung** als Ergänzung zum Elementnamen - wird nur in Sonderfällen benötigt (optional) |
 | `template` | Vorlage für die Ausgabe, in der folgende Platzhalter verwendet werden können (optional) |
 | | *{value}* : Wert des Elements |
 | | *{value,number,2}* : Variante des Elementwerts, formatiert als Zahl mit der angegebenen Anzahl an Nachkommastellen |

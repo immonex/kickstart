@@ -219,4 +219,9 @@ function mysite_modify_property_template_details( $detail_groups, $post_id ) {
 } // mysite_modify_property_template_details
 ```
 
+## Siehe auch
+
+- [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
+- [inx_property_template_data](filter-inx-property-template-data) (komplette Immobilien-Template-Rendering-Daten)
+
 [](_backlink.md ':include')

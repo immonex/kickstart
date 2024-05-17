@@ -200,7 +200,7 @@ class Property_Hooks {
 	 *
 	 * @return string Possibly updated title.
 	 */
-	public function update_template_page_title( $title, $post_id ) {
+	public function update_template_page_title( $title, $post_id = null ) {
 		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 
 		if (
@@ -390,7 +390,7 @@ class Property_Hooks {
 	 * @param int|string|bool $post_id Property post ID or false to use current.
 	 * @param mixed[]         $args Image and return type.
 	 *
-	 * @return mixed[] List of property objects, post IDs of URLs.
+	 * @return mixed[] List of property objects, post IDs or URLs.
 	 */
 	public function get_property_images( $images = array(), $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {

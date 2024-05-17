@@ -6,11 +6,11 @@ Mit diesem Filter können die Eigenschaften der für die Ausgabe verfügbaren El
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| **`$elements`** (array) | verfügbare [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente-abschnitte) |
+| **`$elements`** (array) | verfügbare [Detailabschnitt-Elemente](/komponenten/detailansicht#elemente) |
 
 ### Das Elements-Array im Detail
 
-Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/komponenten/detailansicht#elemente-abschnitte), die in den Attributen der Detailansicht-Shortcodes Verwendung finden.
+Die folgenden Haupt-Array-Keys entsprechen den [Element- bzw. Abschnittsnamen](/komponenten/detailansicht#elemente), die in den Attributen der Detailansicht-Shortcodes Verwendung finden.
 
 ```php
 [

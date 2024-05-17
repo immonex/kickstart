@@ -17,10 +17,8 @@ $inx_skin_location_description = $utils['data']->get_custom_field_by(
 	true
 );
 
-$inx_skin_groups = array( 'lage', 'infrastruktur' );
-
-$inx_skin_details = $utils['data']->get_group_items( $template_data['details'], $inx_skin_groups );
-
+$inx_skin_groups   = array( 'lage', 'infrastruktur' );
+$inx_skin_details  = $utils['data']->get_group_items( $template_data['details'], $inx_skin_groups );
 $inx_skin_headline = isset( $template_data['headline'] ) ?
 	$template_data['headline'] :
 	__( 'Location and Infrastructure', 'immonex-kickstart' );

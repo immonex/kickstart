@@ -350,13 +350,21 @@ class API {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string     $mapping_name Element name stated in the import
-	 *                                 mapping table.
-	 * @param int|string $post_id Related property post ID.
+	 * @param mixed[]|string|int $value Default or empty value.
+	 * @param string             $mapping_name Element name stated in the import
+	 *                                         mapping table.
+	 * @param int|string|bool    $post_id Related property post ID (defaults to false to ensure
+	 *                                    compatibility with older versions of other plugins).
 	 *
-	 * @return mixed[]|string Variable value, if existent.
+	 * @return mixed[]|string|int Field value, if existent.
 	 */
-	public function get_custom_field_value_by_name( $mapping_name, $post_id ) {
+	public function get_custom_field_value_by_name( $value, $mapping_name, $post_id = false ) {
+		if ( false === $post_id ) {
+			// Move parameter values due to a deprecated type of call by another plugin.
+			$mapping_name = $value;
+			$post_id      = $mapping_name;
+		}
+
 		$value = $this->utils['data']->get_custom_field_by( 'name', $mapping_name, $post_id, true );
 		if ( $value ) {
 			return $value;

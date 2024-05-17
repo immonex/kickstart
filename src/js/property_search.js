@@ -55,7 +55,9 @@ function resetSearchForm(event = null) {
 
 	const evt = document.createEvent('HTMLEvents')
 	evt.initEvent('reset', false, true)
-	$(searchFormID + ' input[name=inx-search-distance-search-location]')[0].dispatchEvent(evt)
+	if ($(searchFormID + ' input[name=inx-search-distance-search-location]').length) {
+		$(searchFormID + ' input[name=inx-search-distance-search-location]')[0].dispatchEvent(evt)
+	}
 
 	$(
 		searchFormID + ' input[type="search"]' +

@@ -43,6 +43,7 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 
 		add_action( 'inx_render_property_map', array( $this, 'render_property_map' ) );
 
+		// Internal Hook.
 		add_filter( 'inx_get_property_map_markers', array( $this, 'get_property_map_markers' ), 10, 2 );
 
 		/**
@@ -114,12 +115,22 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 		 * Create an array of supported shortcode attributes.
 		 */
 		$supported_atts = array(
-			'cid'             => '',
-			'template'        => Property_Map::DEFAULT_TEMPLATE,
-			'lat'             => $this->config['property_list_map_lat'],
-			'lng'             => $this->config['property_list_map_lng'],
-			'zoom'            => $this->config['property_list_map_zoom'],
-			'require-consent' => $this->config['maps_require_consent'],
+			'cid'                 => '',
+			'template'            => Property_Map::DEFAULT_TEMPLATE,
+			'type'                => $this->config['property_list_map_type'],
+			'options'             => '',
+			'lat'                 => $this->config['property_list_map_lat'],
+			'lng'                 => $this->config['property_list_map_lng'],
+			'zoom'                => $this->config['property_list_map_zoom'],
+			'auto_fit'            => $this->config['property_list_map_auto_fit'],
+			'require-consent'     => $this->config['maps_require_consent'],
+			'marker_fill_color'   => Property_Map::LIST_MAP_MARKER_FILL_COLOR,
+			'marker_fill_opacity' => Property_Map::LIST_MAP_MARKER_FILL_OPACITY,
+			'marker_stroke_color' => Property_Map::LIST_MAP_MARKER_STROKE_COLOR,
+			'marker_stroke_width' => Property_Map::LIST_MAP_MARKER_STROKE_WIDTH,
+			'marker_scale'        => Property_Map::LIST_MAP_MARKER_SCALE,
+			'marker_icon_url'     => '',
+			'google_api_key'      => $this->config['google_api_key'],
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

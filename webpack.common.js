@@ -20,7 +20,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src/assets/js'),
-    chunkFilename: '[name].[chunkhash:8].js'
+    chunkFilename: '[name].[chunkhash:8].js',
   },
   resolve: {
     fallback: {
@@ -84,6 +84,15 @@ module.exports = {
           type: 'asset/resource',
           generator: {
             filename: '[name][ext]',
+            emit: false
+          }
+      },
+      {
+          test: /\.source\.[a-z]{2,4}$/,
+          exclude: /node_modules|build/,
+          type: 'asset/source',
+          generator: {
+            filename: '../[name][ext]',
             emit: false
           }
       }

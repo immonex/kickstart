@@ -21,7 +21,10 @@ if ( $inx_skin_name || $inx_skin_bio ) {
 		$inx_skin_contact_person .= "<strong>$inx_skin_name</strong>" . PHP_EOL;
 	}
 	if ( $inx_skin_bio ) {
-		$inx_skin_contact_person .= '<br><br>' . PHP_EOL . $utils['format']->prepare_continuous_text( $inx_skin_bio ) . PHP_EOL;
+		if ( $inx_skin_contact_person ) {
+			$inx_skin_contact_person .= '<br><br>' . PHP_EOL;
+		}
+		$inx_skin_contact_person .= $utils['format']->prepare_continuous_text( $inx_skin_bio ) . PHP_EOL;
 	}
 }
 
@@ -75,8 +78,11 @@ if ( count( $inx_skin_details ) > 0 ) {
 		}
 	}
 
-	// Display one email/phone element only if personal and
-	// head office addresses are identical.
+	/**
+	 * Display one email/phone element only if personal and
+	 * head office addresses are identical.
+	 */
+
 	if ( $inx_skin_emails_match ) {
 		unset( $inx_skin_details[ $inx_skin_email_head_office_key ] );
 	}
@@ -97,7 +103,7 @@ if ( count( $inx_skin_details ) > 0 ) {
 $inx_skin_headline      = isset( $template_data['headline'] ) ? $template_data['headline'] : __( 'Your contact person with us', 'immonex-kickstart' );
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ? $template_data['heading_level'] : 2;
 
-if ( $inx_skin_contact_person || count( $inx_skin_details ) > 0 ) :
+if ( $inx_skin_contact_person || $inx_skin_company_address || count( $inx_skin_details ) > 0 ) :
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--contact-person">
 	<?php echo $utils['format']->get_heading( $inx_skin_headline, $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' ); ?>

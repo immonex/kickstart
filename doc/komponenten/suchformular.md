@@ -16,7 +16,7 @@ Standard-Suchformular (ohne Anpassungen)
 | `cid` | individuelle **HTML-DOM-ID** des Containerelements der Komponente (optional, Standard: *inx-property-search*, bei Mehrfacheinbindung zus. Instanzen inkl. laufender Nummer *inx-property-search-2*, *-3*...) |
 | `elements` | Umfang, Reihenfolge und Aufteilung der Elemente (kommagetrennte Liste, optional) |
 | `exclude` | **Alternative** zu `elements`: Nur die angegebenen Elemente der Standardauswahl **nicht** einbinden (kommagetrennte Liste, optional) |
-| `dynamic-update` | dynamische Aktualisierung der Inhalte von Immobilienlisten und Standortkarten auf der gleichen Seite (ohne Neuladen) bei Änderung der Suchparameter aktivieren (optional) |
+| `dynamic-update` | dynamische Aktualisierung der Inhalte von Immobilienlisten und Standort-Übersichtskarten auf der gleichen Seite (ohne Neuladen) bei Änderung der Suchparameter aktivieren (optional) |
 | | *all* oder *1* : alle Listen- und Kartenkomponenten der Seite (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) |
 | | *inx-property-map, inx-property-list* (Beispiel): kommagetrennte Liste von **HTML-DOM-IDs** der zu aktualisierenden Komponenten (eigene IDs können per Attribut `cid` festgelegt werden) |
 | `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
@@ -127,7 +127,7 @@ Formular mit Ausstattungsmerkmalen im primären und Vermarktungs-/Nutzungsarten 
 
 ## Dynamische Listen & Karten
 
-Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 optional möglich, auch die Inhalte der [Immobilienlisten](liste) und/oder [Standortkarten](karte), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden:
+Bei Änderungen der Suchkriterien wird die Anzahl der Ergebnisse auf dem Absenden-Button (8) entsprechendend aktualisiert. Analog dazu ist es ab Kickstart Version 1.6.0 optional möglich, auch die Inhalte der [Immobilienlisten](liste) und/oder [Standort-Übersichtskarten](karte), die sich auf der gleichen Seite befinden, dynamisch (ohne Neuladen) zu aktualisieren. Diese Funktion kann global, d. h. für alle Komponenten auf allen Seiten, in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** aktiviert werden:
 
 ![Plugin-Optionen: Immobiliensuche](../assets/scst-options-property-search.gif)
 

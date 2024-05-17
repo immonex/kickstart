@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $inx_skin_shortcode_output = '';
-if ( isset( $template_data['shortcodes'] ) && count( $template_data['shortcodes'] ) > 0 ) {
+if ( ! empty( $template_data['shortcodes'] ) ) {
 	foreach ( $template_data['shortcodes'] as $inx_skin_shortcode ) {
 		$inx_skin_found          = preg_match( '/[\[]?([a-zA-Z0-9_\-]+)/', $inx_skin_shortcode, $inx_skin_matches );
 		$inx_skin_shortcode_name = $inx_skin_found && isset( $inx_skin_matches[1] ) ? $inx_skin_matches[1] : false;

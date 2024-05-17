@@ -37,8 +37,8 @@ Mit diesem Filter kann die Vorlage für die Einbindung **externer Videos** (YouT
 	'type' => 'youtube'
 	'id' => 'ohebUlIApso'
 	'url' => 'https://www.youtube-nocookie.com/watch?v=ohebUlIApso',
-	'autoplay' => 0,
-	'automute' => 1,
+	'autoplay' => false,
+	'automute' => true,
 	'youtube_domain' = 'www.youtube-nocookie.com',
 	'youtube_allow' => 'accelerometer; encrypted-media; gyroscope'
 ]

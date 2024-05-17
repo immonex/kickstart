@@ -1,24 +1,47 @@
 # inx_property_list_map_atts (Filter)
 
-Mit diesem Filter können die für die Generierung einer [Kartenansicht](/komponenten/karte) relevanten Attribute angepasst werden.
+Mit diesem Filter können die für die Generierung einer [Immobilien-Übersichtskarte](/komponenten/karte) relevanten Attribute angepasst werden.
 
 ## Parameter
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| **`$atts`** | Abfrage/Rendering-Attribute |
+| **`$atts`** (array) | Abfrage/Rendering-Attribute |
 
 ### Das Attribut-Array im Detail
 
-Die Attributliste enthält neben den geo- bzw. kartenspezifischen Angaben (Breitengrad, Längengrad, Zoom etc.) u. a. auch die für die Abfrage der darzustellenden Immobilien(standorte) maßgeblichen Parameter (*inx-...*).
+Die Attributliste enthält neben den geo- bzw. kartenspezifischen Angaben (Kartentyp, Breitengrad, Längengrad, Zoom etc.) u. a. auch die für die Abfrage der darzustellenden Immobilienstandorte maßgeblichen Parameter (*inx-...*).
+
+![Standard-Kartenmarker](../assets/standard-map-marker.png)\
+Standard-Kartenmarker (*SVG*)
+
+Die Optik der [Standortmarker](/komponenten/karte?id=marker) kann über die Elemente `marker_*` (außer `marker_set_id`) angepasst werden.
+
+Das Element `options` enthält die Standardvorgaben für das [OpenLayers-Source-Objekt](https://openlayers.org/en/latest/apidoc/module-ol_source_Source-Source.html) der [JS-Übersichtskarten-Komponente](/komponenten/karte), die abhängig vom Kartentyp sind (`type`). Letzterer wird standardmäßig in den [Plugin-Optionen](/schnellstart/einrichtung?id=%c3%9cbersichtskarten) ausgewählt, kann alternativ aber auch per [Shortcode-Attribut](/komponenten/karte?id=attribute) festgelegt werden.
 
 ```php
 [
+	'type' => 'osm_german',
+	'options' => [
+		'crossOrigin' => 'anonymous',
+		'maxZoom' => 19,
+		'opaque' => true,
+		'url' => 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
+		'attributions'=> 'Daten von <a href="https://www.openstreetmap.org/">OpenStreetMap</a> - Veröffentlicht unter <a href="https://opendatacommons.org/licenses/odbl/">ODbL</a>'
+	],
 	'lat' => '49.858784',
 	'lng' => '6.785441',
 	'zoom' => '12',
+	'auto_fit' => true,
 	'require-consent' => true,
 	'marker_set_id' => 'inx-property-map',
+	'marker_fill_color' => '#E77906',
+	'marker_fill_opacity' => .8,
+	'marker_stroke_color' => '#404040',
+	'marker_stroke_width' => .3,
+	'marker_scale' => .75,
+	'marker_icon_url' => '',
+	'google_api_key' => '',
 	'cid' => 'inx-property-map',
 	'inx-limit' => '',
 	'inx-limit-page' => '',
@@ -55,7 +78,7 @@ Die Attributliste enthält neben den geo- bzw. kartenspezifischen Angaben (Breit
 	'inx-search-distance-search-radius' => '',
 	'inx-search-features' => '',
 	'inx-search-labels' => '',
-	'render_count' => 1
+	'render_count' => true
 ]
 ```
 
@@ -68,13 +91,22 @@ angepasstes Attribut-Array
 [](_info-snippet-einbindung.md ':include')
 
 ```php
-add_filter( 'inx_property_list_map_atts', 'mysite_modify_property_map_atts' );
+/**
+ * [immonex Kickstart] Attribute für die Generierung der Übersichtskarte anpassen.
+ */
 
-function mysite_modify_property_map_atts( $atts ) {
+add_filter( 'inx_property_list_map_atts', 'mysite_modify_property_list_map_atts' );
+
+function mysite_modify_property_list_map_atts( $atts ) {
 	// ...Attribute im Array $atts anpassen...
 
 	return $atts;
-} // mysite_modify_property_map_atts
+} // mysite_modify_property_list_map_atts
 ```
+
+## Siehe auch
+
+- [inx_property_list_map_options](filter-inx-property-list-map-options) (Standardvorgaben für das Quellobjekt der JS-Übersichtskarten-Komponente)
+
 
 [](_backlink.md ':include')

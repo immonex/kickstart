@@ -22,23 +22,39 @@
 import Map from 'ol/Map'
 import Feature from 'ol/Feature'
 import Collection from 'ol/Collection'
-import {Fill, Text, Style, Icon} from 'ol/style'
+import { Fill, Text, Style, Icon } from 'ol/style'
 import View from 'ol/View'
 import Overlay from 'ol/Overlay'
-import {Point} from 'ol/geom'
-import {transform,fromLonLat} from 'ol/proj'
+import { Point } from 'ol/geom'
+import { transform,fromLonLat } from 'ol/proj'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
-import {Cluster, OSM, Vector} from 'ol/source'
-import {easeIn, easeOut} from 'ol/easing'
+import { Cluster, OSM, Vector, XYZ } from 'ol/source'
+import { easeIn, easeOut } from 'ol/easing'
 import 'ol/ol.css';
+import Google from 'ol/source/Google.js'
+import Layer from 'ol/layer/WebGLTile.js'
+import { Control, defaults as defaultControls } from 'ol/control.js'
 
 import axios from 'axios'
-import {addBacklinkURL} from '../shared_components'
+import { getSvgImgSrc, addBacklinkURL } from '../shared_components'
+import pinIconSvgSource from '../../assets/marker-pin.source.svg'
 
 export default {
 	name: 'inx-property-open-layers-map',
 	props: {
+		type: {
+			type: String,
+			default: 'osm'
+		},
+		options: {
+			type: String,
+			default: ''
+		},
+		apiKey: {
+			type: String,
+			default: ''
+		},
 		useClustering: {
 			type: Boolean,
 			default: true
@@ -63,11 +79,27 @@ export default {
 			type: String,
 			default: ''
 		},
-		markerIconUrl: false,
-		markerIconScale: {
-			type: Number,
-			default: .65
+		markerFillColor: {
+			type: String,
+			default: '#E77906'
 		},
+		markerFillOpacity: {
+			type: Number,
+			default: .8
+		},
+		markerStrokeColor: {
+			type: String,
+			default: '#404040'
+		},
+		markerStrokeWidth: {
+			type: Number,
+			default: 3
+		},
+		markerScale: {
+			type: Number,
+			default: .75,
+		},
+		markerIconUrl: false,
 		wrapClasses: {
 			type: String,
 			default: ''
@@ -94,10 +126,20 @@ export default {
 			map: null,
 			currentZoom: 0,
 			vectorSource: null,
-			markerPropertyData: {}
+			markerPropertyData: {},
+			markerIconScale: .75,
+			markerIconAnchorY: .925,
+			markerIconTextOffsetY: -15,
+			markerStyleCache: {}
 		}
 	},
 	computed: {
+		olSourceType () {
+			if (this.type.substring(0, 4) === 'gmap') return 'google'
+			if (this.type.substring(0, 3) === 'osm') return 'osm'
+
+			return 'xyz'
+		},
 		classes () {
 			let classes = this.wrapClasses.length > 0 ? this.wrapClasses.split(' ') : []
 			classes.push('inx-property-map inx-property-map--type--olmap')
@@ -128,7 +170,14 @@ export default {
 			if (!this.map) return
 
 			this.updateMarkers(newMarkers)
-			this.fitMapView(this.map)
+
+			if (this.markerSet.length === 1) {
+				const coords = this.markerSet[0].getGeometry().getCoordinates()
+				const propertyId = this.markerSet[0].get('name')
+				this.showPopup(null, [propertyId], coords)
+			} else {
+				this.fitMapView(this.map)
+			}
 		}
 	},
 	methods: {
@@ -151,10 +200,10 @@ export default {
 				return true
 			}
 
-		  return false
+			return false
 		},
 		sanitizeUrl (url) {
-    		return url.replace('[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]', '')
+			return url.replace('[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]', '')
 		},
 		async fetchMarkerPropertyData (propertyPostIds) {
 			if (this.markerPropertyData[propertyPostIds]) {
@@ -210,15 +259,10 @@ export default {
 
 				property.url = addBacklinkURL(property.url)
 
-				wrapStyle = 'padding:16px; font-size:85%; line-height:120%; text-align:center'
-				if (postIds.length > 1 && i < postIds.length - 1) {
-					wrapStyle += '; border-bottom:1px solid #e0e0e0'
-				}
-
-				content += '<div style="' + wrapStyle + '">'
+				content += '<div class="inx-property-map__property">'
 				content += '<a href="' + this.sanitizeUrl(property.url) + '">'
 				if (property.thumbnail_url) {
-					content += '<img src="' + this.sanitizeUrl(property.thumbnail_url) + '" style="display:inline-block; max-width:50%; margin-bottom:8px">'
+					content += '<img src="' + this.sanitizeUrl(property.thumbnail_url) + '">'
 				}
 				content += '<div>' + property.title + '</div>'
 				content += '</a>'
@@ -228,7 +272,7 @@ export default {
 				content += '</div>'
 			}
 
-			contentEl.innerHTML = '<div style="max-height:14em; overflow:auto">' + content + '</div>'
+			contentEl.innerHTML = '<div class="inx-property-map__property-wrap">' + content + '</div>'
 
 			this.overlay.setPosition(coords)
 			this.popupVisible = true
@@ -246,7 +290,7 @@ export default {
 			this.overlay = new Overlay({
 				element: container,
 				positioning: 'bottom-center',
-				offset: this.markerIconUrl ? [1, -26] : [0, 0]
+				offset: [1, -50 * Math.min(1, this.markerScale)]
 			})
 
 			map.addOverlay(this.overlay)
@@ -258,14 +302,6 @@ export default {
 				),
 				name: postId
 			})
-
-			marker.setStyle(new Style({
-				image: new Icon(({
-					anchor: [0.5, 1],
-					src: this.markerIconUrl,
-					scale: this.markerIconScale
-				}))
-			}))
 
 			return marker
 		},
@@ -293,34 +329,9 @@ export default {
 					source: this.vectorSource
 				})
 
-				let styleCache = {}
-
 				const clusterVectorLayer = new VectorLayer({
 					source: clusterSource,
-					style: function (feature) {
-						const size = feature.get('features').length
-						let style = styleCache[size];
-
-						if (!style) {
-							style = new Style({
-								image: new Icon(({
-									anchor: [0.5, 1],
-									src: that.markerIconUrl,
-									scale: that.markerIconScale
-								})),
-								text: new Text({
-									text: size > 1 ? size.toString() : '',
-									offsetY: -11,
-										fill: new Fill({
-										color: '#fff'
-									})
-								})
-							})
-							styleCache[size] = style
-						}
-
-						return style
-					}
+					style: (feature) => that.getMarkerStyle(feature.get('features').length)
 				})
 
 				map.addLayer(clusterVectorLayer)
@@ -333,6 +344,68 @@ export default {
 			}
 
 			this.fitMapView(map)
+		},
+		getMarkerStyle(size) {
+			if (this.markerStyleCache[size]) return this.markerStyleCache[size]
+
+			let style
+
+			const markerScale = Math.min(1, this.markerScale)
+			const markerAnchorY = 1 - markerScale * .1
+
+			if (this.markerIconUrl) {
+				/**
+				 * Custom Marker Icon
+				 */
+
+				style = new Style({
+					image: new Icon(({
+						anchor: [.5, markerAnchorY],
+						src: this.markerIconUrl,
+						scale: markerScale
+					}))
+				})
+			} else {
+				/**
+				 * SVG Marker Pin
+				 */
+
+				const parser = new DOMParser()
+				const pinSvgElement = parser.parseFromString(pinIconSvgSource, 'image/svg+xml').documentElement
+
+				pinSvgElement.style.cssText = '--fillColor:' + this.markerFillColor
+					+ ' ;--fillOpacity:' + this.markerFillOpacity
+					+ ' ;--strokeWidth:' + this.markerStrokeWidth
+					+ ' ;--strokeColor:' + this.markerStrokeColor
+
+				if (markerScale !== 1) {
+					pinSvgElement.setAttribute('width', Math.floor(pinSvgElement.getAttribute('width') * markerScale))
+					pinSvgElement.setAttribute('height', Math.floor(pinSvgElement.getAttribute('height') * markerScale))
+				}
+
+				const pinSvgElementString = (new XMLSerializer()).serializeToString(pinSvgElement)
+
+				style = new Style({
+					image: new Icon({
+						anchor: [0.5, this.markerIconAnchorY],
+						src: 'data:image/svg+xml,' + getSvgImgSrc(pinSvgElementString)
+					})
+				})
+			}
+
+			if (size > 1) {
+				style.setText( new Text({
+					text: [ size.toString(), 'bold 10px sans-serif' ],
+					offsetY: -20 * Math.min(1, markerScale),
+					fill: new Fill({
+						color: '#FFF'
+					})
+				}))
+			}
+
+			this.markerStyleCache[size] = style
+
+			return style
 		},
 		addClickEventListener (map) {
 			const that = this
@@ -394,20 +467,64 @@ export default {
 				this.lng = 6.7854410
 			}
 
+			let source
+			let controls
+			let options = this.options ? JSON.parse(atob(this.options)) : {}
+
+			switch (this.olSourceType) {
+				case 'google':
+					options.key = this.apiKey
+					source = new Google(options)
+
+					class GoogleLogoControl extends Control {
+						constructor() {
+							const element = document.createElement('img')
+							element.style.pointerEvents = 'none'
+							element.style.position = 'absolute'
+							element.style.bottom = '5px'
+							element.style.left = '5px'
+							element.src =
+								'https://developers.google.com/static/maps/documentation/images/google_on_white.png'
+							super({
+								element: element
+							})
+						}
+					}
+
+					controls = defaultControls().extend([new GoogleLogoControl()])
+					break;
+				case 'osm':
+					source = new OSM(options)
+					break;
+				default:
+					source = new XYZ(options)
+			}
+
+			source.on('change', () => {
+				if (source.getState() === 'error') {
+					console.error('[immonex Kickstart] ' + source.getError())
+				}
+			})
+
+			const maxZoom = options.maxZoom || 18
+			let currentZoom = this.zoom
+			if (maxZoom && currentZoom > maxZoom) {
+				currentZoom = maxZoom
+			}
+
 			const map = new Map({
 				target: mapElement,
 				layers: [
-					new TileLayer({
-						source: new OSM()
-					})
+					new TileLayer({source})
 				],
+				controls: controls,
 				view: new View({
 					center: fromLonLat([this.lng, this.lat]),
-					zoom: this.zoom,
+					zoom: currentZoom,
 					minZoom: 0,
-					maxZoom: 18
+					maxZoom: maxZoom
 				})
-	        })
+			})
 
 			this.addMarkers(map)
 			this.addPopup(map)
@@ -418,6 +535,11 @@ export default {
 		}
 	},
 	mounted () {
+		if (this.type === 'gmaps' && ! this.apiKey) {
+			console.error('[immonex Kickstart] Google Maps API key is missing.')
+			return
+		}
+
 		this.vectorSource = new Vector({
 			features: this.markerSet
 		})
@@ -437,40 +559,40 @@ export default {
 
 	.ol-popup {
 		position: absolute;
-		min-width: 280px;
-		padding: 15px;
-		border-radius: 10px;
-		border: 1px solid #ccc;
 		bottom: 12px;
 		left: -50px;
+		padding: 15px;
+		border: 1px solid #cccccc;
+		border-radius: 5px 5px 10px 5px;
+		min-width: 220px;
 		background-color: white;
-		filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
 		-webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
- 	}
+		filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+	}
 
 	.ol-popup:after,
 	.ol-popup:before {
+		position: absolute;
 		top: 100%;
-		border: solid transparent;
-		content: " ";
 		height: 0;
 		width: 0;
-		position: absolute;
+		border: solid transparent;
+		content: " ";
 		pointer-events: none;
 	}
 
 	.ol-popup:after {
-		border-top-color: white;
-		border-width: 10px;
 		left: 48px;
 		margin-left: -10px;
+		border-width: 10px;
+		border-top-color: white;
 	}
 
 	.ol-popup:before {
-		border-top-color: #ccc;
-		border-width: 11px;
 		left: 48px;
 		margin-left: -11px;
+		border-width: 11px;
+		border-top-color: #ccc;
 	}
 
 	.ol-popup-closer {

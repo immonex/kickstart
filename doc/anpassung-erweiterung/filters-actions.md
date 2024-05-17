@@ -22,9 +22,10 @@
 - [inx_fulltext_search_fields](filter-inx-fulltext-search-fields) (Custom Fields für die Volltextsuche)
 - [inx_search_form_debounce_delay](filter-inx-search-form-debounce-delay) (Debounce-Verzögerung bei Änderung der Suchkriterien)
 
-### Standortkarten
+### Übersichtskarten
 
 - [inx_property_list_map_atts](filter-inx-property-list-map-atts) (Abfrage/Rendering-Attribute der Kartenansicht)
+- [inx_property_list_map_options](filter-inx-property-list-map-options) (Standardvorgaben für das Quellobjekt der JS-Übersichtskarten-Komponente)
 
 ### Sortierung
 
@@ -36,9 +37,10 @@
 - [inx_detail_page_elements](filter-inx-detail-page-elements) (Elemente der Detailansicht)
 - [inx_video_iframe_template](filter-inx-video-iframe-template) (Template für die Einbindung von Video-iFrames)
 - [inx_tabbed_content_elements](filter-inx-tabbed-content-elements) (Elementaufteilung bei tabbasierter Darstellung)
-- [inx_property_template_data_details](filter-inx-property-template-data-details) (Anpassung der Detaildaten einer Immobilie vor dem Rendern des Templates)
+- [inx_property_template_data_details](filter-inx-property-template-data-details) (Detaildaten einer Immobilie vor dem Rendern des Templates)
 - [inx_property_detail_element_output](filter-inx-property-detail-element-output) (Anpassung der Ausgabe einzelner Detail-Elemente)
 - [inx_forward_to_list_view_url](filter-inx-forward-to-list-view-url) (URL der Listen-Weiterleitung beim direkten Aufruf der Detailseite)
+- [inx_property_location_map_options](filter-inx-property-location-map-options) (Standardvorgaben für Objekte der JS-Standortkarten-Komponenten)
 
 ### Benutzereinwilligung
 
@@ -59,6 +61,7 @@
 
 - [inx_property_core_data_custom_fields](filter-inx-property-core-data-custom-fields) (Custom Fields der Immobilien-Kerndaten)
 - [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
+- [inx_property_template_data](filter-inx-property-template-data) (komplette Immobilien-Template-Rendering-Daten)
 - [inx_rendered_property_template_contents](filter-inx-rendered-property-template-contents) (Anpassung der gerenderten Inhalte eines Immobilien-Detail-Templates)
 
 ### Kompatibilität
@@ -84,6 +87,8 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 - [inx_get_property_template_data](filter-inx-get-property-template-data) (komplette "Rohdaten" für das Template-Rendering einer Immobilie abrufen)
 - [inx_get_property_images](filter-inx-get-property-images) (Galerie-Bildanhänge einer Immobilie abrufen)
 - [inx_get_property_detail_item](filter-inx-get-property-detail-item) (Detail-Element einer Immobilie abrufen)
+- [inx_get_custom_field_value_by_name](filter-inx-get-custom-field-value-by-name) (Custom-Field-Wert einer Immobilie anhand des Mapping-Namens abrufen)
+- [inx_get_group_items](filter-inx-get-group-items) (Immobilien-Detailelemente nach Gruppen abrufen)
 - [inx_add_special_vars_from_post_meta](filter-inx-add-special-vars-from-post-meta) (globale Abfrage-Parameter aus Custom Fields abrufen/ergänzen)
 
 ## Actions
@@ -94,7 +99,7 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 
 Die folgenden Hooks dienen der vorrangig der **Einbindung** von Kickstart-Komponenten in Templates und somit der **Ausgabe** von Immobiliendaten.
 
-- [inx_render_property_map](action-inx-render-property-map) (Immobilien-Standortkarte)
+- [inx_render_property_map](action-inx-render-property-map) (Immobilien-Übersichtskarte)
 - [inx_render_property_search_form](action-inx-render-property-search-form) (Immobilien-Suchformular)
 - [inx_render_property_search_form_element](action-inx-render-property-search-form-element) (Suchformular-Element)
 - [inx_render_property_list](action-inx-render-property-list) (Immobilien-Listenansicht)

@@ -70,31 +70,44 @@ class User_Consent {
 		}
 
 		if ( ! empty( $consent_contents[ $type_or_url ] ) ) {
-			return array(
-				'text'        => $consent_contents[ $type_or_url ]['text'],
-				'button_text' => ! empty( $consent_contents[ $type_or_url ]['button_text'] ) ?
-					$consent_contents[ $type_or_url ]['button_text'] :
-					$default_button_text,
-				'icon_tag'    => ! empty( $consent_contents[ $type_or_url ]['icon_tag'] ) ?
-					$consent_contents[ $type_or_url ]['icon_tag'] :
-					'',
-			);
+			return $this->get_display_consent_data( $consent_contents[ $type_or_url ] );
 		}
 
-		foreach ( $consent_contents as $type => $consent_type_data ) {
-			if ( empty( $consent_type_data['url_parts'] ) ) {
+		/**
+		 * Search for aliases.
+		 */
+
+		foreach ( $consent_contents as $key => $consent_rec ) {
+			if ( ! empty( $consent_rec['aliases'] ) ) {
+				if ( in_array( $type_or_url, $consent_rec['aliases'], true ) ) {
+					return $this->get_display_consent_data( $consent_rec );
+				}
+			}
+		}
+
+		if ( false !== strpos( $type_or_url, '_' ) ) {
+			/**
+			 * Return main type record if existent.
+			 */
+
+			$type_split = explode( '_', $type_or_url );
+			$main_type  = array_shift( $type_split );
+
+			if ( ! empty( $consent_contents[ $main_type ] ) ) {
+				return $this->get_display_consent_data( $consent_contents[ $main_type ] );
+			}
+		}
+
+		/**
+		 * URL-based search for consent records.
+		 */
+
+		foreach ( $consent_contents as $key => $consent_rec ) {
+			if ( empty( $consent_rec['url_parts'] ) ) {
 				continue;
 			}
-			if ( preg_match( '`' . addslashes( implode( '|', $consent_type_data['url_parts'] ) ) . '`', $type_or_url ) ) {
-				return array(
-					'text'        => $consent_type_data['text'],
-					'button_text' => ! empty( $consent_type_data['button_text'] ) ?
-						$consent_type_data['button_text'] :
-						$default_button_text,
-					'icon_tag'    => ! empty( $consent_type_data['icon_tag'] ) ?
-						$consent_type_data['icon_tag'] :
-						'',
-				);
+			if ( preg_match( '`' . addslashes( implode( '|', $consent_rec['url_parts'] ) ) . '`', $type_or_url ) ) {
+				return $this->get_display_consent_data( $consent_rec );
 			}
 		}
 
@@ -112,7 +125,7 @@ class User_Consent {
 	 */
 	public function consent_contents( $contents ) {
 		$contents = array(
-			'gmaps'      => array(
+			'gmap'       => array(
 				'text'        => wp_sprintf(
 					/* translators: %1 = Google Privacy Policy, %2 = dataliberation.org */
 					__(
@@ -132,13 +145,31 @@ By clicking on the following button, you permit submission of data collected dur
 					'maps.gstatic',
 				),
 			),
-			'osmaps'     => array(
+			'osm_otm'    => array(
+				'aliases'     => array( 'ol_osm_map_otm' ),
+				'text'        => wp_sprintf(
+					/* translators: %1$s = OpenTopoMap Credits URL, %2$s = OSM Privacy Policy URL */
+					__(
+						'This website utilizes map services provided by the <a href="%1$s" target="_blank">OpenTopoMap project</a> and the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom (short OSMF). Your Internet browser or application will connect to servers operated by the OpenTopoMap contributors and/or OSMF located in the United Kingdom and in other countries.
+
+The operator of this site has no control over such connections and processing of your data by <a href="%1$s" target="_blank">OpenTopoMap</a> or the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%2$s" target="_blank">OSMF privacy policy</a>.',
+						'immonex-kickstart'
+					),
+					'https://opentopomap.org/credits',
+					'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
+				),
+				'button_text' => __( 'Agreed, show maps!', 'immonex-kickstart' ),
+				'icon_tag'    => '<span class="inx-icon inx-icon--ratio--3" uk-icon="location"></span>',
+				'url_parts'   => array( 'openstreetmap', 'opentopomap' ),
+			),
+			'osm'        => array(
+				'aliases'     => array( 'osmaps', 'ol_osm_map_marker' ),
 				'text'        => wp_sprintf(
 					/* translators: %s = OSM Privacy Policy URL */
 					__(
 						'This website utilizes map services provided by the OpenStreetMap Foundation, St John’s Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom (short OSMF). Your Internet browser or application will connect to servers operated by the OSMF located in the United Kingdom and in other countries.
 
-The operator of this site has no control over such connections and processing of your data by the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%s">OSMF privacy policy</a>.',
+The operator of this site has no control over such connections and processing of your data by the OSMF. You can find more information on the processing of user data by the OSMF in the <a href="%s" target="_blank">OSMF privacy policy</a>.',
 						'immonex-kickstart'
 					),
 					'https://wiki.osmfoundation.org/wiki/Privacy_Policy'
@@ -280,5 +311,26 @@ When confirmed, the viewer is loaded from a Matterport server. The operator of t
 
 		return ucfirst( $type_or_url );
 	} // get_service_name
+
+	/**
+	 * Remove non-display-relevant data from the given consent record.
+	 *
+	 * @since 1.9.13-beta
+	 *
+	 * @param mixed[] $consent_rec Consent information record.
+	 *
+	 * @return mixed[] Consent data relevant for display.
+	 */
+	private function get_display_consent_data( $consent_rec ) {
+		return array(
+			'text'        => $consent_rec['text'],
+			'button_text' => ! empty( $consent_rec['button_text'] ) ?
+				$consent_rec['button_text'] :
+				$default_button_text,
+			'icon_tag'    => ! empty( $consent_rec['icon_tag'] ) ?
+				$consent_rec['icon_tag'] :
+				'',
+		);
+	} // get_display_consent_data
 
 } // User_Consent

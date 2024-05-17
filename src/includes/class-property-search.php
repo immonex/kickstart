@@ -157,7 +157,7 @@ class Property_Search {
 
 				if ( ! $value && ! empty( $atts[ $public_id ] ) ) {
 					// Assign a shortcode attribute value if not set via GET.
-					$value = $this->utils['data']->maybe_convert_list_string( $atts[ $public_id ] );
+					$value = $this->utils['string']->split_list_string( $atts[ $public_id ], 'list_or_single' );
 				}
 
 				if ( empty( $element['hidden'] ) ) {
@@ -489,7 +489,7 @@ class Property_Search {
 
 					if ( ! empty( $element['value'] ) ) {
 						if ( ! empty( $element['multiple'] ) ) {
-							$element['value'] = $this->utils['data']->maybe_convert_list_string( $value );
+							$element['value'] = $this->utils['string']->split_list_string( $value, 'list_or_single' );
 						}
 						$values = is_array( $element['value'] ) ? $element['value'] : array( $element['value'] );
 
@@ -980,7 +980,7 @@ class Property_Search {
 				'enabled'  => true,
 				'hidden'   => false,
 				'extended' => true,
-				'type'     => 'tax-radio',
+				'type'     => 'tax-checkbox',
 				'key'      => $this->config['plugin_prefix'] . 'feature',
 				'compare'  => 'AND',
 				'numeric'  => false,
@@ -1547,7 +1547,7 @@ class Property_Search {
 			return;
 		}
 
-		$country_code = $this->utils['data']->maybe_convert_list_string( $params[ "{$prefix}iso-country" ] );
+		$country_code = $this->utils['string']->split_list_string( $params[ "{$prefix}iso-country" ], 'list_or_single' );
 
 		if ( is_array( $country_code ) ) {
 			$country_code = array_map(

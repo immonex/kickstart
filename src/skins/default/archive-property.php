@@ -49,7 +49,7 @@ get_header();
 				do_action( 'inx_render_property_map', $inx_skin_tax_archive_args );
 			}
 
-			do_action( 'inx_render_property_search_form' );
+			do_action( 'inx_render_property_search_form', '', $inx_skin_tax_archive_args );
 			do_action( 'inx_render_property_filters_sort' );
 			do_action(
 				'inx_render_property_list',

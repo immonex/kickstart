@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import gmapsInit from '../gmaps'
+import { Loader } from '@googlemaps/js-api-loader'
 import debounce from 'debounce'
 
 export default {
@@ -95,7 +95,18 @@ export default {
 			}
 
 			this.consentGranted = true
-			this.google = await gmapsInit(this.apiKey)
+
+			const loader = new Loader({
+				apiKey: this.apiKey,
+				version: 'weekly'
+			})
+			await loader.load()
+
+			this.google = {
+				maps: await google.maps.importLibrary('maps'),
+				places: await google.maps.importLibrary('places')
+			}
+
 			this.initAutocomplete()
 		},
 		initAutocomplete: function() {
@@ -131,7 +142,7 @@ export default {
 			}
 
 			// Create the autocomplete object, restricting the search to geographical location types.
-			this.autocomplete = new this.google.maps.places.Autocomplete(
+			this.autocomplete = new this.google.places.Autocomplete(
 				this.$refs.input,
 				options
 			);

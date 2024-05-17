@@ -20,6 +20,10 @@
 export default {
 	name: 'inx-property-location-google-embed-map',
 	props: {
+		options: {
+			type: String,
+			default: ''
+		},
 		location: {
 			type: String,
 			default: ''
@@ -56,6 +60,7 @@ export default {
 	data: function() {
 		return {
 			id: null,
+			mapType: 'roadmap',
 			consentGranted: false
 		}
 	},
@@ -70,7 +75,7 @@ export default {
 			return classes.join(' ')
 		},
 		mapSrc () {
-			return `https://www.google.com/maps/embed/v1/place?key=${this.apiKey}&q=${this.location}&zoom=${this.zoom}`
+			return `https://www.google.com/maps/embed/v1/place?key=${this.apiKey}&q=${this.location}&zoom=${this.zoom}&maptype=${this.mapType}`
 		}
 	},
 	methods: {
@@ -80,6 +85,9 @@ export default {
 				event.preventDefault()
 				this.$cookies.set('inx_consent_use_maps', true)
 			}
+
+			let options = this.options ? JSON.parse(atob(this.options)) : {}
+			if (options.mapType) this.mapType = options.mapType
 
 			this.consentGranted = true
 		}

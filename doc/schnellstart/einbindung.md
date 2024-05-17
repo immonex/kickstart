@@ -26,7 +26,7 @@ Details und vollständige Elementliste: [Komponenten → Suchformular](/komponen
 
 `[inx-property-map]`
 
-Dieser Shortcode generiert eine Karte auf OpenStreetMap-Basis, die anklickbare Immobilien-Standortmarker inkl. zugehörigen Info-Overlays mit verlinkten Objektfotos und -bezeichnungen enthält.
+Dieser Shortcode generiert eine Karte (OpenStreetMap/OpenTopoMap oder Google Maps), die anklickbare Immobilien-Standortmarker inkl. zugehörigen Info-Overlays mit verlinkten Objektfotos und -bezeichnungen enthält.
 
 Details: [Komponenten → Karte](/komponenten/karte)
 

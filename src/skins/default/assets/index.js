@@ -1,1 +1,0 @@
-(()=>{"use strict";jQuery(document).ready((function(e){var t=0;e("#inx-single-property__tab-contents > li").each((function(n,r){0===e(r).html().trim().length&&(e(r).remove(),e(".inx-single-property__tab-nav li:eq("+(n-t)+")").remove(),t++)}))}))})();

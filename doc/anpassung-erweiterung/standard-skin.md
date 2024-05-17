@@ -133,6 +133,12 @@ import '../scss/index.scss';
 │   ├── map.php
 │   ├── pagination.php
 │   └── properties.php
+│
+├── /images
+│   ╷
+│   ├── location-pin.png
+│   ├── location-pin-org.png
+│   └── map-location-pin.png &larr; <em class="token important">optional, falls eine eigene Markergrafik verwendet werden soll</em>
 …
 </pre>
 
@@ -140,10 +146,10 @@ Das Template für die Standard-Archivseite der [Immobilien-Beitragsart](/beitrag
 
 ```php
 if ( $immonex_kickstart->property_list_map_display_by_default ) {
-	do_action( 'inx_render_property_map' );
+	do_action( 'inx_render_property_map', $inx_skin_tax_archive_args );
 }
 
-do_action( 'inx_render_property_search_form' );
+do_action( 'inx_render_property_search_form', $inx_skin_tax_archive_args );
 do_action( 'inx_render_property_filters_sort' );
 do_action( 'inx_render_property_list', array(
 	'is_regular_archive_page' => true
@@ -153,7 +159,7 @@ do_action( 'inx_render_pagination', array(
 ) );
 ```
 
-Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Standortkarte (`map.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
+Der Ordner `property-list` enthält die Vorlagen (Templates) für Immobilienlisten (`properties.php` und `list-item.php`), Standort-Übersichtskarte (`map.php`), Sortierauswahl (`filters-sort.php` und Seitennavigation (`pagination.php`).
 
 ?> Bei allen Templates werden die zu rendernden Daten jeweils im Array `$template_data` bereitgestellt.
 
@@ -187,14 +193,17 @@ Das Template `property-search.php` dient der Einbindung der vorgegebenen [Elemen
 │   ├── …
 │   └── virtual-tour.php
 │
-└── /images
-    ╷
-    └── location-pin.png
+├── /images
+│   ╷
+│   ├── location-pin.png
+│   ├── location-pin-org.png
+│   └── map-location-pin.png &larr; <em class="token important">optional, falls eine eigene Markergrafik verwendet werden soll</em>
+…
 </pre>
 
 Die Datei `single-property.php` enthält das Standard-Template für die **Einzelansicht** eines [Immobilien-Beitrags](/beitragsarten-taxonomien).
 
-Wie bei der Suche wurden die Templates der einzelnen **Elementarten** in einem Unterordner zusammengefasst: `single-property` (Jede dieser Vorlagen kann übrigens auch für mehrere, gleichartige [Elemente der Detailansicht](/komponenten/detailansicht#elemente-abschnitte) eingesetzt werden.)
+Wie bei der Suche wurden die Templates der einzelnen **Elementarten** in einem Unterordner zusammengefasst: `single-property` (Jede dieser Vorlagen kann übrigens auch für mehrere, gleichartige [Elemente der Detailansicht](/komponenten/detailansicht#elemente) eingesetzt werden.)
 
 Eine zentrale Bedeutung kommt hier der Vorlage `single-property/element-hub.php` zu: Hierüber wird die Einbindung und - beim Standard-Skin teilweise tabbasierte - Gruppierung und Darstellung der Elemente gesteuert. Hierbei handelt es sich auch um das vorausgewählte Template, wenn die [Detail-Render-Action](action-inx-render-property-contents) ohne explizite Angabe einer Vorlage ausgeführt wird:
 
@@ -205,3 +214,9 @@ while ( have_posts() ) {
 }
 ```
 
+### Karten
+
+![Standard-Kartenmarker](../assets/standard-map-marker.png)\
+Standard-Kartenmarker (*SVG*)
+
+Soll eine eigene Markergrafik in den [Immobilien-Übersichtskarten](/komponenten/karte) oder den Standortkarten der [Detailansicht](/komponenten/detailansicht) verwendet werden, kann diese im Ordner `images` mit dem Namen `map-location-pin.png`abgelegt werden. (Alternativ können auch Größe, Farbe, Linienstärke und Transparenzgrad des Standard-SVG-Markers per [Shortcode-Attribut](/komponenten/karte?id=attribute) oder [Filterfunktion](filter-inx-property-list-map-atts) angepasst werden.)

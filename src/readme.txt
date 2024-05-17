@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
-Tested up to: 6.5
-Stable Tag: 1.9.0
+Tested up to: 6.6
+Stable Tag: 1.9.13
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,8 +46,10 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Simple but powerful templating system ("Skins")
 * Clean and responsive default skin
 * Property grouping (project taxonomy)
-* Property location overview maps incl. clustered markers (OpenStreetMap/OpenLayers)
-* Property detail location maps (OpenStreetMap and Google Maps)
+* Property location overview maps incl. clustered markers (OpenStreetMap/OpenTopoMap or Google Maps)
+* Property detail location maps (OpenStreetMap/OpenTopoMap or Google Maps)
+* Selectable map variants/views (road map, area map, topographic, satellite + streetmap layer)
+* Customizable map marker image (SVG)
 * Dynamic updates of property lists and location map views based on the current search parameters
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
@@ -109,17 +111,20 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.9.9-beta =
-* Release date: 2024-03-13
+= 1.9.13 =
+* Release date: 2024-05-17
+* Added new map types/variations (overview and detail page maps).
 * Added search element (inx-)title-desc for querying regular property title and description fields (special cases).
 * Added ability to exclude properties from lists based on taxonomy terms.
 * Added support for PDF files in floor plan and energy pass galleries.
+* Added a default value to a callback method for the the_title filter to prevent issues regarding incorrect calls by other plugins.
 * Extended fulltext search possibilities.
 * Improved gallery navigation arrow display (especially on small screens and touch devices).
 * Improved search form range slider value display.
 * Reworked application of inx_search_form_primary_price_min_max_values filters.
 * Fixed a warning related to manually entered test data.
 * Fixed several minor gallery display issues.
+* Fixed a minor search form reset bug.
 * Updated dependencies.
 
 = 1.9.0 =

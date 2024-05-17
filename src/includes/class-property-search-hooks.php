@@ -92,10 +92,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 				! $query->is_main_query() ||
 				is_single() ||
 				is_page() ||
-				is_admin() || (
-					is_archive() &&
-					$this->config['property_post_type_name'] !== $query->get( 'post_type' )
-				)
+				is_admin()
 			)
 		) {
 			return;

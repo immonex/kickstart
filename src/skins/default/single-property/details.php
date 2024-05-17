@@ -21,9 +21,9 @@ $inx_skin_description_text = isset( $template_data['description_text_field'] ) ?
 
 $inx_skin_autop = $template_data['apply_wpautop_details_page'] ? true : 'noautop';
 
-$inx_skin_groups = isset( $template_data['groups'] ) && $template_data['groups'] ?
+$inx_skin_groups = ! empty( $template_data['groups'] ) ?
 	$utils['data']->convert_to_group_array( $template_data['groups'] ) :
-	'';
+	array();
 
 $inx_skin_details = ! empty( $inx_skin_groups ) ?
 	$utils['data']->get_group_items( $template_data['details'], $inx_skin_groups ) :
