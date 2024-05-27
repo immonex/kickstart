@@ -26,7 +26,7 @@ if ( $inx_skin_show_map && 'gmap_embed' === substr( $template_data['type'], 0, 1
 >
 </<?php echo $inx_skin_map_tag_name; ?>>
 
-<?php else : ?>
+<?php elseif ( $inx_skin_show_map ) : ?>
 
 <<?php echo $inx_skin_map_tag_name; ?>
 	type="<?php echo esc_attr( $template_data['type'] ); ?>"

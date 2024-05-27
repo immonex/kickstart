@@ -700,8 +700,11 @@ class WP_Bootstrap {
 	 * @return string[] Maybe modified array.
 	 */
 	public function check_body_classes( $classes ) {
+		$post_id = apply_filters( 'inx_current_property_post_id', false );
+
 		if (
-			get_post_type() === $this->data['property_post_type_name'] &&
+			$post_id &&
+			get_post_type( $post_id ) === $this->data['property_post_type_name'] &&
 			count( $classes ) > 0
 		) {
 			$irregular_has_sidebar = array_search( 'has-sidebar', $classes, true );

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3974d025800f0176051882a1877e9c1",
+    "content-hash": "5eadf0bb8ab490246b6e216a2ee809cd",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.9.15",
+            "version": "1.9.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "d08f1570b1825dba07a66673b41a7234bd0c98f0"
+                "reference": "36a0e8c33d11ffcd87dd477156780402f6a8c406"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/d08f1570b1825dba07a66673b41a7234bd0c98f0",
-                "reference": "d08f1570b1825dba07a66673b41a7234bd0c98f0",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/36a0e8c33d11ffcd87dd477156780402f6a8c406",
+                "reference": "36a0e8c33d11ffcd87dd477156780402f6a8c406",
                 "shasum": ""
             },
             "require": {
@@ -147,9 +147,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.9.15"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.9.16"
             },
-            "time": "2024-05-17T12:54:20+00:00"
+            "time": "2024-05-24T11:47:26+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1079,12 +1079,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "88a07d262854c827db22f2eac8b072138e492f65"
+                "reference": "aa53f8d4374d1f5bd3fc598548d6272cb5d9bf39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/88a07d262854c827db22f2eac8b072138e492f65",
-                "reference": "88a07d262854c827db22f2eac8b072138e492f65",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/aa53f8d4374d1f5bd3fc598548d6272cb5d9bf39",
+                "reference": "aa53f8d4374d1f5bd3fc598548d6272cb5d9bf39",
                 "shasum": ""
             },
             "require": {
@@ -1136,7 +1136,7 @@
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.x"
             },
-            "time": "2024-05-08T18:52:15+00:00"
+            "time": "2024-05-21T06:14:15+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",

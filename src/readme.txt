@@ -111,6 +111,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.16-beta =
+* Release date: 2024-05-27
+* Fixed two map template issue.
+* Fixed a compatibility issue in Windows-bases hosting environments.
+
 = 1.9.13 =
 * Release date: 2024-05-17
 * Added new map types/variations (overview and detail page maps).
@@ -135,14 +140,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added option for enabling/disabling gallery image links (full size/lightbox).
 * Reworked retrieving of special variable/flag values.
 * Fixed translation file selection (beta versions only).
-* Updated dependencies.
-
-= 1.8.5 =
-* Release date: 2023-11-10
-* Added hashes to names of dynamically loaded JS/CSS files (improved cache busting).
-* Fixed query order adjustments (special cases only).
-* Fixed search form price range slider rounding issue.
-* Disabled automatic detail to list view redirects when Divi Builder is active.
 * Updated dependencies.
 
 See changelog.txt for the complete version history.
