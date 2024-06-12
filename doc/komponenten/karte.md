@@ -30,7 +30,7 @@ Sofern die [betreffende Option](/schnellstart/einrichtung?id=%c3%9cbersichtskart
 
 ## Nutzereinwilligung
 
-Das Laden der Karte muss durch eine (einmalige) Nutzer-Einwilligung bestätigt werden, sofern [diese Option]((/schnellstart/einrichtung?id=benutzereinwilligung) ) nicht deaktiviert wurde:
+Das Laden der Karte muss durch eine (einmalige) Nutzer-Einwilligung bestätigt werden, sofern [diese Option](/schnellstart/einrichtung?id=benutzereinwilligung) nicht deaktiviert wurde:
 
 ![Nutzereinwilligung](../assets/scst-property-map-consent.png)
 
