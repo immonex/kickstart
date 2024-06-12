@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 1.9.18 =
+* Release date: 2024-06-12
+* Added Open Graph an X/Twitter Card meta tag support.
+* Added basic support for post passwords to the regular single property template.
+* Disabled a jerky gallery animation (single Ken Burns effect direction).
+* Fixed two map template issues.
+* Fixed a compatibility issue in Windows-based hosting environments.
+* Updated dependencies.
+
 = 1.9.13 =
 * Release date: 2024-05-17
 * Added new map types/variations (overview and detail page maps).

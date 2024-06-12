@@ -19,14 +19,18 @@ get_header();
 	while ( have_posts() ) {
 		the_post();
 
-		do_action( 'inx_before_render_single_property' );
-		do_action( 'inx_render_property_contents' );
-		do_action( 'inx_after_render_single_property' );
+		if ( ! post_password_required() ) {
+			do_action( 'inx_before_render_single_property' );
+			do_action( 'inx_render_property_contents' );
+			do_action( 'inx_after_render_single_property' );
+		} else {
+			echo get_the_password_form();
+		}
 	}
 	?>
 		</div>
 
-		<?php if ( is_active_sidebar( 'inx-property-details' ) ) : ?>
+		<?php if ( is_active_sidebar( 'inx-property-details' ) && ! post_password_required() ) : ?>
 		<div class="inx-single-property__sidebar uk-width-1-3@m">
 			<ul>
 				<?php dynamic_sidebar( 'inx-property-details' ); ?>

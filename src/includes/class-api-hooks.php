@@ -54,9 +54,15 @@ class API_Hooks {
 		add_filter( 'inx_merge_queries', array( $this->api, 'merge_queries' ), 10, 3 );
 		add_filter( 'inx_list_string_to_array', array( $this, 'list_string_to_array' ), 10, 2 );
 
+		/**
+		 * Public Hooks
+		 */
 		add_filter( 'inx_get_custom_field_value_by_name', array( $this->api, 'get_custom_field_value_by_name' ), 10, 3 );
 		add_filter( 'inx_get_query_var_value', array( $this->api, 'get_query_var_value' ), 10, 3 );
 		add_filter( 'inx_get_group_items', array( $this, 'get_group_items' ), 10, 3 );
+		add_filter( 'inx_is_property_list_page', array( $this->api, 'is_property_list_page' ) );
+		add_filter( 'inx_is_property_details_page', array( $this->api, 'is_property_details_page' ) );
+		add_filter( 'inx_is_property_tax_archive', array( $this->api, 'is_property_tax_archive' ) );
 	} // __construct
 
 	/**

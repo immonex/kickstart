@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.9.16-beta';
+	const PLUGIN_VERSION             = '1.9.18';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -29,6 +29,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 	);
 	const OPTIONS_LINK_MENU_LOCATION = 'inx_menu';
 	const PROPERTY_POST_TYPE_NAME    = 'inx_property';
+	const SHARING_PROTOCOLS          = array( 'open_graph', 'x' );
 
 	/**
 	 * Plugin options
@@ -78,6 +79,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 		'property_details_map_infowindow_contents'     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_details_map_note_map_marker'         => '',
 		'property_details_map_note_map_embed'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'sharing_open_graph'                           => true,
+		'sharing_x'                                    => true,
+		'sharing_max_images'                           => 10,
+		'sharing_tag_insert_mode'                      => 'extend',
 		'deferred_tasks'                               => array(),
 	);
 
@@ -136,6 +141,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 	 * @var \immonex\Kickstart\User_Consent
 	 */
 	private $user_consent;
+
+	/**
+	 * Document head object
+	 *
+	 * @var \immonex\Kickstart\Document_Head
+	 */
+	private $doc_head;
 
 	/**
 	 * Default values of custom fields that must be available for every
@@ -435,6 +447,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 		$component_config = array_merge(
 			$this->bootstrap_data,
 			array(
+				'plugin_version'                           => $this->plugin_options['plugin_version'],
+				'plugin_home_url'                          => self::PLUGIN_HOME_URL,
 				'skin'                                     => $this->plugin_options['skin'],
 				'property_list_page_id'                    => $this->plugin_options['property_list_page_id'],
 				'properties_per_page'                      => $this->plugin_options['properties_per_page'],
@@ -468,6 +482,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 				'property_details_map_note_map_marker'     => $this->plugin_options['property_details_map_note_map_marker'],
 				'property_details_map_note_map_embed'      => $this->plugin_options['property_details_map_note_map_embed'],
 				'google_api_key'                           => $this->plugin_options['google_api_key'],
+				'sharing_open_graph'                       => $this->plugin_options['sharing_open_graph'],
+				'sharing_x'                                => $this->plugin_options['sharing_x'],
+				'sharing_max_images'                       => $this->plugin_options['sharing_max_images'],
+				'sharing_tag_insert_mode'                  => $this->plugin_options['sharing_tag_insert_mode'],
 				'required_property_custom_field_defaults'  => $this->required_property_custom_field_defaults,
 			)
 		);
@@ -504,6 +522,17 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 		}
 
 		add_filter( "pre_update_option_{$this->plugin_options_name}", array( $this, 'do_before_options_update' ), 10, 2 );
+
+		foreach ( self::SHARING_PROTOCOLS as $protocol ) {
+			if ( empty( $this->doc_head ) ) {
+				$this->doc_head = new Document_Head( $component_config );
+			}
+
+			if ( $this->plugin_options[ "sharing_{$protocol}" ] ) {
+				$class = __NAMESPACE__ . '\Sharing_' . ucwords( $protocol, '_' );
+				new $class( $component_config, $this->utils );
+			}
+		}
 
 		$this->perform_deferred_tasks();
 	} // init_plugin
@@ -760,6 +789,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 					'description' => __( 'If third-party services are used in the website frontend that connect to remote servers (iFrame embedding or API requests), user consent can be obtained in advance. The following options can be disabled if another plugin is used for this purpose.', 'immonex-kickstart' ),
 					'tab'         => 'tab_general',
 				),
+				'sharing'                  => array(
+					'title'       => __( 'Sharing', 'immonex-kickstart' ),
+					'description' => __( 'To optimize the display of links in social networks, instant messaging services, etc. (Facebook, X/Twitter, LinkedIn, Slack, WhatsApp…), special <em>meta tags</em> are embedded into property listing and detail pages, provided that the relevant options are activated.', 'immonex-kickstart' ),
+					'tab'         => 'tab_general',
+				),
 				'ext_services'             => array(
 					'title'       => __( 'External Services', 'immonex-kickstart' ),
 					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). An appropriate API key is required in this case.', 'immonex-kickstart' ),
@@ -938,6 +972,58 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 					'section' => 'references',
 					'args'    => array(
 						'description' => __( 'Activate this option if the contact section (including agent information and form if the <a href="https://wordpress.org/plugins/immonex-kickstart-team/" target="_blank">Team Add-on</a> is installed) should be displayed on <strong>reference property detail pages</strong>.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'sharing_open_graph',
+					'type'    => 'checkbox',
+					'label'   => 'Open Graph',
+					'section' => 'sharing',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = Open Graph URL */
+							__( 'Embed <a href="%s" target="_blank">Open Graph</a> meta tags to the head section of the property list/detail HTML documents.', 'immonex-kickstart' ),
+							'https://ogp.me/'
+						),
+					),
+				),
+				array(
+					'name'    => 'sharing_x',
+					'type'    => 'checkbox',
+					'label'   => 'X',
+					'section' => 'sharing',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = X Developer URL */
+							__( 'Embed additional <a href="%s" target="_blank">X (fka Twitter)</a> meta tags.', 'immonex-kickstart' ),
+							'https://developer.x.com/en/docs/twitter-for-websites/cards/guides/getting-started'
+						),
+					),
+				),
+				array(
+					'name'    => 'sharing_max_images',
+					'type'    => 'number',
+					'label'   => __( 'Max. Number of Images', 'immonex-kickstart' ),
+					'section' => 'sharing',
+					'args'    => array(
+						'description' => __( 'The maximum number of property images supplied as meta tags can be limited for destination platforms that support the display of multiple images (<code>-1</code> = no limit).', 'immonex-kickstart' ),
+						'class'       => 'small-text',
+						'min'         => -1,
+						'max'         => 50,
+					),
+				),
+				array(
+					'name'    => 'sharing_tag_insert_mode',
+					'type'    => 'select',
+					'label'   => __( 'Meta Tag Insert Mode', 'immonex-kickstart' ),
+					'section' => 'sharing',
+					'args'    => array(
+						'description' => __( 'For cases where meta tags with the <strong>same name attributes</strong> have already been inserted by the theme or other plugins, these can either be retained or replaced. Further tags provided by Kickstart with other name attributes are always added. Alternatively, all tags generated by Kickstart can simply be appended, regardless of any existing tags of the same name.', 'immonex-kickstart' ),
+						'options'     => array(
+							'replace' => __( 'replace and supplement existing', 'immonex-kickstart' ),
+							'extend'  => __( 'keep and supplement existing', 'immonex-kickstart' ),
+							'append'  => __( 'keep existing and append all', 'immonex-kickstart' ),
+						),
 					),
 				),
 				array(

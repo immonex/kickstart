@@ -124,7 +124,7 @@ if ( $inx_skin_media_count > 0 ) :
 
 	$inx_skin_has_valid_ken_burns_image      = false;
 	$inx_skin_ken_burns_animation_directions = array(
-		'uk-transform-origin-top-left',
+		// 'uk-transform-origin-top-left', Disabled due to jerky animation.
 		'uk-transform-origin-top-center',
 		'uk-transform-origin-top-right',
 		'uk-transform-origin-center-left',

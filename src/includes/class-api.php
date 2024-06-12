@@ -487,6 +487,91 @@ class API {
 	} // get_all_property_coords
 
 	/**
+	 * Check if the current page or the one with the given ID is a property
+	 * list page (filter callback).
+	 *
+	 * @since 1.9.18-beta
+	 *
+	 * @param int|bool $page_id Page ID to check or false for automatic
+	 *                          determination (optional).
+	 *
+	 * @return int|bool Post ID (page as template) or true (regular archive)
+	 *                  if the current page is a property list page/archive,
+	 *                  false otherwise.
+	 */
+	public function is_property_list_page( $page_id = false ) {
+		if ( ! $page_id ) {
+			$page_id = get_the_ID();
+		}
+
+		if ( is_post_type_archive( $this->config['property_post_type_name'] ) ) {
+			return true;
+		}
+
+		if (
+			$this->config['property_list_page_id']
+			&& (int) $this->config['property_list_page_id'] === (int) $page_id
+		) {
+			return (int) $page_id;
+		}
+
+		return false;
+	} // is_property_list_page
+
+	/**
+	 * Check if the current page is a property taxonomy archive (filter callback).
+	 *
+	 * @since 1.9.18-beta
+	 *
+	 * @param string|bool $tax_archive_term Default value.
+	 *
+	 * @return WP_Term|bool Term object if the current page is a property
+	 *                      taxonomy archive, false otherwise.
+	 */
+	public function is_property_tax_archive( $tax_archive_term = false ) {
+		global $wp_query;
+
+		if ( ! is_tax() ) {
+			return false;
+		}
+
+		$term = get_queried_object();
+
+		if ( ! empty( $term ) && 'inx_' === substr( $term->taxonomy, 0, 4 ) ) {
+			return $term;
+		}
+
+		return false;
+	} // is_property_tax_archive
+
+	/**
+	 * Check if the current page or the one with the given ID is a property
+	 * details page/post (filter callback).
+	 *
+	 * @since 1.9.18-beta
+	 *
+	 * @param int|bool $post_id Post ID to check or false for automatic
+	 *                          determination (optional).
+	 *
+	 * @return int|bool Post ID if the current page is a property details post,
+	 *                  false otherwise.
+	 */
+	public function is_property_details_page( $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = apply_filters( 'inx_current_property_post_id', false );
+		}
+
+		if (
+			(int) $post_id
+			&& get_post_type( (int) $post_id ) === $this->config['property_post_type_name']
+		) {
+			return (int) $post_id;
+		}
+
+		return false;
+	} // is_property_details_page
+
+	/**
 	 * Check and sanitize "forced" min/max values for property prices.
 	 *
 	 * @since 1.9.9-beta

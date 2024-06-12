@@ -63,6 +63,7 @@
 - [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
 - [inx_property_template_data](filter-inx-property-template-data) (komplette Immobilien-Template-Rendering-Daten)
 - [inx_rendered_property_template_contents](filter-inx-rendered-property-template-contents) (Anpassung der gerenderten Inhalte eines Immobilien-Detail-Templates)
+- [inx_sharing_{$type}\_meta_tags](filter-inx-sharing-meta-tags)
 
 ### Kompatibilität
 
@@ -90,6 +91,9 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 - [inx_get_custom_field_value_by_name](filter-inx-get-custom-field-value-by-name) (Custom-Field-Wert einer Immobilie anhand des Mapping-Namens abrufen)
 - [inx_get_group_items](filter-inx-get-group-items) (Immobilien-Detailelemente nach Gruppen abrufen)
 - [inx_add_special_vars_from_post_meta](filter-inx-add-special-vars-from-post-meta) (globale Abfrage-Parameter aus Custom Fields abrufen/ergänzen)
+- [inx_is_property_list_page](filter-inx-is-property-list-page) (Immobilien-Listenseiten-Prüfung)
+- [inx_is_property_tax_archive](filter-inx-is-property-tax-archive) (Immobilien-Taxonomie-Archiv-Prüfung)
+- [inx_is_property_details_page](filter-inx-is-property-details-page) (Immobilien-Detailseiten-Prüfung)
 
 ## Actions
 

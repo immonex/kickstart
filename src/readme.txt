@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
 Tested up to: 6.6
-Stable Tag: 1.9.13
+Stable Tag: 1.9.18
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Selectable map variants/views (road map, area map, topographic, satellite + streetmap layer)
 * Customizable map marker image (SVG)
 * Dynamic updates of property lists and location map views based on the current search parameters
+* Meta tags for social media sharing (Open Graph, X/Twitter)
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
@@ -59,6 +60,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Support for multilingual websites (Polylang or WPML)
 * Compatible with immonex OpenImmo2WP (OpenImmo importer) [2]
 * Compatible with immonex Energy Scale Pro (energy class visualization) [2]
+* Compatible with immonex Notify (real estate e-mail marketing/automation) [2]
 
 == Installation ==
 
@@ -111,10 +113,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.9.16-beta =
-* Release date: 2024-05-27
-* Fixed two map template issue.
-* Fixed a compatibility issue in Windows-bases hosting environments.
+= 1.9.18 =
+* Release date: 2024-06-12
+* Added Open Graph an X/Twitter Card meta tag support.
+* Added basic support for post passwords to the regular single property template.
+* Disabled a jerky gallery animation (single Ken Burns effect direction).
+* Fixed two map template issues.
+* Fixed a compatibility issue in Windows-based hosting environments.
+* Updated dependencies.
 
 = 1.9.13 =
 * Release date: 2024-05-17

@@ -39,6 +39,12 @@ Die Zustimmung zur Nutzung eines Dienstes gilt hierbei für alle Dienste der gle
 
 !>**Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen ist!
 
+#### Teilen
+
+Zur Optimierung der Darstellung von Links in sozialen Netzwerken, Instant-Messaging-Diensten & Co. (Facebook, X/Twitter, LinkedIn, Slack, WhatsApp etc.) werden in Immobilien-Listen- und Detailseiten spezielle *Meta-Tags* ([Open Graph](https://ogp.me/), [Twitter Cards](https://developer.x.com/en/docs/twitter-for-websites/cards/guides/getting-started)) eingebunden, sofern die betr. Optionen aktiviert sind.
+
+Werden bereits themeseitig oder von anderen Plugins (z. B. SEO) Meta-Tags mit identischen Namensattributen eingefügt, werden diese gem. der Standardvorgabe durch die noch nicht vorhandenen, vom Kickstart-Plugin generierten Tags ergänzt. Alternativ kann aber auch die Ersetzung vorhandener oder das Einfügen aller Tags – unabhängig von bereits vorhandenen – eingestellt werden.
+
 #### Externe Dienste
 
 ##### Google Maps API Key
