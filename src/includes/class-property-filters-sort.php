@@ -70,6 +70,11 @@ class Property_Filters_Sort {
 		if ( ! empty( $_GET ) ) {
 			// Add further GET vars.
 			foreach ( $_GET as $var_name => $value ) {
+				$var_name = $this->utils['string']->validate_key( $var_name );
+				if ( ! $var_name ) {
+					continue;
+				}
+
 				if (
 					'' !== $value &&
 					! isset( $preserve_get_vars[ $var_name ] ) &&

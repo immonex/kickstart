@@ -35,7 +35,18 @@ $inx_skin_image_selection_custom_field = isset( $template_data['image_selection_
 	$template_data['image_selection_custom_field'] :
 	'_inx_gallery_images'; // _inx_gallery_images, _inx_floor_plans
 
-$inx_skin_is_default_gallery = '_inx_gallery_images' === $inx_skin_image_selection_custom_field;
+if (
+	is_string( $inx_skin_image_selection_custom_field ) &&
+	false !== strpos( $inx_skin_image_selection_custom_field, ',' )
+) {
+	$inx_skin_image_selection_custom_field = array_map( 'trim', explode( ',', $inx_skin_image_selection_custom_field ) );
+}
+
+if ( ! is_array( $inx_skin_image_selection_custom_field ) ) {
+	$inx_skin_image_selection_custom_field = array( $inx_skin_image_selection_custom_field );
+}
+
+$inx_skin_is_default_gallery = in_array( '_inx_gallery_images', $inx_skin_image_selection_custom_field, true );
 
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
@@ -45,11 +56,27 @@ $inx_skin_print_images_cnt = isset( $template_data['print_images_cnt'] ) ?
 	(int) $template_data['print_images_cnt'] :
 	1;
 
-$inx_skin_gallery_image_ids = get_post_meta(
-	$template_data['post_id'],
-	$inx_skin_image_selection_custom_field,
-	true
-);
+$inx_skin_gallery_image_ids = array();
+
+foreach ( $inx_skin_image_selection_custom_field as $inx_skin_image_cf ) {
+	$inx_skin_cf_image_ids = get_post_meta(
+		$template_data['post_id'],
+		$inx_skin_image_cf,
+		true
+	);
+	if ( empty( $inx_skin_cf_image_ids ) ) {
+		continue;
+	}
+	if ( ! is_array( $inx_skin_cf_image_ids ) ) {
+		$inx_skin_cf_image_ids = array( $inx_skin_cf_image_ids );
+	}
+
+	$inx_skin_gallery_image_ids = array_merge(
+		$inx_skin_gallery_image_ids,
+		$inx_skin_cf_image_ids
+	);
+}
+
 if (
 	is_array( $inx_skin_gallery_image_ids ) &&
 	count( $inx_skin_gallery_image_ids ) > 0 &&
@@ -122,6 +149,15 @@ if ( $inx_skin_media_count > 0 ) :
 	$inx_skin_max_image_height = 0;
 	$inx_skin_fixed_thumb_nav  = $inx_skin_show_video || $inx_skin_show_virtual_tour;
 
+	$inx_skin_pdf_preview_ph_url    = plugins_url(
+		'assets/pdf-preview-ph.png',
+		$template_data['plugin_main_file']
+	);
+	$inx_skin_pdf_preview_thumb_url = plugins_url(
+		'assets/pdf-preview-thumb.png',
+		$template_data['plugin_main_file']
+	);
+
 	$inx_skin_has_valid_ken_burns_image      = false;
 	$inx_skin_ken_burns_animation_directions = array(
 		// 'uk-transform-origin-top-left', Disabled due to jerky animation.
@@ -135,9 +171,20 @@ if ( $inx_skin_media_count > 0 ) :
 	);
 
 	foreach ( $inx_skin_gallery_image_ids as $inx_skin_id ) {
-		$inx_skin_image = wp_get_attachment_image_src( $inx_skin_id, 'full' );
+		$inx_skin_image          = wp_get_attachment_image_src( $inx_skin_id, 'full' );
+		$inx_skin_is_pdf_preview = false;
+
 		if ( ! $inx_skin_image ) {
-			continue;
+			if ( 'application/pdf' !== get_post_mime_type( $inx_skin_id ) ) {
+				continue;
+			}
+
+			$inx_skin_is_pdf_preview = true;
+			$inx_skin_image          = array(
+				$inx_skin_pdf_preview_ph_url,
+				800,
+				600,
+			);
 		}
 
 		if ( $inx_skin_image[2] > INX_SKIN_MAX_IMAGE_HEIGHT ) {
@@ -145,9 +192,35 @@ if ( $inx_skin_media_count > 0 ) :
 			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
 		}
 
-		$inx_skin_image_enable_ken_burns_effect = $inx_skin_enable_ken_burns_effect;
-		if ( $inx_skin_image[1] < INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+		if ( $inx_skin_is_pdf_preview ) {
+			$inx_skin_image_alt = get_post_meta( $inx_skin_id, '_wp_attachment_image_alt', true );
+			if ( trim( $inx_skin_image_alt ) ) {
+				$inx_skin_thumb_alt = $inx_skin_image_alt . ' (Thumbnail)';
+			} else {
+				$inx_skin_image_alt = __( 'PDF preview image', 'immonex-kickstart' );
+				$inx_skin_thumb_alt = 'Thumbnail';
+			}
+
+			$inx_skin_pdf_preview_image_tag = wp_sprintf(
+				'<img class="attachment-full size-full inx-gallery__pdf-preview-placeholder" src="%1$s" width="%2$s" height="%3$s" alt="%4$s">',
+				$inx_skin_image[0],
+				$inx_skin_image[1],
+				$inx_skin_image[2],
+				$inx_skin_image_alt
+			);
+
+			$inx_skin_pdf_preview_thumb_tag = wp_sprintf(
+				'<img class="attachment-inx-thumbnail size-inx-thumbnail inx-gallery__pdf-preview-thumbnail" src="%1$s" width="120" height="68" alt="%2$s">',
+				$inx_skin_pdf_preview_thumb_url,
+				$inx_skin_thumb_alt
+			);
+
 			$inx_skin_image_enable_ken_burns_effect = false;
+		} else {
+			$inx_skin_image_enable_ken_burns_effect = $inx_skin_enable_ken_burns_effect;
+			if ( $inx_skin_image[1] < INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+				$inx_skin_image_enable_ken_burns_effect = false;
+			}
 		}
 
 		if ( $inx_skin_image[2] > $inx_skin_max_image_height ) {
@@ -162,10 +235,10 @@ if ( $inx_skin_media_count > 0 ) :
 		}
 
 		$inx_skin_gallery_images[] = array(
-			'is_pdf'           => 'application/pdf' === get_post_mime_type( $inx_skin_id ),
-			'full'             => wp_get_attachment_image( $inx_skin_id, 'full' ),
+			'is_pdf'           => $inx_skin_is_pdf_preview || 'application/pdf' === get_post_mime_type( $inx_skin_id ),
+			'full'             => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_image_tag : wp_get_attachment_image( $inx_skin_id, 'full' ),
 			'full_src'         => wp_get_attachment_url( $inx_skin_id ),
-			'thumbnail'        => wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
+			'thumbnail'        => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_thumb_tag : wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
 			'caption'          => wp_get_attachment_caption( $inx_skin_id ),
 			'ken_burns_effect' => $inx_skin_image_enable_ken_burns_effect,
 		);

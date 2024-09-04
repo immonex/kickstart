@@ -98,6 +98,9 @@ class Format_Helper {
 	 */
 	public function get_heading_tag( $level, $close = false, $classes = '' ) {
 		$level += $this->plugin_options['heading_base_level'] - 1;
+		if ( $level > 6 ) {
+			$level = 6;
+		}
 
 		if ( $close ) {
 			$tag = '</h' . $level . '>';

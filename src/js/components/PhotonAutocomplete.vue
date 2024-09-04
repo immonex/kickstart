@@ -43,7 +43,7 @@
 import axios from 'axios'
 import debounce from 'debounce'
 import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css';
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 import Qs from 'qs'
 

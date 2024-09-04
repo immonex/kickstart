@@ -292,9 +292,12 @@ class Property_Map {
 
 				$property->set_post( $post_id );
 
-				$property_type = ! empty( $all_property_type_terms[ $post_id ] ) ?
+				$property_type   = ! empty( $all_property_type_terms[ $post_id ] ) ?
 					array_shift( $all_property_type_terms[ $post_id ] ) : '';
-				$property_url  = $property->extend_url( get_post_permalink( $post_id ), false, $atts );
+				$has_detail_view = ! empty( $this->config['disable_detail_view_states'] ) ?
+					apply_filters( 'inx_has_detail_view', true, $post_id ) : true;
+				$property_url    = $has_detail_view ?
+					$property->extend_url( get_post_permalink( $post_id ), false, $atts ) : '';
 
 				if ( ! empty( $atts['type'] ) && 'coords' === $atts['type'] ) {
 					$markers[ $post_id ] = array( $lat, $lng );

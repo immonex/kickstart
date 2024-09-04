@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.9.18",
+  "version": "1.9.30",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "dependencies": {
@@ -9,10 +9,11 @@
     "axios": "^1.4.0",
     "debounce": "^1.2.1",
     "flatpickr": "^4.6.13",
+    "intersection-observer": "^0.12.2",
     "nouislider": "^15.7.0",
     "ol": "^9.2.0",
     "qs": "^6.11.1",
-    "uikit": "^3.21.5",
+    "uikit": "^3.21.11",
     "vue": "^2",
     "vue-cookies": "^1.8.3",
     "vue-multiselect": "^2.1.7"

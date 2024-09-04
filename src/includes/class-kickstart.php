@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_21\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.9.18';
+	const PLUGIN_VERSION             = '1.9.30';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -53,6 +53,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
 		'show_seller_commission'                       => false,
+		'disable_detail_view_states'                   => array(),
 		'property_search_dynamic_update'               => true,
 		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -219,6 +220,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 		// Add filters for common rendering attributes.
 		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
 		add_filter( 'inx_apply_auto_rendering_atts', array( $this, 'apply_auto_rendering_atts' ) );
+
+		// Add filter for retrieving core and add-on options.
+		add_filter( 'inx_options', array( $this, 'get_options' ) );
 
 		// Add compatibility layers for older versions of this and related plugins.
 		$this->legacy_compat = new Legacy_Compat( $this->bootstrap_data );
@@ -466,6 +470,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 				'property_search_no_results_text'          => $this->plugin_options['property_search_no_results_text'],
 				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
 				'show_seller_commission'                   => $this->plugin_options['show_seller_commission'],
+				'disable_detail_view_states'               => $this->plugin_options['disable_detail_view_states'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
 				'maps_require_consent'                     => $this->plugin_options['maps_require_consent'],
@@ -781,7 +786,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 				),
 				'references'               => array(
 					'title'       => __( 'Reference Properties', 'immonex-kickstart' ),
-					'description' => '',
+					'description' => wp_sprintf(
+						/* translators: %s = Tab URL */
+						__( 'If required, <strong>detail pages</strong> of reference properties can be <strong>disabled</strong> under <a href="%s">Detail View → General</a>', 'immonex-kickstart' ),
+						admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_property_details' )
+					),
 					'tab'         => 'tab_general',
 				),
 				'user_consent'             => array(
@@ -1210,6 +1219,20 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 					),
 				),
 				array(
+					'name'    => 'disable_detail_view_states',
+					'type'    => 'checkbox_group',
+					'label'   => __( 'Disable Detail View for…', 'immonex-kickstart' ),
+					'section' => 'property_details_general',
+					'args'    => array(
+						'description' => __( 'Detail pages and related links in list views will be disabled for properties with the selected states.', 'immonex-kickstart' ),
+						'options'     => array(
+							'is_sold'      => __( 'sold/rented properties', 'immonex-kickstart' ),
+							'is_reserved'  => __( 'reserved properties', 'immonex-kickstart' ),
+							'is_reference' => __( 'reference properties', 'immonex-kickstart' ),
+						),
+					),
+				),
+				array(
 					'name'    => 'property_details_map_type',
 					'type'    => 'select',
 					'label'   => __( 'Map Type', 'immonex-kickstart' ),
@@ -1441,6 +1464,28 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V1_9_16\Base {
 
 		return $atts;
 	} // apply_auto_rendering_atts
+
+
+	/**
+	 * Return plugin options for use in add-ons etc. (filter callback).
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[] $options Source options or empty array.
+	 *
+	 * @return mixed[] Extended array with plugin options in sub-array "core".
+	 */
+	public function get_options( $options ) {
+		$core_options = $this->plugin_options;
+		unset( $core_options['deferred_tasks'] );
+
+		return array_merge(
+			$options,
+			array(
+				'core' => $core_options,
+			)
+		);
+	} // get_options
 
 	/**
 	 * Perform special deferred tasks defined in the plugin options.

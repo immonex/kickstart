@@ -117,7 +117,7 @@ class REST_API {
 			$var_name = $prefix . 'search-' . $id;
 			$value    = $request->get_param( $var_name );
 
-			if ( $value ) {
+			if ( ! in_array( $value, array( '', false, array() ), true ) ) {
 				$search_query_vars[ $var_name ] = $this->utils['string']->split_list_string( $value, 'list_or_single' );
 			}
 		}
@@ -130,7 +130,7 @@ class REST_API {
 			foreach ( $special_query_vars as $var_name ) {
 				$value = $request->get_param( $var_name );
 
-				if ( $value ) {
+				if ( ! in_array( $value, array( '', false, array() ), true ) ) {
 					$search_query_vars[ $var_name ] = $value;
 				}
 			}

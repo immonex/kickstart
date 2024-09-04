@@ -619,4 +619,18 @@ class API {
 		);
 	} // sanitize_forced_primary_price_min_max_values
 
+	/**
+	 * Return the value of the specified plugin option (filter callback).
+	 *
+	 * @since 1.9.19-beta
+	 *
+	 * @param mixed $value Option value.
+	 * @param mixed $key Option key.
+	 *
+	 * @return mixed Option value (false if unavailable).
+	 */
+	public function get_option_value( $value, $key ) {
+		return isset( $this->config[ $key ] ) ? $this->config[ $key ] : false;
+	} // get_option_value
+
 } // API

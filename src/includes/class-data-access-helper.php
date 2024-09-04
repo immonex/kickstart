@@ -31,7 +31,14 @@ class Data_Access_Helper {
 	 *
 	 * @var object[]
 	 */
-	protected $utils;
+	private $utils;
+
+	/**
+	 * Property data cache
+	 *
+	 * @var mixed[]
+	 */
+	private $property_data_cache;
 
 	/**
 	 * Constructor
@@ -49,7 +56,7 @@ class Data_Access_Helper {
 	} // __construct
 
 	/**
-	 * Retrieve custom field contents.
+	 * Retrieve custom field contents by mapping name or meta key.
 	 *
 	 * @since 1.0.0
 	 *
@@ -65,16 +72,39 @@ class Data_Access_Helper {
 	 * @return mixed[]|string|int Array of field data or value only.
 	 */
 	public function get_custom_field_by( $type, $key_or_name, $post_id, $value_only = false ) {
-		if ( empty( $type ) ) {
-			$type = 'name';
+		if ( empty( $type ) || 'auto' === $type ) {
+			$type = '_' === $key_or_name[0] ? 'auto_meta_key' : 'auto_name';
 		}
-		if ( 'name' === $type ) {
-			$meta_key = get_post_meta( $post_id, $key_or_name, true );
-		} else {
-			$meta_key = $key_or_name;
+
+		if (
+			in_array( $type, array( 'name', 'auto_name' ), true )
+			&& isset( $this->property_data_cache[ $post_id ]['by_mapping_name'][ $key_or_name ] )
+		) {
+			return $value_only ?
+				$this->property_data_cache[ $post_id ]['by_mapping_name'][ $key_or_name ]['value'] :
+				$this->property_data_cache[ $post_id ]['by_mapping_name'][ $key_or_name ];
 		}
+
+		$meta_key = in_array( $type, array( 'name', 'auto_name' ), true ) ?
+			get_post_meta( $post_id, $key_or_name, true ) :
+			$key_or_name;
+
 		if ( ! $meta_key ) {
-			return false;
+			if ( 'auto_name' === $type ) {
+				$meta_key = $key_or_name;
+				$type     = 'meta_key';
+			} else {
+				return false;
+			}
+		}
+
+		if (
+			in_array( $type, array( 'meta_key', 'auto_meta_key' ), true )
+			&& isset( $this->property_data_cache[ $post_id ]['by_meta_key'][ $meta_key ] )
+		) {
+			return $value_only ?
+				$this->property_data_cache[ $post_id ]['by_meta_key'][ $meta_key ]['value'] :
+				$this->property_data_cache[ $post_id ]['by_meta_key'][ $meta_key ];
 		}
 
 		$value = get_post_meta( $post_id, $meta_key, true );
@@ -91,11 +121,84 @@ class Data_Access_Helper {
 			$meta = array( 'meta' => $meta );
 		}
 
-		return array_merge(
-			array( 'value' => $value ),
+		$cf_data = array_merge(
+			array(
+				'value' => $value,
+				'name'  => ! empty( $meta['meta_name'] ) ? $meta['meta_name'] : '',
+				'title' => ! empty( $meta['mapping_parent'] ) ? $meta['mapping_parent'] : '',
+				'group' => ! empty( $meta['meta_group'] ) ? $meta['meta_group'] : '',
+			),
 			$meta
 		);
+
+		$cache_type = in_array( $type, array( 'name', 'auto_name' ), true ) ?
+			'by_mapping_name' :
+			'by_meta_key';
+
+		$this->property_data_cache[ $post_id ][ $cache_type ][ $meta_key ] = $cf_data;
+
+		return $cf_data;
 	} // get_custom_field_by
+
+	/**
+	 * Retrieve custom field contents by matching serialized elements.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param int|string $post_id      Property post ID.
+	 * @param string     $element_name Element name.
+	 * @param mixed[]    $query        Element query data.
+	 *
+	 * @return mixed[] Data of matching custom fields.
+	 */
+	public function get_custom_fields_by_serialized_value( $post_id, $element_name, $query ) {
+		global $wpdb;
+
+		$search = $this->get_value_for_serialized_query( $element_name, $query );
+		if ( empty( $search ) ) {
+			return array();
+		}
+
+		// @codingStandardsIgnoreStart
+		$sql     = $wpdb->prepare(
+			"SELECT * FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key != %s AND meta_value {$search['compare']} %s",
+			$post_id,
+			'_inx_details',
+			$search['value']
+		);
+		$results = $wpdb->get_results( $sql, ARRAY_A );
+		// @codingStandardsIgnoreEnd
+
+		if ( empty( $results ) ) {
+			return array();
+		}
+
+		$cf_data = array();
+
+		foreach ( $results as $result ) {
+			if ( empty( $result['meta_value'] ) ) {
+				continue;
+			}
+
+			// @codingStandardsIgnoreLine
+			$meta = @unserialize( $result['meta_value'] );
+			if ( empty( $meta ) ) {
+				continue;
+			}
+
+			$cf_data[] = array_merge(
+				array(
+					'value' => ! empty( $meta['meta_value'] ) ? $meta['meta_value'] : '',
+					'name'  => ! empty( $meta['meta_name'] ) ? $meta['meta_name'] : '',
+					'title' => ! empty( $meta['mapping_parent'] ) ? $meta['mapping_parent'] : '',
+					'group' => ! empty( $meta['meta_group'] ) ? $meta['meta_group'] : '',
+				),
+				$meta
+			);
+		}
+
+		return $cf_data;
+	} // get_custom_fields_by_serialized_value
 
 	/**
 	 * Convert a comma-separated group string to an array.
@@ -115,52 +218,255 @@ class Data_Access_Helper {
 	} // convert_to_group_array
 
 	/**
-	 * Retrieve and return "grouped" property details (serialized custom field data).
+	 * Retrieve and return property details (serialized custom field data), either
+	 * "flat" or as sub-arrays with the respective item group (mapping table) as
+	 * key.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param int|string $post_id Property Post ID to fetch detail data for.
-	 * @param string[]   $exclude List of mapping names or sources to exclude (optional).
+	 * @param string[]   $exclude List of mapping names or sources to be excluded (optional).
+	 * @param bool       $grouped Return as "grouped sub-arrays" (true by default).
 	 *
-	 * @return mixed[] Grouped property details.
+	 * @return mixed[] Property details.
 	 */
-	public function fetch_property_details( $post_id, $exclude = array() ) {
-		$details = get_post_meta( $post_id, '_' . $this->bootstrap_data['plugin_prefix'] . 'details', true );
-		if ( ! $details ) {
+	public function fetch_property_details( $post_id, $exclude = array(), $grouped = true ) {
+		if ( isset( $this->property_data_cache[ $post_id ]['details'] ) ) {
+			$details = $this->property_data_cache[ $post_id ]['details'];
+		} else {
+			$details = get_post_meta( $post_id, '_' . $this->bootstrap_data['plugin_prefix'] . 'details', true );
+			$this->property_data_cache[ $post_id ]['details'] = $details;
+		}
+
+		if ( empty( $details ) ) {
 			return array();
 		}
 
-		$grouped_details = array();
-		if ( count( $details ) > 0 ) {
-			foreach ( $details as $title => $detail ) {
-				if ( is_array( $exclude ) && ! empty( $exclude ) ) {
-					$detail_mapping_source = '';
-
-					if ( ! empty( $detail['meta_json'] ) ) {
-						$detail_meta = json_decode( $detail['meta_json'], true );
-						if ( ! empty( $detail_meta['mapping_source'] ) ) {
-							$detail_mapping_source = $detail_meta['mapping_source'];
-						}
-					}
-
-					if (
-						( $detail_mapping_source && in_array( $detail_mapping_source, $exclude, true ) )
-						|| ( $detail['name'] && in_array( $detail['name'], $exclude, true ) )
-					) {
-						// Skip excluded detail.
-						continue;
-					}
+		if ( ! empty( $exclude ) ) {
+			$exclude_ext = array( 'exclude' => array() );
+			foreach ( $exclude as $exclude_string ) {
+				if ( '-' !== $exclude_string[0] ) {
+					$exclude_ext['exclude'][]['regex_value'] = "-{$exclude_string}";
 				}
-
-				$grouped_details[ ! empty( $detail['group'] ) ? $detail['group'] : 'ungruppiert' ][] = array_merge(
-					array( 'title' => $title ),
-					$detail
-				);
 			}
+
+			$details = $this->filter_detail_items( $details, $exclude_ext, array( 'name', 'source' ) );
+		}
+
+		if ( ! $grouped ) {
+			return $details;
+		}
+
+		$grouped_details = array();
+		foreach ( $details as $title => $detail ) {
+			$grouped_details[ ! empty( $detail['group'] ) ? $detail['group'] : 'ungruppiert' ][] = array_merge(
+				array( 'title' => $title ),
+				$detail
+			);
 		}
 
 		return $grouped_details;
 	} // fetch_property_details
+
+	/**
+	 * Perform a "flexible" (and optionally fuzzy) search for property detail
+	 * elements (collection field) and other related custom fields by mapping name,
+	 * group, source or meta key (filter callback).
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[]         $items   Empty array.
+	 * @param string[]        $queries Search strings, examples:
+	 *                                    - "foobar": Include elements containing "foobar".
+	 *                                    - "-foobar": Exclude elements containing "foobar".
+	 *                                    - "/foo(bar)?/": RegEx-based search (include).
+	 *                                    - "-/foo(bar)?/": RegEx-based search (exclude).
+	 * @param int|string|bool $post_id  Property post ID (optional).
+	 *
+	 * @return mixed[] Matching property details.
+	 */
+	public function get_flex_items( $items, $queries, $post_id = false ) {
+		if ( empty( $queries ) ) {
+			return array();
+		}
+
+		if ( ! $post_id ) {
+			$post_id = apply_filters( 'inx_current_property_post_id', 0 );
+		}
+
+		if ( ! $post_id ) {
+			return array();
+		}
+
+		$items         = array();
+		$split_queries = $this->split_detail_query_strings( $queries );
+
+		/**
+		 * Fetch and filter property details (custom field _inx_details) first.
+		 */
+
+		$property_details = $this->fetch_property_details( $post_id, array(), false );
+
+		foreach ( $split_queries['include'] as $query ) {
+			if ( ! empty( $property_details ) ) {
+				$property_details_part = $this->extend_detail_items(
+					$this->filter_detail_items( $property_details, array( 'include' => array( $query ) ) ),
+					$query['props']
+				);
+
+				if ( ! empty( $property_details_part ) ) {
+					$items = array_merge( $items, $property_details_part );
+				}
+			}
+
+			/**
+			 * Add custom field elements with matching groups or mapping sources.
+			 */
+
+			$meta = $this->get_custom_field_by( false, $query['value'], $post_id );
+			if ( ! empty( $meta ) ) {
+				$meta  = $this->extend_detail_items( array( $meta ), $query['props'] );
+				$items = array_merge( $items, $meta );
+			}
+
+			/**
+			 * Only the meta data fields of custom fields with single values should
+			 * be queried, hence "meta_group" instead of "group" as used in the
+			 * serialized data of the collection field _inx_details.
+			 */
+			foreach ( array( 'meta_group', 'mapping_source' ) as $search_element ) {
+				$meta = $this->get_custom_fields_by_serialized_value( $post_id, $search_element, $query );
+				if ( empty( $meta ) ) {
+					continue;
+				}
+
+				$meta = $this->extend_detail_items(
+					$this->filter_detail_items( $meta, $split_queries ),
+					$query['props']
+				);
+
+				if ( empty( $meta ) ) {
+					continue;
+				}
+
+				$items = array_merge( $items, $meta );
+			}
+		}
+
+		return $items;
+	} // get_flex_items
+
+	/**
+	 * Filter (include/exclude) property detail items based on the specified
+	 * query string(s) (incl. optional RegEx) and scope.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[]         $items   Detail items to filter.
+	 * @param mixed[]         $queries Split/Grouped comparison strings and related data.
+	 * @param string|string[] $scope   Detail elements to consider when filtering:
+	 *                                 "name", "group" and (mapping) "source" as array or
+	 *                                 comma-separated single string (optional, all
+	 *                                 elements by default).
+	 *
+	 * @return mixed[] Filtered array of detail items.
+	 */
+	public function filter_detail_items( $items, $queries, $scope = array( 'name', 'group', 'source' ) ) {
+		if ( empty( $items ) || ! is_array( $items ) ) {
+			return array();
+		}
+
+		if ( empty( $queries ) ) {
+			return $items;
+		}
+
+		if ( isset( $queries[0] ) && is_string( $queries[0] ) ) {
+			$queries = $this->split_detail_query_strings( $queries );
+		}
+
+		if ( ! is_array( $scope ) ) {
+			$scope = array_map( 'trim', explode( ',', (string) $scope ) );
+		}
+
+		$filtered_items = array();
+
+		foreach ( $items as $item ) {
+			if ( in_array( 'name', $scope, true ) ) {
+				if ( ! empty( $queries['exclude'] ) ) {
+					foreach ( $queries['exclude'] as $query ) {
+						$has_name = $this->detail_has_name( $item, $query['regex_value'] );
+
+						if ( $has_name ) {
+							continue 2;
+						}
+					}
+				}
+
+				if ( ! empty( $queries['include'] ) ) {
+					foreach ( $queries['include'] as $query ) {
+						$has_name = $this->detail_has_name( $item, $query['regex_value'] );
+
+						if ( $has_name ) {
+							$filtered_items[] = $item;
+							continue 2;
+						}
+					}
+				}
+			}
+
+			if ( in_array( 'group', $scope, true ) ) {
+				if ( ! empty( $queries['exclude'] ) ) {
+					foreach ( $queries['exclude'] as $query ) {
+						$has_group = $this->detail_has_group( $item, $query['regex_value'] );
+
+						if ( $has_group ) {
+							continue 2;
+						}
+					}
+				}
+
+				if ( ! empty( $queries['include'] ) ) {
+					foreach ( $queries['include'] as $query ) {
+						$has_group = $this->detail_has_group( $item, $query['regex_value'] );
+
+						if ( $has_group ) {
+							$filtered_items[] = $item;
+							continue 2;
+						}
+					}
+				}
+			}
+
+			if ( in_array( 'source', $scope, true ) ) {
+				if ( ! empty( $queries['exclude'] ) ) {
+					foreach ( $queries['exclude'] as $query ) {
+						$has_mapping_source = $this->detail_has_mapping_source( $item, $query['regex_value'] );
+
+						if ( $has_mapping_source ) {
+							continue 2;
+						}
+					}
+				}
+
+				if ( ! empty( $queries['include'] ) ) {
+					foreach ( $queries['include'] as $query ) {
+						$has_mapping_source = $this->detail_has_mapping_source( $item, $query['regex_value'] );
+
+						if ( $has_mapping_source ) {
+							$filtered_items[] = $item;
+							continue 2;
+						}
+					}
+				}
+			}
+
+			if ( empty( $queries['include'] ) ) {
+				$filtered_items[] = $item;
+			}
+		}
+
+		return $filtered_items;
+	} // filter_detail_items
 
 	/**
 	 * Return a specific item out of a property details array.
@@ -200,7 +506,8 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[]  $details Full array of property details.
+	 * @param mixed[]  $details Full grouped array of property details
+	 *                          (group name => group items sub array respectively).
 	 * @param string[] $groups  List of item group names (optional).
 	 *
 	 * @return mixed[] Group items.
@@ -208,6 +515,10 @@ class Data_Access_Helper {
 	public function get_group_items( $details, $groups = array( 'ungruppiert' ) ) {
 		if ( ! is_array( $groups ) || empty( $groups ) ) {
 			$groups = array( 'ungruppiert' );
+		}
+
+		if ( empty( $details ) ) {
+			$details = $this->fetch_property_details( apply_filters( 'inx_current_property_post_id', 0 ) );
 		}
 
 		$items = array();
@@ -254,15 +565,15 @@ class Data_Access_Helper {
 		if ( $component_instance_data && ! empty( $component_instance_data[ $var_name ] ) ) {
 			// Get value from the rendering data of a related frontend component instance.
 			$temp_value = $this->sanitize_query_var_value( $component_instance_data[ $var_name ] );
-		} elseif ( ! empty( $_GET[ $var_name ] ) ) {
+		} elseif ( isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ] ) {
 			// Get value from GET query variables (possibly override query object values).
 			// @codingStandardsIgnoreLine
-			$temp_value = $this->sanitize_query_var_value( wp_unslash( $_GET[ $var_name ] ) );
+			$temp_value = $this->sanitize_query_var_value( wp_unslash( strip_tags( $_GET[ $var_name ] ) ) );
 		} elseif ( is_page() ) {
 			$temp_value = get_post_meta( get_the_ID(), $var_name );
 		}
 
-		if ( empty( $temp_value ) ) {
+		if ( ! isset( $temp_value ) || in_array( $temp_value, array( '', false, array() ), true ) ) {
 			$temp_value = get_query_var( $var_name, false );
 		}
 
@@ -296,7 +607,7 @@ class Data_Access_Helper {
 		}
 
 		if ( is_string( $value ) ) {
-			return htmlspecialchars( $value, ENT_NOQUOTES );
+			return mb_convert_encoding( htmlspecialchars( $value, ENT_NOQUOTES, false ), 'UTF-8', 'HTML-ENTITIES' );
 		} elseif ( is_array( $value ) ) {
 			return array_map(
 				function ( $value ) {
@@ -304,7 +615,7 @@ class Data_Access_Helper {
 						return $value;
 					}
 
-					return htmlspecialchars( $value, ENT_NOQUOTES );
+					return mb_convert_encoding( htmlspecialchars( $value, ENT_NOQUOTES, false ), 'UTF-8', 'HTML-ENTITIES' );
 				},
 				$value
 			);
@@ -369,5 +680,282 @@ class Data_Access_Helper {
 
 		return $property_terms;
 	} // get_all_terms_grouped_by_property
+
+	/**
+	 * Check if the given property detail data contain a name element that matches
+	 * the specified string (incl. optional RegEx comparison).
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[] $item Property detail item data.
+	 * @param string  $name Mapping element name.
+	 *
+	 * @return bool True if a name array element exists and matches the comparison name.
+	 */
+	private function detail_has_name( $item, $name ) {
+		if ( empty( $item['name'] ) ) {
+			return false;
+		}
+
+		return $this->utils['string']->ext_compare( $name, $item['name'] );
+	} // detail_has_name
+
+	/**
+	 * Check if the given property detail data belongs to the specified group
+	 * (incl. optional RegEx comparison).
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[] $item  Property detail item data.
+	 * @param string  $group Group name.
+	 *
+	 * @return bool True if a group array element exists and matches the comparison group.
+	 */
+	private function detail_has_group( $item, $group ) {
+		if ( empty( $item['group'] ) ) {
+			return false;
+		}
+
+		return $this->utils['string']->ext_compare( $group, $item['group'] );
+	} // detail_has_group
+
+	/**
+	 * Check if the given property detail data contain a mapping source and
+	 * compare it with the specified string (incl. optional RegEx comparison).
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[] $item           Property detail item data.
+	 * @param string  $compare_source Mapping source string for comparison.
+	 *
+	 * @return bool True if a mapping source exists and matches the comparison string.
+	 */
+	private function detail_has_mapping_source( $item, $compare_source ) {
+		$mapping_source = $this->get_detail_mapping_source( $item );
+
+		if ( ! $mapping_source ) {
+			return false;
+		}
+
+		return $this->utils['string']->ext_compare( $compare_source, $mapping_source );
+	} // detail_has_mapping_source
+
+	/**
+	 * Check if the meta data (JSON) of a property detail item contain a mapping
+	 * source reference and return it if so.
+	 *
+	 * @since 1.9.22-beta
+	 *
+	 * @param mixed[] $item Property detail item data.
+	 *
+	 * @return string Mapping source reference or empty string if unavailable.
+	 */
+	private function get_detail_mapping_source( $item ) {
+		if ( empty( $item['meta_json'] ) ) {
+			return '';
+		}
+
+		$meta = json_decode( $item['meta_json'], true );
+
+		return ! empty( $meta['mapping_source'] ) ? $meta['mapping_source'] : '';
+	} // get_detail_mapping_source
+
+	/**
+	 * Generate an WHERE clause fragment string for retrieving serialized data
+	 * with low-level SQL queries.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param string  $key   Element key.
+	 * @param mixed[] $query Element query data (value may include RegEx or % placeholder).
+	 *
+	 * @return string[] Associative array containing the generated value and
+	 *                  the related compare type.
+	 */
+	private function get_value_for_serialized_query( $key, $query ) {
+		if ( empty( $query ) ) {
+			return '';
+		}
+
+		$query_value = wp_sprintf(
+			's:%1$d:"%2$s";s:%3$s:"%4$s"',
+			strlen( $key ),
+			$key,
+			$query['is_regex'] ? '[0-9]+' : strlen( $query['value'] ),
+			$query['value']
+		);
+
+		return array(
+			'value'   => $query['is_regex'] ? $query['value'] : "%{$query_value}%",
+			'compare' => $query['is_regex'] ? 'REGEXP' : 'LIKE',
+		);
+	} // get_value_for_serialized_query
+
+	/**
+	 * Split detail query strings into individual elements and prepare them for
+	 * further processing.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param string[]|string $queries Query string(s) to split.
+	 *
+	 * @return mixed[] Split query string data.
+	 */
+	private function split_detail_query_strings( $queries ) {
+		if ( empty( $queries ) ) {
+			return array();
+		}
+
+		if ( ! is_array( $queries ) ) {
+			$queries = array_filter( array_map( 'trim', preg_split( '/,(?![^(]+\))/', (string) $queries ) ) );
+		}
+
+		$split = array(
+			'all'     => array(),
+			'include' => array(),
+			'exclude' => array(),
+		);
+
+		foreach ( $queries as $query_string ) {
+			$current = array(
+				'value'       => $query_string,
+				'regex_value' => $query_string,
+				'org_value'   => $query_string,
+				'exclude'     => false,
+				'is_regex'    => false,
+				'props'       => array(
+					'inx'               => array(),
+					'twig_filters'      => array(),
+					'twig_filter_chain' => '',
+				),
+			);
+
+			$props_start_pos = strpos( $query_string, '|' );
+			if ( false !== $props_start_pos ) {
+				$prop_chain             = substr( $query_string, $props_start_pos + 1 );
+				$current['props']       = $this->split_detail_query_string_props( $prop_chain );
+				$query_string           = substr( $query_string, 0, $props_start_pos );
+				$current['regex_value'] = $query_string;
+				$current['org_value']   = $query_string;
+			}
+
+			if ( '-' === $query_string[0] ) {
+				$current['exclude']     = true;
+				$query_string           = substr( $query_string, 1 );
+				$current['regex_value'] = $query_string;
+			}
+
+			if ( '/' === $query_string[0] ) {
+				$trim_chars = " /\n\r\t\v\x00";
+				// @codingStandardsIgnoreLine
+				$current['is_regex'] = @preg_match( $query_string, '' ) !== false;
+
+				if ( $current['is_regex'] ) {
+					$query_string = trim( $query_string, $trim_chars );
+				}
+			} elseif ( false !== strpos( $query_string, '%' ) ) {
+				$value_temp = str_replace( '%', '[a-zA-Z._-]{0,}', $query_string );
+				// @codingStandardsIgnoreLine
+				$current['is_regex'] = @preg_match( "/{$value_temp}/", '' ) !== false;
+
+				if ( $current['is_regex'] ) {
+					$query_string           = $value_temp;
+					$current['regex_value'] = "/{$value_temp}/";
+				}
+			}
+
+			$current['value'] = $query_string;
+
+			$split['all'][] = $current;
+			if ( $current['exclude'] ) {
+				$split['exclude'][] = $current;
+			} else {
+				$split['include'][] = $current;
+			}
+		}
+
+		return $split;
+	} // split_detail_query_strings
+
+	/**
+	 * Split a detail query "filter and property string" into native (inx) and
+	 * Twig filter elements.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param string $prop_string Filter and property (NOT real estate ;-)) query string parts.
+	 *
+	 * @return mixed[] Split filter/property data.
+	 */
+	private function split_detail_query_string_props( $prop_string ) {
+		$props     = array(
+			'inx'               => array(),
+			'twig_filters'      => array(),
+			'twig_filter_chain' => '',
+		);
+		$raw_props = array_map( 'trim', explode( '|', $prop_string ) );
+
+		if ( empty( $raw_props ) ) {
+			return $props;
+		}
+
+		foreach ( $raw_props as $prop ) {
+			if ( preg_match( '/^[a-z_]+(\([^()]+\))?$/', $prop ) ) {
+				$props['twig_filters'][] = $prop;
+				continue;
+			}
+
+			$prop_split = preg_match( '/([a-z_-]+)(\s+)?=(\s+)?(.*)/', trim( $prop ), $matches );
+			if ( $prop_split ) {
+				$props['inx'][ $matches[1] ] = $matches[4];
+			}
+		}
+
+		if ( ! empty( $props['twig_filters'] ) ) {
+			$props['twig_filter_chain'] = '|' . implode( '|', $props['twig_filters'] );
+		}
+
+		return $props;
+	} // split_detail_query_string_props
+
+	/**
+	 * Extend detail items according to the specified query properties.
+	 *
+	 * @since 1.9.27-beta
+	 *
+	 * @param mixed[] $items       Detail items.
+	 * @param mixed[] $query_props Query properties.
+	 *
+	 * @return mixed[] Possibly extended detail items.
+	 */
+	private function extend_detail_items( $items, $query_props ) {
+		if ( empty( $items ) ) {
+			return array();
+		}
+
+		foreach ( $items as $i => $item ) {
+			if ( $query_props['twig_filter_chain'] ) {
+				// @codingStandardsIgnoreStart
+				try {
+					$items[ $i ]['value'] = $this->utils['template']->render_twig_template_string( "{{ value{$query_props['twig_filter_chain']} }}", $item );
+				} catch ( \Exception $e ) {
+					// Ignore Twig rendering errors due to possible invalid filters here.
+				}
+				// @codingStandardsIgnoreEnd
+			}
+			if ( ! empty( $query_props['inx']['before_value'] ) ) {
+				$items[ $i ]['value'] = $query_props['inx']['before_value'] . ' ' . $items[ $i ]['value'];
+			}
+			if ( ! empty( $query_props['inx']['after_value'] ) ) {
+				$items[ $i ]['value'] .= ' ' . $query_props['inx']['after_value'];
+			}
+
+			if ( ! empty( $query_props['inx'] ) ) {
+				$items[ $i ] = array_merge( $items[ $i ], $query_props['inx'] );
+			}
+		}
+
+		return $items;
+	} // extend_detail_items
 
 } // Data_Access_Helper

@@ -10,6 +10,7 @@ Vue.$cookies.config('24h', '', '', process.env.NODE_ENV === 'production')
 // UIkit
 import UIkit from 'uikit'
 import Icons from 'uikit/dist/js/uikit-icons'
+import 'intersection-observer'
 
 inx_state.uikit = UIkit
 
@@ -23,6 +24,19 @@ Vue.mixin(inxState)
 import '../scss/frontend.scss'
 
 let inxPropertyDetailsInitialized = false
+
+if (typeof Array.prototype.flat !== 'function') {
+	Object.defineProperty(Array.prototype, 'flat', {
+		value: function(depth = 1) {
+			return this.reduce(
+				function (flat, toFlatten) {
+					return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten)
+				},
+				[]
+			)
+		}
+	})
+}
 
 // Lazy loaded Modules
 jQuery(document).ready(async function($) {

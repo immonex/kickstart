@@ -35,6 +35,8 @@ import 'ol/ol.css';
 import Google from 'ol/source/Google.js'
 import Layer from 'ol/layer/WebGLTile.js'
 import { Control, defaults as defaultControls } from 'ol/control.js'
+import { MouseWheelZoom, defaults } from 'ol/interaction.js';
+import { platformModifierKeyOnly } from 'ol/events/condition.js';
 
 import axios from 'axios'
 import { getSvgImgSrc, addBacklinkURL } from '../shared_components'
@@ -257,15 +259,18 @@ export default {
 				const property = propertyData[postIds[i]]
 				if (!property) continue
 
-				property.url = addBacklinkURL(property.url)
-
 				content += '<div class="inx-property-map__property">'
-				content += '<a href="' + this.sanitizeUrl(property.url) + '">'
+				if (property.url) {
+					property.url = addBacklinkURL(property.url)
+					content += '<a href="' + this.sanitizeUrl(property.url) + '">'
+				}
 				if (property.thumbnail_url) {
 					content += '<img src="' + this.sanitizeUrl(property.thumbnail_url) + '">'
 				}
 				content += '<div>' + property.title + '</div>'
-				content += '</a>'
+				if (property.url) {
+					content += '</a>'
+				}
 				if (property.type) {
 					content += '<div>' + property.type + '</div>'
 				}
@@ -514,6 +519,11 @@ export default {
 
 			const map = new Map({
 				target: mapElement,
+				interactions: defaults({mouseWheelZoom: false}).extend([
+					new MouseWheelZoom({
+						condition: platformModifierKeyOnly
+					}),
+				]),
 				layers: [
 					new TileLayer({source})
 				],

@@ -27,6 +27,8 @@ import { fromLonLat } from 'ol/proj'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import { OSM, XYZ, Vector } from 'ol/source'
+import { MouseWheelZoom, defaults } from 'ol/interaction.js';
+import { platformModifierKeyOnly } from 'ol/events/condition.js';
 
 import 'ol/ol.css';
 
@@ -158,6 +160,11 @@ export default {
 
 			const map = new Map({
 				target: mapElement,
+				interactions: defaults({mouseWheelZoom: false}).extend([
+					new MouseWheelZoom({
+						condition: platformModifierKeyOnly
+					}),
+				]),
 				layers: [
 					new TileLayer({
 						source: this.olSourceType == 'xyz' ? new XYZ(options) : new OSM(options)

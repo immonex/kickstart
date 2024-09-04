@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
 Tested up to: 6.6
-Stable Tag: 1.9.18
+Stable Tag: 1.9.30
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -80,7 +80,7 @@ List View: `[inx-property-list]`
 List Sort Selection: `[inx-filters-sort]`
 List Pagination: `[inx-pagination]`
 Property Location Overview Map: `[inx-property-map]`
-Property Details View: `[inx-property-details]`
+Property Detail View: `[inx-property-details]`
 
 (See documentation mentioned below for attributes and further details.)
 
@@ -113,6 +113,20 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.30 =
+* Release date: 2024-09-04
+* Added an option for disabling detail views and related links of sold/rented and reference properties.
+* Added filters for the Elementor add-on.
+* Added ability to combine the contents of multiple image source custom fields in a single gallery element.
+* Added a placeholder image for gallery PDF files without preview image.
+* Reworked map mousewheel zoom handling.
+* Reworked property query options.
+* Fixed template option transfer issue related to the standalone location element.
+* Fixed a backlink issue with activated auto-updates of list views.
+* Improved compatibility with older Samsung Smart TV web browsers.
+* Improved security.
+* Updated dependencies.
+
 = 1.9.18 =
 * Release date: 2024-06-12
 * Added Open Graph and X/Twitter Card meta tag support.
@@ -136,16 +150,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a warning related to manually entered test data.
 * Fixed several minor gallery display issues.
 * Fixed a minor search form reset bug.
-* Updated dependencies.
-
-= 1.9.0 =
-* Release date: 2024-01-22
-* Added user consent options for embedded video and virtual tour players.
-* Added 3 user consent content related filter hooks.
-* Reworked plugin options structure.
-* Added option for enabling/disabling gallery image links (full size/lightbox).
-* Reworked retrieving of special variable/flag values.
-* Fixed translation file selection (beta versions only).
 * Updated dependencies.
 
 See changelog.txt for the complete version history.

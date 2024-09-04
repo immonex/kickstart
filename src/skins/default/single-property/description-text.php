@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! empty( $template_data['field_name'] ) ) {
-	$inx_skin_description = $utils['data']->get_custom_field_by( 'name', $template['field_name'], $template_data['post_id'], true );
+	$inx_skin_description = $utils['data']->get_custom_field_by( 'name', $template_data['field_name'], $template_data['post_id'], true );
 } else {
 	$inx_skin_description = $template_data['main_description'];
 }
@@ -33,7 +33,7 @@ if ( $inx_skin_description ) :
 	?>
 
 	<div class="inx-description-text">
-		<?php echo $utils['string']->convert_urls( $utils['format']->prepare_continuous_text( $inx_skin_description, $inx_skin_autop ) ); ?>
+		<?php echo $utils['format']->prepare_continuous_text( $utils['string']->convert_urls( $inx_skin_description ), $inx_skin_autop ); ?>
 	</div>
 </div>
 	<?php

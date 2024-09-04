@@ -84,6 +84,11 @@ class Property_Search {
 		if ( ! empty( $_GET ) ) {
 			// Add further GET vars.
 			foreach ( $_GET as $var_name => $value ) {
+				$var_name = $this->utils['string']->validate_key( $var_name );
+				if ( ! $var_name ) {
+					continue;
+				}
+
 				if (
 					'' !== $value &&
 					'inx-search-' !== substr( $var_name, 0, 11 ) &&
@@ -1162,7 +1167,7 @@ class Property_Search {
 			}
 
 			$var_name = $prefix . 'search-' . $id;
-			if ( empty( $params[ $var_name ] ) ) {
+			if ( ! isset( $params[ $var_name ] ) || in_array( $params[ $var_name ], array( '', false, array() ), true ) ) {
 				continue;
 			}
 
@@ -1197,12 +1202,14 @@ class Property_Search {
 				} elseif ( 1 === count( $value ) ) {
 					$value = $value[0];
 				}
+			} elseif ( in_array( $value, array( '', false ), true ) ) {
+				continue;
 			} else {
 				$value = sanitize_text_field( $value );
+
 				if ( ! empty( $element['numeric'] ) ) {
 					$value = $this->utils['string']->get_float( $value );
-				}
-				if ( ! $value ) {
+				} elseif ( in_array( $value, array( '', false ), true ) ) {
 					continue;
 				}
 			}

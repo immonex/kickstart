@@ -8,6 +8,7 @@
 use immonex\Kickstart\Kickstart;
 
 class Kickstart_Test extends WP_UnitTestCase {
+
 	private $kickstart;
 
 	public function setUp() {
@@ -28,4 +29,5 @@ class Kickstart_Test extends WP_UnitTestCase {
 			$this->assertEquals( $expected_value, $bootstrap_data[$key] );
 		}
 	} // test_bootstrap_data
+
 } // class Kickstart_Test

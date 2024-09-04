@@ -59,6 +59,10 @@ class Property_Hooks {
 		 * WP actions and filters
 		 */
 
+		if ( ! empty( $this->config['disable_detail_view_states'] ) ) {
+			add_action( 'send_headers', array( $this, 'maybe_disable_detail_view' ) );
+		}
+
 		add_filter( 'single_template', array( $this, 'register_single_property_template' ) );
 		add_filter( 'archive_template', array( $this, 'register_property_archive_template' ) );
 		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
@@ -91,6 +95,7 @@ class Property_Hooks {
 		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
 		add_filter( 'inx_property_template_data_details', array( $this, 'adjust_rental_details' ), 10, 2 );
 		add_filter( 'inx_property_detail_element_output', array( $this, 'render_property_detail_element_output' ), 10, 2 );
+		add_filter( 'inx_has_detail_view', array( $this, 'has_detail_view' ), 10, 2 );
 
 		/**
 		 * Shortcodes
@@ -99,6 +104,36 @@ class Property_Hooks {
 		add_shortcode( 'inx-property-details', array( $this, 'shortcode_property_details' ) );
 		add_shortcode( 'inx-property-detail-element', array( $this, 'shortcode_property_detail_element' ) );
 	} // __construct
+
+	/**
+	 * Check if the detail view (page) is enabled for the current property.
+	 * If not, redirect to the default list page (action callback).
+	 *
+	 * @since 1.9.23
+	 */
+	public function maybe_disable_detail_view() {
+		$is_details_template_page = (int) $this->config['property_details_page_id']
+			&& (int) get_the_ID() === (int) $this->config['property_details_page_id'];
+
+		if (
+			is_singular( $this->config['property_post_type_name'] )
+			|| $is_details_template_page
+		) {
+			$post_id = $this->get_current_property_post_id();
+			if ( ! $post_id ) {
+				return;
+			}
+
+			$list_view_url = $this->config['property_list_page_id'] ?
+				get_permalink( apply_filters( 'inx_element_translation_id', $this->config['property_list_page_id'] ) ) :
+				get_post_type_archive_link( $this->config['property_post_type_name'] );
+
+			if ( ! apply_filters( 'inx_has_detail_view', true, $post_id ) ) {
+				wp_safe_redirect( $list_view_url );
+				exit;
+			}
+		}
+	} // maybe_disable_detail_view
 
 	/**
 	 * Register single template for the property custom post type.
@@ -462,7 +497,10 @@ class Property_Hooks {
 	 * @return int|string|bool Possibly updated current post ID.
 	 */
 	public function get_current_property_post_id( $post_id = false ) {
-		if ( is_singular() || is_page() ) {
+		$is_details_template_page = (int) $this->config['property_details_page_id']
+			&& (int) get_the_ID() === (int) $this->config['property_details_page_id'];
+
+		if ( is_singular() || $is_details_template_page ) {
 			if ( ! empty( $_GET['inx-property-id'] ) ) {
 				$post_id = (int) $_GET['inx-property-id'];
 			} else {
@@ -939,6 +977,39 @@ class Property_Hooks {
 
 		$primary_price_min_max = $this->api->get_primary_price_min_max( true );
 	} // update_min_max_transients
+
+	/**
+	 * Check if the detail view is enabled for the current or specified
+	 * property post (filter callback).
+	 *
+	 * @since 1.9.23
+	 *
+	 * @param bool $has_detail_view Default status.
+	 * @param int  $post_id         Property post ID (optional).
+	 *
+	 * @return bool Property's detail view status.
+	 */
+	public function has_detail_view( $has_detail_view, $post_id = false ) {
+		if ( empty( $this->config['disable_detail_view_states'] ) ) {
+			return true;
+		}
+
+		if ( ! $post_id ) {
+			$post_id = $this->get_current_property_post_id();
+		}
+
+		if ( ! $post_id ) {
+			return $has_detail_view;
+		}
+
+		foreach ( $this->config['disable_detail_view_states'] as $status ) {
+			if ( get_post_meta( $post_id, "_immonex_{$status}", true ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	} // has_detail_view
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

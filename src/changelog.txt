@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 1.9.30 =
+* Release date: 2024-09-04
+* Added an option for disabling detail views and related links of sold/rented and reference properties.
+* Added filters for the Elementor add-on.
+* Added ability to combine the contents of multiple image source custom fields in a single gallery element.
+* Added a placeholder image for gallery PDF files without preview image.
+* Reworked map mousewheel zoom handling.
+* Reworked property query options.
+* Fixed template option transfer issue related to the standalone location element.
+* Fixed a backlink issue with activated auto-updates of list views.
+* Improved compatibility with older Samsung Smart TV web browsers.
+* Improved security.
+* Updated dependencies.
+
 = 1.9.18 =
 * Release date: 2024-06-12
 * Added Open Graph and X/Twitter Card meta tag support.

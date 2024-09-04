@@ -455,18 +455,22 @@ class Property {
 		$disable_links_attr = ! empty( $atts['disable_links'] ) ?
 			strtolower( trim( $atts['disable_links'] ) ) : '';
 
-		if (
-			'all' === $disable_links_attr
-			|| ! empty( $flags[ $disable_links_attr ] )
-			|| (
-				'unavailable' === $disable_links_attr &&
-				empty( $flags['is_available'] )
-			)
-			|| (
-				'references' === $disable_links_attr &&
-				! empty( $flags['is_reference'] )
-			)
-		) {
+		if ( ! empty( $disable_links_attr ) ) {
+			if (
+				'all' === $disable_links_attr
+				|| ! empty( $flags[ $disable_links_attr ] )
+				|| (
+					'unavailable' === $disable_links_attr &&
+					empty( $flags['is_available'] )
+				)
+				|| (
+					'references' === $disable_links_attr &&
+					! empty( $flags['is_reference'] )
+				)
+			) {
+				$disable_link = true;
+			}
+		} elseif ( ! apply_filters( 'inx_has_detail_view', true, $post->ID ) ) {
 			$disable_link = true;
 		}
 
@@ -1188,54 +1192,56 @@ class Property {
 	 * @return mixed[] Sanitized/Extended detail element data.
 	 */
 	private function sanitize_extend_location_map_data( $elements ) {
-		if ( empty( $elements['location_map'] ) ) {
+		if ( empty( $elements['location'] ) && empty( $elements['location_map'] ) ) {
 			return $elements;
 		}
 
-		if (
-			! empty( $elements['location_map']['type'] )
-			&& ! in_array( $elements['location_map']['type'], self::LOCATION_MAP_TYPES, true )
-		) {
-			if ( false !== strpos( strtolower( $elements['location_map']['type'] ), 'osm' ) ) {
-				$elements['location_map']['type'] = 'ol_osm_map_marker';
-			} elseif ( false !== strpos( strtolower( $elements['location_map']['type'] ), 'gmap' ) ) {
-				$elements['location_map']['type'] = 'gmap_marker';
-			} else {
-				$elements['location_map']['type'] = $this->config['property_details_map_type'];
+		foreach ( array( 'location', 'location_map' ) as $element_key ) {
+			if (
+				! empty( $elements[ $element_key ]['type'] )
+				&& ! in_array( $elements[ $element_key ]['type'], self::LOCATION_MAP_TYPES, true )
+			) {
+				if ( false !== strpos( strtolower( $elements[ $element_key ]['type'] ), 'osm' ) ) {
+					$elements[ $element_key ]['type'] = 'ol_osm_map_marker';
+				} elseif ( false !== strpos( strtolower( $elements[ $element_key ]['type'] ), 'gmap' ) ) {
+					$elements[ $element_key ]['type'] = 'gmap_marker';
+				} else {
+					$elements[ $element_key ]['type'] = $this->config['property_details_map_type'];
+				}
 			}
-		}
 
-		if (
-			false !== strpos( $elements['location_map']['type'], 'gmap' )
-			&& empty( $this->config['google_api_key'] )
-		) {
-			$elements['location_map']['type'] = self::LOCATION_MAP_TYPES[0];
-		}
+			if (
+				false !== strpos( $elements[ $element_key ]['type'], 'gmap' )
+				&& empty( $this->config['google_api_key'] )
+			) {
+				$elements[ $element_key ]['type'] = self::LOCATION_MAP_TYPES[0];
+			}
 
-		if (
-			! empty( $elements['location_map']['zoom'] )
-			&& (
-				(int) $elements['location_map']['zoom'] < self::LOCATION_MAP_ZOOM[0]
-				|| (int) $elements['location_map']['zoom'] > self::LOCATION_MAP_ZOOM[1]
-			)
-		) {
-			$elements['location_map']['zoom'] = $this->config['property_details_map_zoom'];
-		}
+			if (
+				! empty( $elements[ $element_key ]['zoom'] )
+				&& (
+					(int) $elements[ $element_key ]['zoom'] < self::LOCATION_MAP_ZOOM[0]
+					|| (int) $elements[ $element_key ]['zoom'] > self::LOCATION_MAP_ZOOM[1]
+				)
+			) {
+				$elements[ $element_key ]['zoom'] = $this->config['property_details_map_zoom'];
+			}
 
-		if (
-			! empty( $elements['location_map']['marker_scale'] )
-			&& (
-				(int) $elements['location_map']['marker_scale'] < 0
-				|| (int) $elements['location_map']['marker_scale'] > 1
-			)
-		) {
-			$elements['location_map']['marker_scale'] = self::LOCATION_MAP_MARKER_SCALE;
-		}
+			if (
+				! empty( $elements[ $element_key ]['marker_scale'] )
+				&& (
+					(int) $elements[ $element_key ]['marker_scale'] < 0
+					|| (int) $elements[ $element_key ]['marker_scale'] > 1
+				)
+			) {
+				$elements[ $element_key ]['marker_scale'] = self::LOCATION_MAP_MARKER_SCALE;
+			}
 
-		$elements['location_map']['options'] = $this->get_map_options(
-			$elements['location_map']['type'],
-			$elements['location_map']['options']
-		);
+			$elements[ $element_key ]['options'] = $this->get_map_options(
+				$elements[ $element_key ]['type'],
+				$elements[ $element_key ]['options']
+			);
+		}
 
 		return $elements;
 	} // sanitize_extend_location_map_data
@@ -1439,8 +1445,10 @@ class Property {
 			$backlink_url === $permalink_url ||
 			( $details_page_id && get_permalink( $details_page_id ) === $backlink_url )
 		) {
-			// Link to property post type archive page if default URL belongs to
-			// the front page or equals the current permalink URL.
+			/**
+			 * Link to property post type archive page if default URL belongs to
+			 * the front page or equals the current permalink URL.
+			 */
 			$backlink_url = false;
 
 			if ( $this->config['property_list_page_id'] ) {
@@ -1493,6 +1501,11 @@ class Property {
 			}
 
 			foreach ( $_GET as $var_name => $value ) {
+				$var_name = $this->utils['string']->validate_key( $var_name );
+				if ( ! $var_name ) {
+					continue;
+				}
+
 				if (
 					'' !== $value &&
 					"{$public_prefix}backlink-url" !== $var_name &&
