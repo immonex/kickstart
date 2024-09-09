@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
-Tested up to: 6.6
-Stable Tag: 1.9.30
+Tested up to: 6.7
+Stable Tag: 1.9.32
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.32 =
+* Release date: 2024-09-09
+* Fixed minor data selection and Twig templating issues.
+* Extended the Elementor add-on interface.
+* Verified WordPress 6.7 compatibility.
+* Updated dependencies.
+
 = 1.9.30 =
 * Release date: 2024-09-04
 * Added an option for disabling detail views and related links of sold/rented and reference properties.
@@ -134,22 +141,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Disabled a jerky gallery animation (single Ken Burns effect direction).
 * Fixed two map template issues.
 * Fixed a compatibility issue in Windows-based hosting environments.
-* Updated dependencies.
-
-= 1.9.13 =
-* Release date: 2024-05-17
-* Added new map types/variations (overview and detail page maps).
-* Added search element (inx-)title-desc for querying regular property title and description fields (special cases).
-* Added ability to exclude properties from lists based on taxonomy terms.
-* Added support for PDF files in floor plan and energy pass galleries.
-* Added a default value to a callback method for the the_title filter to prevent issues regarding incorrect calls by other plugins.
-* Extended fulltext search possibilities.
-* Improved gallery navigation arrow display (especially on small screens and touch devices).
-* Improved search form range slider value display.
-* Reworked application of inx_search_form_primary_price_min_max_values filters.
-* Fixed a warning related to manually entered test data.
-* Fixed several minor gallery display issues.
-* Fixed a minor search form reset bug.
 * Updated dependencies.
 
 See changelog.txt for the complete version history.

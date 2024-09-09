@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b012ebc07ac7ca7b126cbd1a799acaf7",
+    "content-hash": "cc87828452432d7fd2fceac0d8ca3f68",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "1.9.21",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "8238be486f6145049dcc6225867ee865271e1a8c"
+                "reference": "bf8f10446e6de40d5a01d0b5edd6cc5939bc6473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/8238be486f6145049dcc6225867ee865271e1a8c",
-                "reference": "8238be486f6145049dcc6225867ee865271e1a8c",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/bf8f10446e6de40d5a01d0b5edd6cc5939bc6473",
+                "reference": "bf8f10446e6de40d5a01d0b5edd6cc5939bc6473",
                 "shasum": ""
             },
             "require": {
@@ -147,9 +147,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/1.9.21"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.0.0"
             },
-            "time": "2024-09-04T19:35:45+00:00"
+            "time": "2024-09-09T12:00:17+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1347,16 +1347,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.30.0",
+            "version": "1.30.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "5ceb0e384997db59f38774bf79c2a6134252c08f"
+                "reference": "51b95ec8670af41009e2b2b56873bad96682413e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/5ceb0e384997db59f38774bf79c2a6134252c08f",
-                "reference": "5ceb0e384997db59f38774bf79c2a6134252c08f",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/51b95ec8670af41009e2b2b56873bad96682413e",
+                "reference": "51b95ec8670af41009e2b2b56873bad96682413e",
                 "shasum": ""
             },
             "require": {
@@ -1388,9 +1388,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.30.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.30.1"
             },
-            "time": "2024-08-29T09:54:52+00:00"
+            "time": "2024-09-07T20:13:05+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3003,12 +3003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/PHPUnit-Polyfills.git",
-                "reference": "df04f30a1d810c2c45938759675b59ba92cece6f"
+                "reference": "e9c8413de4c8ae03d2923a44f17d0d7dad1b96be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/df04f30a1d810c2c45938759675b59ba92cece6f",
-                "reference": "df04f30a1d810c2c45938759675b59ba92cece6f",
+                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/e9c8413de4c8ae03d2923a44f17d0d7dad1b96be",
+                "reference": "e9c8413de4c8ae03d2923a44f17d0d7dad1b96be",
                 "shasum": ""
             },
             "require": {
@@ -3023,7 +3023,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.x-dev"
+                    "dev-main": "3.x-dev"
                 }
             },
             "autoload": {
@@ -3058,7 +3058,7 @@
                 "security": "https://github.com/Yoast/PHPUnit-Polyfills/security/policy",
                 "source": "https://github.com/Yoast/PHPUnit-Polyfills"
             },
-            "time": "2024-08-30T09:38:17+00:00"
+            "time": "2024-09-06T22:03:10+00:00"
         }
     ],
     "aliases": [],
