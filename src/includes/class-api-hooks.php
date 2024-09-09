@@ -50,6 +50,7 @@ class API_Hooks {
 		/**
 		 * Internal Hooks
 		 */
+
 		add_filter( 'inx_get_author_query', array( $this->api, 'get_author_query' ) );
 		add_filter( 'inx_merge_queries', array( $this->api, 'merge_queries' ), 10, 3 );
 		add_filter( 'inx_list_string_to_array', array( $this, 'list_string_to_array' ), 10, 2 );
@@ -57,6 +58,7 @@ class API_Hooks {
 		/**
 		 * Public Hooks
 		 */
+
 		add_filter( 'inx_get_custom_field_value_by_name', array( $this->api, 'get_custom_field_value_by_name' ), 10, 3 );
 		add_filter( 'inx_get_query_var_value', array( $this->api, 'get_query_var_value' ), 10, 3 );
 		add_filter( 'inx_get_group_items', array( $this, 'get_group_items' ), 10, 3 );
@@ -65,6 +67,8 @@ class API_Hooks {
 		add_filter( 'inx_is_property_details_page', array( $this->api, 'is_property_details_page' ) );
 		add_filter( 'inx_is_property_tax_archive', array( $this->api, 'is_property_tax_archive' ) );
 		add_filter( 'inx_get_option_value', array( $this->api, 'get_option_value' ), 10, 2 );
+
+		add_filter( 'inx_format', array( $this, 'format' ), 10, 3 );
 	} // __construct
 
 	/**
@@ -117,5 +121,42 @@ class API_Hooks {
 	public function get_flex_items( $items, $queries, $post_id = false ) {
 		return $this->utils['data']->get_flex_items( $items, $queries, $post_id );
 	} // get_group_items
+
+	/**
+	 * Format a given value based on the given format type and optional arguments
+	 * (proxy method/filter callback).
+	 *
+	 * @since 1.9.31-beta
+	 *
+	 * @param mixed   $value Original value.
+	 * @param string  $type  Format type.
+	 * @param mixed[] $args  Format arguments (optional).
+	 *
+	 * @return mixed Formatted value.
+	 */
+	public function format( $value, $type, $args = array() ) {
+		switch ( $type ) {
+			case 'price':
+				if ( ! is_numeric( $value ) ) {
+					return $value;
+				}
+
+				if ( is_numeric( key( $args ) ) ) {
+					$decimals        = isset( $args[0] ) ? (int) $args[0] : 9;
+					$currency        = isset( $args[1] ) ? (int) $args[1] : $this->config['currency_symbol'];
+					$price_time_unit = isset( $args[2] ) ? $args[2] : '';
+					$if_zero         = isset( $args[3] ) ? (int) $args[3] : '';
+				} else {
+					$decimals        = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
+					$currency        = isset( $args['currency'] ) ? (int) $args['currency'] : $this->config['currency_symbol'];
+					$price_time_unit = isset( $args['price_time_unit'] ) ? $args['price_time_unit'] : '';
+					$if_zero         = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+				}
+
+				return $this->utils['format']->format_price( $value, $decimals, $price_time_unit, $if_zero, $currency );
+		}
+
+		return $value;
+	} // format
 
 } // API_Hooks

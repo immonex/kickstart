@@ -170,15 +170,20 @@ class Format_Helper {
 	 * @since 1.0.0
 	 *
 	 * @param int|float $value Price value.
-	 * @param int       $decimals Number of decimals (2 by default, 9 = auto).
-	 * @param string    $price_time_unit Unit to add the given price relates to.
-	 * @param string    $if_zero Return value if original value is zero or empty.
+	 * @param int       $decimals Number of decimals (optional, 2 by default, 9 = auto).
+	 * @param string    $price_time_unit Unit to add the given price relates to (optional).
+	 * @param string    $if_zero Return value if original value is zero or empty (optional).
+	 * @param string    $currency Currency acronym or symbol (optional, system setting by default).
 	 *
 	 * @return string Formatted price or default value.
 	 */
-	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '' ) {
+	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '', $currency = '' ) {
 		if ( ! $value && $if_zero ) {
 			return $if_zero;
+		}
+
+		if ( ! is_numeric( $value ) ) {
+			return $value;
 		}
 
 		if ( 9 === $decimals ) {
@@ -188,7 +193,9 @@ class Format_Helper {
 			$decimals = $fraction > 0 ? 2 : 0;
 		}
 
-		$price = number_format_i18n( $value, $decimals ) . '&nbsp;' . $this->plugin_options['currency_symbol'];
+		$currency = ! empty( $currency ) ? $currency : $this->plugin_options['currency_symbol'];
+
+		$price = number_format_i18n( $value, $decimals ) . "&nbsp;{$currency}";
 		if ( $price_time_unit ) {
 			$price .= ' <span class="inx-price-time-unit">' . $price_time_unit . '</span>';
 		}

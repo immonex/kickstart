@@ -244,10 +244,11 @@ class Data_Access_Helper {
 
 		if ( ! empty( $exclude ) ) {
 			$exclude_ext = array( 'exclude' => array() );
+
 			foreach ( $exclude as $exclude_string ) {
-				if ( '-' !== $exclude_string[0] ) {
-					$exclude_ext['exclude'][]['regex_value'] = "-{$exclude_string}";
-				}
+				$exclude_string = str_replace( '*', '\*', $exclude_string );
+
+				$exclude_ext['exclude'][]['regex_value'] = "/{$exclude_string}/";
 			}
 
 			$details = $this->filter_detail_items( $details, $exclude_ext, array( 'name', 'source' ) );
@@ -309,7 +310,7 @@ class Data_Access_Helper {
 
 		foreach ( $split_queries['include'] as $query ) {
 			if ( ! empty( $property_details ) ) {
-				$property_details_part = $this->extend_detail_items(
+				$property_details_part = $this->extend_and_format_detail_items(
 					$this->filter_detail_items( $property_details, array( 'include' => array( $query ) ) ),
 					$query['props']
 				);
@@ -325,7 +326,7 @@ class Data_Access_Helper {
 
 			$meta = $this->get_custom_field_by( false, $query['value'], $post_id );
 			if ( ! empty( $meta ) ) {
-				$meta  = $this->extend_detail_items( array( $meta ), $query['props'] );
+				$meta  = $this->extend_and_format_detail_items( array( $meta ), $query['props'] );
 				$items = array_merge( $items, $meta );
 			}
 
@@ -340,7 +341,7 @@ class Data_Access_Helper {
 					continue;
 				}
 
-				$meta = $this->extend_detail_items(
+				$meta = $this->extend_and_format_detail_items(
 					$this->filter_detail_items( $meta, $split_queries ),
 					$query['props']
 				);
@@ -823,11 +824,7 @@ class Data_Access_Helper {
 				'org_value'   => $query_string,
 				'exclude'     => false,
 				'is_regex'    => false,
-				'props'       => array(
-					'inx'               => array(),
-					'twig_filters'      => array(),
-					'twig_filter_chain' => '',
-				),
+				'props'       => array(),
 			);
 
 			$props_start_pos = strpos( $query_string, '|' );
@@ -878,48 +875,35 @@ class Data_Access_Helper {
 	} // split_detail_query_strings
 
 	/**
-	 * Split a detail query "filter and property string" into native (inx) and
-	 * Twig filter elements.
+	 * Split a detail query "chain string" of additional properties (e.g. format filters).
 	 *
 	 * @since 1.9.27-beta
 	 *
-	 * @param string $prop_string Filter and property (NOT real estate ;-)) query string parts.
+	 * @param string $chain_string Chain string.
 	 *
-	 * @return mixed[] Split filter/property data.
+	 * @return mixed[] Split property/argument data.
 	 */
-	private function split_detail_query_string_props( $prop_string ) {
-		$props     = array(
-			'inx'               => array(),
-			'twig_filters'      => array(),
-			'twig_filter_chain' => '',
-		);
-		$raw_props = array_map( 'trim', explode( '|', $prop_string ) );
+	private function split_detail_query_string_props( $chain_string ) {
+		$props = array();
+		$raw   = array_map( 'trim', explode( '|', $chain_string ) );
 
-		if ( empty( $raw_props ) ) {
-			return $props;
+		if ( empty( $raw ) ) {
+			return array();
 		}
 
-		foreach ( $raw_props as $prop ) {
-			if ( preg_match( '/^[a-z_]+(\([^()]+\))?$/', $prop ) ) {
-				$props['twig_filters'][] = $prop;
-				continue;
-			}
+		foreach ( $raw as $prop_string ) {
+			$prop = $this->utils['string']->split_key_args_value( $prop_string );
 
-			$prop_split = preg_match( '/([a-z_-]+)(\s+)?=(\s+)?(.*)/', trim( $prop ), $matches );
-			if ( $prop_split ) {
-				$props['inx'][ $matches[1] ] = $matches[4];
+			if ( false !== $prop ) {
+				$props[ $prop['key'] ] = $prop;
 			}
-		}
-
-		if ( ! empty( $props['twig_filters'] ) ) {
-			$props['twig_filter_chain'] = '|' . implode( '|', $props['twig_filters'] );
 		}
 
 		return $props;
 	} // split_detail_query_string_props
 
 	/**
-	 * Extend detail items according to the specified query properties.
+	 * Extend and format detail item values according to the specified query properties.
 	 *
 	 * @since 1.9.27-beta
 	 *
@@ -928,34 +912,41 @@ class Data_Access_Helper {
 	 *
 	 * @return mixed[] Possibly extended detail items.
 	 */
-	private function extend_detail_items( $items, $query_props ) {
+	private function extend_and_format_detail_items( $items, $query_props ) {
 		if ( empty( $items ) ) {
 			return array();
 		}
 
 		foreach ( $items as $i => $item ) {
-			if ( $query_props['twig_filter_chain'] ) {
-				// @codingStandardsIgnoreStart
-				try {
-					$items[ $i ]['value'] = $this->utils['template']->render_twig_template_string( "{{ value{$query_props['twig_filter_chain']} }}", $item );
-				} catch ( \Exception $e ) {
-					// Ignore Twig rendering errors due to possible invalid filters here.
-				}
-				// @codingStandardsIgnoreEnd
-			}
-			if ( ! empty( $query_props['inx']['before_value'] ) ) {
-				$items[ $i ]['value'] = $query_props['inx']['before_value'] . ' ' . $items[ $i ]['value'];
-			}
-			if ( ! empty( $query_props['inx']['after_value'] ) ) {
-				$items[ $i ]['value'] .= ' ' . $query_props['inx']['after_value'];
+			if ( empty( $query_props ) ) {
+				continue;
 			}
 
-			if ( ! empty( $query_props['inx'] ) ) {
-				$items[ $i ] = array_merge( $items[ $i ], $query_props['inx'] );
+			foreach ( $query_props as $prop_name => $prop ) {
+				if ( 'inx_format_' === substr( $prop_name, 0, 11 ) ) {
+					$items[ $i ]['value'] = apply_filters(
+						'inx_format',
+						$items[ $i ]['value'],
+						substr( $prop_name, 11 ),
+						$prop['args']
+					);
+					continue;
+				}
+
+				switch ( $prop_name ) {
+					case 'before_value':
+						$items[ $i ]['value'] = $prop['value'] . ' ' . $items[ $i ]['value'];
+						break;
+					case 'after_value':
+						$items[ $i ]['value'] .= ' ' . $prop['value'];
+						break;
+				}
 			}
+
+			$items[ $i ] = array_merge( $items[ $i ], $query_props );
 		}
 
 		return $items;
-	} // extend_detail_items
+	} // extend_and_format_detail_items
 
 } // Data_Access_Helper

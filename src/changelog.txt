@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.9.32 =
+* Release date: 2024-09-09
+* Fixed minor data selection and Twig templating issues.
+* Extended the Elementor add-on interface.
+* Verified WordPress 6.7 compatibility.
+* Updated dependencies.
+
 = 1.9.30 =
 * Release date: 2024-09-04
 * Added an option for disabling detail views and related links of sold/rented and reference properties.
