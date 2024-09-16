@@ -135,12 +135,19 @@ class API_Hooks {
 	 * @return mixed Formatted value.
 	 */
 	public function format( $value, $type, $args = array() ) {
+		if ( ! is_scalar( $value ) ) {
+			return $value;
+		}
+
+		if (
+			! is_numeric( $value )
+			&& in_array( $type, array( 'price', 'area', 'number' ), true )
+		) {
+			return $value;
+		}
+
 		switch ( $type ) {
 			case 'price':
-				if ( ! is_numeric( $value ) ) {
-					return $value;
-				}
-
 				if ( is_numeric( key( $args ) ) ) {
 					$decimals        = isset( $args[0] ) ? (int) $args[0] : 9;
 					$currency        = isset( $args[1] ) ? (int) $args[1] : $this->config['currency_symbol'];
@@ -154,6 +161,30 @@ class API_Hooks {
 				}
 
 				return $this->utils['format']->format_price( $value, $decimals, $price_time_unit, $if_zero, $currency );
+			case 'area':
+				if ( is_numeric( key( $args ) ) ) {
+					$decimals = isset( $args[0] ) ? (int) $args[0] : 9;
+					$unit     = isset( $args[1] ) ? (int) $args[1] : $this->config['area_unit'];
+					$if_zero  = isset( $args[2] ) ? (int) $args[3] : '';
+				} else {
+					$decimals = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
+					$unit     = isset( $args['unit'] ) ? (int) $args['unit'] : $this->config['area_unit'];
+					$if_zero  = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+				}
+
+				return $this->utils['format']->format_area( $value, $decimals, $if_zero, $unit );
+			case 'number':
+				if ( is_numeric( key( $args ) ) ) {
+					$decimals = isset( $args[0] ) ? (int) $args[0] : 9;
+					$unit     = isset( $args[1] ) ? (int) $args[1] : '';
+					$if_zero  = isset( $args[2] ) ? (int) $args[3] : '';
+				} else {
+					$decimals = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
+					$unit     = isset( $args['unit'] ) ? (int) $args['unit'] : '';
+					$if_zero  = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+				}
+
+				return $this->utils['string']->format_number( $value, $decimals, $unit, array( 'if_zero' => $if_zero ) );
 		}
 
 		return $value;

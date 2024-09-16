@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
 Tested up to: 6.7
-Stable Tag: 1.9.32
+Stable Tag: 1.9.33
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.33 =
+* Release date: 2024-09-16
+* Added a gallery compatibility patch.
+
 = 1.9.32 =
 * Release date: 2024-09-09
 * Fixed minor data selection and Twig templating issues.
@@ -132,15 +136,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a backlink issue with activated auto-updates of list views.
 * Improved compatibility with older Samsung Smart TV web browsers.
 * Improved security.
-* Updated dependencies.
-
-= 1.9.18 =
-* Release date: 2024-06-12
-* Added Open Graph and X/Twitter Card meta tag support.
-* Added basic support for post passwords to the regular single property template.
-* Disabled a jerky gallery animation (single Ken Burns effect direction).
-* Fixed two map template issues.
-* Fixed a compatibility issue in Windows-based hosting environments.
 * Updated dependencies.
 
 See changelog.txt for the complete version history.

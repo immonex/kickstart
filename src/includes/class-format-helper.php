@@ -20,16 +20,25 @@ class Format_Helper {
 	private $plugin_options;
 
 	/**
+	 * Helper/Utility objects
+	 *
+	 * @var object[]
+	 */
+	private $utils;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[] $plugin_options Plugin options.
+	 * @param mixed[]  $plugin_options Plugin options.
+	 * @param object[] $utils          Helper/Utility objects.
 	 */
-	public function __construct( $plugin_options ) {
+	public function __construct( $plugin_options, $utils ) {
 		global $wp_embed;
 
 		$this->plugin_options = $plugin_options;
+		$this->utils          = $utils;
 
 		/**
 		 * Plugin-specific actions and filters
@@ -178,29 +187,60 @@ class Format_Helper {
 	 * @return string Formatted price or default value.
 	 */
 	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '', $currency = '' ) {
-		if ( ! $value && $if_zero ) {
-			return $if_zero;
+		if ( ! $value ) {
+			return $if_zero ? $if_zero : '';
 		}
 
 		if ( ! is_numeric( $value ) ) {
 			return $value;
 		}
 
-		if ( 9 === $decimals ) {
-			// Format integer values without decimal places, floats with two.
-			$whole    = (int) $value;
-			$fraction = round( $value - $whole, 2 );
-			$decimals = $fraction > 0 ? 2 : 0;
-		}
-
 		$currency = ! empty( $currency ) ? $currency : $this->plugin_options['currency_symbol'];
+		$decimals = 9 === $decimals ? 99 : $decimals;
+		$args     = array(
+			'if_zero'  => $if_zero,
+			'unit_sep' => '&nbsp;',
+		);
 
-		$price = number_format_i18n( $value, $decimals ) . "&nbsp;{$currency}";
-		if ( $price_time_unit ) {
+		$price = $this->utils['string']->format_number( $value, $decimals, $currency, $args );
+
+		if ( $price !== $if_zero && $price_time_unit ) {
 			$price .= ' <span class="inx-price-time-unit">' . $price_time_unit . '</span>';
 		}
 
 		return $price;
 	} // format_price
+
+	/**
+	 * Format the given value as property price or return a special value if
+	 * zero or empty.
+	 *
+	 * @since 1.9.33-beta
+	 *
+	 * @param int|float $value Area value.
+	 * @param int       $decimals Number of decimals (optional, 2 by default, 9 = auto).
+	 * @param string    $if_zero Return value if original value is zero or empty (optional).
+	 * @param string    $unit Area unit (optional, system setting by default).
+	 *
+	 * @return string Formatted price or default value.
+	 */
+	public function format_area( $value, $decimals = 2, $if_zero = '', $unit = '' ) {
+		if ( ! $value ) {
+			return $if_zero ? $if_zero : '';
+		}
+
+		if ( ! is_numeric( $value ) ) {
+			return $value;
+		}
+
+		$unit     = ! empty( $unit ) ? $unit : $this->plugin_options['area_unit'];
+		$decimals = 9 === $decimals ? 99 : $decimals;
+		$args     = array(
+			'if_zero'  => $if_zero,
+			'unit_sep' => '&nbsp;',
+		);
+
+		return $this->utils['string']->format_number( $value, $decimals, $unit, $args );
+	} // format_area
 
 } // Format_Helper

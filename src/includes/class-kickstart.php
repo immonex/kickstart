@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_0_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_0_1\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.9.32';
+	const PLUGIN_VERSION             = '1.9.33';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -401,7 +401,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_0_0\Base {
 			$this->utils,
 			array(
 				'data'   => new Data_Access_Helper( $this->plugin_options, $this->bootstrap_data, $this->utils ),
-				'format' => new Format_Helper( $this->plugin_options ),
+				'format' => new Format_Helper( $this->plugin_options, $this->utils ),
 				'query'  => new Query_Helper( $this->plugin_options ),
 			)
 		);

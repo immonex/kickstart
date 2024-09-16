@@ -71,6 +71,15 @@ foreach ( $inx_skin_image_selection_custom_field as $inx_skin_image_cf ) {
 		$inx_skin_cf_image_ids = array( $inx_skin_cf_image_ids );
 	}
 
+	if ( 0 !== array_keys( $inx_skin_cf_image_ids )[0] ) {
+		$inx_skin_temp = array();
+		foreach ( $inx_skin_cf_image_ids as $inx_skin_image_id => $inx_skin_image_url ) {
+			$inx_skin_temp[] = $inx_skin_image_id;
+		}
+
+		$inx_skin_cf_image_ids = $inx_skin_temp;
+	}
+
 	$inx_skin_gallery_image_ids = array_merge(
 		$inx_skin_gallery_image_ids,
 		$inx_skin_cf_image_ids
