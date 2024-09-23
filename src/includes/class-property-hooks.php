@@ -699,7 +699,18 @@ class Property_Hooks {
 				// Try to retrieve the actual value from a field with the same name as the value determined before.
 				$value_temp = get_post_meta( $property_id, $value, true );
 				if ( $value_temp ) {
-					$value = $value_temp;
+					$field_meta_data = get_post_meta( $property_id, '_' . $value, true );
+					$value           = $value_temp;
+
+					if ( ! empty( $field_meta_data ) ) {
+						$raw_value = ! empty( $field_meta_data['meta_value_before_filter'] ) ?
+							$field_meta_data['meta_value_before_filter'] :
+							$value;
+
+						if ( ! empty( $field_meta_data['mapping_parent'] ) ) {
+							$title = $field_meta_data['mapping_parent'];
+						}
+					}
 				}
 			}
 		}
