@@ -9,28 +9,33 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-24T06:25:43+00:00\n"
+"POT-Creation-Date: 2024-09-24T08:05:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: immonex-kickstart\n"
 
 #. Plugin Name of the plugin
+#: immonex-kickstart.php
 msgid "immonex Kickstart"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: immonex-kickstart.php
 msgid "https://wordpress.org/plugins/immonex-kickstart/"
 msgstr ""
 
 #. Description of the plugin
+#: immonex-kickstart.php
 msgid "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers"
 msgstr ""
 
 #. Author of the plugin
+#: immonex-kickstart.php
 msgid "inveris OHG / immonex"
 msgstr ""
 
 #. Author URI of the plugin
+#: immonex-kickstart.php
 msgid "https://immonex.dev/"
 msgstr ""
 

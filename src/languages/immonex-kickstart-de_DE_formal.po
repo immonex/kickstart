@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2024-09-24T06:11:42+00:00\n"
-"PO-Revision-Date: 2024-09-24 08:22+0200\n"
+"POT-Creation-Date: 2024-09-24T08:05:12+00:00\n"
+"PO-Revision-Date: 2024-09-24 10:05+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -16,14 +16,17 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #. Plugin Name of the plugin
+#: immonex-kickstart.php
 msgid "immonex Kickstart"
 msgstr "immonex Kickstart"
 
 #. Plugin URI of the plugin
+#: immonex-kickstart.php
 msgid "https://wordpress.org/plugins/immonex-kickstart/"
 msgstr "https://de.wordpress.org/plugins/immonex-kickstart/"
 
 #. Description of the plugin
+#: immonex-kickstart.php
 msgid ""
 "Essential components and add-on framework for embedding and searching/"
 "filtering imported OpenImmo-XML-based real estate offers"
@@ -32,10 +35,12 @@ msgstr ""
 "Filterung von OpenImmo-XML-basierten Immobilienangeboten"
 
 #. Author of the plugin
+#: immonex-kickstart.php
 msgid "inveris OHG / immonex"
 msgstr "inveris OHG / immonex"
 
 #. Author URI of the plugin
+#: immonex-kickstart.php
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
 

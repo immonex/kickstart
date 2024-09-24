@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.9.38 =
+* Release date: 2024-09-24
+* Fixed a detail search bug.
+* Updated translation handling.
+
 = 1.9.36 =
 * Release date: 2024-09-23
 * Improved URL to link conversion in description texts.

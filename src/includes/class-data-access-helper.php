@@ -567,9 +567,22 @@ class Data_Access_Helper {
 			// Get value from the rendering data of a related frontend component instance.
 			$temp_value = $this->sanitize_query_var_value( $component_instance_data[ $var_name ] );
 		} elseif ( isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ] ) {
+			// @codingStandardsIgnoreStart
+			$temp_raw_value = $_GET[ $var_name ];
+			if ( is_array( $temp_raw_value ) ) {
+				foreach ( $temp_raw_value as $key => $temp_raw_single_value ) {
+					if ( ! is_string( $temp_raw_single_value ) ) {
+						continue;
+					}
+					$temp_raw_value[ $key ] = wp_unslash( strip_tags( $temp_raw_single_value ) );
+				}
+			} elseif ( is_string( $temp_raw_value ) ) {
+				$temp_raw_value = wp_unslash( strip_tags( $temp_raw_value ) );
+			}
+
 			// Get value from GET query variables (possibly override query object values).
-			// @codingStandardsIgnoreLine
-			$temp_value = $this->sanitize_query_var_value( wp_unslash( strip_tags( $_GET[ $var_name ] ) ) );
+			$temp_value = $this->sanitize_query_var_value( $temp_raw_value );
+			// @codingStandardsIgnoreEnd
 		} elseif ( is_page() ) {
 			$temp_value = get_post_meta( get_the_ID(), $var_name );
 		}

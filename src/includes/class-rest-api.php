@@ -215,8 +215,9 @@ class REST_API {
 	 * @return mixed[] Map marker data.
 	 */
 	private function get_property_map_markers( $request, $response_format = 'json_map_markers' ) {
-		$args = json_decode( $request->get_param( 'inx-r-cidata' ), true );
-		$id   = $request->get_param( 'id' );
+		$cidata = $request->get_param( 'inx-r-cidata' );
+		$args   = $cidata ? json_decode( $request->get_param( 'inx-r-cidata' ), true ) : array();
+		$id     = $request->get_param( 'id' );
 
 		if ( $id ) {
 			$args['id']   = $id;
