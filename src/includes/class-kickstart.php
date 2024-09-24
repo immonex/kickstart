@@ -788,7 +788,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_0\Base {
 					'title'       => __( 'Reference Properties', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %s = Tab URL */
-						__( 'If required, <strong>detail pages</strong> of reference properties can be <strong>disabled</strong> under <a href="%s">Detail View → General</a>', 'immonex-kickstart' ),
+						__( 'If required, <strong>detail pages</strong> of reference properties can be <strong>disabled</strong> under <a href="%s">Detail View → General</a>.', 'immonex-kickstart' ),
 						admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_property_details' )
 					),
 					'tab'         => 'tab_general',

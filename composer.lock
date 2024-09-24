@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d132edbdf02f5a178d5d5c5683af0aac",
+    "content-hash": "474d6bb570e0d7aec7499395ae9c44f3",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -900,31 +900,6 @@
                 "source": "https://github.com/doctrine/rst-parser/tree/1.0.x"
             },
             "time": "2021-10-23T14:56:37+00:00"
-        },
-        {
-            "name": "inverisoss/wp-i18n-tools",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/inverisOSS/wp-i18n-tools.git",
-                "reference": "482ce114cec7c36d7303254c631c6c2d732ffdc2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/inverisOSS/wp-i18n-tools/zipball/482ce114cec7c36d7303254c631c6c2d732ffdc2",
-                "reference": "482ce114cec7c36d7303254c631c6c2d732ffdc2",
-                "shasum": ""
-            },
-            "type": "library",
-            "license": [
-                "GPLv2 or later"
-            ],
-            "description": "An extended variant of the WordPress i18n tools including the ability to exclude specified folders.",
-            "support": {
-                "source": "https://github.com/inverisOSS/wp-i18n-tools/tree/1.0.2",
-                "issues": "https://github.com/inverisOSS/wp-i18n-tools/issues"
-            },
-            "time": "2020-01-20T10:00:53+00:00"
         },
         {
             "name": "myclabs/deep-copy",

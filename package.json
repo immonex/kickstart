@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.9.30",
+  "version": "1.9.36",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "dependencies": {
@@ -63,10 +63,7 @@
     "build": "npm run build:scripts && npm run build:copy && npm run build:clean-core && npm run build:clean-cmb2 && npm run build:clean-vendor && npm run build:del-scss-js-sources && npm run build:zip",
     "postbuild": "composer install --ignore-platform-reqs",
     "watch": "webpack --watch --config webpack.dev.js",
-    "pot:copy": "dotenv cross-var \"mkdir -p %PLUGIN_SLUG% && cp -R src/* %PLUGIN_SLUG%\"",
-    "pot:extract": "dotenv cross-var php vendor/inverisoss/wp-i18n-tools/makepot.php wp-plugin %PLUGIN_SLUG%/ src/languages/%PLUGIN_SLUG%.pot vendor,lib,assets,bin,data",
-    "pot:delete": "dotenv -- cross-var rimraf --glob %PLUGIN_SLUG%",
-    "pot": "npm run pot:copy && npm run pot:extract && npm run pot:delete",
+    "pot": "dotenv cross-var wp i18n make-pot --exclude=vendor,lib,assets,bin,data src src/languages/%PLUGIN_SLUG%.pot",
     "test:install": "bin/invoke_test_installer.sh",
     "test": "vendor/phpunit/phpunit/phpunit -c tests/phpunit/plugin.xml",
     "doc": "doc-gen serve",

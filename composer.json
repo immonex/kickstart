@@ -1,18 +1,12 @@
 {
     "name": "immonex/kickstart",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/inverisOSS/wp-i18n-tools"
-        }
-    ],
+    "repositories": [],
     "minimum-stability": "dev",
     "require": {
         "cmb2/cmb2": "dev-master",
         "immonex/wp-free-plugin-core": "2.1.0"
     },
     "require-dev": {
-        "inverisoss/wp-i18n-tools": "^1.0",
         "phpunit/phpunit": "^7",
         "doctrine/rst-parser": "@dev",
         "yoast/phpunit-polyfills": "1.x-dev"

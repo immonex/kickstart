@@ -19,7 +19,7 @@ $inx_skin_countries      = ! empty( $template_data['element']['countries'] ) ? $
 $inx_skin_osm_place_tags = ! empty( $template_data['element']['osm_place_tags'] ) ? $template_data['element']['osm_place_tags'] : '';
 
 $inx_skin_privacy_note = wp_sprintf(
-	/* translators: %1 = Photon/OpenStreetMap, %2 = Privacy Policy URL */
+	/* translators: %1 = Autocompletion/Map Provider Name, %2 = Privacy Policy URL */
 	__( 'This site utilizes %1$s for location autocompletion and map display, please see our <a href="%2$s" target="_blank">privacy policy</a>!', 'immonex-kickstart' ),
 	'Photon/OpenStreetMap',
 	get_privacy_policy_url()

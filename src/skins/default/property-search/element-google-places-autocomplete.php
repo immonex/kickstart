@@ -16,7 +16,7 @@ if ( $template_data['google_api_key'] ) :
 	$inx_skin_placeholder  = ! empty( $template_data['element']['placeholder'] ) ? $template_data['element']['placeholder'] : '';
 
 	$inx_skin_privacy_note = wp_sprintf(
-		/* translators: %1 = Google Maps, %2 = Privacy Policy URL */
+		/* translators: %1 = Autocompletion/Map Provider Name, %2 = Privacy Policy URL */
 		__( 'This site utilizes %1$s for location autocompletion and map display, please see our <a href="%2$s" target="_blank">privacy policy</a>!', 'immonex-kickstart' ),
 		'Google Maps',
 		get_privacy_policy_url()
