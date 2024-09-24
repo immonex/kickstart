@@ -25,13 +25,14 @@ Kickstart can be extended by *custom skins* (template sets) and *add-on plugins*
 - [Composer](https://getcomposer.org/)
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 - [WordPress Coding Standards for PHP_CodeSniffer](https://github.com/WordPress/WordPress-Coding-Standards)
+- [WP-CLI](https://wp-cli.org/)
 - ready-to-go [WordPress](https://wordpress.org/download/) installation on a local webserver
 
 ### Guidelines
 
 **We keep it simple and rely on battle-proven standards and best practices whenever possible!**
 
-- PHP compatibility: 5.6+ (switch to 7.2+ envisaged for future releases)
+- PHP compatibility: 5.6+ (switch to 8 envisaged for future releases)
 - Coding Standard (PHP): [WordPress PHP Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/)
 - Git branching strategy: [GitHub flow](https://guides.github.com/introduction/flow/)
 - Git commit messages: [Conventional Commits](https://www.conventionalcommits.org/)
