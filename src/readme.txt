@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
-Tested up to: 6.7
-Stable Tag: 1.9.43
+Tested up to: 6.7.1
+Stable Tag: 1.9.46
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -113,6 +113,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.46 =
+* Release date: 2024-11-21
+* Fixed minor gallery and map bugs.
+* Updated dependencies.
+
 = 1.9.43 =
 * Release date: 2024-11-20
 * Reworked video embedding in property detail pages.
@@ -125,11 +130,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2024-09-24
 * Fixed a detail search bug.
 * Updated translation handling.
-
-= 1.9.36 =
-* Release date: 2024-09-23
-* Improved URL to link conversion in description texts.
-* Fixed an archive query issues.
-* Updated image assets and dependencies.
 
 See changelog.txt for the complete version history.

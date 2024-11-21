@@ -1,5 +1,5 @@
 <template>
-	<div :class="classes" style="min-height: 300px; min-width: 800px; display:block">
+	<div :class="classes">
 		&nbsp;
 		<div class="inx-property-location-map__consent" v-show="!consentGranted && requireConsent">
 			<p class="inx-property-location-map__privacy-note" v-html="privacyNote"></p>

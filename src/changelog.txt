@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.9.46 =
+* Release date: 2024-11-21
+* Fixed minor gallery and map bugs.
+* Updated dependencies.
+
 = 1.9.43 =
 * Release date: 2024-11-20
 * Reworked video embedding in property detail pages.

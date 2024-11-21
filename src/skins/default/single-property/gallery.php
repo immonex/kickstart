@@ -100,8 +100,10 @@ if (
 }
 
 $inx_skin_media_count = is_array( $inx_skin_gallery_image_ids ) ? count( $inx_skin_gallery_image_ids ) : 0;
+$inx_skin_video_count = ! empty( $template_data['videos'] ) && is_array( $template_data['videos'] ) ?
+	count( $template_data['videos'] ) : 0;
 
-$inx_skin_show_video = ! empty( $template_data['videos'] ) && (
+$inx_skin_show_video = $inx_skin_video_count && (
 	! empty( $template_data['enable_video'] ) ||
 	( ! isset( $template_data['enable_video'] ) && $inx_skin_is_default_gallery )
 );
@@ -117,7 +119,7 @@ if ( $inx_skin_show_video ) {
 		$template_data['videos'][0]['provider'] :
 		'play-circle';
 
-	$inx_skin_media_count++;
+	$inx_skin_media_count += $inx_skin_video_count;
 }
 
 if ( $inx_skin_show_virtual_tour ) {
@@ -415,7 +417,7 @@ if ( $inx_skin_media_count > 0 ) :
 					<?php endif; ?>
 
 					<?php if ( $inx_skin_show_virtual_tour ) : ?>
-					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + count( $template_data['videos'] ); ?>">
+					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + $inx_skin_video_count; ?>">
 						<a href="#">
 							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<div class="inx-icon inx-icon--360"></div>
