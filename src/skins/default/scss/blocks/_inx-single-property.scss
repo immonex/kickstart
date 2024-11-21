@@ -146,6 +146,42 @@ ul.inx-single-property__tab-nav.uk-tab {
 	}
 }
 
+.inx-single-property__video-iframe {
+	width: 100%;
+	height: 100%;
+}
+
+.inx-single-property__video {
+	width: 100%;
+	height: 100%;
+	background: rgba(240, 240, 240, .5);
+
+	&:has(+ .inx-single-property__video-title) {
+		height: calc(100% - 3em);
+	}
+
+	.mejs-container {
+		background: inherit;
+	}
+
+	.wp-video {
+		display: inline;
+		margin: auto 0;
+	}
+
+	.wp-video video {
+		width: 100% !important;
+		height: 100% !important;
+	}
+}
+
+.inx-single-property__video-title {
+	display: flex;
+	height: 3em;
+	align-items: center;
+	justify-content: center;
+}
+
 .inx-single-property__contact-person-name-bio > strong:first-child {
 	font-size: 1.2em;
 }

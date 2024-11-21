@@ -472,10 +472,10 @@ class Property_Search {
 							}
 						}
 
-						if ( 1 === count( $top_level_options ) ) {
+						if ( 'tax-select' === $element['type'] && 1 === count( $top_level_options ) ) {
 							/**
-							 * Exclude "empty" option if only a single regular top level option exists and
-							 * set its value as default.
+							 * Exclude "empty" option in select boxes if only a single regular top level
+							 * option exists and set its value as default.
 							 */
 							$element['empty_option'] = false;
 							$element['default']      = array_keys( $top_level_options )[0];
@@ -749,6 +749,8 @@ class Property_Search {
 	public function get_search_form_elements( $enabled_only = false, $always_include_default_elements = false, $suppress_filters = false, $rendering_atts = array() ) {
 		$all_elements = array(
 			'title-desc'               => array(
+				'description' => __( 'Regular post title and content – for special cases only!', 'immonex-kickstart' )
+					. ' (' . __( 'fulltext search field', 'immonex-kickstart' ) . ')',
 				'enabled'     => true,
 				'hidden'      => true,
 				'extended'    => false,
@@ -762,6 +764,8 @@ class Property_Search {
 				'order'       => 5,
 			),
 			'description'              => array(
+				'description' => __( 'Title/Content and ID fields', 'immonex-kickstart' )
+					. ' (' . __( 'fulltext search field', 'immonex-kickstart' ) . ')',
 				'enabled'     => true,
 				'hidden'      => false,
 				'extended'    => false,
@@ -775,6 +779,8 @@ class Property_Search {
 				'order'       => 10,
 			),
 			'type-of-use'              => array(
+				'description'  => __( 'Type of use', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term selection', 'immonex-kickstart' ) . ')',
 				'enabled'      => true,
 				'hidden'       => true,
 				'extended'     => false,
@@ -782,14 +788,16 @@ class Property_Search {
 				'key'          => $this->config['plugin_prefix'] . 'type_of_use',
 				'compare'      => '=',
 				'numeric'      => false,
-				'label'        => __( 'Type Of Use', 'immonex-kickstart' ),
+				'label'        => __( 'Type of Use', 'immonex-kickstart' ),
 				'multiple'     => false,
-				'empty_option' => __( 'All Types Of Use', 'immonex-kickstart' ),
+				'empty_option' => __( 'All Types of Use', 'immonex-kickstart' ),
 				'default'      => '',
 				'class'        => '',
 				'order'        => 15,
 			),
 			'property-type'            => array(
+				'description'        => __( 'Property type', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term selection', 'immonex-kickstart' ) . ')',
 				'enabled'            => true,
 				'hidden'             => false,
 				'extended'           => false,
@@ -807,6 +815,8 @@ class Property_Search {
 				'order'              => 20,
 			),
 			'marketing-type'           => array(
+				'description'  => __( 'Marketing type', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term selection', 'immonex-kickstart' ) . ')',
 				'enabled'      => true,
 				'hidden'       => false,
 				'extended'     => false,
@@ -824,6 +834,8 @@ class Property_Search {
 				'order'        => 30,
 			),
 			'locality'                 => array(
+				'description'  => __( 'Locality', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term selection', 'immonex-kickstart' ) . ')',
 				'enabled'      => true,
 				'hidden'       => false,
 				'extended'     => false,
@@ -839,6 +851,8 @@ class Property_Search {
 				'order'        => 40,
 			),
 			'project'                  => array(
+				'description'        => __( 'Project', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term selection', 'immonex-kickstart' ) . ')',
 				'enabled'            => true,
 				'hidden'             => true,
 				'extended'           => false,
@@ -854,6 +868,8 @@ class Property_Search {
 				'order'              => 45,
 			),
 			'min-rooms'                => array(
+				'description'  => __( 'Minimum rooms', 'immonex-kickstart' )
+					. ' (' . __( 'value slider', 'immonex-kickstart' ) . ')',
 				'enabled'      => true,
 				'hidden'       => false,
 				'extended'     => false,
@@ -872,6 +888,8 @@ class Property_Search {
 				'order'        => 50,
 			),
 			'min-area'                 => array(
+				'description'  => __( 'Minimum area', 'immonex-kickstart' )
+					. ' (' . __( 'value slider', 'immonex-kickstart' ) . ')',
 				'enabled'      => true,
 				'hidden'       => false,
 				'extended'     => false,
@@ -890,6 +908,8 @@ class Property_Search {
 				'order'        => 60,
 			),
 			'price-range'              => array(
+				'description'    => __( 'Price range', 'immonex-kickstart' )
+					. ' (' . __( 'value slider', 'immonex-kickstart' ) . ')',
 				'enabled'        => true,
 				'hidden'         => false,
 				'extended'       => false,
@@ -907,42 +927,46 @@ class Property_Search {
 				'order'          => 70,
 			),
 			'submit'                   => array(
-				'enabled'  => true,
-				'hidden'   => false,
-				'extended' => false,
-				'type'     => 'submit',
-				'key'      => '',
-				'compare'  => '',
-				'numeric'  => false,
-				'label'    => __( 'Show', 'immonex-kickstart' ),
-				'class'    => 'inx-property-search__element--is-last-grid-col',
-				'order'    => 80,
+				'description' => __( 'Submit button', 'immonex-kickstart' ),
+				'enabled'     => true,
+				'hidden'      => false,
+				'extended'    => false,
+				'type'        => 'submit',
+				'key'         => '',
+				'compare'     => '',
+				'numeric'     => false,
+				'label'       => __( 'Show', 'immonex-kickstart' ),
+				'class'       => 'inx-property-search__element--is-last-grid-col',
+				'order'       => 80,
 			),
 			'reset'                    => array(
-				'enabled'  => true,
-				'hidden'   => false,
-				'extended' => false,
-				'type'     => 'reset',
-				'key'      => '',
-				'compare'  => '',
-				'numeric'  => false,
-				'label'    => __( 'Reset Search Form', 'immonex-kickstart' ),
-				'class'    => 'inx-property-search__element--is-full-width',
-				'order'    => 90,
+				'description' => __( 'Form reset link', 'immonex-kickstart' ),
+				'enabled'     => true,
+				'hidden'      => false,
+				'extended'    => false,
+				'type'        => 'reset',
+				'key'         => '',
+				'compare'     => '',
+				'numeric'     => false,
+				'label'       => __( 'Reset Search Form', 'immonex-kickstart' ),
+				'class'       => 'inx-property-search__element--is-full-width',
+				'order'       => 90,
 			),
 			'toggle-extended'          => array(
-				'enabled'  => true,
-				'hidden'   => false,
-				'extended' => false,
-				'type'     => 'extended-search-toggle',
-				'key'      => '',
-				'compare'  => '',
-				'numeric'  => false,
-				'label'    => __( 'Extended and Distance Search', 'immonex-kickstart' ),
-				'class'    => 'inx-property-search__element--is-full-width',
-				'order'    => 100,
+				'description' => __( 'Toggle extended options link', 'immonex-kickstart' ),
+				'enabled'     => true,
+				'hidden'      => false,
+				'extended'    => false,
+				'type'        => 'extended-search-toggle',
+				'key'         => '',
+				'compare'     => '',
+				'numeric'     => false,
+				'label'       => __( 'Extended and Distance Search', 'immonex-kickstart' ),
+				'class'       => 'inx-property-search__element--is-full-width',
+				'order'       => 100,
 			),
 			'distance-search-location' => array(
+				'description'    => __( 'Distance search location field', 'immonex-kickstart' ),
 				'enabled'        => $this->config['distance_search_autocomplete_type'] ? true : false,
 				'hidden'         => false,
 				'extended'       => true,
@@ -961,6 +985,7 @@ class Property_Search {
 				'order'          => 200,
 			),
 			'distance-search-radius'   => array(
+				'description'  => __( 'Distance search radius selection', 'immonex-kickstart' ),
 				'enabled'      => $this->config['distance_search_autocomplete_type'] ? true : false,
 				'hidden'       => false,
 				'extended'     => true,
@@ -982,30 +1007,36 @@ class Property_Search {
 				'order'        => 210,
 			),
 			'features'                 => array(
-				'enabled'  => true,
-				'hidden'   => false,
-				'extended' => true,
-				'type'     => 'tax-checkbox',
-				'key'      => $this->config['plugin_prefix'] . 'feature',
-				'compare'  => 'AND',
-				'numeric'  => false,
-				'label'    => __( 'Features', 'immonex-kickstart' ),
-				'class'    => 'inx-property-search__element--is-full-width',
-				'order'    => 220,
+				'description' => __( 'Features', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term checkboxes', 'immonex-kickstart' ) . ')',
+				'enabled'     => true,
+				'hidden'      => false,
+				'extended'    => true,
+				'type'        => 'tax-checkbox',
+				'key'         => $this->config['plugin_prefix'] . 'feature',
+				'compare'     => 'AND',
+				'numeric'     => false,
+				'label'       => __( 'Features', 'immonex-kickstart' ),
+				'multiple'    => true,
+				'default'     => '',
+				'class'       => 'inx-property-search__element--is-full-width',
+				'order'       => 220,
 			),
 			'labels'                   => array(
-				'enabled'  => true,
-				'hidden'   => true,
-				'extended' => true,
-				'type'     => 'tax-checkbox',
-				'key'      => $this->config['plugin_prefix'] . 'label',
-				'compare'  => 'IN',
-				'numeric'  => false,
-				'label'    => __( 'Labels', 'immonex-kickstart' ),
-				'multiple' => true,
-				'default'  => '',
-				'class'    => 'inx-property-search__element--is-full-width',
-				'order'    => 900,
+				'description' => __( 'Labels', 'immonex-kickstart' )
+					. ' (' . __( 'taxonomy term checkboxes', 'immonex-kickstart' ) . ')',
+				'enabled'     => true,
+				'hidden'      => true,
+				'extended'    => true,
+				'type'        => 'tax-checkbox',
+				'key'         => $this->config['plugin_prefix'] . 'label',
+				'compare'     => 'IN',
+				'numeric'     => false,
+				'label'       => __( 'Labels', 'immonex-kickstart' ),
+				'multiple'    => true,
+				'default'     => '',
+				'class'       => 'inx-property-search__element--is-full-width',
+				'order'       => 900,
 			),
 		);
 
@@ -1354,6 +1385,10 @@ class Property_Search {
 						}
 					} else {
 						if ( is_array( $value ) && 2 === count( $value ) ) {
+							if ( (int) $value[0] > 0 && (int) $value[1] <= (int) $value[0] ) {
+								$value[1] = PHP_INT_MAX;
+							}
+
 							// Number range given.
 							$meta_query[] = array(
 								'key'     => $element['key'],

@@ -163,7 +163,7 @@ The operator of this site has no control over such connections and processing of
 				'url_parts'   => array( 'openstreetmap', 'opentopomap' ),
 			),
 			'osm'        => array(
-				'aliases'     => array( 'osmaps', 'ol_osm_map_marker' ),
+				'aliases'     => array( 'osmaps', 'ol_osm_map_marker', 'ol_osm_map_german' ),
 				'text'        => wp_sprintf(
 					/* translators: %s = OSM Privacy Policy URL */
 					__(

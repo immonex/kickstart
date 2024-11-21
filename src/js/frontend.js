@@ -38,8 +38,52 @@ if (typeof Array.prototype.flat !== 'function') {
 	})
 }
 
+document.body.addEventListener('inxInitPropertySearch', (event) => {
+	const search = import(/* webpackChunkName: "property_search" */ './property_search')
+	search.then((module) => {
+		module.init()
+	})
+})
+
+document.body.addEventListener('inxInitPropertyMap', (event) => {
+	const map = import(/* webpackChunkName: "property_map" */ './property_map')
+	map.then((module) => {
+		module.init()
+	})
+})
+
+document.body.addEventListener('inxInitDetails', (event) => {
+	const details = import(/* webpackChunkName: "property_details" */ './property_details')
+	details.then((module) => {
+		module.init()
+	})
+})
+
 // Lazy loaded Modules
 jQuery(document).ready(async function($) {
+
+if (false) {
+	const elementorObserver = new MutationObserver(function(mutations, observer) {
+		for (const mutation of mutations) {
+			if (mutation.type !== 'childList' || typeof mutation.target.dataset.widget_type === 'undefined') {
+				continue
+			}
+
+			if (mutation.target.dataset.widget_type === 'inx-e-search-form.default') {
+				const search = import(/* webpackChunkName: "property_search" */ './property_search')
+				search.then((module) => {
+					module.init()
+				})
+			}
+		}
+	});
+
+	elementorObserver.observe( document, {
+		childList: true,
+		subtree: true,
+	} );
+}
+
 	// Shared Components
 	const shared = await import(/* webpackChunkName: "shared_components" */ './shared_components')
 	inx_state.shared = shared

@@ -191,6 +191,7 @@ export default {
 
 			if (this.infowindow) {
 				const infowindow = new this.google.maps.InfoWindow({
+					headerDisabled: true,
 					pixelOffset: new this.google.core.Size(0, 5),
 					content: '<div class="inx-property-location-map__infowindow">' + this.infowindow + '</div>'
 				})

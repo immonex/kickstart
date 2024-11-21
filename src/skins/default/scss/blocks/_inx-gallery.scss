@@ -13,14 +13,17 @@
 	}
 }
 
+.inx-gallery__images {
+	min-height: 480px;
+}
+
 .inx-gallery__image {
 	max-height: 50em;
 
 	img {
 		display: block;
-		width: 100%;
 		height: auto;
-		max-height: 50em;
+		max-height: 80em;
 	}
 }
 
@@ -29,6 +32,37 @@
 .inx-gallery__images .immonex-virtual-tour-iframe-wrap iframe {
 	width: 100%;
 	height: 100%;
+}
+
+.inx-gallery__video {
+	width: 100%;
+	height: 100%;
+	background: rgba(240, 240, 240, .5);
+
+	&:has(+ .inx-gallery__video-title) {
+		height: calc(100% - 3em);
+	}
+
+	.mejs-container {
+		background: inherit;
+	}
+
+	.wp-video {
+		display: inline;
+		margin: auto 0;
+	}
+
+	.wp-video video {
+		width: 100% !important;
+		height: 100% !important;
+	}
+}
+
+.inx-gallery__video-title {
+	display: flex;
+	height: 3em;
+	align-items: center;
+	justify-content: center;
 }
 
 @media print {

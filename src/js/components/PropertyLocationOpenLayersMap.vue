@@ -1,6 +1,7 @@
 <template>
-	<div :class="classes">
-		<div class="inx-property-location-map__consent" v-show="!consentGranted">
+	<div :class="classes" style="min-height: 300px; min-width: 800px; display:block">
+		&nbsp;
+		<div class="inx-property-location-map__consent" v-show="!consentGranted && requireConsent">
 			<p class="inx-property-location-map__privacy-note" v-html="privacyNote"></p>
 			<button class="inx-button inx-button--action uk-button uk-button-primary" @click="grantConsent">{{ showMapButtonText }}</button>
 		</div>
@@ -10,7 +11,7 @@
 			<div ref="popupContent"></div>
 		</div>
 
-		<div :class="['inx-property-location-map__map', { 'inx-property-location-map__map--has-consent': consentGranted }]" ref="map"></div>
+		<div :class="['inx-property-location-map__map', { 'inx-property-location-map__map--has-consent': consentGranted || !requireConsent }]" ref="map"></div>
 		<p class="inx-property-location-map__note" v-if="consentGranted && note">{{ note }}</p>
 	</div>
 </template>
@@ -271,6 +272,7 @@ export default {
 	},
 	mounted () {
 		this.id = this._uid
+
 		if (!this.requireConsent || this.$cookies.get('inx_consent_use_maps')) {
 			this.grantConsent(null)
 		}

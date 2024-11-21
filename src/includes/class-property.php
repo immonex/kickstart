@@ -160,7 +160,7 @@ class Property {
 	 * @return string Rendered contents (HTML).
 	 */
 	public function render( $template = '', $atts = array() ) {
-		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+		if ( ! is_a( $this->post, 'WP_Post' ) && empty( $atts['is_preview'] ) ) {
 			return '';
 		}
 
@@ -179,7 +179,7 @@ class Property {
 		 */
 		$hash_array = array_merge(
 			array(
-				$this->post->ID,
+				empty( $atts['is_preview'] ) ? $this->post->ID : 'preview',
 				$template,
 			),
 			$atts
@@ -217,14 +217,121 @@ class Property {
 		global $wp;
 		global $wp_query;
 
-		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+		if ( empty( $atts['is_preview'] ) && ! is_a( $this->post, 'WP_Post' ) ) {
 			return array();
 		}
 
-		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 		$post          = $this->post;
 		$prefix        = $this->config['plugin_prefix'];
 		$public_prefix = $this->config['public_prefix'];
+		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
+
+		// Get property core data (individual custom fields).
+		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
+
+		// Fetch external video data.
+		$videos = $this->get_video_data( $atts );
+
+		if ( ! empty( $atts['is_preview'] ) ) {
+			/**
+			 * Generate and return preview/demo data.
+			 */
+
+			$labels = array(
+				array(
+					'name'                => __( 'for sale', 'immonex-kickstart' ),
+					'css_classes'         => array(
+						"{$public_prefix}property-label",
+						"{$public_prefix}property-label--vermarktungsart--kauf",
+					),
+					'is_for_sale_or_rent' => true,
+					'show'                => true,
+				),
+				array(
+					'name'                => __( 'Demo', 'immonex-kickstart' ),
+					'css_classes'         => array(
+						"{$public_prefix}property-label",
+						"{$public_prefix}property-label--feldname--immonex-is-demo",
+					),
+					'is_for_sale_or_rent' => true,
+					'show'                => true,
+				),
+			);
+
+			if ( ! empty( $atts['virtual_tour_embed_code'] ) ) {
+				$atts['virtual_tour_embed_code'] = htmlspecialchars_decode( $atts['virtual_tour_embed_code'] );
+			}
+
+			$file_attachments = array(
+				array(
+					'title'   => __( 'Information Brochure', 'immonex-kickstart' ),
+					'url'     => '#',
+					'subtype' => 'pdf',
+				),
+			);
+
+			$contact_details = array(
+				array(
+					'title' => __( 'E-Mail', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.email_direkt',
+					'value' => 'elena.example@immonex.one',
+				),
+				array(
+					'title' => __( 'E-Mail', 'immonex-kickstart' )
+						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.email_zentrale',
+					'value' => 'info@immonex.one',
+				),
+				array(
+					'title' => __( 'Phone', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_durchw',
+					'value' => '+49 9999 1234568',
+				),
+				array(
+					'title' => __( 'Mobile', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_handy',
+					'value' => '+49 12345 987654321',
+				),
+				array(
+					'title' => __( 'Phone', 'immonex-kickstart' )
+						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_zentrale',
+					'value' => '+49 9999 1234567',
+				),
+				array(
+					'title' => __( 'Mobile', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_fax',
+					'value' => '+49 9999 1234569',
+				),
+			);
+
+			return array_merge(
+				$this->config,
+				$core_data,
+				array(
+					'title'                => __( 'Spacious house in an excellent location', 'immonex-kickstart' ),
+					'full_address'         => __( '123 Fake Street, 99123 Demotown', 'immonex-kickstart' ),
+					'type_of_use'          => __( 'Residential Property', 'immonex-kickstart' ),
+					'property_type'        => __( 'Houses', 'immonex-kickstart' ) . ' &gt; ' . __( 'Single-family Home', 'immonex-kickstart' ),
+					'labels'               => $labels,
+					'detail_page_elements' => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),
+					'videos'               => $videos,
+					'file_attachments'     => $file_attachments,
+					'links'                => array(),
+					'overview_url'         => '#',
+					'details'              => array(
+						'kontakt' => $contact_details,
+					),
+				),
+				$atts
+			);
+		}
 
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
@@ -239,9 +346,6 @@ class Property {
 		if ( isset( $this->cache['template_raw_data'][ $hash ] ) ) {
 			return $this->cache['template_raw_data'][ $hash ];
 		}
-
-		// Get property core data (individual custom fields).
-		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
 
 		// Extract some OpenImmo related property base data.
 		$oi_data = $this->get_openimmo_data();
@@ -412,9 +516,6 @@ class Property {
 			}
 		}
 
-		// Fetch external video data.
-		$video_data = $this->get_video_data( $atts );
-
 		/**
 		 * Fetch virtual tour embed code and extract the URL if existing.
 		 */
@@ -500,7 +601,8 @@ class Property {
 				'location'                => $location,
 				'features'                => $features ? $features : array(),
 				'labels'                  => $labels,
-				'video'                   => $video_data,
+				'video'                   => ! empty( $videos ) ? $videos[0] : false,
+				'videos'                  => $videos,
 				'virtual_tour_embed_code' => $virtual_tour_embed_code,
 				'virtual_tour_url'        => $virtual_tour_url,
 				'file_attachments'        => $file_attachments,
@@ -703,18 +805,19 @@ class Property {
 	 * @return mixed[] Property core data.
 	 */
 	public function get_core_data( $context = '', $context_atts = array() ) {
-		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+		if ( empty( $context_atts['is_preview'] ) && ! is_a( $this->post, 'WP_Post' ) ) {
 			return array();
 		}
 
-		if ( $this->post->ID && isset( $this->cache['core_data'][ $this->post->ID ] ) ) {
+		if ( empty( $context_atts['is_preview'] ) && $this->post->ID && isset( $this->cache['core_data'][ $this->post->ID ] ) ) {
 			return $this->cache['core_data'][ $this->post->ID ];
 		}
 
 		$prefix       = $this->config['plugin_prefix'];
-		$is_reference = get_post_meta( $this->post->ID, '_immonex_is_reference', true );
+		$is_reference = empty( $context_atts['is_preview'] ) ?
+			get_post_meta( $this->post->ID, '_immonex_is_reference', true ) : false;
 
-		$custom_fields = apply_filters(
+		$custom_fields  = apply_filters(
 			'inx_property_core_data_custom_fields',
 			array(
 				'property_id',
@@ -748,13 +851,29 @@ class Property {
 				'state',
 			)
 		);
-		$core_data     = array();
+		$preview_values = array(
+			'property_id'   => '123',
+			'build_year'    => '1982',
+			'primary_area'  => 140,
+			'plot_area'     => 820,
+			'primary_rooms' => 5,
+			'primary_price' => 340000,
+			'zipcode'       => '99123',
+			'city'          => __( 'Demotown', 'immonex-kickstart' ),
+		);
+		$core_data      = array();
 
 		foreach ( $custom_fields as $field_name ) {
-			$field_meta_key  = "_{$prefix}{$field_name}";
-			$field_meta_data = get_post_meta( $this->post->ID, '_' . $field_meta_key, true );
+			$field_meta_key = "_{$prefix}{$field_name}";
 
-			$value = get_post_meta( $this->post->ID, $field_meta_key, true );
+			if ( ! empty( $context_atts['is_preview'] ) ) {
+				$value           = ! empty( $preview_values[ $field_name ] ) ?
+					$preview_values[ $field_name ] : 0;
+				$field_meta_data = array();
+			} else {
+				$value           = get_post_meta( $this->post->ID, $field_meta_key, true );
+				$field_meta_data = get_post_meta( $this->post->ID, '_' . $field_meta_key, true );
+			}
 
 			switch ( $field_name ) {
 				case 'primary_area':
@@ -801,13 +920,15 @@ class Property {
 		$meta      = array_merge(
 			$context_atts,
 			array(
-				'property_id' => $this->post->ID,
+				'property_id' => empty( $context_atts['is_preview'] ) ? $this->post->ID : 0,
 				'context'     => $context,
 			)
 		);
 		$core_data = apply_filters( 'inx_property_core_data', $core_data, $meta );
 
-		$this->cache['core_data'][ $this->post->ID ] = $core_data;
+		if ( empty( $context_atts['is_preview'] ) ) {
+			$this->cache['core_data'][ $this->post->ID ] = $core_data;
+		}
 
 		return $core_data;
 	} // get_core_data
@@ -1010,6 +1131,39 @@ class Property {
 	} // get_map_options
 
 	/**
+	 * Retrieve and return property attachment data (prepared for JS).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return mixed[] Array of attachment data, if any.
+	 */
+	public function get_file_attachments() {
+		if ( $this->post->ID && isset( $this->cache['file_attachments'][ $this->post->ID ] ) ) {
+			return $this->cache['file_attachments'][ $this->post->ID ];
+		}
+
+		$attachment_ids = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'file_attachments', true );
+		if ( ! $attachment_ids ) {
+			return array();
+		}
+
+		if ( ! is_numeric( $attachment_ids[ key( $attachment_ids ) ] ) ) {
+			// Convert an extended attachment ID list including URLs to a simple ID array.
+			$attachment_ids = array_keys( $attachment_ids );
+		}
+
+		$attachments = array();
+
+		foreach ( $attachment_ids as $id ) {
+			$attachments[] = wp_prepare_attachment_for_js( $id );
+		}
+
+		$this->cache['file_attachments'][ $this->post->ID ] = $attachments;
+
+		return $attachments;
+	} // get_file_attachments
+
+	/**
 	 * Retrieve and return "grouped" property details (serialized custom field data).
 	 *
 	 * @since 1.0.0
@@ -1105,6 +1259,7 @@ class Property {
 				'marker_scale'        => self::LOCATION_MAP_MARKER_SCALE,
 				'marker_icon_url'     => $this->utils['template']->get_template_file_url( self::LOCATION_MAP_MARKER_ICON ),
 				'options'             => '',
+				'google_api_key'      => '',
 				'optional'            => true,
 			),
 			'location_description' => array(
@@ -1123,6 +1278,7 @@ class Property {
 				'marker_icon_url'     => $this->utils['template']->get_template_file_url( self::LOCATION_MAP_MARKER_ICON ),
 				'no_headline_in_tabs' => true,
 				'options'             => '',
+				'google_api_key'      => '',
 			),
 			'features'             => array(
 				'template' => 'features',
@@ -1150,6 +1306,13 @@ class Property {
 			'video'                => array(
 				'template' => 'video',
 				'optional' => true,
+			),
+			'video_gallery'        => array(
+				'template'               => 'video-gallery',
+				'animation_type'         => 'scale',
+				'enable_caption_display' => true,
+				'headline'               => __( 'Videos', 'immonex-kickstart' ),
+				'optional'               => true,
 			),
 			'virtual_tour'         => array(
 				'template' => 'virtual-tour',
@@ -1211,10 +1374,10 @@ class Property {
 			}
 
 			if (
-				false !== strpos( $elements[ $element_key ]['type'], 'gmap' )
-				&& empty( $this->config['google_api_key'] )
+				empty( $elements[ $element_key ]['google_api_key'] )
+				&& ! empty( $this->config['google_api_key'] )
 			) {
-				$elements[ $element_key ]['type'] = self::LOCATION_MAP_TYPES[0];
+				$elements[ $element_key ]['google_api_key'] = $this->config['google_api_key'];
 			}
 
 			if (
@@ -1257,72 +1420,156 @@ class Property {
 	 * @return mixed[] Property video data.
 	 */
 	private function get_video_data( $atts = array() ) {
-		if ( $this->post->ID && isset( $this->cache['video_data'][ $this->post->ID ] ) ) {
+		if ( $this->post && $this->post->ID && isset( $this->cache['video_data'][ $this->post->ID ] ) ) {
 			return $this->cache['video_data'][ $this->post->ID ];
 		}
 
-		$video_url = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'video_url', true );
-		if ( ! $video_url ) {
+		$videos = $this->post ? get_post_meta( $this->post->ID, "_{$this->config['plugin_prefix']}videos", true ) : array();
+
+		if ( empty( $videos ) ) {
+			$video_url   = ! empty( $atts['is_preview'] ) ?
+				( ! empty( $atts['video_url'] ) ? $atts['video_url'] : '' ) :
+				get_post_meta( $this->post->ID, "_{$this->config['plugin_prefix']}video_url", true );
+			$video_split = $this->utils['video']->split_video_url( $video_url );
+
+			if ( $video_split ) {
+				$videos = array( $video_split );
+			}
+		}
+
+		if ( empty( $videos ) ) {
 			return false;
 		}
 
-		$video_parts = $this->utils['string']->is_video_url( $video_url );
-		if ( ! $video_parts ) {
-			return false;
+		$autoplay       = isset( $atts['autoplay'] ) && in_array( (string) $atts['autoplay'], array( '1', 'true' ), true );
+		$automute       = ! isset( $atts['automute'] ) || in_array( (string) $atts['automute'], array( '1', 'true' ), true );
+		$youtube_domain = ! isset( $atts['youtube-nocookie'] ) || in_array( (string) $atts['youtube-nocookie'], array( '1', 'true' ), true )
+			? 'www.youtube-nocookie.com' : 'www.youtube.com';
+
+		if ( isset( $atts['youtube-allow'] ) ) {
+			// Compatibility with older plugin versions.
+			$allow = $atts['youtube-allow'];
+		} else {
+			$allow = isset( $atts['allow'] ) ?
+				$atts['allow'] :
+				'accelerometer; encrypted-media; gyroscope; fullscreen; clipboard-write; picture-in-picture; web-share; clipboard-write';
 		}
 
-		$autoplay   = isset( $atts['autoplay'] ) && in_array( (string) $atts['autoplay'], array( '1', 'true' ), true );
-		$video_atts = array(
-			'autoplay'       => $autoplay,
-			'automute'       => ! isset( $atts['automute'] ) || in_array( (string) $atts['automute'], array( '1', 'true' ), true ),
-			'youtube_domain' => ! isset( $atts['youtube-nocookie'] ) || in_array( (string) $atts['youtube-nocookie'], array( '1', 'true' ), true )
-				? 'www.youtube-nocookie.com' : 'www.youtube.com',
-			'youtube_allow'  => ! empty( $atts['youtube-allow'] ) ?
-				$atts['youtube-allow'] :
-				'accelerometer; encrypted-media; gyroscope' . ( $autoplay ? '; autoplay' : '' ),
-		);
+		foreach ( $videos as $i => $video ) {
+			$videos[ $i ] = array_merge(
+				$video,
+				array(
+					'type'           => $video['provider'],
+					'embed_url'      => $this->utils['video']->get_embed_url( $video['url'] ),
+					'title'          => ! empty( $video['title'] ) ? $video['title'] : '',
+					'thumbnail_url'  => '',
+					'autoplay'       => $autoplay,
+					'automute'       => $automute,
+					'youtube_domain' => $youtube_domain,
+					'allow'          => $allow,
+				)
+			);
 
-		$this->cache['video_data'][ $this->post->ID ] = array_merge(
-			$video_parts,
-			array( 'url' => $video_url ),
-			$video_atts
-		);
+			if ( empty( $videos[ $i ]['oembed'] ) ) {
+				$videos[ $i ]['oembed'] = array();
+			}
 
-		return $this->cache['video_data'][ $this->post->ID ];
+			if (
+				'local' !== $video['provider']
+				&& empty( $videos[ $i ]['oembed'] )
+			) {
+				$oembed = $this->utils['embed']->get_oembed_data( $video['url'], $this->post ? $this->post->ID : 0 );
+
+				if ( ! empty( $oembed ) ) {
+					$videos[ $i ]['oembed'] = $oembed;
+				}
+			}
+
+			if ( ! $videos[ $i ]['title'] && ! empty( $videos[ $i ]['oembed']['title'] ) ) {
+				$videos[ $i ]['title'] = $videos[ $i ]['oembed']['title'];
+			}
+			if ( ! $videos[ $i ]['thumbnail_url'] && ! empty( $videos[ $i ]['oembed']['thumbnail_url_with_play_button'] ) ) {
+				$videos[ $i ]['thumbnail_url'] = $videos[ $i ]['oembed']['thumbnail_url_with_play_button'];
+			}
+			if ( ! $videos[ $i ]['thumbnail_url'] && ! empty( $videos[ $i ]['oembed']['thumbnail_url'] ) ) {
+				$videos[ $i ]['thumbnail_url'] = $videos[ $i ]['oembed']['thumbnail_url'];
+			}
+
+			$videos[ $i ]['embed_html'] = $this->get_video_embed_html( $videos[ $i ], $atts );
+		}
+
+		return $videos;
 	} // get_video_data
 
 	/**
-	 * Retrieve and return property attachment data (prepared for JS).
+	 * Generate the embed code for a local or external video.
 	 *
-	 * @since 1.0.0
+	 * @since 1.9.42-beta
 	 *
-	 * @return mixed[] Array of attachment data, if any.
+	 * @param mixed[] $video Video properties.
+	 * @param mixed[] $atts  Template rendering attributes.
+	 *
+	 * @return string Video embed HTML code.
 	 */
-	private function get_file_attachments() {
-		if ( $this->post->ID && isset( $this->cache['file_attachments'][ $this->post->ID ] ) ) {
-			return $this->cache['file_attachments'][ $this->post->ID ];
+	private function get_video_embed_html( $video, $atts ) {
+		if ( 'local' === $video['provider'] ) {
+			/**
+			 * Local video file.
+			 */
+			$args = apply_filters(
+				'inx_video_embed_args',
+				array(
+					'src'      => $video['url'],
+					'width'    => ! empty( $atts['width'] ) ? $atts['width'] : 640,
+					'height'   => ! empty( $atts['height'] ) ? $atts['height'] : 360,
+					'poster'   => '',
+					'loop'     => '',
+					'autoplay' => $video['autoplay'],
+					'muted'    => $video['automute'],
+					'preload'  => 'metadata',
+					// Add class mejs-container to DISABLE a possible MediaElement.js video player conversion in this case.
+					'class'    => 'wp-video-shortcode mejs-container',
+				)
+			);
+
+			return wp_video_shortcode( $args );
+		} else {
+			/**
+			 * External video (YouTube, Vimeo...).
+			 */
+			$iframe_template = apply_filters(
+				'inx_video_iframe_template',
+				'<iframe src="{url}" {width_attr}{height_attr}frameborder="0" allowfullscreen allow="{allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}" class="inx-video-iframe"></iframe>',
+				$video
+			);
+
+			return str_replace(
+				array(
+					'{id}',
+					'{url}',
+					'{width_attr}',
+					'{height_attr}',
+					'{youtube_domain}',
+					'{youtube_allow}',
+					'{allow}',
+					'{autoplay}',
+					'{automute}',
+				),
+				array(
+					$video['id'],
+					$video['embed_url'],
+					! empty( $video['oembed']['width'] ) ? "width={$video['oembed']['width']} " : '',
+					! empty( $video['oembed']['height'] ) ? "height={$video['oembed']['height']} " . ' ' : '',
+					$video['youtube_domain'],
+					$video['allow'],
+					$video['allow'],
+					$video['autoplay'] ? 'true' : 'false',
+					$video['automute'] ? 'true' : 'false',
+				),
+				$iframe_template
+			);
 		}
-
-		$attachment_ids = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'file_attachments', true );
-		if ( ! $attachment_ids ) {
-			return array();
-		}
-
-		if ( ! is_numeric( $attachment_ids[ key( $attachment_ids ) ] ) ) {
-			// Convert an extended attachment ID list including URLs to a simple ID array.
-			$attachment_ids = array_keys( $attachment_ids );
-		}
-
-		$attachments = array();
-
-		foreach ( $attachment_ids as $id ) {
-			$attachments[] = wp_prepare_attachment_for_js( $id );
-		}
-
-		$this->cache['file_attachments'][ $this->post->ID ] = $attachments;
-
-		return $attachments;
-	} // get_file_attachments
+	} // get_video_embed_html
 
 	/**
 	 * Retrieve and return special property flags (custom fields).

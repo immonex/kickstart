@@ -26,7 +26,7 @@ if ( $template_data['virtual_tour_embed_code'] ) :
 	}
 	?>
 
-	<div class="inx-video-wrap">
+	<div class="inx-virtual-tour-wrap">
 		<?php echo $template_data['virtual_tour_embed_code']; ?>
 	</div>
 </div>

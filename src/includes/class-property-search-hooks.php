@@ -47,6 +47,8 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 * Plugin-specific actions and filters
 		 */
 
+		add_action( 'inx_get_search_form_elements', array( $this, 'get_search_form_elements' ) );
+
 		add_action( 'inx_render_property_search_form', array( $this, 'render_property_search_form' ), 10, 2 );
 		add_action( 'inx_render_property_search_form_element', array( $this, 'render_property_search_form_element' ), 10, 3 );
 
@@ -193,6 +195,19 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			}
 		}
 	} // adjust_property_frontend_query
+
+	/**
+	 * Return all search form element data (filter callback).
+	 *
+	 * @since 1.9.42-beta
+	 *
+	 * @param mixed[] $elements Empty array.
+	 *
+	 * @return mixed[] Search form elements.
+	 */
+	public function get_search_form_elements( $elements = array() ) {
+		return $this->property_search->get_search_form_elements();
+	} // get_search_form_elements
 
 	/**
 	 * Display the rendered property search form (action based).

@@ -10,7 +10,13 @@ import EmbedConsentRequest from './components/EmbedConsentRequest.vue'
 const $ = jQuery
 
 function initPropertyDetailInstances() {
-	if (document.getElementById('inx-property-details')) {
+	const mainDetailsElement = document.getElementById('inx-property-details')
+
+	if (mainDetailsElement) {
+		if (mainDetailsElement.dataset.inxElementInitialized) return
+
+		Vue.config.ignoredElements = ['mediaelementwrapper']
+
 		inx_state.vue_instances.property_details = new Vue({
 			el: '#inx-property-details',
 			components: {
@@ -18,21 +24,31 @@ function initPropertyDetailInstances() {
 				'inx-property-location-google-map': PropertyLocationGoogleMap,
 				'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap,
 				'inx-embed-consent-request': EmbedConsentRequest
-			}
+			},
+			ignoredElements: ['mediaelementwrapper']
 		})
+
+		mainDetailsElement.dataset.inxElementInitialized = true
 	} else {
-		inx_state.vue_instances.property_details = []
+		if (typeof inx_state.vue_instances.property_details === 'undefined') {
+			inx_state.vue_instances.property_details = []
+		}
+
 		$('.inx-single-property__section').each(function(index) {
-			$(this).attr('id', 'inx-single-property-section-' + index)
-			inx_state.vue_instances.property_details[index] = new Vue({
-				el: '#inx-single-property-section-' + index,
-				components: {
-					'inx-property-location-open-layers-map': PropertyLocationOpenLayersMap,
-					'inx-property-location-google-map': PropertyLocationGoogleMap,
-					'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap,
-					'inx-embed-consent-request': EmbedConsentRequest
-				}
-			})
+			const id = 'inx-single-property-section-' + index
+			$(this).attr('id', id)
+
+			if (!document.getElementById(id).__vue__) {
+				inx_state.vue_instances.property_details[index] = new Vue({
+					el: '#' + id,
+					components: {
+						'inx-property-location-open-layers-map': PropertyLocationOpenLayersMap,
+						'inx-property-location-google-map': PropertyLocationGoogleMap,
+						'inx-property-location-google-embed-map': PropertyLocationGoogleEmbedMap,
+						'inx-embed-consent-request': EmbedConsentRequest
+					}
+				})
+			}
 		})
 	}
 } // initPropertyDetailInstances

@@ -282,11 +282,12 @@ class Data_Access_Helper {
 	 *                                    - "-foobar": Exclude elements containing "foobar".
 	 *                                    - "/foo(bar)?/": RegEx-based search (include).
 	 *                                    - "-/foo(bar)?/": RegEx-based search (exclude).
+	 * @param string[]|bool   $scope    Mapping columns to query: name, group, source (optional, false = all).
 	 * @param int|string|bool $post_id  Property post ID (optional).
 	 *
 	 * @return mixed[] Matching property details.
 	 */
-	public function get_flex_items( $items, $queries, $post_id = false ) {
+	public function get_flex_items( $items, $queries, $scope = false, $post_id = false ) {
 		if ( empty( $queries ) ) {
 			return array();
 		}
@@ -311,7 +312,7 @@ class Data_Access_Helper {
 		foreach ( $split_queries['include'] as $query ) {
 			if ( ! empty( $property_details ) ) {
 				$property_details_part = $this->extend_and_format_detail_items(
-					$this->filter_detail_items( $property_details, array( 'include' => array( $query ) ) ),
+					$this->filter_detail_items( $property_details, array( 'include' => array( $query ) ), $scope ),
 					$query['props']
 				);
 
@@ -342,7 +343,7 @@ class Data_Access_Helper {
 				}
 
 				$meta = $this->extend_and_format_detail_items(
-					$this->filter_detail_items( $meta, $split_queries ),
+					$this->filter_detail_items( $meta, $split_queries, $scope ),
 					$query['props']
 				);
 
@@ -363,18 +364,22 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.9.27-beta
 	 *
-	 * @param mixed[]         $items   Detail items to filter.
-	 * @param mixed[]         $queries Split/Grouped comparison strings and related data.
-	 * @param string|string[] $scope   Detail elements to consider when filtering:
-	 *                                 "name", "group" and (mapping) "source" as array or
-	 *                                 comma-separated single string (optional, all
-	 *                                 elements by default).
+	 * @param mixed[]              $items   Detail items to filter.
+	 * @param mixed[]              $queries Split/Grouped comparison strings and related data.
+	 * @param string|string[]|bool $scope   Scope of detail elements to consider when filtering:
+	 *                                      "name", "group" and (mapping) "source" as array or
+	 *                                      comma-separated single string (optional, all
+	 *                                      elements by default).
 	 *
 	 * @return mixed[] Filtered array of detail items.
 	 */
 	public function filter_detail_items( $items, $queries, $scope = array( 'name', 'group', 'source' ) ) {
 		if ( empty( $items ) || ! is_array( $items ) ) {
 			return array();
+		}
+
+		if ( empty( $scope ) ) {
+			$scope = array( 'name', 'group', 'source' );
 		}
 
 		if ( empty( $queries ) ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for embedding external videos (YouTube/Vimeo)
+ * Template for embedding videos
  *
  * @package immonex\Kickstart
  */
@@ -11,49 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( $template_data['video'] ) :
-	switch ( $template_data['video']['type'] ) {
-		case 'youtube':
-			$inx_skin_video_iframe_template = '<iframe src="https://{youtube_domain}/embed/{id}" frameborder="0" allowfullscreen allow="{youtube_allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}"></iframe>';
-			break;
-		case 'vimeo':
-			$inx_skin_video_iframe_template = '<iframe src="https://player.vimeo.com/video/{id}" frameborder="0" class="inx-video-iframe" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-			break;
-		default:
-			// Other video hosting services (possibly not supported yet).
-			$inx_skin_video_iframe_template = '<iframe src="{url}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="inx-video-iframe"></iframe>';
-	}
-
-	$inx_skin_video_iframe_template = apply_filters(
-		'inx_video_iframe_template',
-		$inx_skin_video_iframe_template,
-		$template_data['video']
-	);
-
-	$inx_skin_video_iframe = str_replace(
-		array(
-			'{id}',
-			'{url}',
-			'{youtube_domain}',
-			'{youtube_allow}',
-			'{autoplay}',
-			'{automute}',
-		),
-		array(
-			$template_data['video']['id'],
-			$template_data['video']['url'],
-			$template_data['video']['youtube_domain'],
-			$template_data['video']['youtube_allow'],
-			$template_data['video']['autoplay'] ? 'true' : 'false',
-			$template_data['video']['automute'] ? 'true' : 'false',
-		),
-		$inx_skin_video_iframe_template
-	);
-
 	$inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 		$template_data['heading_level'] :
 		2;
 	?>
-<div class="inx-single-property__section inx-single-property__section--type--video">
+<div class="inx-single-property__section inx-single-property__section--type--video uk-margin-large-bottom">
 	<?php
 	if ( isset( $template_data['headline'] ) ) {
 		echo $utils['format']->get_heading(
@@ -63,9 +25,36 @@ if ( $template_data['video'] ) :
 		);
 	}
 	?>
-
 	<div class="inx-single-property__video-wrap">
-		<?php echo $inx_skin_video_iframe; ?>
+		<?php
+		if ( $template_data['videos_require_consent'] && 'local' !== $template_data['video']['provider'] ) :
+			$inx_skin_video_user_consent = apply_filters( 'inx_get_user_consent_content', '', $template_data['video']['url'], 'video' );
+			?>
+			<div class="inx-single-property__video-iframe">
+				<inx-embed-consent-request
+					type="video"
+					content="<?php echo esc_attr( $template_data['video']['embed_html'] ); ?>"
+					privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
+					button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+					icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+					privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+					privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
+				></inx-embed-consent-request>
+			</div>
+			<?php
+		else :
+			?>
+			<div class="inx-single-property__video"><?php echo $template_data['video']['embed_html']; ?></div>
+			<?php
+			if ( $template_data['video']['title'] ) :
+				?>
+				<div class="inx-single-property__video-title">
+					<span><?php echo esc_html( $template_data['video']['title'] ); ?></span>
+				</div>
+				<?php
+			endif;
+		endif;
+		?>
 	</div>
 </div>
 	<?php

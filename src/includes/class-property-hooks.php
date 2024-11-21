@@ -91,6 +91,8 @@ class Property_Hooks {
 
 		add_filter( 'inx_get_property_template_data', array( $this, 'get_property_template_data' ), 10, 2 );
 		add_filter( 'inx_get_property_images', array( $this, 'get_property_images' ), 10, 3 );
+		add_filter( 'inx_get_property_files', array( $this, 'get_property_files' ), 10, 2 );
+		add_filter( 'inx_get_property_links', array( $this, 'get_property_links' ), 10, 2 );
 		add_filter( 'inx_get_property_detail_item', array( $this, 'get_property_detail_item' ), 10, 3 );
 		add_filter( 'inx_current_property_post_id', array( $this, 'get_current_property_post_id' ) );
 		add_filter( 'inx_property_template_data_details', array( $this, 'adjust_rental_details' ), 10, 2 );
@@ -364,6 +366,8 @@ class Property_Hooks {
 
 		if ( count( $atts ) > 0 ) {
 			if ( ! empty( $atts['elements'] ) ) {
+				$atts['elements'] = str_replace( '-', '_', $atts['elements'] );
+
 				$shortcode_elements = explode(
 					',',
 					str_replace(
@@ -425,7 +429,7 @@ class Property_Hooks {
 	 * @param int|string|bool $post_id Property post ID or false to use current.
 	 * @param mixed[]         $args Image and return type.
 	 *
-	 * @return mixed[] List of property objects, post IDs or URLs.
+	 * @return mixed[] List of property image objects, post IDs or URLs.
 	 */
 	public function get_property_images( $images = array(), $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
@@ -457,6 +461,46 @@ class Property_Hooks {
 
 		return $property->get_images( $type, $return );
 	} // get_property_images
+
+	/**
+	 * Return property file attachment data for action based rendering.
+	 *
+	 * @since 1.9.42-beta
+	 *
+	 * @param mixed[]         $files Empty array (placeholder).
+	 * @param int|string|bool $post_id Property post ID or false to use current.
+	 *
+	 * @return mixed[] Property file attachments.
+	 */
+	public function get_property_files( $files = array(), $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+		}
+
+		$property = $this->get_property_instance( $post_id );
+
+		return $property->get_file_attachments();
+	} // get_property_files
+
+	/**
+	 * Return property (external) links for action based rendering.
+	 *
+	 * @since 1.9.42-beta
+	 *
+	 * @param mixed[]         $links Empty array (placeholder).
+	 * @param int|string|bool $post_id Property post ID or false to use current.
+	 *
+	 * @return mixed[] Property links (URL + title).
+	 */
+	public function get_property_links( $links = array(), $post_id = false ) {
+		if ( ! $post_id ) {
+			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+		}
+
+		$links = get_post_meta( $post_id, "_{$this->config['plugin_prefix']}links", true );
+
+		return $links;
+	} // get_property_links
 
 	/**
 	 * Return property detail item for action based rendering.
@@ -555,7 +599,7 @@ class Property_Hooks {
 	 */
 	public function shortcode_property_details( $atts ) {
 		$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
-		if ( ! $post_id ) {
+		if ( ! $post_id && empty( $atts['is_preview'] ) ) {
 			return '';
 		}
 
@@ -1065,8 +1109,8 @@ class Property_Hooks {
 	private function get_property_instance( $post_id = false ) {
 		if (
 			! is_object( $this->current_property ) ||
-			'Property' !== get_class( $this->current_property ) ||
-			( $post_id && $this->current_property->ID !== $post_id )
+			__NAMESPACE__ . '\Property' !== get_class( $this->current_property ) ||
+			( $post_id && (int) $this->current_property->post->ID !== (int) $post_id )
 		) {
 			$this->current_property = new Property( $post_id, $this->config, $this->utils );
 		}

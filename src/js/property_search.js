@@ -218,7 +218,11 @@ function updateFiltersSortRequestParams(event, requestParams) {
 		// Update all property filter/sort component instances.
 		$('.inx-property-filters').each((index, filterSortElement) => {
 			elementID = $(filterSortElement).attr('id')
-			if (elementID) {
+			if (
+				elementID &&
+				typeof inx_state.renderedInstances !== 'undefined' &&
+				typeof inx_state.renderedInstances[elementID] !== 'undefined'
+			) {
 				inx_state.renderedInstances[elementID].requestParamsString = requestParams.paramsString || ''
 				if (typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
 					$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
@@ -342,6 +346,8 @@ function initSearchFormInstances(debounceDelay) {
 	inx_state.vue_instances.property_search_forms = []
 
 	$('.inx-property-search').each((index, searchForm) => {
+		if (document.getElementById(searchForm.id).__vue__) return
+
 		if (typeof inx_state.search.forms === 'undefined') {
 			inx_state.search.forms = []
 		}

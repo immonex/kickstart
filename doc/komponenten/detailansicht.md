@@ -54,8 +54,9 @@ Soll die Ausgabe stattdessen nur bestimmte Abschnitte umfassen, kann der Umfang 
 | `floor_plans` (5) | Grundriss-Galerie |
 | `misc` | sonstige Angaben |
 | `downloads_links` | Downloads (z. B. PDF-Dateien) und Links zu externen Websites |
-| `video` | Immobilien-Video (**optionales Element \***, normalerweise Bestandteil der Galerie, s. o.) |
-| `virtual_tour` | Virtuelle 360°-Tour - im Regelfall von einem externen Anbieter per iFrame eingebunden (**optionales Element \***, normalerweise Bestandteil der Galerie, s. o.) |
+| `video` | **Haupt**-Immobilien-Video, d. h. das **erste** Video des Objekts, falls mehrere vorhanden sind (**optionales Element \***, normalerweise Bestandteil der primären Galerie, s. o.) |
+| `video_gallery` | alle Immobilien-Videos als separate Galerie (**optionales Element \***, normalerweise Bestandteil der primären Galerie, s. o.) |
+| `virtual_tour` | Virtuelle 360°-Tour - im Regelfall von einem externen Anbieter per iFrame eingebunden (**optionales Element \***, normalerweise Bestandteil der primären Galerie, s. o.) |
 | `contact_person` (6) | Kontaktinformationen (5) |
 | `footer` (7) | Footer mit Link zur Übersichtsseite |
 
@@ -78,16 +79,26 @@ Diese Attribute beziehen sich auf die komplette Shortcode-Ausgabe:
 | | *1* : aktivieren (Standard bei Einbindung aller Elemente) |
 | `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *single-property/foobar*) |
 
+##### Galerien
+
+Die Darstellung der Galerie-Elemente (`gallery`, `video_gallery`, `floor_plans`, `epass_images`) kann mit diesen Attribute angepasst werden:
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `animation_type` | Art der Übergangsanimation (*slide*, *fade*, *pull* , *push* – Standard bei `gallery` und *scale* – Standard bei `video_gallery`, `floor_plans` und `epass_images`  |
+| `enable_caption_display` | Titel/Bezeichnungen der Bilder/Videos anzeigen, falls vorhanden: *1* (ja, Standard) oder *0* (nein) |
+| `enable_ken_burns_effect` | *Ken-Burns-Effekt* (Bildanimation) aktivieren: *1* (ja, Standard) oder *0* (nein) |
+
 ##### Video
 
-Für die [Elemente](#elemente) `gallery` und `video` relevante Attribute:
+Details und Steuerung der innerhalb der Galerieelemente sowie via `video` eingebundenen Filme kann mit den nachfolgenden Attributen beeinflusst werden:
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
 | `autoplay` | YouTube-Videos automatisch starten: *0* (nein, Standard) oder *1* (ja) |
 | `automute` | YouTube-Videos stummschalten: *1* (ja, Standard) oder *0* (nein) |
+| `allow` | Inhalte des `allow`-Attributs für Video-iFrames – z. B. YouTube oder Vimeo (Standard: *accelerometer; encrypted-media; gyroscope; fullscreen; clipboard-write; picture-in-picture; web-share; clipboard-write*, zusätzlich *autoplay* sofern aktiviert) |
 | `youtube-nocookie` | Domain ohne Tracking für YouTube-iFrames verwenden: *1* (ja, `www.youtube-nocookie.com`, Standard) oder *0* (nein, `www.youtube.com`) |
-| `youtube-allow` | Inhalte des `allow`-Attributs für YouTube-iFrames (Standard: *accelerometer; encrypted-media; gyroscope*, zusätzlich *autoplay* sofern aktiviert) |
 
 ##### Standortkarte
 

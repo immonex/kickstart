@@ -1,6 +1,10 @@
 .inx-video-iframe {
+	display: block;
 	width: 100%;
+	margin: auto 0;
+}
+
+.inx-gallery__image-slider .inx-video-iframe {
 	height: 100%;
 	/* max-height: 27.7em; */
-	margin: auto 0;
 }

@@ -18,8 +18,7 @@ if ( ! defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) ) {
 	define( 'INX_SKIN_MAX_IMAGE_HEIGHT', 800 ); // Height in px.
 }
 
-$inx_skin_animation_type = isset( $template_data['animation_type'] ) &&
-	$template_data['animation_type'] ?
+$inx_skin_animation_type = ! empty( $template_data['animation_type'] ) ?
 	$template_data['animation_type'] :
 	'fade'; // Possible terms: slide, fade, scale, pull, push.
 
@@ -30,23 +29,58 @@ $inx_skin_show_caption = isset( $template_data['enable_caption_display'] ) ?
 $inx_skin_enable_ken_burns_effect = isset( $template_data['enable_ken_burns_effect'] ) &&
 	$template_data['enable_ken_burns_effect'];
 
-$inx_skin_image_selection_custom_field = isset( $template_data['image_selection_custom_field'] ) &&
-	$template_data['image_selection_custom_field'] ?
-	$template_data['image_selection_custom_field'] :
-	'_inx_gallery_images'; // _inx_gallery_images, _inx_floor_plans
+if ( ! empty( $template_data['image_ids'] ) ) {
+	$inx_skin_gallery_image_ids = is_string( $template_data['image_ids'] ) ?
+		array_map( 'trim', explode( ',', $template_data['image_ids'] ) ) :
+		$template_data['image_ids'];
+} else {
+	$inx_skin_image_selection_custom_field = isset( $template_data['image_selection_custom_field'] ) &&
+		$template_data['image_selection_custom_field'] ?
+		$template_data['image_selection_custom_field'] :
+		'_inx_gallery_images'; // _inx_gallery_images, _inx_floor_plans
 
-if (
-	is_string( $inx_skin_image_selection_custom_field ) &&
-	false !== strpos( $inx_skin_image_selection_custom_field, ',' )
-) {
-	$inx_skin_image_selection_custom_field = array_map( 'trim', explode( ',', $inx_skin_image_selection_custom_field ) );
+	if (
+		is_string( $inx_skin_image_selection_custom_field ) &&
+		false !== strpos( $inx_skin_image_selection_custom_field, ',' )
+	) {
+		$inx_skin_image_selection_custom_field = array_map( 'trim', explode( ',', $inx_skin_image_selection_custom_field ) );
+	}
+
+	if ( ! is_array( $inx_skin_image_selection_custom_field ) ) {
+		$inx_skin_image_selection_custom_field = array( $inx_skin_image_selection_custom_field );
+	}
+
+	$inx_skin_is_default_gallery = in_array( '_inx_gallery_images', $inx_skin_image_selection_custom_field, true );
+	$inx_skin_gallery_image_ids  = array();
+
+	foreach ( $inx_skin_image_selection_custom_field as $inx_skin_image_cf ) {
+		$inx_skin_cf_image_ids = get_post_meta(
+			$template_data['post_id'],
+			$inx_skin_image_cf,
+			true
+		);
+		if ( empty( $inx_skin_cf_image_ids ) ) {
+			continue;
+		}
+		if ( ! is_array( $inx_skin_cf_image_ids ) ) {
+			$inx_skin_cf_image_ids = array( $inx_skin_cf_image_ids );
+		}
+
+		if ( 0 !== array_keys( $inx_skin_cf_image_ids )[0] ) {
+			$inx_skin_temp = array();
+			foreach ( $inx_skin_cf_image_ids as $inx_skin_image_id => $inx_skin_image_url ) {
+				$inx_skin_temp[] = $inx_skin_image_id;
+			}
+
+			$inx_skin_cf_image_ids = $inx_skin_temp;
+		}
+
+		$inx_skin_gallery_image_ids = array_merge(
+			$inx_skin_gallery_image_ids,
+			$inx_skin_cf_image_ids
+		);
+	}
 }
-
-if ( ! is_array( $inx_skin_image_selection_custom_field ) ) {
-	$inx_skin_image_selection_custom_field = array( $inx_skin_image_selection_custom_field );
-}
-
-$inx_skin_is_default_gallery = in_array( '_inx_gallery_images', $inx_skin_image_selection_custom_field, true );
 
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 	$template_data['heading_level'] :
@@ -55,36 +89,6 @@ $inx_skin_heading_level = isset( $template_data['heading_level'] ) ?
 $inx_skin_print_images_cnt = isset( $template_data['print_images_cnt'] ) ?
 	(int) $template_data['print_images_cnt'] :
 	1;
-
-$inx_skin_gallery_image_ids = array();
-
-foreach ( $inx_skin_image_selection_custom_field as $inx_skin_image_cf ) {
-	$inx_skin_cf_image_ids = get_post_meta(
-		$template_data['post_id'],
-		$inx_skin_image_cf,
-		true
-	);
-	if ( empty( $inx_skin_cf_image_ids ) ) {
-		continue;
-	}
-	if ( ! is_array( $inx_skin_cf_image_ids ) ) {
-		$inx_skin_cf_image_ids = array( $inx_skin_cf_image_ids );
-	}
-
-	if ( 0 !== array_keys( $inx_skin_cf_image_ids )[0] ) {
-		$inx_skin_temp = array();
-		foreach ( $inx_skin_cf_image_ids as $inx_skin_image_id => $inx_skin_image_url ) {
-			$inx_skin_temp[] = $inx_skin_image_id;
-		}
-
-		$inx_skin_cf_image_ids = $inx_skin_temp;
-	}
-
-	$inx_skin_gallery_image_ids = array_merge(
-		$inx_skin_gallery_image_ids,
-		$inx_skin_cf_image_ids
-	);
-}
 
 if (
 	is_array( $inx_skin_gallery_image_ids ) &&
@@ -97,53 +101,21 @@ if (
 
 $inx_skin_media_count = is_array( $inx_skin_gallery_image_ids ) ? count( $inx_skin_gallery_image_ids ) : 0;
 
-$inx_skin_show_video = $template_data['video'] && (
-	( isset( $template_data['enable_video'] ) && $template_data['enable_video'] ) ||
+$inx_skin_show_video = ! empty( $template_data['videos'] ) && (
+	! empty( $template_data['enable_video'] ) ||
 	( ! isset( $template_data['enable_video'] ) && $inx_skin_is_default_gallery )
 );
 
 $inx_skin_show_virtual_tour = $template_data['virtual_tour_embed_code'] && (
-	( isset( $template_data['enable_virtual_tour'] ) && $template_data['enable_virtual_tour'] ) ||
+	! empty( $template_data['enable_virtual_tour'] ) ||
 	( ! isset( $template_data['enable_virtual_tour'] ) && $inx_skin_is_default_gallery )
 );
 $inx_skin_virtual_tour_url  = isset( $template_data['virtual_tour_url'] ) ? $template_data['virtual_tour_url'] : '';
 
 if ( $inx_skin_show_video ) {
-	switch ( $template_data['video']['type'] ) {
-		case 'youtube':
-			$inx_skin_video_iframe_template = '<iframe src="https://{youtube_domain}/embed/{id}" frameborder="0" allowfullscreen allow="{youtube_allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}"></iframe>';
-			$inx_skin_video_icon            = 'youtube';
-			break;
-		case 'vimeo':
-			$inx_skin_video_iframe_template = '<iframe src="https://player.vimeo.com/video/{id}" frameborder="0" class="inx-video-iframe" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-			$inx_skin_video_icon            = 'vimeo';
-			break;
-		default:
-			// Other video hosting services (possibly not supported yet).
-			$inx_skin_video_iframe_template = '<iframe src="{url}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen class="inx-gallery__video-iframe"></iframe>';
-			$inx_skin_video_icon            = 'play-circle';
-	}
-
-	$inx_skin_video_iframe_template = apply_filters( 'inx_video_iframe_template', $inx_skin_video_iframe_template, $template_data['video'] );
-	$inx_skin_video_iframe          = str_replace(
-		array(
-			'{id}',
-			'{url}',
-			'{youtube_domain}',
-			'{youtube_allow}',
-			'{autoplay}',
-			'{automute}',
-		),
-		array(
-			$template_data['video']['id'],
-			$template_data['video']['url'],
-			$template_data['video']['youtube_domain'],
-			$template_data['video']['youtube_allow'],
-			$template_data['video']['autoplay'] ? 'true' : 'false',
-			$template_data['video']['automute'] ? 'true' : 'false',
-		),
-		$inx_skin_video_iframe_template
-	);
+	$inx_skin_video_icon = in_array( $template_data['videos'][0]['provider'], array( 'youtube', 'vimeo' ), true ) ?
+		$template_data['videos'][0]['provider'] :
+		'play-circle';
 
 	$inx_skin_media_count++;
 }
@@ -155,7 +127,7 @@ if ( $inx_skin_show_virtual_tour ) {
 if ( $inx_skin_media_count > 0 ) :
 	$inx_skin_gallery_images   = array();
 	$inx_skin_current_ratio    = array( 4, 1 );
-	$inx_skin_max_image_height = 0;
+	$inx_skin_max_image_height = INX_SKIN_MAX_IMAGE_HEIGHT;
 	$inx_skin_fixed_thumb_nav  = $inx_skin_show_video || $inx_skin_show_virtual_tour;
 
 	$inx_skin_pdf_preview_ph_url    = plugins_url(
@@ -196,7 +168,7 @@ if ( $inx_skin_media_count > 0 ) :
 			);
 		}
 
-		if ( $inx_skin_image[2] > INX_SKIN_MAX_IMAGE_HEIGHT ) {
+		if ( $inx_skin_image[2] && $inx_skin_image[2] > INX_SKIN_MAX_IMAGE_HEIGHT ) {
 			$inx_skin_image[1] = (int) $inx_skin_image[1] * INX_SKIN_MAX_IMAGE_HEIGHT / $inx_skin_image[2];
 			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
 		}
@@ -236,7 +208,11 @@ if ( $inx_skin_media_count > 0 ) :
 			$inx_skin_max_image_height = $inx_skin_image[2];
 		}
 
-		if ( $inx_skin_image[1] / $inx_skin_image[2] < $inx_skin_current_ratio[0] / $inx_skin_current_ratio[1] ) {
+		if (
+			$inx_skin_image[2]
+			&& $inx_skin_current_ratio[1]
+			&& $inx_skin_image[1] / $inx_skin_image[2] < $inx_skin_current_ratio[0] / $inx_skin_current_ratio[1]
+		) {
 			$inx_skin_current_ratio = array(
 				(int) $inx_skin_image[1], // Image width.
 				(int) $inx_skin_image[2], // Image height.
@@ -304,32 +280,45 @@ if ( $inx_skin_media_count > 0 ) :
 						<?php
 					endforeach;
 				endif;
-				?>
 
-				<?php if ( $inx_skin_show_video ) : ?>
-				<li>
-					<?php
-					if ( $template_data['videos_require_consent'] ) :
-						$inx_skin_video_user_consent = apply_filters( 'inx_get_user_consent_content', '', $template_data['video']['url'], 'video' );
+				if ( $inx_skin_show_video ) :
+					foreach ( $template_data['videos'] as $inx_skin_video ) :
 						?>
-						<div style="height:100%; overflow:auto">
-							<inx-embed-consent-request
-								type="video"
-								content="<?php echo esc_attr( $inx_skin_video_iframe ); ?>"
-								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
-								button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
-								icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
-								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
-								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
-							></inx-embed-consent-request>
-						</div>
+						<li>
 						<?php
-					else :
-						echo $inx_skin_video_iframe;
-					endif;
-					?>
-				</li>
-				<?php endif; ?>
+						if ( $template_data['videos_require_consent'] && 'local' !== $inx_skin_video['provider'] ) :
+							$inx_skin_video_user_consent = apply_filters( 'inx_get_user_consent_content', '', $inx_skin_video['url'], 'video' );
+							?>
+							<div class="inx-gallery__video-iframe">
+								<inx-embed-consent-request
+									type="video"
+									content="<?php echo esc_attr( $inx_skin_video['embed_html'] ); ?>"
+									privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
+									button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+									icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+									privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+									privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
+								></inx-embed-consent-request>
+							</div>
+							<?php
+							else :
+								?>
+								<div class="inx-gallery__video"><?php echo $inx_skin_video['embed_html']; ?></div>
+								<?php
+								if ( $inx_skin_show_caption && $inx_skin_video['title'] ) :
+									?>
+									<div class="inx-gallery__video-title">
+										<span><?php echo esc_html( $inx_skin_video['title'] ); ?></span>
+									</div>
+									<?php
+								endif;
+							endif;
+							?>
+						</li>
+						<?php
+					endforeach;
+				endif;
+				?>
 
 				<?php if ( $inx_skin_show_virtual_tour ) : ?>
 				<li>
@@ -419,14 +408,14 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
 						<a href="#">
 							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
-								<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2"></div>
+								<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
 							</div>
 						</a>
 					</li>
 					<?php endif; ?>
 
 					<?php if ( $inx_skin_show_virtual_tour ) : ?>
-					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + 1; ?>">
+					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + count( $template_data['videos'] ); ?>">
 						<a href="#">
 							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<div class="inx-icon inx-icon--360"></div>

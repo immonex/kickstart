@@ -9,7 +9,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 ?>
 <div class="inx-single-property__footer uk-padding uk-margin-bottom">
 	<div class="uk-flex-middle" uk-grid>

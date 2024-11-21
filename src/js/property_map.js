@@ -46,10 +46,12 @@ async function updateMaps(event, requestParams) {
 			}
 
 			let markerSetID = 'inx-property-map'
-			const componentInstanceData = inx_state.renderedInstances[elementID] || {}
-			if (componentInstanceData) {
-				markerSetID = componentInstanceData.cid || markerSetID
-				url += '&inx-r-cidata=' + encodeURIComponent(JSON.stringify(componentInstanceData))
+			if (typeof inx_state.renderedInstances !== 'undefined') {
+				const componentInstanceData = inx_state.renderedInstances[elementID] || {}
+				if (componentInstanceData) {
+					markerSetID = componentInstanceData.cid || markerSetID
+					url += '&inx-r-cidata=' + encodeURIComponent(JSON.stringify(componentInstanceData))
+				}
 			}
 
 			await axios
@@ -68,12 +70,14 @@ function initMapInstances() {
 	$('#inx-property-map, .inx-property-map-container').each((index, map) => {
 		const mapElementID = $(map).attr('id')
 
-		inx_state.vue_instances.property_map = new Vue({
-			el: '#' + mapElementID,
-			components: {
-				'inx-property-open-layers-map': PropertyOpenLayersMap
-			}
-		})
+		if (!document.getElementById(mapElementID).__vue__) {
+			inx_state.vue_instances.property_map = new Vue({
+				el: '#' + mapElementID,
+				components: {
+					'inx-property-open-layers-map': PropertyOpenLayersMap
+				}
+			})
+		}
 	})
 } // initMapInstances
 

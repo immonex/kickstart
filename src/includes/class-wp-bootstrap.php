@@ -116,7 +116,7 @@ class WP_Bootstrap {
 				'show_in_rest'      => true,
 				'rewrite'           => array(
 					'slug'       => $this->plugin->tax_location_slug_rewrite,
-					'with_front' => false,
+					'with_front' => true,
 				),
 			),
 			$this->prefix . 'type_of_use'    => array(

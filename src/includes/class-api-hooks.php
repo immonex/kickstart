@@ -62,7 +62,7 @@ class API_Hooks {
 		add_filter( 'inx_get_custom_field_value_by_name', array( $this->api, 'get_custom_field_value_by_name' ), 10, 3 );
 		add_filter( 'inx_get_query_var_value', array( $this->api, 'get_query_var_value' ), 10, 3 );
 		add_filter( 'inx_get_group_items', array( $this, 'get_group_items' ), 10, 3 );
-		add_filter( 'inx_get_flex_items', array( $this, 'get_flex_items' ), 10, 4 );
+		add_filter( 'inx_get_flex_items', array( $this, 'get_flex_items' ), 10, 5 );
 		add_filter( 'inx_is_property_list_page', array( $this->api, 'is_property_list_page' ) );
 		add_filter( 'inx_is_property_details_page', array( $this->api, 'is_property_details_page' ) );
 		add_filter( 'inx_is_property_tax_archive', array( $this->api, 'is_property_tax_archive' ) );
@@ -113,13 +113,14 @@ class API_Hooks {
 	 *
 	 * @param mixed[]         $items   Original or empty array.
 	 * @param mixed[]         $queries Mapping groups, names or custom field names.
+	 * @param string[]|bool   $scope   Mapping columns to query: name, group, source (optional, false = all).
 	 * @param int|string|bool $post_id Property post ID or false for auto detection
 	 *                                 (optional).
 	 *
 	 * @return mixed[] Matching items.
 	 */
-	public function get_flex_items( $items, $queries, $post_id = false ) {
-		return $this->utils['data']->get_flex_items( $items, $queries, $post_id );
+	public function get_flex_items( $items, $queries, $scope = false, $post_id = false ) {
+		return $this->utils['data']->get_flex_items( $items, $queries, $scope, $post_id );
 	} // get_group_items
 
 	/**

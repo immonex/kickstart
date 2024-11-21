@@ -9,7 +9,7 @@ Dieser Filter dient dem **Abrufen** aller Bildanhang-Daten, die zu einer **Galer
 | Name | Beschreibung |
 | ---- | ------------ |
 | **`$images`** (array) | leeres Array |
-| `$post_id` (int|string) | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
+| `$post_id` (int\|string) | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
 | `$args` (array) | Optionale Parameter |
 | | `type` (Bildtyp) → *gallery* (Galeriefotos, Standard) oder *floor_plans* (Grundrisse) |
 | | `return` (Return-Typ) → *objects* ([WP_Post-Objekte](https://developer.wordpress.org/reference/classes/wp_post/), Standard), *ids* (Attachment-IDs) oder *urls* (URLs) |

@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.9.43 =
+* Release date: 2024-11-20
+* Reworked video embedding in property detail pages.
+* Added demo data and prepared the default skin for the upcoming Elementor add-on release.
+* Fixed a minor feature selection bug in the property search form.
+* Updated gallery CSS to fix a display issue with the latest Chrome version.
+* Updated dependencies (improved WP 6.7 compatibility).
+
 = 1.9.38 =
 * Release date: 2024-09-24
 * Fixed a detail search bug.
