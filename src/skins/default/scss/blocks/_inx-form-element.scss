@@ -10,7 +10,7 @@
 	}
 
 	button:hover {
-		color: $color-link;
+		color: var(--inx-color-action-element);
 	}
 }
 
@@ -78,7 +78,7 @@
 }
 
 .inx-form-element .multiselect__option--highlight {
-	background-color: $color-action-element-highlighted;
+	background-color: var(--inx-color-action-element-lighter);
 }
 
 @media screen and (min-width: $screen-l) {

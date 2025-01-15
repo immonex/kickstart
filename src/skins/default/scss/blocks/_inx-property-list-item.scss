@@ -147,15 +147,16 @@
 
 .inx-oi-vermarktungsart-kauf {
 	h3 > a {
-		color: $color-oi-vermarktungsart-kauf;
+		color: var(--inx-color-marketing-type-sale);
 	}
 
 	h3 > a:hover {
-		color: lighten($color-oi-vermarktungsart-kauf, 15%);
+		color: var(--inx-color-marketing-type-sale-lighter);
 	}
 
 	.inx-property-price {
-		@include gradient($color-oi-vermarktungsart-kauf);
+		background-color: var(--inx-color-marketing-type-sale);
+		background: var(--inx-gradient-marketing-type-sale);
 	}
 }
 
@@ -163,28 +164,30 @@
 .inx-property-list-item.inx-oi-vermarktungsart-miete-pacht,
 .inx-property-list-item.inx-oi-vermarktungsart-erbpacht {
 	h3 > a {
-		color: $color-oi-vermarktungsart-miete;
+		color: var(--inx-gradient-marketing-type-rent);
 	}
 
 	h3 > a:hover {
-		color: lighten($color-oi-vermarktungsart-miete, 15%);
+		color: var(--inx-color-marketing-type-rent-lighter);
 	}
 
 	.inx-property-price {
-		@include gradient($color-oi-vermarktungsart-miete);
+		background-color: var(--inx-color-marketing-type-rent);
+		background: var(--inx-gradient-marketing-type-rent);
 	}
 }
 
 .inx-property-list-item.inx-oi-vermarktungsart-leasing {
 	h3 > a {
-		color: $color-oi-vermarktungsart-leasing;
+		color: var(--inx-color-marketing-type-leasing);
 	}
 
 	h3 > a:hover {
-		color: lighten($color-oi-vermarktungsart-leasing, 15%);
+		color: var(--inx-color-marketing-type-leasing-lighter);
 	}
 
 	.inx-property-price {
-		@include gradient($color-oi-vermarktungsart-leasing);
+		background-color: var(--inx-color-marketing-type-leasing);
+		background: var(--inx-gradient-marketing-type-leasing);
 	}
 }

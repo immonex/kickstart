@@ -28,6 +28,10 @@ Das aktuell mitgelieferte [Standard-Skin "Quiwi"](/anpassung-erweiterung/standar
 
 Detaillierte Infos zur Anpassung vorhandener und Entwicklung eigener Skins sind unter [Anpassung & Erweiterung](/anpassung-erweiterung/skins) zu finden.
 
+#### Farben
+
+→ siehe [Anpassung & Erweiterung / Farben](/anpassung-erweiterung/farben)
+
 #### Benutzereinwilligung
 
 Da für die Nutzung/Einbettung externer Dienste (Karten, Ortsauswahl/Geocodierung, Videos, virtuelle Touren etc.) hinsichtlich der [EU-DSGVO](https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung) die **vorherige** Einholung einer expliziten Zustimmung durch die Website-Besucher erforderlich sein **kann**, ist diese standardmäßig aktiviert.

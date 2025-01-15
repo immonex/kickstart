@@ -113,6 +113,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.9.50-beta =
+* Release date: 2025-01-14
+* Added possibility to adjust the skin colors in the backend plugin options.
+* Added variable compare options based on selected form values.
+* Added user consent contents for the Giraffe360 virtual tour service.
+
 = 1.9.46 =
 * Release date: 2024-11-21
 * Fixed minor gallery and map bugs.
@@ -125,10 +131,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed a minor feature selection bug in the property search form.
 * Updated gallery CSS to fix a display issue with the latest Chrome version.
 * Updated dependencies (improved WP 6.7 compatibility).
-
-= 1.9.38 =
-* Release date: 2024-09-24
-* Fixed a detail search bug.
-* Updated translation handling.
 
 See changelog.txt for the complete version history.

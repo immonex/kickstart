@@ -18,6 +18,7 @@
   * [Seitennavigation](/komponenten/seitennavigation)
   * [Detailansicht](/komponenten/detailansicht)
 * ANPASSUNG & ERWEITERUNG
+  * [Farben](/anpassung-erweiterung/farben)
   * [CSS](/anpassung-erweiterung/css)
   * [Skins](/anpassung-erweiterung/skins)
   * [Standard-Skin / Custom Skins](/anpassung-erweiterung/standard-skin)

@@ -7,14 +7,6 @@ $screen-m: 960px;
 $screen-l: 1200px;
 $screen-xl: 1600px;
 
-// Colors
-$color-default-lightening-pct: 15%;
-$color-action-element: #0A65BC;
-$color-action-element-highlighted: lighten($color-action-element, $color-default-lightening-pct);
-$color-action-element-inverse: #F8F8F8;
-$color-link: $color-action-element;
-$color-link-highlighted: $color-action-element-highlighted;
-
 // UIkit
 @import "uikit/src/scss/variables-theme.scss";
 @import "uikit/src/scss/mixins-theme.scss";

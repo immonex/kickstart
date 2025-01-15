@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.9.46';
+	const PLUGIN_VERSION             = '1.9.50-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -30,6 +30,17 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 	const OPTIONS_LINK_MENU_LOCATION = 'inx_menu';
 	const PROPERTY_POST_TYPE_NAME    = 'inx_property';
 	const SHARING_PROTOCOLS          = array( 'open_graph', 'x' );
+	const DEFAULT_COLORS             = array(
+		'label_default'           => '#d1ab78',
+		'marketing_type_sale'     => '#584990',
+		'marketing_type_rent'     => '#ba5a3d',
+		'marketing_type_leasing'  => '#e78b00',
+		'action_element'          => '#0a65bc',
+		'action_element_inverted' => '#fbfbfb',
+		'text_inverted_default'   => '#f8f8f8',
+		'demo'                    => '#6d115f',
+		'bg_muted_default'        => '#dcdcdc',
+	);
 
 	/**
 	 * Plugin options
@@ -46,6 +57,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 		'heading_base_level'                           => 1,
 		'enable_gallery_image_links'                   => true,
 		'enable_ken_burns_effect'                      => true,
+		'color_label_default'                          => self::DEFAULT_COLORS['label_default'],
+		'color_marketing_type_sale'                    => self::DEFAULT_COLORS['marketing_type_sale'],
+		'color_marketing_type_rent'                    => self::DEFAULT_COLORS['marketing_type_rent'],
+		'color_marketing_type_leasing'                 => self::DEFAULT_COLORS['marketing_type_leasing'],
+		'color_action_element'                         => self::DEFAULT_COLORS['action_element'],
+		'color_action_element_inverted'                => self::DEFAULT_COLORS['action_element_inverted'],
+		'color_text_inverted_default'                  => self::DEFAULT_COLORS['text_inverted_default'],
+		'color_demo'                                   => self::DEFAULT_COLORS['demo'],
+		'color_bg_muted_default'                       => self::DEFAULT_COLORS['bg_muted_default'],
+		'muted_color_opacity_pct'                      => 45,
 		'area_unit'                                    => 'm²',
 		'currency'                                     => 'EUR',
 		'currency_symbol'                              => '€',
@@ -396,6 +417,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 	public function init_plugin( $fire_before_hook = true, $fire_after_hook = true ) {
 		parent::init_plugin( $fire_before_hook, $fire_after_hook );
 
+		if (
+			isset( $_SERVER['REQUEST_URI'] )
+			&& false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/inx-global.css' )
+		) {
+			$dynamic_css = new Dynamic_CSS( $this->plugin_options, $this->utils );
+			$dynamic_css->send( 'global' );
+		}
+
 		// Plugin-specific helper/util objects.
 		$this->utils = array_merge(
 			$this->utils,
@@ -569,6 +598,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts_and_styles() {
+		wp_enqueue_style(
+			'inx-global',
+			home_url( 'inx-global.css' ),
+			array(),
+			$this->plugin_version
+		);
+
 		parent::frontend_scripts_and_styles();
 
 		$search_query_vars = $this->property_search->get_search_query_vars();
@@ -779,6 +815,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 					'description' => '',
 					'tab'         => 'tab_general',
 				),
+				'colors'                   => array(
+					'title'       => __( 'Colors', 'immonex-kickstart' ),
+					'description' => wp_sprintf(
+						/* translators: $1$s = colors (incl. link), %2$s = Tab URL */
+						__( 'The following %1$s are being provided as <em>CSS custom properties</em> (variables). <strong>Whether and to what extent the color variables are used in the frontend depends on the active <a href="%2$s">skin</a>.</strong>', 'immonex-kickstart' ),
+						$this->string_utils->doc_link( 'https://docs.immonex.de/kickstart/#/anpassung-erweiterung/farben', __( 'colors', 'immonex-kickstart' ) ),
+						admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=1' )
+					),
+					'tab'         => 'tab_general',
+				),
 				'units'                    => array(
 					'title'       => __( 'Measuring Units & Currency', 'immonex-kickstart' ),
 					'description' => '',
@@ -918,6 +964,166 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 							2 => 'H2',
 							3 => 'H3',
 						),
+					),
+				),
+				array(
+					'name'    => 'color_label_default',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Labels', 'immonex-kickstart' )
+						. ' (' . __( 'default', 'immonex-kickstart' ) . ')',
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'General base color for property label background gradients if none of the following specific colors matches.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['label_default']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['label_default'],
+					),
+				),
+				array(
+					'name'    => 'color_marketing_type_sale',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Marketing Type Sale', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'Base color for list elements, labels etc. of properties for sale.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['marketing_type_sale']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['marketing_type_sale'],
+					),
+				),
+				array(
+					'name'    => 'color_marketing_type_rent',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Marketing Type Rent', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'Base color for list elements, labels etc. of properties for rent.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['marketing_type_rent']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['marketing_type_rent'],
+					),
+				),
+				array(
+					'name'    => 'color_marketing_type_leasing',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Marketing Type Leasing', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'Base color for list elements, labels etc. of properties for lease.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['marketing_type_leasing']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['marketing_type_leasing'],
+					),
+				),
+				array(
+					'name'    => 'color_action_element',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Action Elements', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'Base color for plugin-specific links and other navigation/action elements.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['action_element']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['action_element'],
+					),
+				),
+				array(
+					'name'    => 'color_action_element_inverted',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Inverted Action Elements', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#1d2327; background-color:%3$s">%3$s</code>',
+							__( 'Alternative light link/action element color for use on dark backgrounds.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['action_element_inverted']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['action_element_inverted'],
+					),
+				),
+				array(
+					'name'    => 'color_text_inverted_default',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Inverted Text', 'immonex-kickstart' )
+						. ' (' . __( 'default', 'immonex-kickstart' ) . ')',
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#1d2327; background-color:%3$s">%3$s</code>',
+							__( 'Light base color for regular text in frontend elements with dark backgrounds.', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['text_inverted_default']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['text_inverted_default'],
+					),
+				),
+				array(
+					'name'    => 'color_demo',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Demo', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#f0f0f1; background-color:%3$s">%3$s</code>',
+							__( 'Base color for demo elements (labels, notes etc.).', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['demo']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['demo'],
+					),
+				),
+				array(
+					'name'    => 'title_muted_colors',
+					'type'    => 'subsection_header',
+					'section' => 'colors',
+					'args'    => array(
+						'title'       => __( 'Muted Colors', 'immonex-kickstart' ),
+						'description' => __( 'These following (optionally) partly transparent colors are mainly used for backgrounds of certain frontend elements.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'color_bg_muted_default',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Background', 'immonex-kickstart' )
+						. ' (' . __( 'default', 'immonex-kickstart' ) . ')',
+					'section' => 'colors',
+					'args'    => array(
+						'description'      => wp_sprintf(
+							'%1$s %2$s: <code style="color:#1d2327; background-color:%3$s">%3$s</code>',
+							__( 'Default background color (e.g. extended search form, header/footer areas of standard property detail pages etc.).', 'immonex-kickstart' ),
+							__( 'Default', 'immonex-kickstart' ),
+							self::DEFAULT_COLORS['bg_muted_default']
+						),
+						'default_if_empty' => self::DEFAULT_COLORS['bg_muted_default'],
+					),
+				),
+				array(
+					'name'    => 'muted_color_opacity_pct',
+					'type'    => 'number',
+					'label'   => __( 'Opacity', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description'  => __( 'Opacity level of all muted colors.', 'immonex-kickstart' ),
+						'field_suffix' => '%',
+						'class'        => 'small-text',
+						'min'          => 0,
+						'max'          => 100,
 					),
 				),
 				array(
@@ -1415,7 +1621,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_7\Base {
 			$this->settings_helper->add_field(
 				$field['name'],
 				$field['type'],
-				$field['label'],
+				isset( $field['label'] ) ? $field['label'] : '',
 				$field['section'],
 				$args
 			);

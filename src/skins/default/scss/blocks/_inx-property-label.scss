@@ -4,23 +4,28 @@
 	display: inline-block;
 	border-bottom-right-radius: 0;
 	font-size: 1em;
-	@include gradient($color-default-property-label);
+	background-color: var(--inx-color-label-default);
+	background: var(--inx-gradient-label-default);
 }
 
 .inx-property-label--vermarktungsart--kauf {
-	@include gradient($color-oi-vermarktungsart-kauf);
+	background-color: var(--inx-color-marketing-type-sale);
+	background: var(--inx-gradient-marketing-type-sale);
 }
 
 .inx-property-label--vermarktungsart--miete,
 .inx-property-label--vermarktungsart--miete-pacht,
 .inx-property-label--vermarktungsart--erbpacht {
-	@include gradient($color-oi-vermarktungsart-miete);
+	background-color: var(--inx-color-marketing-type-rent);
+	background: var(--inx-gradient-marketing-type-rent);
 }
 
 .inx-property-label--leasing {
-	@include gradient($color-oi-vermarktungsart-leasing);
+	background-color: var(--inx-color-marketing-type-leasing);
+	background: var(--inx-gradient-marketing-type-leasing);
 }
 
 .inx-property-label--feldname--immonex-is-demo {
-	@include gradient($color-demo);
+	background-color: var(--inx-color-demo);
+	background: var(--inx-gradient-demo);
 }

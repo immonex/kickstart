@@ -1,7 +1,3 @@
-@function highlight($color, $lightening-pct: $color-default-lightening-pct) {
-	@return lighten($color, $lightening-pct)
-}
-
 @mixin gradient($base-color) {
 	background-color: $base-color;
 	background: linear-gradient(60deg, lighten($base-color, 5%) 50%, darken($base-color, 10%) 100%);

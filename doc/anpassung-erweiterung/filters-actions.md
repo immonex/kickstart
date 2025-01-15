@@ -63,7 +63,7 @@
 - [inx_property_core_data](filter-inx-property-core-data) (Immobilien-Kerndaten)
 - [inx_property_template_data](filter-inx-property-template-data) (komplette Immobilien-Template-Rendering-Daten)
 - [inx_rendered_property_template_contents](filter-inx-rendered-property-template-contents) (Anpassung der gerenderten Inhalte eines Immobilien-Detail-Templates)
-- [inx_sharing_{$type}\_meta_tags](filter-inx-sharing-meta-tags)
+- [inx_sharing_{$type}\_meta_tags](filter-inx-sharing-meta-tags) (Meta-Tags für soziale Netzwerke etc.)
 
 ### Kompatibilität
 

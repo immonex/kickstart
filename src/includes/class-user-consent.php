@@ -223,6 +223,21 @@ When confirmed, the viewer is loaded from a Matterport server. The operator of t
 				'icon_tag'    => '<span class="inx-icon inx-icon--360 inx-icon--ratio--2"></span>',
 				'url_parts'   => array( 'matterport' ),
 			),
+			'giraffe360' => array(
+				'text'        => wp_sprintf(
+					/* translators: %s = Matterport Privacy Policy URL */
+					__(
+						'The Giraffe360 Service is provided by Giraffe360 Limited, a company registered in England with company number 11274984 and its registered office at 9th Floor 107 Cheapside, London, United Kingdom, EC2V 6DN.
+
+When confirmed, the viewer is loaded from a Giraffe360 server. The operator of this site has no control over such connections and the the associated processing of user-related data. Please see <a href="%s" target="_blank">Giraffe360\'s Privacy Policy</a> for details.',
+						'immonex-kickstart'
+					),
+					__( 'https://www.giraffe360.com/privacy-policy/', 'immonex-kickstart' )
+				),
+				'button_text' => __( 'Agreed, show virtual tour!', 'immonex-kickstart' ),
+				'icon_tag'    => '<span class="inx-icon inx-icon--360 inx-icon--ratio--2"></span>',
+				'url_parts'   => array( 'giraffe360' ),
+			),
 		);
 
 		return $contents;

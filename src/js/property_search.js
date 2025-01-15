@@ -132,11 +132,10 @@ function updateSearchState(event = null) {
 
 function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 	// Generate a parameter string for a GET search request excluding empty form fields.
-	let requestParamsString = $('#' + searchFormID).find('input, select')
+	const requestParamsString = $('#' + searchFormID).find('input, select')
 		.filter(function(i, field) {
 			return $(field).val() !== ''
-		})
-		.serialize()
+		}).serialize()
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 	url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
@@ -160,6 +159,29 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 			specialParams[$(field).attr('name')] = $(field).val()
 		}
 	})
+
+	const currentURL = new URL(window.location.href)
+	const currentSearchParams = requestParamsString ? requestParamsString.split('&') : false
+	let initiallyFilledFormFields = []
+
+	if (currentSearchParams) {
+		/**
+		 * Check for search form fields initially filled with a value and NOT supplied
+		 * via GET parameter already. (If present, other frontend components might have
+		 * to be updated after the initial rendering.)
+		 */
+		for (const param of currentSearchParams) {
+			const keyValue = param.split('=')
+
+			if (!currentURL.searchParams.get(keyValue[0])) {
+				initiallyFilledFormFields.push(keyValue[0])
+			}
+		}
+
+		if (initiallyFilledFormFields.length) {
+			searchStateInitialized = true
+		}
+	}
 
 	let changeParams = {
 		url: url,

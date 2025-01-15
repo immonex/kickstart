@@ -6,16 +6,17 @@
 }
 
 .inx-single-property__footer {
-	background-color: $bgcolor-quiet;
+	background-color: var(--inx-color-bg-muted-default);
 }
 
 .inx-single-property__head {
 	position: relative;
 	margin-bottom: 2em;
-	background-color: $bgcolor-quiet;
+	background-color: var(--inx-color-bg-muted-default);
 
 	hr {
-		border-color: #c0c0c0;
+		background-color: var(--inx-color-bg-muted-default-darker);
+		border-color: var(--inx-color-bg-muted-default-darker);
 		margin: 1em auto;
 	}
 }
@@ -77,7 +78,7 @@ ul.inx-single-property__tab-nav.uk-tab {
 }
 
 .inx-single-property__tab-nav a {
-	color: $color_link;
+	color: var(--inx-color-action-element);
 	text-decoration: none;
 	box-shadow: none;
 }
@@ -85,7 +86,7 @@ ul.inx-single-property__tab-nav.uk-tab {
 .inx-single-property__tab-nav a:hover,
 .inx-single-property__tab-nav a:active,
 .inx-single-property__tab-nav > .uk-active > a {
-	color: $color-link-highlighted;
+	color: var(--inx-color-action-element-lighter);
 }
 
 .inx-single-property__tab-nav.uk-tab:not(.inx-cq-s) {
@@ -104,7 +105,7 @@ ul.inx-single-property__tab-nav.uk-tab {
 	}
 
 	> .uk-active > a {
-		border-color: $color-link-highlighted;
+		border-color: var(--inx-color-action-element-lighter);
 	}
 }
 
@@ -123,11 +124,11 @@ ul.inx-single-property__tab-nav.uk-tab {
 }
 
 .inx-single-property__tabbed-content {
-	background-color: $bgcolor-quiet;
+	background-color: var(--inx-color-bg-muted-default);
 
 	.uk-heading-divider,
 	.uk-tab::before {
-		border-color: #c0c0c0;
+		border-color: var(--inx-color-bg-muted-default-darker);
 	}
 
 	.uk-tab > * > a {

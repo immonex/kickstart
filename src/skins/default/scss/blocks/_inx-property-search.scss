@@ -2,7 +2,7 @@
 	// UIkit
 
 	.uk-search .uk-search-icon:hover {
-		color: $color-link;
+		color: var(--inx-color-action-element);
 	}
 }
 
@@ -36,7 +36,7 @@
 }
 
 .inx-property-search__extended {
-	background-color: $bgcolor-quiet;
+	background-color: var(--inx-color-bg-muted-default);
 
 	.inx-input,
 	.inx-search-input,

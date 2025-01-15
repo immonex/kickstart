@@ -1,3 +1,4 @@
 .inx-gradient--type--action {
-	@include gradient($color-action-element);
+	background-color: var(--inx-color-action-element);
+	background: var(--inx-gradient-action-element);
 }

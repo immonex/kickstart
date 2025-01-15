@@ -1,7 +1,7 @@
 .inx-link {
 	display: flex;
 	align-items: center;
-	color: $color-action-element;
+	color: var(--inx-color-action-element);
 	transition: filter .35s linear;
 
 	@at-root a#{&} {
@@ -14,7 +14,7 @@
 .inx-link:hover,
 .inx-link:focus,
 .inx-link:active {
-	color: $color-action-element;
+	color: var(--inx-color-action-element);
 	filter: brightness(120%) saturate(85%);
 }
 
@@ -24,5 +24,5 @@
 
 .inx-inverse .inx-link,
 .inx-link.inx-inverse {
-	color: $color-action-element-inverse;
+	color: var(--inx-color-action-element-inverted);
 }

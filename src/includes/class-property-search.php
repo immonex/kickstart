@@ -1418,11 +1418,38 @@ class Property_Search {
 								$value = $value[0];
 							}
 
+							if (
+								! empty( $element['compare'] ) && preg_match( '/(,|:)/', $element['compare'] ) ) {
+								// Value-related compare options given.
+								$compare         = '';
+								$default_compare = '=';
+								$compare_options = explode( ',', $element['compare'] );
+
+								foreach ( $compare_options as $option ) {
+									if ( false !== strpos( $option, ':' ) ) {
+										list( $compare_value, $compare_option ) = explode( ':', $option );
+
+										if ( $compare_value === (string) $value ) {
+											$compare = $compare_option;
+											break;
+										}
+									} else {
+										$default_compare = $option;
+									}
+								}
+
+								if ( ! $compare ) {
+									$compare = $default_compare;
+								}
+							} else {
+								$compare = ! empty( $element['compare'] ) ? $element['compare'] : '=';
+							}
+
 							$meta_query[] = array(
 								'key'     => $element['key'],
 								'value'   => $value,
 								'type'    => ! empty( $element['numeric'] ) ? 'NUMERIC' : 'CHAR',
-								'compare' => ! empty( $element['compare'] ) ? $element['compare'] : '=',
+								'compare' => $compare,
 							);
 						}
 					}

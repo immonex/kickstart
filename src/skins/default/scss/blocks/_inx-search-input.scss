@@ -4,5 +4,5 @@ input.inx-search-input {
 }
 
 input.inx-search-input:focus {
-	border-color: $color-action-element-highlighted;
+	border-color: var(--inx-color-action-element-lighter);
 }

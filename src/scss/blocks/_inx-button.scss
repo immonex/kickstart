@@ -1,6 +1,6 @@
 button.inx-button {
 	font-size: 1em;
-	background-color: $color-link;
+	background-color: var(--inx-color-action-element);
 }
 
 button.inx-button:hover {
@@ -8,12 +8,12 @@ button.inx-button:hover {
 }
 
 .inx-button--action {
-	background-color: $color-action-element;
+	background-color: var(--inx-color-action-element);
 	color: #fff;
 }
 
 .inx-button--action:hover {
-	background-color: $color-action-element-highlighted;
+	background-color: var(--inx-color-action-element-lighter);
 }
 
 button.inx-button.uk-button,

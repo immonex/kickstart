@@ -1,24 +1,28 @@
-$marketing-type-colors: (
-	"kauf": $color-oi-vermarktungsart-kauf,
-	"miete": $color-oi-vermarktungsart-miete,
-	"miete-pacht": $color-oi-vermarktungsart-miete,
-	"miete-erbpacht": $color-oi-vermarktungsart-miete,
-	"leasing": $color-oi-vermarktungsart-leasing
+$marketing-type-color-map: (
+	"kauf": "sale",
+	"miete": "rent",
+	"miete-pacht": "rent",
+	"miete-erbpacht": "rent",
+	"leasing": "leasing"
 );
 
-@each $type, $color in $marketing-type-colors {
-	.inx-oi--vermarktungsart--#{$type} {
-		color: $color;
-		@include unified-active-link-states($color);
+@each $oi-type, $type in $marketing-type-color-map {
+	.inx-oi--vermarktungsart--#{$oi-type} {
+		color: var(--inx-color-marketing-type-#{$type});
+		@include unified-active-link-states(var(--inx-color-marketing-type-#{$type}));
 	}
 
-	.inx-oi--inverted.inx-oi--vermarktungsart--#{$type} {
-		@include gradient($color);
+	.inx-oi--inverted.inx-oi--vermarktungsart--#{$oi-type} {
+		background-color: var(--inx-color-marketing-type-#{$type});
+		background: var(--inx-gradient-marketing-type-#{$type});
 	}
 }
 
 .inx-oi--inverted {
-	color: $color-default-text-inverted;
+	color: var(--inx-color-text-inverted-default);
 
-	@include unified-active-link-states($color-default-text-inverted);
+	@at-root a#{&} {
+		color: var(--inx-color-action-element-inverted);
+	}
+	@include unified-active-link-states(var(--inx-color-action-element-inverted));
 }
