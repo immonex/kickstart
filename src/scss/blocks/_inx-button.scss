@@ -8,10 +8,11 @@ button.inx-button:hover {
 }
 
 .inx-button--action {
-	background-color: var(--inx-color-action-element);
 	color: #fff;
+	background-color: var(--inx-color-action-element);
 }
 
+.inx-button:hover,
 .inx-button--action:hover {
 	background-color: var(--inx-color-action-element-lighter);
 }

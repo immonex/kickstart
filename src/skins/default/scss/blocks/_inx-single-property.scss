@@ -89,6 +89,10 @@ ul.inx-single-property__tab-nav.uk-tab {
 	color: var(--inx-color-action-element-lighter);
 }
 
+.inx-single-property__tab-nav.uk-tab > .uk-active > a {
+	border-bottom: 2px solid var(--inx-color-action-element-lighter);
+}
+
 .inx-single-property__tab-nav.uk-tab:not(.inx-cq-s) {
 	flex-direction: column;
 	margin-left: 0;
@@ -104,8 +108,8 @@ ul.inx-single-property__tab-nav.uk-tab {
 		}
 	}
 
-	> .uk-active > a {
-		border-color: var(--inx-color-action-element-lighter);
+	> li.uk-active a {
+		border-left: 2px solid var(--inx-color-action-element-lighter);
 	}
 }
 

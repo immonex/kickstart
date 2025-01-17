@@ -39,7 +39,8 @@ function updatePropertyLists(event, requestParams) {
 		const elementID = rawElementID.trim()
 
 		if ($('#' + elementID).length && $('#' + elementID).hasClass('inx-property-list')) {
-			const componentInstanceData = JSON.stringify(inx_state.renderedInstances[elementID]) || ''
+			const componentInstanceData = inx_state.renderedInstances ?
+				JSON.stringify(inx_state.renderedInstances[elementID]) || '' : false
 			if (componentInstanceData) url += '&inx-r-cidata=' + encodeURIComponent(componentInstanceData)
 
 			axios
