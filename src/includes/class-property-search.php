@@ -764,7 +764,7 @@ class Property_Search {
 				'order'       => 5,
 			),
 			'description'              => array(
-				'description' => __( 'Title/Content and ID fields', 'immonex-kickstart' )
+				'description' => __( 'Title/Contents and ID fields', 'immonex-kickstart' )
 					. ' (' . __( 'fulltext search field', 'immonex-kickstart' ) . ')',
 				'enabled'     => true,
 				'hidden'      => false,
@@ -1418,8 +1418,7 @@ class Property_Search {
 								$value = $value[0];
 							}
 
-							if (
-								! empty( $element['compare'] ) && preg_match( '/(,|:)/', $element['compare'] ) ) {
+							if ( ! empty( $element['compare'] ) && preg_match( '/(,|:)/', $element['compare'] ) ) {
 								// Value-related compare options given.
 								$compare         = '';
 								$default_compare = '=';

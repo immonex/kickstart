@@ -9,7 +9,7 @@
 	background-color: var(--inx-color-bg-muted-default);
 }
 
-.inx-single-property__head {
+div.inx-single-property__head {
 	position: relative;
 	margin-bottom: 2em;
 	background-color: var(--inx-color-bg-muted-default);
@@ -21,6 +21,13 @@
 	}
 }
 
+h1.inx-single-property__head-title,
+h2.inx-single-property__head-title,
+h3.inx-single-property__head-title,
+h4.inx-single-property__head-title {
+	margin-top: 0;
+}
+
 .inx-single-property__head-title {
 	font-size: 1.5em;
 	font-weight: bold;
@@ -28,6 +35,11 @@
 
 .inx-single-property__head-primary-price {
 	font-size: 1.5em;
+}
+
+.inx-single-property__head-element-title {
+	word-break: normal;
+	overflow-wrap: break-word;
 }
 
 .inx-single-property__labels {

@@ -69,6 +69,10 @@ class Property_List {
 	public function render( $template = '', $atts = array() ) {
 		global $wp_query;
 
+		if ( empty( $atts ) ) {
+			$atts = array();
+		}
+
 		if ( empty( $template ) ) {
 			$template = self::DEFAULT_TEMPLATE;
 		}
@@ -104,6 +108,10 @@ class Property_List {
 
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );
+
+		if ( ! empty( $atts['is_preview'] ) && self::DEFAULT_TEMPLATE === $template ) {
+			set_transient( 'inx_preview_pagination_output', $this->pagination_output, 60 * 60 );
+		}
 
 		// Restore the original query object.
 		if ( $org_query ) {

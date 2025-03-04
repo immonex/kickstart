@@ -20,7 +20,15 @@
 }
 
 .inx-property-list__item-wrap {
+	position: relative;
 	margin-bottom: 2em;
+
+	> .inx-property-list-item__labels {
+		right: -.15rem !important;
+		padding-top: .18em;
+		font-size: .765em;
+		text-align: right;
+	}
 }
 
 .inx-cq-xs {
@@ -32,6 +40,11 @@
 
 	.inx-property-list__item-wrap {
 		margin-bottom: .5em;
+
+		> .inx-property-list-item__labels {
+			padding-top: .16em;
+			font-size: .68em;
+		}
 	}
 }
 
@@ -63,6 +76,11 @@
 
 	.inx-property-list__item-wrap {
 		margin-bottom: 0;
+
+		> .inx-property-list-item__labels {
+			padding-top: .18em;
+			font-size: .765em;
+		}
 	}
 }
 

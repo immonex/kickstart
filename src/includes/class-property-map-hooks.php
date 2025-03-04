@@ -131,6 +131,8 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 			'marker_scale'        => Property_Map::LIST_MAP_MARKER_SCALE,
 			'marker_icon_url'     => '',
 			'google_api_key'      => $this->config['google_api_key'],
+			'disable_links'       => '',
+			'is_preview'          => false,
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';

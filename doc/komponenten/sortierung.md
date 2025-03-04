@@ -2,7 +2,7 @@
 
 Soll eine [Immobilien-Listenansicht](liste) sortierbar gemacht werden, wird hierfür typischerweise eine Dropdown-Box mit den verfügbaren Optionen darüber eingebunden.
 
-![Sortieroptionen für Immobilienlisten](../assets/scst-filters-sort-1.gif)
+![Sortieroptionen für Immobilienlisten](../assets/scst-filters-sort-1.gif)\
 Sortieroptionen für Immobilienlisten
 
 ## Shortcode

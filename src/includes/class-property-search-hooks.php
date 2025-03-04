@@ -83,7 +83,11 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 			return;
 		}
 
-		if ( is_archive() && ! is_post_type_archive( $this->config['property_post_type_name'] ) ) {
+		if (
+			is_archive() &&
+			! is_post_type_archive( $this->config['property_post_type_name'] ) &&
+			empty( $query->query_vars['is_preview'] )
+		) {
 			return;
 		}
 

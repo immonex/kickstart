@@ -232,6 +232,14 @@ class Property {
 		// Fetch external video data.
 		$videos = $this->get_video_data( $atts );
 
+		if (
+			! empty( $atts['element_atts']['head']['contents'] ) &&
+			is_string( $atts['element_atts']['head']['contents'] )
+		) {
+			// Split standard head contents attribute value.
+			$atts['element_atts']['head']['contents'] = array_map( 'trim', explode( ',', $atts['element_atts']['head']['contents'] ) );
+		}
+
 		if ( ! empty( $atts['is_preview'] ) ) {
 			/**
 			 * Generate and return preview/demo data.

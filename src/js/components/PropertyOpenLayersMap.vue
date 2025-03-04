@@ -117,7 +117,19 @@ export default {
 		requireConsent: {
 			type: Boolean,
 			default: true
-		}
+		},
+		disableLinks: {
+			type: String,
+			default: ''
+		},
+		forceLang: {
+			type: String,
+			default: ''
+		},
+		previewMarkers: {
+			type: String,
+			default: ''
+		},
 	},
 	data: function() {
 		return {
@@ -153,9 +165,12 @@ export default {
 		},
 		markerSet () {
 			const markers = []
+			const markerSource = this.previewMarkers ?
+				JSON.parse(atob(this.previewMarkers)) :
+				this.inxMaps[this.markerSetId]
 
-			for (let postId in this.inxMaps[this.markerSetId]) {
-				const markerData = this.inxMaps[this.markerSetId][postId]
+			for (let postId in markerSource) {
+				const markerData = markerSource[postId]
 
 				const lat = parseFloat(Array.isArray(markerData) ? markerData[0] : markerData.lat)
 				const lng = parseFloat(Array.isArray(markerData) ? markerData[1] : markerData.lng)
@@ -214,6 +229,13 @@ export default {
 
 			let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/' + propertyPostIds + '/'
 				+ '?inx-r-response=json_map_markers&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+
+			if (this.disableLinks) {
+				url += '&inx-r-disable-links=' + this.disableLinks
+			}
+			if (this.forceLang) {
+				url += '&inx-r-force-lang=' + this.forceLang
+			}
 
 			try {
 				const response = await axios.get(url)

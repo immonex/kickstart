@@ -16,7 +16,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.9.51-beta';
+	const PLUGIN_VERSION             = '1.9.55-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -55,8 +55,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 		'property_details_page_id'                     => 0,
 		'apply_wpautop_details_page'                   => false,
 		'heading_base_level'                           => 1,
-		'enable_gallery_image_links'                   => true,
-		'enable_ken_burns_effect'                      => true,
 		'color_label_default'                          => self::DEFAULT_COLORS['label_default'],
 		'color_marketing_type_sale'                    => self::DEFAULT_COLORS['marketing_type_sale'],
 		'color_marketing_type_rent'                    => self::DEFAULT_COLORS['marketing_type_rent'],
@@ -75,6 +73,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 		'enable_contact_section_for_references'        => false,
 		'show_seller_commission'                       => false,
 		'disable_detail_view_states'                   => array(),
+		'enable_gallery_image_links'                   => true,
+		'gallery_image_slider_bg_color'                => '#F0F0F0',
+		'gallery_image_slider_min_height'              => 240,
+		'enable_ken_burns_effect'                      => true,
+		'ken_burns_effect_display_mode'                => 'full_center',
 		'property_search_dynamic_update'               => true,
 		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -417,13 +420,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 	public function init_plugin( $fire_before_hook = true, $fire_after_hook = true ) {
 		parent::init_plugin( $fire_before_hook, $fire_after_hook );
 
-		if (
-			isset( $_SERVER['REQUEST_URI'] )
-			&& false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/inx-global.css' )
-		) {
-			$dynamic_css = new Dynamic_CSS( $this->plugin_options, $this->utils );
-			$dynamic_css->send( 'global' );
-		}
+		/**
+		 * Dynamic CSS processing.
+		 */
+		$dynamic_css = new Dynamic_CSS( $this->plugin_options, $this->utils );
+		$dynamic_css->init();
+		$dynamic_css->send_on_request();
 
 		// Plugin-specific helper/util objects.
 		$this->utils = array_merge(
@@ -488,8 +490,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 				'property_details_page_id'                 => $this->plugin_options['property_details_page_id'],
 				'apply_wpautop_details_page'               => $this->plugin_options['apply_wpautop_details_page'],
 				'heading_base_level'                       => $this->plugin_options['heading_base_level'],
-				'enable_gallery_image_links'               => $this->plugin_options['enable_gallery_image_links'],
-				'enable_ken_burns_effect'                  => $this->plugin_options['enable_ken_burns_effect'],
 				'area_unit'                                => $this->plugin_options['area_unit'],
 				'currency'                                 => $this->plugin_options['currency'],
 				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
@@ -500,6 +500,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
 				'show_seller_commission'                   => $this->plugin_options['show_seller_commission'],
 				'disable_detail_view_states'               => $this->plugin_options['disable_detail_view_states'],
+				'enable_gallery_image_links'               => $this->plugin_options['enable_gallery_image_links'],
+				'gallery_image_slider_bg_color'            => $this->plugin_options['gallery_image_slider_bg_color'],
+				'gallery_image_slider_min_height'          => $this->plugin_options['gallery_image_slider_min_height'],
+				'enable_ken_burns_effect'                  => $this->plugin_options['enable_ken_burns_effect'],
+				'ken_burns_effect_display_mode'            => $this->plugin_options['ken_burns_effect_display_mode'],
 				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
 				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
 				'maps_require_consent'                     => $this->plugin_options['maps_require_consent'],
@@ -598,12 +603,20 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts_and_styles() {
-		wp_enqueue_style(
-			'inx-global',
-			home_url( 'inx-global.css' ),
-			array(),
-			$this->plugin_version
-		);
+		$dynamic_css_scopes = apply_filters( 'inx_dynamic_css_scopes', array() );
+
+		if ( ! empty( $dynamic_css_scopes ) && is_array( $dynamic_css_scopes ) ) {
+			foreach ( $dynamic_css_scopes as $scope ) {
+				$scope = str_replace( '_', '-', $scope );
+
+				wp_enqueue_style(
+					"inx-dyn-{$scope}",
+					home_url( "inx-dyn-{$scope}.css" ),
+					array(),
+					$this->plugin_version
+				);
+			}
+		}
 
 		parent::frontend_scripts_and_styles();
 
@@ -873,6 +886,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 				'property_details_general' => array(
 					'title'       => __( 'General', 'immonex-kickstart' ),
 					'description' => '',
+					'tab'         => 'tab_property_details',
+				),
+				'property_details_gallery' => array(
+					'title'       => __( 'Gallery', 'immonex-kickstart' ),
+					'description' => wp_sprintf(
+							/* translators: %s = skin (incl. link) */
+						__( 'If supported by the selected %s, the following options apply to the <strong>primary gallery</strong> (image slider + thumbnail navigation).', 'immonex-kickstart' ),
+						$this->string_utils->doc_link( 'https://docs.immonex.de/kickstart/#/anpassung-erweiterung/skins', __( 'skin', 'immonex-kickstart' ) )
+					),
 					'tab'         => 'tab_property_details',
 				),
 				'property_detail_maps'     => array(
@@ -1398,24 +1420,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 					),
 				),
 				array(
-					'name'    => 'enable_gallery_image_links',
-					'type'    => 'checkbox',
-					'label'   => __( 'Gallery Image Links', 'immonex-kickstart' ),
-					'section' => 'property_details_general',
-					'args'    => array(
-						'description' => __( 'Enable image links (full size/lightbox) in galleries on property detail pages, if supported by the skin (link) and the theme (lightbox).', 'immonex-kickstart' ),
-					),
-				),
-				array(
-					'name'    => 'enable_ken_burns_effect',
-					'type'    => 'checkbox',
-					'label'   => __( 'Ken Burns Effect', 'immonex-kickstart' ),
-					'section' => 'property_details_general',
-					'args'    => array(
-						'description' => __( 'Enable animations ("Ken Burns Effect") in the <strong>primary</strong> photo gallery of the property detail pages, if supported by the skin.', 'immonex-kickstart' ),
-					),
-				),
-				array(
 					'name'    => 'show_seller_commission',
 					'type'    => 'checkbox',
 					'label'   => __( 'Show Seller/Internal Commission', 'immonex-kickstart' ),
@@ -1435,6 +1439,59 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_1_11\Base {
 							'is_sold'      => __( 'sold/rented properties', 'immonex-kickstart' ),
 							'is_reserved'  => __( 'reserved properties', 'immonex-kickstart' ),
 							'is_reference' => __( 'reference properties', 'immonex-kickstart' ),
+						),
+					),
+				),
+				array(
+					'name'    => 'enable_gallery_image_links',
+					'type'    => 'checkbox',
+					'label'   => __( 'Image Links', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description' => __( 'Enable full size/lightbox links for the currently displayed image. (The lightbox functionality must be provided by the theme or an appropriate plugin.)', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'gallery_image_slider_bg_color',
+					'type'    => 'colorpicker',
+					'label'   => __( 'Image Slider Background Color', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'gallery_image_slider_min_height',
+					'type'    => 'number',
+					'label'   => __( 'Image Slider Minimum Height', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description'  => __( 'Minimum height of the <strong>container element</strong> that holds the main image slider of the gallery (in pixels).', 'immonex-kickstart' ),
+						'class'        => 'small-text',
+						'min'          => 0,
+						'max'          => 800,
+						'field_suffix' => 'px',
+					),
+				),
+				array(
+					'name'    => 'enable_ken_burns_effect',
+					'type'    => 'checkbox',
+					'label'   => __( 'Ken Burns Effect', 'immonex-kickstart' ) . ' (KBE)',
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description' => __( 'Enable image animations ("Ken Burns Effect").', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'ken_burns_effect_display_mode',
+					'type'    => 'select',
+					'label'   => __( 'KBE Display Mode', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description' => __( 'Covering the entire area of the container element usually looks better, but some images may be displayed "cropped" horizontally after the animation (depending on the different aspect ratios of the gallery images).', 'immonex-kickstart' ) .
+							' ' . __( 'In return, always displaying the images in full may result in empty areas at the top and/or bottom of the container element.', 'immonex-kickstart' ),
+						'options'     => array(
+							'cover'       => __( 'cover the entire container element', 'immonex-kickstart' ),
+							'full_center' => __( 'show full images', 'immonex-kickstart' ) . ' (' . __( 'centered', 'immonex-kickstart' ) . ')',
+							'full_top'    => __( 'show full images', 'immonex-kickstart' ) . ' (' . __( 'top', 'immonex-kickstart' ) . ')',
 						),
 					),
 				),

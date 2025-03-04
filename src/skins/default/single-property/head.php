@@ -10,6 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$inx_skin_head_show = function ( $keys ) use ( $template_data ) {
+	$contents = ! empty( $template_data['element_atts']['head']['contents'] ) ?
+		$template_data['element_atts']['head']['contents'] : false;
+	if ( ! $contents ) {
+		// Show all contents.
+		return true;
+	}
+
+	$keys = explode( ',', $keys );
+
+	return ! empty( array_intersect( $keys, $contents ) );
+}; // inx_skin_head_show
+
 $inx_skin_rooms_icon = 'flaticon-blueprint';
 
 if (
@@ -20,46 +33,50 @@ if (
 	$inx_skin_rooms_icon = 'flaticon-hotel';
 }
 
-$inx_skin_head_elements = array(
-	'property_id'   => array(
-		'title'   => __( 'Property ID', 'immonex-kickstart' ),
-		'data'    => $template_data['property_id'],
-		'icon'    => 'flaticon-numbers',
-		'classes' => '',
-	),
-	'build_year'    => array(
-		'title'   => '',
-		'data'    => $template_data['build_year'],
-		'icon'    => 'flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development',
-		'classes' => '',
-	),
-	'primary_area'  => array(
-		'title'   => '',
-		'data'    => $template_data['primary_area'],
-		'icon'    => 'flaticon-size',
-		'classes' => '',
-	),
-	'plot_area'     => array(
-		'title'   => '',
-		'data'    => $template_data['plot_area'],
-		'icon'    => 'flaticon-blueprint-3',
-		'classes' => '',
-	),
-	'primary_rooms' => array(
-		'title'   => '',
-		'data'    => $template_data['primary_rooms'],
-		'icon'    => $inx_skin_rooms_icon,
-		'classes' => '',
-	),
-);
+if ( $inx_skin_head_show( 'core_data' ) ) {
+	$inx_skin_head_elements = array(
+		'property_id'   => array(
+			'title'   => __( 'Property ID', 'immonex-kickstart' ),
+			'data'    => $template_data['property_id'],
+			'icon'    => 'flaticon-numbers',
+			'classes' => '',
+		),
+		'build_year'    => array(
+			'title'   => '',
+			'data'    => $template_data['build_year'],
+			'icon'    => 'flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development',
+			'classes' => '',
+		),
+		'primary_area'  => array(
+			'title'   => '',
+			'data'    => $template_data['primary_area'],
+			'icon'    => 'flaticon-size',
+			'classes' => '',
+		),
+		'plot_area'     => array(
+			'title'   => '',
+			'data'    => $template_data['plot_area'],
+			'icon'    => 'flaticon-blueprint-3',
+			'classes' => '',
+		),
+		'primary_rooms' => array(
+			'title'   => '',
+			'data'    => $template_data['primary_rooms'],
+			'icon'    => $inx_skin_rooms_icon,
+			'classes' => '',
+		),
+	);
 
-if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_skin_head_elements['primary_area']['data']['value_formatted'] ) {
-	unset( $inx_skin_head_elements['plot_area'] );
+	if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_skin_head_elements['primary_area']['data']['value_formatted'] ) {
+		unset( $inx_skin_head_elements['plot_area'] );
+	}
 }
 ?>
 <div class="inx-single-property__head uk-padding">
+	<?php if ( $inx_skin_head_show( 'type,labels' ) ) : ?>
 	<div class="uk-flex uk-flex-between@s uk-flex-middle uk-flex-wrap-reverse uk-flex-wrap@m">
-		<div class="uk-width-1-1 uk-width-auto@s uk-margin-right@m uk-margin-bottom">
+		<?php if ( $inx_skin_head_show( 'type' ) ) : ?>
+		<div class="inx-single-property__head-type uk-width-1-1 uk-width-auto@s uk-margin-right@m uk-margin-bottom">
 			<?php
 			if ( $template_data['type_of_use'] ) {
 				echo $template_data['type_of_use'] . ' &gt; ';
@@ -67,8 +84,10 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 				echo $template_data['property_type'];
 			?>
 		</div>
+		<?php endif; ?>
 
-		<div class="uk-width-1-1 uk-width-auto@s uk-margin-bottom uk-margin-removem@m">
+		<?php if ( $inx_skin_head_show( 'labels' ) ) : ?>
+		<div class="uk-width-1-1 uk-width-auto@s uk-margin-bottom uk-margin-remove@m">
 			<?php if ( count( $template_data['labels'] ) > 0 ) : ?>
 			<div class="inx-single-property__labels uk-position-top-right">
 				<?php
@@ -84,18 +103,24 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 			</div>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 	</div>
+	<?php endif; ?>
 
-	<?php echo $utils['format']->get_heading( $template_data['title'], 1, 'inx-single-property__head-title uk-margin-bottom' ); ?>
+	<?php echo $inx_skin_head_show( 'title' ) ? $utils['format']->get_heading( $template_data['title'], 1, 'inx-single-property__head-title uk-margin-bottom' ) : ''; ?>
 
+	<?php if ( $inx_skin_head_show( 'location,price' ) ) : ?>
 	<div class="inx-single-property__head-elements uk-flex uk-flex-between@s uk-flex-middle uk-flex-wrap-reverse uk-flex-wrap@m">
-		<div class="uk-width-1-1 uk-width-expand@m uk-flex uk-flex-middle uk-flex-stretch"><!-- Address -->
+		<?php if ( $inx_skin_head_show( 'location' ) ) : ?>
+		<div class="inx-single-property__head-location uk-width-1-1 uk-width-expand@m uk-flex uk-flex-middle uk-flex-stretch"><!-- Address -->
 			<div class="inx-core-detail-icon uk-width-auto"><i class="flaticon-placeholder" title="<?php echo __( 'Location', 'immonex-kickstart' ); ?>"></i></div>
 			<?php if ( $template_data['full_address'] ) : ?>
 			<div class="uk-width-expand"><?php echo $template_data['full_address']; ?></div>
 			<?php endif; ?>
 		</div><!-- /Address -->
+		<?php endif; ?>
 
+		<?php if ( $inx_skin_head_show( 'price' ) ) : ?>
 		<div class="uk-width-1-1 uk-width-auto@m uk-margin-small-bottom"><!-- Primary Price -->
 			<div class="inx-single-property__head-primary-price uk-text-right">
 				<?php echo $template_data['primary_price']['value_formatted']; ?>
@@ -105,8 +130,11 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 				?>
 			</div>
 		</div><!-- /Primary Price -->
+		<?php endif; ?>
 	</div>
+	<?php endif; ?>
 
+	<?php if ( $inx_skin_head_show( 'core_data' ) ) : ?>
 	<hr>
 
 	<div class="inx-single-property__head-elements uk-child-width-auto" uk-grid>
@@ -135,7 +163,7 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 				if ( isset( $inx_skin_element['icon'] ) ) :
 					?>
 			<div class="inx-core-detail-icon"><i class="<?php echo $inx_skin_element['icon']; ?>" title="<?php echo $inx_skin_title; ?>"></i></div>
-						<?php
+					<?php
 				endif;
 				?>
 			<div class="inx-single-property__head-element-title"><?php echo $inx_skin_value; ?></div>
@@ -147,4 +175,5 @@ if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_sk
 			endforeach;
 		?>
 	</div>
+	<?php endif; ?>
 </div>

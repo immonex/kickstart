@@ -59,6 +59,12 @@ class Property_List_Hooks extends Property_Component_Hooks {
 		add_filter( 'inx_add_special_vars_from_post_meta', array( $this, 'add_special_vars_from_post_meta' ), 10, 2 );
 
 		/**
+		 * Third Party filters
+		 */
+
+		add_filter( 'elementor/theme/need_override_location', array( $this, 'maybe_override_elementor_location' ), 10, 3 );
+
+		/**
 		 * Shortcodes
 		 */
 
@@ -266,6 +272,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			'pagination_template' => Property_List::DEFAULT_PAGINATION_TEMPLATE,
 			'disable_links'       => '',
 			'no_results_text'     => '-',
+			'is_preview'          => false,
 		);
 		foreach ( $query_and_search_var_names as $var_name ) {
 			$supported_atts[ $var_name ] = '';
@@ -310,6 +317,14 @@ class Property_List_Hooks extends Property_Component_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_pagination( $atts ) {
+		if ( ! empty( $atts['is_preview'] ) ) {
+			$preview_output = get_transient( 'inx_preview_pagination_output' );
+
+			if ( $preview_output ) {
+				return $preview_output;
+			}
+		}
+
 		return $this->property_list->get_rendered_pagination();
 	} // shortcode_pagination
 
@@ -345,5 +360,28 @@ class Property_List_Hooks extends Property_Component_Hooks {
 
 		return $request;
 	} // internal_page_rewrite
+
+	/**
+	 * Override an elementor template location if the Kickstart standard template
+	 * for property list pages/archives should be used (filter callback).
+	 *
+	 * @since 1.9.52-beta
+	 *
+	 * @param bool                                                         $need_override_location Whether to override theme location.
+	 * @param string                                                       $location               Location name.
+	 * @param \ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager $locations_manager      Elementor location manager instance.
+	 *
+	 * @return bool Override state.
+	 */
+	public function maybe_override_elementor_location( $need_override_location, $location, $locations_manager ) {
+		if (
+			is_archive( $this->config['property_post_type_name'] )
+			&& 0 === (int) $this->config['property_list_page_id']
+		) {
+			return false;
+		}
+
+		return $need_override_location;
+	} // maybe_override_elementor_location
 
 } // Property_List_Hooks

@@ -21,7 +21,7 @@ async function updateMaps(event, requestParams) {
 		// Update all location map component instances.
 		let tempUpdateIDs = []
 
-		$('.inx-property-map-container').each((index, mapElement) => {
+		$('.inx-property-map-container').not('.inx-is-preview').each((index, mapElement) => {
 			const elementID = $(mapElement).attr('id')
 			if (elementID) {
 				tempUpdateIDs.push(elementID)

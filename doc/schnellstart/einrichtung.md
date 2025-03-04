@@ -110,15 +110,31 @@ Im [Standard-Skin](/anpassung-erweiterung/standard-skin) ist eine **auf Code-Bas
 
 Als Alternative kann auch hierfür – analog zur Übersicht – eine **Seite als Vorlage** ausgewählt werden, die [Shortcodes für die Einbindung der Immobilien-Details](einbindung#immobilien-details) enthält. Gleiches gilt für die auszuwählende Option zur Nutzung eines alternativen *Single Post Templates*, das vom Theme oder einem anderen Plugin registriert wird: `keine (Theme-Template verwenden)`
 
+##### Verkäufer-/Innenprovision anzeigen
+
+Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger relevant und wird daher in den [Immobilien-Detailansichten](/komponenten/detailansicht) standardmäßig **nicht** angezeigt. Diese Option ermöglicht die Berücksichtigung bei der Ausgabe, falls nötig.
+
+#### Galerie
+
+Die Optionen in diesem Tab beziehen sich – sofern vom ausgewählten [Skin](/anpassung-erweiterung/skins) unterstützt – auf die **primäre Galerie**, die aus einem *Bild-Slider-Element* und einer zugehörigen *Thumbnail-Navigation* (Miniaturansichten) besteht.
+
 ##### Galeriebild-Links
 
 Sofern aktiviert (Standardvorgabe), sind die Hauptbilder der Galerien in den Immobilien-Detailseiten mit den entsprechenden Großansichten verlinkt, die im Regelfall in einer *Lightbox* angezeigt werden.
 
 !> Im Überschneidungen mit den Funktionalitäten des Themes etc. zu vermeiden, stellt das Kickstart-Plugin selbst **keine Lightbox-Funktion** bereit. Im Bedarfsfall kann diese aber mit einem Zusatzplugin nachgerüstet werden (z. B. [WP Featherlight](https://de.wordpress.org/plugins/wp-featherlight/) oder [Responsive Lightbox & Gallery](https://de.wordpress.org/plugins/responsive-lightbox/)).
 
-##### Verkäufer-/Innenprovision anzeigen
+##### Ken-Burns-Effekt (KBE)
 
-Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger relevant und wird daher in den [Immobilien-Detailansichten](/komponenten/detailansicht) standardmäßig **nicht** angezeigt. Diese Option ermöglicht die Berücksichtigung bei der Ausgabe, falls nötig.
+Der sogenannte [Ken-Burns-Effekt](https://de.wikipedia.org/wiki/Ken_Burns) ist eine spezielle Form der Animation, bei der ein Bild langsam gezoomt und verschoben wird. Diese Option ist gemäß Standardvorgabe aktiv, der Effekt wird im Frontend aber nur bei Bildern/Fotos mit einem **passenden Seitenverhältnis** angewendet.
+
+##### KBE-Darstellungsmodus
+
+Bei aktiviertem Ken-Burns-Effekt kann die zugehörige Art der Darstellung ausgewählt werden:
+
+Ein komplett ausgefülltes *Container-Element* (Bildslider) wirkt im Regelfall optisch ansprechender, allerdings können manche Bilder hierbei nach der Animation horizontal "zugeschnitten" dargestellt werden. Der Grad dieses Zuschnitts ist abhängig von den unterschiedlichen Seitenverhältnissen der jeweiligen Galeriebilder.
+
+Alternativ können die Bilder nach der Animationsphase auch generell vollständig angezeigt werden. In diesem Fall können leere Flächen am oberen und/oder unteren Rand des Container-Elements entstehen, deren Größe sich ebenfalls aus dem Seitenverhältnis der **anderen** Bildern der Galerie ergibt.
 
 #### Standortkarte
 

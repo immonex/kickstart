@@ -112,7 +112,10 @@ class Property_Map {
 		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 		$marker_set_id = ! empty( $atts['cid'] ) ? $atts['cid'] : 'inx-property-map';
 
-		// Initial marker data are NOT directly delivered within the page anymore (get_markers).
+		/**
+		 * Except for preview/sample purposes, initial marker data are NOT directly
+		 * delivered within the page source anymore (get_markers).
+		 */
 		$markers = array();
 
 		$map_option_string = ! empty( $atts['options'] ) ? $atts['options'] : '';
@@ -165,6 +168,10 @@ class Property_Map {
 			$atts['require-consent'] = true;
 		} elseif ( 'false' === $atts['require-consent'] ) {
 			$atts['require-consent'] = false;
+		}
+
+		if ( ! empty( $atts['is_preview'] ) ) {
+			$atts['preview_markers'] = $this->get_markers( $atts );
 		}
 
 		$template_data = array_merge(
@@ -273,8 +280,9 @@ class Property_Map {
 			$atts['type'] = 'coords';
 		}
 
-		$markers      = array();
-		$property_ids = ! empty( $atts['id'] ) ?
+		$markers       = array();
+		$disable_links = ! empty( $atts['disable_links'] ) ? strtolower( $atts['disable_links'] ) : '';
+		$property_ids  = ! empty( $atts['id'] ) ?
 			array_filter( explode( ',', $atts['id'] ) ) :
 			apply_filters( 'inx_get_properties', array(), $atts );
 
@@ -292,12 +300,21 @@ class Property_Map {
 
 				$property->set_post( $post_id );
 
-				$property_type   = ! empty( $all_property_type_terms[ $post_id ] ) ?
+				$property_type = ! empty( $all_property_type_terms[ $post_id ] ) ?
 					array_shift( $all_property_type_terms[ $post_id ] ) : '';
-				$has_detail_view = ! empty( $this->config['disable_detail_view_states'] ) ?
-					apply_filters( 'inx_has_detail_view', true, $post_id ) : true;
-				$property_url    = $has_detail_view ?
-					$property->extend_url( get_post_permalink( $post_id ), false, $atts ) : '';
+
+				$property_url = '';
+
+				if (
+					'all' !== $disable_links
+					&& ( 'unavailable' !== $disable_links || get_post_meta( $post_id, '_immonex_is_available', true ) )
+					&& ( 'references' !== $disable_links || ! get_post_meta( $post_id, '_immonex_is_reference', true ) )
+				) {
+					$has_detail_view = ! empty( $this->config['disable_detail_view_states'] ) ?
+						apply_filters( 'inx_has_detail_view', true, $post_id ) : true;
+					$property_url    = $has_detail_view ?
+						$property->extend_url( get_post_permalink( $post_id ), false, $atts ) : '';
+				}
 
 				if ( ! empty( $atts['type'] ) && 'coords' === $atts['type'] ) {
 					$markers[ $post_id ] = array( $lat, $lng );

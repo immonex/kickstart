@@ -224,6 +224,13 @@ class REST_API {
 			$args['type'] = 'json_map_marker_coords' === $response_format ? 'coords' : 'full';
 		}
 
+		if ( $request->get_param( 'inx-r-disable-links' ) ) {
+			$args['disable_links'] = sanitize_key( $request->get_param( 'inx-r-disable-links' ) );
+		}
+		if ( $request->get_param( 'inx-r-force-lang' ) ) {
+			$args['inx-force-lang'] = sanitize_key( $request->get_param( 'inx-r-force-lang' ) );
+		}
+
 		$this->maybe_add_lang_args( $args, $request );
 
 		return apply_filters( 'inx_get_property_map_markers', array(), $args );

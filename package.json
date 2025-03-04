@@ -13,7 +13,7 @@
     "nouislider": "^15.7.0",
     "ol": "^9.2.0",
     "qs": "^6.11.1",
-    "uikit": "^3.21.13",
+    "uikit": "^3.23",
     "vue": "^2",
     "vue-cookies": "^1.8.3",
     "vue-multiselect": "^2.1.7"

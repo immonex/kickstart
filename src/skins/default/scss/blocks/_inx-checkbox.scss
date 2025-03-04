@@ -1,3 +1,11 @@
 input[type="checkbox"].inx-checkbox {
 	display: inline-block;
+
+	&:focus {
+		border-color: var(--inx-color-action-element-lighter);
+	}
+
+	&:checked {
+		background-color: var(--inx-color-action-element);
+	}
 }

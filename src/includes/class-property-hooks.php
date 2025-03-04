@@ -78,7 +78,7 @@ class Property_Hooks {
 		}
 
 		/**
-		 * OpenImmo2WP actions and filters
+		 * OpenImmo2WP actions
 		 */
 
 		add_action( 'immonex_oi2wp_import_zip_file_processed', array( $this, 'update_min_max_transients' ), 90 );
@@ -98,6 +98,12 @@ class Property_Hooks {
 		add_filter( 'inx_property_template_data_details', array( $this, 'adjust_rental_details' ), 10, 2 );
 		add_filter( 'inx_property_detail_element_output', array( $this, 'render_property_detail_element_output' ), 10, 2 );
 		add_filter( 'inx_has_detail_view', array( $this, 'has_detail_view' ), 10, 2 );
+
+		/**
+		 * Third Party filters
+		 */
+
+		add_filter( 'elementor/theme/need_override_location', array( $this, 'maybe_override_elementor_location' ), 10, 3 );
 
 		/**
 		 * Shortcodes
@@ -1067,6 +1073,29 @@ class Property_Hooks {
 	} // has_detail_view
 
 	/**
+	 * Override an elementor template location if the Kickstart standard template
+	 * for property detail pages should be used (filter callback).
+	 *
+	 * @since 1.9.52-beta
+	 *
+	 * @param bool                                                         $need_override_location Whether to override theme location.
+	 * @param string                                                       $location               Location name.
+	 * @param \ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager $locations_manager      Elementor location manager instance.
+	 *
+	 * @return bool Override state.
+	 */
+	public function maybe_override_elementor_location( $need_override_location, $location, $locations_manager ) {
+		if (
+			is_singular( $this->config['property_post_type_name'] )
+			&& 0 === (int) $this->config['property_details_page_id']
+		) {
+			return false;
+		}
+
+		return $need_override_location;
+	} // maybe_override_elementor_location
+
+	/**
 	 * Extract "tags" and related arguments used in the property detail element
 	 * shortcode "template" attribute.
 	 *
@@ -1109,6 +1138,7 @@ class Property_Hooks {
 	private function get_property_instance( $post_id = false ) {
 		if (
 			! is_object( $this->current_property ) ||
+			! is_object( $this->current_property->post ) ||
 			__NAMESPACE__ . '\Property' !== get_class( $this->current_property ) ||
 			( $post_id && (int) $this->current_property->post->ID !== (int) $post_id )
 		) {

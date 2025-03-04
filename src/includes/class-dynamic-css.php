@@ -12,6 +12,11 @@ namespace immonex\Kickstart;
  */
 class Dynamic_CSS {
 
+	const SCOPES = array(
+		'global',
+		'property_details',
+	);
+
 	/**
 	 * Plugin options
 	 *
@@ -42,17 +47,69 @@ class Dynamic_CSS {
 	} // __construct
 
 	/**
+	 * Register filters.
+	 *
+	 * @since 1.9.53-beta
+	 */
+	public function init() {
+		add_filter( 'inx_dynamic_css_scopes', array( $this, 'get_scopes' ) );
+	} // init
+
+	/**
+	 * Get available dynamic CSS scopes (filter callback).
+	 *
+	 * @since 1.9.53-beta
+	 *
+	 * @return string[]
+	 */
+	public function get_scopes() {
+		return self::SCOPES;
+	} // get_scopes
+
+	/**
+	 * Check if the current request URI contains a dynamic CSS "filename".
+	 * If so, send the related contents and exit.
+	 *
+	 * @since 1.9.53-beta
+	 */
+	public function send_on_request() {
+		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			return;
+		}
+
+		$uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+		if ( strlen( $uri ) < 10 ) {
+			return;
+		}
+
+		$scopes = apply_filters( 'inx_dynamic_css_scopes', self::SCOPES );
+
+		if ( empty( $scopes ) || ! is_array( $scopes ) ) {
+			return;
+		}
+
+		foreach ( $scopes as $scope ) {
+			$uri_scope = str_replace( '_', '-', $scope );
+
+			if ( false !== strpos( $uri, "/inx-dyn-{$uri_scope}.css" ) ) {
+				$this->send( $scope );
+			}
+		}
+	} // send_on_request
+
+	/**
 	 * Send CSS contents.
 	 *
 	 * @since 1.9.49-beta
 	 *
-	 * @param string $type CSS type (optional, maybe used in future versions).
+	 * @param string $scope CSS scope.
 	 */
-	public function send( $type = 'global' ) {
+	public function send( $scope = 'global' ) {
 		header( 'Content-Type: text/css; charset=utf-8' );
 
-		if ( 'global' === $type ) {
-			echo $this->get_global_css();
+		if ( method_exists( $this, "get_{$scope}_css" ) ) {
+			echo $this->{"get_{$scope}_css"}();
 		}
 
 		exit;
@@ -62,8 +119,10 @@ class Dynamic_CSS {
 	 * Generate global CSS properties.
 	 *
 	 * @since 1.9.49-beta
+	 *
+	 * @return string CSS property code block.
 	 */
-	public function get_global_css() {
+	private function get_global_css() {
 		$brightness_variant_pct = apply_filters( 'inx_brightness_variant_pct', 15 );
 		if (
 			! is_numeric( $brightness_variant_pct )
@@ -91,6 +150,9 @@ class Dynamic_CSS {
 			'--inx-color-text-inverted-default'   => $this->plugin_options['color_text_inverted_default'],
 			'--inx-color-demo'                    => $this->plugin_options['color_demo'],
 			'--inx-color-bg-muted-default'        => $color_bg_muted_default,
+			// The following properties NOT available in the plugin options yet.
+			'--inx-border-radius-subtle'          => '4px',
+			'--inx-signature-border-radius'       => '0 0 8px 0',
 		);
 
 		$add_gradients_for = array(
@@ -151,15 +213,67 @@ class Dynamic_CSS {
 			}
 		}
 
-		$css = ':root {' . PHP_EOL;
+		return $this->get_css_property_code( $defaults, ':root' );
+	} // get_global_css
 
-		foreach ( $defaults as $property => $value ) {
-			$css .= sprintf( '%s: %s;', $property, $value ) . PHP_EOL;
+	/**
+	 * Generate property details CSS properties.
+	 *
+	 * @since 1.9.53-beta
+	 *
+	 * @return string CSS property code block.
+	 */
+	private function get_property_details_css() {
+		$defaults = array(
+			'.inx-gallery' => array(
+				'--inx-gallery-image-slider-bg-color'   => $this->plugin_options['gallery_image_slider_bg_color'] ?
+					$this->plugin_options['gallery_image_slider_bg_color'] : 'transparent',
+				'--inx-gallery-image-slider-min-height' => $this->plugin_options['gallery_image_slider_min_height'] ?
+					$this->plugin_options['gallery_image_slider_min_height'] . 'px' : 'initial',
+				'--inx-gallery-kenburns-image-height'   => 'cover' === $this->plugin_options['ken_burns_effect_display_mode'] ?
+					'100%' : 'auto',
+				'--inx-gallery-kenburns-image-display'  => 'cover' === $this->plugin_options['ken_burns_effect_display_mode'] ?
+					'block' : 'flex',
+				'--inx-gallery-kenburns-align'          => 'full_top' === $this->plugin_options['ken_burns_effect_display_mode'] ?
+					'top' : 'center',
+				'--inx-gallery-kenburns-image-top'      => 'full_top' === $this->plugin_options['ken_burns_effect_display_mode'] ?
+					'0' : 'auto',
+			),
+		);
+
+		$css = '';
+
+		foreach ( $defaults as $selector => $properties ) {
+			$css .= $this->get_css_property_code( $properties, $selector );
+		}
+
+		return $css;
+	} // get_property_details_css
+
+	/**
+	 * Generate the CSS custom property code block for the given selector.
+	 *
+	 * @since 1.9.53-beta
+	 *
+	 * @param mixed[] $properties CSS properties.
+	 * @param string  $selector   CSS selector.
+	 *
+	 * @return string CSS code block.
+	 */
+	private function get_css_property_code( $properties, $selector ) {
+		if ( empty( $properties ) ) {
+			return '';
+		}
+
+		$css = "{$selector} {" . PHP_EOL;
+
+		foreach ( $properties as $property => $value ) {
+			$css .= wp_sprintf( '%s: %s;', $property, $value ) . PHP_EOL;
 		}
 
 		$css .= '}' . PHP_EOL;
 
 		return $css;
-	} // get_global_css
+	} // get_css_property_code
 
 } // Dynamic_CSS

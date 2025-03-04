@@ -10,14 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$inx_skin_component_id = ! empty( $template_data['cid'] ) ?
-	$template_data['cid'] : 'inx-property-map';
+$inx_skin_component_id = ! empty( $template_data['cid'] ) ? $template_data['cid'] : 'inx-property-map';
 $inx_skin_privacy_note = apply_filters( 'inx_get_user_consent_content', '', $template_data['type'], 'geo' );
 
 if ( $template_data['type'] ) :
 	// @codingStandardsIgnoreStart
 	?>
-<div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-map-container inx-container">
+<div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-map-container inx-container<?php echo ! empty( $template_data['is_preview'] ) ? ' inx-is-preview' : ''; ?>">
 	<inx-property-open-layers-map
 		type="<?php echo esc_attr( $template_data['type'] ); ?>"
 		options="<?php echo ! empty( $template_data['options'] ) ? base64_encode( wp_json_encode( $template_data['options'] ) ) : ''; ?>"
@@ -36,6 +35,9 @@ if ( $template_data['type'] ) :
 		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_privacy_note['text'] ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
 		:require-consent="<?php echo (bool) $template_data['require-consent'] ? 'true' : 'false'; ?>"
+		disable-links="<?php echo ! empty( $template_data['disable_links'] ) ? $template_data['disable_links'] : ''; ?>"
+		force-lang="<?php echo ! empty( $template_data['inx-force-lang'] ) ? $template_data['inx-force-lang'] : ''; ?>"
+		preview-markers="<?php echo ! empty( $template_data['preview_markers'] ) ? base64_encode( wp_json_encode( $template_data['preview_markers'] ) ) : ''; ?>"
 	>
 	</inx-property-open-layers-map>
 </div>

@@ -1,3 +1,8 @@
+// QnD hack for Kickstart Elementor Add-on
+if ( typeof inx_maps === 'undefined' ) {
+	globalThis.inx_maps = {}
+}
+
 // Vue
 import Vue from 'vue'
 inx_state.vue = Vue
@@ -61,29 +66,6 @@ document.body.addEventListener('inxInitDetails', (event) => {
 
 // Lazy loaded Modules
 jQuery(document).ready(async function($) {
-
-if (false) {
-	const elementorObserver = new MutationObserver(function(mutations, observer) {
-		for (const mutation of mutations) {
-			if (mutation.type !== 'childList' || typeof mutation.target.dataset.widget_type === 'undefined') {
-				continue
-			}
-
-			if (mutation.target.dataset.widget_type === 'inx-e-search-form.default') {
-				const search = import(/* webpackChunkName: "property_search" */ './property_search')
-				search.then((module) => {
-					module.init()
-				})
-			}
-		}
-	});
-
-	elementorObserver.observe( document, {
-		childList: true,
-		subtree: true,
-	} );
-}
-
 	// Shared Components
 	const shared = await import(/* webpackChunkName: "shared_components" */ './shared_components')
 	inx_state.shared = shared

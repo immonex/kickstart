@@ -14,7 +14,11 @@
 }
 
 .inx-gallery__images {
-	min-height: 480px;
+	min-height: var(--inx-gallery-image-slider-min-height, initial);
+
+	li {
+		background-color: var(--inx-gallery-image-slider-bg-color);
+	}
 }
 
 .inx-gallery__image {
@@ -22,9 +26,19 @@
 
 	img {
 		display: block;
-		height: auto;
 		max-height: 50em;
 		width: 100%;
+	}
+
+	&.uk-animation-kenburns {
+		display: var(--inx-gallery-kenburns-image-display, block);
+		align-items: var(--inx-gallery-kenburns-align);
+		justify-content: var(--inx-gallery-kenburns-align);
+
+		img {
+			top: var(--inx-gallery-kenburns-image-top, auto);
+			height: var(--inx-gallery-kenburns-image-height, 100%);
+		}
 	}
 }
 

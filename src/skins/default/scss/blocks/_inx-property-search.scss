@@ -43,7 +43,8 @@
 	.inx-checkbox:not(:checked),
 	.inx-radio:not(:checked),
 	.inx-input:focus,
-	.inx-search-input:focus {
+	.inx-search-input:focus,
+	.inx-search-input.uk-search-input:focus {
 		background-color: #fff;
 	}
 }

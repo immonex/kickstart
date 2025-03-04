@@ -3,6 +3,7 @@ input.inx-search-input {
 	box-sizing: border-box;
 }
 
-input.inx-search-input:focus {
+input.inx-search-input:focus,
+input.inx-search-input.uk-search-input:focus {
 	border-color: var(--inx-color-action-element-lighter);
 }

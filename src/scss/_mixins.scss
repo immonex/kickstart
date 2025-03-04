@@ -2,3 +2,21 @@
 	background-color: $base-color;
 	background: linear-gradient(60deg, lighten($base-color, 5%) 50%, darken($base-color, 10%) 100%);
 }
+
+@mixin unified-active-link-states($color) {
+	@at-root a#{&}:visited {
+		color: $color;
+	}
+
+	@at-root a#{&}:hover {
+		color: $color;
+	}
+
+	@at-root a#{&}:focus {
+		color: $color;
+	}
+
+	@at-root a#{&}:active {
+		color: $color;
+	}
+}

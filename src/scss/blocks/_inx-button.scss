@@ -3,17 +3,18 @@ button.inx-button {
 	background-color: var(--inx-color-action-element);
 }
 
-button.inx-button:hover {
-	cursor: pointer;
-}
-
 .inx-button--action {
 	color: #fff;
 	background-color: var(--inx-color-action-element);
 }
 
-.inx-button:hover,
-.inx-button--action:hover {
+button.inx-button:disabled:hover {
+	border: 1px solid transparent;
+}
+
+button.inx-button:not(:disabled):hover,
+.inx-button--action:not(:disabled):hover {
+	cursor: pointer;
 	background-color: var(--inx-color-action-element-lighter);
 }
 

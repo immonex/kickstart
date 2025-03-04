@@ -58,9 +58,15 @@
 	font-size: inherit;
 }
 
-.inx-container .inx-form-element .multiselect--active input.multiselect__input {
-	box-sizing: content-box;
-	width: calc(100% - .1em) !important;
+.inx-container .inx-form-element .multiselect--active {
+	.multiselect__tags {
+		border-color: var(--inx-color-action-element);
+	}
+
+	input.multiselect__input {
+		box-sizing: content-box;
+		width: calc(100% - .1em) !important;
+	}
 }
 
 .inx-form-element .multiselect__tags,
