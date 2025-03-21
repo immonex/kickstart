@@ -200,12 +200,12 @@ class API {
 	 *                     garden, total).
 	 * @param bool   $ignore_cache Omit fetching the related cached transient value
 	 *                             (optional, defaults to false).
-	 * @param int    $default Default value to return if no appropriate data are
-	 *                        available (optional, defaults to 400).
+	 * @param int    $default_value Default value to return if no appropriate data are
+	 *                              available (optional, defaults to 400).
 	 *
 	 * @return int Maximum or default value.
 	 */
-	public function get_area_max( $type, $ignore_cache = false, $default = 400 ) {
+	public function get_area_max( $type, $ignore_cache = false, $default_value = 400 ) {
 		global $wpdb;
 
 		$valid_area_types = array(
@@ -224,7 +224,7 @@ class API {
 			'total',
 		);
 		if ( ! in_array( $type, $valid_area_types, true ) ) {
-			return $default;
+			return $default_value;
 		}
 
 		$transient_key = $this->config['plugin_prefix'] . "{$type}_area_max";
@@ -258,8 +258,8 @@ class API {
 		);
 
 		if ( empty( $result ) || empty( $result[0]['max'] ) ) {
-			$this->cache['max_area'][ $type ] = $default;
-			return $default;
+			$this->cache['max_area'][ $type ] = $default_value;
+			return $default_value;
 		}
 
 		$max         = (int) $result[0]['max'];

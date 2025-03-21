@@ -4,9 +4,12 @@
 	width: 100%;
 	max-width: 80em;
 	margin: 0 auto;
-	margin-bottom: $size-font-base * 2;
 	font-size: $size-font-base !important;
 	line-height: $line-height-base;
+
+	&:not(:last-child) {
+		margin-bottom: $size-font-base * 2;
+	}
 
 	// UIkit Bugfix
 

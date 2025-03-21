@@ -186,6 +186,12 @@ class API_Hooks {
 				}
 
 				return $this->utils['string']->format_number( $value, $decimals, $unit, array( 'if_zero' => $if_zero ) );
+			case 'link':
+				if ( preg_match( '/^[0-9 +-]+$/', $value ) ) {
+					return wp_sprintf( '<a href="tel:%1$s">%1$s</a>', $value );
+				}
+
+				return $this->utils['string']->convert_urls( $value );
 		}
 
 		return $value;

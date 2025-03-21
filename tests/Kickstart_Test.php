@@ -11,7 +11,7 @@ class Kickstart_Test extends WP_UnitTestCase {
 
 	private $kickstart;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->kickstart = new Kickstart( 'immonex-kickstart' );
 	} // setUp
 

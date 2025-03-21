@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.1
 Tested up to: 6.8
-Stable Tag: 1.9.46
+Stable Tag: 1.9.60
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,7 +51,7 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Selectable map variants/views (road map, area map, topographic, satellite + streetmap layer)
 * Customizable map marker image (SVG)
 * Dynamic updates of property lists and location map views based on the current search parameters
-* Meta tags for social media sharing (Open Graph, X/Twitter)
+* Integrated SEO features, i.a. meta tags for social media sharing (Open Graph, X/Twitter)
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
@@ -61,6 +61,13 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Compatible with immonex OpenImmo2WP (OpenImmo importer) [2]
 * Compatible with immonex Energy Scale Pro (energy class visualization) [2]
 * Compatible with immonex Notify (real estate e-mail marketing/automation) [2]
+
+= Add-Ons =
+
+* **[Team](https://wordpress.org/plugins/immonex-kickstart-team/)**: Extended real estate agency/agent data handling and property related contact forms
+* **[Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows)**: Real estate slideshows for display presentation in shop windows and public areas [2]
+* **Print** (to be released soon): Generation of PDF exposés for printing and sharing
+* **Elementor** (to be released soon): Elementor widgets for Kickstart frontend components
 
 == Installation ==
 
@@ -113,11 +120,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.9.55-beta =
-* Release date: 2025-03-04
-* Added possibility to adjust the skin colors in the backend plugin options.
+= 1.9.60 =
+* Release date: 2025-03-21
+* Added backend plugin options for adjusting skin colors.
 * Added variable compare options based on selected form values.
 * Added user consent contents for the Giraffe360 virtual tour service.
+* Fixed a security issue (possible injection of external backlink URLs).
 * Reworked property list item and standard detail head templates (default skin).
 * Reworked the main gallery of the property detail pages and added related plugin options for customization in a separate tab.
 * Reworked the overview map JS component.

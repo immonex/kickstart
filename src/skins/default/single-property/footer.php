@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="inx-single-property__footer uk-padding uk-margin-bottom">
+<div class="inx-single-property__footer uk-padding">
 	<div class="uk-flex-middle" uk-grid>
 		<div class="uk-width-1-1 uk-width-1-2@s">
 			<?php if ( $template_data['overview_url'] ) : ?>

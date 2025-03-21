@@ -74,7 +74,7 @@ if ( ! is_callable( __NAMESPACE__ . '\autoload' ) ) {
 		 * are the vendor and plugin name parts. The last index is always
 		 * the file so we append that at the end.
 		 */
-		$fully_qualified_path = trailingslashit( dirname( __FILE__ ) ) . 'includes/';
+		$fully_qualified_path = trailingslashit( __DIR__ ) . 'includes/';
 		$cnt_file_path        = count( $file_path ) - 1;
 
 		for ( $i = 2; $i < $cnt_file_path; $i++ ) {

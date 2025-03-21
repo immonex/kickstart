@@ -46,12 +46,8 @@ h4.inx-single-property__head-title {
 	padding-top: 1em;
 }
 
-.inx-single-property__section {
+.inx-single-property__section:not(:last-child) {
 	margin-bottom: 2em;
-}
-
-.inx-single-property__section:last-child {
-	margin-bottom: 0;
 }
 
 .inx-single-property__section--type--features {

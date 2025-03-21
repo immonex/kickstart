@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 1.9.60 =
+* Release date: 2025-03-21
+* Added backend plugin options for adjusting skin colors.
+* Added variable compare options based on selected form values.
+* Added user consent contents for the Giraffe360 virtual tour service.
+* Fixed a security issue (possible injection of external backlink URLs).
+* Reworked property list item and standard detail head templates (default skin).
+* Reworked the main gallery of the property detail pages and added related plugin options for customization in a separate tab.
+* Reworked the overview map JS component.
+* Improved Elementor Pro template selection for property list (archive) and detail views.
+* Verified compatibility with WordPress 6.8.
+
 = 1.9.46 =
 * Release date: 2024-11-21
 * Fixed minor gallery and map bugs.

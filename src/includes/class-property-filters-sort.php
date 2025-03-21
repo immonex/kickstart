@@ -116,7 +116,7 @@ class Property_Filters_Sort {
 
 		if ( ! empty( $atts['elements'] ) ) {
 			$include_elements = array_map(
-				function( $value ) {
+				function ( $value ) {
 					return trim( strtolower( $value ) );
 				},
 				explode( ',', $atts['elements'] )
@@ -135,7 +135,7 @@ class Property_Filters_Sort {
 			}
 		} elseif ( ! empty( $atts['exclude'] ) ) {
 			$exclude_elements = array_map(
-				function( $value ) {
+				function ( $value ) {
 					return trim( strtolower( $value ) );
 				},
 				explode( ',', $atts['exclude'] )
@@ -169,13 +169,13 @@ class Property_Filters_Sort {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed[]|bool $sort_options Sort option array or false to use the
-	 *                                   related method.
-	 * @param string       $default      Custom default value (shortcode attribute).
+	 * @param mixed[]|bool $sort_options   Sort option array or false to use the
+	 *                                     related method.
+	 * @param string       $default_option Custom default value (shortcode attribute).
 	 *
 	 * @return mixed[] Key and definition/configuration of the default option.
 	 */
-	public function get_default_sort_option( $sort_options = false, $default = '' ) {
+	public function get_default_sort_option( $sort_options = false, $default_option = '' ) {
 		if ( empty( $sort_options ) ) {
 			$sort_options = $this->get_sort_options();
 		}
@@ -183,7 +183,7 @@ class Property_Filters_Sort {
 		$sort_option_keys = array_keys( $sort_options );
 		$default_sort_key = apply_filters(
 			'inx_default_sort_key',
-			$default ? $default : $sort_option_keys[0]
+			$default_option ? $default_option : $sort_option_keys[0]
 		);
 
 		if ( ! in_array( $default_sort_key, $sort_option_keys, true ) ) {

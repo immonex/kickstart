@@ -4,12 +4,12 @@
     "minimum-stability": "dev",
     "require": {
         "cmb2/cmb2": "dev-master",
-        "immonex/wp-free-plugin-core": "2.1.11"
+        "immonex/wp-free-plugin-core": "2.2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": "^9",
         "doctrine/rst-parser": "@dev",
-        "yoast/phpunit-polyfills": "1.x-dev"
+        "yoast/phpunit-polyfills": "^4"
     },
     "autoload": {
         "psr-4": { "immonex\\Kickstart\\": ["includes", "src/includes"] },

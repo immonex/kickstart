@@ -191,7 +191,28 @@ class Property {
 			return $this->cache['rendered_template_contents'][ $hash ];
 		}
 
-		$template_data = $this->get_property_template_data( $atts );
+		$template_data         = $this->get_property_template_data( $atts );
+		$filtered_element_atts = array_filter( $atts['element_atts'] );
+
+		if (
+			self::DEFAULT_TEMPLATE !== $template
+			&& ! empty( $filtered_element_atts )
+		) {
+			/**
+			 * Copy the complete detail page element data to the main level of the template data array
+			 * if the template is not the default one (element-hub).
+			 */
+			foreach ( array_keys( $filtered_element_atts ) as $key ) {
+				if ( empty( $template_data['detail_page_elements'][ $key ] ) ) {
+					continue;
+				}
+
+				$template_data = array_merge(
+					$template_data,
+					$template_data['detail_page_elements'][ $key ]
+				);
+			}
+		}
 
 		$this->cache['rendered_template_contents'][ $hash ] = apply_filters(
 			'inx_rendered_property_template_contents',
@@ -229,7 +250,7 @@ class Property {
 		// Get property core data (individual custom fields).
 		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
 
-		// Fetch external video data.
+		// Fetch video data.
 		$videos = $this->get_video_data( $atts );
 
 		if (
@@ -239,6 +260,11 @@ class Property {
 			// Split standard head contents attribute value.
 			$atts['element_atts']['head']['contents'] = array_map( 'trim', explode( ',', $atts['element_atts']['head']['contents'] ) );
 		}
+
+		$kbe_mode       = ! empty( $atts['ken_burns_effect_display_mode'] ) ?
+			$atts['ken_burns_effect_display_mode'] :
+			$this->config['ken_burns_effect_display_mode'];
+		$kbe_mode_class = $kbe_mode ? 'inx-gallery--kbe-mode--' . str_replace( '_', '-', $kbe_mode ) : '';
 
 		if ( ! empty( $atts['is_preview'] ) ) {
 			/**
@@ -333,6 +359,7 @@ class Property {
 					'file_attachments'     => $file_attachments,
 					'links'                => array(),
 					'overview_url'         => '#',
+					'kbe_mode_class'       => $kbe_mode_class,
 					'details'              => array(
 						'kontakt' => $contact_details,
 					),
@@ -548,14 +575,7 @@ class Property {
 		 * Generate overview/backlink URL.
 		 */
 		$backlink_url = $this->get_backlink_url( $permalink_url );
-		$url          = $this->extend_url( $permalink_url, false, $atts );
-
-		$get_query_backlink_url = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
-		if ( $get_query_backlink_url ) {
-			$overview_url = stripslashes( urldecode( $get_query_backlink_url ) );
-		} else {
-			$overview_url = $backlink_url;
-		}
+		$url          = $this->extend_url( $permalink_url, $backlink_url, $atts );
 
 		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
 		$flags         = $this->get_flags();
@@ -583,7 +603,9 @@ class Property {
 			$disable_link = true;
 		}
 
-		$excerpt_content = trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+		$excerpt_content      = trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+		$element_atts         = ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array();
+		$detail_page_elements = $this->get_detail_page_elements( $element_atts );
 
 		$template_data = array_merge(
 			$this->config,
@@ -603,7 +625,7 @@ class Property {
 				'full_address'            => $this->utils['data']->get_custom_field_by( 'key', '_' . $prefix . 'full_address', $post->ID, true ),
 				'permalink_url'           => $permalink_url,
 				'url'                     => $url,
-				'overview_url'            => $overview_url,
+				'overview_url'            => $backlink_url,
 				'thumbnail_tag'           => $thumbnail_tag,
 				'locations'               => $locations ? $locations : array(),
 				'location'                => $location,
@@ -615,10 +637,11 @@ class Property {
 				'virtual_tour_url'        => $virtual_tour_url,
 				'file_attachments'        => $file_attachments,
 				'links'                   => $links ? $links : array(),
-				'detail_page_elements'    => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),
+				'detail_page_elements'    => $detail_page_elements,
 				'flags'                   => $flags,
 				'disable_link'            => $disable_link,
 				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
+				'kbe_mode_class'          => $kbe_mode_class,
 			),
 			$atts
 		);
@@ -726,12 +749,12 @@ class Property {
 	 * @since 1.0.0
 	 *
 	 * @param string $type Image/Gallery type (gallery or floor_plans).
-	 * @param string $return Return type (objects, ids or urls).
+	 * @param string $return_value Return type (objects, ids or urls).
 	 *
 	 * @return mixed[] List of property objects, post IDs of URLs.
 	 */
-	public function get_images( $type = 'gallery', $return = 'objects' ) {
-		$return = strtolower( $return );
+	public function get_images( $type = 'gallery', $return_value = 'objects' ) {
+		$return_value = strtolower( $return_value );
 
 		$field_prefix      = '_' . $this->config['plugin_prefix'];
 		$custom_field_name = 'floor_plans' === $type ? "{$field_prefix}floor_plans" : "{$field_prefix}gallery_images";
@@ -753,23 +776,23 @@ class Property {
 			$attachment_ids = array_values( $image_list );
 		} else {
 			// Image list array contains key-value pairs (attachment ID : URL).
-			if ( 'ids' === $return ) {
+			if ( 'ids' === $return_value ) {
 				return array_keys( $image_list );
-			} elseif ( 'urls' === $return ) {
+			} elseif ( 'urls' === $return_value ) {
 				return array_values( $image_list );
 			}
 
 			$attachment_ids = array_keys( $image_list );
 		}
 
-		if ( 'ids' === $return ) {
+		if ( 'ids' === $return_value ) {
 			return $attachment_ids;
 		}
 
 		$images = array();
 		if ( ! empty( $attachment_ids ) > 0 ) {
 			foreach ( $attachment_ids as $id ) {
-				if ( 'urls' === $return ) {
+				if ( 'urls' === $return_value ) {
 					$att_url = wp_get_attachment_url( $id );
 					if ( $att_url ) {
 						$images[] = $att_url;
@@ -1342,7 +1365,7 @@ class Property {
 			 * stated via shortcode attribute or the like.
 			 */
 			foreach ( $element_atts as $element_key => $atts ) {
-				if ( isset( $elements[ $element_key ] ) ) {
+				if ( isset( $elements[ $element_key ] ) && ! empty( $atts ) ) {
 					$elements[ $element_key ] = array_merge( $elements[ $element_key ], $atts );
 				}
 			}
@@ -1434,14 +1457,23 @@ class Property {
 
 		$videos = $this->post ? get_post_meta( $this->post->ID, "_{$this->config['plugin_prefix']}videos", true ) : array();
 
-		if ( empty( $videos ) ) {
-			$video_url   = ! empty( $atts['is_preview'] ) ?
-				( ! empty( $atts['video_url'] ) ? $atts['video_url'] : '' ) :
-				get_post_meta( $this->post->ID, "_{$this->config['plugin_prefix']}video_url", true );
-			$video_split = $this->utils['video']->split_video_url( $video_url );
+		if ( empty( $videos ) && ! empty( $atts['is_preview'] ) ) {
+			if ( ! empty( $atts['video_urls'] ) ) {
+				$video_urls = explode( '|', $atts['video_urls'] );
+			} elseif ( ! empty( $atts['video_url'] ) ) {
+				$video_urls = array( $atts['video_url'] );
+			}
 
-			if ( $video_split ) {
-				$videos = array( $video_split );
+			if ( ! empty( $video_urls ) ) {
+				$videos = array();
+
+				foreach ( $video_urls as $video_url ) {
+					$video_split = $this->utils['video']->split_video_url( $video_url );
+
+					if ( $video_split ) {
+						$videos[] = $video_split;
+					}
+				}
 			}
 		}
 
@@ -1667,9 +1699,15 @@ class Property {
 		global $wp;
 
 		$public_prefix = $this->config['public_prefix'];
-		$backlink_url  = $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" );
+		$backlink_url  = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" ) );
 
 		if ( $backlink_url ) {
+			$backlink_url = rawurldecode( $backlink_url );
+
+			if ( 'http' !== strtolower( substr( $backlink_url, 0, 4 ) ) ) {
+				$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
+			}
+
 			$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
 			return $backlink_url;
 		}
@@ -1783,5 +1821,19 @@ class Property {
 
 		return $backlink_url;
 	} // get_backlink_url
+
+	/**
+	 * Check if the given URL belongs to the WP site.
+	 *
+	 * @since 1.9.60
+	 *
+	 * @param string $url         The current permalink URL.
+	 * @param string $default_url Default URL or empty string (optional).
+	 *
+	 * @return string Original URL or default if invalid.
+	 */
+	private function validate_backlink_url( $url, $default_url = '' ) {
+		return $this->utils['string']->is_local_url( $url ) ? $url : $default_url;
+	} // validate_backlink_url
 
 } // Property

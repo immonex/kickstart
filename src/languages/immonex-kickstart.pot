@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.9.53-beta\n"
+"Project-Id-Version: immonex Kickstart 1.9.55-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-19T09:34:30+00:00\n"
+"POT-Creation-Date: 2025-03-05T16:40:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: immonex-kickstart\n"
@@ -40,7 +40,7 @@ msgid "https://immonex.dev/"
 msgstr ""
 
 #: includes/class-kickstart.php:309
-#: includes/class-property.php:913
+#: includes/class-property.php:920
 msgid "Price on demand"
 msgstr ""
 
@@ -413,7 +413,7 @@ msgid "Light base color for regular text in frontend elements with dark backgrou
 msgstr ""
 
 #: includes/class-kickstart.php:1101
-#: includes/class-property.php:259
+#: includes/class-property.php:264
 msgid "Demo"
 msgstr ""
 
@@ -545,7 +545,7 @@ msgid "Request consent for using location autocompletion services in the propert
 msgstr ""
 
 #: includes/class-kickstart.php:1301
-#: includes/class-property.php:1322
+#: includes/class-property.php:1329
 msgid "Videos"
 msgstr ""
 
@@ -682,11 +682,11 @@ msgstr ""
 msgid "Image Slider Background Color"
 msgstr ""
 
-#: includes/class-kickstart.php:1465
+#: includes/class-kickstart.php:1464
 msgid "Image Slider Minimum Height"
 msgstr ""
 
-#: includes/class-kickstart.php:1468
+#: includes/class-kickstart.php:1467
 msgid "Minimum height of the <strong>container element</strong> that holds the main image slider of the gallery (in pixels)."
 msgstr ""
 
@@ -867,20 +867,20 @@ msgstr ""
 
 #: includes/class-property-backend-form.php:85
 #: skins/default/property-list/list-item.php:60
-#: skins/default/single-property/head.php:120
+#: skins/default/single-property/head.php:116
 msgid "Location"
 msgstr ""
 
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
 #: includes/class-property-search.php:1019
-#: includes/class-property.php:692
-#: includes/class-property.php:1294
+#: includes/class-property.php:699
+#: includes/class-property.php:1301
 msgid "Features"
 msgstr ""
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1308
+#: includes/class-property.php:1315
 msgid "Miscellaneous"
 msgstr ""
 
@@ -898,7 +898,7 @@ msgid "Rooms"
 msgstr ""
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1235
+#: includes/class-property.php:1242
 msgid "Areas"
 msgstr ""
 
@@ -907,7 +907,7 @@ msgid "Units/Grouping"
 msgstr ""
 
 #: includes/class-property-backend-form.php:145
-#: skins/default/single-property/head.php:44
+#: skins/default/single-property/head.php:39
 msgid "Property ID"
 msgstr ""
 
@@ -1099,7 +1099,7 @@ msgid "Gallery Images"
 msgstr ""
 
 #: includes/class-property-backend-form.php:559
-#: includes/class-property.php:1299
+#: includes/class-property.php:1306
 msgid "Floor Plans"
 msgstr ""
 
@@ -1108,7 +1108,7 @@ msgid "Document Attachments (PDF)"
 msgstr ""
 
 #: includes/class-property-backend-form.php:580
-#: includes/class-property.php:688
+#: includes/class-property.php:695
 msgid "Details"
 msgstr ""
 
@@ -1172,11 +1172,11 @@ msgstr ""
 msgid "Area"
 msgstr ""
 
-#: includes/class-property-hooks.php:821
+#: includes/class-property-hooks.php:846
 msgid "Buyer's Commission"
 msgstr ""
 
-#: includes/class-property-hooks.php:821
+#: includes/class-property-hooks.php:846
 msgid "Tenant Commission"
 msgstr ""
 
@@ -1197,12 +1197,12 @@ msgid "Properties with"
 msgstr ""
 
 #: includes/class-property-map.php:217
-#: includes/class-property.php:1072
+#: includes/class-property.php:1079
 msgid "Data from <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> - Published under <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL</a>"
 msgstr ""
 
 #: includes/class-property-map.php:224
-#: includes/class-property.php:1079
+#: includes/class-property.php:1086
 msgid "map data: © <a href=\"https://openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"https://viewfinderpanoramas.org/\" target=\"_blank\">SRTM</a> | map style: © <a href=\"https://opentopomap.org\" target=\"_blank\">OpenTopoMap</a> (<a href=\"https://creativecommons.org/licenses/by-sa/3.0/\"\">CC-BY-SA</a>)"
 msgstr ""
 
@@ -1369,85 +1369,85 @@ msgstr ""
 msgid "taxonomy term checkboxes"
 msgstr ""
 
-#: includes/class-property.php:250
+#: includes/class-property.php:255
 msgid "for sale"
 msgstr ""
 
-#: includes/class-property.php:275
+#: includes/class-property.php:280
 msgid "Information Brochure"
 msgstr ""
 
-#: includes/class-property.php:283
-#: includes/class-property.php:289
+#: includes/class-property.php:288
+#: includes/class-property.php:294
 msgid "E-Mail"
 msgstr ""
 
-#: includes/class-property.php:290
-#: includes/class-property.php:309
+#: includes/class-property.php:295
+#: includes/class-property.php:314
 msgid "Head Office"
 msgstr ""
 
-#: includes/class-property.php:296
-#: includes/class-property.php:308
+#: includes/class-property.php:301
+#: includes/class-property.php:313
 msgid "Phone"
 msgstr ""
 
-#: includes/class-property.php:302
-#: includes/class-property.php:315
+#: includes/class-property.php:307
+#: includes/class-property.php:320
 msgid "Mobile"
 msgstr ""
 
-#: includes/class-property.php:326
+#: includes/class-property.php:331
 msgid "Spacious house in an excellent location"
 msgstr ""
 
-#: includes/class-property.php:327
+#: includes/class-property.php:332
 msgid "123 Fake Street, 99123 Demotown"
 msgstr ""
 
-#: includes/class-property.php:328
+#: includes/class-property.php:333
 msgid "Residential Property"
 msgstr ""
 
-#: includes/class-property.php:329
+#: includes/class-property.php:334
 msgid "Houses"
 msgstr ""
 
-#: includes/class-property.php:329
+#: includes/class-property.php:334
 msgid "Single-family Home"
 msgstr ""
 
-#: includes/class-property.php:684
+#: includes/class-property.php:691
 msgid "The Property"
 msgstr ""
 
-#: includes/class-property.php:696
+#: includes/class-property.php:703
 msgid "Energy Pass"
 msgstr ""
 
-#: includes/class-property.php:700
+#: includes/class-property.php:707
 msgid "Location & Infrastructure"
 msgstr ""
 
-#: includes/class-property.php:704
-#: includes/class-property.php:1230
+#: includes/class-property.php:711
+#: includes/class-property.php:1237
 msgid "Prices"
 msgstr ""
 
-#: includes/class-property.php:708
-#: includes/class-property.php:1312
+#: includes/class-property.php:715
+#: includes/class-property.php:1319
 msgid "Downloads & Links"
 msgstr ""
 
-#: includes/class-property.php:870
+#: includes/class-property.php:877
 msgid "Demotown"
 msgstr ""
 
-#: includes/class-property.php:1240
+#: includes/class-property.php:1247
 msgid "Condition & Development"
 msgstr ""
 
-#: includes/class-property.php:1332
+#: includes/class-property.php:1339
 #: skins/default/single-property/contact-person.php:103
 msgid "Your contact person with us"
 msgstr ""
@@ -2447,14 +2447,14 @@ msgstr ""
 msgid "PDF preview image"
 msgstr ""
 
-#: skins/default/single-property/gallery.php:302
-#: skins/default/single-property/gallery.php:339
+#: skins/default/single-property/gallery.php:306
+#: skins/default/single-property/gallery.php:343
 #: skins/default/single-property/video-gallery.php:53
 #: skins/default/single-property/video.php:41
 msgid "Privacy Policy"
 msgstr ""
 
-#: skins/default/single-property/gallery.php:413
+#: skins/default/single-property/gallery.php:417
 #: skins/default/single-property/video-gallery.php:105
 msgid "play icon"
 msgstr ""

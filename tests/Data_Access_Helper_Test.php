@@ -15,7 +15,7 @@ class Data_Access_Helper_Test extends WP_UnitTestCase {
 	private $areas;
 	private $prices;
 
-	public function setUp() {
+	public function setUp(): void {
 		$kickstart = new Kickstart( 'immonex-kickstart' );
 		$this->dah = new Data_Access_Helper(
 			$kickstart->plugin_options,

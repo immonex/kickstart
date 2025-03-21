@@ -265,7 +265,7 @@ class Property_Search {
 		if ( count( $elements ) > 0 ) {
 			foreach ( $elements as $id => $element ) {
 				if ( isset( $element['extended'] ) && $element['extended'] ) {
-					$extended_count++;
+					++$extended_count;
 				}
 			}
 		}
@@ -1053,7 +1053,7 @@ class Property_Search {
 
 		uasort(
 			$elements,
-			function( $a, $b ) {
+			function ( $a, $b ) {
 				if ( $a['order'] === $b['order'] ) {
 					return 0;
 				}
@@ -1064,7 +1064,7 @@ class Property_Search {
 		if ( $enabled_only ) {
 			$elements = array_filter(
 				$elements,
-				function( $element ) {
+				function ( $element ) {
 					return isset( $element['enabled'] ) && $element['enabled'];
 				}
 			);
@@ -1383,74 +1383,72 @@ class Property_Search {
 
 							$meta_query[] = $fulltext_fields_subquery;
 						}
-					} else {
-						if ( is_array( $value ) && 2 === count( $value ) ) {
-							if ( (int) $value[0] > 0 && (int) $value[1] <= (int) $value[0] ) {
-								$value[1] = PHP_INT_MAX;
-							}
+					} elseif ( is_array( $value ) && 2 === count( $value ) ) {
+						if ( (int) $value[0] > 0 && (int) $value[1] <= (int) $value[0] ) {
+							$value[1] = PHP_INT_MAX;
+						}
 
-							// Number range given.
+						// Number range given.
+						$meta_query[] = array(
+							'key'     => $element['key'],
+							'value'   => $value,
+							'type'    => 'numeric',
+							'compare' => 'BETWEEN',
+						);
+					} elseif ( is_array( $value ) && 4 === count( $value ) ) {
+						/**
+						 * Number range including initial min/max values given
+						 * (ignore if values match initial values).
+						 */
+						if (
+							$value[0] !== $value[2] ||
+							$value[1] !== $value[3]
+						) {
 							$meta_query[] = array(
 								'key'     => $element['key'],
-								'value'   => $value,
+								'value'   => array( $value[0], $value[1] ),
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
 							);
-						} elseif ( is_array( $value ) && 4 === count( $value ) ) {
-							/**
-							 * Number range including initial min/max values given
-							 * (ignore if values match initial values).
-							 */
-							if (
-								$value[0] !== $value[2] ||
-								$value[1] !== $value[3]
-							) {
-								$meta_query[] = array(
-									'key'     => $element['key'],
-									'value'   => array( $value[0], $value[1] ),
-									'type'    => 'numeric',
-									'compare' => 'BETWEEN',
-								);
+						}
+					} else {
+						// Single value given (eventually with min/max range).
+						if ( is_array( $value ) ) {
+							$value = $value[0];
+						}
+
+						if ( ! empty( $element['compare'] ) && preg_match( '/(,|:)/', $element['compare'] ) ) {
+							// Value-related compare options given.
+							$compare         = '';
+							$default_compare = '=';
+							$compare_options = explode( ',', $element['compare'] );
+
+							foreach ( $compare_options as $option ) {
+								if ( false !== strpos( $option, ':' ) ) {
+									list( $compare_value, $compare_option ) = explode( ':', $option );
+
+									if ( $compare_value === (string) $value ) {
+										$compare = $compare_option;
+										break;
+									}
+								} else {
+									$default_compare = $option;
+								}
+							}
+
+							if ( ! $compare ) {
+								$compare = $default_compare;
 							}
 						} else {
-							// Single value given (eventually with min/max range).
-							if ( is_array( $value ) ) {
-								$value = $value[0];
-							}
-
-							if ( ! empty( $element['compare'] ) && preg_match( '/(,|:)/', $element['compare'] ) ) {
-								// Value-related compare options given.
-								$compare         = '';
-								$default_compare = '=';
-								$compare_options = explode( ',', $element['compare'] );
-
-								foreach ( $compare_options as $option ) {
-									if ( false !== strpos( $option, ':' ) ) {
-										list( $compare_value, $compare_option ) = explode( ':', $option );
-
-										if ( $compare_value === (string) $value ) {
-											$compare = $compare_option;
-											break;
-										}
-									} else {
-										$default_compare = $option;
-									}
-								}
-
-								if ( ! $compare ) {
-									$compare = $default_compare;
-								}
-							} else {
-								$compare = ! empty( $element['compare'] ) ? $element['compare'] : '=';
-							}
-
-							$meta_query[] = array(
-								'key'     => $element['key'],
-								'value'   => $value,
-								'type'    => ! empty( $element['numeric'] ) ? 'NUMERIC' : 'CHAR',
-								'compare' => $compare,
-							);
+							$compare = ! empty( $element['compare'] ) ? $element['compare'] : '=';
 						}
+
+						$meta_query[] = array(
+							'key'     => $element['key'],
+							'value'   => $value,
+							'type'    => ! empty( $element['numeric'] ) ? 'NUMERIC' : 'CHAR',
+							'compare' => $compare,
+						);
 					}
 			}
 		}
@@ -1758,19 +1756,19 @@ class Property_Search {
 	 * @param \WP_Term[]  $terms              Array of WP term objects.
 	 * @param string|bool $option_text_source Source of the option text or false to use
 	 *                                        the term name (default).
-	 * @param int         $parent             Parent term ID (optional, defaults to 0).
+	 * @param int         $parent_id          Parent term ID (optional, defaults to 0).
 	 * @param int         $level              Start level (optional, defaults to 0).
 	 * @param bool        $top_level_only     Optional flag for returning only top-level options
 	 *                                        (false by default).
 	 *
 	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
 	 */
-	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent = 0, $level = 0, $top_level_only = false ) {
+	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent_id = 0, $level = 0, $top_level_only = false ) {
 		$level_options = array();
 
 		if ( count( $terms ) > 0 ) {
 			foreach ( $terms as $term ) {
-				if ( $term->parent === $parent ) {
+				if ( $term->parent === $parent_id ) {
 					$option_text = $option_text_source && 'description' === $option_text_source && $term->description ?
 						$term->description :
 						$term->name;

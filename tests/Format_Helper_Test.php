@@ -12,7 +12,7 @@ class Format_Helper_Test extends WP_UnitTestCase {
 
 	private $fh;
 
-	public function setUp() {
+	public function setUp(): void {
 		$kickstart = new Kickstart( 'immonex-kickstart' );
 		$this->fh = new Format_Helper( $kickstart->plugin_options, $kickstart->utils );
 

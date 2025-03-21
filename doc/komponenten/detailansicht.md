@@ -88,6 +88,10 @@ Die Darstellung der Galerie-Elemente (`gallery`, `video_gallery`, `floor_plans`,
 | `animation_type` | Art der Übergangsanimation (*slide*, *fade*, *pull* , *push* – Standard bei `gallery` und *scale* – Standard bei `video_gallery`, `floor_plans` und `epass_images`  |
 | `enable_caption_display` | Titel/Bezeichnungen der Bilder/Videos anzeigen, falls vorhanden: *1* (ja, Standard) oder *0* (nein) |
 | `enable_ken_burns_effect` | *Ken-Burns-Effekt* (Bildanimation) aktivieren: *1* (ja, Standard) oder *0* (nein) |
+| `ken_burns_effect_display_mode` | *Darstellungsmodus* des Ken-Burns-Effekts: Ein komplett ausgefülltes Container-Element wirkt im Regelfall optisch ansprechender, allerdings können manche Bilder hierbei nach der Animation horizontal "zugeschnitten" dargestellt werden (abhängig von den unterschiedlichen Seitenverhältnissen der Galeriebilder). Werden die Bilder immer vollständig angezeigt, können hieraus im Gegenzug leere Flächen am oberen und/oder unteren Rand des Container-Elements resultieren. |
+| | *cover* : Container-Element vollständig ausfüllen |
+| | *full_center* : Bilder vollständig anzeigen (zentriert, Standard) |
+| | *full_top* : Bilder vollständig anzeigen (oben) |
 
 ##### Video
 
@@ -120,7 +124,7 @@ Der Standard-Kartenmarker (*SVG*): Größe, Farbe, Linienstärke und Transparenz
 | | *gmap_hybrid* : Google Map *Hybrid* mit Marker (Satellitenbilder mit Straßenkarten-Ebene) |
 | | *gmap_embed* : Google Umgebungskarte mit Ort oder Stadtteil (Straßenkarten) |
 | | *gmap_embed_sat* : Google Umgebungskarte mit Ort oder Stadtteil (Satellitenbilder mit Straßenkarten-Ebene) |
-| `template` | alternative **PHP**-Template-Datei im [Skin-Ordner](/anpassung-erweiterung/skins) (relativer Pfad, Standard: *property-list/map*) |
+| `template` | alternative **PHP**-Template-Datei im [Skin-Ordner](/anpassung-erweiterung/skins) (relativer Pfad, Standard: *single-property/location-map*) |
 | `marker_fill_color` | Marker-Füllfarbe (Standard: <span style="font-weight:500; font-style:italic; color:#E77906">#E77906</span>) |
 | `marker_fill_opacity` | Marker-Transparenz (*0 - 1*, Standard: *0.8*) |
 | `marker_stroke_color` | Marker-Linienfarbe (Standard: <span style="font-weight:500; font-style:italic; color:#404040">#404040</span>) |

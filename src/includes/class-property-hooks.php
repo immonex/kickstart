@@ -63,11 +63,16 @@ class Property_Hooks {
 			add_action( 'send_headers', array( $this, 'maybe_disable_detail_view' ) );
 		}
 
+		if ( ! empty( $_GET['inx-backlink-url'] ) ) {
+			add_filter( 'template_include', array( $this, 'validate_backlink_url' ), 0 );
+		}
+
 		add_filter( 'single_template', array( $this, 'register_single_property_template' ) );
 		add_filter( 'archive_template', array( $this, 'register_property_archive_template' ) );
 		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
 		add_filter( 'the_title', array( $this, 'update_template_page_title' ), 10, 2 );
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
+		add_filter( 'post_thumbnail_id', array( $this, 'maybe_get_property_featured_image_id' ), 10, 2 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 
 		// @codingStandardsIgnoreLine
@@ -282,42 +287,74 @@ class Property_Hooks {
 
 	/**
 	 * Dynamically replace the featured image of a template page for property
-	 * detail views with the related real property image.
+	 * detail views with the related real property image (filter callback).
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param null|array|string $null The value get_metadata() should return as
-	 *                                single metadata value, or an array of values.
+	 * @param null|array|string $org_id The value get_metadata() should return as
+	 *                                  single metadata value, or an array of values.
 	 * @param int               $object_id Post ID.
 	 * @param string            $meta_key Meta key.
 	 * @param string|string[]   $single Single meta value or an array of values.
 	 *
 	 * @return int|string Alternative featured image ID if required.
 	 */
-	public function update_template_page_featured_image( $null, $object_id, $meta_key, $single ) {
+	public function update_template_page_featured_image( $org_id, $object_id, $meta_key, $single ) {
 		if (
 			'_thumbnail_id' !== $meta_key
 			|| is_admin()
 			|| empty( $this->config['property_details_page_id'] )
-			|| $object_id !== $this->config['property_details_page_id']
+			|| $object_id !== (int) $this->config['property_details_page_id']
 		) {
-			return $null;
+			return $org_id;
 		}
 
 		remove_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
-		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
-		if ( false === $property_post_id ) {
-			return $null;
+		$property_id = apply_filters( 'inx_current_property_post_id', null );
+		if ( ! $property_id ) {
+			return $org_id;
 		}
-		$property_featured_image_id = get_post_thumbnail_id( $property_post_id );
+		$property_featured_image_id = get_post_thumbnail_id( $property_id );
 		add_filter( 'get_post_metadata', array( $this, __FUNCTION__ ), 10, 4 );
 
 		if ( $property_featured_image_id ) {
 			return $property_featured_image_id;
 		}
 
-		return $null;
+		return $org_id;
 	} // update_template_page_featured_image
+
+	/**
+	 * Dynamically replace the featured image ID of a template page or the like
+	 * for property detail views with the related real property image
+	 * (filter callback).
+	 *
+	 * @since 1.9.56-beta
+	 *
+	 * @param int|bool          $featured_image_id Post thumbnail ID or false if the post does not exist.
+	 * @param int|\WP_Post|null $post Post ID or WP_Post object. Default is global `$post`.
+	 *
+	 * @return int|string Alternative featured image ID if required.
+	 */
+	public function maybe_get_property_featured_image_id( $featured_image_id, $post ) {
+		$post_id = is_object( $post ) ? $post->ID : $post;
+
+		if (
+			is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| (int) $post_id !== (int) $this->config['property_details_page_id']
+			|| get_post_type( $post ) === $this->config['property_post_type_name']
+		) {
+			return $featured_image_id;
+		}
+
+		$property_id = apply_filters( 'inx_current_property_post_id', null );
+		if ( $property_id ) {
+			return (int) get_post_meta( $property_id, '_thumbnail_id', true );
+		}
+
+		return $featured_image_id;
+	} // maybe_get_property_featured_image_id
 
 	/**
 	 * Retrieve all data and tools relevant for rendering a property template
@@ -1094,6 +1131,34 @@ class Property_Hooks {
 
 		return $need_override_location;
 	} // maybe_override_elementor_location
+
+	/**
+	 * Perform a pre-render of a backlink URL supplied via GET parameter.
+	 * If it's not a local one, send a 404 header and template
+	 * (filter callback).
+	 *
+	 * @since 1.9.60
+	 *
+	 * @param string $template Template file path.
+	 *
+	 * @return string Original or 404 template path.
+	 */
+	public function validate_backlink_url( $template ) {
+		$backlink_url = ! empty( $_GET['inx-backlink-url'] ) ?
+			wp_strip_all_tags( wp_unslash( $_GET['inx-backlink-url'] ) ) : '';
+
+		if ( $backlink_url && ! $this->utils['string']->is_local_url( $backlink_url ) ) {
+			global $wp_query;
+
+			$wp_query->set_404();
+			status_header( 404 );
+			nocache_headers();
+
+			$template = get_404_template();
+		}
+
+		return $template;
+	} // validate_backlink_url
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

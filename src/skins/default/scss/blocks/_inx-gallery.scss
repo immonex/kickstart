@@ -31,14 +31,35 @@
 	}
 
 	&.uk-animation-kenburns {
-		display: var(--inx-gallery-kenburns-image-display, block);
-		align-items: var(--inx-gallery-kenburns-align);
-		justify-content: var(--inx-gallery-kenburns-align);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
 		img {
-			top: var(--inx-gallery-kenburns-image-top, auto);
-			height: var(--inx-gallery-kenburns-image-height, 100%);
+			top: auto;
+			height: auto;
 		}
+	}
+}
+
+.inx-gallery--kbe-mode--cover {
+	.inx-gallery__image.uk-animation-kenburns {
+		display: block;
+
+		img {
+			height: 100%;
+		}
+	}
+}
+
+.inx-gallery--kbe-mode--full-top {
+	.inx-gallery__image.uk-animation-kenburns {
+		align-items: start;
+		justify-content: start;
+	}
+
+	img {
+		top: 0;
 	}
 }
 

@@ -43,7 +43,7 @@ get_header();
 	</header>
 
 	<div uk-grid>
-		<div class="inx-property-archive__main-content inx-container uk-width-expand@m">
+		<div class="inx-property-archive__main-content uk-width-expand@m">
 			<?php
 			if ( $immonex_kickstart->property_list_map_display_by_default ) {
 				do_action( 'inx_render_property_map', $inx_skin_tax_archive_args );

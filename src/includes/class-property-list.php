@@ -82,7 +82,7 @@ class Property_List {
 		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
 		$atts['list_query_atts'] = array_filter(
 			$atts,
-			function( $value, $key ) {
+			function ( $value, $key ) {
 				return $value && 'inx-' === substr( $key, 0, 4 );
 			},
 			ARRAY_FILTER_USE_BOTH
@@ -208,7 +208,7 @@ class Property_List {
 			 * Regular page in use for archives: map taxonomy data to search fields.
 			 */
 			$inx_taxonomies = array_map(
-				function( $tax_name ) {
+				function ( $tax_name ) {
 					return preg_replace( '/^' . $this->config['plugin_prefix'] . '/', '', $tax_name );
 				},
 				array_keys( apply_filters( 'inx_get_taxonomies', array() ) )

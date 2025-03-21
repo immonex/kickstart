@@ -53,16 +53,14 @@ if ( ! have_posts() ) {
 				<ul class="inx-property-list__slider-dotnav uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
 			</div>
 			<?php
-		else :
-			if ( ! empty( $template_data['no_results_text'] ) ) :
-				?>
+		elseif ( ! empty( $template_data['no_results_text'] ) ) :
+			?>
 
 		<div class="inx-property-list__no-properties">
 			<p><?php echo $template_data['no_results_text']; ?></p>
 		</div>
 
-				<?php
-			endif;
+			<?php
 		endif;
 		?>
 	</div>

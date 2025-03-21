@@ -1,6 +1,5 @@
 <template>
 	<div :class="classes">
-		&nbsp;
 		<div class="inx-property-location-map__consent" v-show="!consentGranted && requireConsent">
 			<p class="inx-property-location-map__privacy-note" v-html="privacyNote"></p>
 			<button class="inx-button inx-button--action uk-button uk-button-primary" @click="grantConsent">{{ showMapButtonText }}</button>

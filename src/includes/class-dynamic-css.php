@@ -174,7 +174,7 @@ class Dynamic_CSS {
 				if ( preg_match( '/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([0-9.]+)\)/i', $value, $matches ) ) {
 					$value   = $this->utils['color']->rgb2hex( array( $matches[1], $matches[2], $matches[3] ) );
 					$opacity = $matches[4];
-				};
+				}
 			}
 
 			if ( ! isset( $defaults[ "{$property}-lighter" ] ) ) {
@@ -230,14 +230,6 @@ class Dynamic_CSS {
 					$this->plugin_options['gallery_image_slider_bg_color'] : 'transparent',
 				'--inx-gallery-image-slider-min-height' => $this->plugin_options['gallery_image_slider_min_height'] ?
 					$this->plugin_options['gallery_image_slider_min_height'] . 'px' : 'initial',
-				'--inx-gallery-kenburns-image-height'   => 'cover' === $this->plugin_options['ken_burns_effect_display_mode'] ?
-					'100%' : 'auto',
-				'--inx-gallery-kenburns-image-display'  => 'cover' === $this->plugin_options['ken_burns_effect_display_mode'] ?
-					'block' : 'flex',
-				'--inx-gallery-kenburns-align'          => 'full_top' === $this->plugin_options['ken_burns_effect_display_mode'] ?
-					'top' : 'center',
-				'--inx-gallery-kenburns-image-top'      => 'full_top' === $this->plugin_options['ken_burns_effect_display_mode'] ?
-					'0' : 'auto',
 			),
 		);
 

@@ -47,16 +47,14 @@ if ( ! have_posts() ) {
 
 				<?php
 			endwhile;
-		else :
-			if ( ! empty( $template_data['no_results_text'] ) ) :
-				?>
+		elseif ( ! empty( $template_data['no_results_text'] ) ) :
+			?>
 
-				<div class="inx-property-list__no-properties">
-					<p><?php echo $template_data['no_results_text']; ?></p>
-				</div>
+			<div class="inx-property-list__no-properties">
+				<p><?php echo $template_data['no_results_text']; ?></p>
+			</div>
 
-				<?php
-			endif;
+			<?php
 		endif;
 		?>
 	</div>

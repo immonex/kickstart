@@ -123,7 +123,7 @@ if ( $inx_skin_show_video ) {
 }
 
 if ( $inx_skin_show_virtual_tour ) {
-	$inx_skin_media_count++;
+	++$inx_skin_media_count;
 }
 
 if ( $inx_skin_media_count > 0 ) :
@@ -238,8 +238,11 @@ if ( $inx_skin_media_count > 0 ) :
 	if ( ! $inx_skin_has_valid_ken_burns_image ) {
 		$inx_skin_enable_ken_burns_effect = false;
 	}
+
+	$inx_skin_kbe_mode_class = $inx_skin_enable_ken_burns_effect && ! empty( $template_data['kbe_mode_class'] ) ?
+		' ' . $template_data['kbe_mode_class'] : '';
 	?>
-<div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom">
+<div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom<?php echo $inx_skin_kbe_mode_class; ?>">
 	<?php
 	if ( isset( $template_data['headline'] ) ) {
 		echo $utils['format']->get_heading( $template_data['headline'], $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' );}

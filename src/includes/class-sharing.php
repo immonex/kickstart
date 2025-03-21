@@ -373,7 +373,7 @@ abstract class Sharing {
 				);
 			}
 
-			$image_count++;
+			++$image_count;
 			if (
 				-1 !== $max_images
 				&& $image_count >= $max_images

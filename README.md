@@ -23,7 +23,7 @@ Kickstart can be extended by *custom skins* (template sets) and *add-on plugins*
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [npm (Node.js)](https://www.npmjs.com/get-npm)
 - [Composer](https://getcomposer.org/)
-- [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+- [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/)
 - [WordPress Coding Standards for PHP_CodeSniffer](https://github.com/WordPress/WordPress-Coding-Standards)
 - [WP-CLI](https://wp-cli.org/)
 - ready-to-go [WordPress](https://wordpress.org/download/) installation on a local webserver
