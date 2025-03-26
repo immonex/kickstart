@@ -7,8 +7,7 @@ $marketing-type-color-map: (
 );
 
 @each $oi-type, $type in $marketing-type-color-map {
-	.inx-oi--vermarktungsart--#{$oi-type},
-	.inx-link.inx-oi--vermarktungsart--#{$oi-type} {
+	.inx-oi--vermarktungsart--#{$oi-type} {
 		color: var(--inx-color-marketing-type-#{$type});
 		@include unified-active-link-states(var(--inx-color-marketing-type-#{$type}));
 	}
@@ -19,12 +18,8 @@ $marketing-type-color-map: (
 	}
 }
 
-.inx-oi--inverted,
-.inx-link.inx-oi--inverted {
+.inx-oi--inverted {
 	color: var(--inx-color-text-inverted-default);
 
-	@at-root a#{&} {
-		color: var(--inx-color-action-element-inverted);
-	}
 	@include unified-active-link-states(var(--inx-color-action-element-inverted));
 }

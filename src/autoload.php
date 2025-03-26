@@ -76,10 +76,11 @@ if ( ! is_callable( __NAMESPACE__ . '\autoload' ) ) {
 		 */
 		$fully_qualified_path = trailingslashit( __DIR__ ) . 'includes/';
 		$cnt_file_path        = count( $file_path ) - 1;
+		$cnt_ns_separators    = substr_count( __NAMESPACE__, '\\' );
 
-		for ( $i = 2; $i < $cnt_file_path; $i++ ) {
-			$dir                   = strtolower( $file_path[ $i ] );
-			$fully_qualified_path .= trailingslashit( $dir );
+		for ( $i = $cnt_ns_separators + 1; $i < $cnt_file_path; $i++ ) {
+			$dir                   = preg_replace( '/([a-z])([A-Z])/', '$1-$2', $file_path[ $i ] );
+			$fully_qualified_path .= trailingslashit( strtolower( $dir ) );
 		}
 		$fully_qualified_path .= $file_name;
 

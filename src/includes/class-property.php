@@ -305,43 +305,63 @@ class Property {
 			);
 
 			$contact_details = array(
-				array(
-					'title' => __( 'E-Mail', 'immonex-kickstart' ),
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.email_direkt',
-					'value' => 'elena.example@immonex.one',
-				),
-				array(
-					'title' => __( 'E-Mail', 'immonex-kickstart' )
-						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.email_zentrale',
-					'value' => 'info@immonex.one',
-				),
-				array(
-					'title' => __( 'Phone', 'immonex-kickstart' ),
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.tel_durchw',
-					'value' => '+49 9999 1234568',
-				),
-				array(
-					'title' => __( 'Mobile', 'immonex-kickstart' ),
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.tel_handy',
-					'value' => '+49 12345 987654321',
-				),
-				array(
-					'title' => __( 'Phone', 'immonex-kickstart' )
-						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.tel_zentrale',
-					'value' => '+49 9999 1234567',
-				),
-				array(
-					'title' => __( 'Mobile', 'immonex-kickstart' ),
-					'group' => 'kontakt',
-					'name'  => 'kontaktperson.tel_fax',
-					'value' => '+49 9999 1234569',
+				'ungruppiert' => [
+					array(
+						'name'  => 'kontaktperson.ansprechpartner',
+						'value' => _x( 'Elena Example', 'sample data', 'immonex-kickstart' ),
+					),
+					array(
+						'name'  => 'kontaktperson.freitextfeld',
+						'value' => _x( 'I am a demo contact person for this property.', 'sample data', 'immonex-kickstart' ),
+					),
+					array(
+						'name'  => 'kontaktperson.firma',
+						'value' => _x( 'immonex ONE Demo Immobilien', 'sample data', 'immonex-kickstart' ),
+					),
+					array(
+						'name'  => 'kontaktperson.adresse',
+						'value' => _x( 'Demo Alley 1, 99999 Demotown', 'sample data', 'immonex-kickstart' ),
+					),
+				],
+				'kontakt'     => array(
+					array(
+						'title' => __( 'E-Mail', 'immonex-kickstart' ),
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.email_direkt',
+						'value' => 'elena.example@immonex.one',
+					),
+					array(
+						'title' => __( 'E-Mail', 'immonex-kickstart' )
+							. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.email_zentrale',
+						'value' => 'info@immonex.one',
+					),
+					array(
+						'title' => __( 'Phone', 'immonex-kickstart' ),
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.tel_durchw',
+						'value' => '+49 9999 1234568',
+					),
+					array(
+						'title' => __( 'Mobile', 'immonex-kickstart' ),
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.tel_handy',
+						'value' => '+49 12345 987654321',
+					),
+					array(
+						'title' => __( 'Phone', 'immonex-kickstart' )
+							. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.tel_zentrale',
+						'value' => '+49 9999 1234567',
+					),
+					array(
+						'title' => __( 'Fax', 'immonex-kickstart' ),
+						'group' => 'kontakt',
+						'name'  => 'kontaktperson.tel_fax',
+						'value' => '+49 9999 1234569',
+					),
 				),
 			);
 
@@ -349,8 +369,8 @@ class Property {
 				$this->config,
 				$core_data,
 				array(
-					'title'                => __( 'Spacious house in an excellent location', 'immonex-kickstart' ),
-					'full_address'         => __( '123 Fake Street, 99123 Demotown', 'immonex-kickstart' ),
+					'title'                => _x( 'Spacious house in an excellent location', 'sample data', 'immonex-kickstart' ),
+					'full_address'         => _x( '123 Fake Street, 99123 Demotown', 'sample data', 'immonex-kickstart' ),
 					'type_of_use'          => __( 'Residential Property', 'immonex-kickstart' ),
 					'property_type'        => __( 'Houses', 'immonex-kickstart' ) . ' &gt; ' . __( 'Single-family Home', 'immonex-kickstart' ),
 					'labels'               => $labels,
@@ -360,9 +380,7 @@ class Property {
 					'links'                => array(),
 					'overview_url'         => '#',
 					'kbe_mode_class'       => $kbe_mode_class,
-					'details'              => array(
-						'kontakt' => $contact_details,
-					),
+					'details'              => $contact_details,
 				),
 				$atts
 			);

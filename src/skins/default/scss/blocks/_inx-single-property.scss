@@ -195,8 +195,15 @@ ul.inx-single-property__tab-nav.uk-tab {
 	justify-content: center;
 }
 
-.inx-single-property__contact-person-name-bio > strong:first-child {
-	font-size: 1.2em;
+.inx-single-property__contact-person-name-bio {
+	> strong:first-child {
+		font-size: 1.2em;
+	}
+
+	p:last-child,
+	.inx-single-property__contact-person-bio p:last-child {
+		margin-bottom: 0;
+	}
 }
 
 @media screen and (min-width: $screen-m) {

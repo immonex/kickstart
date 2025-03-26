@@ -1,10 +1,10 @@
 === immonex Kickstart ===
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
-Requires at least: 5.1
+Requires at least: 5.5
 Tested up to: 6.8
-Stable Tag: 1.9.60
-Requires PHP: 5.6
+Stable Tag: 1.10.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,13 +28,13 @@ tl;dr
 
 [OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for real estate professionals (as import/export interfaces).
 
-Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into the specific WordPress/theme/plugin data structures of the destination site.
+immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solution for importing OpenImmo-XML data into WordPress sites with support for the specific data structures of various popular real estate themes and frontend plugins.
 
 = Main Features =
 
 * Custom post type for properties
 * Extendable custom taxonomies (property type, usage type, marketing type, project, location, features, labels)
-* Special status flags per real estate object (reference, available, sold...)
+* Special status flags per real estate object (reference, available, sold ...)
 * Flexible real estate search form
 * Area/Radius search (Photon or Google Maps autocomplete)
 * Property list and detail views
@@ -62,23 +62,23 @@ Plugins like immonex OpenImmo2WP [2] are used to import OpenImmo-XML data into t
 * Compatible with immonex Energy Scale Pro (energy class visualization) [2]
 * Compatible with immonex Notify (real estate e-mail marketing/automation) [2]
 
-= Add-Ons =
+= Add-ons =
 
 * **[Team](https://wordpress.org/plugins/immonex-kickstart-team/)**: Extended real estate agency/agent data handling and property related contact forms
 * **[Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows)**: Real estate slideshows for display presentation in shop windows and public areas [2]
 * **Print** (to be released soon): Generation of PDF exposés for printing and sharing
-* **Elementor** (to be released soon): Elementor widgets for Kickstart frontend components
+* **Elementor** (to be released soon): Elementor widgets and dynamic tags for Kickstart frontend components
 
 == Installation ==
 
-1. WordPress backend: *Plugins > Add New > Upload Plugin* [1]
-2. Select the plugin ZIP file and click the install button.
-3. Activate the plugin after successful installation.
-4. Check/Modify the default plugin options under *immonex > Settings*.
-5. OPTIONAL: Install the [Team add-on](https://wordpress.org/plugins/immonex-kickstart-team/) for extended agency/agent data handling and contact forms.
-6. Install immonex OpenImmo2WP or another compatible OpenImmo import plugin and perform a first import. [2]
-7. OPTIONAL: Create pages as templates for property lists and/or detail views including the following shortcodes.
-8. OPTIONAL: Add Kickstart shortcodes to arbitrary pages or page builder elements as needed, e.g. for embedding property search forms or teaser lists.
+immonex Kickstart is available in the official [WordPress Plugin Directory](https://wordpress.org/plugins/) and can be installed via the WordPress backend.
+
+1. *Plugins > Add New > Search for "immonex" ...* [1]
+2. Check/Adjust the default plugin options under *immonex > Settings*.
+3. OPTIONAL: Install the [Team add-on](https://wordpress.org/plugins/immonex-kickstart-team/) for extended agency/agent data handling and contact forms.
+4. Install immonex OpenImmo2WP or another compatible OpenImmo import plugin and perform a first import. [2]
+5. OPTIONAL: Create pages as templates for property lists and/or detail views including the following shortcodes.
+6. OPTIONAL: Add Kickstart shortcodes to arbitrary pages or page builder elements as needed, e.g. for embedding property search forms or teaser lists.
 
 = Kickstart Shortcodes =
 
@@ -91,7 +91,7 @@ Property Detail View: `[inx-property-details]`
 
 (See documentation mentioned below for attributes and further details.)
 
-[1] Alternative: Unzip the plugin ZIP archive, copy it to the folder `wp-content/plugins` and activate the plugin in the WordPress backend under *Plugins > Installed Plugins* afterwards.
+[1] Alternatives: Download an installation ZIP file from the WP Plugin Directory or immonex.dev and select *Upload Plugin* **or** manually unzip and transfer it to the folder `wp-content/plugins`. In the latter case, activating the plugin under *Plugins > Installed Plugins* is required afterwards.
 
 [2] Current and fully functional versions of premium immonex plugins as well as OpenImmo demo data are available **free of charge** at the [immonex Developer Portal](https://immonex.dev/) for testing/development and demonstration purposes.
 
@@ -120,6 +120,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.10.0 =
+* Release date: 2025-03-26
+* Fixed a platform compatibility issue (new minimum PHP version: 7.4).
+* Added demo data (Elementor add-on).
+* Added some minor default template and CSS tweaks.
+
 = 1.9.60 =
 * Release date: 2025-03-21
 * Added backend plugin options for adjusting skin colors.
@@ -136,13 +142,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2024-11-21
 * Fixed minor gallery and map bugs.
 * Updated dependencies.
-
-= 1.9.43 =
-* Release date: 2024-11-20
-* Reworked video embedding in property detail pages.
-* Added demo data and prepared the default skin for the upcoming Elementor add-on release.
-* Fixed a minor feature selection bug in the property search form.
-* Updated gallery CSS to fix a display issue with the latest Chrome version.
-* Updated dependencies (improved WP 6.7 compatibility).
 
 See changelog.txt for the complete version history.

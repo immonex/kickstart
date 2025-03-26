@@ -32,7 +32,7 @@ Kickstart can be extended by *custom skins* (template sets) and *add-on plugins*
 
 **We keep it simple and rely on battle-proven standards and best practices whenever possible!**
 
-- PHP compatibility: 5.6+ (switch to 8 envisaged for future releases)
+- PHP compatibility: 7.4+ (switch to 8 envisaged for future releases)
 - Coding Standard (PHP): [WordPress PHP Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/)
 - Git branching strategy: [GitHub flow](https://guides.github.com/introduction/flow/)
 - Git commit messages: [Conventional Commits](https://www.conventionalcommits.org/)

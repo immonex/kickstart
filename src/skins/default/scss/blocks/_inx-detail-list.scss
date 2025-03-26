@@ -1,5 +1,13 @@
 ul.inx-detail-list {
 	list-style-type: none !important;
+
+	&.uk-grid:not(.uk-grid-small) {
+		margin-left: -30px;
+	}
+
+	&.uk-grid-small {
+		margin-left: -15px;
+	}
 }
 
 .inx-detail-list__item {
@@ -8,4 +16,10 @@ ul.inx-detail-list {
 
 .inx-detail-list__value {
 	font-weight: bold;
+}
+
+@media (min-width: $screen-l) {
+	ul.inx-detail-list.uk-grid:not(.uk-grid-small) {
+		margin-left: -40px;
+	}
 }

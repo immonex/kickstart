@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2025-02-19T09:34:30+00:00\n"
-"PO-Revision-Date: 2025-02-19 10:35+0100\n"
+"POT-Creation-Date: 2025-03-21T09:05:48+00:00\n"
+"PO-Revision-Date: 2025-03-21 10:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -44,7 +44,7 @@ msgstr "inveris OHG / immonex"
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
 
-#: includes/class-kickstart.php:309 includes/class-property.php:913
+#: includes/class-kickstart.php:309 includes/class-property.php:936
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
@@ -533,7 +533,7 @@ msgstr ""
 "Helle Grundfarbe für regulären Text in Frontend-Elementen mit dunklen "
 "Hintergründen."
 
-#: includes/class-kickstart.php:1101 includes/class-property.php:259
+#: includes/class-kickstart.php:1101 includes/class-property.php:285
 msgid "Demo"
 msgstr "Demo"
 
@@ -732,7 +732,7 @@ msgstr ""
 "Zustimmung für die Nutzung von Diensten zur Autovervollständigung von "
 "Ortsnamen im Immobilien-Suchformular (Umkreissuche) einholen."
 
-#: includes/class-kickstart.php:1301 includes/class-property.php:1322
+#: includes/class-kickstart.php:1301 includes/class-property.php:1345
 msgid "Videos"
 msgstr "Videos"
 
@@ -915,11 +915,11 @@ msgstr "Bild-Links"
 
 #: includes/class-kickstart.php:1451
 msgid ""
-"Enable full size/lightbox links for the currently displayed image. (The "
+"Enable full size/lightbox link for the currently displayed image. (The "
 "lightbox functionality must be provided by the theme or an appropriate "
 "plugin.)"
 msgstr ""
-"Vollansicht/Lightbox-Links für das aktuell angezeigte Bild aktivieren. (Die "
+"Vollansicht/Lightbox-Link für das aktuell angezeigte Bild aktivieren. (Die "
 "Lightbox-Funktionalität muss vom Theme oder einem entsprechenden Plugin "
 "bereitgestellt werden.)"
 
@@ -927,11 +927,11 @@ msgstr ""
 msgid "Image Slider Background Color"
 msgstr "Bildslider-Hintergrundfarbe"
 
-#: includes/class-kickstart.php:1465
+#: includes/class-kickstart.php:1464
 msgid "Image Slider Minimum Height"
 msgstr "Bildslider-Mindesthöhe"
 
-#: includes/class-kickstart.php:1468
+#: includes/class-kickstart.php:1467
 msgid ""
 "Minimum height of the <strong>container element</strong> that holds the main "
 "image slider of the gallery (in pixels)."
@@ -1188,19 +1188,19 @@ msgstr "Zusätzliche Beschreibungstexte"
 
 #: includes/class-property-backend-form.php:85
 #: skins/default/property-list/list-item.php:60
-#: skins/default/single-property/head.php:120
+#: skins/default/single-property/head.php:116
 msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
-#: includes/class-property-search.php:1019 includes/class-property.php:692
-#: includes/class-property.php:1294
+#: includes/class-property-search.php:1019 includes/class-property.php:715
+#: includes/class-property.php:1317
 msgid "Features"
 msgstr "Ausstattung"
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1308
+#: includes/class-property.php:1331
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1218,7 +1218,7 @@ msgid "Rooms"
 msgstr "Zimmer"
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1235
+#: includes/class-property.php:1258
 msgid "Areas"
 msgstr "Flächen"
 
@@ -1227,7 +1227,7 @@ msgid "Units/Grouping"
 msgstr "Einheiten/Gruppierung"
 
 #: includes/class-property-backend-form.php:145
-#: skins/default/single-property/head.php:44
+#: skins/default/single-property/head.php:39
 msgid "Property ID"
 msgstr "Objektnummer"
 
@@ -1419,7 +1419,7 @@ msgid "Gallery Images"
 msgstr "Galeriebilder"
 
 #: includes/class-property-backend-form.php:559
-#: includes/class-property.php:1299
+#: includes/class-property.php:1322
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -1427,7 +1427,7 @@ msgstr "Grundrisse"
 msgid "Document Attachments (PDF)"
 msgstr "Dokumentanhänge (PDF)"
 
-#: includes/class-property-backend-form.php:580 includes/class-property.php:688
+#: includes/class-property-backend-form.php:580 includes/class-property.php:711
 msgid "Details"
 msgstr "Details"
 
@@ -1491,11 +1491,11 @@ msgstr "Preis (absteigend)"
 msgid "Area"
 msgstr "Fläche"
 
-#: includes/class-property-hooks.php:821
+#: includes/class-property-hooks.php:858
 msgid "Buyer's Commission"
 msgstr "Käuferprovision"
 
-#: includes/class-property-hooks.php:821
+#: includes/class-property-hooks.php:858
 msgid "Tenant Commission"
 msgstr "Mieterprovision"
 
@@ -1515,7 +1515,7 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-map.php:217 includes/class-property.php:1072
+#: includes/class-property-map.php:217 includes/class-property.php:1095
 msgid ""
 "Data from <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> - "
 "Published under <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL</"
@@ -1525,7 +1525,7 @@ msgstr ""
 "Veröffentlicht unter <a href=\"https://opendatacommons.org/licenses/odbl/"
 "\">ODbL</a>"
 
-#: includes/class-property-map.php:224 includes/class-property.php:1079
+#: includes/class-property-map.php:224 includes/class-property.php:1102
 msgid ""
 "map data: © <a href=\"https://openstreetmap.org/copyright\" "
 "target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"https://"
@@ -1700,79 +1700,79 @@ msgstr "Umkreis (km)"
 msgid "taxonomy term checkboxes"
 msgstr "Taxonomiebegriff-Checkboxen"
 
-#: includes/class-property.php:250
+#: includes/class-property.php:276
 msgid "for sale"
 msgstr "zu verkaufen"
 
-#: includes/class-property.php:275
+#: includes/class-property.php:301
 msgid "Information Brochure"
 msgstr "Infobroschüre"
 
-#: includes/class-property.php:283 includes/class-property.php:289
+#: includes/class-property.php:309 includes/class-property.php:315
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: includes/class-property.php:290 includes/class-property.php:309
+#: includes/class-property.php:316 includes/class-property.php:335
 msgid "Head Office"
 msgstr "Zentrale"
 
-#: includes/class-property.php:296 includes/class-property.php:308
+#: includes/class-property.php:322 includes/class-property.php:334
 msgid "Phone"
 msgstr "Fon"
 
-#: includes/class-property.php:302 includes/class-property.php:315
+#: includes/class-property.php:328 includes/class-property.php:341
 msgid "Mobile"
 msgstr "Mobil"
 
-#: includes/class-property.php:326
+#: includes/class-property.php:352
 msgid "Spacious house in an excellent location"
 msgstr "Geräumiges Haus in erstklassiger Lage"
 
-#: includes/class-property.php:327
+#: includes/class-property.php:353
 msgid "123 Fake Street, 99123 Demotown"
 msgstr "Beispielstraße 123, 99123 Demostadt"
 
-#: includes/class-property.php:328
+#: includes/class-property.php:354
 msgid "Residential Property"
 msgstr "Referenzobjekt"
 
-#: includes/class-property.php:329
+#: includes/class-property.php:355
 msgid "Houses"
 msgstr "Häuser"
 
-#: includes/class-property.php:329
+#: includes/class-property.php:355
 msgid "Single-family Home"
 msgstr "Einfamilienhaus"
 
-#: includes/class-property.php:684
+#: includes/class-property.php:707
 msgid "The Property"
 msgstr "Die Immobilie"
 
-#: includes/class-property.php:696
+#: includes/class-property.php:719
 msgid "Energy Pass"
 msgstr "Energieausweis"
 
-#: includes/class-property.php:700
+#: includes/class-property.php:723
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:704 includes/class-property.php:1230
+#: includes/class-property.php:727 includes/class-property.php:1253
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:708 includes/class-property.php:1312
+#: includes/class-property.php:731 includes/class-property.php:1335
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:870
+#: includes/class-property.php:893
 msgid "Demotown"
 msgstr "Demostadt"
 
-#: includes/class-property.php:1240
+#: includes/class-property.php:1263
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:1332
+#: includes/class-property.php:1355
 #: skins/default/single-property/contact-person.php:103
 msgid "Your contact person with us"
 msgstr "Ihr Kontakt bei uns"
@@ -2943,14 +2943,14 @@ msgstr "Zur Übersicht"
 msgid "PDF preview image"
 msgstr "PDF-Vorschaubild"
 
-#: skins/default/single-property/gallery.php:302
-#: skins/default/single-property/gallery.php:339
+#: skins/default/single-property/gallery.php:305
+#: skins/default/single-property/gallery.php:342
 #: skins/default/single-property/video-gallery.php:53
 #: skins/default/single-property/video.php:41
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#: skins/default/single-property/gallery.php:413
+#: skins/default/single-property/gallery.php:416
 #: skins/default/single-property/video-gallery.php:105
 msgid "play icon"
 msgstr "Abspielsymbol"

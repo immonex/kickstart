@@ -21,10 +21,14 @@ if ( $inx_skin_name || $inx_skin_bio ) {
 		$inx_skin_contact_person .= "<strong>$inx_skin_name</strong>" . PHP_EOL;
 	}
 	if ( $inx_skin_bio ) {
-		if ( $inx_skin_contact_person ) {
-			$inx_skin_contact_person .= '<br><br>' . PHP_EOL;
-		}
-		$inx_skin_contact_person .= $utils['format']->prepare_continuous_text( $inx_skin_bio ) . PHP_EOL;
+		$inx_skin_bio            = $utils['format']->prepare_continuous_text( $inx_skin_bio );
+		$inx_skin_contact_person = wp_sprintf(
+			'%2$s%1$s<div class="inx-single-property__contact-person-bio %3$s">%4$s</div>%1$s',
+			PHP_EOL,
+			$inx_skin_contact_person,
+			$inx_skin_contact_person ? 'uk-margin-small-top' : '',
+			$inx_skin_bio
+		);
 	}
 }
 
