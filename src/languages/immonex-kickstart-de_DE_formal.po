@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.9\n"
+"Project-Id-Version: immonex Kickstart 1.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2025-03-21T09:05:48+00:00\n"
-"PO-Revision-Date: 2025-03-21 10:07+0100\n"
+"POT-Creation-Date: 2025-03-26T20:05:17+00:00\n"
+"PO-Revision-Date: 2025-03-26 21:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -44,7 +44,7 @@ msgstr "inveris OHG / immonex"
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
 
-#: includes/class-kickstart.php:309 includes/class-property.php:936
+#: includes/class-kickstart.php:309 includes/class-property.php:954
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
@@ -732,7 +732,7 @@ msgstr ""
 "Zustimmung für die Nutzung von Diensten zur Autovervollständigung von "
 "Ortsnamen im Immobilien-Suchformular (Umkreissuche) einholen."
 
-#: includes/class-kickstart.php:1301 includes/class-property.php:1345
+#: includes/class-kickstart.php:1301 includes/class-property.php:1363
 msgid "Videos"
 msgstr "Videos"
 
@@ -1194,13 +1194,13 @@ msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
-#: includes/class-property-search.php:1019 includes/class-property.php:715
-#: includes/class-property.php:1317
+#: includes/class-property-search.php:1019 includes/class-property.php:733
+#: includes/class-property.php:1335
 msgid "Features"
 msgstr "Ausstattung"
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1331
+#: includes/class-property.php:1349
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1218,7 +1218,7 @@ msgid "Rooms"
 msgstr "Zimmer"
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1258
+#: includes/class-property.php:1276
 msgid "Areas"
 msgstr "Flächen"
 
@@ -1419,7 +1419,7 @@ msgid "Gallery Images"
 msgstr "Galeriebilder"
 
 #: includes/class-property-backend-form.php:559
-#: includes/class-property.php:1322
+#: includes/class-property.php:1340
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -1427,7 +1427,7 @@ msgstr "Grundrisse"
 msgid "Document Attachments (PDF)"
 msgstr "Dokumentanhänge (PDF)"
 
-#: includes/class-property-backend-form.php:580 includes/class-property.php:711
+#: includes/class-property-backend-form.php:580 includes/class-property.php:729
 msgid "Details"
 msgstr "Details"
 
@@ -1515,7 +1515,7 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-map.php:217 includes/class-property.php:1095
+#: includes/class-property-map.php:217 includes/class-property.php:1113
 msgid ""
 "Data from <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> - "
 "Published under <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL</"
@@ -1525,7 +1525,7 @@ msgstr ""
 "Veröffentlicht unter <a href=\"https://opendatacommons.org/licenses/odbl/"
 "\">ODbL</a>"
 
-#: includes/class-property-map.php:224 includes/class-property.php:1102
+#: includes/class-property-map.php:224 includes/class-property.php:1120
 msgid ""
 "map data: © <a href=\"https://openstreetmap.org/copyright\" "
 "target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"https://"
@@ -1708,72 +1708,98 @@ msgstr "zu verkaufen"
 msgid "Information Brochure"
 msgstr "Infobroschüre"
 
-#: includes/class-property.php:309 includes/class-property.php:315
+#: includes/class-property.php:311
+msgctxt "sample data"
+msgid "Elena Example"
+msgstr "Bettina Beispiel"
+
+#: includes/class-property.php:315
+msgctxt "sample data"
+msgid "I am a demo contact person for this property."
+msgstr "Ich bin eine Demo-Kontaktperson für diese Immobilie."
+
+#: includes/class-property.php:319
+msgctxt "sample data"
+msgid "immonex ONE Demo Immobilien"
+msgstr "immonex ONE Demo Immobilien"
+
+#: includes/class-property.php:323
+msgctxt "sample data"
+msgid "Demo Alley 1, 99999 Demotown"
+msgstr "Demo-Allee 1, 99999 Demostadt"
+
+#: includes/class-property.php:328 includes/class-property.php:334
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: includes/class-property.php:316 includes/class-property.php:335
+#: includes/class-property.php:335 includes/class-property.php:354
 msgid "Head Office"
 msgstr "Zentrale"
 
-#: includes/class-property.php:322 includes/class-property.php:334
+#: includes/class-property.php:341 includes/class-property.php:353
 msgid "Phone"
 msgstr "Fon"
 
-#: includes/class-property.php:328 includes/class-property.php:341
+#: includes/class-property.php:347
 msgid "Mobile"
 msgstr "Mobil"
 
-#: includes/class-property.php:352
+#: includes/class-property.php:360
+msgid "Fax"
+msgstr "Fax"
+
+#: includes/class-property.php:372
+msgctxt "sample data"
 msgid "Spacious house in an excellent location"
 msgstr "Geräumiges Haus in erstklassiger Lage"
 
-#: includes/class-property.php:353
+#: includes/class-property.php:373
+msgctxt "sample data"
 msgid "123 Fake Street, 99123 Demotown"
 msgstr "Beispielstraße 123, 99123 Demostadt"
 
-#: includes/class-property.php:354
+#: includes/class-property.php:374
 msgid "Residential Property"
 msgstr "Referenzobjekt"
 
-#: includes/class-property.php:355
+#: includes/class-property.php:375
 msgid "Houses"
 msgstr "Häuser"
 
-#: includes/class-property.php:355
+#: includes/class-property.php:375
 msgid "Single-family Home"
 msgstr "Einfamilienhaus"
 
-#: includes/class-property.php:707
+#: includes/class-property.php:725
 msgid "The Property"
 msgstr "Die Immobilie"
 
-#: includes/class-property.php:719
+#: includes/class-property.php:737
 msgid "Energy Pass"
 msgstr "Energieausweis"
 
-#: includes/class-property.php:723
+#: includes/class-property.php:741
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:727 includes/class-property.php:1253
+#: includes/class-property.php:745 includes/class-property.php:1271
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:731 includes/class-property.php:1335
+#: includes/class-property.php:749 includes/class-property.php:1353
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:893
+#: includes/class-property.php:911
 msgid "Demotown"
 msgstr "Demostadt"
 
-#: includes/class-property.php:1263
+#: includes/class-property.php:1281
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:1355
-#: skins/default/single-property/contact-person.php:103
+#: includes/class-property.php:1373
+#: skins/default/single-property/contact-person.php:107
 msgid "Your contact person with us"
 msgstr "Ihr Kontakt bei uns"
 

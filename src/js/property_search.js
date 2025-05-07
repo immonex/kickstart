@@ -200,9 +200,17 @@ function updateNumberOfMatches(event, changeParams) {
 	if (changeParams.paramsString !== currentSearchRequestParamsStrings[changeParams.formIndex]) {
 		currentSearchRequestParamsStrings[changeParams.formIndex] = changeParams.paramsString
 
+		const url = new URL(changeParams.url)
+		const urlParams = new URLSearchParams(url.search)
+
+		urlParams.delete('inx-backlink-url')
+		const queryURL = url.origin + url.pathname + '?' + urlParams.toString()
+
 		axios
-			.get(changeParams.url)
+			.get(queryURL)
 			.then(response => {
+				if (isNaN(response.data)) return
+
 				inx_state.search.forms[changeParams.formIndex].numberOfMatches = response.data
 				if (changeParams.formIndex === 0) {
 					inx_state.search.number_of_matches = response.data
@@ -233,7 +241,8 @@ function updateFiltersSortRequestParams(event, requestParams) {
 	const updateIDs = $(event.target).data('dynamic-update') || false
 	if (!updateIDs) return
 
-	const urlParams = new URLSearchParams(requestParams.url)
+	const url = new URL(requestParams.url)
+	const urlParams = new URLSearchParams(url.search)
 	const isDistanceSearch = urlParams.has('inx-search-distance-search-location') && urlParams.has('inx-search-distance-search-radius')
 
 	if (['1', 'all'].indexOf(updateIDs.toString().trim().toLowerCase()) !== -1) {

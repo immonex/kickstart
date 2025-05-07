@@ -471,14 +471,18 @@ class API {
 		$coords = array();
 
 		if ( ! empty( $result ) ) {
-			foreach ( $result as $coord ) {
-				if ( empty( $coord['lat'] ) || empty( $coord['lng'] ) ) {
+			foreach ( $result as $item ) {
+				if (
+					empty( $item['lat'] )
+					|| empty( $item['lng'] )
+					|| ! $this->utils['geo']->validate_coords( $item['lat'] . ',' . $item['lng'], 'coords' )
+				) {
 					continue;
 				}
 
-				$coords[ $coord['post_id'] ] = array(
-					'lat' => $coord['lat'],
-					'lng' => $coord['lng'],
+				$coords[ $item['post_id'] ] = array(
+					'lat' => $item['lat'],
+					'lng' => $item['lng'],
 				);
 			}
 		}

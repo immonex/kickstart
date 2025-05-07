@@ -38,7 +38,7 @@ if ( ! have_posts() ) {
 						while ( have_posts() ) :
 							the_post();
 							?>
-							<li class="inx-property-slider__item-wrap">
+							<li class="inx-property-list__item-wrap">
 								<?php do_action( 'inx_render_property_contents', false, 'property-list/list-item', $inx_skin_list_item_atts ); ?>
 							</li>
 						<?php endwhile; ?>

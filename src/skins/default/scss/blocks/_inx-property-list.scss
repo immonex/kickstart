@@ -38,7 +38,8 @@
 		grid-gap: 1em;
 	}
 
-	.inx-property-list__item-wrap {
+	.inx-property-list__item-wrap,
+	.inx-property-slider__item-wrap {
 		margin-bottom: .5em;
 
 		> .inx-property-list-item__labels {

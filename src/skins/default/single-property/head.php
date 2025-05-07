@@ -81,7 +81,8 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 			if ( $template_data['type_of_use'] ) {
 				echo $template_data['type_of_use'] . ' &gt; ';
 			}
-				echo $template_data['property_type'];
+
+			echo $template_data['property_type'];
 			?>
 		</div>
 		<?php endif; ?>

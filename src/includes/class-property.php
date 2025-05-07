@@ -411,7 +411,7 @@ class Property {
 		 */
 		$type_of_use       = '';
 		$type_of_use_terms = get_the_terms( $post->ID, $prefix . 'type_of_use' );
-		if ( $type_of_use_terms && count( $type_of_use_terms ) > 0 ) {
+		if ( ! empty( $type_of_use_terms ) && ! is_wp_error( $type_of_use_terms ) ) {
 			$type_of_use = $type_of_use_terms[0]->name;
 		}
 
@@ -420,7 +420,7 @@ class Property {
 		 */
 		$property_type       = '';
 		$property_type_terms = get_the_terms( $post->ID, $prefix . 'property_type' );
-		if ( $property_type_terms && count( $property_type_terms ) > 0 ) {
+		if ( ! empty( $property_type_terms ) && ! is_wp_error( $property_type_terms ) ) {
 			foreach ( $property_type_terms as $i => $term ) {
 				if ( $i > 0 ) {
 					$property_type .= ' &gt; ';
@@ -434,7 +434,7 @@ class Property {
 		 */
 		$location  = '';
 		$locations = get_the_terms( $post->ID, $prefix . 'location' );
-		if ( $locations && count( $locations ) > 0 ) {
+		if ( ! empty( $locations ) && ! is_wp_error( $locations ) ) {
 			$location_names = array();
 			foreach ( $locations as $location_term ) {
 				$term_name = $location_term->name;
@@ -472,7 +472,7 @@ class Property {
 
 		foreach ( $label_taxonomies as $tax ) {
 			$label_terms = get_the_terms( $post->ID, $tax );
-			if ( $label_terms && is_array( $label_terms ) && count( $label_terms ) > 0 ) {
+			if ( ! empty( $label_terms ) && ! is_wp_error( $label_terms ) ) {
 				foreach ( $label_terms as $term ) {
 					$css_classes = array( "{$public_prefix}property-label" );
 
@@ -640,7 +640,7 @@ class Property {
 				'title'                   => $post->post_title,
 				'main_description'        => $post->post_content,
 				'excerpt'                 => $this->utils['string']->get_excerpt( $excerpt_content, self::EXCERPT_LENGTH, '…' ),
-				'full_address'            => $this->utils['data']->get_custom_field_by( 'key', '_' . $prefix . 'full_address', $post->ID, true ),
+				'full_address'            => $this->utils['data']->get_custom_field_by( 'meta_key', '_' . $prefix . 'full_address', $post->ID, true ),
 				'permalink_url'           => $permalink_url,
 				'url'                     => $url,
 				'overview_url'            => $backlink_url,
@@ -766,42 +766,87 @@ class Property {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type Image/Gallery type (gallery or floor_plans).
+	 * @param string $source Image/Gallery type/source (gallery, floor_plans or epass_images)
+	 *                       or custom field name(s) (_inx_field1, _inx_field2).
 	 * @param string $return_value Return type (objects, ids or urls).
 	 *
 	 * @return mixed[] List of property objects, post IDs of URLs.
 	 */
-	public function get_images( $type = 'gallery', $return_value = 'objects' ) {
+	public function get_images( $source = 'gallery', $return_value = 'objects' ) {
 		$return_value = strtolower( $return_value );
 
-		$field_prefix      = '_' . $this->config['plugin_prefix'];
-		$custom_field_name = 'floor_plans' === $type ? "{$field_prefix}floor_plans" : "{$field_prefix}gallery_images";
+		$types = array_map( 'trim', explode( ',', $source ) );
 
-		$image_list = get_post_meta( $this->post->ID, $custom_field_name, true );
-		if ( is_array( $image_list ) ) {
-			$image_list = array_filter( $image_list );
+		if ( empty( array_filter( $types ) ) ) {
+			$types = array( 'gallery' );
 		}
 
-		if (
-			! is_array( $image_list ) ||
-			0 === count( $image_list )
-		) {
-			return array();
-		}
+		$attachment_ids = array();
 
-		if ( is_numeric( $image_list[ key( $image_list ) ] ) ) {
-			// Image list array contains attachment IDs only.
-			$attachment_ids = array_values( $image_list );
-		} else {
-			// Image list array contains key-value pairs (attachment ID : URL).
-			if ( 'ids' === $return_value ) {
-				return array_keys( $image_list );
-			} elseif ( 'urls' === $return_value ) {
-				return array_values( $image_list );
+		foreach ( $types as $type ) {
+			if ( '_' === $type[0] ) {
+				// Custom field name.
+				$custom_field_name = $type;
+			} else {
+				$field_mapping = array(
+					'gallery'      => '_inx_gallery_images',
+					'floor_plans'  => '_inx_floor_plans',
+					'epass_images' => '_inx_epass_images',
+				);
+
+				$custom_field_name = isset( $field_mapping[ $type ] ) ?
+					$field_mapping[ $type ] :
+					$field_mapping['gallery'];
 			}
 
-			$attachment_ids = array_keys( $image_list );
+			$image_list = get_post_meta( $this->post->ID, $custom_field_name, true );
+
+			if ( ! $image_list ) {
+				continue;
+			}
+
+			if ( is_string( $image_list ) ) {
+				// Custom field contains a comma-separated list of image attachment IDs.
+				$image_list = array_map( 'trim', explode( ',', $image_list ) );
+
+				if ( empty( $image_list ) ) {
+					continue;
+				}
+
+				foreach ( $image_list as $i => $image_id ) {
+					if ( ! is_numeric( $image_id ) ) {
+						unset( $image_list[ $i ] );
+					}
+				}
+
+				$image_list = array_filter( array_values( $image_list ) );
+			} elseif ( is_array( $image_list ) ) {
+				$image_list = array_filter( $image_list );
+			}
+
+			if (
+				! is_array( $image_list ) ||
+				empty( $image_list )
+			) {
+				continue;
+			}
+
+			if ( is_numeric( $image_list[ key( $image_list ) ] ) ) {
+				// Image list array contains attachment IDs only.
+				$attachment_ids = array_merge(
+					$attachment_ids,
+					array_values( $image_list )
+				);
+			} else {
+				// Image list array contains key-value pairs (attachment ID : URL).
+				$attachment_ids = array_merge(
+					$attachment_ids,
+					array_keys( $image_list )
+				);
+			}
 		}
+
+		$attachment_ids = array_unique( $attachment_ids );
 
 		if ( 'ids' === $return_value ) {
 			return $attachment_ids;

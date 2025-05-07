@@ -74,6 +74,7 @@ class Property_Hooks {
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'post_thumbnail_id', array( $this, 'maybe_get_property_featured_image_id' ), 10, 2 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
+		add_filter( 'shortcode_atts_gallery', array( $this, 'add_gallery_image_ids' ), 10, 4 );
 
 		// @codingStandardsIgnoreLine
 		$is_frontend_page_request = isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|preview\=|et_fb\=1/', $_SERVER['REQUEST_URI'] );
@@ -116,6 +117,7 @@ class Property_Hooks {
 
 		add_shortcode( 'inx-property-details', array( $this, 'shortcode_property_details' ) );
 		add_shortcode( 'inx-property-detail-element', array( $this, 'shortcode_property_detail_element' ) );
+		add_shortcode( 'inx-property-featured-image', array( $this, 'shortcode_property_featured_image' ) );
 	} // __construct
 
 	/**
@@ -470,7 +472,7 @@ class Property_Hooks {
 	 *
 	 * @param mixed[]         $images Empty array (placeholder).
 	 * @param int|string|bool $post_id Property post ID or false to use current.
-	 * @param mixed[]         $args Image and return type.
+	 * @param mixed[]         $args Image source and return type.
 	 *
 	 * @return mixed[] List of property image objects, post IDs or URLs.
 	 */
@@ -479,15 +481,19 @@ class Property_Hooks {
 			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
 		}
 
-		$valid_image_types  = array( 'gallery', 'floor_plans' );
+		if ( ! $post_id ) {
+			return array();
+		}
+
+		$valid_image_types  = array( 'gallery', 'floor_plans', 'epass_images' );
 		$valid_return_types = array( 'objects', 'ids', 'urls' );
 
+		$type = ! empty( $args['type'] ) ? $args['type'] : $valid_image_types[0];
+
 		if (
-			! empty( $args['type'] ) &&
-			in_array( $args['type'], $valid_image_types, true )
+			! in_array( $type, $valid_image_types, true )
+			&& '_' !== $type[0]
 		) {
-			$type = $args['type'];
-		} else {
 			$type = $valid_image_types[0];
 		}
 
@@ -631,8 +637,7 @@ class Property_Hooks {
 	} // get_current_property_post_id
 
 	/**
-	 * Return the rendered property details (based on the shortcode
-	 * [inx-property-details]).
+	 * Return the rendered property details via shortcode [inx-property-details].
 	 *
 	 * @since 1.0.0
 	 *
@@ -662,8 +667,7 @@ class Property_Hooks {
 	} // shortcode_property_details
 
 	/**
-	 * Return a single rendered property detail element (based on the shortcode
-	 * [inx-property-detail-element]).
+	 * Return a single rendered property detail element via shortcode [inx-property-detail-element].
 	 *
 	 * @since 1.4.0
 	 *
@@ -838,6 +842,28 @@ class Property_Hooks {
 
 		return $rendered_content;
 	} // shortcode_property_detail_element
+
+	/**
+	 * Return the rendered property featured image via shortcode [inx-property-featured-image].
+	 *
+	 * @since 1.11.0-beta
+	 *
+	 * @param mixed[] $atts Rendering attributes.
+	 *
+	 * @return string Rendered shortcode contents.
+	 */
+	public function shortcode_property_featured_image( $atts ) {
+		$property_id = $this->get_current_property_post_id( ! empty( $atts['post_id'] ) ? (int) $atts['post_id'] : false );
+		$size        = ! empty( $atts['size'] ) ? $atts['size'] : 'full';
+
+		if ( ! $property_id ) {
+			return '';
+		}
+
+		$image_tag = get_the_post_thumbnail( $property_id, $size );
+
+		return $image_tag ? '<div class="inx-single-property-featured-image">' . $image_tag . '</div>' : '';
+	} // shortcode_property_featured_image
 
 	/**
 	 * Maybe adjust rental property specific titles etc. (callback).
@@ -1159,6 +1185,40 @@ class Property_Hooks {
 
 		return $template;
 	} // validate_backlink_url
+
+	/**
+	 * Add the image IDs of the selected gallery type to the shortcode
+	 * attributes (filter callback).
+	 *
+	 * @since 1.11.0-beta
+	 *
+	 * @param mixed[] $out       Output attributes.
+	 * @param mixed[] $pairs     Supported attributes and defaults.
+	 * @param mixed[] $atts      User-defined attributes.
+	 * @param string  $shortcode Shortcode name.
+	 *
+	 * @return mixed[] Extended output attributes.
+	 */
+	public function add_gallery_image_ids( $out, $pairs, $atts, $shortcode ) {
+		$post_id = $this->get_current_property_post_id( ! empty( $out['id'] ) ? (int) $out['id'] : false );
+
+		if ( ! $post_id ) {
+			return $out;
+		}
+
+		$valid_types = array( 'gallery', 'floor_plans', 'epass_images' );
+		$type        = ! empty( $atts['type'] ) && in_array( strtolower( $atts['type'] ), $valid_types, true ) ?
+			strtolower( $atts['type'] ) : 'gallery';
+
+		$property          = $this->get_property_instance( $post_id );
+		$gallery_image_ids = $property->get_images( $type, 'ids' );
+
+		if ( ! empty( $gallery_image_ids ) ) {
+			$out['include'] = implode( ',', $gallery_image_ids );
+		}
+
+		return $out;
+	} // add_gallery_image_ids
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

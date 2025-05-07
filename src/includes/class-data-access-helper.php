@@ -60,9 +60,9 @@ class Data_Access_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|bool $type        "name" if the custom field name containing the
-	 *                                 actual value is stored in another custom field
-	 *                                 named as the following param.
+	 * @param string|bool $type        "name" if the custom field name containing the actual value
+	 *                                 is stored in another custom field named as the following param,
+	 *                                 "meta_key" or "auto" otherwise.
 	 * @param string      $key_or_name Custom field key (= field contains the actual
 	 *                                 value) or name (= field contains the "real"
 	 *                                 field name).
@@ -99,7 +99,7 @@ class Data_Access_Helper {
 		}
 
 		if (
-			in_array( $type, array( 'meta_key', 'auto_meta_key' ), true )
+			in_array( $type, array( 'meta_key', 'auto_meta_key', 'key' ), true )
 			&& isset( $this->property_data_cache[ $post_id ]['by_meta_key'][ $meta_key ] )
 		) {
 			return $value_only ?
@@ -110,6 +110,15 @@ class Data_Access_Helper {
 		$value = get_post_meta( $post_id, $meta_key, true );
 		if ( ! $value ) {
 			return false;
+		}
+
+		/**
+		 * Check coordinate values.
+		 */
+		if ( '_inx_lat' === $meta_key ) {
+			$value = $this->utils['geo']->validate_coords( $value, 'lat' );
+		} elseif ( '_inx_lng' === $meta_key ) {
+			$value = $this->utils['geo']->validate_coords( $value, 'lng' );
 		}
 
 		if ( $value_only ) {
@@ -626,7 +635,10 @@ class Data_Access_Helper {
 		}
 
 		if ( is_string( $value ) ) {
-			return mb_convert_encoding( htmlspecialchars( $value, ENT_NOQUOTES, false ), 'UTF-8', 'HTML-ENTITIES' );
+			$value = htmlspecialchars( $value, ENT_NOQUOTES, false );
+
+			return 'UTF-8' === mb_detect_encoding( $value ) ?
+				$value : mb_convert_encoding( $value, 'UTF-8', 'HTML-ENTITIES' );
 		} elseif ( is_array( $value ) ) {
 			return array_map(
 				function ( $value ) {
@@ -634,7 +646,10 @@ class Data_Access_Helper {
 						return $value;
 					}
 
-					return mb_convert_encoding( htmlspecialchars( $value, ENT_NOQUOTES, false ), 'UTF-8', 'HTML-ENTITIES' );
+					$value = htmlspecialchars( $value, ENT_NOQUOTES, false );
+
+					return 'UTF-8' === mb_detect_encoding( $value ) ?
+						$value : mb_convert_encoding( $value, 'UTF-8', 'HTML-ENTITIES' );
 				},
 				$value
 			);

@@ -36,13 +36,13 @@ if ( ! empty( $template_data['type'] ) ) {
 			$inx_skin_lng = 6.7853264;
 		} else {
 			$inx_skin_lat = $utils['data']->get_custom_field_by(
-				'key',
+				'meta_key',
 				'_inx_lat',
 				$template_data['post_id'],
 				true
 			);
 			$inx_skin_lng = $utils['data']->get_custom_field_by(
-				'key',
+				'meta_key',
 				'_inx_lng',
 				$template_data['post_id'],
 				true

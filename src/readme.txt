@@ -2,7 +2,7 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
-Tested up to: 6.8
+Tested up to: 6.8.1
 Stable Tag: 1.10.0
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -120,6 +120,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.11.1-beta =
+* Release date: 2025-05-06
+* Added shortcode [inx-property-featured-image].
+* Extended support for the regular WP [gallery] shortcode.
+* Reworked determination of number of matches for search results.
+* Reworked coordinate validation.
+* Fixed a minor search form value encoding issue.
+
 = 1.10.0 =
 * Release date: 2025-03-26
 * Fixed a platform compatibility issue (new minimum PHP version: 7.4).
@@ -137,10 +145,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Reworked the overview map JS component.
 * Improved Elementor Pro template selection for property list (archive) and detail views.
 * Verified compatibility with WordPress 6.8.
-
-= 1.9.46 =
-* Release date: 2024-11-21
-* Fixed minor gallery and map bugs.
-* Updated dependencies.
 
 See changelog.txt for the complete version history.
