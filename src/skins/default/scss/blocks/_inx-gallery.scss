@@ -27,7 +27,7 @@
 	img {
 		display: block;
 		max-height: 50em;
-		width: 100%;
+		object-fit: contain;
 	}
 
 	&.uk-animation-kenburns {
@@ -47,7 +47,8 @@
 		display: block;
 
 		img {
-			height: 100%;
+			min-height: 100%;
+			object-fit: cover;
 		}
 	}
 }
@@ -56,10 +57,6 @@
 	.inx-gallery__image.uk-animation-kenburns {
 		align-items: start;
 		justify-content: start;
-	}
-
-	img {
-		top: 0;
 	}
 }
 

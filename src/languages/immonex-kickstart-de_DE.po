@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP/immonex Plugin Boilerplate package.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.10\n"
+"Project-Id-Version: immonex Kickstart 1.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2025-03-26T20:05:17+00:00\n"
-"PO-Revision-Date: 2025-03-26 21:08+0100\n"
+"POT-Creation-Date: 2025-05-08T13:06:02+00:00\n"
+"PO-Revision-Date: 2025-05-08 15:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #. Plugin Name of the plugin
 #: immonex-kickstart.php
@@ -44,7 +44,7 @@ msgstr "inveris OHG / immonex"
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
 
-#: includes/class-kickstart.php:309 includes/class-property.php:954
+#: includes/class-kickstart.php:309 includes/class-property.php:999
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
@@ -377,12 +377,12 @@ msgstr "Beitragsart"
 #: includes/class-kickstart.php:926
 msgid ""
 "The following <strong>rewrite slugs</strong> are used for creating \"SEO "
-"friendly\" permalinks for property/agency/agent archive and detail pages, e."
-"g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/properties/"
-"a-really-maniac-mansion/</strong>. In multilingual enviroments using <a "
-"href=\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a href=\"%2$s\" "
-"target=\"_blank\">WPML</a>, these slugs can be translated with the "
-"corresponding <em>string translation</em> functionality."
+"friendly\" permalinks for property/agency/agent archive and detail pages, "
+"e.g. <strong>domain.tld/properties/</strong> or <strong>domain.tld/"
+"properties/a-really-maniac-mansion/</strong>. In multilingual enviroments "
+"using <a href=\"%1$s\" target=\"_blank\">Polylang Pro</a> or <a "
+"href=\"%2$s\" target=\"_blank\">WPML</a>, these slugs can be translated with "
+"the corresponding <em>string translation</em> functionality."
 msgstr ""
 "Die folgenden <strong>Rewrite Slugs</strong> werden für die Generierung "
 "\"SEO-freundlicher\" Permalinks für Immobilien/Agentur/Ansprechpartner-"
@@ -732,7 +732,7 @@ msgstr ""
 "Zustimmung für die Nutzung von Diensten zur Autovervollständigung von "
 "Ortsnamen im Immobilien-Suchformular (Umkreissuche) einholen."
 
-#: includes/class-kickstart.php:1301 includes/class-property.php:1363
+#: includes/class-kickstart.php:1301 includes/class-property.php:1422
 msgid "Videos"
 msgstr "Videos"
 
@@ -1188,19 +1188,19 @@ msgstr "Zusätzliche Beschreibungstexte"
 
 #: includes/class-property-backend-form.php:85
 #: skins/default/property-list/list-item.php:60
-#: skins/default/single-property/head.php:116
+#: skins/default/single-property/head.php:117
 msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
 #: includes/class-property-search.php:1019 includes/class-property.php:733
-#: includes/class-property.php:1335
+#: includes/class-property.php:1394
 msgid "Features"
 msgstr "Ausstattung"
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1349
+#: includes/class-property.php:1408
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1218,7 +1218,7 @@ msgid "Rooms"
 msgstr "Zimmer"
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1276
+#: includes/class-property.php:1335
 msgid "Areas"
 msgstr "Flächen"
 
@@ -1419,7 +1419,7 @@ msgid "Gallery Images"
 msgstr "Galeriebilder"
 
 #: includes/class-property-backend-form.php:559
-#: includes/class-property.php:1340
+#: includes/class-property.php:1399
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -1491,11 +1491,11 @@ msgstr "Preis (absteigend)"
 msgid "Area"
 msgstr "Fläche"
 
-#: includes/class-property-hooks.php:858
+#: includes/class-property-hooks.php:884
 msgid "Buyer's Commission"
 msgstr "Käuferprovision"
 
-#: includes/class-property-hooks.php:858
+#: includes/class-property-hooks.php:884
 msgid "Tenant Commission"
 msgstr "Mieterprovision"
 
@@ -1515,7 +1515,7 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-map.php:217 includes/class-property.php:1113
+#: includes/class-property-map.php:217 includes/class-property.php:1158
 msgid ""
 "Data from <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> - "
 "Published under <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL</"
@@ -1525,7 +1525,7 @@ msgstr ""
 "Veröffentlicht unter <a href=\"https://opendatacommons.org/licenses/odbl/"
 "\">ODbL</a>"
 
-#: includes/class-property-map.php:224 includes/class-property.php:1120
+#: includes/class-property-map.php:224 includes/class-property.php:1165
 msgid ""
 "map data: © <a href=\"https://openstreetmap.org/copyright\" "
 "target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"https://"
@@ -1782,23 +1782,39 @@ msgstr "Energieausweis"
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:745 includes/class-property.php:1271
+#: includes/class-property.php:745 includes/class-property.php:1330
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:749 includes/class-property.php:1353
+#: includes/class-property.php:749 includes/class-property.php:1412
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:911
+#: includes/class-property.php:956
 msgid "Demotown"
 msgstr "Demostadt"
 
-#: includes/class-property.php:1281
+#: includes/class-property.php:1289
+msgid "Seller"
+msgstr "Verkäufer"
+
+#: includes/class-property.php:1289
+msgid "Buyer"
+msgstr "Käufer"
+
+#: includes/class-property.php:1290
+msgid "Landlord"
+msgstr "Vermieter"
+
+#: includes/class-property.php:1290
+msgid "Tenant"
+msgstr "Mieter"
+
+#: includes/class-property.php:1340
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:1373
+#: includes/class-property.php:1432
 #: skins/default/single-property/contact-person.php:107
 msgid "Your contact person with us"
 msgstr "Dein Kontakt bei uns"

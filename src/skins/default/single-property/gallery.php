@@ -127,10 +127,10 @@ if ( $inx_skin_show_virtual_tour ) {
 }
 
 if ( $inx_skin_media_count > 0 ) :
-	$inx_skin_gallery_images   = array();
-	$inx_skin_current_ratio    = array( 4, 1 );
-	$inx_skin_max_image_height = INX_SKIN_MAX_IMAGE_HEIGHT;
-	$inx_skin_fixed_thumb_nav  = $inx_skin_show_video || $inx_skin_show_virtual_tour;
+	$inx_skin_gallery_images           = array();
+	$inx_skin_current_ratio            = array( 4, 1 );
+	$inx_skin_current_max_image_height = (int) $template_data['gallery_image_slider_min_height'];
+	$inx_skin_fixed_thumb_nav          = $inx_skin_show_video || $inx_skin_show_virtual_tour;
 
 	$inx_skin_pdf_preview_ph_url    = plugins_url(
 		'assets/pdf-preview-ph.png',
@@ -206,8 +206,8 @@ if ( $inx_skin_media_count > 0 ) :
 			}
 		}
 
-		if ( $inx_skin_image[2] > $inx_skin_max_image_height ) {
-			$inx_skin_max_image_height = $inx_skin_image[2];
+		if ( $inx_skin_image[2] > $inx_skin_current_max_image_height ) {
+			$inx_skin_current_max_image_height = $inx_skin_image[2];
 		}
 
 		if (
@@ -248,7 +248,7 @@ if ( $inx_skin_media_count > 0 ) :
 		echo $utils['format']->get_heading( $template_data['headline'], $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' );}
 	?>
 
-	<div class="inx-gallery__image-slider" uk-slideshow="ratio: <?php echo implode( ':', $inx_skin_current_ratio ); ?>; max-height: <?php echo $inx_skin_max_image_height; ?>; animation: <?php echo $inx_skin_animation_type; ?>; finite: true">
+	<div class="inx-gallery__image-slider" uk-slideshow="ratio: <?php echo implode( ':', $inx_skin_current_ratio ); ?>; max-height: <?php echo $inx_skin_current_max_image_height; ?>; animation: <?php echo $inx_skin_animation_type; ?>; finite: true">
 		<div class="uk-position-relative uk-visible-toggle uk-margin-bottom">
 			<ul class="inx-gallery__images uk-slideshow-items">
 				<?php

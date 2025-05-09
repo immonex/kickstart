@@ -876,23 +876,19 @@ class Property_Hooks {
 	 * @return string Rendered output value based on the given template string.
 	 */
 	public function adjust_rental_details( $details, $property_id ) {
-		if ( empty( $details ) || get_post_meta( $property_id, '_inx_is_sale', true ) ) {
+		if ( empty( $details['preise'] ) || get_post_meta( $property_id, '_inx_is_sale', true ) ) {
 			return $details;
 		}
 
+		// Special case: Ensure that german terms are always replaced.
 		$replace = array(
-			__( "Buyer's Commission", 'immonex-kickstart' ) => __( 'Tenant Commission', 'immonex-kickstart' ),
+			array( 'Käufer', __( 'Seller', 'immonex-kickstart' ), __( 'Buyer', 'immonex-kickstart' ) ),
+			array( 'Mieter', __( 'Landlord', 'immonex-kickstart' ), __( 'Tenant', 'immonex-kickstart' ) ),
 		);
 
-		foreach ( $details as $group => $items ) {
-			if ( empty( $items ) ) {
-				continue;
-			}
-
-			foreach ( $items as $i => $item ) {
-				if ( ! empty( $item['title'] ) && isset( $replace[ $item['title'] ] ) ) {
-					$details[ $group ][ $i ]['title'] = $replace[ $item['title'] ];
-				}
+		foreach ( $details['preise'] as $i => $item ) {
+			if ( preg_match( '/preise\.(innen|aussen)_courtage/', $item['name'] ) ) {
+				$details['preise'][ $i ]['title'] = str_replace( $replace[0], $replace[1], $item['title'] );
 			}
 		}
 

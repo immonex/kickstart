@@ -1278,10 +1278,11 @@ class Property {
 			$exclude[] = 'preise->innen_courtage*';
 		}
 
+		$flags           = $this->get_flags();
 		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID, $exclude );
-		$this->details   = $grouped_details;
+		$this->details   = apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 
-		return apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
+		return $this->details;
 	} // get_details
 
 	/**
