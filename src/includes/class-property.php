@@ -1763,7 +1763,7 @@ class Property {
 		global $wp;
 
 		$public_prefix = $this->config['public_prefix'];
-		$backlink_url  = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url" ) );
+		$backlink_url  = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url", false, false, false ) );
 
 		if ( $backlink_url ) {
 			$backlink_url = rawurldecode( $backlink_url );
@@ -1897,7 +1897,7 @@ class Property {
 	 * @return string Original URL or default if invalid.
 	 */
 	private function validate_backlink_url( $url, $default_url = '' ) {
-		return $this->utils['string']->is_local_url( $url ) ? $url : $default_url;
+		return $url && $this->utils['string']->is_local_url( $url ) ? $url : $default_url;
 	} // validate_backlink_url
 
 } // Property

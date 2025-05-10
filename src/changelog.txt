@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.11.4 =
+* Release date: 2025-05-10
+* Fixed a search form issue.
+
 = 1.11.3 =
 * Release date: 2025-05-09
 * Added shortcode [inx-property-featured-image].

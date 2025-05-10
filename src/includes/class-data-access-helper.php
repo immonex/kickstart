@@ -612,7 +612,7 @@ class Data_Access_Helper {
 			}
 		}
 
-		if ( $convert_list_strings ) {
+		if ( $convert_list_strings && 'http' !== strtolower( substr( $value, 0, 4 ) ) ) {
 			// Convert string lists/comma-separated single values to arrays.
 			$value = $this->utils['string']->split_list_string( $value, 'list_or_single' );
 		}
