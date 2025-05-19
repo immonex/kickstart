@@ -900,17 +900,23 @@ class Property_Hooks {
 	 *
 	 * @since 1.4.0
 	 *
-	 * @param string|int $value Current output value.
+	 * @param string|int $org_value Current output value.
 	 * @param mixed[]    $meta Metadata related to the queried element.
 	 *
 	 * @return string Rendered output value based on the given template string.
 	 */
-	public function render_property_detail_element_output( $value, $meta = array() ) {
-		if ( empty( $value ) ) {
+	public function render_property_detail_element_output( $org_value, $meta = array() ) {
+		if ( empty( $org_value ) ) {
 			return $meta['if_empty'];
 		}
 
 		$template_tags = $this->extract_template_tags( $meta['template'] );
+
+		/**
+		 * There might be situations where the specified value is an array,
+		 * therefore single values are generally converted to arrays.
+		 */
+		$values = is_array( $org_value ) ? $org_value : array( $org_value );
 
 		if ( count( $template_tags ) > 0 ) {
 			$rendered_value = $meta['template'];
@@ -918,28 +924,41 @@ class Property_Hooks {
 			foreach ( $template_tags as $tag ) {
 				switch ( $tag['tag'] ) {
 					case 'value':
-						$replace_by = $value;
+						$replace_by_multi = array();
 
-						if (
-							isset( $tag['args'][0] )
-							&& 'number' === strtolower( trim( $tag['args'][0] ) )
-						) {
+						foreach ( $values as $value ) {
+							if ( is_array( $value ) ) {
+								// Skip further nested arrays here.
+								continue;
+							}
+
+							$replace_by = $value;
+
 							if (
-								! is_numeric( $replace_by )
-								&& $meta['raw_value']
-								&& is_numeric( $meta['raw_value'] )
+								isset( $tag['args'][0] )
+								&& 'number' === strtolower( trim( $tag['args'][0] ) )
 							) {
-								$replace_by = $meta['raw_value'];
+								if (
+									! is_numeric( $replace_by )
+									&& $meta['raw_value']
+									&& is_numeric( $meta['raw_value'] )
+								) {
+									$replace_by = $meta['raw_value'];
+								}
+
+								if ( is_numeric( $replace_by ) ) {
+									$decimals = isset( $tag['args'][1] ) ? (int) $tag['args'][1] : 0;
+									if ( $decimals > 4 ) {
+										$decimals = 2;
+									}
+									$replace_by = number_format( $replace_by, $decimals, ',', '.' );
+								}
 							}
 
-							if ( is_numeric( $replace_by ) ) {
-								$decimals = isset( $tag['args'][1] ) ? (int) $tag['args'][1] : 0;
-								if ( $decimals > 4 ) {
-									$decimals = 2;
-								}
-								$replace_by = number_format( $replace_by, $decimals, ',', '.' );
-							}
+							$replace_by_multi[] = $replace_by;
 						}
+
+						$replace_by = implode( ',', $replace_by_multi );
 						break;
 					case 'title':
 						$title = $meta['title'];
@@ -957,6 +976,10 @@ class Property_Hooks {
 					case 'area_unit':
 						$replace_by = $this->config['area_unit'];
 						break;
+				}
+
+				if ( is_array( $replace_by ) ) {
+					$replace_by = implode( ',', $replace_by );
 				}
 
 				$rendered_value = str_replace( $tag['raw_tag'], $replace_by, $rendered_value );

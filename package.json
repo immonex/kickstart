@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.11.4",
+  "version": "1.11.6",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "dependencies": {
