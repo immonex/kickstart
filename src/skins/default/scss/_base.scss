@@ -1,14 +1,17 @@
+@use "_config";
+@use "_mixins";
+
 // Container for all immonex Kickstart elements
 
 .inx-container {
 	width: 100%;
 	max-width: 80em;
 	margin: 0 auto;
-	font-size: $size-font-base !important;
-	line-height: $line-height-base;
+	font-size: config.$size-font-base !important;
+	line-height: config.$line-height-base;
 
 	&:not(:last-child) {
-		margin-bottom: $size-font-base * 2;
+		margin-bottom: config.$size-font-base * 2;
 	}
 
 	// UIkit Bugfix
@@ -55,12 +58,12 @@
 		img.lazyloaded,
 		img.lazyloading {
 			opacity: 1 !important;
-			@include noanimation();
+			@include mixins.noanimation();
 		}
 
 		.inx-print-only {
 			display: block;
-			@include noanimation();
+			@include mixins.noanimation();
 		}
 
 		.uk-padding {

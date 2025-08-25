@@ -24,7 +24,7 @@ if (
 ?>
 <div class="inx-property-list-item inx-property-list-item--card uk-card uk-card-default uk-animation-scale-up">
 	<?php if ( ! $inx_skin_disable_link ) : ?>
-	<a href="<?php echo $template_data['url']; ?>">
+	<a href="<?php echo $template_data['url']; ?>" aria-role="presentation" tabindex="-1">
 	<?php endif; ?>
 	<div class="inx-property-list-item__media-top uk-card-media-top uk-cover-container">
 		<?php
@@ -36,6 +36,7 @@ if (
 	<?php if ( ! $inx_skin_disable_link ) : ?>
 	</a>
 	<?php endif; ?>
+
 	<div class="inx-property-list-item__body uk-card-body">
 		<div class="inx-property-list-item__title uk-card-title">
 			<?php if ( ! $inx_skin_disable_link ) : ?>
@@ -93,20 +94,22 @@ if (
 
 		<?php
 		if ( $template_data['primary_price']['value_formatted'] ) :
+			$inx_skin_price_quotation = $template_data['primary_price']['value_formatted'];
+			if ( $template_data['price_time_unit']['value'] ) {
+				$inx_skin_price_quotation .= '&nbsp;<span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
+			}
+
 			if ( $inx_skin_disable_link ) :
 				?>
 		<div class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?>">
 				<?php
 			else :
 				?>
-		<a href="<?php echo $template_data['url']; ?>" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?> inx-link">
+		<a href="<?php echo $template_data['url']; ?>" aria-role="presentation" tabindex="-1" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?> inx-link">
 				<?php
 			endif;
 
-			echo $template_data['primary_price']['value_formatted'];
-			if ( $template_data['price_time_unit']['value'] ) {
-				echo '&nbsp;<span class="inx-price-time-unit inx-property-list-item__price-time-unit">' . $template_data['price_time_unit']['value'] . '</span>';
-			}
+			echo $inx_skin_price_quotation;
 
 			if ( $inx_skin_disable_link ) :
 				?>

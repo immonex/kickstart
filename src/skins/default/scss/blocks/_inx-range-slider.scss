@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-range-slider .inx-range-slider__label-value {
 	margin-bottom: .5em;
 }
@@ -49,7 +51,7 @@ html:not([dir="rtl"]) .inx-range-slider__nouislider.noUi-horizontal .noUi-origin
 	top: -.20em;
 }
 
-@media screen and (min-width: $screen-l) {
+@media screen and (min-width: config.$screen-l) {
 	html:not([dir="rtl"]) .inx-range-slider__nouislider.noUi-horizontal .noUi-origin {
 		top: -.125em;
 	}

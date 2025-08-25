@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-property-search {
 	// UIkit
 
@@ -49,7 +51,7 @@
 	}
 }
 
-@media screen and (min-width: $screen-m) {
+@media screen and (min-width: config.$screen-m) {
 	.inx-property-search__elements {
 		grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
 	}
@@ -74,7 +76,7 @@
 		max-width: 100%;
 	}
 
-	@media (min-width: $screen-m) {
+	@media (min-width: config.$screen-m) {
 		.inx-property-search__element {
 			width: 18em;
 		}

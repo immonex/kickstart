@@ -293,7 +293,7 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 | `subtype` (string) | Subtyp des Elements |
 | | *date*: Datumsauswahl (Datepicker) bei Elementen des Typs *text* |
 | `key` (string) | Name des **Custom Fields** oder der **Taxonomie**, auf den sich die Suchauswahl/-eingabe bezieht |
-| `compare` (string) | WP Query Compare Operator |
+| `compare` (string) | [WP_Meta_Query Compare Operator](https://developer.wordpress.org/reference/classes/wp_meta_query/#accepted-arguments) (Neben einzelnen können auch mehrere Vergleichsoperatoren, die abhängig vom **aktuellen Wert** des Elements angewendet werden, bspw. *>,3:=,4:>=* → Standardoperator *>*, *=* bei Feldwert/-auswahl *3*, *>=* bei Wert *4* – siehe [Code-Beispiel](#code-beispiel)) |
 | `numeric` (bool) | Abfrage eines numerischen Werts (*true* / *false*) |
 | `multiple` (bool) | Mehrfachauswahl bei Elementen des Typs `select` oder `tax-select` (*true* / *false*) |
 | `top_level_only` (bool) | Auswahloptionen hierarchischer Taxonomien auf die Hauptebene beschränken, d. h. alle Unteroptionen ausblenden (*true* / *false*) |
@@ -337,18 +337,39 @@ Mit diesem Filter können die Eigenschaften der Elemente des [Immobilien-Suchfor
 
 angepasstes Array aller Suchformular-Elemente (siehe oben)
 
-## Rahmenfunktion
+## Code-Beispiel
 
 [](_info-snippet-einbindung.md ':include')
 
 ```php
-add_filter( 'inx_search_form_elements', 'mysite_modify_search_form_elements' );
+/**
+ * [immonex Kickstart] Zimmerabfrage anhand der Auswahl im Suchformular anpassen:
+ *     1 = reine Einzimmerobjekte
+ *     2 = ein oder zwei Zimmer
+ *     3 = genau drei Zimmer
+ *     4 = vier oder mehr Zimmer
+ */
 
-function mysite_modify_search_form_elements( $elements ) {
-	// ...Eigenschaften der Formular-Elemente im Array $elements anpassen...
+add_filter( 'inx_search_form_elements', 'mysite_modify_search_form_room_element' );
+
+function mysite_modify_search_form_room_element( $elements ) {
+	$elements['min-rooms'] = array_merge(
+		$elements['min-rooms'],
+		[
+			'type'    => 'select',
+			'compare' => '=,2:<=,4:>=',
+			'options' => [
+				'' => 'Zimmeranzahl',
+				1 => '1 Zimmer',
+				2 => 'bis 2 Zimmer',
+				3 => '3 Zimmer',
+				4 => 'ab 4 Zimmer',
+			],
+		],
+	);
 
 	return $elements;
-} // mysite_modify_search_form_elements
+} // mysite_modify_search_form_room_element
 ```
 
 ### Siehe auch

@@ -32,7 +32,7 @@ $inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template
 
 		<div class="uk-flex uk-flex-right@s">
 			<div class="inx-form-element uk-width-1-1 uk-width-auto@s">
-				<select name="<?php echo $inx_skin_sort_var_name; ?>" class="uk-select">
+				<select name="<?php echo $inx_skin_sort_var_name; ?>" aria-label="<?php esc_attr_e( 'Sorting', 'immonex-kickstart' ); ?>" class="uk-select">
 					<?php foreach ( $inx_skin_sort_options as $inx_skin_key => $inx_skin_option ) : ?>
 					<option	value="<?php echo esc_attr( $inx_skin_key ); ?>"<?php echo $inx_skin_key === $inx_skin_current_sort_key ? ' selected' : ''; ?>>
 						<?php echo esc_html( $inx_skin_option['title'] ); ?>

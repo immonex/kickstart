@@ -1,3 +1,5 @@
+@use "../_config";
+
 ul.inx-detail-list {
 	list-style-type: none !important;
 
@@ -18,7 +20,7 @@ ul.inx-detail-list {
 	font-weight: bold;
 }
 
-@media (min-width: $screen-l) {
+@media (min-width: config.$screen-l) {
 	ul.inx-detail-list.uk-grid:not(.uk-grid-small) {
 		margin-left: -40px;
 	}

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2025-05-08T13:06:02+00:00\n"
-"PO-Revision-Date: 2025-05-08 15:07+0200\n"
+"POT-Creation-Date: 2025-07-10T10:17:46+00:00\n"
+"PO-Revision-Date: 2025-07-10 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -44,7 +44,7 @@ msgstr "inveris OHG / immonex"
 msgid "https://immonex.dev/"
 msgstr "https://immonex.dev/"
 
-#: includes/class-kickstart.php:309 includes/class-property.php:999
+#: includes/class-kickstart.php:309 includes/class-property.php:1011
 msgid "Price on demand"
 msgstr "Preis auf Anfrage"
 
@@ -732,7 +732,7 @@ msgstr ""
 "Zustimmung für die Nutzung von Diensten zur Autovervollständigung von "
 "Ortsnamen im Immobilien-Suchformular (Umkreissuche) einholen."
 
-#: includes/class-kickstart.php:1301 includes/class-property.php:1422
+#: includes/class-kickstart.php:1301 includes/class-property.php:1421
 msgid "Videos"
 msgstr "Videos"
 
@@ -1187,20 +1187,20 @@ msgid "Extra Descriptions"
 msgstr "Zusätzliche Beschreibungstexte"
 
 #: includes/class-property-backend-form.php:85
-#: skins/default/property-list/list-item.php:60
+#: skins/default/property-list/list-item.php:61
 #: skins/default/single-property/head.php:117
 msgid "Location"
 msgstr "Lage"
 
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
-#: includes/class-property-search.php:1019 includes/class-property.php:733
-#: includes/class-property.php:1394
+#: includes/class-property-search.php:1019 includes/class-property.php:745
+#: includes/class-property.php:1393
 msgid "Features"
 msgstr "Ausstattung"
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1408
+#: includes/class-property.php:1407
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1218,7 +1218,7 @@ msgid "Rooms"
 msgstr "Zimmer"
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1335
+#: includes/class-property.php:1334
 msgid "Areas"
 msgstr "Flächen"
 
@@ -1419,7 +1419,7 @@ msgid "Gallery Images"
 msgstr "Galeriebilder"
 
 #: includes/class-property-backend-form.php:559
-#: includes/class-property.php:1399
+#: includes/class-property.php:1398
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -1427,7 +1427,7 @@ msgstr "Grundrisse"
 msgid "Document Attachments (PDF)"
 msgstr "Dokumentanhänge (PDF)"
 
-#: includes/class-property-backend-form.php:580 includes/class-property.php:729
+#: includes/class-property-backend-form.php:580 includes/class-property.php:741
 msgid "Details"
 msgstr "Details"
 
@@ -1491,13 +1491,21 @@ msgstr "Preis (absteigend)"
 msgid "Area"
 msgstr "Fläche"
 
-#: includes/class-property-hooks.php:884
-msgid "Buyer's Commission"
-msgstr "Käuferprovision"
+#: includes/class-property-hooks.php:885
+msgid "Seller"
+msgstr "Verkäufer"
 
-#: includes/class-property-hooks.php:884
-msgid "Tenant Commission"
-msgstr "Mieterprovision"
+#: includes/class-property-hooks.php:885
+msgid "Buyer"
+msgstr "Käufer"
+
+#: includes/class-property-hooks.php:886
+msgid "Landlord"
+msgstr "Vermieter"
+
+#: includes/class-property-hooks.php:886
+msgid "Tenant"
+msgstr "Mieter"
 
 #: includes/class-property-list-hooks.php:195
 msgid "Successfully marketed properties"
@@ -1515,7 +1523,7 @@ msgstr "Immobilien in"
 msgid "Properties with"
 msgstr "Immobilien mit"
 
-#: includes/class-property-map.php:217 includes/class-property.php:1158
+#: includes/class-property-map.php:217 includes/class-property.php:1170
 msgid ""
 "Data from <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> - "
 "Published under <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL</"
@@ -1525,7 +1533,7 @@ msgstr ""
 "Veröffentlicht unter <a href=\"https://opendatacommons.org/licenses/odbl/"
 "\">ODbL</a>"
 
-#: includes/class-property-map.php:224 includes/class-property.php:1165
+#: includes/class-property-map.php:224 includes/class-property.php:1177
 msgid ""
 "map data: © <a href=\"https://openstreetmap.org/copyright\" "
 "target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"https://"
@@ -1770,51 +1778,40 @@ msgstr "Häuser"
 msgid "Single-family Home"
 msgstr "Einfamilienhaus"
 
-#: includes/class-property.php:725
+#: includes/class-property.php:602
+#: skins/default/single-property/gallery.php:205
+msgid "Property Photo"
+msgstr "Foto der Immobilie"
+
+#: includes/class-property.php:737
 msgid "The Property"
 msgstr "Die Immobilie"
 
-#: includes/class-property.php:737
+#: includes/class-property.php:749
 msgid "Energy Pass"
 msgstr "Energieausweis"
 
-#: includes/class-property.php:741
+#: includes/class-property.php:753
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:745 includes/class-property.php:1330
+#: includes/class-property.php:757 includes/class-property.php:1329
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:749 includes/class-property.php:1412
+#: includes/class-property.php:761 includes/class-property.php:1411
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
-#: includes/class-property.php:956
+#: includes/class-property.php:968
 msgid "Demotown"
 msgstr "Demostadt"
 
-#: includes/class-property.php:1289
-msgid "Seller"
-msgstr "Verkäufer"
-
-#: includes/class-property.php:1289
-msgid "Buyer"
-msgstr "Käufer"
-
-#: includes/class-property.php:1290
-msgid "Landlord"
-msgstr "Vermieter"
-
-#: includes/class-property.php:1290
-msgid "Tenant"
-msgstr "Mieter"
-
-#: includes/class-property.php:1340
+#: includes/class-property.php:1339
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:1432
+#: includes/class-property.php:1431
 #: skins/default/single-property/contact-person.php:107
 msgid "Your contact person with us"
 msgstr "Dein Kontakt bei uns"
@@ -2936,6 +2933,10 @@ msgstr "Alle Installationen wurden abgeschlossen."
 msgid "Installing Plugin %1$s (%2$d/%3$d)"
 msgstr "Installiere Plugin %1$s (%2$d/%3$d)"
 
+#: skins/default/property-list/filters-sort.php:35
+msgid "Sorting"
+msgstr "Sortierung"
+
 #: skins/default/property-list/pagination.php:14
 msgid "Previous page"
 msgstr "Vorherige Seite"
@@ -2964,6 +2965,10 @@ msgstr ""
 msgid "Reset Form"
 msgstr "Formular zurücksetzen"
 
+#: skins/default/property-search/element-select.php:16
+msgid "Selection List"
+msgstr "Auswahlliste"
+
 #: skins/default/property-search/element-submit.php:20
 msgid "Matches"
 msgstr "Treffer"
@@ -2980,18 +2985,18 @@ msgstr "keine Treffer"
 msgid "Back to overview"
 msgstr "Zur Übersicht"
 
-#: skins/default/single-property/gallery.php:183
-msgid "PDF preview image"
+#: skins/default/single-property/gallery.php:184
+msgid "PDF Preview Image"
 msgstr "PDF-Vorschaubild"
 
-#: skins/default/single-property/gallery.php:305
-#: skins/default/single-property/gallery.php:342
+#: skins/default/single-property/gallery.php:314
+#: skins/default/single-property/gallery.php:351
 #: skins/default/single-property/video-gallery.php:53
 #: skins/default/single-property/video.php:41
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#: skins/default/single-property/gallery.php:416
+#: skins/default/single-property/gallery.php:425
 #: skins/default/single-property/video-gallery.php:105
 msgid "play icon"
 msgstr "Abspielsymbol"
@@ -3004,6 +3009,12 @@ msgstr "Lage und Infrastruktur"
 #: skins/default/single-property/video-gallery.php:103
 msgid "video preview thumbnail"
 msgstr "Video-Vorschau-Thumbnail"
+
+#~ msgid "Buyer's Commission"
+#~ msgstr "Käuferprovision"
+
+#~ msgid "Tenant Commission"
+#~ msgstr "Mieterprovision"
 
 #~ msgid ""
 #~ "Enable image links (full size/lightbox) in galleries on property detail "
@@ -3247,9 +3258,6 @@ msgstr "Video-Vorschau-Thumbnail"
 
 #~ msgid "Documentation"
 #~ msgstr "Dokumentation"
-
-#~ msgid "Settings"
-#~ msgstr "Einstellungen"
 
 #~ msgid "DEBUG-MODE"
 #~ msgstr "DEBUG-MODUS"

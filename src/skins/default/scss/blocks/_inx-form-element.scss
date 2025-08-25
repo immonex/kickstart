@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-form-element {
 	font-size: .9em;
 }
@@ -87,7 +89,7 @@
 	background-color: var(--inx-color-action-element-lighter);
 }
 
-@media screen and (min-width: $screen-l) {
+@media screen and (min-width: config.$screen-l) {
 	.inx-form-element {
 		font-size: .8em;
 	}

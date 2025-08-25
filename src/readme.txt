@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 6.9
-Stable Tag: 1.11.6
+Stable Tag: 1.11.13
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,18 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.11.13 =
+* Release date: 2025-08-25
+* Reworked gallery template (default theme).
+* Fixed canonical and shortlink URLs when a regular page is used as detail view template.
+* Improved meta data generation (SEO/social media sharing).
+* Improved WCGA conformity.
+* Reworked default skin SCSS code.
+* Updated logos.
+* Updated dependencies.
+* Revalidated compatibility with WordPress 6.9 and the latest version of the Elementor Add-on.
+* Various detail optimizations.
+
 = 1.11.6 =
 * Release date: 2025-05-19
 * Fixed a property query compatibility issue.
@@ -129,15 +141,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 = 1.11.4 =
 * Release date: 2025-05-10
 * Fixed a search form issue.
-
-= 1.11.3 =
-* Release date: 2025-05-09
-* Added shortcode [inx-property-featured-image].
-* Extended support for the regular WP [gallery] shortcode.
-* Reworked determination of number of matches for search results.
-* Reworked coordinate validation.
-* Optimized gallery CSS rules.
-* Fixed a provision title display problem.
-* Fixed a minor search form value encoding issue.
 
 See changelog.txt for the complete version history.

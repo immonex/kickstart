@@ -1,3 +1,6 @@
+@use "../_config";
+@use "../_mixins";
+
 .inx-property-list-item {
 	display: flex;
 	flex-direction: column;
@@ -24,7 +27,7 @@
 	> .inx-property-list-item__body {
 		flex: 1 1 auto;
 		margin-top: 0;
-		padding: $size-font-base;
+		padding: config.$size-font-base;
 	}
 }
 
@@ -44,7 +47,7 @@
 
 .inx-property-list-item__footer {
 	position: initial;
-	padding: $size-font-base 0 0 0;
+	padding: config.$size-font-base 0 0 0;
 	overflow: hidden;
 }
 
@@ -63,7 +66,7 @@
 	display: flex;
 	align-items: baseline;
 	font-size: 1em;
-	@include hyphenate(auto);
+	@include mixins.hyphenate(auto);
 }
 
 .inx-property-list-item__property-price {
@@ -106,7 +109,7 @@
 	transform: none;
 }
 
-@media (min-width: $screen-s) {
+@media (min-width: config.$screen-s) {
 	.inx-property-list-item {
 		font-size: .8em;
 	}
@@ -116,7 +119,7 @@
 	}
 }
 
-@media (min-width: $screen-m) {
+@media (min-width: config.$screen-m) {
 	.inx-property-list-item__footer {
 		/* compatibility */
 		position: initial;
@@ -128,7 +131,7 @@
 	}
 }
 
-@media (max-width: $screen-s) {
+@media (max-width: config.$screen-s) {
 	.inx-property-list-item__media-top > img {
 		/* disable uk-cover/compatibility */
 		position: static;
@@ -138,7 +141,7 @@
 	}
 }
 
-@media (min-width: $screen-l) {
+@media (min-width: config.$screen-l) {
 	.inx-property-list-item__media-top {
 		/* compatibility */
 		height: 14em;

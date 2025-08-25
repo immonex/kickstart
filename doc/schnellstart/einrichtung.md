@@ -122,7 +122,7 @@ Die Optionen in diesem Tab beziehen sich – sofern vom ausgewählten [Skin](/an
 
 Sofern aktiviert (Standardvorgabe), sind die Hauptbilder der Galerien in den Immobilien-Detailseiten mit den entsprechenden Großansichten verlinkt, die im Regelfall in einer *Lightbox* angezeigt werden.
 
-!> Im Überschneidungen mit den Funktionalitäten des Themes etc. zu vermeiden, stellt das Kickstart-Plugin selbst **keine Lightbox-Funktion** bereit. Im Bedarfsfall kann diese aber mit einem Zusatzplugin nachgerüstet werden (z. B. [WP Featherlight](https://de.wordpress.org/plugins/wp-featherlight/) oder [Responsive Lightbox & Gallery](https://de.wordpress.org/plugins/responsive-lightbox/)).
+!> Im Überschneidungen mit den Funktionalitäten des Themes etc. zu vermeiden, stellt das Kickstart-Plugin selbst **keine Lightbox-Funktion** bereit. Im Bedarfsfall kann diese aber mit einem Zusatzplugin wie [WP Featherlight Disabled](https://de.wordpress.org/plugins/wp-featherlight-disabled/) (→ Aktivierung via Checkbox in den Optionen der **Immobiliendetails-Templateseite**) oder [Responsive Lightbox & Gallery](https://de.wordpress.org/plugins/responsive-lightbox/) (→ mit Standard-Lightbox *SwipeBox* in den Plugin-Optionen) nachgerüstet werden.
 
 ##### Ken-Burns-Effekt (KBE)
 

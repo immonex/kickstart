@@ -11,6 +11,8 @@ Die Übersetzungen von translate.wordpress.org werden automatisch in den globale
 <pre class="tree">
 .../wp-content/languages/plugins
 ╷
+├── immonex-kickstart-de_DE.po
+├── immonex-kickstart-de_DE.mo
 ├── immonex-kickstart-de_DE_formal.po
 └── immonex-kickstart-de_DE_formal.mo
 </pre>

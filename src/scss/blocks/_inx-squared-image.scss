@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-squared-image {
 	display: inline-block;
 	width: 100%;
@@ -6,7 +8,7 @@
 	background-size: cover;
 }
 
-@media screen and (min-width: $screen-xs) {
+@media screen and (min-width: config.$screen-xs) {
 	.inx-squared-image {
 		max-width: 20em;
 	}

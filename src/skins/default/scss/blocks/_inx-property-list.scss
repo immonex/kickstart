@@ -1,3 +1,5 @@
+@use "../config";
+
 .inx-property-list__no-properties {
 	padding: 4em 0;
 
@@ -34,7 +36,7 @@
 .inx-cq-xs {
 	.inx-property-list:not(.inx-property-list--is-empty):not(.inx-property-list--is-slider) {
 		display: grid;
-		grid-template-columns: minmax($min-list-item-width, $max-list-item-width) minmax($min-list-item-width, $max-list-item-width);
+		grid-template-columns: minmax(config.$min-list-item-width, config.$max-list-item-width) minmax(config.$min-list-item-width, config.$max-list-item-width);
 		grid-gap: 1em;
 	}
 
@@ -57,7 +59,7 @@
 
 .inx-cq-m {
 	.inx-property-list:not(.inx-property-list--is-empty):not(.inx-property-list--is-slider) {
-		grid-template-columns: repeat(auto-fill, minmax($min-list-item-width, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(config.$min-list-item-width, 1fr));
 		grid-gap: 2em;
 	}
 }
@@ -68,10 +70,10 @@
 	}
 }
 
-@media screen and (min-width: $screen-s) {
+@media screen and (min-width: config.$screen-s) {
 	.inx-property-list:not(.inx-property-list--is-empty):not(.inx-property-list--is-slider) {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax($min-list-item-width, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(config.$min-list-item-width, 1fr));
 		grid-gap: 1.5em;
 	}
 
@@ -85,11 +87,11 @@
 	}
 }
 
-@media screen and (min-width: $screen-m) {
+@media screen and (min-width: config.$screen-m) {
 	:not(.inx-cq-xxs) {
 		.inx-property-list {
 			.inx-property-list__item-wrap > .inx-property-list-item {
-				max-width: $max-list-item-width;
+				max-width: config.$max-list-item-width;
 			}
 		}
 	}
@@ -112,7 +114,7 @@
 		}
 	}
 
-	@media (min-width: $screen-m) {
+	@media (min-width: config.$screen-m) {
 		.inx-property-list__item-wrap {
 			max-width: 18em;
 

@@ -47,10 +47,11 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 * Plugin-specific actions and filters
 		 */
 
-		add_action( 'inx_get_search_form_elements', array( $this, 'get_search_form_elements' ) );
-
 		add_action( 'inx_render_property_search_form', array( $this, 'render_property_search_form' ), 10, 2 );
 		add_action( 'inx_render_property_search_form_element', array( $this, 'render_property_search_form_element' ), 10, 3 );
+
+		// Internal hook.
+		add_filter( 'inx_get_search_form_elements', array( $this, 'get_search_form_elements' ) );
 
 		/**
 		 * Shortcodes

@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.11.6';
+	const PLUGIN_VERSION             = '1.11.13';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -29,7 +29,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
 	);
 	const OPTIONS_LINK_MENU_LOCATION = 'inx_menu';
 	const PROPERTY_POST_TYPE_NAME    = 'inx_property';
-	const SHARING_PROTOCOLS          = array( 'open_graph', 'x' );
+	const SHARING_PROTOCOLS          = array( 'generic', 'open_graph', 'x' );
 	const DEFAULT_COLORS             = array(
 		'label_default'           => '#d1ab78',
 		'marketing_type_sale'     => '#584990',
@@ -562,14 +562,19 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
 
 		add_filter( "pre_update_option_{$this->plugin_options_name}", array( $this, 'do_before_options_update' ), 10, 2 );
 
-		foreach ( self::SHARING_PROTOCOLS as $protocol ) {
-			if ( empty( $this->doc_head ) ) {
-				$this->doc_head = new Document_Head( $component_config );
-			}
+		// Internal hook.
+		$sharing_protocols = apply_filters( 'inx_sharing_protocols', self::SHARING_PROTOCOLS );
 
-			if ( $this->plugin_options[ "sharing_{$protocol}" ] ) {
-				$class = __NAMESPACE__ . '\Sharing_' . ucwords( $protocol, '_' );
-				new $class( $component_config, $this->utils );
+		if ( ! empty( $sharing_protocols ) ) {
+			foreach ( $sharing_protocols as $protocol ) {
+				if ( empty( $this->doc_head ) ) {
+					$this->doc_head = new Document_Head( $component_config );
+				}
+
+				if ( 'generic' === $protocol || $this->plugin_options[ "sharing_{$protocol}" ] ) {
+					$class = __NAMESPACE__ . '\Sharing_' . ucwords( $protocol, '_' );
+					new $class( $component_config, $this->utils );
+				}
 			}
 		}
 
@@ -1351,7 +1356,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
 							wp_sprintf(
 								/* translators: %s = Tab/Section URL */
 								__( 'For the <strong>Google Maps</strong> based variants, an appropriate API key is required (see tab <a href="%s">General &rarr; External Services</a>). Otherwise, an OSM map is embedded as fallback solution.', 'immonex-kickstart' ),
-								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=5' )
+								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=7' )
 							),
 						'class'       => 'large-select',
 						'options'     => $this->property_list_map_types,
@@ -1505,7 +1510,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
 							wp_sprintf(
 								/* translators: %s = Tab/Section URL */
 								__( 'For the <strong>Google Maps</strong> based variants, an appropriate API key is required (see tab <a href="%s">General &rarr; External Services</a>).', 'immonex-kickstart' ),
-								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=5' )
+								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=7' )
 							),
 						'class'       => 'large-select',
 						'options'     => $this->property_details_map_types,
@@ -1587,7 +1592,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_3_1\Base {
 							wp_sprintf(
 								/* translators: %s = Tab/Section URL */
 								__( 'For the <strong>Google Places</strong> based variant, an appropriate API key is required (see tab <a href="%s">General &rarr; External Services</a>).', 'immonex-kickstart' ),
-								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=5' )
+								admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=7' )
 							),
 						'options'     => $this->distance_search_autocomplete_types,
 					),

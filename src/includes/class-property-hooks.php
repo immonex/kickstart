@@ -69,10 +69,13 @@ class Property_Hooks {
 
 		add_filter( 'single_template', array( $this, 'register_single_property_template' ) );
 		add_filter( 'archive_template', array( $this, 'register_property_archive_template' ) );
+		add_filter( 'pre_get_document_title', array( $this, 'update_template_document_title' ), 90 );
 		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
 		add_filter( 'the_title', array( $this, 'update_template_page_title' ), 10, 2 );
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'post_thumbnail_id', array( $this, 'maybe_get_property_featured_image_id' ), 10, 2 );
+		add_filter( 'get_canonical_url', array( $this, 'update_template_page_canonical_url' ), 10, 2 );
+		add_filter( 'pre_get_shortlink', array( $this, 'update_template_page_shortlink' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 		add_filter( 'shortcode_atts_gallery', array( $this, 'add_gallery_image_ids' ), 10, 4 );
 
@@ -215,33 +218,47 @@ class Property_Hooks {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string[] $title_parts Original page/post title parts.
+	 * @param string|string[] $title Original page/post title (parts).
 	 *
 	 * @return string[] Possibly updated title parts.
 	 */
-	public function update_template_document_title( $title_parts ) {
-		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
-
+	public function update_template_document_title( $title ) {
 		if (
 			is_admin()
 			|| is_archive()
 			|| empty( $this->config['property_details_page_id'] )
-			|| false === $property_post_id
 		) {
-			return $title_parts;
+			return $title;
+		}
+
+		$property_post_id = $this->get_current_property_post_id( 0 );
+
+		if ( false === $property_post_id ) {
+			return $title;
+		}
+
+		if ( is_string( $title ) && $title ) {
+			// Reset an alternate property post title that has been set by the theme or a third-party plugin.
+			return '';
 		}
 
 		$property_post_title = get_post_field( 'post_title', $property_post_id, 'raw' );
-		if ( $property_post_title ) {
-			$title_parts['title'] = $property_post_title;
+		if ( ! $property_post_title ) {
+			return $title;
 		}
 
-		return $title_parts;
+		if ( is_array( $title ) ) {
+			$title['title'] = $property_post_title;
+		} else {
+			$title = $property_post_title;
+		}
+
+		return $title;
 	} // update_template_document_title
 
 	/**
 	 * Set the property title as PAGE title if a custom page ist used as
-	 * layout template.
+	 * layout template (filter callback).
 	 *
 	 * @since 1.1.0
 	 *
@@ -251,41 +268,25 @@ class Property_Hooks {
 	 * @return string Possibly updated title.
 	 */
 	public function update_template_page_title( $title, $post_id = null ) {
-		$property_post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+		$property_post_id = apply_filters( 'inx_current_property_post_id', null );
 
 		if (
 			is_admin()
 			|| empty( $this->config['property_details_page_id'] )
-			|| $post_id !== $this->config['property_details_page_id']
+			|| $post_id !== (int) $this->config['property_details_page_id']
 			|| false === $property_post_id
 		) {
 			return $title;
 		}
 
 		$property_post_title = get_post_field( 'post_title', $property_post_id, 'raw' );
+
 		if ( $property_post_title ) {
 			return $property_post_title;
 		}
 
 		return $title;
 	} // update_template_page_title
-	/**
-	 * Add a body class on custom property detail pages.
-	 *
-	 * @since 1.5.5
-	 *
-	 * @param string[] $classes Original class list.
-	 *
-	 * @return string[] Extended class list if page ID matches the related
-	 *                  plugin option.
-	 */
-	public function maybe_add_body_class( $classes ) {
-		if ( get_the_ID() === (int) $this->config['property_details_page_id'] ) {
-			$classes[] = $this->config['plugin_slug'] . '-custom-details-page';
-		}
-
-		return $classes;
-	} // maybe_add_body_class
 
 	/**
 	 * Dynamically replace the featured image of a template page for property
@@ -359,6 +360,112 @@ class Property_Hooks {
 	} // maybe_get_property_featured_image_id
 
 	/**
+	 * Replace the canonical URL of a property detail template page with the real
+	 * one of the related property post (filter callback).
+	 *
+	 * @since 1.11.12-beta
+	 *
+	 * @param string   $url Current canonical URL.
+	 * @param \WP_Post $post WP_Post object.
+	 *
+	 * @return string Possibly updated canonical URL.
+	 */
+	public function update_template_page_canonical_url( $url, $post ) {
+		if ( ! is_object( $post ) ) {
+			return $url;
+		}
+
+		$post_id = $post->ID;
+
+		if (
+			is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| (int) $post_id !== (int) $this->config['property_details_page_id']
+			|| get_post_type( $post ) === $this->config['property_post_type_name']
+		) {
+			return $url;
+		}
+
+		$property_id = apply_filters( 'inx_current_property_post_id', null );
+
+		return $property_id ? get_permalink( $property_id ) : $url;
+	} // update_template_page_canonical_url
+
+	/**
+	 * Return the shortlink of a property post before generating one for the
+	 * property detail template page (filter callback).
+	 *
+	 * @since 1.11.12-beta
+	 *
+	 * @param bool|string $ret Short-circuit return value (false or a URL).
+	 * @param int         $id Post ID, or 0 for the current post.
+	 * @param string      $context The context for the link ('post' or 'query').
+	 * @param bool        $allow_slugs Whether to allow post slugs in the shortlink.
+	 *
+	 * @return bool|string Property shortlink URL or false.
+	 */
+	public function update_template_page_shortlink( $ret, $id, $context, $allow_slugs ) {
+		$post_id = 0;
+
+		if ( 'query' === $context && is_singular() ) {
+			$post_id = get_queried_object_id();
+			$post    = get_post( $post_id );
+		} elseif ( 'post' === $context ) {
+			$post = get_post( $id );
+			if ( ! empty( $post->ID ) ) {
+				$post_id = $post->ID;
+			}
+		}
+
+		if (
+			! $post_id
+			|| is_admin()
+			|| empty( $this->config['property_details_page_id'] )
+			|| (int) $post_id !== (int) $this->config['property_details_page_id']
+			|| get_post_type( $post_id ) === $this->config['property_post_type_name']
+		) {
+			return $ret;
+		}
+
+		$property_id = apply_filters( 'inx_current_property_post_id', null );
+
+		if ( ! $property_id ) {
+			return $ret;
+		}
+
+		$property = get_post( $property_id );
+		if ( ! $property || ! is_a( $property, 'WP_Post' ) ) {
+			return $ret;
+		}
+
+		$post_type = get_post_type_object( $property->post_type );
+
+		if ( $post_type && $post_type->public ) {
+			return home_url( "?p={$property_id}" );
+		}
+
+		return $ret;
+	} // update_template_page_shortlink
+
+	/**
+	 * Add a body class on custom property detail pages (filter callback).
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string[] $classes Original class list.
+	 *
+	 * @return string[] Extended class list if page ID matches the related
+	 *                  plugin option.
+	 */
+	public function maybe_add_body_class( $classes ) {
+		if ( get_the_ID() === (int) $this->config['property_details_page_id'] ) {
+			$classes[] = $this->config['plugin_slug'] . '-custom-details-page';
+		}
+
+		return $classes;
+	} // maybe_add_body_class
+
+	/**
 	 * Retrieve all data and tools relevant for rendering a property template
 	 * (filter callback).
 	 *
@@ -372,7 +479,7 @@ class Property_Hooks {
 	public function get_property_template_data( $template_data = array(), $atts = array() ) {
 		$post_id = is_array( $atts ) && ! empty( $atts['post_id'] ) ?
 			$atts['post_id'] :
-			$this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+			$this->get_current_property_post_id( 0 );
 
 		$property = $this->get_property_instance( $post_id );
 		if ( ! $property ) {
@@ -478,7 +585,7 @@ class Property_Hooks {
 	 */
 	public function get_property_images( $images = array(), $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
-			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+			$post_id = $this->get_current_property_post_id( 0 );
 		}
 
 		if ( ! $post_id ) {
@@ -523,7 +630,11 @@ class Property_Hooks {
 	 */
 	public function get_property_files( $files = array(), $post_id = false ) {
 		if ( ! $post_id ) {
-			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+			$post_id = $this->get_current_property_post_id( 0 );
+		}
+
+		if ( ! $post_id ) {
+			return array();
 		}
 
 		$property = $this->get_property_instance( $post_id );
@@ -543,7 +654,11 @@ class Property_Hooks {
 	 */
 	public function get_property_links( $links = array(), $post_id = false ) {
 		if ( ! $post_id ) {
-			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+			$post_id = $this->get_current_property_post_id( 0 );
+		}
+
+		if ( ! $post_id ) {
+			return array();
 		}
 
 		$links = get_post_meta( $post_id, "_{$this->config['plugin_prefix']}links", true );
@@ -560,11 +675,15 @@ class Property_Hooks {
 	 * @param int|string|bool $post_id Property post ID or false to use current.
 	 * @param mixed[]         $args Item name, group and return type.
 	 *
-	 * @return mixed[]|string|int Item data as array or single value.
+	 * @return mixed[]|string|int|bool Item data as array or single value (false if indeterminable).
 	 */
 	public function get_property_detail_item( $item, $post_id = false, $args = array() ) {
 		if ( ! $post_id ) {
-			$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+			$post_id = $this->get_current_property_post_id( 0 );
+		}
+
+		if ( ! $post_id ) {
+			return false;
 		}
 
 		$name = ! empty( $args['name'] ) ? $args['name'] : false;
@@ -633,6 +752,33 @@ class Property_Hooks {
 			return $post_id;
 		}
 
+		if ( ! $post_id && ! in_the_loop() && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$uri     = sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$path    = pathinfo( $uri, PATHINFO_DIRNAME );
+			$post_id = url_to_postid( $path );
+
+			if ( ! $post_id ) {
+				$post = get_page_by_path(
+					basename(
+						untrailingslashit( $path )
+					),
+					'OBJECT',
+					array( $this->config['property_post_type_name'] )
+				);
+
+				if ( $post ) {
+					return $post->ID;
+				}
+			}
+		}
+
+		if (
+			$post_id
+			&& get_post_type( $post_id ) === $this->config['property_post_type_name']
+		) {
+			return $post_id;
+		}
+
 		return false;
 	} // get_current_property_post_id
 
@@ -646,7 +792,7 @@ class Property_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_property_details( $atts ) {
-		$post_id = $this->get_current_property_post_id( $this->utils['general']->get_the_ID() );
+		$post_id = $this->get_current_property_post_id( 0 );
 		if ( ! $post_id && empty( $atts['is_preview'] ) ) {
 			return '';
 		}

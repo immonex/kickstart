@@ -156,6 +156,8 @@ if ( $inx_skin_media_count > 0 ) :
 	foreach ( $inx_skin_gallery_image_ids as $inx_skin_id ) {
 		$inx_skin_image          = wp_get_attachment_image_src( $inx_skin_id, 'full' );
 		$inx_skin_is_pdf_preview = false;
+		$inx_skin_image_link     = array( '', '' );
+		$inx_skin_full_src       = wp_get_attachment_url( $inx_skin_id );
 
 		if ( ! $inx_skin_image ) {
 			if ( 'application/pdf' !== get_post_mime_type( $inx_skin_id ) ) {
@@ -175,12 +177,13 @@ if ( $inx_skin_media_count > 0 ) :
 			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
 		}
 
+		$inx_skin_image_alt = get_post_meta( $inx_skin_id, '_wp_attachment_image_alt', true );
+
 		if ( $inx_skin_is_pdf_preview ) {
-			$inx_skin_image_alt = get_post_meta( $inx_skin_id, '_wp_attachment_image_alt', true );
 			if ( trim( $inx_skin_image_alt ) ) {
 				$inx_skin_thumb_alt = $inx_skin_image_alt . ' (Thumbnail)';
 			} else {
-				$inx_skin_image_alt = __( 'PDF preview image', 'immonex-kickstart' );
+				$inx_skin_image_alt = __( 'PDF Preview Image', 'immonex-kickstart' );
 				$inx_skin_thumb_alt = 'Thumbnail';
 			}
 
@@ -199,10 +202,19 @@ if ( $inx_skin_media_count > 0 ) :
 			);
 
 			$inx_skin_image_enable_ken_burns_effect = false;
+			$inx_skin_image_link                    = array( wp_sprintf( '<a href="%s" target="_blank">', $inx_skin_full_src ), '</a>' );
 		} else {
+			if ( ! trim( $inx_skin_image_alt ) ) {
+				$inx_skin_image_alt = wp_sprintf( '%s (%s)', __( 'Property Photo', 'immonex-kickstart' ), $inx_skin_id );
+			}
+
 			$inx_skin_image_enable_ken_burns_effect = $inx_skin_enable_ken_burns_effect;
 			if ( $inx_skin_image[1] < INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
 				$inx_skin_image_enable_ken_burns_effect = false;
+			}
+
+			if ( ! empty( $template_data['enable_gallery_image_links'] ) ) {
+				$inx_skin_image_link = array( wp_sprintf( '<a href="%s" rel="lightbox">', $inx_skin_full_src ), '</a>' );
 			}
 		}
 
@@ -221,12 +233,17 @@ if ( $inx_skin_media_count > 0 ) :
 			);
 		}
 
+		$inx_skin_get_attachment_attr = array(
+			'alt' => $inx_skin_image_alt,
+		);
+
 		$inx_skin_gallery_images[] = array(
 			'is_pdf'           => $inx_skin_is_pdf_preview || 'application/pdf' === get_post_mime_type( $inx_skin_id ),
-			'full'             => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_image_tag : wp_get_attachment_image( $inx_skin_id, 'full' ),
-			'full_src'         => wp_get_attachment_url( $inx_skin_id ),
-			'thumbnail'        => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_thumb_tag : wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail' ),
+			'full'             => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_image_tag : wp_get_attachment_image( $inx_skin_id, 'full', false, $inx_skin_get_attachment_attr ),
+			'full_src'         => $inx_skin_full_src,
+			'thumbnail'        => $inx_skin_is_pdf_preview ? $inx_skin_pdf_preview_thumb_tag : wp_get_attachment_image( $inx_skin_id, 'inx-thumbnail', false, $inx_skin_get_attachment_attr ),
 			'caption'          => wp_get_attachment_caption( $inx_skin_id ),
+			'link'             => $inx_skin_image_link,
 			'ken_burns_effect' => $inx_skin_image_enable_ken_burns_effect,
 		);
 
@@ -256,21 +273,21 @@ if ( $inx_skin_media_count > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 						?>
 						<li class="noHover">
-							<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
-							<a href="<?php echo $inx_skin_img['full_src']; ?>" <?php echo $inx_skin_img['is_pdf'] ? 'target="_blank"' : 'rel="lightbox"'; ?>>
-							<?php endif; ?>
-								<?php if ( $inx_skin_img['ken_burns_effect'] ) : ?>
-								<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
-									<?php echo preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ); ?>
-								</div>
-								<?php else : ?>
-								<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
-									<?php echo $inx_skin_img['full']; ?>
-								</div>
-								<?php endif; ?>
-							<?php if ( ! empty( $template_data['enable_gallery_image_links'] ) ) : ?>
-							</a>
-							<?php endif; ?>
+							<?php
+							if ( $inx_skin_img['ken_burns_effect'] ) :
+								?>
+							<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
+								<?php echo $inx_skin_img['link'][0] . preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ) . $inx_skin_img['link'][1]; ?>
+							</div>
+								<?php
+							else :
+								?>
+							<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
+								<?php echo $inx_skin_img['link'][0] . $inx_skin_img['full'] . $inx_skin_img['link'][1]; ?>
+							</div>
+								<?php
+							endif;
+							?>
 
 							<?php if ( $inx_skin_show_caption && $inx_skin_img['caption'] ) : ?>
 							<div class="inx-gallery__image-caption uk-position-bottom uk-overlay uk-overlay-default uk-padding-small uk-text-center">
@@ -352,16 +369,16 @@ if ( $inx_skin_media_count > 0 ) :
 			</ul>
 
 			<div class="uk-visible@s uk-hidden-touch">
-				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover uk-visible" uk-slideshow-item="previous">&#10094;</a>
-				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slideshow-item="next">&#10095;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-hidden-hover uk-visible uk-dark" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover uk-dark" uk-slideshow-item="next">&#10095;</a>
 			</div>
 			<div class="uk-hidden@s uk-hidden-touch">
-				<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
-				<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-dark" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-dark" uk-slideshow-item="next">&#10095;</a>
 			</div>
 			<div class="uk-hidden-notouch">
-				<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
-				<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-left uk-dark" uk-slideshow-item="previous">&#10094;</a>
+				<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-dark" uk-slideshow-item="next">&#10095;</a>
 			</div>
 		</div>
 
@@ -386,12 +403,12 @@ if ( $inx_skin_media_count > 0 ) :
 						<a href="#" class="inx-gallery__slidenav uk-position-center-right uk-hidden-hover" uk-slider-item="next"> &#10095;</a>
 					</div>
 					<div class="uk-hidden@s uk-hidden-touch">
-						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
-						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slider-item="previous">&#10094;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slider-item="next">&#10095;</a>
 					</div>
 					<div class="uk-hidden-notouch">
-						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slideshow-item="previous">&#10094;</a>
-						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slideshow-item="next">&#10095;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-left" uk-slider-item="previous">&#10094;</a>
+						<a href="#" class="inx-gallery__slidenav uk-position-center-right" uk-slider-item="next">&#10095;</a>
 					</div>
 				</div>
 			</div>

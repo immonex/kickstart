@@ -81,12 +81,18 @@ Die folgenden Hooks sind – als Alternative zu direkten Funktionsaufrufen – f
 
 - [inx_get_query_var_value](filter-inx-get-query-var-value) (Werte beliebiger Query-Variablen abrufen)
 
+#### Plugin-Optionen
+
+- [inx_get_option_value](filter-inx-get-option-value) (Plugin-Optionswert abrufen)
+
 #### Immobilien
 
 - [inx_current_property_post_id](filter-inx-current-property-post-id) (aktuelle Immobilien-Beitrags-ID ermitteln)
 - [inx_get_properties](filter-inx-get-properties) (Immobilienbeiträge abrufen oder Anzahl ermitteln)
 - [inx_get_property_template_data](filter-inx-get-property-template-data) (komplette "Rohdaten" für das Template-Rendering einer Immobilie abrufen)
 - [inx_get_property_images](filter-inx-get-property-images) (Galerie-Bildanhänge einer Immobilie abrufen)
+- [inx_get_property_files](filter-inx-get-property-files) (Dateianhänge einer Immobilie abrufen)
+- [inx_get_property_links](filter-inx-get-property-links) (Externe Links einer Immobilie abrufen)
 - [inx_get_property_detail_item](filter-inx-get-property-detail-item) (Detail-Element einer Immobilie abrufen)
 - [inx_get_custom_field_value_by_name](filter-inx-get-custom-field-value-by-name) (Custom-Field-Wert einer Immobilie anhand des Mapping-Namens abrufen)
 - [inx_get_group_items](filter-inx-get-group-items) (Immobilien-Detailelemente nach Gruppen abrufen)

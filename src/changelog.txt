@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 1.11.13 =
+* Release date: 2025-08-25
+* Reworked gallery template (default theme).
+* Fixed canonical and shortlink URLs when a regular page is used as detail view template.
+* Improved meta data generation (SEO/social media sharing).
+* Improved WCGA conformity.
+* Reworked default skin SCSS code.
+* Updated logos.
+* Updated dependencies.
+* Revalidated compatibility with WordPress 6.9 and the latest version of the Elementor Add-on.
+* Various detail optimizations.
+
 = 1.11.6 =
 * Release date: 2025-05-19
 * Fixed a property query compatibility issue.

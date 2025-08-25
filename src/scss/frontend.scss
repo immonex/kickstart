@@ -1,25 +1,13 @@
-// Configuration
-
-// Screen sizes (currently based on UIkit, except XS)
-$screen-xs: 320px;
-$screen-s: 640px;
-$screen-m: 960px;
-$screen-l: 1200px;
-$screen-xl: 1600px;
+// Blocks (Modules)
+@use "blocks/_inx-button.scss";
+@use "blocks/_inx-embed-consent-request.scss";
+@use "blocks/_inx-gradient.scss";
+@use "blocks/_inx-icon.scss";
+@use "blocks/_inx-link.scss";
+@use "blocks/_inx-squared-image.scss";
+@use "blocks/_inx-switch.scss";
 
 // UIkit
 @import "uikit/src/scss/variables-theme.scss";
 @import "uikit/src/scss/mixins-theme.scss";
 @import "_uikit-custom.scss";
-
-// Mixins
-@import "_mixins.scss";
-
-// Blocks (Modules)
-@import "blocks/_inx-button.scss";
-@import "blocks/_inx-embed-consent-request.scss";
-@import "blocks/_inx-gradient.scss";
-@import "blocks/_inx-icon.scss";
-@import "blocks/_inx-link.scss";
-@import "blocks/_inx-squared-image.scss";
-@import "blocks/_inx-switch.scss";

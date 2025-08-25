@@ -1,12 +1,10 @@
 # inx_get_group_items (Filter)
 
-Über diesen Filter Hook können alle Immobilien-Detailelemente des **übergebenen** `$details`-Arrays in einem "flachen" Array zurückgeliefert werden, die zu den angegebenen Gruppen-IDs (`$groups`) passen.
+Über diesen Filter Hook können *Immobilien-Detailelemente*, die im **Sammelfeld** (*Custom Field*) `_inx_details` gespeichert sind, anhand der angegebenen Gruppen-Keys (`$groups`) gefiltert und in Form eines "flachen" Array abgerufen bzw. konvertiert werden.
 
-!> Bei diesem Hook werden die übergebenen Inhalte konvertiert, es werden **keine** Daten abgerufen.
+Wird ein `$details`-Array übergeben wird, das bereits alle Detailelemente der Immobilie enthält, findet eine reine Konvertierung dieser Daten ohne erneute Datenbankabfragen statt.
 
-*Immobiliendetails* bezeichnen Elemente, die im *Sammelfeld* (*Custom Field*) `_inx_details` gespeichert werden (→ Zuordnung über die Spalte *Destination* der [Mapping-Tabelle für den OpenImmo-Import](/schnellstart/import)).
-
-Gruppen werden in der Spalte *Group* der Mapping-Tabelle definiert.
+Die Zuordnung des Custom Fields erfolgt beim OpenImmo-Import über die Spalte *Destination* der [Mapping-Tabelle](/schnellstart/import)), die zugehörige Gruppe wird in der Spalte *Group* hinterlegt.
 
 ![Gruppen und Zielangaben in der Mapping-Tabelle für den OpenImmo-Import](../assets/scst-mapping-details-group-destination.png)
 
@@ -17,12 +15,12 @@ Gruppen werden in der Spalte *Group* der Mapping-Tabelle definiert.
 | Name | Beschreibung |
 | ---- | ------------ |
 | **`$items`** (array) | leeres Array |
-| `$details` (array) | alle Objektdetails |
-| `$groups` (array) | Gruppen-IDs |
+| `$details` (array) | alle Objektdetails (gruppiert) oder leeres Array |
+| `$groups` (array) | Gruppen-Keys |
 
 ### Das Details-Array im Detail
 
-`$details` enthält **alle** Detailelemente der darzustellenden Immobilie in **gruppierter Form**:
+Ist `$details` bereits befüllt, sind hier **alle** Detailelemente der darzustellenden Immobilie in **gruppierter Form** enthalten:
 
 ```php
 [
@@ -106,10 +104,13 @@ Gruppen werden in der Spalte *Group* der Mapping-Tabelle definiert.
 
 ```php
 /**
- * [immonex Kickstart] Lage- und Infrastruktur-Details filtern.
+ * [immonex Kickstart] Lage- und Infrastruktur-Details in $details filtern.
  */
 
 $filtered_details = apply_filters( 'inx_get_group_items', [], $details, [ 'lage', 'infrastruktur' ] );
+
+// Alternativ: Aktuelle Detaildaten vor dem Filtern abrufen
+$filtered_details = apply_filters( 'inx_get_group_items', [], [], [ 'lage', 'infrastruktur' ] );
 
 // $filtered_details
 [

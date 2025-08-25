@@ -45,7 +45,8 @@ module.exports = {
             options: { url: false }
           },
           {
-            loader: 'sass-loader'
+            loader: 'sass-loader',
+            options: { sassOptions: { silenceDeprecations: ["import", "mixed-decls"] } }
           }
         ]
       },

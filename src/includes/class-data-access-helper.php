@@ -312,14 +312,15 @@ class Data_Access_Helper {
 		$items         = array();
 		$split_queries = $this->split_detail_query_strings( $queries );
 
-		/**
-		 * Fetch and filter property details (custom field _inx_details) first.
-		 */
-
+		// Fetch grouped property details (custom field _inx_details) first.
 		$property_details = $this->fetch_property_details( $post_id, array(), false );
 
 		foreach ( $split_queries['include'] as $query ) {
 			if ( ! empty( $property_details ) ) {
+				/**
+				 * Filter and add matching grouped property details.
+				 */
+
 				$property_details_part = $this->extend_and_format_detail_items(
 					$this->filter_detail_items( $property_details, array( 'include' => array( $query ) ), $scope ),
 					$query['props']
@@ -330,22 +331,47 @@ class Data_Access_Helper {
 				}
 			}
 
-			/**
-			 * Add custom field elements with matching groups or mapping sources.
-			 */
+			if ( empty( $scope ) || ( is_array( $scope ) && in_array( 'name', $scope, true ) ) ) {
+				/**
+				 * Add details stored in separate custom fields with either matching
+				 * mapping name or meta key.
+				 */
 
-			$meta = $this->get_custom_field_by( false, $query['value'], $post_id );
-			if ( ! empty( $meta ) ) {
-				$meta  = $this->extend_and_format_detail_items( array( $meta ), $query['props'] );
-				$items = array_merge( $items, $meta );
+				$meta = $this->get_custom_field_by( false, $query['value'], $post_id );
+				if ( ! empty( $meta ) ) {
+					$meta  = $this->extend_and_format_detail_items( array( $meta ), $query['props'] );
+					$items = array_merge( $items, $meta );
+				}
+			}
+
+			$search_elements = empty( $scope ) ? array( 'meta_name', 'meta_group', 'mapping_source' ) : array();
+
+			if ( is_array( $scope ) ) {
+				if ( in_array( 'name', $scope, true ) ) {
+					$search_elements[] = 'meta_name';
+				}
+
+				if ( in_array( 'group', $scope, true ) ) {
+					$search_elements[] = 'meta_group';
+				}
+
+				if ( in_array( 'source', $scope, true ) ) {
+					$search_elements[] = 'mapping_source';
+				}
+			}
+
+			if ( empty( $search_elements ) ) {
+				continue;
 			}
 
 			/**
+			 * Add custom field elements with matching groups and/or mapping sources.
+			 *
 			 * Only the meta data fields of custom fields with single values should
-			 * be queried, hence "meta_group" instead of "group" as used in the
-			 * serialized data of the collection field _inx_details.
+			 * be queried, hence "meta_group" instead of "group". (The latter one is
+			 * used in the serialized data of the collection field _inx_details.)
 			 */
-			foreach ( array( 'meta_group', 'mapping_source' ) as $search_element ) {
+			foreach ( $search_elements as $search_element ) {
 				$meta = $this->get_custom_fields_by_serialized_value( $post_id, $search_element, $query );
 				if ( empty( $meta ) ) {
 					continue;
@@ -364,7 +390,7 @@ class Data_Access_Helper {
 			}
 		}
 
-		return $items;
+		return $this->unique_detail_items( $items );
 	} // get_flex_items
 
 	/**
@@ -775,7 +801,7 @@ class Data_Access_Helper {
 	} // detail_has_mapping_source
 
 	/**
-	 * Check if the meta data (JSON) of a property detail item contain a mapping
+	 * Check if the meta data of a property detail item contain a mapping
 	 * source reference and return it if so.
 	 *
 	 * @since 1.9.22-beta
@@ -785,8 +811,12 @@ class Data_Access_Helper {
 	 * @return string Mapping source reference or empty string if unavailable.
 	 */
 	private function get_detail_mapping_source( $item ) {
-		if ( empty( $item['meta_json'] ) ) {
+		if ( empty( $item['mapping_source'] ) && empty( $item['meta_json'] ) ) {
 			return '';
+		}
+
+		if ( ! empty( $item['mapping_source'] ) ) {
+			return $item['mapping_source'];
 		}
 
 		$meta = json_decode( $item['meta_json'], true );
@@ -820,7 +850,7 @@ class Data_Access_Helper {
 		);
 
 		return array(
-			'value'   => $query['is_regex'] ? $query['value'] : "%{$query_value}%",
+			'value'   => $query['is_regex'] ? $query_value : "%{$query_value}%",
 			'compare' => $query['is_regex'] ? 'REGEXP' : 'LIKE',
 		);
 	} // get_value_for_serialized_query
@@ -981,5 +1011,41 @@ class Data_Access_Helper {
 
 		return $items;
 	} // extend_and_format_detail_items
+
+	/**
+	 * Remove duplicate detail items based on title and value.
+	 *
+	 * @since 1.11.9-beta
+	 *
+	 * @param mixed[] $items Original detail item array.
+	 *
+	 * @return mixed[] Array with unique elements.
+	 */
+	private function unique_detail_items( $items ) {
+		if ( empty( $items ) ) {
+			return array();
+		}
+
+		$unique_items = array( $items[0] );
+
+		foreach ( $items as $i => $item ) {
+			if ( 0 === $i ) {
+				continue;
+			}
+
+			foreach ( $unique_items as $unique_item ) {
+				if (
+					( empty( $item['title'] ) || $item['title'] === $unique_item['title'] )
+					&& (string) $item['value'] === (string) $unique_item['value']
+				) {
+					continue 2;
+				}
+			}
+
+			$unique_items[] = $item;
+		}
+
+		return $unique_items;
+	} // unique_detail_items
 
 } // Data_Access_Helper

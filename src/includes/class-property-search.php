@@ -1310,8 +1310,8 @@ class Property_Search {
 					break;
 				default:
 					if (
-						! $element['key'] ||
-						'fulltext' === $element['key']
+						! $element['key']
+						|| 'fulltext' === $element['key']
 					) {
 						// Use specific custom fields for "full-text search".
 						$fulltext_search_fields = $this->get_fulltext_search_fields();

@@ -1,3 +1,5 @@
+@use "../_mixins.scss";
+
 .inx-link {
 	display: flex;
 	align-items: center;
@@ -25,5 +27,5 @@
 .inx-inverse .inx-link,
 .inx-link.inx-inverse {
 	color: var(--inx-color-action-element-inverted);
-	@include unified-active-link-states(var(--inx-color-action-element-inverted));
+	@include mixins.unified-active-link-states(var(--inx-color-action-element-inverted));
 }

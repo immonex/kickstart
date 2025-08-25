@@ -595,7 +595,19 @@ class Property {
 		$backlink_url = $this->get_backlink_url( $permalink_url );
 		$url          = $this->extend_url( $permalink_url, $backlink_url, $atts );
 
-		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', array( 'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px' ) );
+		$thumbnail_id  = get_post_thumbnail_id( $post->ID );
+		$thumbnail_alt = $thumbnail_id ? get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) : '';
+
+		if ( ! trim( $thumbnail_alt ) ) {
+			$thumbnail_alt = wp_sprintf( '%s (%d)', __( 'Property Photo', 'immonex-kickstart' ), $thumbnail_id );
+		}
+
+		$thumbnail_atts = array(
+			'alt'   => $thumbnail_alt,
+			'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px',
+		);
+
+		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', $thumbnail_atts );
 		$flags         = $this->get_flags();
 
 		$disable_link       = false;
@@ -1232,6 +1244,10 @@ class Property {
 	 * @return mixed[] Array of attachment data, if any.
 	 */
 	public function get_file_attachments() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
 		if ( $this->post->ID && isset( $this->cache['file_attachments'][ $this->post->ID ] ) ) {
 			return $this->cache['file_attachments'][ $this->post->ID ];
 		}

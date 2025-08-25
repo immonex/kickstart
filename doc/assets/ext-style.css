@@ -1,5 +1,16 @@
+a.link-external:not(.no-icon)::before {
+	content: "\238B";
+	display: inline-block;
+	margin-right: 2px;
+	transform: scale(-1, 1);
+}
+
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
+}
+
+h2, h3, h4, h5, h6 {
+	clear: both;
 }
 
 .markdown-section em {
@@ -64,6 +75,10 @@ body:not(.dark) .markdown-section blockquote em {
 	color: var(--link-external-color-lighter);
 }
 
+.markdown-section video {
+	max-width: 100%;
+}
+
 .markdown-section .textblock {
 	padding: 16px;
 	background-color: #F8F8F8;
@@ -124,4 +139,58 @@ body:not(.dark) .markdown-section blockquote em {
 	text-align: center;
 	line-height: 30px;
 	content: "\1F6C8";
+}
+
+.two-column-layout {
+	display: flex;
+	gap: 32px;
+}
+
+.two-column-layout > div:first-child {
+	flex: 1 0 auto;
+}
+
+.two-column-layout > div:last-child {
+	flex: 1 1 100%;
+}
+
+.home-page-plugin-logo {
+	display: inline-block;
+	margin-left: 16px;
+	float: right;
+}
+
+.home-page-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+	margin-top: 64px;
+}
+
+.home-page-footer a.link-external::before {
+	content: "";
+}
+
+body.light .element-light,
+body.dark .element-dark {
+	display: inline-block;
+}
+
+body.light .element-dark,
+body.dark .element-light {
+	display: none;
+}
+
+.sidebar a.logo {
+	flex-direction: column;
+}
+
+.sidebar a.logo img {
+	height: 96px;
+}
+
+.sidebar a.logo span {
+	font-size: 1.1rem;
 }

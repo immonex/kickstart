@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $inx_skin_search_main_element_id_prefix = ! empty( $template_data['search_main_element_id'] ) ? $template_data['search_main_element_id'] . '_' : '';
 $inx_skin_element_name                  = preg_replace( '/^element-/', '', basename( __FILE__, '.php' ) );
 $inx_skin_show_label                    = false;
+$inx_skin_aria_label                    = ! empty( $template_data['element']['label'] ) ? $template_data['element']['label'] : __( 'Selection List', 'immonex-kickstart' );
 $inx_skin_multiple                      = isset( $template_data['element']['multiple'] ) && $template_data['element']['multiple'];
 $inx_skin_empty_option_value            = ! empty( $template_data['element']['empty_option_value'] ) ? $template_data['element']['empty_option_value'] : '';
 ?>
@@ -24,6 +25,7 @@ $inx_skin_empty_option_value            = ! empty( $template_data['element']['em
 	<select
 		id="<?php echo $inx_skin_search_main_element_id_prefix . $template_data['element_id']; ?>"
 		name="<?php echo $template_data['element_id'] . ( $inx_skin_multiple ? '[]' : '' ); ?>"
+		aria-label="<?php echo esc_attr( $inx_skin_aria_label ); ?>"
 		class="inx-select uk-select"
 		<?php
 		if ( isset( $template_data['element']['default'] ) && false !== $template_data['element']['default'] ) {

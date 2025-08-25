@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-embed-consent-request {
 	width: 100%;
 	background: #F0F0F0;
@@ -46,13 +48,13 @@
 	display: block;
 }
 
-@media screen and (max-width: $screen-s) {
+@media screen and (max-width: config.$screen-s) {
 	.inx-embed-consent-request__consent button.inx-button.uk-button {
 		line-height: 24px;
 	}
 }
 
-@media screen and (min-width: $screen-s) {
+@media screen and (min-width: config.$screen-s) {
 	.inx-embed-consent-request__consent {
 		line-height: 1.4em;
 		font-size: .75em;

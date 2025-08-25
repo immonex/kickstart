@@ -1,6 +1,7 @@
-# Über dieses Plugin <!-- {docsify-ignore-all} -->
+<span class="home-page-plugin-logo element-light">![immonex Kickstart Logo](assets/immonex-kickstart-logo.png ':no-zoom')</span>
+<span class="home-page-plugin-logo element-dark">![immonex Kickstart Logo](assets/immonex-kickstart-logo-dark.png ':no-zoom')</span>
 
-<img src="assets/kickstart.png" alt="immonex Kickstart Logo" style="float: right">
+# Über dieses Plugin <!-- {docsify-ignore-all} -->
 
 **immonex Kickstart** erweitert **WordPress-Websites** um individuell anpassbare **Basiskomponenten** für die Einbindung OpenImmo®-basierter Immobilien-Angebote...
 
@@ -28,6 +29,4 @@ immonex Kickstart ist **freie, quelloffene Software** (Open Source), die unter d
 
 Entwicklung und Support: [GitHub-Repository](https://github.com/immonex/kickstart)
 
-## Trivia
-
-Das Kickstart-Logo ist eine Hommage an die Entwickler des ersten **Amiga** (später bekannt als [Commodore Amiga 1000](https://en.wikipedia.org/wiki/Amiga_1000)) 😉
+[](_home-page-footer.md ':include')

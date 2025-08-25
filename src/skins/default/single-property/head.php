@@ -37,37 +37,41 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 	$inx_skin_head_elements = array(
 		'property_id'   => array(
 			'title'   => __( 'Property ID', 'immonex-kickstart' ),
-			'data'    => $template_data['property_id'],
+			'data'    => isset( $template_data['property_id'] ) ? $template_data['property_id'] : null,
 			'icon'    => 'flaticon-numbers',
 			'classes' => '',
 		),
 		'build_year'    => array(
 			'title'   => '',
-			'data'    => $template_data['build_year'],
+			'data'    => isset( $template_data['build_year'] ) ? $template_data['build_year'] : null,
 			'icon'    => 'flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development',
 			'classes' => '',
 		),
 		'primary_area'  => array(
 			'title'   => '',
-			'data'    => $template_data['primary_area'],
+			'data'    => isset( $template_data['primary_area'] ) ? $template_data['primary_area'] : null,
 			'icon'    => 'flaticon-size',
 			'classes' => '',
 		),
 		'plot_area'     => array(
 			'title'   => '',
-			'data'    => $template_data['plot_area'],
+			'data'    => isset( $template_data['plot_area'] ) ? $template_data['plot_area'] : null,
 			'icon'    => 'flaticon-blueprint-3',
 			'classes' => '',
 		),
 		'primary_rooms' => array(
 			'title'   => '',
-			'data'    => $template_data['primary_rooms'],
+			'data'    => isset( $template_data['primary_rooms'] ) ? $template_data['primary_rooms'] : null,
 			'icon'    => $inx_skin_rooms_icon,
 			'classes' => '',
 		),
 	);
 
-	if ( $inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_skin_head_elements['primary_area']['data']['value_formatted'] ) {
+	if (
+		isset( $inx_skin_head_elements['primary_area'] ) &&
+		isset( $inx_skin_head_elements['plot_area'] ) &&
+		$inx_skin_head_elements['plot_area']['data']['value_formatted'] === $inx_skin_head_elements['primary_area']['data']['value_formatted']
+	) {
 		unset( $inx_skin_head_elements['plot_area'] );
 	}
 }

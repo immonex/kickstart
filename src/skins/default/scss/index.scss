@@ -1,39 +1,33 @@
-// Skin/Template config
-@import "_config.scss";
-
-// Mixins
-@import "_mixins.scss";
-
 // Base styles
-@import "_base.scss";
+@use "_base.scss";
 
 // Blocks (Modules)
-@import "blocks/_immonex-widget.scss";
-@import "blocks/_inx-badge.scss";
-@import "blocks/_inx-checkbox.scss";
-@import "blocks/_inx-core-detail-icon.scss";
-@import "blocks/_inx-description-text.scss";
-@import "blocks/_inx-detail-list.scss";
-@import "blocks/_inx-feature-list.scss";
-@import "blocks/_inx-form-element.scss";
-@import "blocks/_inx-gallery.scss";
-@import "blocks/_inx-icon.scss";
-@import "blocks/_inx-label.scss";
-@import "blocks/_inx-location-autocomplete.scss";
-@import "blocks/_inx-oi.scss";
-@import "blocks/_inx-page-header.scss";
-@import "blocks/_inx-page-title.scss";
-@import "blocks/_inx-property-archive.scss";
-@import "blocks/_inx-property-filters.scss";
-@import "blocks/_inx-property-label.scss";
-@import "blocks/_inx-property-list.scss";
-@import "blocks/_inx-property-list-item.scss";
-@import "blocks/_inx-property-location-map.scss";
-@import "blocks/_inx-property-map.scss";
-@import "blocks/_inx-property-search.scss";
-@import "blocks/_inx-range-slider.scss";
-@import "blocks/_inx-search-input.scss";
-@import "blocks/_inx-select.scss";
-@import "blocks/_inx-single-property.scss";
-@import "blocks/_inx-thumbnail-nav.scss";
-@import "blocks/_inx-video-iframe.scss";
+@use "blocks/_immonex-widget.scss";
+@use "blocks/_inx-badge.scss";
+@use "blocks/_inx-checkbox.scss";
+@use "blocks/_inx-core-detail-icon.scss";
+@use "blocks/_inx-description-text.scss";
+@use "blocks/_inx-detail-list.scss";
+@use "blocks/_inx-feature-list.scss";
+@use "blocks/_inx-form-element.scss";
+@use "blocks/_inx-gallery.scss";
+@use "blocks/_inx-icon.scss";
+@use "blocks/_inx-label.scss";
+@use "blocks/_inx-location-autocomplete.scss";
+@use "blocks/_inx-oi.scss";
+@use "blocks/_inx-page-header.scss";
+@use "blocks/_inx-page-title.scss";
+@use "blocks/_inx-property-archive.scss";
+@use "blocks/_inx-property-filters.scss";
+@use "blocks/_inx-property-label.scss";
+@use "blocks/_inx-property-list.scss";
+@use "blocks/_inx-property-list-item.scss";
+@use "blocks/_inx-property-location-map.scss";
+@use "blocks/_inx-property-map.scss";
+@use "blocks/_inx-property-search.scss";
+@use "blocks/_inx-range-slider.scss";
+@use "blocks/_inx-search-input.scss";
+@use "blocks/_inx-select.scss";
+@use "blocks/_inx-single-property.scss";
+@use "blocks/_inx-thumbnail-nav.scss";
+@use "blocks/_inx-video-iframe.scss";

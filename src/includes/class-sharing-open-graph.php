@@ -50,30 +50,20 @@ class Sharing_Open_Graph extends Sharing {
 	 * @return mixed[] Tag data.
 	 */
 	protected function get_type_head_tags( $type, $id_or_term ) {
-		$page_post_id = is_int( $id_or_term ) && ! empty( $id_or_term ) ? $id_or_term : null;
+		$page_post_id = is_int( $id_or_term ) && ! empty( $id_or_term ) ? $id_or_term : false;
 		$image_tags   = array();
 		$fb_publisher = false;
 		$fb_author    = false;
 
 		if ( $page_post_id ) {
 			$url        = get_permalink( $page_post_id );
-			$title      = get_the_title( $page_post_id );
-			$excerpt    = get_the_excerpt( $page_post_id );
 			$image_tags = ( -1 === (int) $this->data['sharing_max_images'] || (int) $this->data['sharing_max_images'] > 0 ) && 'single' === $type ?
 				$this->get_property_image_tags( $page_post_id ) : array();
 		} else {
-			$url     = 'tax_archive' === $type ?
+			$url = 'tax_archive' === $type ?
 				get_term_link( $id_or_term ) :
 				get_post_type_archive_link( $this->data['property_post_type_name'] );
-			$title   = get_the_archive_title();
-			$excerpt = get_the_archive_description();
 		}
-
-		$description = $this->utils['string']->get_excerpt(
-			wp_strip_all_tags( preg_replace( '/<a[^>]*>.*?(<\/a>|$)/', static::DESCRIPTION_MAX_LENGTH, $excerpt ) ),
-			120,
-			'…'
-		);
 
 		$all_tags = array(
 			array(
@@ -86,11 +76,11 @@ class Sharing_Open_Graph extends Sharing {
 			),
 			array(
 				'name'    => 'og:title',
-				'content' => $title,
+				'content' => $this->get_title( $page_post_id ),
 			),
 			array(
 				'name'    => 'og:description',
-				'content' => $description,
+				'content' => $this->get_description( $page_post_id ),
 			),
 			array(
 				'name'    => 'og:site_name',

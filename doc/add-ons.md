@@ -15,7 +15,7 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 
 ### aktuell in Vorbereitung
 
-- (verbesserte) des WordPress-Page/Site-Builders [Elementor](https://elementor.com/)
+- (erweiterte) Unterstützung des WordPress-Page/Site-Builders [Elementor](https://elementor.com/)
 - druckoptimierte PDF-Exposés
 
 ... und viele weitere!

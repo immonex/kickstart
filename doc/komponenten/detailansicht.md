@@ -209,6 +209,55 @@ Kaufpreis pro m² per [XPath](https://de.wikipedia.org/wiki/XPath)-Angabe ermitt
 
 ?> Weitergehende individuelle Anpassungen der Ausgabe einzelner Angaben können über den Filter-Hook [`inx_property_detail_element_output`](/anpassung-erweiterung/filter-inx-property-detail-element-output) realisiert werden.
 
+### Hauptbild
+
+`[inx-property-featured-image]`
+
+Mit diesem Shortcode ist eine **separate** Einbindung des **Hauptbilds** der Immobilie (auch *Featured Image* oder ursprünglich *Thumbnail* genannt) möglich.
+
+Dieses ist im Regelfall auch in der **primären Galerie** (siehe oben) enthalten.
+
+#### Attribute
+
+Die Dimensionen der per `size`-Attribut definierbaren Bildgrößen können im WP-Backend unter ***Einstellungen → Medien*** bearbeitet werden. 
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `post_id` | nur für **Sonderfälle**: ID des Immobilien-Beitrags (optional, Standard: automatische Ermittlung) |
+| `size` | Ausgabegröße (optional) |
+| | *full* : Originalgröße (Standard) |
+| | *large* : groß |
+| | *medium* : mittelgroß |
+| | *thumbnail* : Vorschaubild |
+
+### WP-Standard-Galerie
+
+`[gallery]`
+
+Als einfachere Alternative zur o. g. [Kickstart-Galerie-Komponente](#galerien) kann in Immobilien-Detailseiten auch die im [WordPress-Kernsystem enthaltene Basisgalerie](https://codex.wordpress.org/Gallery_Shortcode) per Shortcode `[gallery]` eingebunden werden.
+
+#### Attribute
+
+Neben den [Standard-Optionen der WordPress-Galerie](https://wordpress.org/documentation/article/the-wordpress-gallery-classic-editor/#gallery-shortcode) wie `columns`, `size` etc. kann mit dem optionalen Attribut `type` die *Kickstart-spezifische* Kategorie des einzubindenden Bildmaterials festgelegt werden:
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `type` | Bildkategorie (optional) |
+| | *gallery* : Objektfotos und -illustrationen (Standard) |
+| | *floor_plans* : Grundrisse |
+| | *epass_images* : Energieausweis-Bildanhänge |
+
+#### Beispiele
+
+Grundriss-Galerie:\
+`[gallery type="floor_plans"]`
+
+Immobilienfotos (vierspaltige Darstellung):\
+`[gallery columns="4"]`\
+↑ Das `type`-Attribut wird hier nicht benötigt, da in diesem Fall ohnehin die Standardvorgabe *gallery* verwendet wird.
+
+####
+
 ## Erweiterte Anpassungen
 
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions#detailansicht)
