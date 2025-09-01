@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.11.13';
+	const PLUGIN_VERSION             = '1.11.17';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -63,6 +63,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 		'color_action_element_inverted'                => self::DEFAULT_COLORS['action_element_inverted'],
 		'color_text_inverted_default'                  => self::DEFAULT_COLORS['text_inverted_default'],
 		'color_demo'                                   => self::DEFAULT_COLORS['demo'],
+		'color_gradients'                              => true,
 		'color_bg_muted_default'                       => self::DEFAULT_COLORS['bg_muted_default'],
 		'muted_color_opacity_pct'                      => 45,
 		'area_unit'                                    => 'm²',
@@ -244,9 +245,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 		// Add filters for common rendering attributes.
 		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
 		add_filter( 'inx_apply_auto_rendering_atts', array( $this, 'apply_auto_rendering_atts' ) );
-
-		// Add filter for retrieving core and add-on options.
-		add_filter( 'inx_options', array( $this, 'get_options' ) );
 
 		// Add compatibility layers for older versions of this and related plugins.
 		$this->legacy_compat = new Legacy_Compat( $this->bootstrap_data );
@@ -1116,6 +1114,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 					),
 				),
 				array(
+					'name'    => 'color_gradients',
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable Gradients', 'immonex-kickstart' ),
+					'section' => 'colors',
+					'args'    => array(
+						'description' => __( 'Subtle color gradients are used for label backgrounds, among other things.', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'title_muted_colors',
 					'type'    => 'subsection_header',
 					'section' => 'colors',
@@ -1574,12 +1581,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 				),
 				array(
 					'name'    => 'property_search_no_results_text',
-					'type'    => 'text',
+					'type'    => 'wysiwyg',
 					'label'   => __( 'No Results Message', 'immonex-kickstart' ),
 					'section' => 'property_search',
 					'args'    => array(
-						'description' => __( 'This message is displayed when a property search returns no results.', 'immonex-kickstart' ),
-						'class'       => 'large-text',
+						'description'     => __( 'This message is displayed when a property search returns no results.', 'immonex-kickstart' ),
+						'class'           => 'large-text',
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
+						),
 					),
 				),
 				array(
@@ -1732,28 +1745,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_3\Base {
 
 		return $atts;
 	} // apply_auto_rendering_atts
-
-
-	/**
-	 * Return plugin options for use in add-ons etc. (filter callback).
-	 *
-	 * @since 1.9.27-beta
-	 *
-	 * @param mixed[] $options Source options or empty array.
-	 *
-	 * @return mixed[] Extended array with plugin options in sub-array "core".
-	 */
-	public function get_options( $options ) {
-		$core_options = $this->plugin_options;
-		unset( $core_options['deferred_tasks'] );
-
-		return array_merge(
-			$options,
-			array(
-				'core' => $core_options,
-			)
-		);
-	} // get_options
 
 	/**
 	 * Perform special deferred tasks defined in the plugin options.

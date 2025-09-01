@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa7de580e7f78db6de2d76fd38141909",
+    "content-hash": "63ff6fbee8f462b6f262ccff79e7a851",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "2.4.3",
+            "version": "2.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "7e10743d1cf73086f7756d875d7b347f5b757b86"
+                "reference": "c5d9f2016362e56c24cf2b3641a78be54d2d80f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/7e10743d1cf73086f7756d875d7b347f5b757b86",
-                "reference": "7e10743d1cf73086f7756d875d7b347f5b757b86",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/c5d9f2016362e56c24cf2b3641a78be54d2d80f2",
+                "reference": "c5d9f2016362e56c24cf2b3641a78be54d2d80f2",
                 "shasum": ""
             },
             "require": {
@@ -146,9 +146,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.4.3"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.4.5"
             },
-            "time": "2025-08-25T08:49:50+00:00"
+            "time": "2025-08-31T13:12:28+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1477,12 +1477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a59e49b0cc1ad46fb48ff03471b86e311a63bf43"
+                "reference": "4d338ecd2317f3a2787bd9f22fba49b8aa0b6404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a59e49b0cc1ad46fb48ff03471b86e311a63bf43",
-                "reference": "a59e49b0cc1ad46fb48ff03471b86e311a63bf43",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4d338ecd2317f3a2787bd9f22fba49b8aa0b6404",
+                "reference": "4d338ecd2317f3a2787bd9f22fba49b8aa0b6404",
                 "shasum": ""
             },
             "require": {
@@ -1580,7 +1580,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-24T05:20:24+00:00"
+            "time": "2025-08-28T10:28:26+00:00"
         },
         {
             "name": "sebastian/cli-parser",

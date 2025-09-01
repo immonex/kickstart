@@ -1,11 +1,18 @@
 == Changelog ==
 
+= 1.11.17 =
+* Release date: 2025-09-01
+* Added an option for enabling/disabling color gradients.
+* Added two filter hooks for modifying dynamic CSS properties.
+* Enabled HTML contents for the "no results" option input field (Search tab).
+* Updated dependencies.
+
 = 1.11.13 =
 * Release date: 2025-08-25
 * Reworked gallery template (default theme).
 * Fixed canonical and shortlink URLs when a regular page is used as detail view template.
 * Improved meta data generation (SEO/social media sharing).
-* Improved WCGA conformity.
+* Improved WCAG conformity.
 * Reworked default skin SCSS code.
 * Updated logos.
 * Updated dependencies.

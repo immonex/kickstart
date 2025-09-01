@@ -53,6 +53,8 @@ class Dynamic_CSS {
 	 */
 	public function init() {
 		add_filter( 'inx_dynamic_css_scopes', array( $this, 'get_scopes' ) );
+		add_filter( 'inx_dynamic_css_global', array( $this, 'get_global_props' ) );
+		add_filter( 'inx_dynamic_css_property_details', array( $this, 'get_property_details_props' ) );
 	} // init
 
 	/**
@@ -60,9 +62,15 @@ class Dynamic_CSS {
 	 *
 	 * @since 1.9.53-beta
 	 *
-	 * @return string[]
+	 * @param string[] $scopes Current dynamic CSS scopes or empty array.
+	 *
+	 * @return string[] Dynamic CSS scopes.
 	 */
-	public function get_scopes() {
+	public function get_scopes( $scopes ) {
+		if ( ! empty( $scopes ) && is_array( $scopes ) ) {
+			return array_unique( array_merge( self::SCOPES, $scopes ) );
+		}
+
 		return self::SCOPES;
 	} // get_scopes
 
@@ -86,7 +94,7 @@ class Dynamic_CSS {
 		$scopes = apply_filters( 'inx_dynamic_css_scopes', self::SCOPES );
 
 		if ( empty( $scopes ) || ! is_array( $scopes ) ) {
-			return;
+			$scopes = self::SCOPES;
 		}
 
 		foreach ( $scopes as $scope ) {
@@ -99,30 +107,42 @@ class Dynamic_CSS {
 	} // send_on_request
 
 	/**
-	 * Send CSS contents.
+	 * Send CSS property contents.
 	 *
 	 * @since 1.9.49-beta
 	 *
-	 * @param string $scope CSS scope.
+	 * @param string $scope CSS scope (optional).
 	 */
 	public function send( $scope = 'global' ) {
 		header( 'Content-Type: text/css; charset=utf-8' );
 
-		if ( method_exists( $this, "get_{$scope}_css" ) ) {
-			echo $this->{"get_{$scope}_css"}();
+		$prop_blocks = apply_filters( "inx_dynamic_css_{$scope}", array() );
+
+		if ( empty( $prop_blocks ) ) {
+			exit;
 		}
+
+		$css = '';
+
+		foreach ( $prop_blocks as $selector => $properties ) {
+			$css .= $this->get_css_property_code( $properties, $selector );
+		}
+
+		echo $css;
 
 		exit;
 	} // send
 
 	/**
-	 * Generate global CSS properties.
+	 * Generate global CSS properties (filter callback).
 	 *
-	 * @since 1.9.49-beta
+	 * @since 1.11.14
 	 *
-	 * @return string CSS property code block.
+	 * @param mixed[] $props Current global properties or empty array.
+	 *
+	 * @return mixed[] CSS properties (['selector' => ['prop1' => 'value1', 'prop2' => 'value2'...]]).
 	 */
-	private function get_global_css() {
+	public function get_global_props( $props ) {
 		$brightness_variant_pct = apply_filters( 'inx_brightness_variant_pct', 15 );
 		if (
 			! is_numeric( $brightness_variant_pct )
@@ -205,25 +225,35 @@ class Dynamic_CSS {
 				in_array( $name_part, $add_gradients_for, true )
 				&& ! isset( $defaults[ "--inx-gradient-{$name_part}" ] )
 			) {
-				$defaults[ "--inx-gradient-{$name_part}" ] = wp_sprintf(
-					'linear-gradient(60deg, %1$s 50%%, %2$s 100%%);',
-					$defaults[ "{$property}-lighter" ],
-					$defaults[ "{$property}-darker" ]
-				);
+				$defaults[ "--inx-gradient-{$name_part}" ] = $this->plugin_options['color_gradients'] ?
+					wp_sprintf(
+						'linear-gradient(60deg, %1$s 50%%, %2$s 100%%);',
+						$defaults[ "{$property}-lighter" ],
+						$defaults[ "{$property}-darker" ]
+					) :
+					"var($property)";
 			}
 		}
 
-		return $this->get_css_property_code( $defaults, ':root' );
-	} // get_global_css
+		$properties = array( ':root' => $defaults );
+
+		if ( ! empty( $props ) && is_array( $props ) ) {
+			$properties = array_merge( $properties, $props );
+		}
+
+		return $properties;
+	} // get_global_props
 
 	/**
-	 * Generate property details CSS properties.
+	 * Generate property details CSS properties (filter callback).
 	 *
-	 * @since 1.9.53-beta
+	 * @since 1.11.14
 	 *
-	 * @return string CSS property code block.
+	 * @param mixed[] $props Current property details properties or empty array.
+	 *
+	 * @return mixed[] CSS properties (['selector' => ['prop1' => 'value1', 'prop2' => 'value2'...]]).
 	 */
-	private function get_property_details_css() {
+	public function get_property_details_props( $props ) {
 		$defaults = array(
 			'.inx-gallery' => array(
 				'--inx-gallery-image-slider-bg-color'   => $this->plugin_options['gallery_image_slider_bg_color'] ?
@@ -233,14 +263,12 @@ class Dynamic_CSS {
 			),
 		);
 
-		$css = '';
-
-		foreach ( $defaults as $selector => $properties ) {
-			$css .= $this->get_css_property_code( $properties, $selector );
+		if ( ! empty( $props ) && is_array( $props ) ) {
+			return array_merge( $defaults, $props );
 		}
 
-		return $css;
-	} // get_property_details_css
+		return $defaults;
+	} // get_property_details_props
 
 	/**
 	 * Generate the CSS custom property code block for the given selector.
