@@ -337,7 +337,7 @@ Die Meta-Angaben können für die Umsetzung bedingter Anpassungen verwendet werd
 
 ## Rückgabewert
 
-Orinal-Array mit angepassten **Ausgabewerten**.
+Original-Array mit angepassten **Ausgabewerten**.
 
 ## Rahmenfunktion
 
