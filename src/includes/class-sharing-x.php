@@ -8,7 +8,7 @@
 namespace immonex\Kickstart;
 
 /**
- * Sharing-related functionality (X fka Twitter).
+ * Sharing-related functionality (X).
  */
 class Sharing_X extends Sharing {
 
@@ -16,7 +16,7 @@ class Sharing_X extends Sharing {
 	 * Protocol/Platform key and name
 	 */
 	const KEY  = 'x';
-	const NAME = 'X fka Twitter';
+	const NAME = 'X';
 
 	/**
 	 * Constructor

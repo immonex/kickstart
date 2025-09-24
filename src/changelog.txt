@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.12.0 =
+* Release date: 2025-09-24
+* Added optional generation/embedding of structured real estate data (Schema.org markup).
+* Fixed a dynamic pagination element update bug.
+* Fixed a minor CSS issue with virtual tour iFrame heights.
+* Updated dependencies
+
 = 1.11.17 =
 * Release date: 2025-09-01
 * Added an option for enabling/disabling color gradients.

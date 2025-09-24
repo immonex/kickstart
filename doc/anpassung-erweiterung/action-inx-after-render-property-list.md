@@ -1,6 +1,6 @@
 # inx_after_render_property_list (Action)
 
-Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Filter-Hook beliebige Inhalte **nach** der Ausgabe einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
+Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Action-Hook beliebige Inhalte **nach** der Ausgabe einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
 
 ## Parameter
 

@@ -1,6 +1,6 @@
 # inx_before_render_detail_element_{$element_key} (Action)
 
-Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Filter-Hook beliebige Inhalte **vor** der Ausgabe eines beliebigen [Immobilien-Detailelements](/komponenten/detailansicht?id=elemente) (Abschnitt oder Tab zusammengehöriger Objektdaten) eingefügt werden.
+Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Action-Hook beliebige Inhalte **vor** der Ausgabe eines beliebigen [Immobilien-Detailelements](/komponenten/detailansicht?id=elemente) (Abschnitt oder Tab zusammengehöriger Objektdaten) eingefügt werden.
 
 ## Parameter
 

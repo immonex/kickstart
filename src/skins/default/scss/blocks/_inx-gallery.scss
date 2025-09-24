@@ -104,6 +104,24 @@
 	justify-content: center;
 }
 
+.inx-gallery__image-slider .uk-slide-active:has(.inx-embed-consent-request__content--has-consent) {
+	> div {
+		overflow: hidden !important;
+	}
+
+	.inx-embed-consent-request {
+		height: 100%;
+	}
+}
+
+.inx-gallery__image-slider .uk-slide-active:has(.inx-embed-consent-request__content--has-consent) > div {
+	overflow: hidden !important;
+}
+
+.inx-gallery__image-slider .uk-slide-active:has(.inx-embed-consent-request__content--has-consent) .inx-embed-consent-request {
+	height: 100%;
+}
+
 @media print {
 	.inx-gallery__image-slider {
 		display: none;

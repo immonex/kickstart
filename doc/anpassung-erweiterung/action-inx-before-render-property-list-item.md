@@ -1,6 +1,6 @@
 # inx_before_render_property_list_item (Action)
 
-Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Filter-Hook beliebige Inhalte **vor** der Ausgabe **jeder** Immobilie innerhalb einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
+Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Action-Hook beliebige Inhalte **vor** der Ausgabe **jeder** Immobilie innerhalb einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
 
 ## Rahmenfunktion/Beispiel
 

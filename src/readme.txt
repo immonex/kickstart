@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 6.9
-Stable Tag: 1.11.17
+Stable Tag: 1.12.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,7 +51,7 @@ immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solut
 * Selectable map variants/views (road map, area map, topographic, satellite + streetmap layer)
 * Customizable map marker image (SVG)
 * Dynamic updates of property lists and location map views based on the current search parameters
-* Integrated SEO features, i.a. meta tags for social media sharing (Open Graph, X/Twitter)
+* SEO/GEO: Extensive structured data (Schema.org markup) and meta tags for social media sharing (Open Graph, X/Twitter)
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
@@ -121,6 +121,13 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.12.0 =
+* Release date: 2025-09-24
+* Added optional generation/embedding of structured real estate data (Schema.org markup).
+* Fixed a dynamic pagination element update bug.
+* Fixed a minor CSS issue with virtual tour iFrame heights.
+* Updated dependencies
+
 = 1.11.17 =
 * Release date: 2025-09-01
 * Added an option for enabling/disabling color gradients.
@@ -139,10 +146,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Updated dependencies.
 * Revalidated compatibility with WordPress 6.9 and the latest version of the Elementor Add-on.
 * Various detail optimizations.
-
-= 1.11.6 =
-* Release date: 2025-05-19
-* Fixed a property query compatibility issue.
-* Updated dependencies.
 
 See changelog.txt for the complete version history.

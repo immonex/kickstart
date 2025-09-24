@@ -41,11 +41,15 @@ Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei alternativen 
 
 Die Zustimmung zur Nutzung eines Dienstes gilt hierbei für alle Dienste der gleichen Art und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
 
-!>**Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen ist!
+!> **Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen ist!
 
-#### Teilen
+#### SEO/GEO/Teilen
 
-Zur Optimierung der Darstellung von Links in sozialen Netzwerken, Instant-Messaging-Diensten & Co. (Facebook, X/Twitter, LinkedIn, Slack, WhatsApp etc.) werden in Immobilien-Listen- und Detailseiten spezielle *Meta-Tags* ([Open Graph](https://ogp.me/), [Twitter Cards](https://developer.x.com/en/docs/twitter-for-websites/cards/guides/getting-started)) eingebunden, sofern die betr. Optionen aktiviert sind.
+Kickstart unterstützt von Haus aus die für **Suchmaschinen- und KI-Crawler** optimierte Veröffentlichung von Immobilien-Angeboten (*Search Engine Optimization* – *SEO* bzw. *Generative Engine Optimization* – *GEO*).
+
+Eine wichtige Grundlage hierfür stellen vom Plugin (optional) generierte *strukturierte Daten* gemäß dem [Schema.org](https://schema.org/)-Regelwerk dar, die gemeinhin auch als *Schema Markup* bezeichnet werden. Hierbei werden die Objekt-Kerndaten in einer standardisierten Form mit weiteren relevanten Angaben (Standort, Agentur, Ansprechpartner, Videos, virtuelle Tour etc.) verknüpft und in einem maschinenlesbaren Format ([JSON-LD](https://json-ld.org/)) in den Quellcode der Immobilien-Listen und -Detailansichten eingebunden.
+
+Zur Optimierung der Darstellung von Links in **sozialen bzw. Business-Netzwerken**, Instant-Messaging-Diensten & Co. (Facebook, X – vormals Twitter, LinkedIn, Slack, WhatsApp etc.) werden in Immobilien-Listen- und Detailseiten spezielle *Meta-Tags* ([Open Graph](https://ogp.me/), [Twitter Cards](https://developer.x.com/en/docs/twitter-for-websites/cards/guides/getting-started)) eingebunden, sofern die betr. Optionen aktiviert sind.
 
 Werden bereits themeseitig oder von anderen Plugins (z. B. SEO) Meta-Tags mit identischen Namensattributen eingefügt, werden diese gem. der Standardvorgabe durch die noch nicht vorhandenen, vom Kickstart-Plugin generierten Tags ergänzt. Alternativ kann aber auch die Ersetzung vorhandener oder das Einfügen aller Tags – unabhängig von bereits vorhandenen – eingestellt werden.
 

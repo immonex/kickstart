@@ -49,8 +49,8 @@ function updatePropertyLists(event, requestParams) {
 					if (response.data.list) {
 						$('#' + elementID).replaceWith(response.data.list)
 					}
-					if (response.data.pagination && $('.inx-pagination').length > 0) {
-						$('.inx-pagination').first().replaceWith(response.data.pagination)
+					if (response.data.hasOwnProperty('pagination') && $('.inx-pagination').length > 0) {
+						$('.inx-pagination').first().replaceWith(response.data.pagination || '<div class="inx-pagination"></div>')
 					}
 				})
 				.catch(err => err)

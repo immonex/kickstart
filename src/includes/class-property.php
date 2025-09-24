@@ -637,6 +637,10 @@ class Property {
 		$element_atts         = ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array();
 		$detail_page_elements = $this->get_detail_page_elements( $element_atts );
 
+		$currency = $oi_data['oi_immobilie'] && $oi_data['oi_immobilie']->xpath( '//preise/waehrung/@iso_waehrung' ) ?
+			(string) $oi_data['oi_immobilie']->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
+			$this->config['currency'];
+
 		$template_data = array_merge(
 			$this->config,
 			$core_data,
@@ -670,6 +674,7 @@ class Property {
 				'detail_page_elements'    => $detail_page_elements,
 				'flags'                   => $flags,
 				'disable_link'            => $disable_link,
+				'currency'                => $currency,
 				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
 				'kbe_mode_class'          => $kbe_mode_class,
 			),

@@ -10,13 +10,13 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
 	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.11.17';
+	const PLUGIN_VERSION             = '1.12.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -105,6 +105,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 		'property_details_map_infowindow_contents'     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_details_map_note_map_marker'         => '',
 		'property_details_map_note_map_embed'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'seo_schema_org'                               => true,
 		'sharing_open_graph'                           => true,
 		'sharing_x'                                    => true,
 		'sharing_max_images'                           => 10,
@@ -425,16 +426,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 		$dynamic_css->init();
 		$dynamic_css->send_on_request();
 
-		// Plugin-specific helper/util objects.
-		$this->utils = array_merge(
-			$this->utils,
-			array(
-				'data'   => new Data_Access_Helper( $this->plugin_options, $this->bootstrap_data, $this->utils ),
-				'format' => new Format_Helper( $this->plugin_options, $this->utils ),
-				'query'  => new Query_Helper( $this->plugin_options ),
-			)
-		);
-
 		$this->distance_search_autocomplete_types = array(
 			''              => __( 'none', 'immonex-kickstart' ),
 			'photon'        => 'Photon (OpenStreetMap)',
@@ -479,51 +470,20 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 
 		$component_config = array_merge(
 			$this->bootstrap_data,
+			$this->plugin_options,
 			array(
-				'plugin_version'                           => $this->plugin_options['plugin_version'],
-				'plugin_home_url'                          => self::PLUGIN_HOME_URL,
-				'skin'                                     => $this->plugin_options['skin'],
-				'property_list_page_id'                    => $this->plugin_options['property_list_page_id'],
-				'properties_per_page'                      => $this->plugin_options['properties_per_page'],
-				'property_details_page_id'                 => $this->plugin_options['property_details_page_id'],
-				'apply_wpautop_details_page'               => $this->plugin_options['apply_wpautop_details_page'],
-				'heading_base_level'                       => $this->plugin_options['heading_base_level'],
-				'area_unit'                                => $this->plugin_options['area_unit'],
-				'currency'                                 => $this->plugin_options['currency'],
-				'currency_symbol'                          => $this->plugin_options['currency_symbol'],
-				'show_reference_prices'                    => $this->plugin_options['show_reference_prices'],
-				'reference_price_text'                     => $this->plugin_options['reference_price_text'],
-				'property_search_dynamic_update'           => $this->plugin_options['property_search_dynamic_update'],
-				'property_search_no_results_text'          => $this->plugin_options['property_search_no_results_text'],
-				'enable_contact_section_for_references'    => $this->plugin_options['enable_contact_section_for_references'],
-				'show_seller_commission'                   => $this->plugin_options['show_seller_commission'],
-				'disable_detail_view_states'               => $this->plugin_options['disable_detail_view_states'],
-				'enable_gallery_image_links'               => $this->plugin_options['enable_gallery_image_links'],
-				'gallery_image_slider_bg_color'            => $this->plugin_options['gallery_image_slider_bg_color'],
-				'gallery_image_slider_min_height'          => $this->plugin_options['gallery_image_slider_min_height'],
-				'enable_ken_burns_effect'                  => $this->plugin_options['enable_ken_burns_effect'],
-				'ken_burns_effect_display_mode'            => $this->plugin_options['ken_burns_effect_display_mode'],
-				'distance_search_autocomplete_type'        => $this->plugin_options['distance_search_autocomplete_type'],
-				'distance_search_autocomplete_require_consent' => $this->plugin_options['distance_search_autocomplete_require_consent'],
-				'maps_require_consent'                     => $this->plugin_options['maps_require_consent'],
-				'videos_require_consent'                   => $this->plugin_options['videos_require_consent'],
-				'virtual_tours_require_consent'            => $this->plugin_options['virtual_tours_require_consent'],
-				'property_list_map_type'                   => $this->plugin_options['property_list_map_type'],
-				'property_list_map_lat'                    => $this->plugin_options['property_list_map_lat'],
-				'property_list_map_lng'                    => $this->plugin_options['property_list_map_lng'],
-				'property_list_map_zoom'                   => $this->plugin_options['property_list_map_zoom'],
-				'property_list_map_auto_fit'               => $this->plugin_options['property_list_map_auto_fit'],
-				'property_details_map_type'                => $this->plugin_options['property_details_map_type'],
-				'property_details_map_zoom'                => $this->plugin_options['property_details_map_zoom'],
-				'property_details_map_infowindow_contents' => $this->plugin_options['property_details_map_infowindow_contents'],
-				'property_details_map_note_map_marker'     => $this->plugin_options['property_details_map_note_map_marker'],
-				'property_details_map_note_map_embed'      => $this->plugin_options['property_details_map_note_map_embed'],
-				'google_api_key'                           => $this->plugin_options['google_api_key'],
-				'sharing_open_graph'                       => $this->plugin_options['sharing_open_graph'],
-				'sharing_x'                                => $this->plugin_options['sharing_x'],
-				'sharing_max_images'                       => $this->plugin_options['sharing_max_images'],
-				'sharing_tag_insert_mode'                  => $this->plugin_options['sharing_tag_insert_mode'],
-				'required_property_custom_field_defaults'  => $this->required_property_custom_field_defaults,
+				'plugin_home_url'                         => self::PLUGIN_HOME_URL,
+				'required_property_custom_field_defaults' => $this->required_property_custom_field_defaults,
+			)
+		);
+
+		// Plugin-specific helper/util objects.
+		$this->utils = array_merge(
+			$this->utils,
+			array(
+				'data'   => new Data_Access_Helper( $this->plugin_options, $this->bootstrap_data, $this->utils ),
+				'format' => new Format_Helper( $component_config, $this->utils ),
+				'query'  => new Query_Helper( $this->plugin_options ),
 			)
 		);
 
@@ -543,6 +503,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 		new Property_Search_Hooks( $component_config, $this->utils );
 		new REST_API( $component_config, $this->utils );
 		new API_Hooks( $this->api, $component_config, $this->utils );
+
+		if ( $this->plugin_options['seo_schema_org'] ) {
+			new Structured_Data_Hooks( $component_config, $this->utils );
+		}
 
 		$this->user_consent = new User_Consent( $component_config, $this->utils );
 		$this->user_consent->init();
@@ -860,9 +824,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 					'description' => __( 'If third-party services are used in the website frontend that connect to remote servers (iFrame embedding or API requests), user consent can be obtained in advance. The following options can be disabled if another plugin is used for this purpose.', 'immonex-kickstart' ),
 					'tab'         => 'tab_general',
 				),
-				'sharing'                  => array(
-					'title'       => __( 'Sharing', 'immonex-kickstart' ),
-					'description' => __( 'To optimize the display of links in social networks, instant messaging services, etc. (Facebook, X/Twitter, LinkedIn, Slack, WhatsApp…), special <em>meta tags</em> are embedded into property listing and detail pages, provided that the relevant options are activated.', 'immonex-kickstart' ),
+				'seo_geo_sharing'          => array(
+					'title'       => 'SEO/GEO/' . __( 'Sharing', 'immonex-kickstart' ),
+					'description' => '<p>' . __( '<em>Structured data</em> are provided in a consistent, predefined format to support search engines and AI systems in processing, analyzing and storing real estate property and agency information.', 'immonex-kickstart' ) . '</p><p>' .
+						__( 'To optimize the display of links in social networks, instant messaging services, etc. (Facebook, X, LinkedIn, Slack, WhatsApp…), special <em>meta tags</em> are embedded into property listing and detail pages, provided that the relevant options are activated.', 'immonex-kickstart' ) . '</p>',
 					'tab'         => 'tab_general',
 				),
 				'ext_services'             => array(
@@ -1224,10 +1189,23 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 					),
 				),
 				array(
+					'name'    => 'seo_schema_org',
+					'type'    => 'checkbox',
+					'label'   => 'Schema.org',
+					'section' => 'seo_geo_sharing',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = Schema.org URL */
+							__( 'Enable embedding of <strong>structured data</strong> according to <a href="%s" target="_blank">Schema.org</a> vocabulary.', 'immonex-kickstart' ),
+							'https://schema.org/'
+						),
+					),
+				),
+				array(
 					'name'    => 'sharing_open_graph',
 					'type'    => 'checkbox',
 					'label'   => 'Open Graph',
-					'section' => 'sharing',
+					'section' => 'seo_geo_sharing',
 					'args'    => array(
 						'description' => wp_sprintf(
 							/* translators: %s = Open Graph URL */
@@ -1240,12 +1218,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 					'name'    => 'sharing_x',
 					'type'    => 'checkbox',
 					'label'   => 'X',
-					'section' => 'sharing',
+					'section' => 'seo_geo_sharing',
 					'args'    => array(
 						'description' => wp_sprintf(
 							/* translators: %s = X Developer URL */
-							__( 'Embed additional <a href="%s" target="_blank">X (fka Twitter)</a> meta tags.', 'immonex-kickstart' ),
-							'https://developer.x.com/en/docs/twitter-for-websites/cards/guides/getting-started'
+							__( 'Embed additional <a href="%s" target="_blank">X</a> meta tags.', 'immonex-kickstart' ),
+							'https://developer.x.com/en/docs/x-for-websites/cards/guides/getting-started'
 						),
 					),
 				),
@@ -1253,7 +1231,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 					'name'    => 'sharing_max_images',
 					'type'    => 'number',
 					'label'   => __( 'Max. Number of Images', 'immonex-kickstart' ),
-					'section' => 'sharing',
+					'section' => 'seo_geo_sharing',
 					'args'    => array(
 						'description' => __( 'The maximum number of property images supplied as meta tags can be limited for destination platforms that support the display of multiple images (<code>-1</code> = no limit).', 'immonex-kickstart' ),
 						'class'       => 'small-text',
@@ -1265,7 +1243,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_4_5\Base {
 					'name'    => 'sharing_tag_insert_mode',
 					'type'    => 'select',
 					'label'   => __( 'Meta Tag Insert Mode', 'immonex-kickstart' ),
-					'section' => 'sharing',
+					'section' => 'seo_geo_sharing',
 					'args'    => array(
 						'description' => __( 'For cases where meta tags with the <strong>same name attributes</strong> have already been inserted by the theme or other plugins, these can either be retained or replaced. Further tags provided by Kickstart with other name attributes are always added. Alternatively, all tags generated by Kickstart can simply be appended, regardless of any existing tags of the same name.', 'immonex-kickstart' ),
 						'options'     => array(

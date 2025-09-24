@@ -1,6 +1,6 @@
 # inx_after_render_single_property (Action)
 
-Sind das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) sowie das hierin enthaltene **Standard-Template** der Immobilien-Detailseite (`single-property.php`) im Einsatz, können über diesen Filter-Hook beliebige Inhalte **nach** der Ausgabe der eigentlichen Objektdaten eingefügt werden.
+Sind das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) sowie das hierin enthaltene **Standard-Template** der Immobilien-Detailseite (`single-property.php`) im Einsatz, können über diesen Action-Hook beliebige Inhalte **nach** der Ausgabe der eigentlichen Objektdaten eingefügt werden.
 
 ## Rahmenfunktion/Beispiel
 

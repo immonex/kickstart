@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63ff6fbee8f462b6f262ccff79e7a851",
+    "content-hash": "f624183692a95987c1ecc4260ae360b7",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "2.4.5",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "c5d9f2016362e56c24cf2b3641a78be54d2d80f2"
+                "reference": "74a65dad19598697a39bd14a7b5195526e1be45c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/c5d9f2016362e56c24cf2b3641a78be54d2d80f2",
-                "reference": "c5d9f2016362e56c24cf2b3641a78be54d2d80f2",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/74a65dad19598697a39bd14a7b5195526e1be45c",
+                "reference": "74a65dad19598697a39bd14a7b5195526e1be45c",
                 "shasum": ""
             },
             "require": {
@@ -146,9 +146,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.4.5"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.5.0"
             },
-            "time": "2025-08-31T13:12:28+00:00"
+            "time": "2025-09-23T15:23:07+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -635,12 +635,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "fad1854935ed49eeca580d1b878cac358ec02d04"
+                "reference": "0e7014f0ea502c38a53f8f30e90176d2c757d27f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/fad1854935ed49eeca580d1b878cac358ec02d04",
-                "reference": "fad1854935ed49eeca580d1b878cac358ec02d04",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e7014f0ea502c38a53f8f30e90176d2c757d27f",
+                "reference": "0e7014f0ea502c38a53f8f30e90176d2c757d27f",
                 "shasum": ""
             },
             "require": {
@@ -676,7 +676,7 @@
                 "issues": "https://github.com/doctrine/deprecations/issues",
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.x"
             },
-            "time": "2025-06-09T20:23:56+00:00"
+            "time": "2025-09-20T19:10:57+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -980,12 +980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f7c23a43eee861070ab4e88819a4e76a611c7e4f"
+                "reference": "0da2d6679a3df45d6d720aa2e0d4568f82a32e46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f7c23a43eee861070ab4e88819a4e76a611c7e4f",
-                "reference": "f7c23a43eee861070ab4e88819a4e76a611c7e4f",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0da2d6679a3df45d6d720aa2e0d4568f82a32e46",
+                "reference": "0da2d6679a3df45d6d720aa2e0d4568f82a32e46",
                 "shasum": ""
             },
             "require": {
@@ -1031,7 +1031,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2025-08-19T18:41:44+00:00"
+            "time": "2025-09-08T07:54:25+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1477,12 +1477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4d338ecd2317f3a2787bd9f22fba49b8aa0b6404"
+                "reference": "f0b64f0abde683ca19a598e7e53274080f28fc01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4d338ecd2317f3a2787bd9f22fba49b8aa0b6404",
-                "reference": "4d338ecd2317f3a2787bd9f22fba49b8aa0b6404",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f0b64f0abde683ca19a598e7e53274080f28fc01",
+                "reference": "f0b64f0abde683ca19a598e7e53274080f28fc01",
                 "shasum": ""
             },
             "require": {
@@ -1507,7 +1507,7 @@
                 "sebastian/comparator": "^4.0.9",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
-                "sebastian/exporter": "^4.0.6",
+                "sebastian/exporter": "^4.0.7",
                 "sebastian/global-state": "^5.0.8",
                 "sebastian/object-enumerator": "^4.0.4",
                 "sebastian/resource-operations": "^3.0.4",
@@ -1580,7 +1580,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-28T10:28:26+00:00"
+            "time": "2025-09-23T15:11:45+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2027,12 +2027,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72"
+                "reference": "eb49b981ef0817890129cb70f774506bebe57740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/78c00df8f170e02473b682df15bfcdacc3d32d72",
-                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/eb49b981ef0817890129cb70f774506bebe57740",
+                "reference": "eb49b981ef0817890129cb70f774506bebe57740",
                 "shasum": ""
             },
             "require": {
@@ -2088,15 +2088,27 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.6"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.7"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/sebastian/exporter",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2024-03-02T06:33:00+00:00"
+            "time": "2025-09-22T05:18:21+00:00"
         },
         {
             "name": "sebastian/global-state",

@@ -105,7 +105,8 @@ abstract class Sharing {
 
 		$tag_identifiers = $this->get_tag_identifiers( $tags, 'meta' );
 		$block_info      = wp_sprintf(
-			'%1$s meta tags generated/replaced by immonex® Kickstart Real Estate Plugin (Open Source) - %2$s - %3$s',
+			/* translators: %1$s = Meta tag type, %2$s = plugin version, %3$s = plugin home URL */
+			__( '%1$s meta tags generated/replaced by immonex® Kickstart %2$s – Real Estate Plugin (Open Source) – %3$s', 'immonex-kickstart' ),
 			static::NAME,
 			$this->data['plugin_version'],
 			$this->data['plugin_home_url']
@@ -203,7 +204,8 @@ abstract class Sharing {
 		$add_comments  = apply_filters( 'inx_add_html_comments', false );
 		$replaced_tags = array();
 		$repl_info     = wp_sprintf(
-			'<!-- * %1$s tags replaced by immonex® Kickstart Real Estate Plugin (Open Source) - %2$s - %3$s -->',
+			/* translators: %1$s = Tag type, %2$s = plugin version, %3$s = plugin home URL */
+			'<!-- * ' . __( '%1$s tags replaced by immonex® Kickstart %2$s – Real Estate Plugin (Open Source) – %3$s', 'immonex-kickstart' ) . ' -->',
 			static::NAME,
 			$this->data['plugin_version'],
 			$this->data['plugin_home_url']

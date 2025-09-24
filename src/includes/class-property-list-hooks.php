@@ -375,7 +375,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 	 */
 	public function maybe_override_elementor_location( $need_override_location, $location, $locations_manager ) {
 		if (
-			is_archive( $this->config['property_post_type_name'] )
+			is_post_type_archive( $this->config['property_post_type_name'] )
 			&& 0 === (int) $this->config['property_list_page_id']
 		) {
 			return false;

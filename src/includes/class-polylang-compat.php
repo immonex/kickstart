@@ -157,7 +157,7 @@ class Polylang_Compat {
 	 * @return string Possibly extended URL.
 	 */
 	public function extend_language_switcher_urls( $url, $lang ) {
-		$property_id = apply_filters( 'inx_current_property_post_id', '' );
+		$property_id = apply_filters( 'inx_current_property_post_id', 0 );
 		if ( ! $property_id ) {
 			return $url;
 		}

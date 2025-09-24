@@ -1,6 +1,6 @@
 # inx_before_render_property_list (Action)
 
-Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Filter-Hook beliebige Inhalte **vor** der Ausgabe einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
+Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Skin](skins?id=custom-skins)) im Einsatz, können über diesen Action-Hook beliebige Inhalte **vor** der Ausgabe einer [Immobilien-Listenansicht](/komponenten/liste) eingefügt werden.
 
 ## Parameter
 
@@ -14,7 +14,7 @@ Ist das [Standard-Skin](standard-skin) (oder ein hierauf aufbauendes [Custom Ski
 
 ```php
 /**
- * [immonex Kickstart] Infotext vor der Ausgabe aller Immobilienlisten einfügen.
+ * [immonex Kickstart] Infotext vor der Ausgabe einer Immobilienliste einfügen.
  */
 
 add_action( 'inx_before_render_property_list', 'mysite_add_contents_before_property_list' );
