@@ -24,7 +24,7 @@ class Property_List_Schema extends Base_Schema {
 	 *
 	 * @return mixed[]|string Web page element data.
 	 */
-	public function get_web_page_entity( $type, $as_script_block = false ): array|string {
+	public function get_web_page_entity( $type, $as_script_block = false ) {
 		global $wp;
 
 		switch ( $type ) {

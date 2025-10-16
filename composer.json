@@ -17,7 +17,7 @@
         "yoast/phpunit-polyfills": "^4"
     },
     "autoload": {
-        "psr-4": { "immonex\\Kickstart\\": ["includes", "src/includes"] },
+        "psr-4": { "immonex\\Kickstart\\": ["includes"] },
         "files": ["vendor/cmb2/cmb2/init.php"]
     },
     "autoload-dev": {

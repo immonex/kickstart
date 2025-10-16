@@ -88,7 +88,7 @@ class Property_Schema extends Base_Schema {
 	 *
 	 * @return mixed[]|string Schema graph.
 	 */
-	public function get_detail_page_graph( $as_script_block = false ): array|string {
+	public function get_detail_page_graph( $as_script_block = false ) {
 		if ( empty( $this->post ) ) {
 			return $as_script_block ? '' : [];
 		}
@@ -124,9 +124,9 @@ class Property_Schema extends Base_Schema {
 	 * @param bool   $as_script_block Optional return format: true for an embed-ready
 	 *                                script block, false for the raw data array (default).
 	 *
-	 * @return mixed[]|string Main entity element (or empty array if indeterminable).
+	 * @return mixed[]|string Main entity element (or empty array/string if indeterminable).
 	 */
-	public function get_main_entity_element( $scope = 'full', $as_script_block = false ): array|string {
+	public function get_main_entity_element( $scope = 'full', $as_script_block = false ) {
 		if ( empty( $this->post ) ) {
 			return $as_script_block ? '' : [];
 		}

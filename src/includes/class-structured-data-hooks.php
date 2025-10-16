@@ -50,6 +50,12 @@ class Structured_Data_Hooks {
 		$this->utils  = $utils;
 
 		/**
+		 * WordPress filters
+		 */
+
+		add_filter( 'wp_kses_allowed_html', [ $this, 'kses_allow_script_tag' ], 20, 2 );
+
+		/**
 		 * Kickstart Core
 		 */
 
@@ -80,7 +86,7 @@ class Structured_Data_Hooks {
 	 *
 	 * @return mixed[] Main property schema entity element of the given type.
 	 */
-	public function get_property_schema_data( $schema_data, $args ): array|string {
+	public function get_property_schema_data( $schema_data, $args ) {
 		$scope       = ! empty( $args['scope'] ) && in_array( $args['scope'], [ 'full', 'extended', 'reference' ], true ) ?
 			$args['scope'] : 'reference';
 		$property_id = ! empty( $args['property_id'] ) ? $args['property_id'] : 0;
@@ -90,7 +96,7 @@ class Structured_Data_Hooks {
 		}
 
 		if ( ! $property_id ) {
-			return [];
+			return ! empty( $args['as_script_block'] ) ? '' : [];
 		}
 
 		$property_schema = new Property_Schema( $this->config, $this->utils );
@@ -220,5 +226,32 @@ class Structured_Data_Hooks {
 
 		echo $script_block;
 	} // render_property_list_graph
+
+	/**
+	 * Allow <script> tags in wp_kses (filter callback).
+	 *
+	 * @since 1.12.1-beta
+	 *
+	 * @param mixed[] $allowed_tags Existing allowed tags.
+	 * @param string  $context      Context string.
+	 *
+	 * @return mixed[] Modified allowed tags.
+	 */
+	public function kses_allow_script_tag( $allowed_tags, $context ): array {
+		if ( 'post' === $context ) {
+			$allowed_tags['script'] = [
+				'type'        => true,
+				'charset'     => true,
+				'src'         => true,
+				'async'       => true,
+				'defer'       => true,
+				'id'          => true,
+				'class'       => true,
+				'crossorigin' => true,
+			];
+		}
+
+		return $allowed_tags;
+	} // kses_allow_script_tag
 
 } // Structured_Data_Hooks

@@ -10,14 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH' ) ) {
-	define( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH', 800 ); // Width in px.
-}
-
-if ( ! defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) ) {
-	define( 'INX_SKIN_MAX_IMAGE_HEIGHT', 800 ); // Height in px.
-}
-
 $inx_skin_animation_type = ! empty( $template_data['animation_type'] ) ?
 	$template_data['animation_type'] :
 	'fade'; // Possible terms: slide, fade, scale, pull, push.
@@ -172,9 +164,9 @@ if ( $inx_skin_media_count > 0 ) :
 			);
 		}
 
-		if ( $inx_skin_image[2] && $inx_skin_image[2] > INX_SKIN_MAX_IMAGE_HEIGHT ) {
-			$inx_skin_image[1] = (int) $inx_skin_image[1] * INX_SKIN_MAX_IMAGE_HEIGHT / $inx_skin_image[2];
-			$inx_skin_image[2] = INX_SKIN_MAX_IMAGE_HEIGHT;
+		if ( $inx_skin_image[2] && $inx_skin_image[2] > $template_data['gallery_image_max_height'] ) {
+			$inx_skin_image[1] = (int) $inx_skin_image[1] * $template_data['gallery_image_max_height'] / $inx_skin_image[2];
+			$inx_skin_image[2] = $template_data['gallery_image_max_height'];
 		}
 
 		$inx_skin_image_alt = get_post_meta( $inx_skin_id, '_wp_attachment_image_alt', true );
@@ -209,7 +201,7 @@ if ( $inx_skin_media_count > 0 ) :
 			}
 
 			$inx_skin_image_enable_ken_burns_effect = $inx_skin_enable_ken_burns_effect;
-			if ( $inx_skin_image[1] < INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+			if ( $inx_skin_image[1] < $template_data['ken_burns_effect_min_image_width'] ) {
 				$inx_skin_image_enable_ken_burns_effect = false;
 			}
 
@@ -282,7 +274,7 @@ if ( $inx_skin_media_count > 0 ) :
 								<?php
 							else :
 								?>
-							<div class="inx-gallery__image uk-position-center" uk-slideshow-parallax="opacity: 0,1,0">
+							<div class="inx-gallery__image uk-flex uk-flex-middle" uk-slideshow-parallax="opacity: 0,1,0">
 								<?php echo $inx_skin_img['link'][0] . $inx_skin_img['full'] . $inx_skin_img['link'][1]; ?>
 							</div>
 								<?php

@@ -4,7 +4,7 @@
 	font-weight: normal;
 	text-decoration: none !important;
 	text-shadow: 0 0 2px #202020, 1px 2px 5px rgba(0, 0, 0, .85);
-	background: rgba(.8, .8, .8, .01);
+	/* background: rgba(.8, .8, .8, .01); */
 
 	&:hover,
 	&:focus,
@@ -23,16 +23,19 @@
 }
 
 .inx-gallery__image {
-	max-height: 100%;
+	height: 100%;
 
 	a {
-		width: 100%;
-		height: 100%;
+		display: inherit;
+		max-width: 100%;
+		max-height: 100%;
+		margin: 0 auto;
 	}
 
 	img {
-		display: block;
+		max-width: 100%;
 		max-height: 100%;
+		margin: 0 auto;
 		object-fit: contain;
 	}
 
@@ -41,9 +44,9 @@
 		align-items: center;
 		justify-content: center;
 
-		img {
-			top: auto;
-			height: auto;
+		a {
+			width: 100%;
+			height: 100%;
 		}
 	}
 }
@@ -63,6 +66,11 @@
 	.inx-gallery__image.uk-animation-kenburns {
 		align-items: start;
 		justify-content: start;
+
+		img {
+			top: auto;
+			height: auto;
+		}
 	}
 }
 

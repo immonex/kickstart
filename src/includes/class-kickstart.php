@@ -15,8 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const TEXTDOMAIN                 = 'immonex-kickstart';
-	const PLUGIN_VERSION             = '1.12.0';
+	const PLUGIN_VERSION             = '1.12.8';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -77,8 +76,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 		'enable_gallery_image_links'                   => true,
 		'gallery_image_slider_bg_color'                => '#F0F0F0',
 		'gallery_image_slider_min_height'              => 240,
+		'gallery_image_max_height'                     => 800,
 		'enable_ken_burns_effect'                      => true,
 		'ken_burns_effect_display_mode'                => 'full_center',
+		'ken_burns_effect_min_image_width'             => 800,
 		'property_search_dynamic_update'               => true,
 		'property_search_no_results_text'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'property_post_type_slug_rewrite'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
@@ -235,7 +236,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 			'required_prop_cf_defaults'   => $this->required_property_custom_field_defaults,
 		);
 
-		parent::__construct( $plugin_slug, self::TEXTDOMAIN );
+		parent::__construct( $plugin_slug );
 
 		// Set up custom post types, taxonomies and backend menus.
 		new WP_Bootstrap( $this->bootstrap_data, $this );
@@ -1454,7 +1455,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 					'label'   => __( 'Image Slider Minimum Height', 'immonex-kickstart' ),
 					'section' => 'property_details_gallery',
 					'args'    => array(
-						'description'  => __( 'Minimum height of the <strong>container element</strong> that holds the main image slider of the gallery (in pixels).', 'immonex-kickstart' ),
+						'description'  => __( 'Minimum height of the <strong>container element</strong> that holds the image slider of the gallery (in pixels).', 'immonex-kickstart' ),
 						'class'        => 'small-text',
 						'min'          => 0,
 						'max'          => 800,
@@ -1462,13 +1463,37 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 					),
 				),
 				array(
-					'name'    => 'enable_ken_burns_effect',
-					'type'    => 'checkbox',
-					'label'   => __( 'Ken Burns Effect', 'immonex-kickstart' ) . ' (KBE)',
+					'name'    => 'gallery_image_max_height',
+					'type'    => 'number',
+					'label'   => __( 'Maximum Image Height', 'immonex-kickstart' ),
 					'section' => 'property_details_gallery',
 					'args'    => array(
-						'description' => __( 'Enable image animations ("Ken Burns Effect").', 'immonex-kickstart' ),
+						'description'  => __( 'Maximum <strong>display height</strong> of the slider images (can be overwritten with the constant <code>INX_SKIN_MAX_IMAGE_HEIGHT</code>).', 'immonex-kickstart' ),
+						'class'        => 'small-text',
+						'min'          => 600,
+						'max'          => 3200,
+						'field_suffix' => 'px',
 					),
+				),
+				array(
+					'name'    => 'title_kbe',
+					'type'    => 'subsection_header',
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'title'       => __( 'Ken Burns Effect', 'immonex-kickstart' ) . ' (KBE)',
+						'description' => wp_sprintf(
+							/* translators: %1$s = Ken Burns Effect incl. Wikipedia link */
+							__( 'The %1$s is a panning and zooming animation from non-consecutive still images that comes from film and video production.', 'immonex-kickstart' ),
+							$this->string_utils->doc_link( __( 'https://en.wikipedia.org/wiki/Ken_Burns_effect', 'immonex-kickstart' ), __( 'Ken Burns Effect', 'immonex-kickstart' ) ),
+						),
+					),
+				),
+				array(
+					'name'    => 'enable_ken_burns_effect',
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable KBE', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(),
 				),
 				array(
 					'name'    => 'ken_burns_effect_display_mode',
@@ -1483,6 +1508,19 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_5_0\Base {
 							'full_center' => __( 'show full images', 'immonex-kickstart' ) . ' (' . __( 'centered', 'immonex-kickstart' ) . ')',
 							'full_top'    => __( 'show full images', 'immonex-kickstart' ) . ' (' . __( 'top', 'immonex-kickstart' ) . ')',
 						),
+					),
+				),
+				array(
+					'name'    => 'ken_burns_effect_min_image_width',
+					'type'    => 'number',
+					'label'   => __( 'KBE Minimum Image Width', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description'  => __( 'Minimum width of images to be animated (can be overwritten with the constant <code>INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH</code>).', 'immonex-kickstart' ),
+						'class'        => 'small-text',
+						'min'          => 600,
+						'max'          => 3200,
+						'field_suffix' => 'px',
 					),
 				),
 				array(

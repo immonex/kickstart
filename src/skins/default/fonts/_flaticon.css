@@ -5,6 +5,7 @@ Creation date: 10/09/2018 16:02
 
 @font-face {
   font-family: "Flaticon";
+  font-display: swap;
   src: url("../fonts/Flaticon.eot");
   src: url("../fonts/Flaticon.eot?#iefix") format("embedded-opentype");
   src: url("../fonts/Flaticon.woff") format("woff"),
@@ -74,33 +75,3 @@ Creation date: 10/09/2018 16:02
 .flaticon-calendar:before { content: "\f11a"; }
 .flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development:before { content: "\f11b"; }
 .flaticon-tag-1:before { content: "\f11c"; }
-
-/* $font-Flaticon-hotel: "\f100";
-$font-Flaticon-shower: "\f101";
-$font-Flaticon-shower-1: "\f102";
-$font-Flaticon-size: "\f103";
-$font-Flaticon-living-room: "\f104";
-$font-Flaticon-blueprint: "\f105";
-$font-Flaticon-blueprint-1: "\f106";
-$font-Flaticon-blueprint-2: "\f107";
-$font-Flaticon-blueprint-3: "\f108";
-$font-Flaticon-placeholder: "\f109";
-$font-Flaticon-pin: "\f10a";
-$font-Flaticon-coin: "\f10b";
-$font-Flaticon-euro-currency-symbol: "\f10c";
-$font-Flaticon-sale: "\f10d";
-$font-Flaticon-label: "\f10e";
-$font-Flaticon-tag: "\f10f";
-$font-Flaticon-key: "\f110";
-$font-Flaticon-numbers: "\f111";
-$font-Flaticon-number: "\f112";
-$font-Flaticon-home: "\f113";
-$font-Flaticon-apartment: "\f114";
-$font-Flaticon-shower-water-running: "\f115";
-$font-Flaticon-house-searcher: "\f116";
-$font-Flaticon-sofa: "\f117";
-$font-Flaticon-construction: "\f118";
-$font-Flaticon-information: "\f119";
-$font-Flaticon-calendar: "\f11a";
-$font-Flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development: "\f11b";
-$font-Flaticon-tag-1: "\f11c"; */

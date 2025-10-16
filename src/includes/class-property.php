@@ -242,6 +242,7 @@ class Property {
 			return array();
 		}
 
+		$config        = $this->config;
 		$post          = $this->post;
 		$prefix        = $this->config['plugin_prefix'];
 		$public_prefix = $this->config['public_prefix'];
@@ -265,6 +266,14 @@ class Property {
 			$atts['ken_burns_effect_display_mode'] :
 			$this->config['ken_burns_effect_display_mode'];
 		$kbe_mode_class = $kbe_mode ? 'inx-gallery--kbe-mode--' . str_replace( '_', '-', $kbe_mode ) : '';
+
+		if ( defined( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH' ) && (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+			$config['ken_burns_effect_min_image_width'] = (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH;
+		}
+
+		if ( defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) && (int) INX_SKIN_MAX_IMAGE_HEIGHT ) {
+			$config['gallery_image_max_height'] = (int) INX_SKIN_MAX_IMAGE_HEIGHT;
+		}
 
 		if ( ! empty( $atts['is_preview'] ) ) {
 			/**
@@ -365,8 +374,8 @@ class Property {
 				),
 			);
 
-			return array_merge(
-				$this->config,
+			$template_data = array_merge(
+				$config,
 				$core_data,
 				array(
 					'title'                => _x( 'Spacious house in an excellent location', 'sample data', 'immonex-kickstart' ),
@@ -384,6 +393,8 @@ class Property {
 				),
 				$atts
 			);
+
+			return apply_filters( 'inx_property_template_data', $template_data, $atts );
 		}
 
 		/**
@@ -642,7 +653,7 @@ class Property {
 			$this->config['currency'];
 
 		$template_data = array_merge(
-			$this->config,
+			$config,
 			$core_data,
 			$oi_data,
 			array(

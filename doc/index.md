@@ -3,13 +3,14 @@
 
 # Über dieses Plugin <!-- {docsify-ignore-all} -->
 
-**immonex Kickstart** erweitert **WordPress-Websites** um individuell anpassbare **Basiskomponenten** für die Einbindung OpenImmo®-basierter Immobilien-Angebote...
+[immonex Kickstart](https://de.wordpress.org/plugins/immonex-kickstart/) erweitert **WordPress-Websites** um individuell anpassbare **Basiskomponenten** für die Einbindung OpenImmo®-basierter Immobilien-Angebote...
 
 - [Immobiliensuche](komponenten/suchformular)
 - [Listen](komponenten/liste)
 - [Karten](komponenten/karte)
 - [Sortierung](komponenten/sortierung)
 - [Detailansicht](komponenten/detailansicht)
+- [Strukturierte Daten/Rich Snippets](/schnellstart/einrichtung?id=seogeoteilen) ([SEO](https://de.wikipedia.org/wiki/Suchmaschinenoptimierung)/[GEO](https://en.wikipedia.org/wiki/Generative_engine_optimization) → Suchmaschinen-, KI- und Social-Media-Optimierung)
 
 ...sowie um ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons)).
 
@@ -25,7 +26,7 @@
 
 ## Lizenz & Entwicklung
 
-immonex Kickstart ist **freie, quelloffene Software** (Open Source), die unter der GNU GPL 2.0 (oder später) lizenziert ist.
+immonex Kickstart ist als **freie, quelloffene Software** (Open Source) im offiziellen [WP-Plugin-Verzeichnis](https://de.wordpress.org/plugins/immonex-kickstart/) verfügbar und unter der GNU GPL 2.0 (oder später) lizenziert.
 
 Entwicklung und Support: [GitHub-Repository](https://github.com/immonex/kickstart)
 

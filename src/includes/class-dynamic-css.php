@@ -254,12 +254,31 @@ class Dynamic_CSS {
 	 * @return mixed[] CSS properties (['selector' => ['prop1' => 'value1', 'prop2' => 'value2'...]]).
 	 */
 	public function get_property_details_props( $props ) {
+		if ( defined( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH' ) && (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+			$ken_burns_effect_min_image_width = ( (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) . 'px';
+		}
+		if ( empty( $ken_burns_effect_min_image_width ) ) {
+			$ken_burns_effect_min_image_width = $this->plugin_options['ken_burns_effect_min_image_width'] ?
+				$this->plugin_options['ken_burns_effect_min_image_width'] . 'px' : '800px';
+		}
+
+		if ( defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) && (int) INX_SKIN_MAX_IMAGE_HEIGHT ) {
+			$gallery_image_max_height = ( (int) INX_SKIN_MAX_IMAGE_HEIGHT ) . 'px';
+		}
+		if ( empty( $gallery_image_max_height ) ) {
+			$gallery_image_max_height = $this->plugin_options['gallery_image_max_height'] ?
+				$this->plugin_options['gallery_image_max_height'] . 'px' : 'initial';
+		}
+
 		$defaults = array(
 			'.inx-gallery' => array(
 				'--inx-gallery-image-slider-bg-color'   => $this->plugin_options['gallery_image_slider_bg_color'] ?
 					$this->plugin_options['gallery_image_slider_bg_color'] : 'transparent',
 				'--inx-gallery-image-slider-min-height' => $this->plugin_options['gallery_image_slider_min_height'] ?
 					$this->plugin_options['gallery_image_slider_min_height'] . 'px' : 'initial',
+				// The following default values are "read-only" - CSS-based changes have no effect.
+				'--inx-gallery-ken-burns-effect-min-image-width' => $ken_burns_effect_min_image_width,
+				'--inx-gallery-image-max-height'        => $gallery_image_max_height,
 			),
 		);
 

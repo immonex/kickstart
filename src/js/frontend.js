@@ -30,19 +30,6 @@ import '../scss/frontend.scss'
 
 let inxPropertyDetailsInitialized = false
 
-if (typeof Array.prototype.flat !== 'function') {
-	Object.defineProperty(Array.prototype, 'flat', {
-		value: function(depth = 1) {
-			return this.reduce(
-				function (flat, toFlatten) {
-					return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten)
-				},
-				[]
-			)
-		}
-	})
-}
-
 document.body.addEventListener('inxInitPropertySearch', (event) => {
 	const search = import(/* webpackChunkName: "property_search" */ './property_search')
 	search.then((module) => {
