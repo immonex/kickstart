@@ -347,7 +347,7 @@ Nachfolgend eine konkrete Beispielfunktion, mit der die Ausgabe der Kaltmiete du
 
 ```php
 /**
- * [immonex Kickstart Showtime] "zzgl. NK" bei (Netto)Kaltmiete ergänzen.
+ * [immonex Kickstart Slideshows] "zzgl. NK" bei (Netto)Kaltmiete ergänzen.
  */
 
 add_filter( 'inx_property_core_data', 'mysite_extend_cold_rent', 10, 2 );

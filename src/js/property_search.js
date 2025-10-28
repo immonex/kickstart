@@ -200,6 +200,10 @@ function updateNumberOfMatches(event, changeParams) {
 	if (changeParams.paramsString !== currentSearchRequestParamsStrings[changeParams.formIndex]) {
 		currentSearchRequestParamsStrings[changeParams.formIndex] = changeParams.paramsString
 
+		if (changeParams.url.substring(0, 2) === '//') {
+			changeParams.url = window.location.protocol + changeParams.url
+		}
+
 		const url = new URL(changeParams.url)
 		const urlParams = new URLSearchParams(url.search)
 
@@ -240,6 +244,10 @@ function updateFiltersSortRequestParams(event, requestParams) {
 	let elementID = false
 	const updateIDs = $(event.target).data('dynamic-update') || false
 	if (!updateIDs) return
+
+	if (requestParams.url.substring(0, 2) === '//') {
+		requestParams.url = window.location.protocol + requestParams.url
+	}
 
 	const url = new URL(requestParams.url)
 	const urlParams = new URLSearchParams(url.search)

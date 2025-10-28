@@ -204,7 +204,8 @@ class Property_Filters_Sort {
 	 * @return mixed[] Sort option keys and related definition/configuration.
 	 */
 	public function get_sort_options() {
-		$prefix = $this->config['plugin_prefix'];
+		$prefix       = $this->config['plugin_prefix'];
+		$sort_options = array();
 
 		if (
 			$this->utils['data']->get_query_var_value( 'geo_query' )
@@ -220,8 +221,6 @@ class Property_Filters_Sort {
 					'order' => 'ASC',
 				),
 			);
-		} else {
-			$sort_options = array();
 		}
 
 		$sort_options = array_merge(

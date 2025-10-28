@@ -143,13 +143,13 @@ class Structured_Data_Hooks {
 			case 'single':
 				$property_schema = new Property_Schema( $this->config, $this->utils );
 				$property_schema->set_post_id( $id_or_term );
-				$struct_data = $property_schema->get_detail_page_graph( true );
+				$struct_data = $property_schema->get_detail_page_graph( true, false );
 				break;
 			case 'list':
 			case 'archive':
 			case 'tax_archive':
 				$property_list_schema = new Property_List_Schema( $this->config, $this->utils );
-				$struct_data          = $property_list_schema->get_web_page_entity( $type, true );
+				$struct_data          = $property_list_schema->get_web_page_entity( $type, true, false );
 				break;
 		}
 

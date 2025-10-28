@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { Loader } from '@googlemaps/js-api-loader'
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader"
 import debounce from 'debounce'
 
 export default {
@@ -96,15 +96,14 @@ export default {
 
 			this.consentGranted = true
 
-			const loader = new Loader({
-				apiKey: this.apiKey,
-				version: 'weekly'
+			setOptions({
+				key: this.apiKey,
+				v: 'weekly'
 			})
-			await loader.load()
 
 			this.google = {
-				maps: await google.maps.importLibrary('maps'),
-				places: await google.maps.importLibrary('places')
+				maps: await importLibrary('maps'),
+				places: await importLibrary('places')
 			}
 
 			this.initAutocomplete()

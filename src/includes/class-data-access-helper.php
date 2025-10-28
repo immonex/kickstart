@@ -614,10 +614,17 @@ class Data_Access_Helper {
 					if ( ! is_string( $temp_raw_single_value ) ) {
 						continue;
 					}
+
 					$temp_raw_value[ $key ] = wp_unslash( strip_tags( $temp_raw_single_value ) );
+					if ( false !== strpos( $temp_raw_value[ $key ], '\\' ) ) {
+						$temp_raw_value[ $key ] = stripslashes( $temp_raw_value[ $key ] );
+					}
 				}
 			} elseif ( is_string( $temp_raw_value ) ) {
 				$temp_raw_value = wp_unslash( strip_tags( $temp_raw_value ) );
+				if ( false !== strpos( $temp_raw_value, '\\' ) ) {
+					$temp_raw_value = stripslashes( $temp_raw_value );
+				}
 			}
 
 			// Get value from GET query variables (possibly override query object values).

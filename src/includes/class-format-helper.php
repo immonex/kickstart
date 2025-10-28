@@ -251,7 +251,7 @@ class Format_Helper {
 	 * @param mixed[] $schema_data Schema data.
 	 * @param bool    $add_info    Whether to add generator info as HTML comment
 	 *                             (optional, false by default).
-	 * @param bool    $add_wrap    Whether to add a wrapper div element
+	 * @param bool    $add_wrap    Whether to add a wrapper span element
 	 *                             (optional, true by default).
 	 *
 	 * @return Script block with JSON-LD data.

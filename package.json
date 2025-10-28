@@ -1,6 +1,6 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.12.8",
+  "version": "1.12.12",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "browserslist": [
@@ -8,8 +8,8 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.28.4",
-    "@googlemaps/js-api-loader": "^1.16.10",
-    "axios": "^1.12.2",
+    "@googlemaps/js-api-loader": "^2.0.1",
+    "axios": "^1.13.0",
     "core-js": "^3.46.0",
     "debounce": "^2.2.0",
     "flatpickr": "^4.6.13",
@@ -23,9 +23,9 @@
     "vue-multiselect": "^2.1.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/plugin-transform-runtime": "^7.28.3",
-    "@babel/preset-env": "^7.28.3",
+    "@babel/core": "^7.28.5",
+    "@babel/plugin-transform-runtime": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "babel-loader": "^10.0",
     "browser-sync": "^3.0.4",
     "browser-sync-webpack-plugin": "^2.4.0",

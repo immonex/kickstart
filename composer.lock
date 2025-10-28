@@ -635,12 +635,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "73dc393e4263e4b5d69ea6a6b606d8409dc423cd"
+                "reference": "4206996012bf464dd90f918de55ab10dacc1772c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/73dc393e4263e4b5d69ea6a6b606d8409dc423cd",
-                "reference": "73dc393e4263e4b5d69ea6a6b606d8409dc423cd",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/4206996012bf464dd90f918de55ab10dacc1772c",
+                "reference": "4206996012bf464dd90f918de55ab10dacc1772c",
                 "shasum": ""
             },
             "require": {
@@ -676,7 +676,7 @@
                 "issues": "https://github.com/doctrine/deprecations/issues",
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.x"
             },
-            "time": "2025-10-06T18:51:45+00:00"
+            "time": "2025-10-27T19:01:00+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -980,12 +980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "0da2d6679a3df45d6d720aa2e0d4568f82a32e46"
+                "reference": "c97b23dce761ab3c913ee8ac5879af7a358f88de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0da2d6679a3df45d6d720aa2e0d4568f82a32e46",
-                "reference": "0da2d6679a3df45d6d720aa2e0d4568f82a32e46",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/c97b23dce761ab3c913ee8ac5879af7a358f88de",
+                "reference": "c97b23dce761ab3c913ee8ac5879af7a358f88de",
                 "shasum": ""
             },
             "require": {
@@ -1031,7 +1031,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2025-09-08T07:54:25+00:00"
+            "time": "2025-10-26T16:58:55+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1477,12 +1477,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b335be375e08c7466013dd30172d6666355f09fa"
+                "reference": "3ee3d102eef928587fc72d166271d2fb1a8dfa2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b335be375e08c7466013dd30172d6666355f09fa",
-                "reference": "b335be375e08c7466013dd30172d6666355f09fa",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3ee3d102eef928587fc72d166271d2fb1a8dfa2b",
+                "reference": "3ee3d102eef928587fc72d166271d2fb1a8dfa2b",
                 "shasum": ""
             },
             "require": {
@@ -1580,7 +1580,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-03T04:33:04+00:00"
+            "time": "2025-10-22T06:11:53+00:00"
         },
         {
             "name": "sebastian/cli-parser",

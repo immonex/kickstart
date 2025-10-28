@@ -85,17 +85,19 @@ class Property_Schema extends Base_Schema {
 	 *
 	 * @param bool $as_script_block Optional return format: true for an embed-ready
 	 *                              script block, false for the raw data array (default).
+	 * @param bool $add_wrap        Whether to add a wrapper span element
+	 *                              (optional, true by default).
 	 *
 	 * @return mixed[]|string Schema graph.
 	 */
-	public function get_detail_page_graph( $as_script_block = false ) {
+	public function get_detail_page_graph( $as_script_block = false, $add_wrap = true ) {
 		if ( empty( $this->post ) ) {
 			return $as_script_block ? '' : [];
 		}
 
 		if ( ! empty( $this->detail_page_graph ) ) {
 			return $as_script_block ?
-				$this->utils['format']->get_json_ld_script_block( $this->detail_page_graph ) :
+				$this->utils['format']->get_json_ld_script_block( $this->detail_page_graph, true, $add_wrap ) :
 				$this->detail_page_graph;
 		}
 
@@ -108,7 +110,7 @@ class Property_Schema extends Base_Schema {
 		);
 
 		return $as_script_block ?
-			$this->utils['format']->get_json_ld_script_block( [ '@graph' => $this->detail_page_graph ], true ) :
+			$this->utils['format']->get_json_ld_script_block( [ '@graph' => $this->detail_page_graph ], true, $add_wrap ) :
 			$this->detail_page_graph;
 	} // get_detail_page_graph
 
@@ -268,8 +270,9 @@ class Property_Schema extends Base_Schema {
 			return $this->property_schema_types;
 		}
 
-		$type        = $immobilie->objektkategorie->objektart->children()[0]->getName();
-		$subtype_att = $immobilie->objektkategorie->objektart->{$type}->attributes()[0];
+		$type        = ! empty( $immobilie->objektkategorie->objektart->children() ) ?
+			$immobilie->objektkategorie->objektart->children()[0]->getName() : '';
+		$subtype_att = ! empty( $type ) ? $immobilie->objektkategorie->objektart->{$type}->attributes()[0] : '';
 		$subtype     = ! empty( $subtype_att ) ? (string) $subtype_att[0] : '';
 
 		if ( ! in_array( $type, [ 'zimmer', 'wohnung', 'haus', 'zinshaus_renditeobjekt' ], true ) ) {

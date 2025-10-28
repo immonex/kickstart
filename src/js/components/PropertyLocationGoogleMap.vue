@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { Loader } from '@googlemaps/js-api-loader'
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader"
 
 import { getSvgImgSrc } from '../shared_components'
 import pinIconSvgSource from '../../assets/marker-pin.source.svg'
@@ -114,16 +114,15 @@ export default {
 
 			this.consentGranted = true
 
-			const loader = new Loader({
-				apiKey: this.apiKey,
-				version: 'weekly'
+			setOptions({
+				key: this.apiKey,
+				v: 'weekly'
 			})
-			await loader.load()
 
 			this.google = {
-				core: await google.maps.importLibrary('core'),
-				maps: await google.maps.importLibrary('maps'),
-				marker: await google.maps.importLibrary('marker')
+				core: await importLibrary('core'),
+				maps: await importLibrary('maps'),
+				marker: await importLibrary('marker')
 			}
 
 			this.createMap()

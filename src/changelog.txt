@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.12.12 =
+* Release date: 2025-10-28
+* Fixed edgecase bugs related to schema data generation.
+* Fixed a backlink issue (location distance search).
+* Updated Google Maps JS API loader.
+
 = 1.12.8 =
 * Release date: 2025-10-16
 * Improved schema markup inline embedding compatibility.
