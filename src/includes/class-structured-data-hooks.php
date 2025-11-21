@@ -99,10 +99,31 @@ class Structured_Data_Hooks {
 			return ! empty( $args['as_script_block'] ) ? '' : [];
 		}
 
+		$format         = ! empty( $args['as_script_block'] ) ? 'script_block' : 'raw';
+		$transient_name = "inx_property_schema_{$scope}_{$format}_{$property_id}";
+		$transient_data = get_transient( $transient_name );
+
+		if ( ! empty( $transient_data ) ) {
+			return $transient_data;
+		}
+
 		$property_schema = new Property_Schema( $this->config, $this->utils );
 		$property_schema->set_post_id( $property_id );
 
-		return $property_schema->get_main_entity_element( $scope, ! empty( $args['as_script_block'] ) );
+		$schema_data = $property_schema->get_main_entity_element( $scope, ! empty( $args['as_script_block'] ) );
+
+		if ( ! empty( $schema_data ) ) {
+			$transient_expiration = apply_filters(
+				'inx_schema_data_transient_expiration',
+				MONTH_IN_SECONDS * 2,
+				'property',
+				$scope,
+				$format
+			);
+			set_transient( $transient_name, $schema_data, $transient_expiration );
+		}
+
+		return $schema_data;
 	} // get_property_schema_data
 
 	/**
@@ -139,17 +160,43 @@ class Structured_Data_Hooks {
 
 		$struct_data = '';
 
+		$transient_name = "inx_property_schema_head_{$type}" .
+			( $id_or_term && ( is_int( $id_or_term ) || is_string( $id_or_term ) ) ? "_{$id_or_term}" : '' );
+		$transient_data = get_transient( $transient_name );
+
+		if ( ! empty( $transient_data ) ) {
+			return $head_contents . $transient_data;
+		}
+
 		switch ( $type ) {
 			case 'single':
 				$property_schema = new Property_Schema( $this->config, $this->utils );
 				$property_schema->set_post_id( $id_or_term );
 				$struct_data = $property_schema->get_detail_page_graph( true, false );
+
+				$transient_expiration = apply_filters(
+					'inx_schema_data_transient_expiration',
+					WEEK_IN_SECONDS * 1,
+					'property',
+					$type,
+					'script_block'
+				);
+				set_transient( $transient_name, $struct_data, $transient_expiration );
 				break;
 			case 'list':
 			case 'archive':
 			case 'tax_archive':
 				$property_list_schema = new Property_List_Schema( $this->config, $this->utils );
 				$struct_data          = $property_list_schema->get_web_page_entity( $type, true, false );
+
+				$transient_expiration = apply_filters(
+					'inx_schema_data_transient_expiration',
+					DAY_IN_SECONDS * 1,
+					'property',
+					$type,
+					'script_block'
+				);
+				set_transient( $transient_name, $struct_data, $transient_expiration );
 				break;
 		}
 
@@ -212,10 +259,12 @@ class Structured_Data_Hooks {
 	 * @since 1.12.0-beta2
 	 */
 	public function render_property_list_graph() {
-		$graph_items = array_merge(
-			array_values( $this->schema_items['property'] ),
-			array_values( $this->schema_items['agent'] ),
-			array_values( $this->schema_items['agency'] )
+		$graph_items = array_filter(
+			array_merge(
+				array_values( $this->schema_items['property'] ),
+				array_values( $this->schema_items['agent'] ),
+				array_values( $this->schema_items['agency'] )
+			)
 		);
 
 		if ( empty( $graph_items ) ) {

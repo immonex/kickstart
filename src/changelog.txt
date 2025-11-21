@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.12.14 =
+* Release date: 2025-11-21
+* Optimized schema markup rendering performance.
+* Updated dependencies.
+
 = 1.12.12 =
 * Release date: 2025-10-28
 * Fixed edgecase bugs related to schema data generation.
