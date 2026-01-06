@@ -84,6 +84,10 @@ body:not(.dark) .markdown-section blockquote em {
 	background-color: #F8F8F8;
 }
 
+.dark .markdown-section p.tip code {
+	background-color: #070707;
+}
+
 .dark .token.tag {
 	color: #64A3DC;
 }
@@ -185,10 +189,12 @@ body.dark .element-light {
 
 .sidebar a.logo {
 	flex-direction: column;
+	text-align: center;
 }
 
 .sidebar a.logo img {
-	height: 92px;
+	width: auto;
+	height: 64px;
 }
 
 .sidebar a.logo span {

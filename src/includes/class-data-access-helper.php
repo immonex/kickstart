@@ -301,6 +301,10 @@ class Data_Access_Helper {
 			return array();
 		}
 
+		if ( ! empty( $scope ) && ! is_array( $scope ) ) {
+			$scope = array( $scope );
+		}
+
 		if ( ! $post_id ) {
 			$post_id = apply_filters( 'inx_current_property_post_id', 0 );
 		}
@@ -344,9 +348,11 @@ class Data_Access_Helper {
 				}
 			}
 
-			$search_elements = empty( $scope ) ? array( 'meta_name', 'meta_group', 'mapping_source' ) : array();
+			$search_elements = array();
 
-			if ( is_array( $scope ) ) {
+			if ( empty( $scope ) ) {
+				$search_elements = array( 'meta_name', 'meta_group', 'mapping_source' );
+			} else {
 				if ( in_array( 'name', $scope, true ) ) {
 					$search_elements[] = 'meta_name';
 				}

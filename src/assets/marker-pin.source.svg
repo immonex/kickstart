@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="-5 -5 261 261" style="--fillColor:#E77906; --fillOpacity:.8; --strokeColor:#404040; --strokeWidth:3">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" style="--fillColor:#E77906;--fillOpacity:.8;--strokeColor:#404040;--strokeWidth:3" viewBox="-5 -5 261 261">
   <defs>
-    <linearGradient id="b" x1="0%" y1="0%" x2="75%" y2="80%">
+    <linearGradient id="b" x1="0%" x2="75%" y1="0%" y2="80%">
       <stop offset="75%" stop-color="var(--fillColor)" stop-opacity="var(--fillOpacity)"/>
       <stop offset="100%" stop-color="var(--fillColor)" stop-opacity=".2"/>
     </linearGradient>
-    <linearGradient id="a" x1="0%" y1="0%" x2="75%" y2="80%">
+    <linearGradient id="a" x1="0%" x2="75%" y1="0%" y2="80%">
       <stop offset="50%" stop-color="#FFF" stop-opacity="0"/>
-      <stop offset="100%" stop-opacity="1"/>
+      <stop offset="100%"/>
     </linearGradient>
   </defs>
-  <ellipse cx="50%" cy="224" rx="100" ry="30" fill="#222" stroke="var(--strokeColor)" stroke-width="var(--strokeWidth)" fill-opacity=".2"/>
-  <path d="M45 0C30.604 0 18.934 11.67 18.934 26.066S31.966 62.71 45 78.653C58.033 62.71 71.066 40.462 71.066 26.066S59.396 0 45 0m0 37.469c-6.516 0-11.798-5.282-11.798-11.798S38.484 13.873 45 13.873s11.798 5.282 11.798 11.798S51.516 37.469 45 37.469" style="stroke:none;stroke-width:var(--strokeWidth);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:10;fill:url(#a);fill-rule:nonzero" transform="translate(1.407 1.407)scale(2.81)"/>
-  <path d="M45 0C30.604 0 18.934 11.67 18.934 26.066S31.966 62.71 45 78.653C58.033 62.71 71.066 40.462 71.066 26.066S59.396 0 45 0zm0 37.469c-6.516 0-11.798-5.282-11.798-11.798S38.484 13.873 45 13.873s11.798 5.282 11.798 11.798S51.516 37.469 45 37.469z" style="stroke:var(--strokeColor);stroke-width:var(--strokeWidth);stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:10;fill:url(#b);fill-rule:nonzero" transform="translate(1.407 1.407)scale(2.81)"/>
-  <ellipse cx="49%" cy="72" rx="32" ry="32" fill="#FFF" stroke="" stroke-width="0" fill-opacity=".1"/>
+  <ellipse cx="50%" cy="224" fill="#222" fill-opacity=".2" stroke="var(--strokeColor)" stroke-width="var(--strokeWidth)" rx="100" ry="30"/>
+  <path fill="url(#a)" d="M45 0C30.604 0 18.934 11.67 18.934 26.066S31.966 62.71 45 78.653C58.033 62.71 71.066 40.462 71.066 26.066S59.396 0 45 0m0 37.469c-6.516 0-11.798-5.282-11.798-11.798S38.484 13.873 45 13.873s11.798 5.282 11.798 11.798S51.516 37.469 45 37.469" transform="translate(1.407 1.407)scale(2.81)"/>
+  <path fill="url(#b)" stroke="var(--strokeColor)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="var(--strokeWidth)" d="M45 0C30.604 0 18.934 11.67 18.934 26.066S31.966 62.71 45 78.653C58.033 62.71 71.066 40.462 71.066 26.066S59.396 0 45 0zm0 37.469c-6.516 0-11.798-5.282-11.798-11.798S38.484 13.873 45 13.873s11.798 5.282 11.798 11.798S51.516 37.469 45 37.469z" transform="translate(1.407 1.407)scale(2.81)"/>
+  <circle cx="49%" cy="72" r="32" fill="#FFF" fill-opacity=".1"/>
 </svg>

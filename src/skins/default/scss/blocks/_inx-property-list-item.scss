@@ -6,11 +6,11 @@
 	flex-direction: column;
 	height: 100%;
 	border-radius: var(--inx-signature-border-radius, 8px 0 0 0);
-	overflow: hidden;
 	font-size: .9em;
 
 	> *:not(.inx-property-list-item__labels) {
 		flex: 0 0 auto;
+		border-radius: inherit;
 	}
 
 	> a {

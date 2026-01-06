@@ -2,8 +2,8 @@
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
-Tested up to: 6.9
-Stable Tag: 1.12.14
+Tested up to: 7.0
+Stable Tag: 1.12.19
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -121,6 +121,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.12.19 =
+* Release date: 2026-01-06
+* Improved processing of complex shortcode attribute structures.
+* Fixed hidden lazy-loaded gallery main images.
+* Fixed a minor label display issue in list views.
+* Fixed a flex details query bug (Elementor Add-on).
+* Updated dependencies.
+
 = 1.12.14 =
 * Release date: 2025-11-21
 * Optimized schema markup rendering performance.
@@ -131,13 +139,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Fixed edgecase bugs related to schema data generation.
 * Fixed a backlink issue (location distance search).
 * Updated Google Maps JS API loader.
-
-= 1.12.8 =
-* Release date: 2025-10-16
-* Improved schema markup inline embedding compatibility.
-* Added gallery options (max. image height/min. Ken Burns Effect image width).
-* Fixed gallery image scaling issues.
-* Updated JS components.
-* Restored PHP 7.4 compatibility.
 
 See changelog.txt for the complete version history.

@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.12.19 =
+* Release date: 2026-01-06
+* Improved processing of complex shortcode attribute structures.
+* Fixed hidden lazy-loaded gallery main images.
+* Fixed a minor label display issue in list views.
+* Fixed a flex details query bug (Elementor Add-on).
+* Updated dependencies.
+
 = 1.12.14 =
 * Release date: 2025-11-21
 * Optimized schema markup rendering performance.

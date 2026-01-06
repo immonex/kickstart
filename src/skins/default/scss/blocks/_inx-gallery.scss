@@ -112,6 +112,10 @@
 	justify-content: center;
 }
 
+.inx-gallery__image img.lazyloading {
+	opacity: 1;
+}
+
 .inx-gallery__image-slider .uk-slide-active:has(.inx-embed-consent-request__content--has-consent) {
 	> div {
 		overflow: hidden !important;
