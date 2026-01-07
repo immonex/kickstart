@@ -1048,7 +1048,10 @@ class Data_Access_Helper {
 
 			foreach ( $unique_items as $unique_item ) {
 				if (
-					( empty( $item['title'] ) || $item['title'] === $unique_item['title'] )
+					(
+						( empty( $item['title'] ) || $item['title'] === $unique_item['title'] )
+						|| ( $item['name'] === $unique_item['name'] )
+					)
 					&& (string) $item['value'] === (string) $unique_item['value']
 				) {
 					continue 2;

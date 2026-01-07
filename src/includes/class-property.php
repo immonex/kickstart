@@ -1003,7 +1003,12 @@ class Property {
 					if ( ! $value ) {
 						$value = 0;
 					}
-					$value_formatted = $value ? number_format( $value, 0, ',', '.' ) . '&nbsp;' . $this->config['area_unit'] : '';
+
+					if ( is_string( $value ) ) {
+						$value = $this->utils['string']->get_float( $value );
+					}
+
+					$value_formatted = $value ? number_format( (float) $value, 0, ',', '.' ) . '&nbsp;' . $this->config['area_unit'] : '';
 					break;
 				case 'primary_rooms':
 					if ( ! $value ) {

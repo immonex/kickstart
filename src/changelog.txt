@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.12.22 =
+* Release date: 2026-01-07
+* Improved filtering of duplicate property detail data.
+* Fixed a minor value conversion issue.
+* Updated translations.
+
 = 1.12.19 =
 * Release date: 2026-01-06
 * Improved processing of complex shortcode attribute structures.
