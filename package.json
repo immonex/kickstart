@@ -1,16 +1,16 @@
 {
   "name": "@immonex/kickstart",
-  "version": "1.12.19",
+  "version": "1.12.24",
   "description": "Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers",
   "private": true,
   "browserslist": [
     "extends browserslist-config-baseline"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.28.4",
+    "@babel/runtime": "^7.28.6",
     "@googlemaps/js-api-loader": "^2.0.2",
     "axios": "^1.13.2",
-    "core-js": "^3.47.0",
+    "core-js": "^3.48.0",
     "debounce": "^3.0.0",
     "flatpickr": "^4.6.13",
     "intersection-observer": "^0.12.2",
@@ -23,9 +23,9 @@
     "vue-multiselect": "^2.1.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^7.28.6",
     "@babel/plugin-transform-runtime": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-env": "^7.28.6",
     "babel-loader": "^10.0",
     "browser-sync": "^3.0.4",
     "browser-sync-webpack-plugin": "^2.4.0",
@@ -42,9 +42,9 @@
     "lws": "^4.2.0",
     "lws-index": "^3.1.1",
     "lws-static": "^3.1.1",
-    "mini-css-extract-plugin": "^2.9.4",
+    "mini-css-extract-plugin": "^2.10.0",
     "rimraf": "^6.1.2",
-    "sass": "^1.97.2",
+    "sass": "^1.97.3",
     "sass-loader": "^16.0",
     "style-loader": "^4.0",
     "trim-newlines": ">=5.0.0",

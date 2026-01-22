@@ -210,7 +210,7 @@ class Property_Map {
 					'opaque'      => true,
 				),
 				'osm_german'   => array(
-					'crossOrigin'  => 'anonymous',
+					'crossOrigin'  => 'null',
 					'maxZoom'      => self::LIST_MAP_ZOOM[1],
 					'opaque'       => true,
 					'url'          => 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',

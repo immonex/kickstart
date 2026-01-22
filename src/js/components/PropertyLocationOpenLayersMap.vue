@@ -152,6 +152,10 @@ export default {
 			const mapElement = this.$refs.map
 			const options = this.options ? JSON.parse(atob(this.options)) : {}
 
+			if ('crossOrigin' in options && options.crossOrigin === 'null') {
+				options.crossOrigin = null
+			}
+
 			const maxZoom = options.maxZoom || 18
 			let currentZoom = this.zoom
 			if (maxZoom && currentZoom > maxZoom) {

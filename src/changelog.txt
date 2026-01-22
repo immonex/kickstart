@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.12.24 =
+* Release date: 2026-01-22
+* Fixed a map issue (OSM German Style).
+* Updated dependencies.
+
 = 1.12.22 =
 * Release date: 2026-01-07
 * Improved filtering of duplicate property detail data.

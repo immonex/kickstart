@@ -796,7 +796,7 @@ class Property {
 	 *
 	 * @param string $source Image/Gallery type/source (gallery, floor_plans or epass_images)
 	 *                       or custom field name(s) (_inx_field1, _inx_field2).
-	 * @param string $return_value Return type (objects, ids or urls).
+	 * @param string $return_value Return type (objects, IDs or URLs).
 	 *
 	 * @return mixed[] List of property objects, post IDs of URLs.
 	 */

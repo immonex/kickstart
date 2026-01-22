@@ -498,6 +498,10 @@ export default {
 			let controls
 			let options = this.options ? JSON.parse(atob(this.options)) : {}
 
+			if ('crossOrigin' in options && options.crossOrigin === 'null') {
+				options.crossOrigin = null
+			}
+
 			switch (this.olSourceType) {
 				case 'google':
 					options.key = this.apiKey
