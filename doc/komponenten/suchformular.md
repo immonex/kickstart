@@ -5,6 +5,8 @@ Die **Immobiliensuche** ist eine zentrale Komponente des Kickstart-Plugins. Das 
 ![Standard-Suchformular](../assets/scst-search-form-1.png)\
 Standard-Suchformular (ohne Anpassungen)
 
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, kann das Suchformular – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/suchformular) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+
 ## Shortcode
 
 `[inx-search-form]`

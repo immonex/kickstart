@@ -253,6 +253,16 @@ class Property_Backend_Form {
 				'type' => 'text_medium',
 			),
 			array(
+				'box'     => 'core',
+				'name'    => __( 'OpenImmo XML Source Code', 'immonex-kickstart' ),
+				'desc'    => '',
+				'id'      => '_immonex_property_xml_source',
+				'type'    => 'textarea_code',
+				'options' => array(
+					'disable_codemirror' => true,
+				),
+			),
+			array(
 				'box'  => 'units_grouping',
 				'name' => __( 'Group ID', 'immonex-kickstart' ),
 				'desc' => '',

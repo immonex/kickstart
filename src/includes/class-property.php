@@ -302,7 +302,7 @@ class Property {
 			);
 
 			if ( ! empty( $atts['virtual_tour_embed_code'] ) ) {
-				$atts['virtual_tour_embed_code'] = htmlspecialchars_decode( $atts['virtual_tour_embed_code'] );
+				$atts['virtual_tour_embed_code'] = htmlspecialchars_decode( $atts['virtual_tour_embed_code'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
 			}
 
 			$file_attachments = array(
@@ -1882,7 +1882,7 @@ class Property {
 			$query_vars        = array();
 			$existing_get_vars = array();
 
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			if ( $details_page_id && isset( $_GET['page_id'] ) ) {
 				$exclude_backlink_vars[] = 'page_id';
 			}

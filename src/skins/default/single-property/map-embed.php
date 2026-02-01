@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( $inx_skin_show_map && 'gmap_embed' === substr( $template_data['type'], 0, 10 ) ) : ?>
 
 <<?php echo $inx_skin_map_tag_name; ?>
-	<?php // @codingStandardsIgnoreStart ?>
+	<?php // phpcs:disable ?>
 	options="<?php echo ! empty( $template_data['options'] ) ? base64_encode( wp_json_encode( $template_data['options'] ) ) : ''; ?>"
-	<?php // @codingStandardsIgnoreEnd ?>
+	<?php // phpcs:enable ?>
 	location="<?php echo rawurlencode( $inx_skin_map_location ); ?>"
 	:zoom="<?php echo $template_data['zoom']; ?>"
 	api-key="<?php echo esc_attr( $inx_skin_google_api_key ); ?>"
@@ -30,9 +30,9 @@ if ( $inx_skin_show_map && 'gmap_embed' === substr( $template_data['type'], 0, 1
 
 <<?php echo $inx_skin_map_tag_name; ?>
 	type="<?php echo esc_attr( $template_data['type'] ); ?>"
-	<?php // @codingStandardsIgnoreStart ?>
+	<?php // phpcs:disable ?>
 	options="<?php echo ! empty( $template_data['options'] ) ? base64_encode( wp_json_encode( $template_data['options'] ) ) : ''; ?>"
-	<?php // @codingStandardsIgnoreEnd ?>
+	<?php // phpcs:enable ?>
 	:lat="<?php echo esc_attr( $inx_skin_lat ); ?>"
 	:lng="<?php echo esc_attr( $inx_skin_lng ); ?>"
 	:zoom="<?php echo $template_data['zoom']; ?>"

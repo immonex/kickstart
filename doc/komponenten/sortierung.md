@@ -5,6 +5,8 @@ Soll eine [Immobilien-Listenansicht](liste) sortierbar gemacht werden, wird hier
 ![Sortieroptionen für Immobilienlisten](../assets/scst-filters-sort-1.gif)\
 Sortieroptionen für Immobilienlisten
 
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, können die Sortieroptionen – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/filter-sortierung) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+
 ## Shortcode
 
 `[inx-filters-sort]`

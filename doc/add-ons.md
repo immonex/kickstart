@@ -8,14 +8,15 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 
 ## Gängige Add-ons
 
-- [Team](https://de.wordpress.org/plugins/immonex-kickstart-team/) ([Dokumentation](https://docs.immonex.de/kickstart-team/))
+- [Kickstart Team](https://de.wordpress.org/plugins/immonex-kickstart-team/) ([Dokumentation](https://docs.immonex.de/kickstart-team/))  
   Agentur/Kontaktpersonen-Listen, -Profile und objektbezogene Kontaktformulare
-- [Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows/) ([Dokumentation](https://docs.immonex.de/kickstart-slideshows/))
+- [Kickstart Elementor](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor) ([Dokumentation](https://docs.immonex.de/kickstart-elementor/))  
+  35+ Widgets und Dynamic Tags für die Einbindung von OpenImmo/Kickstart-Immobiliendaten in WP-Websites, die auf Basis des beliebten Page/Site Builders [Elementor](https://de.wordpress.org/plugins/elementor/) bzw. [Elementor Pro](https://be.elementor.com/visit/?bta=229006&nci=5657) umgesetzt wurden
+- [Kickstart Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows/) ([Dokumentation](https://docs.immonex.de/kickstart-slideshows/))  
   für die Präsentation von Immobilienangeboten in Schaufenstern & Co.
 
 ### aktuell in Vorbereitung
 
-- (erweiterte) Unterstützung des WordPress-Page/Site-Builders [Elementor](https://elementor.com/)
 - druckoptimierte PDF-Exposés
 
 ... und viele weitere!

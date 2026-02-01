@@ -22,13 +22,15 @@ tl;dr
 
 = immonex® =
 
-**immonex** is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking markets/users.
+**immonex** is the *PropTech umbrella brand* of a versatile portfolio of software solutions for the German-speaking real estate industry.
+
+As a part of this, the **immonex WP Plugin Suite** includes a wide range of WordPress plugins for the implementation of sophisticated real estate agency websites and portals, which can be flexibly combined depending on the specific project requirements.
 
 = OpenImmo® =
 
-[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for real estate professionals (as import/export interfaces).
+[OpenImmo-XML](http://openimmo.de/) is a proven standard for the exchange of real estate data, which is supported primarily in German-speaking markets by almost all common software solutions and portals for real estate professionals in the form of corresponding import/export interfaces.
 
-immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solution for importing OpenImmo-XML data into WordPress sites with support for the specific data structures of various popular real estate themes and frontend plugins.
+immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solution for importing OpenImmo-XML data into WordPress sites that supports the specific data structures of various popular real estate themes and frontend plugins by means of customizable *mapping tables*.
 
 = Main Features =
 
@@ -121,6 +123,12 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.12.27-beta =
+* Release date: 2026-01-30
+* Enabled page-based templates for preview pages.
+* Reworked Autoptimize exclusion of plugin-related JS/CSS files.
+* Added OpenImmo XML source code to property backend form.
+
 = 1.12.24 =
 * Release date: 2026-01-22
 * Fixed a map issue (OSM German Style).
@@ -131,13 +139,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Improved filtering of duplicate property detail data.
 * Fixed a minor value conversion issue.
 * Updated translations.
-
-= 1.12.19 =
-* Release date: 2026-01-06
-* Improved processing of complex shortcode attribute structures.
-* Fixed hidden lazy-loaded gallery main images.
-* Fixed a minor label display issue in list views.
-* Fixed a flex details query bug (Elementor Add-on).
-* Updated dependencies.
 
 See changelog.txt for the complete version history.

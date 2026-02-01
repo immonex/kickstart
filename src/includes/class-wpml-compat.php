@@ -82,7 +82,7 @@ class WPML_Compat {
 			return $this->cache['translation_ids'][ $cache_key ];
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$this->cache['translation_ids'][ $cache_key ] = apply_filters( 'wpml_object_id', $source_id, $type, true, $lang );
 
 		return $this->cache['translation_ids'][ $cache_key ];
@@ -103,7 +103,7 @@ class WPML_Compat {
 			return $this->cache['element_languages'][ $element_id ];
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$lang_details = apply_filters( 'wpml_post_language_details', '', $element_id );
 		if ( ! is_array( $lang_details ) || empty( $lang_details ) ) {
 			return $lang;
@@ -132,12 +132,12 @@ class WPML_Compat {
 	 * @return string Two-letter language code.
 	 */
 	public function get_translated_slug( $source_slug, $post_type, $lang = null, $ignore_default_lang = false ) {
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		if ( $ignore_default_lang && apply_filters( 'wpml_default_language', null ) === $lang ) {
 			return $source_slug;
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		return apply_filters( 'wpml_get_translated_slug', $source_slug, $post_type, $lang );
 	} // get_translated_slug
 
@@ -180,18 +180,18 @@ class WPML_Compat {
 	 * @return mixed[] Page list.
 	 */
 	public function get_all_pages( $pages ) {
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$languages = apply_filters( 'wpml_active_languages', null, array( 'skip_missing' => 0 ) );
 		if ( empty( $languages ) ) {
 			return $pages;
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$current_lang = apply_filters( 'wpml_current_language', null );
 		$all_pages    = array();
 
 		foreach ( $languages as $lang ) {
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			do_action( 'wpml_switch_language', $lang['code'] );
 
 			$args = array(
@@ -210,7 +210,7 @@ class WPML_Compat {
 			}
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		do_action( 'wpml_switch_language', $current_lang );
 
 		asort( $all_pages );
@@ -252,12 +252,12 @@ class WPML_Compat {
 				}
 			}
 
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			$current_lang = apply_filters( 'wpml_current_language', null );
 			do_action( 'wpml_switch_language', $lang );
 			$pl_url = get_permalink( $property_translation_id );
 			do_action( 'wpml_switch_language', $current_lang );
-			// @codingStandardsIgnoreEnd
+			// phpcs:enable
 
 			if ( $pl_url ) {
 				$url = $pl_url;
@@ -282,7 +282,7 @@ class WPML_Compat {
 	 * @param \WP_REST_Request $request Request object.
 	 */
 	public function switch_language( $lang, $request ) {
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		do_action( 'wpml_switch_language', $lang );
 	} // switch_language
 

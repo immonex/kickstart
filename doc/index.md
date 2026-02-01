@@ -3,7 +3,9 @@
 
 # Über dieses Plugin <!-- {docsify-ignore-all} -->
 
-[immonex Kickstart](https://de.wordpress.org/plugins/immonex-kickstart/) erweitert **WordPress-Websites** um individuell anpassbare **Basiskomponenten** für die Einbindung OpenImmo®-basierter Immobilien-Angebote...
+**immonex Kickstart** ist ein [kostenfreies Immobilien-Plugin](https://de.wordpress.org/plugins/immonex-kickstart/), das WordPress-Websites um individuell anpassbare **Basiskomponenten** und ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons)) erweitert. Der Fokus liegt hierbei auf Angeboten, die via [OpenImmo-Schnittstelle](schnellstart/import) importiert und aktualisiert werden.
+
+## WP-Immobilien-Komponenten
 
 - [Immobiliensuche](komponenten/suchformular)
 - [Listen](komponenten/liste)
@@ -12,7 +14,7 @@
 - [Detailansicht](komponenten/detailansicht)
 - [Strukturierte Daten/Rich Snippets](/schnellstart/einrichtung?id=seogeoteilen) ([SEO](https://de.wikipedia.org/wiki/Suchmaschinenoptimierung)/[GEO](https://en.wikipedia.org/wiki/Generative_engine_optimization) → Suchmaschinen-, KI- und Social-Media-Optimierung)
 
-...sowie um ein einheitliches **Framework** für Erweiterungen ([Add-ons](add-ons)).
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, stehen mit dem kostenfreien [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor) **über 35 Widgets** für die komfortable und flexible Einbindung der Immobilien-Inhalte zur Verfügung. Bei der Nutzung von [Elementor Pro](https://be.elementor.com/visit/?bta=229006&nci=5657) kann zudem auf [Dynamic Tags](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-dynamic-tags/uebersicht) für die Integration von OpenImmo/Kickstart-Daten via Elementor-Standard-Widgets zurückgegriffen werden.
 
 ## Praxisbeispiel
 

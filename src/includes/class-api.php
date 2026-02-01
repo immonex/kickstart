@@ -100,7 +100,7 @@ class API {
 			$min_index = $is_sale ? 2 : 4;
 			$max_index = $min_index + 1;
 
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$result = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT MIN(CONVERT(meta.meta_value, DECIMAL)) AS min, MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
@@ -238,7 +238,7 @@ class API {
 		$field_prefix = '_' . $this->config['plugin_prefix'];
 		$field_name   = "{$field_prefix}{$type}_area";
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT MAX(CONVERT(meta.meta_value, DECIMAL)) AS max FROM $wpdb->postmeta meta
@@ -452,7 +452,7 @@ class API {
 	public function get_all_property_coords() {
 		global $wpdb;
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT post.ID AS post_id, meta.meta_value AS lat, meta2.meta_value AS lng

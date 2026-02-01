@@ -146,7 +146,7 @@ class Sharing_Open_Graph extends Sharing {
 			'name_attr_key'     => static::NAME_ATTR_KEY,
 		);
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		return apply_filters( wp_sprintf( 'inx_sharing_%s_meta_tags', static::KEY ), $tags, $context );
 	} // get_type_head_tags
 

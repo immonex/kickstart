@@ -611,9 +611,9 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				global $tab, $body_id;
 				$body_id = 'plugin-information';
-				// @codingStandardsIgnoreStart
+				// phpcs:disable
 				$tab     = 'plugin-information';
-				// @codingStandardsIgnoreEnd
+				// phpcs:enable
 
 				install_plugin_information();
 
@@ -3777,7 +3777,7 @@ if ( ! class_exists( 'TGMPA_Utils' ) ) {
 		 * @return bool
 		 */
 		protected static function emulate_filter_bool( $value ) {
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			static $true  = array(
 				'1',
 				'true', 'True', 'TRUE',
@@ -3792,7 +3792,7 @@ if ( ! class_exists( 'TGMPA_Utils' ) ) {
 				'no', 'No', 'NO',
 				'off', 'Off', 'OFF',
 			);
-			// @codingStandardsIgnoreEnd
+			// phpcs:enable
 
 			if ( is_bool( $value ) ) {
 				return $value;

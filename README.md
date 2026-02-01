@@ -1,16 +1,26 @@
-<img src="assets/immonex-kickstart-logo.png" width="264" height="264" align="right" alt="immonex Kickstart">
-
 # immonex Kickstart
+
+## WordPress-based Real Estate Site Development
+
+<img src="assets/immonex-kickstart-logo.png" width="264" height="264" align="right" alt="immonex Kickstart">
 
 immonex Kickstart is a **WordPress plugin** that provides essential customizable components (property seach, list and detail views, location maps etc.) for publishing imported **OpenImmo®-based property offers** in real estate websites built on **multi-purpose themes** in an easy and visually appealing way. Beyond that, it's also a framework for add-ons - separate plugins that extend the functionality on the same foundation.
 
-**immonex**® is an umbrella brand for various real estate related software solutions and services with a focus on german-speaking countries/users.
+### immonex®
 
-[OpenImmo-XML](http://openimmo.de/) is the de-facto standard for exchanging real estate data in the german-speaking countries. Here, it is supported by almost every common software solution and portal for real estate agencies (as import/export interfaces).
+**immonex** is the *PropTech umbrella brand* of a versatile portfolio of software solutions for the German-speaking real estate industry.
+
+As a part of this, the **immonex WP Plugin Suite** includes a wide range of WordPress plugins for the implementation of sophisticated real estate agency websites and portals, which can be flexibly combined depending on the specific project requirements.
+
+### OpenImmo®
+
+[OpenImmo-XML](http://openimmo.de/) is a proven standard for the exchange of real estate data, which is supported primarily in German-speaking markets by almost all common software solutions and portals for real estate professionals in the form of corresponding import/export interfaces[^1].
 
 ## Basics & Scope
 
-Kickstart itself is available in the official [WordPress Plugin Repository](https://wordpress.org/plugins/immonex-kickstart/). A **user documentation** including detailed instructions how to install, setup and customize the plugin (in German) is available here:
+The stable version of immonex Kickstart is available in the official [WordPress Plugin Repository](https://wordpress.org/plugins/immonex-kickstart/).[^2]
+
+A **user/dev documentation** including detailed instructions how to install, setup and customize the plugin (in German) is available here:
 
 https://docs.immonex.de/kickstart/
 
@@ -37,7 +47,7 @@ Kickstart can be extended by *custom skins* (template sets) and *add-on plugins*
 - Git branching strategy: [GitHub flow](https://guides.github.com/introduction/flow/)
 - Git commit messages: [Conventional Commits](https://www.conventionalcommits.org/)
 - CSS of *Core Skins* (template sets) shipped with this plugin are most widely built upon the [BEM methodology](https://en.bem.info/methodology/) with [Two Dashes style](https://en.bem.info/methodology/naming-convention/#two-dashes-style) as naming convention.
-- Plugin and skin CSS files are being compiled from SCSS files during the build process using [node-sass](https://github.com/sass/node-sass).
+- Plugin and skin CSS files are being compiled from SCSS files during the build process using [node-sass](https://github.com/sass).
 
 ### Setup
 
@@ -50,7 +60,7 @@ $ cd immonex-kickstart
 $ npm install
 $ composer install
 ```
-> :warning: PHP_CodeSniffer and the related WP sniffs are **not** part of the default dependencies and should be [installed globally](https://github.com/WordPress/WordPress-Coding-Standards#composer).
+> :warning: PHP_CodeSniffer and the related WP sniffs are **not** part of the default dependencies and should be [installed globally](https://github.com/WordPress/WordPress-Coding-Standards?tab=readme-ov-file#composer-global-installation).
 
 Then, a symlink to the `src` directory has to be created in the `plugins` folder of the local WP installation:
 
@@ -73,16 +83,16 @@ $ npm run build
 Create and serve a **development version** with automatic rebuild and browser reload whenever PHP, (S)CSS or JS files are updated:
 
 ```bash
-$ npm run watch
+$ npm run dev
 ```
 
-For the latter option, a [Browsersync](https://browsersync.io/) proxy URL to the **local WP dev installation** has to be defined in the file `.env` ([use .env.example](.env.example) as template).
+For the latter option, a [Browsersync](https://github.com/BrowserSync/browser-sync) proxy URL to the **local WP dev installation** has to be defined in the file `.env` ([use .env.example](.env.example) as template).
 
 ### Coding Standard
 
 The PHP source code formatting corresponds to the [WordPress PHP Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
 
-The source files can be checked with PHP_CodeSniffer (if, as recommended, installed globally as described [here](https://github.com/WordPress/WordPress-Coding-Standards#composer)):
+The source files can be checked with PHP_CodeSniffer (if, as recommended, installed globally as described [here](https://github.com/WordPress/WordPress-Coding-Standards?tab=readme-ov-file#composer-global-installation)):
 
 ```bash
 $ phpcs
@@ -162,8 +172,12 @@ $ npm run doc:publish
 
 [GPLv2 or later](LICENSE)
 
-Copyright (C) 2014, 2020 [inveris OHG](https://inveris.de/) / [immonex](https://immonex.dev/)
+Copyright (C) 2014, 2026 [inveris OHG](https://inveris.de/) / [immonex](https://immonex.dev/)
 
 This plugin is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
 This plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+[^1]: [immonex OpenImmo2WP](https://plugins.inveris.de/wordpress-plugins/immonex-openimmo2wp), initially released in 2015, is a tried and tested solution for importing OpenImmo-XML data into WordPress sites that supports the specific data structures of various popular real estate themes and frontend plugins by means of customizable *mapping tables*.
+
+[^2]: Current and fully functional versions (including betas) of all immonex plugins (free and premium) as well as OpenImmo demo data can be downloaded and licensed **free of charge** at the [immonex Developer Portal](https://immonex.dev/) for testing, development and demonstration purposes.

@@ -156,7 +156,7 @@ class Property_Search {
 
 				// Prioritize element values submitted as GET param.
 				$value = isset( $_GET[ $public_id ] ) ?
-					// @codingStandardsIgnoreLine
+					// phpcs:ignore
 					$this->utils['data']->sanitize_query_var_value( wp_unslash( $_GET[ $public_id ] ) ) :
 					false;
 

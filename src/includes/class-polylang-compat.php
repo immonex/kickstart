@@ -200,7 +200,7 @@ class Polylang_Compat {
 	 * @param \WP_REST_Request $request Request object.
 	 */
 	public function switch_language( $lang, $request ) {
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		do_action( 'wpml_switch_language', $lang );
 	} // switch_language
 

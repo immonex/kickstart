@@ -4,6 +4,8 @@ Immobilienlisten sind flexibel konfigurierbar und können grundsätzlich in beli
 
 ![Immobilien-Listenansicht](../assets/scst-list-view-1.jpg)
 
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, können Listenansichten – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/liste-grid) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+
 ## Shortcode
 
 `[inx-property-list]`

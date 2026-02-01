@@ -9,6 +9,8 @@ In der [Standard-Übersichtsseite](/beitragsarten-taxonomien#immobilien-beiträg
 ![Übersichtskarte mit Immobilien-Standortmarkern (OpenStreetMap Straßenkarte)](../assets/scst-property-map-1.png)\
 Beispiel: Straßenkarte mit Immobilien-Standortmarkern (OpenStreetMap)
 
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, kann die Karte – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/uebersichtskarte) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+
 ## Marker
 
 ![Standard-Kartenmarker](../assets/standard-map-marker.png)\

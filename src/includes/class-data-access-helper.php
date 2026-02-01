@@ -168,7 +168,7 @@ class Data_Access_Helper {
 			return array();
 		}
 
-		// @codingStandardsIgnoreStart
+		// phpcs:disable
 		$sql     = $wpdb->prepare(
 			"SELECT * FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key != %s AND meta_value {$search['compare']} %s",
 			$post_id,
@@ -176,7 +176,7 @@ class Data_Access_Helper {
 			$search['value']
 		);
 		$results = $wpdb->get_results( $sql, ARRAY_A );
-		// @codingStandardsIgnoreEnd
+		// phpcs:enable
 
 		if ( empty( $results ) ) {
 			return array();
@@ -189,7 +189,7 @@ class Data_Access_Helper {
 				continue;
 			}
 
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$meta = @unserialize( $result['meta_value'] );
 			if ( empty( $meta ) ) {
 				continue;
@@ -605,7 +605,7 @@ class Data_Access_Helper {
 			false;
 
 		if ( empty( $component_instance_data ) && ! empty( $_GET['inx-cidata'] ) ) {
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$component_instance_data = json_decode( wp_unslash( $_GET['inx-cidata'] ), true );
 		}
 
@@ -613,7 +613,7 @@ class Data_Access_Helper {
 			// Get value from the rendering data of a related frontend component instance.
 			$temp_value = $this->sanitize_query_var_value( $component_instance_data[ $var_name ] );
 		} elseif ( isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ] ) {
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			$temp_raw_value = $_GET[ $var_name ];
 			if ( is_array( $temp_raw_value ) ) {
 				foreach ( $temp_raw_value as $key => $temp_raw_single_value ) {
@@ -635,9 +635,9 @@ class Data_Access_Helper {
 
 			// Get value from GET query variables (possibly override query object values).
 			$temp_value = $this->sanitize_query_var_value( $temp_raw_value );
-			// @codingStandardsIgnoreEnd
+			// phpcs:enable
 		} elseif ( is_page() ) {
-			$temp_value = get_post_meta( get_the_ID(), $var_name );
+			$temp_value = get_post_meta( get_the_ID(), $var_name, true );
 		}
 
 		if ( ! isset( $temp_value ) || in_array( $temp_value, array( '', false, array() ), true ) ) {
@@ -712,7 +712,7 @@ class Data_Access_Helper {
 	public function get_all_terms_grouped_by_property( $taxonomy, $return_type = 'name' ) {
 		global $wpdb;
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT p.ID AS post_id, t.term_id AS id, t.name, t.slug FROM $wpdb->posts p
@@ -920,7 +920,7 @@ class Data_Access_Helper {
 
 			if ( '/' === $query_string[0] ) {
 				$trim_chars = " /\n\r\t\v\x00";
-				// @codingStandardsIgnoreLine
+				// phpcs:ignore
 				$current['is_regex'] = @preg_match( $query_string, '' ) !== false;
 
 				if ( $current['is_regex'] ) {
@@ -928,7 +928,7 @@ class Data_Access_Helper {
 				}
 			} elseif ( false !== strpos( $query_string, '%' ) ) {
 				$value_temp = str_replace( '%', '[a-zA-Z._-]{0,}', $query_string );
-				// @codingStandardsIgnoreLine
+				// phpcs:ignore
 				$current['is_regex'] = @preg_match( "/{$value_temp}/", '' ) !== false;
 
 				if ( $current['is_regex'] ) {

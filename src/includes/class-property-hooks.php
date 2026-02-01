@@ -79,8 +79,13 @@ class Property_Hooks {
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 		add_filter( 'shortcode_atts_gallery', array( $this, 'add_gallery_image_ids' ), 10, 4 );
 
-		// @codingStandardsIgnoreLine
-		$is_frontend_page_request = isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|preview\=|et_fb\=1/', $_SERVER['REQUEST_URI'] );
+		// Internal filter.
+		$is_frontend_page_request = apply_filters(
+			'inx_is_frontend_page_request',
+			// phpcs:ignore
+			isset( $pagenow ) && 'index.php' === $pagenow && ! preg_match( '/\/wp-json\/|elementor-preview\=|et_fb\=1/', $_SERVER['REQUEST_URI'] ),
+			$this->config['property_post_type_name']
+		);
 
 		if ( $is_frontend_page_request && $this->config['property_details_page_id'] ) {
 			add_filter( 'request', array( $this, 'internal_page_rewrite' ), 5 );
@@ -854,7 +859,7 @@ class Property_Hooks {
 
 		$core_data   = $property->get_core_data( 'inx-property-detail-element shortcode', $shortcode_atts );
 		$oi_data     = $property->get_openimmo_data();
-		$name        = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ) );
+		$name        = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
 		$value       = false;
 		$raw_value   = false;
 		$title       = '';
@@ -978,7 +983,7 @@ class Property_Hooks {
 				'initial_value' => $value,
 				'raw_value'     => $raw_value,
 				'title'         => $title,
-				'template'      => html_entity_decode( $shortcode_atts['template'] ),
+				'template'      => html_entity_decode( $shortcode_atts['template'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 ),
 				'if_empty'      => $shortcode_atts['if_empty'],
 				'detail_item'   => $detail_item,
 				'post_id'       => $property_id,
@@ -1152,13 +1157,16 @@ class Property_Hooks {
 			return $request;
 		}
 
+		$preview              = ! empty( $request['preview'] ) && 'true' === $request['preview'];
 		$forward_to_list_view = false;
 
 		if (
 			isset( $request['post_type'] )
 			&& $this->config['property_post_type_name'] === $request['post_type']
-			&& ! empty( $request[ $this->config['property_post_type_name'] ] )
-			&& ! empty( $request['name'] )
+			&& (
+				( ! empty( $request[ $this->config['property_post_type_name'] ] ) && ! empty( $request['name'] ) )
+				|| ! empty( $request['p'] )
+			)
 		) {
 			$details_page_id = apply_filters( 'inx_element_translation_id', $details_page_id );
 			$details_page    = $details_page_id ? get_post( $details_page_id, 'OBJECT', 'display' ) : false;
@@ -1166,12 +1174,15 @@ class Property_Hooks {
 				return $request;
 			}
 
-			$property_post = get_posts(
-				array(
-					'post_type' => $this->config['property_post_type_name'],
-					'name'      => $request['name'],
-				)
-			);
+			$property_post = ! empty( $request['p'] ) ?
+				array( get_post( (int) $request['p'] ) ) :
+				get_posts(
+					array(
+						'post_type' => $this->config['property_post_type_name'],
+						'name'      => $request['name'],
+					)
+				);
+
 			if ( empty( $property_post ) ) {
 				return $request;
 			}
@@ -1191,6 +1202,7 @@ class Property_Hooks {
 			unset( $request['post_type'] );
 			unset( $request['inx_property'] );
 			unset( $request['name'] );
+			unset( $request['p'] );
 		} elseif (
 			! empty( $request['page_id'] )
 			&& $request['page_id'] === $details_page_id
@@ -1209,7 +1221,7 @@ class Property_Hooks {
 			}
 		}
 
-		if ( $forward_to_list_view ) {
+		if ( $forward_to_list_view && ! $preview ) {
 			/**
 			 * Redirect selected detail page to the default list view if called up
 			 * directly (without property ID).

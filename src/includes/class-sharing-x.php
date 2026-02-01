@@ -134,7 +134,7 @@ class Sharing_X extends Sharing {
 			}
 		}
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		return apply_filters( wp_sprintf( 'inx_sharing_%s_meta_tags', static::KEY ), $tags, $context );
 	} // get_type_head_tags
 

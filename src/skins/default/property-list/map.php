@@ -14,7 +14,7 @@ $inx_skin_component_id = ! empty( $template_data['cid'] ) ? $template_data['cid'
 $inx_skin_privacy_note = apply_filters( 'inx_get_user_consent_content', '', $template_data['type'], 'geo' );
 
 if ( $template_data['type'] ) :
-	// @codingStandardsIgnoreStart
+	// phpcs:disable
 	?>
 <div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-map-container inx-container<?php echo ! empty( $template_data['is_preview'] ) ? ' inx-is-preview' : ''; ?>">
 	<inx-property-open-layers-map
@@ -42,5 +42,5 @@ if ( $template_data['type'] ) :
 	</inx-property-open-layers-map>
 </div>
 	<?php
-	// @codingStandardsIgnoreEnd
+	// phpcs:enable
 endif;

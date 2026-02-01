@@ -378,12 +378,12 @@ class WP_Bootstrap {
 
 		if ( $current_screen->post_type === $this->data['property_post_type_name'] ) {
 			if ( 'post.php' === $pagenow ) {
-				// @codingStandardsIgnoreLine
+				// phpcs:ignore
 				$submenu_file = 'edit.php?post_type=' . $current_screen->post_type;
 			}
 
 			if ( 'edit-tags.php' === $pagenow ) {
-				// @codingStandardsIgnoreLine
+				// phpcs:ignore
 				$submenu_file = wp_sprintf( 'edit-tags.php?taxonomy=%s&post_type=%s', $current_screen->taxonomy, $current_screen->post_type );
 			}
 
@@ -516,11 +516,11 @@ class WP_Bootstrap {
 		$extra_fields = $this->get_location_term_extra_fields();
 
 		foreach ( $extra_fields as $field_id => $field ) {
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			$value = isset( $_POST[ $field_id ] ) ?
 				sanitize_text_field( wp_unslash( $_POST[ $field_id ] ) ) :
 				false;
-			// @codingStandardsIgnoreEnd
+			// phpcs:enable
 
 			if ( false !== $value ) {
 				update_term_meta( $term_id, $field_id, $value );
@@ -680,7 +680,7 @@ class WP_Bootstrap {
 			$query_vars = array_merge(
 				$query_vars,
 				array(
-					// @codingStandardsIgnoreLine
+					// phpcs:ignore
 					'meta_key' => '_immonex_is_reference',
 					'orderby'  => 'meta_value_num',
 				)

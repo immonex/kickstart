@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_4\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.12.24';
+	const PLUGIN_VERSION             = '1.12.27-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -270,7 +270,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
 			case 'property_list_page_id':
 			case 'property_details_page_id':
 				$lang = isset( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ?
-					// @codingStandardsIgnoreLine
+					// phpcs:ignore
 					strtolower( substr( wp_sanitize_key( wp_unslash( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ), 0, 2 ) ) :
 					false;
 				return apply_filters( 'inx_element_translation_id', parent::__get( $key ), 'page', $lang );
@@ -366,7 +366,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
 
 		update_option( 'rewrite_rules', false );
 
-		// @codingStandardsIgnoreLine
+		// phpcs:ignore
 		do_action( 'immonex_core_after_activation', $this->plugin_slug );
 	} // activate_plugin_single_site
 
@@ -706,7 +706,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
 
 		// Tabs (extendable by filter function).
 		$tabs = apply_filters(
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$this->plugin_slug . '_option_tabs',
 			array(
 				'tab_general'          => array(
@@ -788,7 +788,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
 
 		// Sections (extendable by filter function).
 		$sections = apply_filters(
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$this->plugin_slug . '_option_sections',
 			array(
 				'design_structure'         => array(
@@ -916,7 +916,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_3\Base {
 
 		// Fields (extendable by filter function).
 		$fields = apply_filters(
-			// @codingStandardsIgnoreLine
+			// phpcs:ignore
 			$this->plugin_slug . '_option_fields',
 			array(
 				array(

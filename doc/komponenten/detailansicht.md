@@ -1,5 +1,7 @@
 # Detailansicht
 
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, können alle Immobilien-Detailinhalte – alternativ zu den nachfolgend beschriebenen Shortcode-Varianten – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/uebersicht?id=immobilien-detailansicht) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+
 ## Standard-Template
 
 Kickstart bzw. die verfügbaren [Skins](/anpassung-erweiterung/skins) enthalten eine **Seitenvorlage** für den [Immobilien-Beitragstyp](/beitragsarten-taxonomien), die alle wesentlichen Inhalte umfasst (inkl. Foto- und Grundriss-Galerien, [Standortkarten](/schnellstart/einrichtung#standortkarte), 360°-Panoramen, eingebundenen YouTube- oder Vimeo-Videos etc.). Hierfür ist keine weitergehende Konfiguration erforderlich.

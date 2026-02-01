@@ -271,12 +271,12 @@ class Property_List {
 			$query_vars
 		);
 
-		// @codingStandardsIgnoreStart
+		// phpcs:disable
 		$property_query = new \WP_Query( $args );
 		$org_query      = $wp_query;
 		$wp_query       = null;
 		$wp_query       = $property_query;
-		// @codingStandardsIgnoreEnd
+		// phpcs:enable
 
 		return $org_query;
 	} // replace_main_query
@@ -291,10 +291,10 @@ class Property_List {
 	private function restore_main_query( $org_query ) {
 		global $wp_query;
 
-		// @codingStandardsIgnoreStart
+		// phpcs:disable
 		$wp_query = null;
 		$wp_query = $org_query;
-		// @codingStandardsIgnoreEnd
+		// phpcs:enable
 		wp_reset_postdata();
 	} // restore_main_query
 
