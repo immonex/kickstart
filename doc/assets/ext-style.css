@@ -84,6 +84,10 @@ body:not(.dark) .markdown-section blockquote em {
 	background-color: #F8F8F8;
 }
 
+.dark .markdown-section p.tip em {
+	color: #E77906;
+}
+
 .dark .markdown-section p.tip code {
 	background-color: #070707;
 }
@@ -194,7 +198,7 @@ body.dark .element-light {
 
 .sidebar a.logo img {
 	width: auto;
-	height: 64px;
+	height: 96px;
 }
 
 .sidebar a.logo span {
