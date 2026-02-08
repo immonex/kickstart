@@ -1316,11 +1316,67 @@ class Property {
 		}
 
 		$flags           = $this->get_flags();
-		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID, $exclude );
+		$grouped_details = $this->maybe_add_parking_spaces_title_suffix(
+			$this->utils['data']->fetch_property_details( $this->post->ID, $exclude )
+		);
 		$this->details   = apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 
 		return $this->details;
 	} // get_details
+
+	/**
+	 * Add a "total" suffix to the parking spaces title or remove the element
+	 * completely (filter) if other, more specific parking type numbers are
+	 * included in the area details or remove it completely if the total is
+	 * equal to the sum of the specific numbers.
+	 *
+	 * @since 1.12.28-beta
+	 *
+	 * @param mixed[] $grouped_details Grouped property details.
+	 *
+	 * @return mixed[] Grouped property details.
+	 */
+	private function maybe_add_parking_spaces_title_suffix( $grouped_details ) {
+		if ( is_array( $grouped_details ) && isset( $grouped_details['flaechen'] ) ) {
+			$specific_parking_spaces_total = 0;
+			$specific_parking_spaces       = array_filter(
+				$grouped_details['flaechen'],
+				function ( $element ) {
+					return preg_match( '/preise\.stp_[a-z]+:anzahl/', $element['name'] );
+				}
+			);
+
+			if ( ! empty( $specific_parking_spaces ) ) {
+				foreach ( $specific_parking_spaces as $element ) {
+					$specific_parking_spaces_total += (int) $element['value'];
+				}
+			}
+
+			$total_parking_spaces_key = $specific_parking_spaces_total ?
+				key(
+					array_filter(
+						$grouped_details['flaechen'],
+						function ( $element ) {
+							return 'flaechen.anzahl_stellplaetze' === $element['name'];
+						}
+					)
+				) : false;
+
+			if ( $total_parking_spaces_key ) {
+				if ( $specific_parking_spaces_total === (int) $grouped_details['flaechen'][ $total_parking_spaces_key ]['value'] ) {
+					unset( $grouped_details['flaechen'][ $total_parking_spaces_key ] );
+				} else {
+					$title_suffix = __( 'total', 'immonex-kickstart' );
+
+					if ( false === strpos( $grouped_details['flaechen'][ $total_parking_spaces_key ]['title'], $title_suffix ) ) {
+						$grouped_details['flaechen'][ $total_parking_spaces_key ]['title'] .= ' (' . $title_suffix . ')';
+					}
+				}
+			}
+		}
+
+		return $grouped_details;
+	} // maybe_add_parking_spaces_title_suffix
 
 	/**
 	 * Create and return an array of available property detail view elements

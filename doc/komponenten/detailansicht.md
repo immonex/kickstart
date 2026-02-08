@@ -1,6 +1,6 @@
 # Detailansicht
 
-?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, können alle Immobilien-Detailinhalte – alternativ zu den nachfolgend beschriebenen Shortcode-Varianten – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/uebersicht?id=immobilien-detailansicht) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, können alle Immobilien-Detailinhalte – alternativ zu den nachfolgend beschriebenen Shortcode-Varianten – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-for-elementor/#/elementor-immobilien-widgets/uebersicht?id=immobilien-detailansicht) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart for Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-for-elementor).
 
 ## Standard-Template
 

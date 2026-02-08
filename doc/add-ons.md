@@ -10,7 +10,7 @@ Auch bei Add-ons handelt es sich um reguläre WordPress-Plugins, die sich aber n
 
 - [Kickstart Team](https://de.wordpress.org/plugins/immonex-kickstart-team/) ([Dokumentation](https://docs.immonex.de/kickstart-team/))  
   Agentur/Kontaktpersonen-Listen, -Profile und objektbezogene Kontaktformulare
-- [Kickstart Elementor](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor) ([Dokumentation](https://docs.immonex.de/kickstart-elementor/))  
+- [Kickstart for Elementor](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-for-elementor) ([Dokumentation](https://docs.immonex.de/kickstart-for-elementor/))  
   35+ Widgets und Dynamic Tags für die Einbindung von OpenImmo/Kickstart-Immobiliendaten in WP-Websites, die auf Basis des beliebten Page/Site Builders [Elementor](https://de.wordpress.org/plugins/elementor/) bzw. [Elementor Pro](https://be.elementor.com/visit/?bta=229006&nci=5657) umgesetzt wurden
 - [Kickstart Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows/) ([Dokumentation](https://docs.immonex.de/kickstart-slideshows/))  
   für die Präsentation von Immobilienangeboten in Schaufenstern & Co.

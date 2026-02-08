@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: immonex Kickstart 1.12.26-beta\n"
+"Project-Id-Version: immonex Kickstart 1.12.27-beta\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-30T13:42:10+00:00\n"
+"POT-Creation-Date: 2026-02-07T07:19:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: immonex-kickstart\n"
@@ -580,7 +580,7 @@ msgid "Request consent for using location autocompletion services in the propert
 msgstr ""
 
 #: includes/class-kickstart.php:1292
-#: includes/class-property.php:1446
+#: includes/class-property.php:1489
 msgid "Videos"
 msgstr ""
 
@@ -941,12 +941,12 @@ msgstr ""
 #: includes/class-property-search.php:1010
 #: includes/class-property-search.php:1019
 #: includes/class-property.php:761
-#: includes/class-property.php:1418
+#: includes/class-property.php:1461
 msgid "Features"
 msgstr ""
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1432
+#: includes/class-property.php:1475
 msgid "Miscellaneous"
 msgstr ""
 
@@ -964,7 +964,7 @@ msgid "Rooms"
 msgstr ""
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1359
+#: includes/class-property.php:1402
 msgid "Areas"
 msgstr ""
 
@@ -1170,7 +1170,7 @@ msgid "Gallery Images"
 msgstr ""
 
 #: includes/class-property-backend-form.php:569
-#: includes/class-property.php:1423
+#: includes/class-property.php:1466
 msgid "Floor Plans"
 msgstr ""
 
@@ -1545,12 +1545,12 @@ msgid "Location & Infrastructure"
 msgstr ""
 
 #: includes/class-property.php:773
-#: includes/class-property.php:1354
+#: includes/class-property.php:1397
 msgid "Prices"
 msgstr ""
 
 #: includes/class-property.php:777
-#: includes/class-property.php:1436
+#: includes/class-property.php:1479
 msgid "Downloads & Links"
 msgstr ""
 
@@ -1558,11 +1558,15 @@ msgstr ""
 msgid "Demotown"
 msgstr ""
 
-#: includes/class-property.php:1364
+#: includes/class-property.php:1357
+msgid "total"
+msgstr ""
+
+#: includes/class-property.php:1407
 msgid "Condition & Development"
 msgstr ""
 
-#: includes/class-property.php:1456
+#: includes/class-property.php:1499
 #: skins/default/single-property/contact-person.php:107
 msgid "Your contact person with us"
 msgstr ""

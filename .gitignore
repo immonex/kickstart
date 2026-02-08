@@ -5,6 +5,9 @@ src/assets/js
 src/assets/css
 src/skins/default/assets
 
+# Local phpdoc binary
+bin/phpdoc
+
 # Environment Configuration
 .env
 
@@ -61,4 +64,4 @@ apidoc
 
 # Miscellaneous
 .tmp
-.cache
+*.cache

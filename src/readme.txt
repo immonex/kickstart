@@ -123,9 +123,10 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.12.27-beta =
-* Release date: 2026-01-30
+= 1.12.28-beta =
+* Release date: 2026-02-07
 * Enabled page-based templates for preview pages.
+* Add dynamic adjustments of parking space contents (property detail data).
 * Reworked Autoptimize exclusion of plugin-related JS/CSS files.
 * Added OpenImmo XML source code to property backend form.
 

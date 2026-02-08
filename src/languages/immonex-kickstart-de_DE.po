@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: immonex Kickstart 1.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
-"POT-Creation-Date: 2026-01-30T13:42:10+00:00\n"
-"PO-Revision-Date: 2026-01-30 14:42+0100\n"
+"POT-Creation-Date: 2026-02-07T07:19:42+00:00\n"
+"PO-Revision-Date: 2026-02-07 08:20+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de\n"
@@ -779,7 +779,7 @@ msgstr ""
 "Zustimmung für die Nutzung von Diensten zur Autovervollständigung von "
 "Ortsnamen im Immobilien-Suchformular (Umkreissuche) einholen."
 
-#: includes/class-kickstart.php:1292 includes/class-property.php:1446
+#: includes/class-kickstart.php:1292 includes/class-property.php:1489
 msgid "Videos"
 msgstr "Videos"
 
@@ -1284,12 +1284,12 @@ msgstr "Lage"
 #: includes/class-property-backend-form.php:95
 #: includes/class-property-search.php:1010
 #: includes/class-property-search.php:1019 includes/class-property.php:761
-#: includes/class-property.php:1418
+#: includes/class-property.php:1461
 msgid "Features"
 msgstr "Ausstattung"
 
 #: includes/class-property-backend-form.php:105
-#: includes/class-property.php:1432
+#: includes/class-property.php:1475
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1307,7 +1307,7 @@ msgid "Rooms"
 msgstr "Zimmer"
 
 #: includes/class-property-backend-form.php:124
-#: includes/class-property.php:1359
+#: includes/class-property.php:1402
 msgid "Areas"
 msgstr "Flächen"
 
@@ -1513,7 +1513,7 @@ msgid "Gallery Images"
 msgstr "Galeriebilder"
 
 #: includes/class-property-backend-form.php:569
-#: includes/class-property.php:1423
+#: includes/class-property.php:1466
 msgid "Floor Plans"
 msgstr "Grundrisse"
 
@@ -1895,11 +1895,11 @@ msgstr "Energieausweis"
 msgid "Location & Infrastructure"
 msgstr "Lage & Infrastruktur"
 
-#: includes/class-property.php:773 includes/class-property.php:1354
+#: includes/class-property.php:773 includes/class-property.php:1397
 msgid "Prices"
 msgstr "Preise"
 
-#: includes/class-property.php:777 includes/class-property.php:1436
+#: includes/class-property.php:777 includes/class-property.php:1479
 msgid "Downloads & Links"
 msgstr "Downloads & Links"
 
@@ -1907,11 +1907,15 @@ msgstr "Downloads & Links"
 msgid "Demotown"
 msgstr "Demostadt"
 
-#: includes/class-property.php:1364
+#: includes/class-property.php:1357
+msgid "total"
+msgstr "gesamt"
+
+#: includes/class-property.php:1407
 msgid "Condition & Development"
 msgstr "Zustand & Erschließung"
 
-#: includes/class-property.php:1456
+#: includes/class-property.php:1499
 #: skins/default/single-property/contact-person.php:107
 msgid "Your contact person with us"
 msgstr "Dein Kontakt bei uns"

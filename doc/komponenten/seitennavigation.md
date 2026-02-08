@@ -5,7 +5,7 @@ Wie die Auswahl der Sortierreihenfolge wird auch die Seitennavigation immer in K
 ![Seitennavigation des WordPress-Standard-Themes Twenty Twenty](../assets/scst-page-navigation-1.png)\
 Seitennavigation des WordPress-Standard-Themes *Twenty Twenty*
 
-?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, kann die Seitennavigation – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-elementor/#/elementor-immobilien-widgets/seitennavigation) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-elementor).
+?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, kann die Seitennavigation – alternativ zur nachfolgend beschriebenen Shortcode-Variante – auch per [Elementor-Widget](https://docs.immonex.de/kickstart-for-elementor/#/elementor-immobilien-widgets/seitennavigation) eingebunden und konfiguriert werden. Voraussetzung hierfür ist das kostenfreie [Kickstart for Elementor Add-on](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-for-elementor).
 
 ## Shortcode
 

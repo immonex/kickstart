@@ -3,7 +3,7 @@
 	<description>Custom coding standard for immonex WordPress plugins</description>
 
 	<!-- What to scan -->
-	<file>./src/</file>
+	<file>src/</file>
 	<exclude-pattern>/lib/</exclude-pattern>
 	<exclude-pattern>/vendor/</exclude-pattern>
 	<exclude-pattern>/third_party/</exclude-pattern>
