@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
-Stable Tag: 1.12.24
+Stable Tag: 1.12.29
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -123,10 +123,11 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.12.28-beta =
-* Release date: 2026-02-07
+= 1.12.29 =
+* Release date: 2026-02-08
 * Enabled page-based templates for preview pages.
-* Add dynamic adjustments of parking space contents (property detail data).
+* Added dynamic adjustments of parking space contents (property detail data).
+* Fixed a search form issue.
 * Reworked Autoptimize exclusion of plugin-related JS/CSS files.
 * Added OpenImmo XML source code to property backend form.
 

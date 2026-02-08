@@ -135,7 +135,10 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 	const requestParamsString = $('#' + searchFormID).find('input, select')
 		.filter(function(i, field) {
 			return $(field).val() !== ''
-		}).serialize()
+		})
+		.serialize()
+		.replace(/%5B%5D/g, '[]') // Don't encode [] in parameter names to be able to identify them as array parameters.
+		.replace(/\[[0-9]+\]/, '') // Remove numeric indices from array parameters, too.
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 	url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
@@ -162,9 +165,38 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 
 	const currentURL = new URL(window.location.href)
 	const currentSearchParams = requestParamsString ? requestParamsString.split('&') : false
-	let initiallyFilledFormFields = []
+	const initiallyFilledFormFields = []
 
 	if (currentSearchParams) {
+		const currentSearchMultiValueParams = {}
+
+		for (const param of currentSearchParams) {
+			const keyValue = param.split('=')
+
+			if (keyValue.length === 2 && keyValue[0].substring(keyValue[0].length - 2) === '[]') {
+				const keyName = keyValue[0].substring(0, keyValue[0].length - 2)
+
+				if (!currentSearchMultiValueParams[keyName]) {
+					currentSearchMultiValueParams[keyName] = keyValue[1]
+				} else {
+					currentSearchMultiValueParams[keyName] += ',' + keyValue[1]
+				}
+			}
+		}
+
+		const urlSearchMultiValueParams = {}
+		for (const param of currentURL.searchParams.entries()) {
+			if (param[0].match(/\[([0-9]+)?\]/)) {
+				const keyName = param[0].replace(/\[([0-9]+)?\]/, '')
+
+				if (!urlSearchMultiValueParams[keyName]) {
+					urlSearchMultiValueParams[keyName] = param[1]
+				} else {
+					urlSearchMultiValueParams[keyName] += ',' + param[1]
+				}
+			}
+		}
+
 		/**
 		 * Check for search form fields initially filled with a value and NOT supplied
 		 * via GET parameter already. (If present, other frontend components might have
@@ -173,7 +205,16 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 		for (const param of currentSearchParams) {
 			const keyValue = param.split('=')
 
-			if (!currentURL.searchParams.get(keyValue[0])) {
+			if (keyValue[0].substring(keyValue[0].length - 2) === '[]') {
+				const keyName = keyValue[0].substring(0, keyValue[0].length - 2)
+
+				if (
+					!urlSearchMultiValueParams[keyName]
+					|| urlSearchMultiValueParams[keyName] !== currentSearchMultiValueParams[keyName]
+				) {
+					initiallyFilledFormFields.push(keyName)
+				}
+			} else if (!currentURL.searchParams.get(keyValue[0])) {
 				initiallyFilledFormFields.push(keyValue[0])
 			}
 		}

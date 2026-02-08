@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.12.29 =
+* Release date: 2026-02-08
+* Enabled page-based templates for preview pages.
+* Added dynamic adjustments of parking space contents (property detail data).
+* Fixed a search form issue.
+* Reworked Autoptimize exclusion of plugin-related JS/CSS files.
+* Added OpenImmo XML source code to property backend form.
+
 = 1.12.24 =
 * Release date: 2026-01-22
 * Fixed a map issue (OSM German Style).
