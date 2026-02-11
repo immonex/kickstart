@@ -81,6 +81,14 @@ class Dynamic_CSS {
 	 * @since 1.9.53-beta
 	 */
 	public function send_on_request() {
+		$dyn_css_query_var = ! empty( $_GET['inx-dyn-css'] ) ?
+			sanitize_text_field( wp_unslash( $_GET['inx-dyn-css'] ) ) :
+			'';
+		if ( $dyn_css_query_var ) {
+			$scope = str_replace( '_', '-', $dyn_css_query_var );
+			$this->send( $scope );
+		}
+
 		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
 			return;
 		}

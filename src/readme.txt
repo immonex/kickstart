@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
-Stable Tag: 1.12.29
+Stable Tag: 1.13.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -67,9 +67,9 @@ immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solut
 = Add-ons =
 
 * **[Team](https://wordpress.org/plugins/immonex-kickstart-team/)**: Extended real estate agency/agent data handling and property related contact forms
+* **[Print](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-print)**: PDF exposés for printing and sharing
+* **[Elementor](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-for-elementor)**: Elementor widgets and dynamic tags for Kickstart frontend components
 * **[Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows)**: Real estate slideshows for display presentation in shop windows and public areas [2]
-* **Print** (to be released soon): Generation of PDF exposés for printing and sharing
-* **Elementor** (to be released soon): Elementor widgets and dynamic tags for Kickstart frontend components
 
 == Installation ==
 
@@ -123,6 +123,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.13.0 =
+* Release date: 2026-02-11
+* Reworked dynamic CSS and search components to achieve compatibility with plain permalink structures.
+* Improved automatic determination of search form result pages.
+* Added a shortcode attribute value for explicitely specifying the current page as destination for search results.
+* Fixed a minor search form bug (extended search not hideable once opened).
+* Updated dependencies (i.a. for less unused CSS/JS code in the WP backend).
+
 = 1.12.29 =
 * Release date: 2026-02-08
 * Enabled page-based templates for preview pages.
@@ -135,11 +143,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2026-01-22
 * Fixed a map issue (OSM German Style).
 * Updated dependencies.
-
-= 1.12.22 =
-* Release date: 2026-01-07
-* Improved filtering of duplicate property detail data.
-* Fixed a minor value conversion issue.
-* Updated translations.
 
 See changelog.txt for the complete version history.

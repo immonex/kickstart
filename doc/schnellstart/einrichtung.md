@@ -65,13 +65,13 @@ Für die Nutzung der Google-Maps-Dienste ist ein **passender** API-Schlüssel er
 
 ##### Immobilien-Übersicht
 
-Als primäre Übersicht und Ausgabeziel für zugehörige Suchergebnisse fungiert das [Standard-Archiv für Immobilienbeiträge](/beitragsarten-taxonomien#immobilien-beiträge).
+Als **primäre Übersichtsseite** und Ausgabeziel für zugehörige Suchergebnisse fungiert das sog. [*Standard-Archiv* für Immobilienbeiträge](/beitragsarten-taxonomien#immobilien-beiträge).
 
 Soll stattdessen eine bestimmte **Seite** aufgerufen werden, die den [Listen-Shortcode `[inx-property-list]`](/komponenten/liste) enthält, kann diese entweder hier ausgewählt oder in Form der ID über das [Suchformular-Shortcode-Attribut `results-page-id`](/komponenten/suchformular#attribute) festgelegt werden.
 
 Neben einer regulären Seite kann auch ein *alternatives Archiv* für Immobilienbeiträge verwendet werden, das vom Theme oder einem anderen Plugin (bspw. Page/Site Builder) bereitgestellt wird. Die passende Auswahloption ist in diesem Fall `keine (Theme-Template verwenden)`.
 
-?> Enthält die Seite, in die das [Suchformular](/komponenten/suchformular) eingebunden ist, auch eine [Listenansicht](/komponenten/liste), wird diese automatisch für die Ausgabe der Ergebnisse beim Klick auf den Suchbutton verwendet, sofern keine alternative Zielseite per Shortcode-Attribut definiert wurde.
+?> Enthält die Seite, in die das [Suchformular](/komponenten/suchformular) eingebunden ist, auch eine [Listenansicht](/komponenten/liste), wird diese automatisch für die Ausgabe der Ergebnisse beim Klick auf den Suchbutton verwendet, sofern keine alternative Zielseite per Shortcode-Attribut `results-page-id` definiert wurde.
 
 #### Übersichtskarten
 

@@ -228,7 +228,7 @@ export default {
 			}
 
 			let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/' + propertyPostIds + '/'
-				+ '?inx-r-response=json_map_markers&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+			url += (url.indexOf('?') === -1 ? '?' : '&') + 'inx-r-response=json_map_markers&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
 
 			if (this.disableLinks) {
 				url += '&inx-r-disable-links=' + this.disableLinks

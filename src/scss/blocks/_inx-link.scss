@@ -4,6 +4,7 @@
 	display: flex;
 	align-items: center;
 	color: var(--inx-color-action-element);
+	cursor: pointer;
 	transition: filter .35s linear;
 
 	@at-root a#{&} {

@@ -21,7 +21,7 @@ Standard-Suchformular (ohne Anpassungen)
 | `dynamic-update` | dynamische Aktualisierung der Inhalte von Immobilienlisten und Standort-Übersichtskarten auf der gleichen Seite (ohne Neuladen) bei Änderung der Suchparameter aktivieren (optional) |
 | | *all* oder *1* : alle Listen- und Kartenkomponenten der Seite (inkl. Seitennavigation und Auswahl der Sortierreihenfolge) |
 | | *inx-property-map, inx-property-list* (Beispiel): kommagetrennte Liste von **HTML-DOM-IDs** der zu aktualisierenden Komponenten (eigene IDs können per Attribut `cid` festgelegt werden) |
-| `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
+| `results-page-id` | ID der Seite für die Ausgabe der Suchergebnisse oder *current* um **explizit** die aktuelle Seite\* hierfür festzulegen (**optional**, Standardvorgabe: aktuelle Seite, sofern der Listen-Shortcode `[inx-property-list]` enthalten ist, ansonsten Standardseite für Immbobilienlisten) |
 | `references` | Angaben wie *verkauft* oder *vermietet* werden in der Auswahlliste des Elements **Vermarktungsart** (`marketing-type`) standardmäßig ausgefiltert. Mit *yes* als Attributwert kann diese Filterung **deaktiviert** werden (optional). |
 | `top-level-only` | Auswahloptionen [hierarchischer Taxonomien](/beitragsarten-taxonomien) (z. B. Objektart) (optional) auf die **Hauptkategorien** der ersten Ebene beschränken (Attributwert *1*) |
 | `force-location` | Auswahloptionen des Elements `locality` (Objektstandort) auf die **Hauptkategorien** (Terms der [Taxonomie inx_location](/beitragsarten-taxonomien)) mit den angegebenen **Slugs** begrenzen (einzeln oder als kommagetrennte Liste) |
@@ -32,6 +32,8 @@ Standard-Suchformular (ohne Anpassungen)
 | `autocomplete-countries` | kommagetrennte Liste von Codes gem. [ISO 3166-1 ALPHA-2](https://www.nationsonline.org/oneworld/countrycodes.htm) der Länder, die bei der Autovervollständigung von Ortsnamen des Elements `distance-search-location` (11) berücksichtigt werden sollen (Standard bei aktivierter [Photon](https://photon.komoot.io/)-Ortssuche: *de,at,ch,lu,be,fr,nl,dk,pl,es,pt,it,gr*, bei Nutzung der [Google-Places-API](https://developers.google.com/maps/documentation/places/web-service/autocomplete) (max. 5): *de,at,ch,be,nl* |
 | `autocomplete-osm-place-tags` | kommagetrennte Liste von [OpenStreetMap-Place-Tags](https://wiki.openstreetmap.org/wiki/DE&colon;Key&colon;place) zur Filterung und Priorisierung der via [Photon](https://photon.komoot.io/) ermittelten Orte (Autovervollständigung) für das Element `distance-search-location` (11) der Umkreissuche (Standard: `city,town,village,borough,suburb`) |
 | `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *property-search/foobar*) |
+
+!> **\*** Wird ein Suchformular in die **Startseite** der Website eingebunden, erfolgt die Ausgabe der Ergebnisse nach einem Klick auf den **Absenden-Button** in der in den Plugin-Optionen festgelegten [primären Übersichtsseite](/schnellstart/einrichtung?id=immobilien-Übersicht), auch wenn die Startseite selbst eine Listenansicht enthält. Sollen die Ergebnisse stattdessen in der Startseite angezeigt werden, muss das Attribut `results-page-id="current"` im Shortcode enthalten sein.
 
 #### Elemente
 
@@ -141,7 +143,7 @@ Beispiel: Listenansicht (DOM-ID *inx-property-list*) und Immobilienkarte (*inx-p
 Bei paralleler Aktivierung der globalen Option hat die per Shortcode-Attribut definierte Angabe eine höhere Priorität. Im Beispiel sind die standardmäßig vergebenen DOM-IDs der Elemente für Listen- und Kartenansichten genannt, wobei hier bei einer Mehrfacheinbindung noch eine laufende Nummer angehangen wird: Bei zwei Listen in einer Seite erhalten diese bspw. die IDs *inx-property-list* und *inx-property-list-2*. Sollen stattdessen individuelle IDs vergeben werden, ist dies mit dem Attribut `cid` möglich:
 
 Beispiel: Suchformular und Instanz einer Listenansicht mit der DOM-ID *immo-liste* einfügen, die bei Änderung der Suchkriterien aktualisiert wird\
-`[inx-search-form dynamic-update="immo-liste"]`
+`[inx-search-form dynamic-update="immo-liste"]`\
 `[inx-property-list cid="immo-liste"]`
 
 ## Erweiterte Anpassungen

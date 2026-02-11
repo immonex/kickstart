@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_4\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.12.29';
+	const PLUGIN_VERSION             = '1.13.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -225,6 +225,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_4\Base {
 						self::PUBLIC_PREFIX . 'author',
 						self::PUBLIC_PREFIX . 'ref',
 						self::PUBLIC_PREFIX . 'force-lang',
+						self::PUBLIC_PREFIX . 'dyn-css',
 					),
 					self::PUBLIC_PREFIX
 				);
@@ -579,7 +580,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_6_4\Base {
 
 				wp_enqueue_style(
 					"inx-dyn-{$scope}",
-					home_url( "inx-dyn-{$scope}.css" ),
+					get_option( 'permalink_structure' ) ?
+						home_url( "inx-dyn-{$scope}.css" ) :
+						home_url( "/?inx-dyn-css={$scope}" ),
 					array(),
 					$this->plugin_version
 				);

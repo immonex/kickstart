@@ -141,7 +141,7 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 		.replace(/\[[0-9]+\]/, '') // Remove numeric indices from array parameters, too.
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
-	url += '?inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
+	url += (url.indexOf('?') === -1 ? '?' : '&') + 'inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
 	let backlinkURL = $(searchForm).attr('action') || window.location.href.split('?')[0]
 	if (requestParamsString) {
 		url += '&' + requestParamsString
@@ -481,6 +481,19 @@ async function init() {
 
 	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updateFiltersSortRequestParams, debounceDelay))
 	$('.inx-property-search').on('search:change', debounce(updateNumberOfMatches, debounceDelay))
+
+	$("form[id^='inx-property-search-main-form']").each((index, searchForm) => {
+		if (
+			$(searchForm).data('form-action-autodetect')
+			&& $('.inx-property-list').length
+		) {
+			/**
+			 * Set the current page (URL specified via form action autodetect attribute)
+			 * as search form action if a list element is present here.
+			 */
+			searchForm.action = $(searchForm).data('form-action-autodetect')
+		}
+	})
 
 	window.setTimeout(() => { if (!searchStateInitialized) updateSearchState() }, debounceDelay);
 } // init

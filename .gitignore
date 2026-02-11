@@ -5,11 +5,11 @@ src/assets/js
 src/assets/css
 src/skins/default/assets
 
-# Local phpdoc binary
-bin/phpdoc
-
 # Environment Configuration
 .env
+
+# Local phpdoc binary
+bin/phpdoc
 
 # Local WP-CLI Configuration
 wp_cli.local.yml

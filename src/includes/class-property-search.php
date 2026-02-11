@@ -273,12 +273,24 @@ class Property_Search {
 		/**
 		 * Determine the form action URL.
 		 */
-		$default_action_url = false;
-		$form_action        = false;
+		$default_action_url     = false;
+		$form_action            = false;
+		$form_action_autodetect = '';
+		$current_url            = $this->utils['string']->get_nopaging_url();
+
+		if ( false === strpos( $current_url, '?' ) ) {
+			$current_url = trailingslashit( $current_url );
+		}
 
 		if ( ! empty( $atts['results-page-id'] ) ) {
-			// Specific page ID given as shortcode parameter: set as form action URL if valid.
-			$page_url = get_permalink( (int) $atts['results-page-id'] );
+			if ( 'current' === strtolower( (string) $atts['results-page-id'] ) ) {
+				// Set current page URL as form action if "current" is given as value of the results-page-id shortcode attribute.
+				$page_url = $current_url;
+			} else {
+				// Specific page ID given as shortcode parameter: set as form action URL if valid.
+				$page_url = get_permalink( apply_filters( 'inx_element_translation_id', (int) $atts['results-page-id'] ) );
+			}
+
 			if ( $page_url ) {
 				$form_action = $page_url;
 			}
@@ -306,7 +318,8 @@ class Property_Search {
 					// Set current page URL if page contains the property list shortcode.
 					$form_action = $this->utils['string']->get_nopaging_url();
 				} else {
-					$form_action = $default_action_url;
+					$form_action            = $default_action_url;
+					$form_action_autodetect = $current_url;
 				}
 			}
 		}
@@ -319,10 +332,11 @@ class Property_Search {
 			$this->config,
 			$atts,
 			array(
-				'form_action'    => $form_action,
-				'hidden_fields'  => $hidden_fields,
-				'elements'       => $elements,
-				'extended_count' => $extended_count,
+				'form_action'            => $form_action,
+				'form_action_autodetect' => $form_action_autodetect,
+				'hidden_fields'          => $hidden_fields,
+				'elements'               => $elements,
+				'extended_count'         => $extended_count,
 			)
 		);
 

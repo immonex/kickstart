@@ -48,7 +48,12 @@ $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['to
 	data-dynamic-update="<?php echo esc_attr( $inx_skin_dynamic_update ); ?>"
 	<?php endif; ?>
 >
-	<form id="<?php echo $inx_skin_form_element_id; ?>" action="<?php echo $template_data['form_action']; ?>" method="get">
+	<form
+		id="<?php echo $inx_skin_form_element_id; ?>"
+		action="<?php echo $template_data['form_action']; ?>"
+		method="get"
+		data-form-action-autodetect="<?php echo ! empty( $template_data['form_action_autodetect'] ) ? esc_url( $template_data['form_action_autodetect'] ) : ''; ?>"
+	>
 		<?php
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :

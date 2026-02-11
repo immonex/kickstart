@@ -19,10 +19,10 @@ $inx_skin_element_name           = preg_replace( '/^element-/', '', basename( __
 ?>
 <div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
 	<hr>
+
 	<inx-toggle :state="0">
 		<template slot="active">
 			<a
-				href="javascript:void(0)"
 				class="inx-link inx-link--is-inline inx-extended-search-toggle"
 				uk-toggle="target:<?php echo $inx_skin_search_main_element_id; ?> .inx-property-search__extended; animation: uk-animation-slide-top-small uk-animation-fade"
 			>
@@ -32,7 +32,6 @@ $inx_skin_element_name           = preg_replace( '/^element-/', '', basename( __
 		</template>
 		<template slot="inactive">
 			<a
-				href="javascript:void(0)"
 				class="inx-link inx-link--is-inline inx-extended-search-toggle"
 				uk-toggle="target:<?php echo $inx_skin_search_main_element_id; ?> .inx-property-search__extended; animation: uk-animation-slide-top-small uk-animation-fade"
 			>

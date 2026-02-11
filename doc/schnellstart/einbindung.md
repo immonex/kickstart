@@ -14,6 +14,9 @@ Die in der gleichen Seite eingebundenen Komponenten sind grundsätzlich unabhän
 
 Das Formular für die Suche nach Immobilien enthält in der Standardkonfiguration relativ umfangreiche Auswahlmöglichkeiten inkl. Umkreissuche etc. Mit den Attributen `elements` und `exclude` kann eine individuelle Auswahl an Elementen definiert werden.
 
+!> **Achtung!** Wird ein Suchformular in die **Startseite** der Website eingebunden, erfolgt die Ausgabe der Ergebnisse nach einem Klick auf den **Absenden-Button** in der in den Plugin-Optionen festgelegten [primäre Übersichtsseite](einrichtung?id=immobilien-Übersicht), auch wenn die Startseite selbst eine Listenansicht enthält. Sollen die Ergebnisse stattdessen in der Startseite angezeigt werden, muss das Attribut `results-page-id="current"` im Shortcode enthalten sein.
+
+
 ### Beispiele
 
 nur Nutzungsart, Objektart und Absenden-Button einbinden:

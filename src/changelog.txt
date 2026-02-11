@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 1.13.0 =
+* Release date: 2026-02-11
+* Reworked dynamic CSS and search components to achieve compatibility with plain permalink structures.
+* Improved automatic determination of search form result pages.
+* Added a shortcode attribute value for explicitely specifying the current page as destination for search results.
+* Fixed a minor search form bug (extended search not hideable once opened).
+* Updated dependencies (i.a. for less unused CSS/JS code in the WP backend).
+
+= 1.12.31 =
+* Release date: 2026-02-10
+* Fixed a minor search form bug (extended search not hideable once opened).
+* Updated dependencies (i.a. for less unused CSS/JS code in the WP backend).
+
 = 1.12.29 =
 * Release date: 2026-02-08
 * Enabled page-based templates for preview pages.

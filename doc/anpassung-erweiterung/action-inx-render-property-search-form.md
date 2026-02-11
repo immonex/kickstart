@@ -30,7 +30,7 @@ do_action(
 	'inx_render_property_search_form',
 	'property-search',
 	[
-		'elements' => 'property-type, marketing-type, submit',
+		'elements'        => 'property-type, marketing-type, submit',
 		'results-page-id' => 4711
 	]
 );
