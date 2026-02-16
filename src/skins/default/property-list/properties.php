@@ -30,7 +30,7 @@ if ( ! have_posts() ) {
 <div class="inx-cq">
 	<?php do_action( 'inx_before_render_property_list', have_posts() ); ?>
 
-	<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="<?php echo implode( ' ', $inx_skin_container_classes ); ?>">
+	<div id="<?php echo esc_attr( $inx_skin_list_item_atts['cid'] ); ?>" class="<?php echo esc_attr( implode( ' ', $inx_skin_container_classes ) ); ?>">
 		<?php
 		if ( have_posts() ) :
 			while ( have_posts() ) :

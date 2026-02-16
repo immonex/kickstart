@@ -23,7 +23,7 @@ $inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :
 				if ( $inx_skin_field['name'] !== $inx_skin_sort_var_name ) :
 					?>
-		<input type="hidden" name="<?php echo $inx_skin_field['name']; ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
+		<input type="hidden" name="<?php echo esc_attr( $inx_skin_field['name'] ); ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
 					<?php
 				endif;
 			endforeach;

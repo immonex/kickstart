@@ -251,13 +251,13 @@ if ( $inx_skin_media_count > 0 ) :
 	$inx_skin_kbe_mode_class = $inx_skin_enable_ken_burns_effect && ! empty( $template_data['kbe_mode_class'] ) ?
 		' ' . $template_data['kbe_mode_class'] : '';
 	?>
-<div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom<?php echo $inx_skin_kbe_mode_class; ?>">
+<div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom<?php echo esc_attr( $inx_skin_kbe_mode_class ); ?>">
 	<?php
 	if ( isset( $template_data['headline'] ) ) {
 		echo $utils['format']->get_heading( $template_data['headline'], $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' );}
 	?>
 
-	<div class="inx-gallery__image-slider" uk-slideshow="ratio: <?php echo implode( ':', $inx_skin_current_ratio ); ?>; max-height: <?php echo $inx_skin_current_max_image_height; ?>; animation: <?php echo $inx_skin_animation_type; ?>; finite: true">
+	<div class="inx-gallery__image-slider" uk-slideshow="ratio: <?php echo esc_attr( implode( ':', $inx_skin_current_ratio ) ); ?>; max-height: <?php echo esc_attr( $inx_skin_current_max_image_height ); ?>; animation: <?php echo esc_attr( $inx_skin_animation_type ); ?>; finite: true">
 		<div class="uk-position-relative uk-visible-toggle uk-margin-bottom">
 			<ul class="inx-gallery__images uk-slideshow-items">
 				<?php
@@ -268,7 +268,7 @@ if ( $inx_skin_media_count > 0 ) :
 							<?php
 							if ( $inx_skin_img['ken_burns_effect'] ) :
 								?>
-							<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ]; ?>">
+							<div class="inx-gallery__image uk-inline uk-position-cover uk-animation-kenburns uk-animation-reverse <?php echo esc_attr( $inx_skin_ken_burns_animation_directions[ wp_rand( 0, count( $inx_skin_ken_burns_animation_directions ) - 1 ) ] ); ?>">
 								<?php echo $inx_skin_img['link'][0] . preg_replace( '/[\/]?\>/', 'uk-cover>', $inx_skin_img['full'] ) . $inx_skin_img['link'][1]; ?>
 							</div>
 								<?php
@@ -307,9 +307,9 @@ if ( $inx_skin_media_count > 0 ) :
 								<inx-embed-consent-request
 									type="video"
 									content="<?php echo esc_attr( $inx_skin_video['embed_html'] ); ?>"
-									privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
-									button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
-									icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+									privacy-note="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['text'] ) ); ?>"
+									button-text="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+									icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? nl2br( esc_attr( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
 									privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
 									privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
 								></inx-embed-consent-request>
@@ -344,9 +344,9 @@ if ( $inx_skin_media_count > 0 ) :
 							<inx-embed-consent-request
 								type="virtual_tour"
 								content="<?php echo esc_attr( $template_data['virtual_tour_embed_code'] ); ?>"
-								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['text'] ) ); ?>"
-								button-text="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['button_text'] ) ); ?>"
-								icon-tag="<?php echo ! empty( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ) : ''; ?>"
+								privacy-note="<?php echo nl2br( esc_attr( $inx_skin_virtual_tour_user_consent['text'] ) ); ?>"
+								button-text="<?php echo nl2br( esc_attr( $inx_skin_virtual_tour_user_consent['button_text'] ) ); ?>"
+								icon-tag="<?php echo ! empty( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ? nl2br( esc_attr( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ) : ''; ?>"
 								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
 								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
 							></inx-embed-consent-request>
@@ -383,7 +383,7 @@ if ( $inx_skin_media_count > 0 ) :
 						if ( count( $inx_skin_gallery_images ) > 0 ) :
 							foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 								?>
-						<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo $inx_skin_i; ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
+						<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo esc_attr( $inx_skin_i ); ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
 								<?php
 							endforeach;
 						endif;
@@ -422,7 +422,7 @@ if ( $inx_skin_media_count > 0 ) :
 					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
 						<a href="#">
 							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
-								<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
+								<div uk-icon="icon: <?php echo esc_attr( $inx_skin_video_icon ); ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
 							</div>
 						</a>
 					</li>

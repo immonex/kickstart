@@ -23,9 +23,9 @@ if ( $template_data['google_api_key'] ) :
 	);
 	$inx_skin_consent_button_text = __( 'Agreed!', 'immonex-kickstart' );
 	?>
-<div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?> uk-width-1-1">
+<div class="inx-form-element inx-form-element--<?php echo esc_attr( $inx_skin_element_name ); ?> uk-width-1-1">
 	<?php if ( $inx_skin_show_label && $template_data['element']['label'] ) : ?>
-	<label for="<?php echo $template_data['element_id']; ?>" class="inx-form-element--label"><?php echo $template_data['element']['label']; ?></label>
+	<label for="<?php echo esc_attr( $template_data['element_id'] ); ?>" class="inx-form-element--label"><?php echo esc_html( $template_data['element']['label'] ); ?></label>
 	<?php endif; ?>
 
 	<inx-google-places-autocomplete

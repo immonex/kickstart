@@ -158,6 +158,13 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 			$shortcode_atts['template'] :
 			Property_Map::DEFAULT_TEMPLATE;
 
+		$shortcode_atts = array_map(
+			function ( $value ) {
+				return esc_attr( $value );
+			},
+			$shortcode_atts
+		);
+
 		$shortcode_atts = array_merge(
 			$shortcode_atts,
 			$this->add_rendered_instance( $template, array_filter( $shortcode_atts ) )

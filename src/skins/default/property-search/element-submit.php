@@ -16,12 +16,12 @@ $inx_skin_locale = str_replace( '_', '-', get_locale() );
 
 	<inx-search-submit-button
 		:form-index="<?php echo ! empty( $template_data['render_count'] ) ? (int) $template_data['render_count'] - 1 : '0'; ?>"
-		title="<?php echo $template_data['element']['label']; ?>"
+		title="<?php echo esc_attr( $template_data['element']['label'] ); ?>"
 		nom-name="<?php echo __( 'Matches', 'immonex-kickstart' ); ?>"
 		nom-one-match="<?php echo __( 'one match', 'immonex-kickstart' ); ?>"
 		nom-no-matches="<?php echo __( 'no matches', 'immonex-kickstart' ); ?>"
 		wrap-classes="inx-search-submit-button"
-		locale="<?php echo $inx_skin_locale ? $inx_skin_locale : 'de-DE'; ?>"
+		locale="<?php echo $inx_skin_locale ? esc_attr( $inx_skin_locale ) : 'de-DE'; ?>"
 		button-classes="inx-button inx-button--action uk-button uk-button-primary uk-width-1-1">
 	</inx-search-submit-button>
 

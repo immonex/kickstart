@@ -42,15 +42,15 @@ $inx_skin_rendering_atts['search_form_element_id'] = $inx_skin_form_element_id;
 $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['top-level-only'] );
 ?>
 <div
-	id="<?php echo $inx_skin_main_element_id; ?>"
+	id="<?php echo esc_attr( $inx_skin_main_element_id ); ?>"
 	class="inx-property-search<?php echo $inx_skin_dynamic_update ? ' inx-dynamic-update' : ''; ?> inx-container"
 	<?php if ( $inx_skin_dynamic_update ) : ?>
 	data-dynamic-update="<?php echo esc_attr( $inx_skin_dynamic_update ); ?>"
 	<?php endif; ?>
 >
 	<form
-		id="<?php echo $inx_skin_form_element_id; ?>"
-		action="<?php echo $template_data['form_action']; ?>"
+		id="<?php echo esc_attr( $inx_skin_form_element_id ); ?>"
+		action="<?php echo esc_attr( $template_data['form_action'] ); ?>"
 		method="get"
 		data-form-action-autodetect="<?php echo ! empty( $template_data['form_action_autodetect'] ) ? esc_url( $template_data['form_action_autodetect'] ) : ''; ?>"
 	>
@@ -58,7 +58,7 @@ $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['to
 		if ( count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :
 				?>
-		<input type="hidden" data-no-reset="1" name="<?php echo $inx_skin_field['name']; ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
+		<input type="hidden" data-no-reset="1" name="<?php echo esc_attr( $inx_skin_field['name'] ); ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">
 				<?php
 				endforeach;
 			endif;
@@ -70,7 +70,7 @@ $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['to
 			foreach ( $template_data['elements'] as $inx_skin_id => $inx_skin_element ) :
 				if ( ! isset( $inx_skin_element['extended'] ) || ! $inx_skin_element['extended'] ) :
 					?>
-				<div class="inx-property-search__element<?php echo isset( $inx_skin_element['class'] ) && $inx_skin_element['class'] ? ' ' . $inx_skin_element['class'] : ''; ?>">
+				<div class="inx-property-search__element<?php echo ! empty( $inx_skin_element['class'] ) ? ' ' . esc_attr( $inx_skin_element['class'] ) : ''; ?>">
 					<?php
 						do_action(
 							'inx_render_property_search_form_element',
@@ -94,7 +94,7 @@ $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['to
 			foreach ( $template_data['elements'] as $inx_skin_id => $inx_skin_element ) :
 				if ( isset( $inx_skin_element['extended'] ) && $inx_skin_element['extended'] ) :
 					?>
-				<div class="inx-property-search__element<?php echo isset( $inx_skin_element['class'] ) && $inx_skin_element['class'] ? ' ' . $inx_skin_element['class'] : ''; ?>">
+				<div class="inx-property-search__element<?php echo ! empty( $inx_skin_element['class'] ) ? ' ' . esc_attr( $inx_skin_element['class'] ) : ''; ?>">
 					<?php
 						do_action(
 							'inx_render_property_search_form_element',

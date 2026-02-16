@@ -59,7 +59,7 @@ if (
 	<?php if ( count( $inx_skin_details ) > 0 ) : ?>
 	<ul class="inx-detail-list uk-grid-small uk-margin-top" uk-grid>
 		<?php foreach ( $inx_skin_details as $inx_skin_detail ) : ?>
-		<li class="inx-detail-list__item<?php echo $inx_skin_li_classes ? ' ' . $inx_skin_li_classes : ''; ?>">
+		<li class="inx-detail-list__item<?php echo esc_attr( $inx_skin_li_classes ? ' ' . $inx_skin_li_classes : '' ); ?>">
 			<span class="inx-detail-list__title"><?php echo esc_html( $inx_skin_detail['title'] ); ?>:</span>
 			<span class="inx-detail-list__value"><?php echo $utils['format']->prepare_single_value( $inx_skin_detail['value'] ); ?></span>
 		</li>

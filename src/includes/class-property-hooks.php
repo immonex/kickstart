@@ -802,6 +802,16 @@ class Property_Hooks {
 			return '';
 		}
 
+		if ( ! empty( $atts['is_preview'] ) ) {
+			if ( ! $post_id ) {
+				$post_id = get_the_ID();
+			}
+
+			if ( get_post_type( $post_id ) === $this->config['property_post_type_name'] ) {
+				$atts['is_preview'] = false;
+			}
+		}
+
 		if ( empty( $atts ) ) {
 			$atts = array();
 		}

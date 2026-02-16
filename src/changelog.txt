@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.13.4 =
+* Release date: 2026-02-16
+* Extended Elementor Add-on support.
+* Added no-cache headers to REST API endpoints.
+* Improved security regarding XSS.
+* Updated dependencies.
+
 = 1.13.0 =
 * Release date: 2026-02-11
 * Reworked dynamic CSS and search components to achieve compatibility with plain permalink structures.

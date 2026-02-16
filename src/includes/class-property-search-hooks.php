@@ -41,7 +41,7 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		 * WP actions and filters
 		 */
 
-		add_action( 'pre_get_posts', array( $this, 'adjust_property_frontend_query' ) );
+		add_action( 'pre_get_posts', array( $this, 'adjust_property_frontend_query' ), 11 );
 
 		/**
 		 * Plugin-specific actions and filters

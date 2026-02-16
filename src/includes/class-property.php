@@ -164,6 +164,19 @@ class Property {
 			return '';
 		}
 
+		if ( ! empty( $atts['is_preview'] ) ) {
+			if ( ! $this->post ) {
+				$this->set_post( get_the_ID() );
+			}
+
+			if (
+				is_a( $this->post, 'WP_Post' )
+				&& $this->config['property_post_type_name'] === $this->post->post_type
+			) {
+				$atts['is_preview'] = false;
+			}
+		}
+
 		if ( empty( $template ) ) {
 			$template = self::DEFAULT_TEMPLATE;
 		}

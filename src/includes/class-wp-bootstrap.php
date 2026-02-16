@@ -83,13 +83,49 @@ class WP_Bootstrap {
 		add_filter( 'parent_file', array( $this, 'set_current_menu' ) );
 		add_filter( 'body_class', array( $this, 'check_body_classes' ), 90 );
 
+		add_filter( 'inx_get_post_types', array( $this, 'get_post_types' ), 10, 2 );
 		add_filter( 'inx_get_taxonomies', array( $this, 'get_taxonomies' ) );
 	} // __construct
+
+	/**
+	 * Return an array with all Kickstart post types [inx_*] (filter callback).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed[] $post_types Empty array.
+	 * @param string  $output     Optional output format (default 'names'
+	 *                            or 'objects').
+	 *
+	 * @return mixed[] Kickstart post types.
+	 */
+	public function get_post_types( $post_types, $output = 'names' ) {
+		$arguments = array(
+			'public'   => true,
+			'_builtin' => false,
+		);
+
+		$all_post_types = get_post_types( $arguments, 'objects' );
+		$post_types     = array();
+
+		foreach ( $all_post_types as $post_type ) {
+			if ( strpos( $post_type->name, $this->prefix ) === 0 ) {
+				if ( 'names' === $output ) {
+					$post_types[ $post_type->name ] = $post_type->labels->name;
+				} else {
+					$post_types[] = $post_type;
+				}
+			}
+		}
+
+		return $post_types;
+	} // get_post_types
 
 	/**
 	 * Define taxonomies for categorizing immonex properties.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return mixed[] Associative array of taxonomy definitions.
 	 */
 	public function get_taxonomies() {
 		$taxonomies = array(

@@ -101,7 +101,7 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 						continue;
 					}
 					?>
-				<span class="<?php echo implode( ' ', $inx_skin_label['css_classes'] ); ?> uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span>
+				<span class="<?php echo esc_attr( implode( ' ', $inx_skin_label['css_classes'] ) ); ?> uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span>
 					<?php
 					endforeach;
 				?>
@@ -149,7 +149,7 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 				continue;
 			}
 			?>
-		<div class="<?php echo isset( $inx_skin_element['classes'] ) ? $inx_skin_element['classes'] . ' ' : ''; ?> uk-flex uk-flex-middle">
+		<div class="<?php echo isset( $inx_skin_element['classes'] ) ? esc_attr( $inx_skin_element['classes'] ) . ' ' : ''; ?> uk-flex uk-flex-middle">
 			<?php
 			if ( is_array( $inx_skin_element['data'] ) ) {
 				// Use value related title instead of element title (possibly)
@@ -167,7 +167,7 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 			if ( $inx_skin_value ) :
 				if ( isset( $inx_skin_element['icon'] ) ) :
 					?>
-			<div class="inx-core-detail-icon"><i class="<?php echo $inx_skin_element['icon']; ?>" title="<?php echo $inx_skin_title; ?>"></i></div>
+			<div class="inx-core-detail-icon"><i class="<?php echo esc_attr( $inx_skin_element['icon'] ); ?>" title="<?php echo esc_attr( $inx_skin_title ); ?>"></i></div>
 					<?php
 				endif;
 				?>

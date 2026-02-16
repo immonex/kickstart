@@ -29,7 +29,7 @@ if ( ! have_posts() ) {
 }
 ?>
 <div class="inx-cq">
-	<div id="<?php echo $inx_skin_list_item_atts['cid']; ?>" class="<?php echo implode( ' ', $inx_skin_container_classes ); ?>">
+	<div id="<?php echo esc_attr( $inx_skin_list_item_atts['cid'] ); ?>" class="<?php echo esc_attr( implode( ' ', $inx_skin_container_classes ) ); ?>">
 		<?php if ( have_posts() ) : ?>
 			<div uk-slider>
 				<div class="uk-position-relative">

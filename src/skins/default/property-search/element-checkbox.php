@@ -16,7 +16,7 @@ $inx_skin_show_label                    = ! empty( $template_data['element']['la
 
 if ( ! empty( $template_data['element']['options'] ) ) :
 	?>
-<div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
+<div class="inx-form-element inx-form-element--<?php echo esc_attr( $inx_skin_element_name ); ?>">
 	<?php if ( $inx_skin_show_label ) : ?>
 	<div class="inx-form-element__label uk-form-label"><?php echo $template_data['element']['label']; ?></div>
 	<?php endif; ?>
@@ -46,7 +46,7 @@ if ( ! empty( $template_data['element']['options'] ) ) :
 			<label class="inx-label inx-label--checkbox<?php echo $inx_skin_excluded ? ' inx-label--is-excluded' : ''; ?>">
 				<input type="checkbox"
 					id="<?php echo esc_attr( $inx_skin_search_main_element_id_prefix . $template_data['element_id'] . '_' . $inx_skin_key ); ?>"
-					name="<?php echo $template_data['element_id']; ?>[]"
+					name="<?php echo esc_attr( $template_data['element_id'] ); ?>[]"
 					value="<?php echo esc_attr( $inx_skin_key ); ?>"
 					class="inx-checkbox uk-checkbox<?php echo $inx_skin_excluded ? ' inx-checkbox--is-excluded' : ''; ?>"
 					<?php echo $inx_skin_checked ? ' checked' : ''; ?>

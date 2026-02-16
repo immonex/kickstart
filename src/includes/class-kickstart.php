@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.13.0';
+	const PLUGIN_VERSION             = '1.13.4';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -115,63 +115,70 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 	);
 
 	/**
-	 * Distance search autocomplete types
+	 * Distance Search Autocomplete Types
 	 *
 	 * @var mixed[]
 	 */
 	private $distance_search_autocomplete_types;
 
 	/**
-	 * List of available property list map types (key => name)
+	 * List of available Property List Map Types (key => name)
 	 *
 	 * @var mixed[]
 	 */
 	private $property_list_map_types = array();
 
 	/**
-	 * List of available property location map types (key => name)
+	 * List of available Property Location Map Types (key => name)
 	 *
 	 * @var mixed[]
 	 */
 	private $property_details_map_types = array();
 
 	/**
-	 * Property search object
+	 * Property Search Hooks Instance
+	 *
+	 * @var \immonex\Kickstart\Property_Search_Hooks
+	 */
+	private $property_search_hooks;
+
+	/**
+	 * Property Search Instance
 	 *
 	 * @var \immonex\Kickstart\Property_Search
 	 */
 	private $property_search;
 
 	/**
-	 * API object
+	 * API Instance
 	 *
 	 * @var \immonex\Kickstart\API
 	 */
 	private $api;
 
 	/**
-	 * Legacy compatibility object
+	 * Legacy Compatibility Instance
 	 *
 	 * @var \immonex\Kickstart\Legacy_Compat
 	 */
 	private $legacy_compat;
 
 	/**
-	 * OpenImmo2WP compatibility object
+	 * OpenImmo2WP Compatibility Instance
 	 *
 	 * @var \immonex\Kickstart\OpenImmo2WP_Compat
 	 */
 	private $oi2wp_compat;
 
 	/**
-	 * User consent object
+	 * User Consent Instance
 	 *
 	 * @var \immonex\Kickstart\User_Consent
 	 */
 	private $user_consent;
 
 	/**
-	 * Document head object
+	 * Document Head Instance
 	 *
 	 * @var \immonex\Kickstart\Document_Head
 	 */
@@ -245,7 +252,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		// Setup the backend edit form for properties.
 		new Property_Backend_Form( $this->bootstrap_data );
 
-		// Add filters for common rendering attributes.
+		// Add filters for common rendering attributes and special purposes.
 		add_filter( 'inx_auto_applied_rendering_atts', array( $this, 'get_auto_applied_rendering_atts' ) );
 		add_filter( 'inx_apply_auto_rendering_atts', array( $this, 'apply_auto_rendering_atts' ) );
 
@@ -268,6 +275,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		switch ( $key ) {
 			case 'API':
 				return $this->api;
+			case 'Property_Search_Hooks':
+				return $this->property_search_hooks;
+			case 'Property_Search':
+				return $this->property_search;
 			case 'property_list_page_id':
 			case 'property_details_page_id':
 				$lang = isset( $_GET[ self::PUBLIC_PREFIX . 'force-lang' ] ) ?
@@ -492,7 +503,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		// Enable public methods for third-party developments.
 		$this->api = new API( $component_config, $this->utils );
 
-		$this->property_search = new Property_Search( $component_config, $this->utils );
+		$this->property_search_hooks = new Property_Search_Hooks( $component_config, $this->utils );
+		$this->property_search       = new Property_Search( $component_config, $this->utils );
 
 		/**
 		 * Register core actions and filters.
@@ -502,7 +514,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		new Property_List_Hooks( $component_config, $this->utils );
 		new Property_Map_Hooks( $component_config, $this->utils );
 		new Property_Filters_Sort_Hooks( $component_config, $this->utils );
-		new Property_Search_Hooks( $component_config, $this->utils );
 		new REST_API( $component_config, $this->utils );
 		new API_Hooks( $this->api, $component_config, $this->utils );
 

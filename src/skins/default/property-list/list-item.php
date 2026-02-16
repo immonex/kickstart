@@ -24,7 +24,7 @@ if (
 ?>
 <div class="inx-property-list-item inx-property-list-item--card uk-card uk-card-default uk-animation-scale-up">
 	<?php if ( ! $inx_skin_disable_link ) : ?>
-	<a href="<?php echo $template_data['url']; ?>" aria-role="presentation" tabindex="-1">
+	<a href="<?php echo esc_url( $template_data['url'] ); ?>" aria-role="presentation" tabindex="-1">
 	<?php endif; ?>
 	<div class="inx-property-list-item__media-top uk-card-media-top uk-cover-container">
 		<?php
@@ -40,7 +40,7 @@ if (
 	<div class="inx-property-list-item__body uk-card-body">
 		<div class="inx-property-list-item__title uk-card-title">
 			<?php if ( ! $inx_skin_disable_link ) : ?>
-			<a href="<?php echo $template_data['url']; ?>" class="inx-link <?php echo $inx_skin_oi_css_classes; ?>">
+			<a href="<?php echo esc_url( $template_data['url'] ); ?>" class="inx-link <?php echo esc_attr( $inx_skin_oi_css_classes ); ?>">
 			<?php endif; ?>
 				<?php echo $template_data['title']; ?>
 			<?php if ( ! $inx_skin_disable_link ) : ?>
@@ -52,7 +52,7 @@ if (
 			<?php if ( $template_data['property_type'] ) : ?>
 			<div class="inx-property-list-item__property-type">
 				<i class="inx-core-detail-icon flaticon-tag-1" title="<?php echo $template_data['property_type']; ?>"></i>
-				<div><?php echo $template_data['property_type']; ?></div>
+				<div><?php echo esc_html( $template_data['property_type'] ); ?></div>
 			</div>
 			<?php endif; ?>
 
@@ -74,19 +74,19 @@ if (
 		<div class="inx-property-list-item__core-details uk-flex uk-flex-around">
 			<?php if ( $template_data['primary_area']['value'] ) : ?>
 			<div>
-				<i class="inx-core-detail-icon flaticon-size" title="<?php echo $template_data['primary_area']['title']; ?>"></i> <?php echo $template_data['primary_area']['value_formatted']; ?>
+				<i class="inx-core-detail-icon flaticon-size" title="<?php echo esc_attr( $template_data['primary_area']['title'] ); ?>"></i> <?php echo $template_data['primary_area']['value_formatted']; ?>
 			</div>
 			<?php endif; ?>
 
 			<?php if ( $template_data['plot_area']['value'] && $template_data['plot_area']['value'] !== $template_data['primary_area']['value'] ) : ?>
 			<div>
-				<i class="inx-core-detail-icon flaticon-blueprint-3" title="<?php echo $template_data['plot_area']['title']; ?>"></i> <?php echo $template_data['plot_area']['value_formatted']; ?>
+				<i class="inx-core-detail-icon flaticon-blueprint-3" title="<?php echo esc_attr( $template_data['plot_area']['title'] ); ?>"></i> <?php echo $template_data['plot_area']['value_formatted']; ?>
 			</div>
 			<?php endif; ?>
 
 			<?php if ( $template_data['primary_rooms']['value'] ) : ?>
 			<div>
-				<i class="inx-core-detail-icon <?php echo $inx_skin_rooms_icon; ?>" title="<?php echo $template_data['primary_rooms']['title']; ?>"></i> <?php echo $template_data['primary_rooms']['value_formatted']; ?>
+				<i class="inx-core-detail-icon <?php echo $inx_skin_rooms_icon; ?>" title="<?php echo esc_attr( $template_data['primary_rooms']['title'] ); ?>"></i> <?php echo $template_data['primary_rooms']['value_formatted']; ?>
 			</div>
 			<?php endif; ?>
 		</div>
@@ -101,11 +101,11 @@ if (
 
 			if ( $inx_skin_disable_link ) :
 				?>
-		<div class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?>">
+		<div class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . esc_attr( $inx_skin_oi_css_classes ) . ' inx-oi--inverted' : ''; ?>">
 				<?php
 			else :
 				?>
-		<a href="<?php echo $template_data['url']; ?>" aria-role="presentation" tabindex="-1" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . $inx_skin_oi_css_classes . ' inx-oi--inverted' : ''; ?> inx-link">
+		<a href="<?php echo $template_data['url']; ?>" aria-role="presentation" tabindex="-1" class="inx-property-list-item__property-price inx-property-price<?php echo $inx_skin_oi_css_classes ? ' ' . esc_attr( $inx_skin_oi_css_classes ) . ' inx-oi--inverted' : ''; ?> inx-link">
 				<?php
 			endif;
 
@@ -130,7 +130,7 @@ if (
 				continue;
 			}
 			?>
-		<span class="<?php echo ! empty( $inx_skin_label['css_classes'] ) ? implode( ' ', $inx_skin_label['css_classes'] ) . ' ' : ''; ?>uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span><br>
+		<span class="<?php echo ! empty( $inx_skin_label['css_classes'] ) ? esc_attr( implode( ' ', $inx_skin_label['css_classes'] ) ) . ' ' : ''; ?>uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span><br>
 			<?php
 		endforeach;
 		?>

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="uk-flex-middle" uk-grid>
 		<div class="uk-width-1-1 uk-width-1-2@s">
 			<?php if ( $template_data['overview_url'] ) : ?>
-			<a href="<?php echo esc_attr( $template_data['overview_url'] ); ?>" class="inx-link">
+			<a href="<?php echo esc_url( $template_data['overview_url'] ); ?>" class="inx-link">
 				<span uk-icon="chevron-left"></span>
 				<?php esc_html_e( 'Back to overview', 'immonex-kickstart' ); ?>
 			</a>

@@ -33,7 +33,7 @@ if ( ! empty( $template_data['videos'] ) ) :
 		echo $utils['format']->get_heading( $template_data['headline'], $inx_skin_heading_level, 'inx-single-property__section-title uk-heading-divider' );}
 	?>
 
-	<div class="inx-gallery__image-slider" uk-slideshow="animation: <?php echo $inx_skin_animation_type; ?>; finite: true">
+	<div class="inx-gallery__image-slider" uk-slideshow="animation: <?php echo esc_attr( $inx_skin_animation_type ); ?>; finite: true">
 		<div class="uk-position-relative uk-visible-toggle uk-margin-bottom">
 			<ul class="inx-gallery__images uk-slideshow-items">
 				<?php foreach ( $template_data['videos'] as $inx_skin_video ) : ?>
@@ -46,9 +46,9 @@ if ( ! empty( $template_data['videos'] ) ) :
 							<inx-embed-consent-request
 								type="video"
 								content="<?php echo esc_attr( $inx_skin_video['embed_html'] ); ?>"
-								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
-								button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
-								icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+								privacy-note="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['text'] ) ); ?>"
+								button-text="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+								icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? nl2br( esc_attr( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
 								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
 								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
 							></inx-embed-consent-request>
@@ -100,9 +100,9 @@ if ( ! empty( $template_data['videos'] ) ) :
 							<a href="#"<?php echo $inx_skin_video['title'] ? ' title="' . esc_attr( $inx_skin_video['title'] ) . '"' : ''; ?>>
 								<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<?php if ( ! empty( $inx_skin_video['thumbnail_url'] ) ) : ?>
-									<img src="<?php echo esc_attr( $inx_skin_video['thumbnail_url'] ); ?>" alt="<?php esc_attr_e( 'video preview thumbnail', 'immonex-kickstart' ); ?>">
+									<img src="<?php echo esc_url( $inx_skin_video['thumbnail_url'] ); ?>" alt="<?php esc_attr_e( 'video preview thumbnail', 'immonex-kickstart' ); ?>">
 								<?php else : ?>
-									<div uk-icon="icon: <?php echo $inx_skin_video_icon; ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
+									<div uk-icon="icon: <?php echo esc_attr( $inx_skin_video_icon ); ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
 								<?php endif; ?>
 								</div>
 							</a>

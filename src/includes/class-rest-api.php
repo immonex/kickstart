@@ -84,7 +84,7 @@ class REST_API {
 	 *
 	 * @param \WP_REST_Request $request Request object.
 	 *
-	 * @return \WP_Post[]|int List of property objects (if any) or count only.
+	 * @return \WP_REST_Response List of property objects (if any) or count only.
 	 */
 	public function get_properties( \WP_REST_Request $request ) {
 		$response_format = $this->get_property_query_response_format( $request );
@@ -96,12 +96,14 @@ class REST_API {
 			do_action( 'inx_rest_set_query_language', $request->get_param( 'inx-r-lang' ), $request );
 		}
 
+		nocache_headers();
+
 		if ( 'html' === $response_format ) {
-			return $this->get_property_list_html( $request );
+			return new \WP_REST_Response( $this->get_property_list_html( $request ) );
 		}
 
 		if ( in_array( $response_format, array( 'json_map_markers', 'json_map_marker_coords' ), true ) ) {
-			return $this->get_property_map_markers( $request, $response_format );
+			return new \WP_REST_Response( $this->get_property_map_markers( $request, $response_format ) );
 		}
 
 		$prefix          = $this->config['public_prefix'];
@@ -109,7 +111,7 @@ class REST_API {
 
 		$form_elements = $property_search->get_search_form_elements();
 		if ( ! is_array( $form_elements ) || 0 === count( $form_elements ) ) {
-			return;
+			return new \WP_REST_Response( '', 200 );
 		}
 
 		$search_query_vars = array();
@@ -168,7 +170,9 @@ class REST_API {
 
 		$properties = $property_list->get_properties( $args );
 
-		return 'count' === $response_format ? count( $properties ) : $properties;
+		$result = new \WP_REST_Response( 'count' === $response_format ? count( $properties ) : $properties, 200 );
+
+		return $result;
 	} // get_properties
 
 	/**

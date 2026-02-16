@@ -21,7 +21,7 @@ if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 	}
 }
 ?>
-<div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
+<div class="inx-form-element inx-form-element--<?php echo esc_attr( $inx_skin_element_name ); ?>">
 	<inx-range-slider
 		:form-index="<?php echo ! empty( $template_data['render_count'] ) ? esc_attr( $template_data['render_count'] - 1 ) : '0'; ?>"
 		name="<?php echo esc_attr( $template_data['element_id'] ); ?>"
@@ -33,7 +33,7 @@ if ( ! empty( $template_data['element']['step_ranges'] ) ) {
 		currency="<?php echo isset( $template_data['element']['currency'] ) ? esc_attr( $template_data['element']['currency'] ) : ''; ?>"
 		replace-null="<?php echo isset( $template_data['element']['replace_null'] ) ? esc_attr( $template_data['element']['replace_null'] ) : ''; ?>"
 		range-unlimited-term="<?php echo ! empty( $template_data['element']['unlimited_term'] ) ? esc_attr( $template_data['element']['unlimited_term'] ) : ''; ?>"
-		locale="<?php echo $inx_skin_locale ? $inx_skin_locale : 'de-DE'; ?>"
+		locale="<?php echo $inx_skin_locale ? esc_attr( $inx_skin_locale ) : 'de-DE'; ?>"
 		wrap-classes="inx-range-slider">
 	</inx-range-slider>
 </div>

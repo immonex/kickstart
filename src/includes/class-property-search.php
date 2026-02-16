@@ -1775,7 +1775,7 @@ class Property_Search {
 	 * @param bool        $top_level_only     Optional flag for returning only top-level options
 	 *                                        (false by default).
 	 *
-	 * @return mixed[] Array with sub-arrays for tax, meta and geo queries.
+	 * @return mixed[] Term options.
 	 */
 	private function get_hierarchical_option_list( $terms, $option_text_source = false, $parent_id = 0, $level = 0, $top_level_only = false ) {
 		$level_options = array();

@@ -53,9 +53,9 @@ if ( $inx_skin_item_count > 0 ) :
 				}
 				?>
 		<li class="inx-file-link-list__item uk-width-1-2@m uk-flex">
-			<div class="inx-file-link-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="<?php echo $inx_skin_icon; ?>"></span></div>
+			<div class="inx-file-link-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="<?php echo esc_attr( $inx_skin_icon ); ?>"></span></div>
 			<div class="inx-file-link-list__name uk-width-expand">
-				<a href="<?php echo $inx_skin_attachment['url']; ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $inx_skin_attachment['title'] ); ?></a>
+				<a href="<?php echo esc_url( $inx_skin_attachment['url'] ); ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $inx_skin_attachment['title'] ); ?></a>
 			</div>
 		</li>
 				<?php
@@ -72,7 +72,7 @@ if ( $inx_skin_item_count > 0 ) :
 		<li class="inx-file-link-list__item uk-width-1-2@m uk-flex">
 			<div class="inx-file-link-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="link"></span></div>
 			<div class="inx-file-link-list__name uk-width-expand">
-				<a href="<?php echo $inx_skin_link['url']; ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $inx_skin_title ); ?></a>
+				<a href="<?php echo esc_url( $inx_skin_link['url'] ); ?>" target="_blank"><?php echo $utils['format']->prepare_single_value( $inx_skin_title ); ?></a>
 			</div>
 		</li>
 				<?php

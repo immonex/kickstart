@@ -17,19 +17,19 @@ $inx_skin_aria_label                    = ! empty( $template_data['element']['la
 $inx_skin_multiple                      = isset( $template_data['element']['multiple'] ) && $template_data['element']['multiple'];
 $inx_skin_empty_option_value            = ! empty( $template_data['element']['empty_option_value'] ) ? $template_data['element']['empty_option_value'] : '';
 ?>
-<div class="inx-form-element inx-form-element--<?php echo $inx_skin_element_name; ?>">
+<div class="inx-form-element inx-form-element--<?php echo esc_attr( $inx_skin_element_name ); ?>">
 	<?php if ( $inx_skin_show_label && $template_data['element']['label'] ) : ?>
-	<label for="<?php echo $template_data['element_id']; ?>" class="inx-form-element__label"><?php echo $template_data['element']['label']; ?></label>
+	<label for="<?php echo esc_attr( $template_data['element_id'] ); ?>" class="inx-form-element__label"><?php echo esc_html( $template_data['element']['label'] ); ?></label>
 	<?php endif; ?>
 
 	<select
-		id="<?php echo $inx_skin_search_main_element_id_prefix . $template_data['element_id']; ?>"
-		name="<?php echo $template_data['element_id'] . ( $inx_skin_multiple ? '[]' : '' ); ?>"
+		id="<?php echo esc_attr( $inx_skin_search_main_element_id_prefix . $template_data['element_id'] ); ?>"
+		name="<?php echo esc_attr( $template_data['element_id'] . ( $inx_skin_multiple ? '[]' : '' ) ); ?>"
 		aria-label="<?php echo esc_attr( $inx_skin_aria_label ); ?>"
 		class="inx-select uk-select"
 		<?php
 		if ( isset( $template_data['element']['default'] ) && false !== $template_data['element']['default'] ) {
-			echo 'data-default="' . $template_data['element']['default'] . '"';
+			echo 'data-default="' . esc_attr( $template_data['element']['default'] ) . '"';
 		}
 		if ( $inx_skin_multiple ) {
 			echo ' multiple';
@@ -38,7 +38,7 @@ $inx_skin_empty_option_value            = ! empty( $template_data['element']['em
 		>
 
 		<?php if ( isset( $template_data['element']['empty_option'] ) && false !== $template_data['element']['empty_option'] ) : ?>
-		<option value="<?php echo $inx_skin_empty_option_value; ?>"
+		<option value="<?php echo esc_attr( $inx_skin_empty_option_value ); ?>"
 			<?php
 			if ( $inx_skin_empty_option_value === $template_data['element_value'] ) {
 				echo ' selected';

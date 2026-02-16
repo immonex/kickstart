@@ -34,10 +34,10 @@ if ( $template_data['video'] ) :
 				<inx-embed-consent-request
 					type="video"
 					content="<?php echo esc_attr( $template_data['video']['embed_html'] ); ?>"
-					privacy-note="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['text'] ) ); ?>"
-					button-text="<?php echo esc_attr( nl2br( $inx_skin_video_user_consent['button_text'] ) ); ?>"
-					icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
-					privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+					privacy-note="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['text'] ) ); ?>"
+					button-text="<?php echo nl2br( esc_attr( $inx_skin_video_user_consent['button_text'] ) ); ?>"
+					icon-tag="<?php echo ! empty( $inx_skin_video_user_consent['icon_tag'] ) ? nl2br( esc_attr( $inx_skin_video_user_consent['icon_tag'] ) ) : ''; ?>"
+					privacy-policy-url="<?php echo esc_url( get_privacy_policy_url() ); ?>"
 					privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
 				></inx-embed-consent-request>
 			</div>
