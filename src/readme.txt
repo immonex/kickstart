@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
-Stable Tag: 1.13.4
+Stable Tag: 1.14.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,7 @@ immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solut
 * Obtainment of user consent before loading external libraries (EU GDPR compliance)
 * Various filter and action hooks for special adaptions
 * Extension framework for separate add-on plugins
+* Extended frontend component caching (optimized for object cache solutions like Redis and Memcached)
 * Translation via translate.wordpress.org (GlotPress)
 * Current POT file and German translations included as PO/MO files additionally
 * Support for multilingual websites (Polylang or WPML)
@@ -123,6 +124,14 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.14.0 =
+* Release date: 2026-02-23
+* Added extended caching options for improved rendering times and object caching capabilities.
+* Added a lazy loading option for the main gallery slider images.
+* Improved map marker data caching.
+* Extended Elementor Add-on support.
+* Updated dependencies.
+
 = 1.13.4 =
 * Release date: 2026-02-16
 * Extended Elementor Add-on support.
@@ -137,13 +146,5 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added a shortcode attribute value for explicitely specifying the current page as destination for search results.
 * Fixed a minor search form bug (extended search not hideable once opened).
 * Updated dependencies (i.a. for less unused CSS/JS code in the WP backend).
-
-= 1.12.29 =
-* Release date: 2026-02-08
-* Enabled page-based templates for preview pages.
-* Added dynamic adjustments of parking space contents (property detail data).
-* Fixed a search form issue.
-* Reworked Autoptimize exclusion of plugin-related JS/CSS files.
-* Added OpenImmo XML source code to property backend form.
 
 See changelog.txt for the complete version history.

@@ -152,7 +152,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 			return $atts;
 		}
 
-		$special_query_vars = $this->config['special_query_vars']();
+		$special_query_vars = apply_filters( 'inx_special_query_vars', array(), $this->config['public_prefix'] );
 		if ( empty( $special_query_vars ) || ! is_array( $special_query_vars ) ) {
 			return $atts;
 		}
@@ -248,7 +248,10 @@ class Property_List_Hooks extends Property_Component_Hooks {
 	 */
 	public function shortcode_property_list( $atts ) {
 		$prefix                     = $this->config['public_prefix'];
-		$query_and_search_var_names = $this->config['special_query_vars']();
+		$query_and_search_var_names = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( empty( $query_and_search_var_names ) || ! is_array( $query_and_search_var_names ) ) {
+			$query_and_search_var_names = array();
+		}
 
 		$property_search      = new Property_Search( $this->config, $this->utils );
 		$search_form_elements = $property_search->get_search_form_elements();

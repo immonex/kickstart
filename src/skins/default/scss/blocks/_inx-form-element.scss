@@ -46,7 +46,8 @@
 	margin-bottom: .25em;
 }
 
-.inx-form-element--extended-search-toggle hr {
+.inx-property-search .inx-form-element.inx-form-element--extended-search-toggle hr {
+	background-color: var(--inx-color-bg-muted-default-darker);
 	margin: 0 0 1em 0;
 }
 

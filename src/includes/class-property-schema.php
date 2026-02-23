@@ -264,8 +264,10 @@ class Property_Schema extends Base_Schema {
 		}
 
 		$property_data = $this->get_property_data();
-		$immobilie     = $property_data['oi_immobilie'];
-		if ( ! is_a( $immobilie, '\SimpleXMLElement' ) ) {
+
+		try {
+			$immobilie = new \SimpleXMLElement( $property_data['oi_xml_source'] );
+		} catch ( \Exception $e ) {
 			$this->property_schema_types = [ 'Place' ];
 			return $this->property_schema_types;
 		}
@@ -330,9 +332,10 @@ class Property_Schema extends Base_Schema {
 	 */
 	private function get_geo_elements(): array {
 		$property_data = $this->get_property_data();
-		$immobilie     = $property_data['oi_immobilie'];
 
-		if ( ! is_a( $immobilie, '\SimpleXMLElement' ) ) {
+		try {
+			$immobilie = new \SimpleXMLElement( $property_data['oi_xml_source'] );
+		} catch ( \Exception $e ) {
 			return [];
 		}
 

@@ -190,18 +190,29 @@ class Property {
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
-		$hash_array = array_merge(
+		$hash_array    = array_merge(
 			array(
 				empty( $atts['is_preview'] ) ? $this->post->ID : 'preview',
 				$template,
 			),
 			$atts
 		);
-		$hash       = md5( wp_json_encode( $hash_array ) );
+		$hash          = md5( wp_json_encode( $hash_array ) );
+		$cache_key     = "inxkick_prc_cache_{$this->post->ID}";
+		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
-		// Return cached contents if available.
 		if ( isset( $this->cache['rendered_template_contents'][ $hash ] ) ) {
+			// Return instance cache contents.
 			return $this->cache['rendered_template_contents'][ $hash ];
+		}
+
+		if ( $cache_enabled ) {
+			$cached_rendered_contents = apply_filters( 'inx_cache_get_transient', '', $cache_key, $hash );
+			if ( ! empty( $cached_rendered_contents ) ) {
+				// Store transient cache contents in instance cache and return it.
+				$this->cache['rendered_template_contents'][ $hash ] = $cached_rendered_contents;
+				return $this->cache['rendered_template_contents'][ $hash ];
+			}
 		}
 
 		$template_data         = $this->get_property_template_data( $atts );
@@ -234,6 +245,17 @@ class Property {
 			$template_data,
 			$atts
 		);
+
+		if ( $cache_enabled ) {
+			do_action(
+				'inx_cache_set_transient',
+				$cache_key,
+				$this->cache['rendered_template_contents'][ $hash ],
+				$hash,
+				DAY_IN_SECONDS,
+				false
+			);
+		}
 
 		return $this->cache['rendered_template_contents'][ $hash ];
 	} // render
@@ -413,15 +435,28 @@ class Property {
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
-		$hash_array = array_merge(
-			array( $this->post->ID ),
-			$atts
-		);
-		$hash       = md5( wp_json_encode( $hash_array ) );
+		$hash_array    = array_merge( array( $this->post->ID ), $atts );
+		$hash          = md5( wp_json_encode( $hash_array ) );
+		$cache_key     = "inxkick_ptd_cache_{$this->post->ID}";
+		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
-		// Return cached contents if available.
 		if ( isset( $this->cache['template_raw_data'][ $hash ] ) ) {
+			// Return instance cache contents.
 			return $this->cache['template_raw_data'][ $hash ];
+		}
+
+		if ( $cache_enabled ) {
+			$cached_template_data = apply_filters( 'inx_cache_get_transient', [], $cache_key, $hash );
+			if ( ! empty( $cached_template_data ) ) {
+				// Store transient cache contents in instance cache and return it.
+				$this->cache['template_raw_data'][ $hash ] = array_merge(
+					$this->config,
+					array( 'instance' => $this ),
+					$cached_template_data
+				);
+
+				return $this->cache['template_raw_data'][ $hash ];
+			}
 		}
 
 		// Extract some OpenImmo related property base data.
@@ -661,8 +696,14 @@ class Property {
 		$element_atts         = ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array();
 		$detail_page_elements = $this->get_detail_page_elements( $element_atts );
 
-		$currency = $oi_data['oi_immobilie'] && $oi_data['oi_immobilie']->xpath( '//preise/waehrung/@iso_waehrung' ) ?
-			(string) $oi_data['oi_immobilie']->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
+		try {
+			$immobilie = new \SimpleXMLElement( $oi_data['oi_xml_source'] );
+		} catch ( \Exception $e ) {
+			$immobilie = false;
+		}
+
+		$currency = $immobilie && $immobilie->xpath( '//preise/waehrung/@iso_waehrung' ) ?
+			(string) $immobilie->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
 			$this->config['currency'];
 
 		$template_data = array_merge(
@@ -735,6 +776,20 @@ class Property {
 		$template_data = apply_filters( 'inx_property_template_data', $template_data, $atts );
 
 		$this->cache['template_raw_data'][ $hash ] = $template_data;
+
+		if ( $cache_enabled ) {
+			$remove_keys          = array_merge( array_keys( $config ), array( 'instance' ) );
+			$cached_template_data = array_diff_key( $template_data, array_flip( $remove_keys ) );
+
+			do_action(
+				'inx_cache_set_transient',
+				$cache_key,
+				$cached_template_data,
+				$hash,
+				DAY_IN_SECONDS,
+				false
+			);
+		}
 
 		return $template_data;
 	} // get_property_template_data
@@ -1093,7 +1148,6 @@ class Property {
 		$prefix         = $this->config['public_prefix'];
 		$no_data_return = array(
 			'oi_xml_source'      => '',
-			'oi_immobilie'       => false,
 			'oi_nutzungsart'     => array(),
 			'oi_vermarktungsart' => array(),
 			'oi_css_classes'     => array(),
@@ -1165,7 +1219,6 @@ class Property {
 
 		$this->cache['openimmo_data'][ $this->post->ID ] = array(
 			'oi_xml_source'      => $xml_source,
-			'oi_immobilie'       => $immobilie,
 			'oi_nutzungsart'     => $oi_nutzungsart,
 			'oi_vermarktungsart' => $oi_vermarktungsart,
 			'oi_css_classes'     => $oi_css_classes,

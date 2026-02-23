@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.14.0 =
+* Release date: 2026-02-23
+* Added extended caching options for improved rendering times and object caching capabilities.
+* Added a lazy loading option for the main gallery slider images.
+* Improved map marker data caching.
+* Extended Elementor Add-on support.
+* Updated dependencies.
+
 = 1.13.4 =
 * Release date: 2026-02-16
 * Extended Elementor Add-on support.

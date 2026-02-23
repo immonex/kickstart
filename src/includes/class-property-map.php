@@ -272,12 +272,35 @@ class Property_Map {
 	 * @return mixed[] Marker set.
 	 */
 	public function get_markers( $atts ) {
+		if ( ! is_array( $atts ) ) {
+			$atts = array();
+		}
+
 		$atts = array_merge(
 			$atts,
 			array( 'fields' => 'ids' )
 		);
 		if ( empty( $atts['type'] ) ) {
 			$atts['type'] = 'coords';
+		}
+
+		$cache_enabled = apply_filters( 'inxkick_enable_map_marker_cache', $this->config['performance_enable_map_marker_cache'] );
+
+		if ( $cache_enabled ) {
+			$hash           = md5(
+				wp_json_encode(
+					array_merge(
+						! empty( $_GET ) ? $_GET : array(),
+						$atts
+					)
+				)
+			);
+			$cache_key      = 'inxkick_map_marker_cache';
+			$cached_markers = apply_filters( 'inx_cache_get_transient', [], $cache_key, $hash );
+
+			if ( ! empty( $cached_markers ) ) {
+				return $cached_markers;
+			}
 		}
 
 		$markers       = array();
@@ -287,19 +310,33 @@ class Property_Map {
 			apply_filters( 'inx_get_properties', array(), $atts );
 
 		if ( ! empty( $property_ids ) ) {
-			$property                = new Property( false, $this->config, $this->utils );
-			$all_property_type_terms = $this->utils['data']->get_all_terms_grouped_by_property( 'inx_property_type' );
-			$property_coords         = $this->api->get_all_property_coords();
-
 			foreach ( $property_ids as $i => $post_id ) {
+				$marker = 'coords' === $atts['type'] ?
+					get_post_meta( $post_id, '_inx_list_map_marker_coords', true ) :
+					get_post_meta( $post_id, '_inx_list_map_marker', true );
+
+				if ( ! empty( $marker ) ) {
+					$markers[ $post_id ] = $marker;
+					continue;
+				}
+
+				if ( ! isset( $property_coords ) ) {
+					$property_coords = $this->api->get_all_property_coords();
+				}
 				if ( ! isset( $property_coords[ $post_id ] ) ) {
 					continue;
 				}
 				$lat = $property_coords[ $post_id ]['lat'];
 				$lng = $property_coords[ $post_id ]['lng'];
 
+				if ( ! isset( $property ) ) {
+					$property = new Property( false, $this->config, $this->utils );
+				}
 				$property->set_post( $post_id );
 
+				if ( ! isset( $all_property_type_terms ) ) {
+					$all_property_type_terms = $this->utils['data']->get_all_terms_grouped_by_property( 'inx_property_type' );
+				}
 				$property_type = ! empty( $all_property_type_terms[ $post_id ] ) ?
 					array_shift( $all_property_type_terms[ $post_id ] ) : '';
 
@@ -317,9 +354,11 @@ class Property_Map {
 				}
 
 				if ( ! empty( $atts['type'] ) && 'coords' === $atts['type'] ) {
-					$markers[ $post_id ] = array( $lat, $lng );
+					$marker_coords = array( $lat, $lng );
+					update_post_meta( $post_id, '_inx_list_map_marker_coords', $marker_coords );
+					$markers[ $post_id ] = $marker_coords;
 				} else {
-					$markers[ $post_id ] = array(
+					$marker = array(
 						'title'         => get_the_title( $post_id ),
 						'type'          => $property_type,
 						'lat'           => $lat,
@@ -327,8 +366,15 @@ class Property_Map {
 						'thumbnail_url' => get_the_post_thumbnail_url( $post_id ),
 						'url'           => $property_url,
 					);
+
+					update_post_meta( $post_id, '_inx_list_map_marker', $marker );
+					$markers[ $post_id ] = $marker;
 				}
 			}
+		}
+
+		if ( $cache_enabled ) {
+			do_action( 'inx_cache_set_transient', $cache_key, $markers, $hash, false, DAY_IN_SECONDS );
 		}
 
 		return $markers;

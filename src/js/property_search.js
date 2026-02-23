@@ -485,7 +485,10 @@ async function init() {
 	$("form[id^='inx-property-search-main-form']").each((index, searchForm) => {
 		if (
 			$(searchForm).data('form-action-autodetect')
-			&& $('.inx-property-list').length
+			&& (
+				$('.inx-property-list').length
+				|| $('.inx-real-estate-list').length
+			)
 		) {
 			/**
 			 * Set the current page (URL specified via form action autodetect attribute)

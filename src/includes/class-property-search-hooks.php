@@ -128,11 +128,9 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		}
 
 		// Special variables (e.g. reference flag).
-		$special_query_vars = $this->config['special_query_vars']();
-		if ( count( $special_query_vars ) > 0 ) {
-			foreach ( $special_query_vars as $var_name ) {
-				$var_names[] = $var_name;
-			}
+		$special_query_vars = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( is_array( $special_query_vars ) && ! empty( $special_query_vars ) ) {
+			$var_names = array_merge( $var_names, $special_query_vars );
 		}
 
 		$var_names = array_unique( $var_names );
@@ -264,8 +262,11 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		}
 
 		$prefix                     = $this->config['public_prefix'];
-		$query_and_search_var_names = $this->config['special_query_vars']();
 		$search_form_elements       = $this->property_search->get_search_form_elements();
+		$query_and_search_var_names = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( empty( $query_and_search_var_names ) || ! is_array( $query_and_search_var_names ) ) {
+			$query_and_search_var_names = array();
+		}
 
 		if ( count( $search_form_elements ) > 0 ) {
 			foreach ( $search_form_elements as $key => $element ) {

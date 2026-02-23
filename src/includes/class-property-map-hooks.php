@@ -98,7 +98,10 @@ class Property_Map_Hooks extends Property_Component_Hooks {
 	 */
 	public function shortcode_property_map( $atts ) {
 		$prefix                     = $this->config['public_prefix'];
-		$query_and_search_var_names = $this->config['special_query_vars']();
+		$query_and_search_var_names = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( empty( $query_and_search_var_names ) || ! is_array( $query_and_search_var_names ) ) {
+			$query_and_search_var_names = array();
+		}
 
 		$property_search      = new Property_Search( $this->config, $this->utils );
 		$search_form_elements = $property_search->get_search_form_elements();

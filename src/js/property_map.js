@@ -9,6 +9,8 @@ import PropertyOpenLayersMap from './components/PropertyOpenLayersMap.vue'
 const $ = jQuery
 
 async function updateMaps(event, requestParams) {
+	if (typeof requestParams === 'object' && !requestParams.searchStateInitialized) return
+
 	let updateIDs = false
 	if (typeof event === 'string') {
 		updateIDs = event

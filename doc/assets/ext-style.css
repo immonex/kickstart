@@ -204,3 +204,11 @@ body.dark .element-light {
 .sidebar a.logo span {
 	font-size: 1.1rem;
 }
+
+.sidebar .sidebar-nav li {
+	line-height: 1.5em;
+}
+
+.sidebar .sidebar-nav > ul > li {
+	margin-bottom: 2em;
+}

@@ -66,7 +66,12 @@ class Property_Filters_Sort {
 		/**
 		 * Check GET variables and preserve given search/filter options as hidden fields.
 		 */
-		$preserve_get_vars = $this->config['special_query_vars']();
+
+		$preserve_get_vars = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( empty( $preserve_get_vars ) || ! is_array( $preserve_get_vars ) ) {
+			$preserve_get_vars = array();
+		}
+
 		if ( ! empty( $_GET ) ) {
 			// Add further GET vars.
 			foreach ( $_GET as $var_name => $value ) {

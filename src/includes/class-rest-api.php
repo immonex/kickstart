@@ -98,6 +98,18 @@ class REST_API {
 
 		nocache_headers();
 
+		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+
+		if ( $cache_enabled ) {
+			$hash              = md5( wp_json_encode( $request->get_params() ) );
+			$cache_key         = 'inxkick_property_list_cache';
+			$cached_properties = apply_filters( 'inx_cache_get_transient', 'count' === $response_format ? 0 : [], $cache_key, $hash );
+
+			if ( ! empty( $cached_properties ) ) {
+				return new \WP_REST_Response( 'count' === $response_format ? count( $cached_properties ) : $cached_properties, 200 );
+			}
+		}
+
 		if ( 'html' === $response_format ) {
 			return new \WP_REST_Response( $this->get_property_list_html( $request ) );
 		}
@@ -127,8 +139,8 @@ class REST_API {
 		/**
 		 * Check for/include special query variables (e.g. reference flag).
 		 */
-		$special_query_vars = $this->config['special_query_vars']();
-		if ( count( $special_query_vars ) > 0 ) {
+		$special_query_vars = apply_filters( 'inx_special_query_vars', array(), $prefix );
+		if ( is_array( $special_query_vars ) && ! empty( $special_query_vars ) ) {
 			foreach ( $special_query_vars as $var_name ) {
 				$value = $request->get_param( $var_name );
 
@@ -169,6 +181,10 @@ class REST_API {
 		$this->maybe_add_lang_args( $args, $request );
 
 		$properties = $property_list->get_properties( $args );
+
+		if ( $cache_enabled ) {
+			do_action( 'inx_cache_set_transient', $cache_key, $properties, $hash, false, DAY_IN_SECONDS );
+		}
 
 		$result = new \WP_REST_Response( 'count' === $response_format ? count( $properties ) : $properties, 200 );
 
@@ -221,7 +237,12 @@ class REST_API {
 	private function get_property_map_markers( $request, $response_format = 'json_map_markers' ) {
 		$cidata = $request->get_param( 'inx-r-cidata' );
 		$args   = $cidata ? json_decode( $request->get_param( 'inx-r-cidata' ), true ) : array();
-		$id     = $request->get_param( 'id' );
+
+		if ( ! $args ) {
+			$args = array();
+		}
+
+		$id = $request->get_param( 'id' );
 
 		if ( $id ) {
 			$args['id']   = $id;

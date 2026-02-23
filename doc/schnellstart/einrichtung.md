@@ -59,6 +59,12 @@ Werden bereits themeseitig oder von anderen Plugins (z. B. SEO) Meta-Tags mit id
 
 Für die Nutzung der Google-Maps-Dienste ist ein **passender** API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
 
+#### Performance
+
+Mit der Aktivierung der Optionen im *Performance*-Tab können die Rendering-Zeiten der immobilienbezogenen Frontend-Elemente deutlich verbessert werden, insbesondere wenn eine Objekt-Cache-Lösung wie *Redis* oder *Memcached* im Einsatz ist.
+
+Voraussetzungen für die Nutzung eines Objekt-Caches sind die entsprechende Unterstützung innerhalb der **Hosting-Umgebnung** sowie die Installation eines passenden Cache-Plugins (z. B. [Redis Object Cache](https://de.wordpress.org/plugins/redis-cache/) oder [Cachify](https://de.wordpress.org/plugins/cachify/)).
+
 ### Listen
 
 #### Allgemein

@@ -80,7 +80,11 @@ class Property_Search {
 		/**
 		 * Check for special GET variables and preserve their values (hidden fields).
 		 */
-		$preserve_get_vars = $this->config['special_query_vars']();
+		$preserve_get_vars = apply_filters( 'inx_special_query_vars', array(), $this->config['public_prefix'] );
+		if ( empty( $preserve_get_vars ) || ! is_array( $preserve_get_vars ) ) {
+			$preserve_get_vars = array();
+		}
+
 		if ( ! empty( $_GET ) ) {
 			// Add further GET vars.
 			foreach ( $_GET as $var_name => $value ) {

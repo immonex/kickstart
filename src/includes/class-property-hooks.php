@@ -59,6 +59,8 @@ class Property_Hooks {
 		 * WP actions and filters
 		 */
 
+		add_action( "deleted_post_{$this->config['property_post_type_name']}", array( $this, 'delete_post_transients' ), 10, 2 );
+
 		if ( ! empty( $this->config['disable_detail_view_states'] ) ) {
 			add_action( 'send_headers', array( $this, 'maybe_disable_detail_view' ) );
 		}
@@ -95,7 +97,9 @@ class Property_Hooks {
 		 * OpenImmo2WP actions
 		 */
 
+		add_action( 'immonex_oi2wp_import_zip_file_processed', array( $this, 'delete_general_cache_transients' ) );
 		add_action( 'immonex_oi2wp_import_zip_file_processed', array( $this, 'update_min_max_transients' ), 90 );
+		add_action( 'immonex_oi2wp_property_imported', array( $this, 'delete_post_transient' ), 10, 2 );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -875,12 +879,18 @@ class Property_Hooks {
 		$title       = '';
 		$detail_item = false;
 
-		if ( '//' === substr( $name, 0, 2 ) && $oi_data['oi_immobilie'] ) {
+		try {
+			$immobilie = new \SimpleXMLElement( $oi_data['oi_xml_source'] );
+		} catch ( \Exception $e ) {
+			$immobilie = false;
+		}
+
+		if ( $immobilie && '//' === substr( $name, 0, 2 ) ) {
 			/**
 			 * Queried element most likely is an XML path -> apply XPath to
 			 * property XML source if available.
 			 */
-			$value_xpath = $oi_data['oi_immobilie']->xpath( $name );
+			$value_xpath = $immobilie->xpath( $name );
 			if ( ! empty( $value_xpath ) ) {
 				$value = (string) $value_xpath[0];
 			}
@@ -997,7 +1007,7 @@ class Property_Hooks {
 				'if_empty'      => $shortcode_atts['if_empty'],
 				'detail_item'   => $detail_item,
 				'post_id'       => $property_id,
-				'immobilie'     => $oi_data['oi_immobilie'],
+				'immobilie'     => $immobilie,
 			)
 		);
 
@@ -1258,8 +1268,20 @@ class Property_Hooks {
 	} // internal_page_rewrite
 
 	/**
+	 * Delete general cache transients (action callback).
+	 *
+	 * @since 1.14.0
+	 *
+	 * @param string $import_zip_file Recently processed ZIP import file (full path).
+	 */
+	public function delete_general_cache_transients( $import_zip_file ) {
+		delete_transient( 'inxkick_property_list_cache' );
+		delete_transient( 'inxkick_map_marker_cache' );
+	} // delete_general_cache_transients
+
+	/**
 	 * Update cached area max and primary price min/max values (transients)
-	 * after every processed import ZIP file.
+	 * after every processed import ZIP file (action callback).
 	 *
 	 * @since 1.7.28-beta
 	 *
@@ -1406,6 +1428,23 @@ class Property_Hooks {
 
 		return $out;
 	} // add_gallery_image_ids
+
+	/**
+	 * Delete property post related transients like caches etc. (action callback).
+	 *
+	 * @since 1.13.8-beta
+	 *
+	 * @param int                             $post_id  Post ID.
+	 * @param \WP_Post|\SimpleXMLElement|bool $property Property post or XML element instance (unused).
+	 */
+	public function delete_post_transients( $post_id, $property ) {
+		// ptd = Property Template Data, prc = Property Rendered Contents.
+		$cache_types = [ 'ptd', 'prc' ];
+
+		foreach ( $cache_types as $type ) {
+			delete_transient( "inxkick_{$type}_cache_{$post_id}" );
+		}
+	} // delete_post_transients
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

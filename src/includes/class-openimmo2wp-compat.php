@@ -29,6 +29,7 @@ class OpenImmo2WP_Compat {
 	public function __construct( $bootstrap_data ) {
 		$this->data = $bootstrap_data;
 
+		add_action( 'immonex_oi2wp_property_imported', array( $this, 'delete_property_cache_transient' ), 10, 2 );
 		add_action( 'immonex_oi2wp_property_imported', array( $this, 'maybe_add_missing_required_meta' ), 50, 2 );
 	} // __construct
 

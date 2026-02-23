@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_8_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.13.4';
+	const PLUGIN_VERSION             = '1.14.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -74,6 +74,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		'show_seller_commission'                       => false,
 		'disable_detail_view_states'                   => array(),
 		'enable_gallery_image_links'                   => true,
+		'enable_gallery_lazy_loading'                  => true,
 		'gallery_image_slider_bg_color'                => '#F0F0F0',
 		'gallery_image_slider_min_height'              => 240,
 		'gallery_image_max_height'                     => 800,
@@ -111,6 +112,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 		'sharing_x'                                    => true,
 		'sharing_max_images'                           => 10,
 		'sharing_tag_insert_mode'                      => 'extend',
+		'performance_enable_property_cache'            => true,
+		'performance_enable_map_marker_cache'          => true,
 		'deferred_tasks'                               => array(),
 	);
 
@@ -209,34 +212,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 	 * @param string $plugin_slug Plugin name slug.
 	 */
 	public function __construct( $plugin_slug ) {
+		add_filter( 'inx_special_query_vars', array( $this, 'add_special_query_vars' ), 10, 2 );
+
 		$this->bootstrap_data = array(
 			'property_post_type_name'     => self::PROPERTY_POST_TYPE_NAME,
-			'special_query_vars'          => function () {
-				return apply_filters(
-					'inx_special_query_vars',
-					array(
-						self::PUBLIC_PREFIX . 'limit',
-						self::PUBLIC_PREFIX . 'limit-page',
-						self::PUBLIC_PREFIX . 'sort',
-						self::PUBLIC_PREFIX . 'order',
-						self::PUBLIC_PREFIX . 'references',
-						self::PUBLIC_PREFIX . 'masters',
-						self::PUBLIC_PREFIX . 'available',
-						self::PUBLIC_PREFIX . 'sold',
-						self::PUBLIC_PREFIX . 'reserved',
-						self::PUBLIC_PREFIX . 'featured',
-						self::PUBLIC_PREFIX . 'front-page-offer',
-						self::PUBLIC_PREFIX . 'demo',
-						self::PUBLIC_PREFIX . 'backlink-url',
-						self::PUBLIC_PREFIX . 'iso-country',
-						self::PUBLIC_PREFIX . 'author',
-						self::PUBLIC_PREFIX . 'ref',
-						self::PUBLIC_PREFIX . 'force-lang',
-						self::PUBLIC_PREFIX . 'dyn-css',
-					),
-					self::PUBLIC_PREFIX
-				);
-			},
 			'auto_applied_rendering_atts' => array(
 				self::PUBLIC_PREFIX . 'ref',
 				self::PUBLIC_PREFIX . 'force-lang',
@@ -557,6 +536,50 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 	} // init_plugin
 
 	/**
+	 * Add special query variables (filter callback).
+	 *
+	 * @since 1.13.8-beta
+	 *
+	 * @param string[] $special_query_vars Prefixed variable names or empty array.
+	 * @param string   $prefix             Kickstart public prefix (normally "inx-") or empty string.
+	 *
+	 * @return string[] Special query variables.
+	 */
+	public function add_special_query_vars( $special_query_vars, $prefix ) {
+		if ( ! is_array( $special_query_vars ) ) {
+			$special_query_vars = array();
+		}
+
+		if ( self::PUBLIC_PREFIX !== $prefix ) {
+			$prefix = self::PUBLIC_PREFIX;
+		}
+
+		return array_merge(
+			$special_query_vars,
+			array(
+				"{$prefix}limit",
+				"{$prefix}limit-page",
+				"{$prefix}sort",
+				"{$prefix}order",
+				"{$prefix}references",
+				"{$prefix}masters",
+				"{$prefix}available",
+				"{$prefix}sold",
+				"{$prefix}reserved",
+				"{$prefix}featured",
+				"{$prefix}front-page-offer",
+				"{$prefix}demo",
+				"{$prefix}backlink-url",
+				"{$prefix}iso-country",
+				"{$prefix}author",
+				"{$prefix}ref",
+				"{$prefix}force-lang",
+				"{$prefix}dyn-css",
+			)
+		);
+	} // add_special_query_vars
+
+	/**
 	 * Enqueue and localize backend JavaScript and CSS code (callback).
 	 *
 	 * @since 1.0.0
@@ -848,6 +871,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 				'ext_services'             => array(
 					'title'       => __( 'External Services', 'immonex-kickstart' ),
 					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). An appropriate API key is required in this case.', 'immonex-kickstart' ),
+					'tab'         => 'tab_general',
+				),
+				'performance'              => array(
+					'title'       => __( 'Performance', 'immonex-kickstart' ),
+					'description' => __( 'Enabling the following options can improve the rendering times of property related frontend elements significantly, especially if an object cache solution like <em>Redis</em> or <em>Memcached</em> is in use.', 'immonex-kickstart' ),
 					'tab'         => 'tab_general',
 				),
 				'property_lists_general'   => array(
@@ -1283,6 +1311,24 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 					),
 				),
 				array(
+					'name'    => 'performance_enable_property_cache',
+					'type'    => 'checkbox',
+					'label'   => __( 'Properties', 'immonex-kickstart' ),
+					'section' => 'performance',
+					'args'    => array(
+						'description' => __( 'Enable extended caching of real estate object data.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'performance_enable_map_marker_cache',
+					'type'    => 'checkbox',
+					'label'   => __( 'Map Markers', 'immonex-kickstart' ),
+					'section' => 'performance',
+					'args'    => array(
+						'description' => __( 'Enable extended caching of map marker data.', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'maps_require_consent',
 					'type'    => 'checkbox',
 					'label'   => __( 'Embedded Maps', 'immonex-kickstart' ),
@@ -1454,6 +1500,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_7_0\Base {
 					'section' => 'property_details_gallery',
 					'args'    => array(
 						'description' => __( 'Enable full size/lightbox link for the currently displayed image. (The lightbox functionality must be provided by the theme or an appropriate plugin.)', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'enable_gallery_lazy_loading',
+					'type'    => 'checkbox',
+					'label'   => __( 'Lazy Loading', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description' => __( 'Enable <em>lazy loading</em> for the images in the slider.', 'immonex-kickstart' ),
 					),
 				),
 				array(

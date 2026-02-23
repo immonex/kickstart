@@ -263,6 +263,10 @@ if ( $inx_skin_media_count > 0 ) :
 				<?php
 				if ( count( $inx_skin_gallery_images ) > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
+						if ( $template_data['enable_gallery_lazy_loading'] && false === strpos( $inx_skin_img['full'], 'lazy' ) ) {
+							$inx_skin_img['full']                           = str_replace( '<img ', '<img loading="lazy" ', $inx_skin_img['full'] );
+							$inx_skin_gallery_images[ $inx_skin_i ]['full'] = $inx_skin_img['full'];
+						}
 						?>
 						<li class="noHover">
 							<?php
