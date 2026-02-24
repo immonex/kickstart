@@ -99,7 +99,7 @@ class Property_Hooks {
 
 		add_action( 'immonex_oi2wp_import_zip_file_processed', array( $this, 'delete_general_cache_transients' ) );
 		add_action( 'immonex_oi2wp_import_zip_file_processed', array( $this, 'update_min_max_transients' ), 90 );
-		add_action( 'immonex_oi2wp_property_imported', array( $this, 'delete_post_transient' ), 10, 2 );
+		add_action( 'immonex_oi2wp_property_imported', array( $this, 'delete_post_transients' ), 10, 2 );
 
 		/**
 		 * Plugin-specific actions and filters
@@ -1382,7 +1382,7 @@ class Property_Hooks {
 		$backlink_url = ! empty( $_GET['inx-backlink-url'] ) ?
 			wp_strip_all_tags( wp_unslash( $_GET['inx-backlink-url'] ) ) : '';
 
-		if ( false && $backlink_url && '/' === $backlink_url[0] ) {
+		if ( $backlink_url && '/' === $backlink_url[0] ) {
 			$backlink_url = home_url( $backlink_url );
 		} elseif ( $backlink_url && ! preg_match( '#^https?://#', $backlink_url ) ) {
 			$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
