@@ -1382,6 +1382,12 @@ class Property_Hooks {
 		$backlink_url = ! empty( $_GET['inx-backlink-url'] ) ?
 			wp_strip_all_tags( wp_unslash( $_GET['inx-backlink-url'] ) ) : '';
 
+		if ( false && $backlink_url && '/' === $backlink_url[0] ) {
+			$backlink_url = home_url( $backlink_url );
+		} elseif ( $backlink_url && ! preg_match( '#^https?://#', $backlink_url ) ) {
+			$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
+		}
+
 		if ( $backlink_url && ! $this->utils['string']->is_local_url( $backlink_url ) ) {
 			global $wp_query;
 

@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.14.2 =
+* Release date: 2026-02-24
+* Fixed backlink and OpenImmo2WP compatibility issues.
+
 = 1.14.0 =
 * Release date: 2026-02-23
 * Added extended caching options for improved rendering times and object caching capabilities.
