@@ -79,32 +79,56 @@ class Property_List {
 
 		$org_query = $this->replace_main_query( $atts );
 
-		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
-		$atts['list_query_atts'] = array_filter(
-			$atts,
-			function ( $value, $key ) {
-				return $value && 'inx-' === substr( $key, 0, 4 );
-			},
-			ARRAY_FILTER_USE_BOTH
-		);
+		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
-		if ( ! isset( $atts['no_results_text'] ) || '-' === $atts['no_results_text'] ) {
-			$atts['no_results_text'] = $this->config['property_search_no_results_text'];
+		if ( $cache_enabled ) {
+			$hash            = md5(
+				wp_json_encode(
+					array_merge(
+						$atts,
+						$wp_query->query_vars,
+						array( 'template' => $template )
+					)
+				)
+			);
+			$cache_key       = 'inxkick_plrc_cache_' . $hash;
+			$cached_contents = apply_filters( 'inx_cache_get_transient', false, $cache_key );
 		}
 
-		$template_data = array_merge(
-			$this->config,
-			$atts
-		);
+		if ( ! empty( $cached_contents ) ) {
+			$output = $cached_contents;
+		} else {
+			// Remember query parameters explicitly set per shortcode/render atts (possible future use).
+			$atts['list_query_atts'] = array_filter(
+				$atts,
+				function ( $value, $key ) {
+					return $value && 'inx-' === substr( $key, 0, 4 );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
 
-		$template_data['post_count'] = $wp_query->post_count;
-		$output                      = apply_filters(
-			'inx_rendered_property_list_template_contents',
-			$this->utils['template']->render_php_template( $template, $template_data ),
-			$template,
-			$template_data,
-			$atts
-		);
+			if ( ! isset( $atts['no_results_text'] ) || '-' === $atts['no_results_text'] ) {
+				$atts['no_results_text'] = $this->config['property_search_no_results_text'];
+			}
+
+			$template_data = array_merge(
+				$this->config,
+				$atts
+			);
+
+			$template_data['post_count'] = $wp_query->post_count;
+			$output                      = apply_filters(
+				'inx_rendered_property_list_template_contents',
+				$this->utils['template']->render_php_template( $template, $template_data ),
+				$template,
+				$template_data,
+				$atts
+			);
+
+			if ( $cache_enabled ) {
+				do_action( 'inx_cache_set_transient', $cache_key, $output );
+			}
+		}
 
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );
@@ -152,7 +176,23 @@ class Property_List {
 			$args
 		);
 
+		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+
+		if ( $cache_enabled ) {
+			$hash              = md5( wp_json_encode( $args ) );
+			$cache_key         = "inxkick_pp_cache_{$hash}";
+			$cached_properties = apply_filters( 'inx_cache_get_transient', false, $cache_key );
+
+			if ( ! empty( $cached_properties ) ) {
+				return $cached_properties;
+			}
+		}
+
 		$properties = get_posts( $args );
+
+		if ( $cache_enabled ) {
+			do_action( 'inx_cache_set_transient', $cache_key, $properties );
+		}
 
 		return $properties;
 	} // get_properties

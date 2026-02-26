@@ -96,6 +96,7 @@ class Property_Search {
 				if (
 					'' !== $value &&
 					'inx-search-' !== substr( $var_name, 0, 11 ) &&
+					'e-page-' !== substr( $var_name, 0, 7 ) && // Exclude Elementor pagination.
 					! isset( $preserve_get_vars[ $var_name ] ) &&
 					! in_array( $var_name, array( 'page', 'paged' ), true )
 				) {
@@ -280,8 +281,7 @@ class Property_Search {
 		$default_action_url     = false;
 		$form_action            = false;
 		$form_action_autodetect = '';
-		$current_url            = $this->utils['string']->get_nopaging_url();
-
+		$current_url            = $this->utils['string']->get_nopaging_url( false, array( 'page', 'paged', 'page_id' ) );
 		if ( false === strpos( $current_url, '?' ) ) {
 			$current_url = trailingslashit( $current_url );
 		}
@@ -320,7 +320,7 @@ class Property_Search {
 				global $post;
 				if ( isset( $post ) && has_shortcode( $post->post_content, 'inx-property-list' ) ) {
 					// Set current page URL if page contains the property list shortcode.
-					$form_action = $this->utils['string']->get_nopaging_url();
+					$form_action = $current_url;
 				} else {
 					$form_action            = $default_action_url;
 					$form_action_autodetect = $current_url;

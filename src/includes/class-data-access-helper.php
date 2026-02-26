@@ -615,6 +615,7 @@ class Data_Access_Helper {
 		} elseif ( isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ] ) {
 			// phpcs:disable
 			$temp_raw_value = $_GET[ $var_name ];
+
 			if ( is_array( $temp_raw_value ) ) {
 				foreach ( $temp_raw_value as $key => $temp_raw_single_value ) {
 					if ( ! is_string( $temp_raw_single_value ) ) {

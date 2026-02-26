@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e512900fba69590114bbb9eec0d282a9",
+    "content-hash": "e5a439d697f5810cf4e3109d5fd47b55",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -106,16 +106,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "fd4b7aecf2039739ad490930cd84e32c7c41e84d"
+                "reference": "716a1c486f53b604258283ba8d6d0eadc682ef96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/fd4b7aecf2039739ad490930cd84e32c7c41e84d",
-                "reference": "fd4b7aecf2039739ad490930cd84e32c7c41e84d",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/716a1c486f53b604258283ba8d6d0eadc682ef96",
+                "reference": "716a1c486f53b604258283ba8d6d0eadc682ef96",
                 "shasum": ""
             },
             "require": {
@@ -146,9 +146,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.8.0"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.9.0"
             },
-            "time": "2026-02-23T11:49:07+00:00"
+            "time": "2026-02-26T11:06:26+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

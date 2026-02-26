@@ -272,6 +272,8 @@ class Property_Map {
 	 * @return mixed[] Marker set.
 	 */
 	public function get_markers( $atts ) {
+		global $wp_query;
+
 		if ( ! is_array( $atts ) ) {
 			$atts = array();
 		}
@@ -295,8 +297,8 @@ class Property_Map {
 					)
 				)
 			);
-			$cache_key      = 'inxkick_map_marker_cache';
-			$cached_markers = apply_filters( 'inx_cache_get_transient', [], $cache_key, $hash );
+			$cache_key      = "inxkick_mm_cache_{$hash}";
+			$cached_markers = apply_filters( 'inx_cache_get_transient', [], $cache_key );
 
 			if ( ! empty( $cached_markers ) ) {
 				return $cached_markers;
@@ -374,7 +376,7 @@ class Property_Map {
 		}
 
 		if ( $cache_enabled ) {
-			do_action( 'inx_cache_set_transient', $cache_key, $markers, $hash, false, DAY_IN_SECONDS );
+			do_action( 'inx_cache_set_transient', $cache_key, $markers );
 		}
 
 		return $markers;

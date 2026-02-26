@@ -160,6 +160,8 @@ class Property {
 	 * @return string Rendered contents (HTML).
 	 */
 	public function render( $template = '', $atts = array() ) {
+		global $wp;
+
 		if ( ! is_a( $this->post, 'WP_Post' ) && empty( $atts['is_preview'] ) ) {
 			return '';
 		}
@@ -190,16 +192,14 @@ class Property {
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
-		$hash_array    = array_merge(
-			array(
-				empty( $atts['is_preview'] ) ? $this->post->ID : 'preview',
-				$template,
-			),
-			$atts
-		);
-		$hash          = md5( wp_json_encode( $hash_array ) );
-		$cache_key     = "inxkick_prc_cache_{$this->post->ID}";
-		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+		$hash_array            = $atts;
+		$hash_array['uri']     = ! empty( $_SERVER['REQUEST_URI'] ) ?
+			sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) :
+			add_query_arg( $wp->query_vars, home_url( $wp->request ) );
+		$hash_array['post_id'] = empty( $atts['is_preview'] ) ? $this->post->ID : 'preview';
+		$hash                  = md5( wp_json_encode( $hash_array ) );
+		$cache_key             = "inxkick_prc_cache_{$this->post->ID}";
+		$cache_enabled         = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		if ( isset( $this->cache['rendered_template_contents'][ $hash ] ) ) {
 			// Return instance cache contents.
@@ -435,10 +435,13 @@ class Property {
 		/**
 		 * Generate a property/attribute specific hash value for caching purposes.
 		 */
-		$hash_array    = array_merge( array( $this->post->ID ), $atts );
-		$hash          = md5( wp_json_encode( $hash_array ) );
-		$cache_key     = "inxkick_ptd_cache_{$this->post->ID}";
-		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+		$hash_array        = $atts;
+		$hash_array['uri'] = ! empty( $_SERVER['REQUEST_URI'] ) ?
+			sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) :
+			add_query_arg( $wp->query_vars, home_url( $wp->request ) );
+		$hash              = md5( wp_json_encode( $hash_array ) );
+		$cache_key         = "inxkick_ptd_cache_{$this->post->ID}";
+		$cache_enabled     = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		if ( isset( $this->cache['template_raw_data'][ $hash ] ) ) {
 			// Return instance cache contents.
@@ -1957,7 +1960,7 @@ class Property {
 		}
 
 		if (
-			$home_url === $backlink_url ||
+			( $home_url === $backlink_url && empty( $_GET['page_id'] ) ) ||
 			$backlink_url === $permalink_url ||
 			( $details_page_id && get_permalink( $details_page_id ) === $backlink_url )
 		) {

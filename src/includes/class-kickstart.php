@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_8_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.14.3';
+	const PLUGIN_VERSION             = '1.14.6';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -394,6 +394,27 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_8_0\Base {
 					break;
 			}
 		}
+
+		add_action(
+			"update_option_{$this->plugin_options_name}",
+			function ( $old_values, $values, $option ) {
+				if (
+					$old_values['performance_enable_property_cache'] !== $values['performance_enable_property_cache']
+					&& ! $values['performance_enable_property_cache']
+				) {
+					$this->utils['cache']->bulk_delete_cache_transients( [ 'property', 'property_list' ] );
+				}
+
+				if (
+					$old_values['performance_enable_map_marker_cache'] !== $values['performance_enable_map_marker_cache']
+					&& ! $values['performance_enable_map_marker_cache']
+				) {
+					$this->utils['cache']->bulk_delete_cache_transients( 'map_marker' );
+				}
+			},
+			10,
+			3
+		);
 	} // init_plugin_admin
 
 	/**
@@ -476,6 +497,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_8_0\Base {
 				'data'   => new Data_Access_Helper( $this->plugin_options, $this->bootstrap_data, $this->utils ),
 				'format' => new Format_Helper( $component_config, $this->utils ),
 				'query'  => new Query_Helper( $this->plugin_options ),
+				'cache'  => new Cache( $component_config, $this->utils ),
 			)
 		);
 
