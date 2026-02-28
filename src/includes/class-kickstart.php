@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.14.6';
+	const PLUGIN_VERSION             = '1.14.7';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -553,6 +553,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 				}
 			}
 		}
+
+		// Temporary tweak.
+		add_filter( 'inxkick_enable_property_cache', '__return_false' );
+		add_filter( 'inxkick_enable_map_marker_cache', '__return_false' );
 
 		$this->perform_deferred_tasks();
 	} // init_plugin

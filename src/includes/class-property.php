@@ -252,7 +252,7 @@ class Property {
 				$cache_key,
 				$this->cache['rendered_template_contents'][ $hash ],
 				$hash,
-				DAY_IN_SECONDS,
+				11 * HOUR_IN_SECONDS,
 				false
 			);
 		}

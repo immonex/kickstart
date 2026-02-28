@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.14.7 =
+* Release date: 2026-02-28
+* Optimized cache expiration timings.
+
 = 1.14.6 =
 * Release date: 2026-02-26
 * Extended caching.
