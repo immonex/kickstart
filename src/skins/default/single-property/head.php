@@ -93,7 +93,7 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 
 		<?php if ( $inx_skin_head_show( 'labels' ) ) : ?>
 		<div class="uk-width-1-1 uk-width-auto@s uk-margin-bottom uk-margin-remove@m">
-			<?php if ( count( $template_data['labels'] ) > 0 ) : ?>
+			<?php if ( is_array( $template_data['labels'] ) && count( $template_data['labels'] ) > 0 ) : ?>
 			<div class="inx-single-property__labels uk-position-top-right">
 				<?php
 				foreach ( $template_data['labels'] as $inx_skin_label ) :

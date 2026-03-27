@@ -103,20 +103,6 @@ class Property {
 	private $utils;
 
 	/**
-	 * Array of "grouped" sub-arrays of property detail records
-	 *
-	 * @var mixed[]
-	 */
-	private $details;
-
-	/**
-	 * Template data cache
-	 *
-	 * @var mixed[]
-	 */
-	private $cache;
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -189,32 +175,6 @@ class Property {
 			$atts['template'] = $template;
 		}
 
-		/**
-		 * Generate a property/attribute specific hash value for caching purposes.
-		 */
-		$hash_array            = $atts;
-		$hash_array['uri']     = ! empty( $_SERVER['REQUEST_URI'] ) ?
-			sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) :
-			add_query_arg( $wp->query_vars, home_url( $wp->request ) );
-		$hash_array['post_id'] = empty( $atts['is_preview'] ) ? $this->post->ID : 'preview';
-		$hash                  = md5( wp_json_encode( $hash_array ) );
-		$cache_key             = "inxkick_prc_cache_{$this->post->ID}";
-		$cache_enabled         = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
-
-		if ( isset( $this->cache['rendered_template_contents'][ $hash ] ) ) {
-			// Return instance cache contents.
-			return $this->cache['rendered_template_contents'][ $hash ];
-		}
-
-		if ( $cache_enabled ) {
-			$cached_rendered_contents = apply_filters( 'inx_cache_get_transient', '', $cache_key, $hash );
-			if ( ! empty( $cached_rendered_contents ) ) {
-				// Store transient cache contents in instance cache and return it.
-				$this->cache['rendered_template_contents'][ $hash ] = $cached_rendered_contents;
-				return $this->cache['rendered_template_contents'][ $hash ];
-			}
-		}
-
 		$template_data         = $this->get_property_template_data( $atts );
 		$filtered_element_atts = array_filter( $atts['element_atts'] );
 
@@ -238,26 +198,13 @@ class Property {
 			}
 		}
 
-		$this->cache['rendered_template_contents'][ $hash ] = apply_filters(
+		return apply_filters(
 			'inx_rendered_property_template_contents',
 			$this->utils['template']->render_php_template( $template, $template_data, $this->utils ),
 			$template,
 			$template_data,
 			$atts
 		);
-
-		if ( $cache_enabled ) {
-			do_action(
-				'inx_cache_set_transient',
-				$cache_key,
-				$this->cache['rendered_template_contents'][ $hash ],
-				$hash,
-				11 * HOUR_IN_SECONDS,
-				false
-			);
-		}
-
-		return $this->cache['rendered_template_contents'][ $hash ];
 	} // render
 
 	/**
@@ -283,12 +230,6 @@ class Property {
 		$public_prefix = $this->config['public_prefix'];
 		$atts          = apply_filters( 'inx_apply_auto_rendering_atts', $atts );
 
-		// Get property core data (individual custom fields).
-		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
-
-		// Fetch video data.
-		$videos = $this->get_video_data( $atts );
-
 		if (
 			! empty( $atts['element_atts']['head']['contents'] ) &&
 			is_string( $atts['element_atts']['head']['contents'] )
@@ -297,476 +238,86 @@ class Property {
 			$atts['element_atts']['head']['contents'] = array_map( 'trim', explode( ',', $atts['element_atts']['head']['contents'] ) );
 		}
 
-		$kbe_mode       = ! empty( $atts['ken_burns_effect_display_mode'] ) ?
-			$atts['ken_burns_effect_display_mode'] :
-			$this->config['ken_burns_effect_display_mode'];
-		$kbe_mode_class = $kbe_mode ? 'inx-gallery--kbe-mode--' . str_replace( '_', '-', $kbe_mode ) : '';
-
-		if ( defined( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH' ) && (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
-			$config['ken_burns_effect_min_image_width'] = (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH;
-		}
-
-		if ( defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) && (int) INX_SKIN_MAX_IMAGE_HEIGHT ) {
-			$config['gallery_image_max_height'] = (int) INX_SKIN_MAX_IMAGE_HEIGHT;
-		}
-
-		if ( ! empty( $atts['is_preview'] ) ) {
-			/**
-			 * Generate and return preview/demo data.
-			 */
-
-			$labels = array(
-				array(
-					'name'                => __( 'for sale', 'immonex-kickstart' ),
-					'css_classes'         => array(
-						"{$public_prefix}property-label",
-						"{$public_prefix}property-label--vermarktungsart--kauf",
-					),
-					'is_for_sale_or_rent' => true,
-					'show'                => true,
-				),
-				array(
-					'name'                => __( 'Demo', 'immonex-kickstart' ),
-					'css_classes'         => array(
-						"{$public_prefix}property-label",
-						"{$public_prefix}property-label--feldname--immonex-is-demo",
-					),
-					'is_for_sale_or_rent' => true,
-					'show'                => true,
-				),
-			);
-
-			if ( ! empty( $atts['virtual_tour_embed_code'] ) ) {
-				$atts['virtual_tour_embed_code'] = htmlspecialchars_decode( $atts['virtual_tour_embed_code'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
-			}
-
-			$file_attachments = array(
-				array(
-					'title'   => __( 'Information Brochure', 'immonex-kickstart' ),
-					'url'     => '#',
-					'subtype' => 'pdf',
-				),
-			);
-
-			$contact_details = array(
-				'ungruppiert' => [
-					array(
-						'name'  => 'kontaktperson.ansprechpartner',
-						'value' => _x( 'Elena Example', 'sample data', 'immonex-kickstart' ),
-					),
-					array(
-						'name'  => 'kontaktperson.freitextfeld',
-						'value' => _x( 'I am a demo contact person for this property.', 'sample data', 'immonex-kickstart' ),
-					),
-					array(
-						'name'  => 'kontaktperson.firma',
-						'value' => _x( 'immonex ONE Demo Immobilien', 'sample data', 'immonex-kickstart' ),
-					),
-					array(
-						'name'  => 'kontaktperson.adresse',
-						'value' => _x( 'Demo Alley 1, 99999 Demotown', 'sample data', 'immonex-kickstart' ),
-					),
-				],
-				'kontakt'     => array(
-					array(
-						'title' => __( 'E-Mail', 'immonex-kickstart' ),
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.email_direkt',
-						'value' => 'elena.example@immonex.one',
-					),
-					array(
-						'title' => __( 'E-Mail', 'immonex-kickstart' )
-							. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.email_zentrale',
-						'value' => 'info@immonex.one',
-					),
-					array(
-						'title' => __( 'Phone', 'immonex-kickstart' ),
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.tel_durchw',
-						'value' => '+49 9999 1234568',
-					),
-					array(
-						'title' => __( 'Mobile', 'immonex-kickstart' ),
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.tel_handy',
-						'value' => '+49 12345 987654321',
-					),
-					array(
-						'title' => __( 'Phone', 'immonex-kickstart' )
-							. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.tel_zentrale',
-						'value' => '+49 9999 1234567',
-					),
-					array(
-						'title' => __( 'Fax', 'immonex-kickstart' ),
-						'group' => 'kontakt',
-						'name'  => 'kontaktperson.tel_fax',
-						'value' => '+49 9999 1234569',
-					),
-				),
-			);
-
-			$template_data = array_merge(
-				$config,
-				$core_data,
-				array(
-					'title'                => _x( 'Spacious house in an excellent location', 'sample data', 'immonex-kickstart' ),
-					'full_address'         => _x( '123 Fake Street, 99123 Demotown', 'sample data', 'immonex-kickstart' ),
-					'type_of_use'          => __( 'Residential Property', 'immonex-kickstart' ),
-					'property_type'        => __( 'Houses', 'immonex-kickstart' ) . ' &gt; ' . __( 'Single-family Home', 'immonex-kickstart' ),
-					'labels'               => $labels,
-					'detail_page_elements' => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),
-					'videos'               => $videos,
-					'file_attachments'     => $file_attachments,
-					'links'                => array(),
-					'overview_url'         => '#',
-					'kbe_mode_class'       => $kbe_mode_class,
-					'details'              => $contact_details,
-				),
-				$atts
-			);
-
-			return apply_filters( 'inx_property_template_data', $template_data, $atts );
-		}
-
-		/**
-		 * Generate a property/attribute specific hash value for caching purposes.
-		 */
-		$hash_array        = $atts;
-		$hash_array['uri'] = ! empty( $_SERVER['REQUEST_URI'] ) ?
-			sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) :
-			add_query_arg( $wp->query_vars, home_url( $wp->request ) );
-		$hash              = md5( wp_json_encode( $hash_array ) );
-		$cache_key         = "inxkick_ptd_cache_{$this->post->ID}";
-		$cache_enabled     = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
-
-		if ( isset( $this->cache['template_raw_data'][ $hash ] ) ) {
-			// Return instance cache contents.
-			return $this->cache['template_raw_data'][ $hash ];
-		}
-
-		if ( $cache_enabled ) {
-			$cached_template_data = apply_filters( 'inx_cache_get_transient', [], $cache_key, $hash );
-			if ( ! empty( $cached_template_data ) ) {
-				// Store transient cache contents in instance cache and return it.
-				$this->cache['template_raw_data'][ $hash ] = array_merge(
-					$this->config,
-					array( 'instance' => $this ),
-					$cached_template_data
-				);
-
-				return $this->cache['template_raw_data'][ $hash ];
-			}
-		}
-
-		// Extract some OpenImmo related property base data.
-		$oi_data = $this->get_openimmo_data();
-
-		// Fetch details (group sections).
-		$property_details = $this->get_details();
-
-		/**
-		 * Type of use
-		 */
-		$type_of_use       = '';
-		$type_of_use_terms = get_the_terms( $post->ID, $prefix . 'type_of_use' );
-		if ( ! empty( $type_of_use_terms ) && ! is_wp_error( $type_of_use_terms ) ) {
-			$type_of_use = $type_of_use_terms[0]->name;
-		}
-
-		/**
-		 * Property type
-		 */
-		$property_type       = '';
-		$property_type_terms = get_the_terms( $post->ID, $prefix . 'property_type' );
-		if ( ! empty( $property_type_terms ) && ! is_wp_error( $property_type_terms ) ) {
-			foreach ( $property_type_terms as $i => $term ) {
-				if ( $i > 0 ) {
-					$property_type .= ' &gt; ';
-				}
-				$property_type .= $term->name;
-			}
-		}
-
-		/**
-		 * Location(s)
-		 */
-		$location  = '';
-		$locations = get_the_terms( $post->ID, $prefix . 'location' );
-		if ( ! empty( $locations ) && ! is_wp_error( $locations ) ) {
-			$location_names = array();
-			foreach ( $locations as $location_term ) {
-				$term_name = $location_term->name;
-				if ( $location_term->parent ) {
-					$parent_term = get_term_by( 'id', $location_term->parent, $prefix . 'location' );
-					if ( $parent_term ) {
-						$term_name = $parent_term->name . '-' . $term_name;
-					}
-				}
-
-				$location_names[] = $term_name;
-			}
-
-			$location = array_shift( $location_names );
-			if ( count( $location_names ) > 0 ) {
-				$location .= ' (' . implode( ', ', $location_names ) . ')';
-			}
-		}
-
-		/**
-		 * Features
-		 */
-		$features = get_the_terms( $post->ID, $prefix . 'feature' );
-
-		/**
-		 * Labels (Marketing Type + Labels)
-		 */
-		$labels           = array();
-		$label_taxonomies = array(
-			$prefix . 'marketing_type',
-			$prefix . 'label',
-		);
-
-		$sold_label_exists = false;
-
-		foreach ( $label_taxonomies as $tax ) {
-			$label_terms = get_the_terms( $post->ID, $tax );
-			if ( ! empty( $label_terms ) && ! is_wp_error( $label_terms ) ) {
-				foreach ( $label_terms as $term ) {
-					$css_classes = array( "{$public_prefix}property-label" );
-
-					$is_for_sale_or_rent = false;
-					$term_meta           = get_term_meta( $term->term_id, '_' . $prefix . 'term_meta', true );
-
-					if (
-						is_array( $term_meta ) &&
-						isset( $term_meta['mapping']['source'] ) &&
-						false !== strpos( $term_meta['mapping']['source'], ':' )
-					) {
-						$mapping_source_split = explode( ':', str_replace( '->', ':', $term_meta['mapping']['source'] ) );
-						$mapping_source_count = count( $mapping_source_split );
-
-						if ( 2 === $mapping_source_count ) {
-							$bem_modifier = '--' . str_replace( '_', '-', $this->utils['string']->slugify( $mapping_source_split[1] ) );
-						} elseif ( $mapping_source_count >= 3 ) {
-							$bem_modifier = '--' . str_replace(
-								'_',
-								'-',
-								$this->utils['string']->slugify( $mapping_source_split[ $mapping_source_count - 2 ] ) . '--' .
-								$this->utils['string']->slugify( $mapping_source_split[ $mapping_source_count - 1 ] )
-							);
-						} else {
-							$bem_modifier = '';
-						}
-
-						if (
-							in_array(
-								$term_meta['mapping']['source'],
-								array(
-									'zustand_angaben->verkaufstatus:stand:VERKAUFT',
-									'zustand_angaben->verkaufstatus:stand:RESERVIERT',
-								),
-								true
-							)
-						) {
-							$sold_label_exists = true;
-						}
-
-						if (
-							$prefix . 'marketing_type' === $tax &&
-							in_array(
-								$term_meta['mapping']['source'],
-								array(
-									'objektkategorie->vermarktungsart:KAUF',
-									'objektkategorie->vermarktungsart:MIETE',
-									'objektkategorie->vermarktungsart:MIETE_PACHT',
-								),
-								true
-							)
-						) {
-							$is_for_sale_or_rent = true;
-						}
-					} else {
-						$bem_modifier = '--' . $term->slug;
-					}
-
-					$css_classes[] = "{$public_prefix}property-label{$bem_modifier}";
-
-					$labels[] = array(
-						'name'                => $term->name,
-						'css_classes'         => $css_classes,
-						'is_for_sale_or_rent' => $is_for_sale_or_rent,
-						'show'                => true,
-					);
-				}
-
-				if ( count( $labels ) > 0 ) {
-					if ( $sold_label_exists ) {
-						// Hide "for sale" and "for rent" labels if also a "sold/rented"
-						// or "reserved" label exists.
-						foreach ( $labels as $i => $label ) {
-							if ( $label['is_for_sale_or_rent'] ) {
-								$labels[ $i ]['show'] = false;
-							}
-						}
-					}
-
-					$label_names = array();
-					foreach ( $labels as $i => $label ) {
-						if ( false === $label['show'] ) {
-							continue;
-						}
-
-						if ( in_array( $label['name'], $label_names, true ) ) {
-							// Hide duplicate labels.
-							$labels[ $i ]['show'] = false;
-						} else {
-							$label_names[] = $label['name'];
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * Fetch virtual tour embed code and extract the URL if existing.
-		 */
-		$virtual_tour_embed_code = get_post_meta( $post->ID, "_{$prefix}virtual_tour_embed_code", true );
-		$virtual_tour_url        = '';
-		if ( $virtual_tour_embed_code ) {
-			preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
-			if ( ! empty( $matches ) ) {
-				$virtual_tour_url = $matches[0];
-			}
-		}
-
-		// Fetch file attachments.
-		$file_attachments = $this->get_file_attachments();
-
-		// Fetch links.
-		$links = get_post_meta( $post->ID, "_{$prefix}links", true );
-
-		$permalink_url = get_permalink( $post->ID );
+		// Add Ken Burns Effect related configuration data.
+		$this->add_kbe_config( $config, $atts );
 
 		/**
 		 * Generate overview/backlink URL.
 		 */
-		$backlink_url = $this->get_backlink_url( $permalink_url );
-		$url          = $this->extend_url( $permalink_url, $backlink_url, $atts );
+		$permalink_url = get_permalink( $post->ID );
+		$backlink_url  = $this->get_backlink_url( $permalink_url );
+		$url           = $this->extend_url( $permalink_url, $backlink_url, $atts );
 
-		$thumbnail_id  = get_post_thumbnail_id( $post->ID );
-		$thumbnail_alt = $thumbnail_id ? get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) : '';
-
-		if ( ! trim( $thumbnail_alt ) ) {
-			$thumbnail_alt = wp_sprintf( '%s (%d)', __( 'Property Photo', 'immonex-kickstart' ), $thumbnail_id );
-		}
-
-		$thumbnail_atts = array(
-			'alt'   => $thumbnail_alt,
-			'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px',
-		);
-
-		$thumbnail_tag = get_the_post_thumbnail( $this->post->ID, 'large', $thumbnail_atts );
-		$flags         = $this->get_flags();
-
-		$disable_link       = false;
-		$disable_links_attr = ! empty( $atts['disable_links'] ) ?
-			strtolower( trim( $atts['disable_links'] ) ) : '';
-
-		if ( ! empty( $disable_links_attr ) ) {
-			if (
-				'all' === $disable_links_attr
-				|| ! empty( $flags[ $disable_links_attr ] )
-				|| (
-					'unavailable' === $disable_links_attr &&
-					empty( $flags['is_available'] )
-				)
-				|| (
-					'references' === $disable_links_attr &&
-					! empty( $flags['is_reference'] )
-				)
-			) {
-				$disable_link = true;
-			}
-		} elseif ( ! apply_filters( 'inx_has_detail_view', true, $post->ID ) ) {
-			$disable_link = true;
-		}
-
-		$excerpt_content      = trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
-		$element_atts         = ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array();
-		$detail_page_elements = $this->get_detail_page_elements( $element_atts );
-
-		try {
-			$immobilie = new \SimpleXMLElement( $oi_data['oi_xml_source'] );
-		} catch ( \Exception $e ) {
-			$immobilie = false;
-		}
-
-		$currency = $immobilie && $immobilie->xpath( '//preise/waehrung/@iso_waehrung' ) ?
-			(string) $immobilie->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
-			$this->config['currency'];
-
-		$template_data = array_merge(
+		$uncached_data = array_merge(
 			$config,
-			$core_data,
-			$oi_data,
 			array(
-				'details' => $property_details,
-			),
-			array(
-				'instance'                => $this,
-				'post_id'                 => $post->ID,
-				'type_of_use'             => $type_of_use,
-				'property_type'           => $property_type,
-				'title'                   => $post->post_title,
-				'main_description'        => $post->post_content,
-				'excerpt'                 => $this->utils['string']->get_excerpt( $excerpt_content, self::EXCERPT_LENGTH, '…' ),
-				'full_address'            => $this->utils['data']->get_custom_field_by( 'meta_key', '_' . $prefix . 'full_address', $post->ID, true ),
-				'permalink_url'           => $permalink_url,
-				'url'                     => $url,
-				'overview_url'            => $backlink_url,
-				'thumbnail_tag'           => $thumbnail_tag,
-				'locations'               => $locations ? $locations : array(),
-				'location'                => $location,
-				'features'                => $features ? $features : array(),
-				'labels'                  => $labels,
-				'video'                   => ! empty( $videos ) ? $videos[0] : false,
-				'videos'                  => $videos,
-				'virtual_tour_embed_code' => $virtual_tour_embed_code,
-				'virtual_tour_url'        => $virtual_tour_url,
-				'file_attachments'        => $file_attachments,
-				'links'                   => $links ? $links : array(),
-				'detail_page_elements'    => $detail_page_elements,
-				'flags'                   => $flags,
-				'disable_link'            => $disable_link,
-				'currency'                => $currency,
-				'tabbed_content_elements' => $this->get_tabbed_content_elements(),
-				'kbe_mode_class'          => $kbe_mode_class,
+				'instance'      => $this,
+				'permalink_url' => $permalink_url,
+				'url'           => $url,
+				'overview_url'  => $backlink_url,
 			),
 			$atts
 		);
 
-		if ( $flags['is_reference'] ) {
-			if ( ! $this->config['show_reference_prices'] ) {
-				if ( isset( $template_data['tabbed_content_elements']['tabs']['prices'] ) ) {
-					unset( $template_data['tabbed_content_elements']['tabs']['prices'] );
-				}
+		$cache_enabled = empty( $atts['is_preview'] ) && apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
-				if ( isset( $template_data['detail_page_elements']['prices'] ) ) {
-					unset( $template_data['detail_page_elements']['prices'] );
-				}
-			}
+		if ( $cache_enabled ) {
+			$cache_hash           = $this->get_cache_hash( $atts, $config );
+			$cache_key            = "inxkick_ptd_cache_{$post->ID}";
+			$cached_template_data = apply_filters( 'inx_cache_get_transient', [], $cache_key, $cache_hash );
 
-			if (
-				! $this->config['enable_contact_section_for_references']
-				&& isset( $template_data['detail_page_elements']['contact_person'] )
-			) {
-				unset( $template_data['detail_page_elements']['contact_person'] );
+			if ( ! empty( $cached_template_data ) ) {
+				return array_merge(
+					$cached_template_data,
+					$uncached_data
+				);
 			}
 		}
+
+		// Get property core data (individual custom fields).
+		$core_data = $this->get_core_data( 'get_property_template_data', $atts );
+
+		// Fetch video data.
+		$videos = $this->get_video_data( $atts );
+
+		if ( ! empty( $atts['is_preview'] ) ) {
+			$preview_template_data = $this->get_preview_template_data( $config, $atts, $core_data, $videos );
+			return apply_filters( 'inx_property_template_data', $preview_template_data, $atts );
+		}
+
+		$flags           = $this->get_flags();
+		$excerpt_content = trim( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+		$element_atts    = ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array();
+		$oi_xml_source   = $this->get_openimmo_xml_source();
+		$links           = get_post_meta( $post->ID, "_{$prefix}links", true );
+
+		$template_data = array_merge(
+			$uncached_data,
+			$core_data,
+			$this->get_openimmo_data(),
+			$this->get_tax_data(),
+			$this->get_virtual_tour_data(),
+			array(
+				'oi_xml_source'           => $oi_xml_source,
+				'details'                 => $this->get_details( $flags ),
+				'post_id'                 => $post->ID,
+				'title'                   => $post->post_title,
+				'main_description'        => $post->post_content,
+				'excerpt'                 => $this->utils['string']->get_excerpt( $excerpt_content, self::EXCERPT_LENGTH, '…' ),
+				'full_address'            => $this->utils['data']->get_custom_field_by( 'meta_key', "_{$prefix}full_address", $post->ID, true ),
+				'thumbnail_tag'           => $this->get_thumbnail_tag(),
+				'labels'                  => $this->get_labels(),
+				'video'                   => ! empty( $videos ) ? $videos[0] : false,
+				'videos'                  => $videos,
+				'file_attachments'        => $this->get_file_attachments(),
+				'links'                   => ! empty( $links ) ? $links : array(),
+				'detail_page_elements'    => $this->get_detail_page_elements( $element_atts, $flags ),
+				'flags'                   => $flags,
+				'disable_link'            => $this->get_disable_link_state( $atts, $flags ),
+				'currency'                => $this->get_currency( $oi_xml_source ),
+				'tabbed_content_elements' => $this->get_tabbed_content_elements( $flags ),
+			)
+		);
 
 		if (
 			! empty( $template_data['detail_page_elements']['location_map']['type'] )
@@ -778,19 +329,16 @@ class Property {
 
 		$template_data = apply_filters( 'inx_property_template_data', $template_data, $atts );
 
-		$this->cache['template_raw_data'][ $hash ] = $template_data;
+		$cache_exclude_keys   = array_keys( $uncached_data );
+		$cached_template_data = array_diff_key( $template_data, array_flip( $cache_exclude_keys ) );
 
 		if ( $cache_enabled ) {
-			$remove_keys          = array_merge( array_keys( $config ), array( 'instance' ) );
-			$cached_template_data = array_diff_key( $template_data, array_flip( $remove_keys ) );
-
 			do_action(
 				'inx_cache_set_transient',
 				$cache_key,
 				$cached_template_data,
-				$hash,
-				DAY_IN_SECONDS,
-				false
+				$cache_hash,
+				DAY_IN_SECONDS
 			);
 		}
 
@@ -812,10 +360,15 @@ class Property {
 	 * Return the content structure for the tab-based property detail output.
 	 *
 	 * @since 1.3.7-beta
+	 * @see get_flags()
+	 *
+	 * @param bool[] $flags Optional property flags (e.g. is_reference, is_sale etc.).
 	 *
 	 * @return mixed[] Element structure including meta data (tab titles etc.).
 	 */
-	public function get_tabbed_content_elements() {
+	public function get_tabbed_content_elements( $flags = array() ) {
+		$include_prices = empty( $flags['is_reference'] ) || $this->config['show_reference_prices'];
+
 		$before_tabs = array( 'head', 'gallery' );
 		$after_tabs  = array( 'floor_plans', 'contact_person', 'footer' );
 
@@ -840,10 +393,12 @@ class Property {
 				'title'    => __( 'Location & Infrastructure', 'immonex-kickstart' ),
 				'elements' => array( 'location_map', 'location_description' ),
 			),
-			'prices'           => array(
-				'title'    => __( 'Prices', 'immonex-kickstart' ),
-				'elements' => array( 'prices' ),
-			),
+			'prices'           => $include_prices ?
+				array(
+					'title'    => __( 'Prices', 'immonex-kickstart' ),
+					'elements' => array( 'prices' ),
+				) :
+				null,
 			'downloads_links'  => array(
 				'title'    => __( 'Downloads & Links', 'immonex-kickstart' ),
 				'elements' => array( 'downloads_links' ),
@@ -854,7 +409,7 @@ class Property {
 			'inx_tabbed_content_elements',
 			array(
 				'before_tabs' => $before_tabs,
-				'tabs'        => $tabs,
+				'tabs'        => array_filter( $tabs ),
 				'after_tabs'  => $after_tabs,
 			)
 		);
@@ -1002,10 +557,6 @@ class Property {
 			return array();
 		}
 
-		if ( empty( $context_atts['is_preview'] ) && $this->post->ID && isset( $this->cache['core_data'][ $this->post->ID ] ) ) {
-			return $this->cache['core_data'][ $this->post->ID ];
-		}
-
 		$prefix       = $this->config['plugin_prefix'];
 		$is_reference = empty( $context_atts['is_preview'] ) ?
 			get_post_meta( $this->post->ID, '_immonex_is_reference', true ) : false;
@@ -1124,16 +675,12 @@ class Property {
 		);
 		$core_data = apply_filters( 'inx_property_core_data', $core_data, $meta );
 
-		if ( empty( $context_atts['is_preview'] ) ) {
-			$this->cache['core_data'][ $this->post->ID ] = $core_data;
-		}
-
 		return $core_data;
 	} // get_core_data
 
 	/**
-	 * Retrieve and return the property OpenImmo data (XML source, SimpleXML object
-	 * + extracted type(s) of use, marketing type(s) and corresponding CSS classes).
+	 * Retrieve and return the property OpenImmo data: Extracted type(s) of use,
+	 * marketing type(s) and corresponding CSS classes.
 	 *
 	 * @since 1.0.0
 	 *
@@ -1144,23 +691,14 @@ class Property {
 			return array();
 		}
 
-		if ( $this->post->ID && isset( $this->cache['openimmo_data'][ $this->post->ID ] ) ) {
-			return $this->cache['openimmo_data'][ $this->post->ID ];
-		}
-
 		$prefix         = $this->config['public_prefix'];
 		$no_data_return = array(
-			'oi_xml_source'      => '',
 			'oi_nutzungsart'     => array(),
 			'oi_vermarktungsart' => array(),
 			'oi_css_classes'     => array(),
 		);
 
-		$xml_source = get_post_meta( $this->post->ID, '_immonex_property_xml_source', true );
-		if ( ! $xml_source ) {
-			// DEPRECATED!
-			$xml_source = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'property_xml_source', true );
-		}
+		$xml_source = $this->get_openimmo_xml_source();
 		if ( ! $xml_source ) {
 			return $no_data_return;
 		}
@@ -1220,15 +758,37 @@ class Property {
 			$oi_vermarktungsart = array();
 		}
 
-		$this->cache['openimmo_data'][ $this->post->ID ] = array(
-			'oi_xml_source'      => $xml_source,
+		return array(
 			'oi_nutzungsart'     => $oi_nutzungsart,
 			'oi_vermarktungsart' => $oi_vermarktungsart,
 			'oi_css_classes'     => $oi_css_classes,
 		);
-
-		return $this->cache['openimmo_data'][ $this->post->ID ];
 	} // get_openimmo_data
+
+	/**
+	 * Return the OpenImmo XML source of the property.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @return string OpenImmo XML source.
+	 */
+	public function get_openimmo_xml_source() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return '';
+		}
+
+		$xml_source = get_post_meta( $this->post->ID, '_immonex_property_xml_source', true );
+		if ( ! $xml_source ) {
+			// DEPRECATED!
+			$xml_source = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'property_xml_source', true );
+		}
+
+		if ( ! $xml_source ) {
+			return '';
+		}
+
+		return $xml_source;
+	} // get_openimmo_xml_source
 
 	/**
 	 * Return OpenLayers/OSM or Google Maps API specific JS (source) options.
@@ -1338,10 +898,6 @@ class Property {
 			return array();
 		}
 
-		if ( $this->post->ID && isset( $this->cache['file_attachments'][ $this->post->ID ] ) ) {
-			return $this->cache['file_attachments'][ $this->post->ID ];
-		}
-
 		$attachment_ids = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'file_attachments', true );
 		if ( ! $attachment_ids ) {
 			return array();
@@ -1358,25 +914,58 @@ class Property {
 			$attachments[] = wp_prepare_attachment_for_js( $id );
 		}
 
-		$this->cache['file_attachments'][ $this->post->ID ] = $attachments;
-
 		return $attachments;
 	} // get_file_attachments
+
+	/**
+	 * Add the backlink URL and special params (if set) to the property URL.
+	 *
+	 * @since 1.6.18-beta
+	 *
+	 * @param string      $permalink_url The current permalink URL.
+	 * @param bool|string $backlink_url Backlink URL (optional).
+	 * @param mixed[]     $atts Rendering attributes (optional).
+	 *
+	 * @return string Backlink URL.
+	 */
+	public function extend_url( $permalink_url, $backlink_url = false, $atts = array() ) {
+		$public_prefix = $this->config['public_prefix'];
+		$url           = $permalink_url;
+
+		if ( ! $backlink_url ) {
+			$base_url     = ! empty( $atts['base_url'] ) ? str_replace( '%_%', '', $atts['base_url'] ) : false;
+			$backlink_url = $this->get_backlink_url( $permalink_url, $base_url );
+		}
+
+		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . rawurlencode( $atts[ "{$public_prefix}ref" ] );
+		}
+		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . rawurlencode( $atts[ "{$public_prefix}force-lang" ] );
+		}
+		if ( ! empty( $backlink_url ) ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
+		}
+
+		return $url;
+	} // extend_url
 
 	/**
 	 * Retrieve and return "grouped" property details (serialized custom field data).
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param bool[]|bool $flags Optional property flags (e.g. is_reference, is_sale etc.).
+	 *
 	 * @return mixed[] Property details.
 	 */
-	private function get_details() {
+	private function get_details( $flags = false ) {
 		if ( ! is_a( $this->post, 'WP_Post' ) ) {
 			return array();
 		}
 
-		if ( ! empty( $this->details ) ) {
-			return $this->details;
+		if ( ! $flags ) {
+			$flags = $this->get_flags();
 		}
 
 		$exclude = array();
@@ -1384,14 +973,353 @@ class Property {
 			$exclude[] = 'preise->innen_courtage*';
 		}
 
-		$flags           = $this->get_flags();
 		$grouped_details = $this->maybe_add_parking_spaces_title_suffix(
 			$this->utils['data']->fetch_property_details( $this->post->ID, $exclude )
 		);
-		$this->details   = apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 
-		return $this->details;
+		return apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 	} // get_details
+
+	/**
+	 * Retrieve and return property taxonomy data: type of use, property type,
+	 * location(s) and features.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @return mixed[] Property taxonomy data.
+	 */
+	private function get_tax_data() {
+		$post     = $this->post;
+		$prefix   = $this->config['plugin_prefix'];
+		$tax_data = array(
+			'type_of_use'   => '',
+			'property_type' => '',
+			'location'      => '',
+			'locations'     => array(),
+			'features'      => array(),
+		);
+
+		if ( ! is_a( $post, 'WP_Post' ) ) {
+			return $tax_data;
+		}
+
+		/**
+		 * Type of use
+		 */
+		$type_of_use_terms = get_the_terms( $post->ID, $prefix . 'type_of_use' );
+		if ( ! empty( $type_of_use_terms ) && ! is_wp_error( $type_of_use_terms ) ) {
+			$tax_data['type_of_use'] = $type_of_use_terms[0]->name;
+		}
+
+		/**
+		 * Property type
+		 */
+		$property_type_terms = get_the_terms( $post->ID, $prefix . 'property_type' );
+		if ( ! empty( $property_type_terms ) && ! is_wp_error( $property_type_terms ) ) {
+			foreach ( $property_type_terms as $i => $term ) {
+				if ( $i > 0 ) {
+					$property_type .= ' &gt; ';
+				}
+				$tax_data['property_type'] .= $term->name;
+			}
+		}
+
+		/**
+		 * Location(s)
+		 */
+		$locations = get_the_terms( $post->ID, $prefix . 'location' );
+		if ( ! empty( $locations ) && ! is_wp_error( $locations ) ) {
+			$tax_data['locations'] = $locations;
+			$location_names        = array();
+
+			foreach ( $locations as $location_term ) {
+				$term_name = $location_term->name;
+				if ( $location_term->parent ) {
+					$parent_term = get_term_by( 'id', $location_term->parent, $prefix . 'location' );
+					if ( $parent_term ) {
+						$term_name = $parent_term->name . '-' . $term_name;
+					}
+				}
+
+				$location_names[] = $term_name;
+			}
+
+			$tax_data['location'] = array_shift( $location_names );
+			if ( count( $location_names ) > 0 ) {
+				$tax_data['location'] .= ' (' . implode( ', ', $location_names ) . ')';
+			}
+		}
+
+		/**
+		 * Features
+		 */
+		$tax_data['features'] = get_the_terms( $post->ID, $prefix . 'feature' );
+
+		return $tax_data;
+	} // get_tax_data
+
+	/**
+	 * Retrieve and return property taxonomy data: marketing type and labels.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @return mixed[] Property labels.
+	 */
+	private function get_labels() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
+		$post             = $this->post;
+		$prefix           = $this->config['plugin_prefix'];
+		$public_prefix    = $this->config['public_prefix'];
+		$labels           = array();
+		$label_taxonomies = array(
+			"{$prefix}marketing_type",
+			"{$prefix}label",
+		);
+
+		$sold_label_exists = false;
+
+		foreach ( $label_taxonomies as $tax ) {
+			$label_terms = get_the_terms( $post->ID, $tax );
+			if ( ! empty( $label_terms ) && ! is_wp_error( $label_terms ) ) {
+				foreach ( $label_terms as $term ) {
+					$css_classes = array( "{$public_prefix}property-label" );
+
+					$is_for_sale_or_rent        = false;
+					$term_meta                  = get_term_meta( $term->term_id, '_' . $prefix . 'term_meta', true );
+					$term_name_is_mapping_title = false;
+					$bem_modifier               = '';
+
+					if (
+						is_array( $term_meta ) &&
+						isset( $term_meta['mapping']['source'] ) &&
+						false !== strpos( $term_meta['mapping']['source'], ':' )
+					) {
+						foreach ( $term_meta['mapping'] as $mapping_key => $mapping_value ) {
+							if ( 'title' === substr( $mapping_key, 0, 5 ) ) {
+								if ( $term->name === $mapping_value ) {
+									$term_name_is_mapping_title = true;
+									break;
+								}
+							}
+						}
+
+						$mapping_source_split = explode( ':', str_replace( '->', ':', $term_meta['mapping']['source'] ) );
+						$mapping_source_count = count( $mapping_source_split );
+
+						if ( 2 === $mapping_source_count ) {
+							$bem_modifier = '--' . str_replace( '_', '-', $this->utils['string']->slugify( $mapping_source_split[1] ) );
+						} elseif ( $mapping_source_count >= 3 ) {
+							$bem_modifier = '--' . str_replace(
+								'_',
+								'-',
+								$this->utils['string']->slugify( $mapping_source_split[ $mapping_source_count - 2 ] ) . '--' .
+								$this->utils['string']->slugify( $mapping_source_split[ $mapping_source_count - 1 ] )
+							);
+						} else {
+							$bem_modifier = '';
+						}
+
+						if (
+							in_array(
+								$term_meta['mapping']['source'],
+								array(
+									'zustand_angaben->verkaufstatus:stand:VERKAUFT',
+									'zustand_angaben->verkaufstatus:stand:RESERVIERT',
+								),
+								true
+							)
+						) {
+							$sold_label_exists = true;
+						}
+
+						if (
+							$prefix . 'marketing_type' === $tax &&
+							in_array(
+								$term_meta['mapping']['source'],
+								array(
+									'objektkategorie->vermarktungsart:KAUF',
+									'objektkategorie->vermarktungsart:MIETE',
+									'objektkategorie->vermarktungsart:MIETE_PACHT',
+								),
+								true
+							)
+						) {
+							$is_for_sale_or_rent = true;
+						}
+					}
+
+					if ( $bem_modifier ) {
+						$css_classes[] = "{$public_prefix}property-label{$bem_modifier}";
+					}
+
+					if ( ! $bem_modifier || ! $term_name_is_mapping_title ) {
+						$css_classes[] = "{$public_prefix}property-label--{$term->slug}";
+					}
+
+					$labels[] = array(
+						'name'                => $term->name,
+						'css_classes'         => $css_classes,
+						'is_for_sale_or_rent' => $is_for_sale_or_rent,
+						'show'                => true,
+					);
+				}
+
+				if ( count( $labels ) > 0 ) {
+					if ( $sold_label_exists ) {
+						// Hide "for sale" and "for rent" labels if also a "sold/rented" or "reserved" label exists.
+						foreach ( $labels as $i => $label ) {
+							if ( $label['is_for_sale_or_rent'] ) {
+								$labels[ $i ]['show'] = false;
+							}
+						}
+					}
+
+					$label_names = array();
+					foreach ( $labels as $i => $label ) {
+						if ( false === $label['show'] ) {
+							continue;
+						}
+
+						if ( in_array( $label['name'], $label_names, true ) ) {
+							// Hide duplicate labels.
+							$labels[ $i ]['show'] = false;
+						} else {
+							$label_names[] = $label['name'];
+						}
+					}
+				}
+			}
+		}
+
+		return $labels;
+	} // get_labels
+
+	/**
+	 * Retrieve the embed code for the virtual tour and extract the URL, if available.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @return mixed[] Virtual tour data.
+	 */
+	private function get_virtual_tour_data() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return array();
+		}
+
+		$prefix                  = $this->config['plugin_prefix'];
+		$virtual_tour_embed_code = get_post_meta( $this->post->ID, "_{$prefix}virtual_tour_embed_code", true );
+		$virtual_tour_url        = '';
+		if ( $virtual_tour_embed_code ) {
+			preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
+			if ( ! empty( $matches ) ) {
+				$virtual_tour_url = $matches[0];
+			}
+		}
+
+		return array(
+			'virtual_tour_embed_code' => $virtual_tour_embed_code,
+			'virtual_tour_url'        => $virtual_tour_url,
+		);
+	} // get_virtual_tour_data
+
+	/**
+	 * Retrieve and return the post thumbnail tag with prepared attributes.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @return string Post thumbnail tag.
+	 */
+	private function get_thumbnail_tag() {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
+			return '';
+		}
+
+		$thumbnail_id  = get_post_thumbnail_id( $this->post->ID );
+		$thumbnail_alt = $thumbnail_id ? get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) : '';
+
+		if ( ! trim( $thumbnail_alt ) ) {
+			$thumbnail_alt = wp_sprintf( '%s (%d)', __( 'Property Photo', 'immonex-kickstart' ), $thumbnail_id );
+		}
+
+		$thumbnail_atts = array(
+			'alt'   => $thumbnail_alt,
+			'sizes' => '(max-width: 680px) 100vw, (max-width: 970px) 50vw, 800px',
+		);
+
+		return get_the_post_thumbnail( $this->post->ID, 'large', $thumbnail_atts );
+	} // get_thumbnail_tag
+
+	/**
+	 * Retrieve and return the currency of the property price(s) from the OpenImmo XML source
+	 * or use the default currency from the plugin settings.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @param string $openimmo_xml_source OpenImmo XML source.
+	 *
+	 * @return string Currency.
+	 */
+	private function get_currency( $openimmo_xml_source ) {
+		if ( ! is_a( $this->post, 'WP_Post' ) || empty( $oi_xml_source ) ) {
+			return $this->config['currency'];
+		}
+
+		try {
+			$immobilie = new \SimpleXMLElement( $oi_xml_source );
+		} catch ( \Exception $e ) {
+			$immobilie = false;
+		}
+
+		return $immobilie && $immobilie->xpath( '//preise/waehrung/@iso_waehrung' ) ?
+			(string) $immobilie->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
+			$this->config['currency'];
+	} // get_currency
+
+	/**
+	 * Determine whether property detail view links should be disabled based on the
+	 * provided attributes and property flags.
+	 *
+	 * @since 1.14.9-beta
+	 * @see get_flags()
+	 *
+	 * @param mixed[] $atts  Template rendering attributes.
+	 * @param bool[]  $flags Property flags (e.g. is_reference, is_available etc.).
+	 *
+	 * @return bool True if links should be disabled, false otherwise.
+	 */
+	private function get_disable_link_state( $atts, $flags ) {
+		if ( ! is_a( $this->post, 'WP_Post' ) || empty( $oi_xml_source ) ) {
+			return false;
+		}
+
+		$disable_link       = false;
+		$disable_links_attr = ! empty( $atts['disable_links'] ) ?
+			strtolower( trim( $atts['disable_links'] ) ) : '';
+
+		if ( ! empty( $disable_links_attr ) ) {
+			if (
+				'all' === $disable_links_attr
+				|| ! empty( $flags[ $disable_links_attr ] )
+				|| (
+					'unavailable' === $disable_links_attr &&
+					empty( $flags['is_available'] )
+				)
+				|| (
+					'references' === $disable_links_attr &&
+					! empty( $flags['is_reference'] )
+				)
+			) {
+				return true;
+			}
+		} elseif ( ! apply_filters( 'inx_has_detail_view', true, $this->post->ID ) ) {
+			return true;
+		}
+
+		return $disable_link;
+	} // get_disable_link_state
 
 	/**
 	 * Add a "total" suffix to the parking spaces title or remove the element
@@ -1452,12 +1380,14 @@ class Property {
 	 * including the specific configuration attributes.
 	 *
 	 * @since 1.0.0
+	 * @see get_flags()
 	 *
-	 * @param mixed[] $element_atts Attributes to override default values.
+	 * @param mixed[] $element_atts Attributes to override default values (optional).
+	 * @param bool[]  $flags        Optional property flags (e.g. is_reference, is_sale etc.).
 	 *
 	 * @return mixed[] Property detail elements.
 	 */
-	private function get_detail_page_elements( $element_atts = array() ) {
+	private function get_detail_page_elements( $element_atts = array(), $flags = array() ) {
 		$elements = array(
 			'head'                 => array(
 				'template' => 'head',
@@ -1599,6 +1529,14 @@ class Property {
 
 		$elements = $this->sanitize_extend_location_map_data( $elements );
 
+		if ( ! empty( $flags['is_reference'] ) && ! $this->config['show_reference_prices'] ) {
+			unset( $elements['prices'] );
+		}
+
+		if ( ! empty( $flags['is_reference'] ) && ! $this->config['enable_contact_section_for_references'] ) {
+			unset( $elements['contact_person'] );
+		}
+
 		return apply_filters( 'inx_detail_page_elements', $elements );
 	} // get_detail_page_elements
 
@@ -1674,13 +1612,9 @@ class Property {
 	 *
 	 * @param mixed[] $atts Template rendering attributes (optional).
 	 *
-	 * @return mixed[] Property video data.
+	 * @return mixed[]|bool Property video data or false if no videos are available.
 	 */
 	private function get_video_data( $atts = array() ) {
-		if ( $this->post && $this->post->ID && isset( $this->cache['video_data'][ $this->post->ID ] ) ) {
-			return $this->cache['video_data'][ $this->post->ID ];
-		}
-
 		$videos = $this->post ? get_post_meta( $this->post->ID, "_{$this->config['plugin_prefix']}videos", true ) : array();
 
 		if ( empty( $videos ) && ! empty( $atts['is_preview'] ) ) {
@@ -1845,10 +1779,6 @@ class Property {
 	 * @return bool[] Property flag list.
 	 */
 	private function get_flags() {
-		if ( $this->post->ID && isset( $this->cache['flags'][ $this->post->ID ] ) ) {
-			return $this->cache['flags'][ $this->post->ID ];
-		}
-
 		$prefix = '_' . $this->config['plugin_prefix'];
 
 		$flag_mapping = array(
@@ -1869,43 +1799,158 @@ class Property {
 			);
 		}
 
-		$this->cache['flags'][ $this->post->ID ] = $flags;
-
 		return $flags;
 	} // get_flags
 
 	/**
-	 * Add the backlink URL and special params (if set) to the property URL.
+	 * Generate and return preview/demo data (no caching).
 	 *
-	 * @since 1.6.18-beta
+	 * @since 1.14.9-beta
 	 *
-	 * @param string      $permalink_url The current permalink URL.
-	 * @param bool|string $backlink_url Backlink URL (optional).
-	 * @param mixed[]     $atts Rendering attributes (optional).
-	 *
-	 * @return string Backlink URL.
+	 * @param mixed[]      $config    Extended configuration data.
+	 * @param mixed[]      $atts      Rendering Attributes.
+	 * @param mixed[]      $core_data Preview core data.
+	 * @param mixed[]|bool $videos    Preview video data.
 	 */
-	public function extend_url( $permalink_url, $backlink_url = false, $atts = array() ) {
+	private function get_preview_template_data( $config, $atts, $core_data, $videos ) {
 		$public_prefix = $this->config['public_prefix'];
-		$url           = $permalink_url;
 
-		if ( ! $backlink_url ) {
-			$base_url     = ! empty( $atts['base_url'] ) ? str_replace( '%_%', '', $atts['base_url'] ) : false;
-			$backlink_url = $this->get_backlink_url( $permalink_url, $base_url );
+		$labels = array(
+			array(
+				'name'                => __( 'for sale', 'immonex-kickstart' ),
+				'css_classes'         => array(
+					"{$public_prefix}property-label",
+					"{$public_prefix}property-label--vermarktungsart--kauf",
+				),
+				'is_for_sale_or_rent' => true,
+				'show'                => true,
+			),
+			array(
+				'name'                => __( 'Demo', 'immonex-kickstart' ),
+				'css_classes'         => array(
+					"{$public_prefix}property-label",
+					"{$public_prefix}property-label--feldname--immonex-is-demo",
+				),
+				'is_for_sale_or_rent' => true,
+				'show'                => true,
+			),
+		);
+
+		if ( ! empty( $atts['virtual_tour_embed_code'] ) ) {
+			$atts['virtual_tour_embed_code'] = htmlspecialchars_decode( $atts['virtual_tour_embed_code'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
 		}
 
-		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}ref=" . rawurlencode( $atts[ "{$public_prefix}ref" ] );
-		}
-		if ( ! empty( $atts[ "{$public_prefix}force-lang" ] ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}force-lang=" . rawurlencode( $atts[ "{$public_prefix}force-lang" ] );
-		}
-		if ( ! empty( $backlink_url ) ) {
-			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}backlink-url=" . rawurlencode( $backlink_url );
+		$file_attachments = array(
+			array(
+				'title'   => __( 'Information Brochure', 'immonex-kickstart' ),
+				'url'     => '#',
+				'subtype' => 'pdf',
+			),
+		);
+
+		$contact_details = array(
+			'ungruppiert' => [
+				array(
+					'name'  => 'kontaktperson.ansprechpartner',
+					'value' => _x( 'Elena Example', 'sample data', 'immonex-kickstart' ),
+				),
+				array(
+					'name'  => 'kontaktperson.freitextfeld',
+					'value' => _x( 'I am a demo contact person for this property.', 'sample data', 'immonex-kickstart' ),
+				),
+				array(
+					'name'  => 'kontaktperson.firma',
+					'value' => _x( 'immonex ONE Demo Immobilien', 'sample data', 'immonex-kickstart' ),
+				),
+				array(
+					'name'  => 'kontaktperson.adresse',
+					'value' => _x( 'Demo Alley 1, 99999 Demotown', 'sample data', 'immonex-kickstart' ),
+				),
+			],
+			'kontakt'     => array(
+				array(
+					'title' => __( 'E-Mail', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.email_direkt',
+					'value' => 'elena.example@immonex.one',
+				),
+				array(
+					'title' => __( 'E-Mail', 'immonex-kickstart' )
+						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.email_zentrale',
+					'value' => 'info@immonex.one',
+				),
+				array(
+					'title' => __( 'Phone', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_durchw',
+					'value' => '+49 9999 1234568',
+				),
+				array(
+					'title' => __( 'Mobile', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_handy',
+					'value' => '+49 12345 987654321',
+				),
+				array(
+					'title' => __( 'Phone', 'immonex-kickstart' )
+						. ' (' . __( 'Head Office', 'immonex-kickstart' ) . ')',
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_zentrale',
+					'value' => '+49 9999 1234567',
+				),
+				array(
+					'title' => __( 'Fax', 'immonex-kickstart' ),
+					'group' => 'kontakt',
+					'name'  => 'kontaktperson.tel_fax',
+					'value' => '+49 9999 1234569',
+				),
+			),
+		);
+
+		return array_merge(
+			$config,
+			$core_data,
+			array(
+				'title'                => _x( 'Spacious house in an excellent location', 'sample data', 'immonex-kickstart' ),
+				'full_address'         => _x( '123 Fake Street, 99123 Demotown', 'sample data', 'immonex-kickstart' ),
+				'type_of_use'          => __( 'Residential Property', 'immonex-kickstart' ),
+				'property_type'        => __( 'Houses', 'immonex-kickstart' ) . ' &gt; ' . __( 'Single-family Home', 'immonex-kickstart' ),
+				'labels'               => $labels,
+				'detail_page_elements' => $this->get_detail_page_elements( ! empty( $atts['element_atts'] ) ? $atts['element_atts'] : array() ),
+				'videos'               => $videos,
+				'file_attachments'     => $file_attachments,
+				'links'                => array(),
+				'overview_url'         => '#',
+				'details'              => $contact_details,
+			),
+			$atts
+		);
+	} // get_preview_template_data
+
+	/**
+	 * Add Ken Burns Effect related configuration to the given config array.
+	 *
+	 * @since 1.19.9-beta
+	 *
+	 * @param mixed[] $config Config array to extend.
+	 * @param mixed[] $atts   Rendering attributes.
+	 */
+	private function add_kbe_config( &$config, $atts ) {
+		$kbe_mode                 = ! empty( $atts['ken_burns_effect_display_mode'] ) ?
+			$atts['ken_burns_effect_display_mode'] :
+			$this->config['ken_burns_effect_display_mode'];
+		$config['kbe_mode_class'] = $kbe_mode ? 'inx-gallery--kbe-mode--' . str_replace( '_', '-', $kbe_mode ) : '';
+
+		if ( defined( 'INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH' ) && (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH ) {
+			$config['ken_burns_effect_min_image_width'] = (int) INX_SKIN_KEN_BURNS_MIN_IMAGE_WIDTH;
 		}
 
-		return $url;
-	} // extend_url
+		if ( defined( 'INX_SKIN_MAX_IMAGE_HEIGHT' ) && (int) INX_SKIN_MAX_IMAGE_HEIGHT ) {
+			$config['gallery_image_max_height'] = (int) INX_SKIN_MAX_IMAGE_HEIGHT;
+		}
+	} // add_kbe_config
 
 	/**
 	 * Retrieve and return special property flags (custom fields).
@@ -1917,11 +1962,7 @@ class Property {
 	 *
 	 * @return string Backlink URL.
 	 */
-	public function get_backlink_url( $permalink_url, $base_url = false ) {
-		if ( $this->post->ID && isset( $this->cache['backlink_url'][ $this->post->ID ] ) ) {
-			return $this->cache['backlink_url'][ $this->post->ID ];
-		}
-
+	private function get_backlink_url( $permalink_url, $base_url = false ) {
 		global $wp;
 
 		$public_prefix = $this->config['public_prefix'];
@@ -1934,7 +1975,6 @@ class Property {
 				$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
 			}
 
-			$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
 			return $backlink_url;
 		}
 
@@ -2043,8 +2083,6 @@ class Property {
 			}
 		}
 
-		$this->cache['backlink_url'][ $this->post->ID ] = $backlink_url;
-
 		return $backlink_url;
 	} // get_backlink_url
 
@@ -2061,5 +2099,58 @@ class Property {
 	private function validate_backlink_url( $url, $default_url = '' ) {
 		return $url && $this->utils['string']->is_local_url( $url ) ? $url : $default_url;
 	} // validate_backlink_url
+
+	/**
+	 * Generate an MD5 hash of a specific set of render attributes and
+	 * config data.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @param mixed[] $atts   Rendering attributes.
+	 * @param mixed[] $config Extended configuration data.
+	 *
+	 * @return string Hash string.
+	 */
+	private function get_cache_hash( $atts, $config ) {
+		$hash_str = '';
+
+		$atts_keys = array(
+			'autoplay',
+			'automute',
+			'youtube-nocookie',
+			'youtube-allow',
+			'allow',
+			'ken_burns_effect_display_mode',
+			'element_atts',
+			'disable_links',
+		);
+
+		foreach ( $atts_keys as $key ) {
+			$value = ! empty( $atts[ $key ] ) ? $atts[ $key ] : '-';
+			if ( ! is_string( $value ) ) {
+				$value = wp_json_encode( $value );
+			}
+
+			$hash_str .= "{$key}:{$value};";
+		}
+
+		$config_keys = array(
+			'area_unit',
+			'show_seller_commission',
+			'show_reference_prices',
+			'reference_price_text',
+			'currency',
+			'enable_ken_burns_effect',
+			'property_details_map_type',
+			'property_details_map_zoom',
+		);
+
+		foreach ( $config_keys as $key ) {
+			$value     = ! empty( $config[ $key ] ) ? $config[ $key ] : '-';
+			$hash_str .= "{$key}:{$value};";
+		}
+
+		return md5( $hash_str );
+	} // get_cache_hash
 
 } // Property

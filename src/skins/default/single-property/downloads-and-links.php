@@ -10,6 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable
+if ( ! is_array( $template_data['file_attachments'] ) ) {
+	$template_data['file_attachments'] = array();
+}
+if ( ! is_array( $template_data['links'] ) ) {
+	$template_data['links'] = array();
+}
+// phpcs:enable
+
 $inx_skin_item_count    = count( $template_data['file_attachments'] ) + count( $template_data['links'] );
 $inx_skin_heading_level = isset( $template_data['heading_level'] ) ? $template_data['heading_level'] : 2;
 

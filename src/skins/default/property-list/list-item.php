@@ -122,7 +122,7 @@ if (
 		?>
 	</div>
 
-	<?php if ( count( $template_data['labels'] ) > 0 ) : ?>
+	<?php if ( is_array( $template_data['labels'] ) && count( $template_data['labels'] ) > 0 ) : ?>
 	<div class="inx-property-list-item__labels uk-position-top-right">
 		<?php
 		foreach ( $template_data['labels'] as $inx_skin_label ) :

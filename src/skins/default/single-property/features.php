@@ -19,9 +19,9 @@ $inx_skin_features_description = $utils['data']->get_custom_field_by(
 
 $inx_skin_groups = isset( $template_data['groups'] ) && $template_data['groups'] ?
 	$utils['data']->convert_to_group_array( $template_data['groups'] ) :
-	'';
+	array();
 
-$inx_skin_details = count( $inx_skin_groups ) > 0 ?
+$inx_skin_details = ! empty( $inx_skin_groups ) > 0 ?
 	$utils['data']->get_group_items( $template_data['details'], $inx_skin_groups ) :
 	array();
 
@@ -35,8 +35,8 @@ $inx_skin_li_classes = isset( $template_data['class'] ) ?
 
 if (
 	$inx_skin_features_description ||
-	count( $template_data['features'] ) > 0 ||
-	count( $inx_skin_details ) > 0
+	( ! empty( $template_data['features'] ) && is_array( $template_data['features'] ) ) ||
+	! empty( $inx_skin_details )
 ) :
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--features">
@@ -56,7 +56,7 @@ if (
 	</div>
 	<?php endif; ?>
 
-	<?php if ( count( $inx_skin_details ) > 0 ) : ?>
+	<?php if ( ! empty( $inx_skin_details ) ) : ?>
 	<ul class="inx-detail-list uk-grid-small uk-margin-top" uk-grid>
 		<?php foreach ( $inx_skin_details as $inx_skin_detail ) : ?>
 		<li class="inx-detail-list__item<?php echo esc_attr( $inx_skin_li_classes ? ' ' . $inx_skin_li_classes : '' ); ?>">
@@ -67,7 +67,7 @@ if (
 	</ul>
 	<?php endif; ?>
 
-	<?php if ( count( $template_data['features'] ) > 0 ) : ?>
+	<?php if ( ! empty( $template_data['features'] ) ) : ?>
 	<ul class="inx-feature-list uk-grid-small uk-margin-top" uk-grid>
 		<?php foreach ( $template_data['features'] as $inx_skin_feature_term ) : ?>
 		<li class="inx-feature-list__item uk-width-1-2@m uk-width-1-3@l uk-flex">

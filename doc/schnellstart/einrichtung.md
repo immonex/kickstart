@@ -53,11 +53,32 @@ Zur Optimierung der Darstellung von Links in **sozialen bzw. Business-Netzwerken
 
 Werden bereits themeseitig oder von anderen Plugins (z. B. SEO) Meta-Tags mit identischen Namensattributen eingefügt, werden diese gem. der Standardvorgabe durch die noch nicht vorhandenen, vom Kickstart-Plugin generierten Tags ergänzt. Alternativ kann aber auch die Ersetzung vorhandener oder das Einfügen aller Tags – unabhängig von bereits vorhandenen – eingestellt werden.
 
-#### Externe Dienste
+#### Integrationen
 
-##### Google Maps API Key
+##### Google
+
+###### Google Maps API Key
 
 Für die Nutzung der Google-Maps-Dienste ist ein **passender** API-Schlüssel erforderlich, der im gleichnamigen Abschnitt hinterlegt wird. Für diesen müssen neben der **Maps-JavaScript-API** auch die **Places- und Embed-APIs** aktiviert sein.
+
+##### Cloudflare Turnstile
+
+[Cloudflare Turnstile](https://www.cloudflare.com/de-de/application-services/products/turnstile/) ist eine einfache, (im Free-Tarif) kostenlose Alternative zu CAPTCHAs, mit der Bots erkannt und so Formulare vor Spam und anderen Formen des Missbrauchs geschützt werden können.
+
+Für den Einsatz sind ein [Cloudflare-Benutzerkonto](https://developers.cloudflare.com/fundamentals/account/create-account/) sowie ein [**Turnstile**-Widget](https://developers.cloudflare.com/turnstile/get-started/) (**nicht** WordPress-Widget 😉) erforderlich, das **speziell für die Website** (*Hostname*) angelegt wurde.
+
+Im Rahmen der Widget-Erstellung werden auch die für die Plugin-Optionen benötigten *Site- und Secret Keys* generiert.
+
+Für jedes der betreffenden Kickstart-Frontend-Formulare – bspw. das [Kontakt- und Anfrageformular des Team-Add-ons](https://docs.immonex.de/kickstart-team/#/komponenten/kontaktformular) – ist eine **separate Aktivierung** im Optionstab des jeweiligen Add-ons erforderlich.
+
+![Screenshot: Turnstile-Aktivierung für Kontaktformulare des Team-Add-ons](../assets/scst-turnstile-aktivierung-add-on-tab.webp)
+
+In diesem Fall wird **vor** der Laden der Turnstile-API bzw. der Einbindung des Widgets eine Einwilligungserklärung des Formularnutzers per Klick eingeholt. Der entsprechende Hinweistext kann individuell angepasst werden.
+
+![Screenshot: Turnstile-Hinweis zur Bestätigung in Frontend-Formularen](../assets/scst-turnstile-hinweis-frontend.webp)
+
+!> Beim Einsatz von Turnstile muss ein ein entsprechender Abschnitt in der **Datenschutzerklärung** der Website ergänzt werden ([Details und Mustertext bei eRecht24](https://www.e-recht24.de/dsg/13110-cloudflare-turnstile.html)).
+
 
 #### Performance
 

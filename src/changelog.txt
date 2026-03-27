@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 1.15.0 =
+* Release date: 2026-03-27
+* Added an option for setting the maximum cache size.
+* Added Cloudflare Turnstile support for add-on forms.
+* Optimized cache expiration timings and automated cleanups.
+* Optimized embedding of dynamic CSS properties.
+* Reworked the default skin.
+* Fixed an OpenImmo-XML source issue when saving via property backend form.
+* Updated dependencies.
+
 = 1.14.7 =
 * Release date: 2026-02-28
 * Optimized cache expiration timings.

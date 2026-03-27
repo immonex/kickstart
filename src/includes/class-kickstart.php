@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.14.7';
+	const PLUGIN_VERSION             = '1.15.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -92,6 +92,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 		'tax_label_slug_rewrite'                       => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'tax_project_slug_rewrite'                     => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'google_api_key'                               => '',
+		'turnstile_sitekey'                            => '',
+		'turnstile_secret_key'                         => '',
+		'turnstile_consent_note'                       => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'distance_search_autocomplete_type'            => 'photon',
 		'distance_search_autocomplete_require_consent' => true,
 		'maps_require_consent'                         => true,
@@ -114,6 +117,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 		'sharing_tag_insert_mode'                      => 'extend',
 		'performance_enable_property_cache'            => true,
 		'performance_enable_map_marker_cache'          => true,
+		'performance_max_db_cache_size'                => 32,
 		'deferred_tasks'                               => array(),
 	);
 
@@ -344,6 +348,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 						$this->plugin_options[ $option_name ] = _x( 'properties/project', 'Custom Taxonomy Slug', 'immonex-kickstart' );
 						$option_string_translated             = true;
 						break;
+					case 'turnstile_consent_note':
+						$this->plugin_options[ $option_name ] = wp_sprintf(
+							/* translators: %s = Cloudflare Turnstile privacy policy URL */
+							__( 'Upon confirmation, a form security check is performed using <a href="%s" target="_blank">Cloudflare Turnstile</a>.', 'immonex-kickstart' ),
+							__( 'https://www.cloudflare.com/privacypolicy/', 'immonex-kickstart' )
+						);
+						$option_string_translated = true;
+						break;
 				}
 			}
 		}
@@ -411,6 +423,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 				) {
 					$this->utils['cache']->bulk_delete_cache_transients( 'map_marker' );
 				}
+
+				foreach ( $old_values as $key => $value ) {
+					if ( 'color_' === substr( $key, 0, 6 ) && $value !== $values[ $key ] ) {
+						do_action( 'inx_dynamic_css_delete_file' );
+						break;
+					}
+				}
 			},
 			10,
 			3
@@ -435,9 +454,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 		/**
 		 * Dynamic CSS processing.
 		 */
-		$dynamic_css = new Dynamic_CSS( $this->plugin_options, $this->utils );
+		$dynamic_css = new Dynamic_CSS( $this->plugin_slug, $this->plugin_options, $this->utils );
 		$dynamic_css->init();
-		$dynamic_css->send_on_request();
 
 		$this->distance_search_autocomplete_types = array(
 			''              => __( 'none', 'immonex-kickstart' ),
@@ -554,12 +572,19 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 			}
 		}
 
-		// Temporary tweak.
-		add_filter( 'inxkick_enable_property_cache', '__return_false' );
-		add_filter( 'inxkick_enable_map_marker_cache', '__return_false' );
-
 		$this->perform_deferred_tasks();
 	} // init_plugin
+
+	/**
+	 * Perform daily tasks.
+	 *
+	 * @since 1.15.0
+	 */
+	public function do_daily() {
+		parent::do_daily();
+
+		do_action( 'inxkick_clean_up_db_cache' );
+	} // do_daily
 
 	/**
 	 * Add special query variables (filter callback).
@@ -600,7 +625,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 				"{$prefix}author",
 				"{$prefix}ref",
 				"{$prefix}force-lang",
-				"{$prefix}dyn-css",
 			)
 		);
 	} // add_special_query_vars
@@ -632,21 +656,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts_and_styles() {
-		$dynamic_css_scopes = apply_filters( 'inx_dynamic_css_scopes', array() );
+		$dynamic_css_file_url = apply_filters( 'inx_dynamic_css_file_url', '' );
 
-		if ( ! empty( $dynamic_css_scopes ) && is_array( $dynamic_css_scopes ) ) {
-			foreach ( $dynamic_css_scopes as $scope ) {
-				$scope = str_replace( '_', '-', $scope );
-
-				wp_enqueue_style(
-					"inx-dyn-{$scope}",
-					get_option( 'permalink_structure' ) ?
-						home_url( "inx-dyn-{$scope}.css" ) :
-						home_url( "/?inx-dyn-css={$scope}" ),
-					array(),
-					$this->plugin_version
-				);
-			}
+		if ( $dynamic_css_file_url ) {
+			wp_enqueue_style( 'inx-dynamic', $dynamic_css_file_url, array(), $this->plugin_version );
 		}
 
 		parent::frontend_scripts_and_styles();
@@ -895,9 +908,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 					'tab'         => 'tab_general',
 				),
 				'ext_services'             => array(
-					'title'       => __( 'External Services', 'immonex-kickstart' ),
-					'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). An appropriate API key is required in this case.', 'immonex-kickstart' ),
-					'tab'         => 'tab_general',
+					'title' => __( 'Integrations', 'immonex-kickstart' ),
+					'tab'   => 'tab_general',
 				),
 				'performance'              => array(
 					'title'       => __( 'Performance', 'immonex-kickstart' ),
@@ -1323,6 +1335,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 					),
 				),
 				array(
+					'name'    => 'title_google_int',
+					'type'    => 'subsection_header',
+					'section' => 'ext_services',
+					'args'    => array(
+						'title'       => 'Google',
+						'description' => __( 'This plugin <strong>optionally</strong> uses the <strong>Google Maps JavaScript API (incl. Places library)</strong> as well as the <strong>Maps Embed API</strong> (maps, locality autocomplete). An appropriate API key is required in this case.', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'google_api_key',
 					'type'    => 'text',
 					'label'   => __( 'Google Maps API Key', 'immonex-kickstart' ),
@@ -1334,6 +1355,70 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 							'https://developers.google.com/maps/documentation/javascript/get-api-key'
 						),
 						'doc_url'     => 'https://developers.google.com/maps/documentation/javascript/get-api-key',
+					),
+				),
+				array(
+					'name'    => 'title_turnstile',
+					'type'    => 'subsection_header',
+					'section' => 'ext_services',
+					'args'    => array(
+						'title'       => 'Cloudflare Turnstile',
+						'description' =>
+							wp_sprintf(
+								/* translators: %s = Cloudflare Turnstile produce URL */
+								__( '<a href="%s" target="_blank">Cloudflare Turnstile</a> is a simple and free <em>CAPTCHA</em> replacement solution that helps to protect forms from spam and other forms of abuse.', 'immonex-kickstart' ),
+								__( 'https://www.cloudflare.com/application-services/products/turnstile/', 'immonex-kickstart' )
+							) .
+							'<br><br>' .
+							wp_sprintf(
+								/* translators: %1$s = Cloudflare account creation URL, %2$s = Cloudflare Turnstile widget management dashboard URL. */
+								__( 'This requires a <a href="%1$s" target="_blank">Cloudflare account</a> and the creation of a <a href="%2$s" target="_blank">Turnstile widget</a> <strong>explicitly for this website</strong> (<em>hostname</em>).', 'immonex-kickstart' ),
+								'https://developers.cloudflare.com/fundamentals/account/create-account/',
+								'https://developers.cloudflare.com/turnstile/get-started/widget-management/dashboard/'
+							) .
+							'<br><br>' .
+							wp_sprintf(
+								/* translators: %1$s = WP privacy policy options URL, %2$s = plugin documentation link ("corresponding paragraph"), %3$s = Cloudflare GDPR FAQ URL. */
+								__( 'The service must be activated separately for each form <strong>that supports it</strong> in the options tab of the respective add-on. (The <a href="%1$s">privacy policy</a> should be expanded by a %2$s in this case – see <a href="%3$s" target="_blank">Cloudflare\'s GDPR compliance infos and FAQ</a>.)', 'immonex-kickstart' ),
+								admin_url( 'options-privacy.php' ),
+								$this->string_utils->doc_link( 'https://docs.immonex.de/kickstart/#/schnellstart/einrichtung?id=cloudflare-turnstile', _x( 'corresponding paragraph', '… expanded by a corresponding paragraph in this case …', 'immonex-kickstart' ) ),
+								__( 'https://www.cloudflare.com/trust-hub/gdpr/', 'immonex-kickstart' )
+							),
+					),
+				),
+				array(
+					'name'    => 'turnstile_sitekey',
+					'type'    => 'text',
+					'label'   => 'Sitekey',
+					'section' => 'ext_services',
+					'args'    => array(
+						'description' => __( 'The sitekey is public and used to invoke the Turnstile widget on a form page.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'turnstile_secret_key',
+					'type'    => 'text',
+					'label'   => 'Secret Key',
+					'section' => 'ext_services',
+					'args'    => array(
+						'description' => __( 'The secret key is used on the server side of the authentication process.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'turnstile_consent_note',
+					'type'    => 'wysiwyg',
+					'label'   => __( 'Consent Note', 'immonex-kickstart' ),
+					'section' => 'ext_services',
+					'args'    => array(
+						'description'     => __( 'This notice must be confirmed by the form user before the Turnstile API is loaded or the widget is embedded.', 'immonex-kickstart' ),
+						'class'           => 'large-text',
+						'required'        => true,
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
+						),
 					),
 				),
 				array(
@@ -1352,6 +1437,24 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_9_0\Base {
 					'section' => 'performance',
 					'args'    => array(
 						'description' => __( 'Enable extended caching of map marker data.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'performance_max_db_cache_size',
+					'type'    => 'select',
+					'label'   => __( 'Max. Cache Size', 'immonex-kickstart' ),
+					'section' => 'performance',
+					'args'    => array(
+						'description' => __( 'Maximum size of all cached data in the <strong>WP database</strong>. (Object cache entries stored only in the RAM are managed by the respective plugin.)', 'immonex-kickstart' ),
+						'options'     => array(
+							8   => '8 MB',
+							16  => '16 MB',
+							32  => '32 MB',
+							64  => '64 MB',
+							128 => '128 MB',
+							256 => '256 MB',
+							512 => '512 MB',
+						),
 					),
 				),
 				array(

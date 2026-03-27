@@ -289,19 +289,11 @@ class Property_Map {
 		$cache_enabled = apply_filters( 'inxkick_enable_map_marker_cache', $this->config['performance_enable_map_marker_cache'] );
 
 		if ( $cache_enabled ) {
-			$hash           = md5(
-				wp_json_encode(
-					array_merge(
-						! empty( $_GET ) ? $_GET : array(),
-						$atts
-					)
-				)
-			);
-			$cache_key      = "inxkick_mm_cache_{$hash}";
-			$cached_markers = apply_filters( 'inx_cache_get_transient', [], $cache_key );
+			$cache_key = $this->get_cache_key( $atts );
+			$markers   = apply_filters( 'inx_cache_get_transient', '', $cache_key );
 
-			if ( ! empty( $cached_markers ) ) {
-				return $cached_markers;
+			if ( ! empty( $markers ) ) {
+				return $markers;
 			}
 		}
 
@@ -381,5 +373,47 @@ class Property_Map {
 
 		return $markers;
 	} // get_markers
+
+	/**
+	 * Generate a cache key (MD5 hash) for a given set of attributes and GET
+	 * variables.
+	 *
+	 * @since 1.14.9-beta
+	 *
+	 * @param mixed[] $atts Rendering attributes.
+	 *
+	 * @return string Cache key.
+	 */
+	private function get_cache_key( $atts ) {
+		$hash_str = '';
+
+		$atts_keys = [ 'id', 'type', 'disable_links' ];
+		foreach ( $atts_keys as $key ) {
+			$value     = ! empty( $atts[ $key ] ) ? $atts[ $key ] : '-';
+			$hash_str .= "{$key}:{$value};";
+		}
+
+		if ( ! empty( $_GET ) ) {
+			$exclude = array(
+				'inx-sort',
+				'inx-limit-page',
+				'inx-r-cidata',
+			);
+
+			foreach ( $_GET as $key => $value ) {
+				if (
+					'inx-' !== substr( $key, 0, 4 )
+					|| in_array( $key, $exclude, true )
+				) {
+					continue;
+				}
+
+				$key       = substr( $key, 11 );
+				$hash_str .= "{$key}:{$value};";
+			}
+		}
+
+		return 'inxkick_mm_cache_' . md5( $hash_str );
+	} // get_cache_key
 
 } // Property_Map

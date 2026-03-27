@@ -77,7 +77,6 @@ class Property_Schema extends Base_Schema {
 		$this->detail_page_graph     = [];
 	} // set_post_id
 
-
 	/**
 	 * Return the complete schema graph data for embedding in detail pages.
 	 *

@@ -17,6 +17,12 @@
 
 .inx-thumbnail-nav__item {
 	margin-right: 5px;
+	padding: 3px;
+
+	a,
+	img {
+		display: block;
+	}
 }
 
 .inx-thumbnail-nav__item:last-child {

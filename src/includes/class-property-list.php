@@ -79,56 +79,32 @@ class Property_List {
 
 		$org_query = $this->replace_main_query( $atts );
 
-		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+		// Remember query parameters explicitly set per shortcode/render atts (possible future use).
+		$atts['list_query_atts'] = array_filter(
+			$atts,
+			function ( $value, $key ) {
+				return $value && 'inx-' === substr( $key, 0, 4 );
+			},
+			ARRAY_FILTER_USE_BOTH
+		);
 
-		if ( $cache_enabled ) {
-			$hash            = md5(
-				wp_json_encode(
-					array_merge(
-						$atts,
-						$wp_query->query_vars,
-						array( 'template' => $template )
-					)
-				)
-			);
-			$cache_key       = 'inxkick_plrc_cache_' . $hash;
-			$cached_contents = apply_filters( 'inx_cache_get_transient', false, $cache_key );
+		if ( ! isset( $atts['no_results_text'] ) || '-' === $atts['no_results_text'] ) {
+			$atts['no_results_text'] = $this->config['property_search_no_results_text'];
 		}
 
-		if ( ! empty( $cached_contents ) ) {
-			$output = $cached_contents;
-		} else {
-			// Remember query parameters explicitly set per shortcode/render atts (possible future use).
-			$atts['list_query_atts'] = array_filter(
-				$atts,
-				function ( $value, $key ) {
-					return $value && 'inx-' === substr( $key, 0, 4 );
-				},
-				ARRAY_FILTER_USE_BOTH
-			);
+		$template_data = array_merge(
+			$this->config,
+			$atts
+		);
 
-			if ( ! isset( $atts['no_results_text'] ) || '-' === $atts['no_results_text'] ) {
-				$atts['no_results_text'] = $this->config['property_search_no_results_text'];
-			}
-
-			$template_data = array_merge(
-				$this->config,
-				$atts
-			);
-
-			$template_data['post_count'] = $wp_query->post_count;
-			$output                      = apply_filters(
-				'inx_rendered_property_list_template_contents',
-				$this->utils['template']->render_php_template( $template, $template_data ),
-				$template,
-				$template_data,
-				$atts
-			);
-
-			if ( $cache_enabled ) {
-				do_action( 'inx_cache_set_transient', $cache_key, $output );
-			}
-		}
+		$template_data['post_count'] = $wp_query->post_count;
+		$output                      = apply_filters(
+			'inx_rendered_property_list_template_contents',
+			$this->utils['template']->render_php_template( $template, $template_data ),
+			$template,
+			$template_data,
+			$atts
+		);
 
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );
@@ -179,8 +155,7 @@ class Property_List {
 		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		if ( $cache_enabled ) {
-			$hash              = md5( wp_json_encode( $args ) );
-			$cache_key         = "inxkick_pp_cache_{$hash}";
+			$cache_key         = $this->get_cache_key( $args );
 			$cached_properties = apply_filters( 'inx_cache_get_transient', false, $cache_key );
 
 			if ( ! empty( $cached_properties ) ) {
@@ -337,5 +312,45 @@ class Property_List {
 		// phpcs:enable
 		wp_reset_postdata();
 	} // restore_main_query
+
+	/**
+	 * Generate a cache key (MD5 hash) for a given set of attributes
+	 * and query variables.
+	 *
+	 * @since 1.15.0-beta
+	 *
+	 * @param mixed[] $args Extra WP query arguments (optional).
+	 *
+	 * @return string Cache key.
+	 */
+	private function get_cache_key( $args = array() ) {
+		global $wp_query;
+
+		$query_vars = ! empty( $wp_query ) ? $wp_query->query_vars : array();
+		$query_vars = array_merge( $query_vars, $args );
+		if ( ! empty( $_GET ) ) {
+			$query_vars = array_merge( $query_vars, $_GET );
+		}
+
+		$query_vars = array_filter(
+			$query_vars,
+			function ( $key ) {
+				return 'inx-' === substr( $key, 0, 4 );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		$hash_str = '';
+
+		foreach ( $query_vars as $key => $value ) {
+			if ( ! is_string( $value ) ) {
+				$value = wp_json_encode( $value );
+			}
+
+			$hash_str .= "{$key}:{$value};";
+		}
+
+		return 'inxkick_pp_cache_' . md5( $hash_str );
+	} // get_cache_key
 
 } // Property_List

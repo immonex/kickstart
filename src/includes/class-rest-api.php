@@ -185,7 +185,8 @@ class REST_API {
 	 * @return string[] List and pagination HTML strings.
 	 */
 	private function get_property_list_html( $request ) {
-		$component_instance_data = json_decode( $request->get_param( 'inx-r-cidata' ), true );
+		$cidata                  = $request->get_param( 'inx-r-cidata' );
+		$component_instance_data = ! empty( $cidata ) ? json_decode( $cidata, true ) : array();
 		unset( $component_instance_data['is_regular_archive_page'] );
 
 		$this->maybe_add_lang_args( $component_instance_data, $request );
@@ -317,6 +318,8 @@ class REST_API {
 				}
 			}
 		}
+
+		do_action( 'inxkick_clear_property_cache', $params['id'] );
 
 		return array(
 			'status' => $status,

@@ -12,10 +12,18 @@ namespace immonex\Kickstart;
  */
 class Dynamic_CSS {
 
-	const SCOPES = array(
+	const FILENAME = 'inx-dynamic.css';
+	const SCOPES   = array(
 		'global',
 		'property_details',
 	);
+
+	/**
+	 * Plugin slug
+	 *
+	 * @var string
+	 */
+	private $plugin_slug;
 
 	/**
 	 * Plugin options
@@ -36,12 +44,14 @@ class Dynamic_CSS {
 	 *
 	 * @since 1.9.49-beta
 	 *
+	 * @param string   $plugin_slug    Plugin slug.
 	 * @param mixed[]  $plugin_options Plugin options.
 	 * @param object[] $utils          Helper/Utility objects.
 	 */
-	public function __construct( $plugin_options, $utils ) {
+	public function __construct( $plugin_slug, $plugin_options, $utils ) {
 		global $wp_embed;
 
+		$this->plugin_slug    = $plugin_slug;
 		$this->plugin_options = $plugin_options;
 		$this->utils          = $utils;
 	} // __construct
@@ -52,7 +62,10 @@ class Dynamic_CSS {
 	 * @since 1.9.53-beta
 	 */
 	public function init() {
+		add_action( 'inx_dynamic_css_delete_file', array( $this, 'delete_css_file' ) );
+
 		add_filter( 'inx_dynamic_css_scopes', array( $this, 'get_scopes' ) );
+		add_filter( 'inx_dynamic_css_file_url', array( $this, 'get_css_file_url' ) );
 		add_filter( 'inx_dynamic_css_global', array( $this, 'get_global_props' ) );
 		add_filter( 'inx_dynamic_css_property_details', array( $this, 'get_property_details_props' ) );
 	} // init
@@ -73,73 +86,6 @@ class Dynamic_CSS {
 
 		return self::SCOPES;
 	} // get_scopes
-
-	/**
-	 * Check if the current request URI contains a dynamic CSS "filename".
-	 * If so, send the related contents and exit.
-	 *
-	 * @since 1.9.53-beta
-	 */
-	public function send_on_request() {
-		$dyn_css_query_var = ! empty( $_GET['inx-dyn-css'] ) ?
-			sanitize_text_field( wp_unslash( $_GET['inx-dyn-css'] ) ) :
-			'';
-		if ( $dyn_css_query_var ) {
-			$scope = str_replace( '_', '-', $dyn_css_query_var );
-			$this->send( $scope );
-		}
-
-		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
-			return;
-		}
-
-		$uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-
-		if ( strlen( $uri ) < 10 ) {
-			return;
-		}
-
-		$scopes = apply_filters( 'inx_dynamic_css_scopes', self::SCOPES );
-
-		if ( empty( $scopes ) || ! is_array( $scopes ) ) {
-			$scopes = self::SCOPES;
-		}
-
-		foreach ( $scopes as $scope ) {
-			$uri_scope = str_replace( '_', '-', $scope );
-
-			if ( false !== strpos( $uri, "/inx-dyn-{$uri_scope}.css" ) ) {
-				$this->send( $scope );
-			}
-		}
-	} // send_on_request
-
-	/**
-	 * Send CSS property contents.
-	 *
-	 * @since 1.9.49-beta
-	 *
-	 * @param string $scope CSS scope (optional).
-	 */
-	public function send( $scope = 'global' ) {
-		header( 'Content-Type: text/css; charset=utf-8' );
-
-		$prop_blocks = apply_filters( "inx_dynamic_css_{$scope}", array() );
-
-		if ( empty( $prop_blocks ) ) {
-			exit;
-		}
-
-		$css = '';
-
-		foreach ( $prop_blocks as $selector => $properties ) {
-			$css .= $this->get_css_property_code( $properties, $selector );
-		}
-
-		echo $css;
-
-		exit;
-	} // send
 
 	/**
 	 * Generate global CSS properties (filter callback).
@@ -296,6 +242,89 @@ class Dynamic_CSS {
 
 		return $defaults;
 	} // get_property_details_props
+
+	/**
+	 * Get the URL of the dynamic CSS file (filter callback).
+	 *
+	 * @since 1.15.0-beta
+	 *
+	 * @param string $url Current dynamic CSS file URL or empty string.
+	 *
+	 * @return string CSS file URL.
+	 */
+	public function get_css_file_url( $url ) {
+		$dyn_assets_dir = $this->utils['local_fs']->get_dynamic_assets_dir( $this->plugin_slug );
+		if ( ! $dyn_assets_dir ) {
+			return '';
+		}
+
+		$css_file_exists = true;
+
+		if ( ! file_exists( $dyn_assets_dir['path'] . self::FILENAME ) ) {
+			$css_file_exists = $this->update_css_file( $dyn_assets_dir['path'] . self::FILENAME, $dyn_assets_dir );
+		}
+
+		return $css_file_exists ? $dyn_assets_dir['url'] . self::FILENAME : '';
+	} // get_css_file_url
+
+	/**
+	 * Delete the dynamic CSS file (action callback).
+	 *
+	 * @since 1.15.0-beta
+	 */
+	public function delete_css_file() {
+		global $wp_filesystem;
+
+		$dyn_assets_dir = $this->utils['local_fs']->get_dynamic_assets_dir( $this->plugin_slug );
+		if ( ! $dyn_assets_dir ) {
+			return;
+		}
+
+		if ( file_exists( $dyn_assets_dir['path'] . self::FILENAME ) ) {
+			WP_Filesystem();
+			$wp_filesystem->delete( $dyn_assets_dir['path'] . $filename );
+		}
+	} // delete_css_file
+
+	/**
+	 * Generate a dynamic CSS file with the current properties and return its URL.
+	 *
+	 * @since 1.15.0-beta
+	 *
+	 * @param string $css_file Combined dynamic CSS file (absolute path).
+	 *
+	 * return bool File generation result.
+	 */
+	private function update_css_file( $css_file ) {
+		global $wp_filesystem;
+
+		$scopes = apply_filters( 'inx_dynamic_css_scopes', self::SCOPES );
+		if ( empty( $scopes ) || ! is_array( $scopes ) ) {
+			$scopes = self::SCOPES;
+		}
+
+		$css = '';
+
+		foreach ( $scopes as $scope ) {
+			$prop_blocks = apply_filters( "inx_dynamic_css_{$scope}", array() );
+			if ( empty( $prop_blocks ) ) {
+				continue;
+			}
+
+			foreach ( $prop_blocks as $selector => $properties ) {
+				$css .= $this->get_css_property_code( $properties, $selector );
+			}
+
+			$css .= PHP_EOL;
+		}
+
+		if ( $css ) {
+			WP_Filesystem();
+			return $wp_filesystem->put_contents( $css_file, trim( $css ) );
+		}
+
+		return false;
+	} // update_css_file
 
 	/**
 	 * Generate the CSS custom property code block for the given selector.

@@ -55,7 +55,7 @@ $inx_skin_rendering_atts['top-level-only']         = ! empty( $template_data['to
 		data-form-action-autodetect="<?php echo ! empty( $template_data['form_action_autodetect'] ) ? esc_url( $template_data['form_action_autodetect'] ) : ''; ?>"
 	>
 		<?php
-		if ( count( $template_data['hidden_fields'] ) > 0 ) :
+		if ( is_array( $template_data['hidden_fields'] ) && count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :
 				?>
 		<input type="hidden" data-no-reset="1" name="<?php echo esc_attr( $inx_skin_field['name'] ); ?>" value="<?php echo esc_attr( $inx_skin_field['value'] ); ?>">

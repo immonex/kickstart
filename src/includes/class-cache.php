@@ -15,10 +15,8 @@ class Cache {
 	const CACHE_GROUP_PREFIXES = [
 		'property'      => [
 			'inxkick_ptd_cache_', // Property Template Data.
-			'inxkick_prc_cache_', // Property Rendered Contents.
 		],
 		'property_list' => [
-			'inxkick_plrc_cache_', // Property List Rendered Contents.
 			'inxkick_pp_cache_', // Property Posts.
 		],
 		'map_marker'    => [
@@ -56,13 +54,13 @@ class Cache {
 		 * WP actions and filters
 		 */
 
-		add_action( "deleted_post_{$this->config['property_post_type_name']}", array( $this, 'delete_post_transients' ), 10, 2 );
+		add_action( "deleted_post_{$this->config['property_post_type_name']}", [ $this, 'delete_post_transients' ], 10, 2 );
 
 		/**
 		 * OpenImmo2WP actions
 		 */
 
-		add_action( 'immonex_oi2wp_property_imported', array( $this, 'delete_post_transients' ), 10, 2 );
+		add_action( 'immonex_oi2wp_property_imported', [ $this, 'delete_post_transients' ], 10, 2 );
 
 		add_action(
 			'immonex_oi2wp_import_zip_file_processed',
@@ -70,6 +68,13 @@ class Cache {
 				$this->bulk_delete_cache_transients( 'property_list', 'map_marker' );
 			}
 		);
+
+		/**
+		 * Plugin actions
+		 */
+
+		add_action( 'inxkick_clear_property_cache', [ $this, 'delete_post_transients' ] );
+		add_action( 'inxkick_clean_up_db_cache', [ $this, 'perform_db_cleanup' ] );
 	} // __construct
 
 	/**
@@ -82,8 +87,10 @@ class Cache {
 	 *                                        or false (optional/unused).
 	 */
 	public function delete_post_transients( $post_id, $property = false ) {
-		// ptd = Property Template Data, prc = Property Rendered Contents.
-		$cache_types = [ 'ptd', 'prc' ];
+		foreach ( self::CACHE_GROUP_PREFIXES['property'] as $type ) {
+			preg_match( '/_([a-z]+)_[a-z]/', $type, $cache_types );
+			array_shift( $cache_types );
+		}
 
 		foreach ( $cache_types as $type ) {
 			delete_transient( "inxkick_{$type}_cache_{$post_id}" );
@@ -112,5 +119,19 @@ class Cache {
 
 		do_action( 'inx_cache_delete_db_transients', $cache_type_prefixes );
 	} // bulk_delete_cache_transients
+
+	/**
+	 * Perform a cleanup of expired cache transients stored in the WP database
+	 * (action callback).
+	 *
+	 * @since 1.15.0
+	 */
+	public function perform_db_cleanup() {
+		do_action(
+			'inx_cache_clean_up_db_transients',
+			array_merge( ...array_values( self::CACHE_GROUP_PREFIXES ) ),
+			$this->config['performance_max_db_cache_size']
+		);
+	} // perform_db_cleanup
 
 } // Cache

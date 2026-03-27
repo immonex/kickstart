@@ -32,7 +32,7 @@ if ( $template_data['type'] ) :
 		:marker-stroke-width="<?php echo esc_attr( $template_data['marker_stroke_width'] ); ?>"
 		:marker-scale="<?php echo esc_attr( $template_data['marker_scale'] ); ?>"
 		marker-icon-url="<?php echo esc_url( $template_data['marker_icon_url'] ); ?>"
-		privacy-note="<?php echo nl2br( esc_attr( $inx_skin_privacy_note['text'] ) ); ?>"
+		privacy-note="<?php echo esc_attr( nl2br( $inx_skin_privacy_note['text'] ) ); ?>"
 		show-map-button-text="<?php echo esc_attr( __( 'Agreed, show maps!', 'immonex-kickstart' ) ); ?>"
 		:require-consent="<?php echo (bool) $template_data['require-consent'] ? 'true' : 'false'; ?>"
 		disable-links="<?php echo ! empty( $template_data['disable_links'] ) ? esc_attr( $template_data['disable_links'] ) : ''; ?>"

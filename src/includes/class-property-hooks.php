@@ -867,16 +867,16 @@ class Property_Hooks {
 			return $shortcode_atts['if_empty'];
 		}
 
-		$core_data   = $property->get_core_data( 'inx-property-detail-element shortcode', $shortcode_atts );
-		$oi_data     = $property->get_openimmo_data();
-		$name        = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
-		$value       = false;
-		$raw_value   = false;
-		$title       = '';
-		$detail_item = false;
+		$core_data     = $property->get_core_data( 'inx-property-detail-element shortcode', $shortcode_atts );
+		$oi_xml_source = $property->get_openimmo_xml_source();
+		$name          = html_entity_decode( trim( sanitize_text_field( $shortcode_atts['name'] ) ), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
+		$value         = false;
+		$raw_value     = false;
+		$title         = '';
+		$detail_item   = false;
 
 		try {
-			$immobilie = new \SimpleXMLElement( $oi_data['oi_xml_source'] );
+			$immobilie = new \SimpleXMLElement( $oi_xml_source );
 		} catch ( \Exception $e ) {
 			$immobilie = false;
 		}
@@ -1463,10 +1463,15 @@ class Property_Hooks {
 		if (
 			! is_object( $this->current_property ) ||
 			! is_object( $this->current_property->post ) ||
-			__NAMESPACE__ . '\Property' !== get_class( $this->current_property ) ||
-			( $post_id && (int) $this->current_property->post->ID !== (int) $post_id )
+			__NAMESPACE__ . '\Property' !== get_class( $this->current_property )
 		) {
 			$this->current_property = new Property( $post_id, $this->config, $this->utils );
+		} elseif (
+			is_object( $this->current_property ) &&
+			is_object( $this->current_property->post ) &&
+			( $post_id && (int) $this->current_property->post->ID !== (int) $post_id )
+		) {
+			$this->current_property->set_post( $post_id );
 		}
 
 		return $this->current_property;

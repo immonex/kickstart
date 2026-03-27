@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
-Stable Tag: 1.14.7
+Stable Tag: 1.15.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -69,7 +69,7 @@ immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solut
 
 * **[Team](https://wordpress.org/plugins/immonex-kickstart-team/)**: Extended real estate agency/agent data handling and property related contact forms
 * **[Print](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-print)**: PDF exposés for printing and sharing
-* **[Elementor](https://immonex.dev/wordpress-immobilien-plugin/immonex-kickstart-for-elementor)**: Elementor widgets and dynamic tags for Kickstart frontend components
+* **[Elementor](https://de.wordpress.org/plugins/immonex-kickstart-for-elementor/)**: Elementor widgets and dynamic tags for Kickstart frontend components
 * **[Slideshows](https://plugins.inveris.de/wordpress-plugins/immonex-kickstart-slideshows)**: Real estate slideshows for display presentation in shop windows and public areas [2]
 
 == Installation ==
@@ -124,9 +124,15 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.14.7 =
-* Release date: 2026-02-28
-* Optimized cache expiration timings.
+= 1.15.0 =
+* Release date: 2026-03-27
+* Added an option for setting the maximum cache size.
+* Added Cloudflare Turnstile support for add-on forms.
+* Optimized cache expiration timings and automated cleanups.
+* Optimized embedding of dynamic CSS properties.
+* Reworked the default skin.
+* Fixed an OpenImmo-XML source issue when saving via property backend form.
+* Updated dependencies.
 
 = 1.14.6 =
 * Release date: 2026-02-26

@@ -253,13 +253,23 @@ class Property_Backend_Form {
 				'type' => 'text_medium',
 			),
 			array(
-				'box'     => 'core',
-				'name'    => __( 'OpenImmo XML Source Code', 'immonex-kickstart' ),
-				'desc'    => '',
-				'id'      => '_immonex_property_xml_source',
-				'type'    => 'textarea_code',
-				'options' => array(
-					'disable_codemirror' => true,
+				'box'             => 'core',
+				'name'            => __( 'OpenImmo XML Source Code', 'immonex-kickstart' ),
+				'desc'            => '',
+				'id'              => '_immonex_property_xml_source',
+				'type'            => 'textarea_code',
+				'sanitization_cb' => false,
+				'attributes'      => array(
+					'readonly'        => 'readonly',
+					'data-codeeditor' => wp_json_encode(
+						array(
+							'codemirror' => array(
+								'mode'        => 'xml',
+								'autoRefresh' => true,
+								'readOnly'    => 'nocursor',
+							),
+						)
+					),
 				),
 			),
 			array(

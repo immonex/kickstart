@@ -13,6 +13,30 @@ h2, h3, h4, h5, h6 {
 	clear: both;
 }
 
+.markdown-section h2 a span {
+	font-size: 1.75rem;
+}
+
+.markdown-section h3 a span {
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+
+.markdown-section h4 a span {
+	font-size: 1.4rem;
+	font-weight: 400;
+}
+
+.markdown-section h5 a {
+	font-size: 1.2rem;
+	font-weight: 400;
+}
+
+.markdown-section h6 a {
+	font-size: 1rem;
+	font-weight: 500;
+}
+
 .markdown-section em {
 	font-weight: 500;
 }

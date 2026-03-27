@@ -19,7 +19,7 @@ $inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template
 <div id="<?php echo $inx_skin_component_id; ?>" class="inx-property-filters inx-container uk-padding-small">
 	<form<?php echo ! empty( $template_data['form_action'] ) ? ' action="' . $template_data['form_action'] . '"' : ''; ?> method="get">
 		<?php
-		if ( count( $template_data['hidden_fields'] ) > 0 ) :
+		if ( is_array( $template_data['hidden_fields'] ) && count( $template_data['hidden_fields'] ) > 0 ) :
 			foreach ( $template_data['hidden_fields'] as $inx_skin_field ) :
 				if ( $inx_skin_field['name'] !== $inx_skin_sort_var_name ) :
 					?>
