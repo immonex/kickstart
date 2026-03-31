@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.15.1 =
+* Release date: 2026-03-31
+* Fixed a cache issue that could affect the complete generation of PDF exposés (Kickstart Print Add-on).
+* Updated dependencies.
+
 = 1.15.0 =
 * Release date: 2026-03-27
 * Added an option for setting the maximum cache size.

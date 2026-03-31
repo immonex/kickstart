@@ -259,7 +259,9 @@ class Property {
 			$atts
 		);
 
-		$cache_enabled = empty( $atts['is_preview'] ) && apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+		$cache_enabled = empty( $atts['is_preview'] )
+			&& empty( $_GET['inx_as_pdf'] )
+			&& apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		if ( $cache_enabled ) {
 			$cache_hash           = $this->get_cache_hash( $atts, $config );
