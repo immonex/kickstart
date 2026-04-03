@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.15.4 =
+* Release date: 2026-04-03
+* Reworked value range sliders (search form).
+* Fixed a dynamic CSS variables refresh issue.
+* Updated dependencies.
+
 = 1.15.1 =
 * Release date: 2026-03-31
 * Fixed a cache issue that could affect the complete generation of PDF exposés (Kickstart Print Add-on).

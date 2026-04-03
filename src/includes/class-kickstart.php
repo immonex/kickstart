@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.15.1';
+	const PLUGIN_VERSION             = '1.15.4';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -368,6 +368,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 		$this->oi2wp_compat->check_property_posts();
 
 		update_option( 'rewrite_rules', false );
+
+		$dyn_assets_dir = $this->utils['local_fs']->get_dynamic_assets_dir( $this->plugin_slug );
+		if ( $dyn_assets_dir && file_exists( $dyn_assets_dir['path'] . Dynamic_CSS::FILENAME ) ) {
+			global $wp_filesystem;
+
+			WP_Filesystem();
+			$wp_filesystem->delete( $dyn_assets_dir['path'] . Dynamic_CSS::FILENAME );
+		}
 
 		// phpcs:ignore
 		do_action( 'immonex_core_after_activation', $this->plugin_slug );

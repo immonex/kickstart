@@ -138,6 +138,13 @@ class Dynamic_CSS {
 			'demo',
 		);
 
+		$add_transparency_for = array(
+			'action-element',
+			'action-element-inverted',
+		);
+
+		$opacity_levels = array( 25, 50, 75 );
+
 		foreach ( $defaults as $property => $value ) {
 			if ( '--inx-color-' !== substr( $property, 0, 12 ) ) {
 				continue;
@@ -186,6 +193,21 @@ class Dynamic_CSS {
 						$defaults[ "{$property}-darker" ]
 					) :
 					"var($property)";
+			}
+
+			if ( in_array( $name_part, $add_transparency_for, true ) ) {
+				foreach ( $opacity_levels as $opacity ) {
+					$rgba = false;
+					$rgb  = $this->utils['color']->hex2rgb( $value );
+
+					if ( ! empty( $rgb ) ) {
+						$rgba = wp_sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s)', $rgb[0], $rgb[1], $rgb[2], $opacity / 100 );
+					}
+
+					if ( $rgba ) {
+						$defaults[ "{$property}-{$opacity}pct" ] = $rgba;
+					}
+				}
 			}
 		}
 
@@ -282,7 +304,7 @@ class Dynamic_CSS {
 
 		if ( file_exists( $dyn_assets_dir['path'] . self::FILENAME ) ) {
 			WP_Filesystem();
-			$wp_filesystem->delete( $dyn_assets_dir['path'] . $filename );
+			$wp_filesystem->delete( $dyn_assets_dir['path'] . self::FILENAME );
 		}
 	} // delete_css_file
 

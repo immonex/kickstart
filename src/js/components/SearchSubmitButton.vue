@@ -78,7 +78,7 @@ button {
 	justify-content: center;
 
 	span:first-child {
-		margin-right: .5em;
+		margin-top: 6px;
 	}
 }
 

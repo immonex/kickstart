@@ -1,5 +1,5 @@
 <template>
-	<div :class="mainClass">
+	<div :class="this.allWrapClasses">
 		<input type="hidden" :name="this.name" :value="this.transferValue">
 		<div :class="mainClass + '__label-value'">
 			<span :class="mainClass + '__label'" v-if="this.label">{{ label }}:</span>
@@ -133,6 +133,14 @@ export default {
 		},
 		mainClass: function () {
 			return this.wrapClasses.split(' ')[0]
+		},
+		allWrapClasses: function () {
+			let classes = this.wrapClasses
+			if (this.currentValue.length === 1) {
+				classes += ' ' + this.mainClass + '--single-value'
+			}
+
+			return classes
 		}
 	},
 	watch: {
@@ -423,7 +431,7 @@ export default {
 		const slider = this.$refs.slider
 		const that = this
 
-		let attributes = {
+		const attributes = {
 			start: this.currentValue,
 			connect: true,
 			step: that.step,
@@ -458,9 +466,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-	.inx-range-slider {
-		padding-right: .75em;
-	}
-</style>
