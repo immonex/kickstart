@@ -4,28 +4,28 @@
 	display: inline-block;
 	border-bottom-right-radius: 0;
 	font-size: 1em;
-	background-color: var(--inx-color-label-default);
-	background: var(--inx-gradient-label-default);
+	background-color: var(--inx-color-label-default, #D1AB78);
+	background: var(--inx-gradient-label-default, linear-gradient(60deg, #DEC29D 50%, #C49453 100%));
 }
 
 .inx-property-label--vermarktungsart--kauf {
-	background-color: var(--inx-color-marketing-type-sale);
-	background: var(--inx-gradient-marketing-type-sale);
+	background-color: var(--inx-color-marketing-type-sale, #584990);
+	background: var(--inx-gradient-marketing-type-sale, linear-gradient(60deg, #6554A6 50%, #4B3E7A 100%));
 }
 
 .inx-property-label--vermarktungsart--miete,
 .inx-property-label--vermarktungsart--miete-pacht,
 .inx-property-label--vermarktungsart--erbpacht {
-	background-color: var(--inx-color-marketing-type-rent);
-	background: var(--inx-gradient-marketing-type-rent);
+	background-color: var(--inx-color-marketing-type-rent, #BA5A3D);
+	background: var(--inx-gradient-marketing-type-rent, linear-gradient(60deg, #C76F55 50%, #9E4D34 100%));
 }
 
 .inx-property-label--leasing {
-	background-color: var(--inx-color-marketing-type-leasing);
-	background: var(--inx-gradient-marketing-type-leasing);
+	background-color: var(--inx-color-marketing-type-leasing, #E78B00);
+	background: var(--inx-gradient-marketing-type-leasing, linear-gradient(60deg, #FF9E0B 50%, #C47600 100%));
 }
 
 .inx-property-label--feldname--immonex-is-demo {
-	background-color: var(--inx-color-demo);
-	background: var(--inx-gradient-demo);
+	background-color: var(--inx-color-demo, #BF031C);
+	background: var(--inx-gradient-demo, linear-gradient(60deg, #DC0320 50%, #A20318 100%));
 }

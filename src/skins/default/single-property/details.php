@@ -59,7 +59,19 @@ if (
 	);
 }
 
-if ( $inx_skin_description_text || ! empty( $inx_skin_details ) ) :
+$inx_skin_bool_details = array();
+if ( ! empty( $inx_skin_details ) ) {
+	foreach ( $inx_skin_details as $inx_skin_i => $inx_skin_detail ) {
+		$inx_skin_detail_value = strtolower( $inx_skin_detail['value'] );
+
+		if ( in_array( $inx_skin_detail_value, array( 'yes', strtolower( __( 'yes', 'immonex-kickstart' ) ) ), true ) ) {
+			$inx_skin_bool_details[] = $inx_skin_detail;
+			unset( $inx_skin_details[ $inx_skin_i ] );
+		}
+	}
+}
+
+if ( $inx_skin_description_text || ! empty( $inx_skin_details ) || ! empty( $inx_skin_bool_details ) ) :
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--details">
 	<?php
@@ -82,12 +94,23 @@ if ( $inx_skin_description_text || ! empty( $inx_skin_details ) ) :
 	</div>
 	<?php endif; ?>
 
-	<?php if ( count( $inx_skin_details ) > 0 ) : ?>
+	<?php if ( ! empty( $inx_skin_details ) ) : ?>
 	<ul class="inx-detail-list uk-grid-small" uk-grid>
 		<?php foreach ( $inx_skin_details as $inx_skin_detail ) : ?>
-		<li class="inx-detail-list__item<?php echo esc_attr( $inx_skin_li_classes ? ' ' . $inx_skin_li_classes : '' ); ?>">
+		<li class="inx-detail-list__item <?php echo esc_attr( $inx_skin_li_classes ); ?>">
 			<span class="inx-detail-list__title"><?php echo esc_html( $inx_skin_detail['title'] ); ?>:</span>
 			<span class="inx-detail-list__value"><?php echo $utils['format']->prepare_single_value( $inx_skin_detail['value'] ); ?></span>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
+	<?php if ( ! empty( $inx_skin_bool_details ) ) : ?>
+	<ul class="inx-feature-list uk-grid-small" uk-grid>
+		<?php foreach ( $inx_skin_bool_details as $inx_skin_detail ) : ?>
+		<li class="inx-feature-list__item uk-flex <?php echo esc_attr( $inx_skin_li_classes ); ?>">
+			<div class="inx-feature-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="check"></span></div>
+			<div class="inx-feature-list__name uk-width-expand"><?php echo $utils['format']->prepare_single_value( $inx_skin_detail['title'] ); ?></div>
 		</li>
 		<?php endforeach; ?>
 	</ul>

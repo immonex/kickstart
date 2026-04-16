@@ -66,12 +66,14 @@ jQuery(document).ready(async function($) {
 	) {
 		const search = await import(/* webpackChunkName: "property_search" */ './property_search')
 		await search.init()
+		window.dispatchEvent(new Event('inxkick/search/initialized'))
 	}
 
 	// Property Lists
 	if (document.getElementsByClassName('inx-property-list').length > 0) {
 		const lists = await import(/* webpackChunkName: "property_lists" */ './property_lists')
 		await lists.init()
+		window.dispatchEvent(new Event('inxkick/property_list/initialized'))
 	}
 
 	// Property Map
@@ -81,6 +83,7 @@ jQuery(document).ready(async function($) {
 	) {
 		const map = await import(/* webpackChunkName: "property_map" */ './property_map')
 		await map.init()
+		window.dispatchEvent(new Event('inxkick/map/initialized'))
 	}
 
 	// Property Details
@@ -91,11 +94,13 @@ jQuery(document).ready(async function($) {
 		const details = await import(/* webpackChunkName: "property_details" */ './property_details')
 		await details.init()
 		inxPropertyDetailsInitialized = true
+		window.dispatchEvent(new Event('inxkick/property_details/initialized'))
 	}
 
 	// Container Queries (sort of...)
 	if (document.getElementsByClassName('inx-cq').length > 0) {
 		const cq = await import(/* webpackChunkName: "container_queries" */ './container-queries')
 		await cq.init()
+		window.dispatchEvent(new Event('inxkick/cq/initialized'))
 	}
 })

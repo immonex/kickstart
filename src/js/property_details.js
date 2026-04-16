@@ -1,6 +1,9 @@
 // Vue & Co.
 import Vue from 'vue'
 
+// UIkit
+import UIkit from 'uikit'
+
 // immonex Kickstart Components
 import PropertyLocationOpenLayersMap from './components/PropertyLocationOpenLayersMap.vue'
 import PropertyLocationGoogleMap from './components/PropertyLocationGoogleMap.vue'
@@ -59,9 +62,29 @@ function cleanLocationURL() {
 	history.replaceState(null, null, url)
 } // cleanLocationURL
 
+function refreshTabbedYTiFrames (event) {
+	const iFrames = event.target.getElementsByTagName('iframe')
+
+	if (iFrames.length === 0) return
+
+	for (let i = 0; i < iFrames.length; i++) {
+		const iFrame = iFrames[i]
+		if (iFrame.src.indexOf('youtube') === -1 || iFrame.dataset.inxRefreshed) continue
+
+		/**
+		 * Refresh YouTube iFrame in previously hidden tab once to fix
+		 * a low resolution preview image issue.
+		 */
+		iFrame.src = iFrame.src
+		iFrame.dataset.inxRefreshed = true
+	}
+} // refreshTabbedYTiFrames
+
 async function init() {
 	initPropertyDetailInstances()
 	cleanLocationURL()
+
+	UIkit.util.on('.inx-single-property__tabbed-content', 'shown', refreshTabbedYTiFrames)
 } // init
 
 export { init }

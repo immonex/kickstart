@@ -1,5 +1,8 @@
 button.inx-button {
+	max-width: 100%;
 	font-size: 1em;
+	line-height: 1.1em;
+	text-wrap: wrap;
 	background-color: var(--inx-color-action-element);
 }
 

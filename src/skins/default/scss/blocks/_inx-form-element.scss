@@ -12,7 +12,7 @@
 	}
 
 	button:hover {
-		color: var(--inx-color-action-element);
+		color: var(--inx-color-action-element, #0A65BC);
 	}
 }
 
@@ -46,8 +46,11 @@
 	margin-bottom: .25em;
 }
 
-.inx-property-search .inx-form-element.inx-form-element--extended-search-toggle hr {
-	background-color: var(--inx-color-bg-muted-default-darker);
+.inx-property-search .inx-form-element.inx-form-element--extended-search-toggle > hr {
+	height: 1px;
+	border: none;
+	color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
+	background-color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 	margin: 0 0 1em 0;
 }
 
@@ -63,7 +66,7 @@
 
 .inx-container .inx-form-element .multiselect--active {
 	.multiselect__tags {
-		border-color: var(--inx-color-action-element);
+		border-color: var(--inx-color-action-element, #0A65BC);
 	}
 
 	input.multiselect__input {
@@ -87,7 +90,7 @@
 }
 
 .inx-form-element .multiselect__option--highlight {
-	background-color: var(--inx-color-action-element-lighter);
+	background-color: var(--inx-color-action-element-lighter, #0C74D8);
 }
 
 @media screen and (min-width: config.$screen-l) {

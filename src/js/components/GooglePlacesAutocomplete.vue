@@ -162,14 +162,18 @@ export default {
 					if (lat && lng) this.transferValue = JSON.stringify([lat, lng, name])
 				}
 			}
-			this.fireDOMChangeEvent()
+			this.$nextTick(() => {
+				this.fireDOMChangeEvent()
+			})
 		},
 		checkIfEmpty: function(event) {
 			if (event.target.value === '') {
 				this.currentPlace = {}
 				this.currentPlaceName = ''
 				this.transferValue = ''
-				this.fireDOMChangeEvent()
+				this.$nextTick(() => {
+					this.fireDOMChangeEvent()
+				})
 			}
 		},
 		checkEnter: function(event) {
@@ -183,14 +187,14 @@ export default {
 			if (event.key === 'Enter' && isVisible) event.preventDefault()
 		},
 		fireDOMChangeEvent () {
-			const el = this.$refs.transfer
-			if ('createEvent' in document) {
-				const evt = document.createEvent('HTMLEvents')
-				evt.initEvent('change', false, true)
-				el.dispatchEvent(evt)
-			} else {
-				el.fireEvent('onchange')
-			}
+			this.$nextTick(() => {
+				const el = this.$refs.transfer
+				if ('createEvent' in document) {
+					el.dispatchEvent(new Event('change', { bubbles: false, cancelable: true }))
+				} else {
+					el.fireEvent('onchange')
+				}
+			})
 		}
 	},
 	created () {

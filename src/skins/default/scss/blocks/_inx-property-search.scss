@@ -4,7 +4,7 @@
 	// UIkit
 
 	.uk-search .uk-search-icon:hover {
-		color: var(--inx-color-action-element);
+		color: var(--inx-color-action-element, #0A65BC);
 	}
 }
 
@@ -38,7 +38,7 @@
 }
 
 .inx-property-search__extended {
-	background-color: var(--inx-color-bg-muted-default);
+	background-color: var(--inx-color-bg-muted-default, rgba(220, 220, 220, 0.35));
 
 	.inx-input,
 	.inx-search-input,
@@ -48,6 +48,22 @@
 	.inx-search-input:focus,
 	.inx-search-input.uk-search-input:focus {
 		background-color: #fff;
+	}
+}
+
+.inx-search-submit-button {
+	button.inx-button--action span:first-child {
+		width: 1em;
+		height: 1em;
+		min-width: 20px;
+		min-height: 20px;
+
+		> svg {
+			width: 1em;
+			height: 1em;
+			min-width: 20px;
+			min-height: 20px;
+		}
 	}
 }
 

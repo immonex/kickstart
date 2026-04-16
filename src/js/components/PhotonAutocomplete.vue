@@ -293,21 +293,25 @@ export default {
 		},
 		localitySelected (locality) {
 			this.transferValue = JSON.stringify([locality.lat, locality.lng, locality.name])
-			this.fireDOMChangeEvent()
+			this.$nextTick(() => {
+				this.fireDOMChangeEvent()
+			})
 		},
 		localityRemoved (locality) {
 			this.transferValue = ''
-			this.fireDOMChangeEvent()
+			this.$nextTick(() => {
+				this.fireDOMChangeEvent()
+			})
 		},
 		fireDOMChangeEvent () {
-			const el = this.$refs.transfer
-			if ('createEvent' in document) {
-				const evt = document.createEvent('HTMLEvents')
-				evt.initEvent('change', false, true)
-				el.dispatchEvent(evt)
-			} else {
-				el.fireEvent('onchange')
-			}
+			this.$nextTick(() => {
+				const el = this.$refs.transfer
+				if ('createEvent' in document) {
+					el.dispatchEvent(new Event('change', { bubbles: false, cancelable: true }))
+				} else {
+					el.fireEvent('onchange')
+				}
+			})
 		},
 		reset (event) {
 			this.currentPlace = ''

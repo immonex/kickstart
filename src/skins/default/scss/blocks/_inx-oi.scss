@@ -21,7 +21,7 @@ $marketing-type-color-map: (
 }
 
 .inx-oi--inverted {
-	color: var(--inx-color-text-inverted-default);
+	color: var(--inx-color-text-inverted-default, #F8F8F8);
 
-	@include mixins.unified-active-link-states(var(--inx-color-action-element-inverted));
+	@include mixins.unified-active-link-states(var(--inx-color-action-element-inverted, #FBFBFB));
 }

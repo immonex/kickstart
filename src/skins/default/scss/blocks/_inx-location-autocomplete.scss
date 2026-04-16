@@ -12,11 +12,19 @@
 		max-height: 1.2em;
 		overflow: hidden;
 	}
+
+	.multiselect__placeholder {
+		text-wrap: nowrap;
+	}
+
+	.multiselect__spinner {
+		background-color: transparent;
+	}
 }
 
 .inx-location-autocomplete__consent {
 	padding: .5em;
-	border: 1px solid var(--inx-color-bg-muted-default-darker);
+	border: 1px solid var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 }
 
 .inx-location-autocomplete__privacy-note {

@@ -124,6 +124,17 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
+= 1.16.0-beta =
+* Release date: 2026-04-16
+* Splitted property detail list items (key/value and value only) in the default skin.
+* Added a placeholder icon to property list entries without images (default skin).
+* Added automatic adjustment of warm rent list item labels if heating costs are included.
+* Improved handling of dynamic search state updates.
+* Optimized search form styling.
+* Added automated one-time updates of YouTube iFrames in tabs that are initially hidden.
+* Added tweaks to improve the compatibility of older custom skins with the current WP version.
+* Updated dependencies.
+
 = 1.15.4 =
 * Release date: 2026-04-03
 * Reworked value range sliders (search form).
@@ -133,16 +144,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 = 1.15.1 =
 * Release date: 2026-03-31
 * Fixed a cache issue that could affect the complete generation of PDF exposés (Kickstart Print Add-on).
-* Updated dependencies.
-
-= 1.15.0 =
-* Release date: 2026-03-27
-* Added an option for setting the maximum cache size.
-* Added Cloudflare Turnstile support for add-on forms.
-* Optimized cache expiration timings and automated cleanups.
-* Optimized embedding of dynamic CSS properties.
-* Reworked the default skin.
-* Fixed an OpenImmo-XML source issue when saving via property backend form.
 * Updated dependencies.
 
 See changelog.txt for the complete version history.

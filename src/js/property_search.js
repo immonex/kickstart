@@ -33,7 +33,7 @@ function resetSearchForm(event = null) {
 		$(event.target).closest('form')[0] :
 		document.getElementById(searchFormElementIDs[0])
 
-	let searchFormID = '#' + searchForm.id
+	const searchFormID = '#' + (searchForm.id || 'inx-property-search')
 
 	searchForm.reset()
 
@@ -53,8 +53,7 @@ function resetSearchForm(event = null) {
 		element.value = $(element).data('default')
 	})
 
-	const evt = document.createEvent('HTMLEvents')
-	evt.initEvent('reset', false, true)
+	const evt = new Event('reset', { bubbles: false, cancelable: true })
 	if ($(searchFormID + ' input[name=inx-search-distance-search-location]').length) {
 		$(searchFormID + ' input[name=inx-search-distance-search-location]')[0].dispatchEvent(evt)
 	}
@@ -78,25 +77,32 @@ function resetSearchForm(event = null) {
 
 	$(searchFormID + ' .inx-form-element--radio input[type="radio"]').first().checked = true
 
-	updateSearchState()
+	updateSearchState(true)
 
 	return false
 } // resetSearchForm
 
 function updateSearchState(event = null) {
+	let skipComponentUpdate = false
+
 	if (event && typeof event === 'object') {
 		const formEl = $(event.target).closest('form')
 
 		if (event.target.getAttribute('name') === 'inx-search-distance-search-location') {
 			const radius = formEl.find('select[name=inx-search-distance-search-radius]').val()
-			if (!radius) return
+			if (!radius) skipComponentUpdate = true
 		}
 
 		if (event.target.getAttribute('name') === 'inx-search-distance-search-radius') {
 			const location = formEl.find('input[name=inx-search-distance-search-location]').val()
-			if (!location) return
+			if (!location) skipComponentUpdate = true
 		}
 	}
+
+	const currentURL = new URL(window.location.href)
+	const currentParams = currentURL.searchParams
+	const resetClicked = true === event
+	let URLupdated = false
 
 	const searchFormIDs = event && typeof event === 'object' ?
 		[$(event.target).closest('form').attr('id')] :
@@ -106,13 +112,32 @@ function updateSearchState(event = null) {
 		const formIndex = searchFormElementIDs.indexOf(searchFormID)
 		const searchForm = $('#' + searchFormID)
 		const formData = searchForm.serializeArray()
+		const multiValueFields = {}
 
-		$.each(formData, function (i, field) {
+		$.each(formData, (i, field) => {
 			const fieldNameStore = field.name.replace(/\[\]$/, '')
 			const containsMultipleValues = field.name.match(/\[\]$/)
 
+			if (iForm === 0 && !field.value && currentParams.has(field.name)) {
+				currentParams.delete(field.name)
+				URLupdated = true
+			}
+
 			if (!containsMultipleValues) {
 				inx_state.search.forms[formIndex][fieldNameStore] = field.value
+
+				if (
+					iForm === 0
+					&& field.value
+					&& (
+						!currentParams.has(field.name)
+						|| currentParams.get(field.name) !== field.value
+					)
+				) {
+					currentParams.set(field.name, field.value)
+					URLupdated = true
+				}
+
 				return
 			}
 
@@ -122,11 +147,79 @@ function updateSearchState(event = null) {
 				inx_state.search.forms[formIndex][fieldNameStore] = [inx_state.search.forms[formIndex][fieldNameStore]]
 			}
 			inx_state.search.forms[formIndex][fieldNameStore].push(field.value)
+
+			if (iForm === 0) {
+				multiValueFields[field.name] = multiValueFields[field.name] || []
+				multiValueFields[field.name].push(field.value)
+			}
 		})
+
+		if (iForm === 0) {
+			const currentMultiValueKeys = [...new Set(Array.from(currentParams.keys()))]
+				.filter(x => x.match(/\[\]$/))
+
+			if (currentMultiValueKeys.length > 0) {
+				currentMultiValueKeys.forEach(key => {
+					if (!multiValueFields[key]) {
+						currentParams.delete(key)
+						URLupdated = true
+					}
+				})
+			}
+
+			for (const multiValueFieldName in multiValueFields) {
+				const arrA = currentParams.getAll(multiValueFieldName)
+				const arrB = multiValueFields[multiValueFieldName]
+				const diff = arrA
+                	.filter(x => !arrB.includes(x))
+                	.concat(arrB.filter(x => !arrA.includes(x)))
+
+				if (diff.length > 0) {
+					currentParams.delete(multiValueFieldName)
+					multiValueFields[multiValueFieldName].forEach(value => currentParams.append(multiValueFieldName, value))
+					URLupdated = true
+				}
+			}
+		}
 
 		inx_state.search = Object.assign({}, inx_state.search)
 
-		debouncedInvokeComponentUpdates(searchFormID, searchForm, formIndex)
+		if (URLupdated || resetClicked) {
+			// Delete default pagination parameter(s) on search parameter updates.
+			for (const key of ['page', 'paged']) {
+				if (currentParams.has(key)) {
+					currentParams.delete(key)
+					URLupdated = true
+				}
+			}
+
+			for (const key of currentParams.keys()) {
+				if (key.indexOf('e-page-') === 0) {
+					const elementorLoop = document.getElementsByClassName('elementor-element-' + key.substring(7))
+					const isPropertyLoop = elementorLoop.length && elementorLoop[0].querySelectorAll('.inx-real-estate-list').length
+
+					if (isPropertyLoop) {
+						// Delete Elementor pagination parameter(s) on search parameter updates.
+						currentParams.delete(key)
+						URLupdated = true
+					}
+				}
+			}
+
+			if (currentURL.pathname.match(/\/page\/[0-9]+/)) {
+				// Delete default pagination path segment on search parameter updates.
+				currentURL.pathname = currentURL.pathname.replace(/\/page\/[0-9]+/, '')
+				URLupdated = true
+			}
+		}
+
+		if (URLupdated || !resetClicked) {
+			history.pushState(null, '', currentURL.href)
+
+			if (!skipComponentUpdate) {
+				debouncedInvokeComponentUpdates(searchFormID, searchForm, formIndex)
+			}
+		}
 	})
 } // updateSearchState
 
@@ -137,8 +230,8 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 			return $(field).val() !== ''
 		})
 		.serialize()
-		.replace(/%5B%5D/g, '[]') // Don't encode [] in parameter names to be able to identify them as array parameters.
-		.replace(/\[[0-9]+\]/, '') // Remove numeric indices from array parameters, too.
+		.replace(/%5B([0-9]+)?%5D/g, '[]') // Decode [] in multi-value parameter names and remove indexes.
+		.replace(/\[[0-9]+\]/, '[]') // Remove numeric indexes of unencoded parameters, too.
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 	url += (url.indexOf('?') === -1 ? '?' : '&') + 'inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
@@ -152,7 +245,7 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 	inx_state.search.backlink_url = backlinkURL
 
 	const specialParams = {}
-	searchForm.find("select, input").not("[type='hidden']").each((index, field) => {
+	searchForm.find('select, input').not("[type='hidden']").each((index, field) => {
 		if (
 			$(field).attr('name') &&
 			$(field).attr('name').substring(0, 4) === 'inx-' &&
@@ -426,19 +519,21 @@ function initSearchFormInstances(debounceDelay) {
 	inx_state.vue_instances.property_search_forms = []
 
 	$('.inx-property-search').each((index, searchForm) => {
-		if (document.getElementById(searchForm.id).__vue__) return
+		const searchFormID = searchForm.id || 'inx-property-search'
+		const searchFormEl = document.getElementById(searchFormID)
+		if (searchFormEl && searchFormEl.__vue__) return
 
 		if (typeof inx_state.search.forms === 'undefined') {
 			inx_state.search.forms = []
 		}
 		inx_state.search.forms.push({
-			id: searchForm.id,
+			id: searchFormID,
 			numberOfMatches: ''
 		})
 
 		inx_state.vue_instances.property_search_forms.push(
 			new Vue({
-				el: "#" + searchForm.id,
+				el: "#" + searchFormID,
 				components: {
 					'inx-range-slider': RangeSlider,
 					'inx-number-of-matches': NumberOfMatches,
@@ -451,9 +546,10 @@ function initSearchFormInstances(debounceDelay) {
 		)
 
 		$(searchForm).children('form').each((indexFormEl, formEl) => {
-			const searchFormElID = '#' + formEl.id
-			searchFormElementIDs.push(formEl.id)
-			inx_state.search.forms[index].formElID = formEl.id
+			const formElID = formEl.id || 'inx-property-search-main-form'
+			const searchFormElID = '#' + formElID
+			searchFormElementIDs.push(formElID)
+			inx_state.search.forms[index].formElID = formElID
 
 			$(searchFormElID + ' input, ' + searchFormElID + ' select').on('change', updateSearchState)
 			$(searchFormElID + ' .inx-form-reset').on('click', resetSearchForm)
@@ -468,10 +564,17 @@ function initSearchFormInstances(debounceDelay) {
 } // initSearchFormInstances
 
 async function init() {
+	const currentURL = decodeURI(window.location.href)
+	if (currentURL.indexOf('[0]') > 0) {
+		// Remove indexes from multi-value parameter names.
+		const cleanURL = currentURL.replaceAll(/\[[0-9]+\]/g, '[]')
+		history.pushState(null, '', cleanURL)
+	}
+
 	let debounceDelay = 600
-	try {
-		debounceDelay = inx_state.search.form_debounce_delay ? inx_state.search.form_debounce_delay : debounceDelay
-	} catch {}
+	if (typeof inx_state !== 'undefined') {
+		debounceDelay = inx_state.search?.form_debounce_delay || debounceDelay
+	}
 
 	debouncedInvokeComponentUpdates = debounce(invokeComponentUpdates, debounceDelay)
 
@@ -498,7 +601,7 @@ async function init() {
 		}
 	})
 
-	window.setTimeout(() => { if (!searchStateInitialized) updateSearchState() }, debounceDelay);
+	window.setTimeout(() => { if (!searchStateInitialized) updateSearchState() }, debounceDelay)
 } // init
 
 export { init }

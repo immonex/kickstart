@@ -76,10 +76,6 @@ button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	span:first-child {
-		margin-top: 6px;
-	}
 }
 
 button:disabled:hover {

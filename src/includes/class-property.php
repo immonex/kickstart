@@ -89,6 +89,20 @@ class Property {
 	public $post;
 
 	/**
+	 * Current property OpenImmo XML source
+	 *
+	 * @var \SimpleXMLElement
+	 */
+	private $xml_source;
+
+	/**
+	 * Current property XML Object
+	 *
+	 * @var \SimpleXMLElement
+	 */
+	private $immobilie;
+
+	/**
 	 * Various component configuration data
 	 *
 	 * @var mixed[]
@@ -128,6 +142,9 @@ class Property {
 	 * @param \WP_Post|int|string|bool $post_or_id Property post object or ID (false if undefined).
 	 */
 	public function set_post( $post_or_id ) {
+		$this->xml_source = '';
+		$this->immobilie  = null;
+
 		if ( is_numeric( $post_or_id ) ) {
 			$this->post = get_post( $post_or_id );
 		} elseif ( is_object( $post_or_id ) ) {
@@ -700,14 +717,9 @@ class Property {
 			'oi_css_classes'     => array(),
 		);
 
-		$xml_source = $this->get_openimmo_xml_source();
-		if ( ! $xml_source ) {
-			return $no_data_return;
-		}
+		$immobilie = $this->get_immobilie();
 
-		try {
-			$immobilie = new \SimpleXMLElement( $xml_source );
-		} catch ( \Exception $e ) {
+		if ( ! $immobilie ) {
 			return $no_data_return;
 		}
 
@@ -772,25 +784,56 @@ class Property {
 	 *
 	 * @since 1.14.9-beta
 	 *
-	 * @return string OpenImmo XML source.
+	 * @return string OpenImmo XML source or empty string if unavailable.
 	 */
 	public function get_openimmo_xml_source() {
 		if ( ! is_a( $this->post, 'WP_Post' ) ) {
 			return '';
 		}
 
-		$xml_source = get_post_meta( $this->post->ID, '_immonex_property_xml_source', true );
-		if ( ! $xml_source ) {
+		if ( $this->xml_source ) {
+			return $this->xml_source;
+		}
+
+		$this->xml_source = get_post_meta( $this->post->ID, '_immonex_property_xml_source', true );
+		if ( ! $this->xml_source ) {
 			// DEPRECATED!
-			$xml_source = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'property_xml_source', true );
+			$this->xml_source = get_post_meta( $this->post->ID, '_' . $this->config['plugin_prefix'] . 'property_xml_source', true );
+		}
+
+		return $this->xml_source ? $this->xml_source : '';
+	} // get_openimmo_xml_source
+
+	/**
+	 * Create and return a SimpleXML object of the current property.
+	 *
+	 * @since 1.16.0
+	 *
+	 * @param string $xml_source OpenImmo XML source (optional).
+	 *
+	 * @return \SimpleXMLElement|bool Property object or false if unavailable.
+	 */
+	public function get_immobilie( $xml_source = '' ) {
+		if ( $this->immobilie ) {
+			return $this->immobilie;
 		}
 
 		if ( ! $xml_source ) {
-			return '';
+			$xml_source = $this->get_openimmo_xml_source();
 		}
 
-		return $xml_source;
-	} // get_openimmo_xml_source
+		if ( ! $xml_source ) {
+			return false;
+		}
+
+		try {
+			$this->immobilie = new \SimpleXMLElement( $xml_source );
+		} catch ( \Exception $e ) {
+			return false;
+		}
+
+		return $this->immobilie;
+	} // get_immobilie
 
 	/**
 	 * Return OpenLayers/OSM or Google Maps API specific JS (source) options.
@@ -975,9 +1018,9 @@ class Property {
 			$exclude[] = 'preise->innen_courtage*';
 		}
 
-		$grouped_details = $this->maybe_add_parking_spaces_title_suffix(
-			$this->utils['data']->fetch_property_details( $this->post->ID, $exclude )
-		);
+		$grouped_details = $this->utils['data']->fetch_property_details( $this->post->ID, $exclude );
+		$this->maybe_add_parking_spaces_title_suffix( $grouped_details );
+		$this->maybe_add_warm_rent_title_suffix( $grouped_details );
 
 		return apply_filters( 'inx_property_template_data_details', $grouped_details, $this->post->ID );
 	} // get_details
@@ -1056,6 +1099,10 @@ class Property {
 		 * Features
 		 */
 		$tax_data['features'] = get_the_terms( $post->ID, $prefix . 'feature' );
+
+		if ( empty( $tax_data['features'] ) || is_wp_error( $tax_data['features'] ) ) {
+			$tax_data['features'] = array();
+		}
 
 		return $tax_data;
 	} // get_tax_data
@@ -1260,20 +1307,16 @@ class Property {
 	 *
 	 * @since 1.14.9-beta
 	 *
-	 * @param string $openimmo_xml_source OpenImmo XML source.
+	 * @param string $oi_xml_source OpenImmo XML source.
 	 *
 	 * @return string Currency.
 	 */
-	private function get_currency( $openimmo_xml_source ) {
+	private function get_currency( $oi_xml_source ) {
 		if ( ! is_a( $this->post, 'WP_Post' ) || empty( $oi_xml_source ) ) {
 			return $this->config['currency'];
 		}
 
-		try {
-			$immobilie = new \SimpleXMLElement( $oi_xml_source );
-		} catch ( \Exception $e ) {
-			$immobilie = false;
-		}
+		$immobilie = $this->get_immobilie( $oi_xml_source );
 
 		return $immobilie && $immobilie->xpath( '//preise/waehrung/@iso_waehrung' ) ?
 			(string) $immobilie->xpath( '//preise/waehrung/@iso_waehrung' )[0] :
@@ -1332,50 +1375,99 @@ class Property {
 	 * @since 1.12.28-beta
 	 *
 	 * @param mixed[] $grouped_details Grouped property details.
-	 *
-	 * @return mixed[] Grouped property details.
 	 */
-	private function maybe_add_parking_spaces_title_suffix( $grouped_details ) {
-		if ( is_array( $grouped_details ) && isset( $grouped_details['flaechen'] ) ) {
-			$specific_parking_spaces_total = 0;
-			$specific_parking_spaces       = array_filter(
-				$grouped_details['flaechen'],
-				function ( $element ) {
-					return preg_match( '/preise\.stp_[a-z]+:anzahl/', $element['name'] );
-				}
-			);
+	private function maybe_add_parking_spaces_title_suffix( &$grouped_details ) {
+		if ( ! is_array( $grouped_details ) || ! isset( $grouped_details['flaechen'] ) ) {
+			return;
+		}
 
-			if ( ! empty( $specific_parking_spaces ) ) {
-				foreach ( $specific_parking_spaces as $element ) {
-					$specific_parking_spaces_total += (int) $element['value'];
-				}
+		$specific_parking_spaces_total = 0;
+		$specific_parking_spaces       = array_filter(
+			$grouped_details['flaechen'],
+			function ( $element ) {
+				return preg_match( '/preise\.stp_[a-z]+:anzahl/', $element['name'] );
 			}
+		);
 
-			$total_parking_spaces_key = $specific_parking_spaces_total ?
-				key(
-					array_filter(
-						$grouped_details['flaechen'],
-						function ( $element ) {
-							return 'flaechen.anzahl_stellplaetze' === $element['name'];
-						}
-					)
-				) : false;
-
-			if ( $total_parking_spaces_key ) {
-				if ( $specific_parking_spaces_total === (int) $grouped_details['flaechen'][ $total_parking_spaces_key ]['value'] ) {
-					unset( $grouped_details['flaechen'][ $total_parking_spaces_key ] );
-				} else {
-					$title_suffix = __( 'total', 'immonex-kickstart' );
-
-					if ( false === strpos( $grouped_details['flaechen'][ $total_parking_spaces_key ]['title'], $title_suffix ) ) {
-						$grouped_details['flaechen'][ $total_parking_spaces_key ]['title'] .= ' (' . $title_suffix . ')';
-					}
-				}
+		if ( ! empty( $specific_parking_spaces ) ) {
+			foreach ( $specific_parking_spaces as $element ) {
+				$specific_parking_spaces_total += (int) $element['value'];
 			}
 		}
 
-		return $grouped_details;
+		$total_parking_spaces_key = $specific_parking_spaces_total ?
+			key(
+				array_filter(
+					$grouped_details['flaechen'],
+					function ( $element ) {
+						return 'flaechen.anzahl_stellplaetze' === $element['name'];
+					}
+				)
+			) : false;
+
+		if ( $total_parking_spaces_key ) {
+			if ( $specific_parking_spaces_total === (int) $grouped_details['flaechen'][ $total_parking_spaces_key ]['value'] ) {
+				unset( $grouped_details['flaechen'][ $total_parking_spaces_key ] );
+			} else {
+				$title_suffix = __( 'total', 'immonex-kickstart' );
+
+				if ( false === strpos( $grouped_details['flaechen'][ $total_parking_spaces_key ]['title'], $title_suffix ) ) {
+					$grouped_details['flaechen'][ $total_parking_spaces_key ]['title'] .= ' (' . $title_suffix . ')';
+				}
+			}
+		}
 	} // maybe_add_parking_spaces_title_suffix
+
+	/**
+	 * Add "(incl. heating costs)" to the warm rent title and remove the
+	 * "heating costs included" element from the list if the related
+	 * OpenImmo attribute is set.
+	 *
+	 * @since 1.16.0
+	 *
+	 * @param mixed[] $grouped_details Grouped property details.
+	 */
+	private function maybe_add_warm_rent_title_suffix( &$grouped_details ) {
+		if ( ! is_array( $grouped_details ) || ! isset( $grouped_details['preise'] ) ) {
+			return;
+		}
+
+		$warm_rent_key = key(
+			array_filter(
+				$grouped_details['preise'],
+				function ( $element ) {
+					return 'preise.warmmiete' === $element['name'];
+				}
+			)
+		);
+
+		if ( ! $warm_rent_key ) {
+			return;
+		}
+
+		$immobilie = $this->get_immobilie();
+
+		if (
+			$immobilie
+			&& in_array( (string) $immobilie->preise->heizkosten_enthalten, array( '1', 'true' ), true )
+		) {
+			$title_suffix           = __( 'incl. heating costs', 'immonex-kickstart' );
+			$heating_costs_incl_key = key(
+				array_filter(
+					$grouped_details['preise'],
+					function ( $element ) {
+						return 'preise.heizkosten_enthalten' === $element['name'];
+					}
+				)
+			);
+
+			if ( $heating_costs_incl_key ) {
+				unset( $grouped_details['preise'][ $heating_costs_incl_key ] );
+			}
+
+			$grouped_details['preise'][ $warm_rent_key ]['title'] .= ' (' . $title_suffix . ')';
+		}
+	} // maybe_add_warm_rent_title_suffix
 
 	/**
 	 * Create and return an array of available property detail view elements
@@ -1977,7 +2069,7 @@ class Property {
 				$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
 			}
 
-			return $backlink_url;
+			return $this->re_encode_url_query_values( $backlink_url );
 		}
 
 		if ( $base_url ) {
@@ -2080,13 +2172,42 @@ class Property {
 			}
 
 			if ( count( $query_vars ) > 0 ) {
-				$query_params = http_build_query( $query_vars );
+				// Strip index from multi-value query vars (e.g. var[0]=foo&var[1]=bar -> var[]=foo&var[]=bar).
+				$query_params = preg_replace( '/%5B[0-9]+%5D/', '%5B%5D', http_build_query( $query_vars ) );
+
 				$backlink_url = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $query_params;
 			}
 		}
 
 		return $backlink_url;
 	} // get_backlink_url
+
+	/**
+	 * Re-encode URL query values to ensure proper encoding of special characters.
+	 *
+	 * @since 1.15.5
+	 *
+	 * @param string $url The URL to re-encode.
+	 *
+	 * @return string The URL with re-encoded query values.
+	 */
+	private function re_encode_url_query_values( $url ) {
+		$query_str = wp_parse_url( $url, PHP_URL_QUERY );
+
+		if ( ! $query_str ) {
+			return $url;
+		}
+
+		$enc_query_str = preg_replace_callback(
+			'/(?<=\=)([^=&]+)/',
+			function ( $matches ) {
+				return rawurlencode( $matches[1] );
+			},
+			wp_unslash( $query_str )
+		);
+
+		return str_replace( $query_str, $enc_query_str, $url );
+	} // re_encode_url_query_values
 
 	/**
 	 * Check if the given URL belongs to the WP site.

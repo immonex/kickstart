@@ -19,12 +19,13 @@
 
 		.noUi-connects {
 			height: .25em;
-			background-color: rgba(0, 0, 0, 0.1);
+			background-color: #E5E5E5;
+			background: linear-gradient(90deg,rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, .1) 10%, rgba(0, 0, 0, .1) 90%, rgba(255, 255, 255, 0) 100%);
 		}
 
 		.noUi-connect {
 			height: .25em;
-			background: var(--inx-color-action-element, #C5C5C5);
+			background: var(--inx-color-action-element, #0A65BC);
 		}
 
 		.noUi-handle {
@@ -32,10 +33,16 @@
 			right: -.5em;
 			width: 1em;
 			height: 1em;
-			border: .03em solid var(--inx-color-action-element, #A0A0A0);
+			border: .03em solid var(--inx-color-action-element, #0A65BC);
 			border-radius: 50%;
 			background: #FFF;
-			box-shadow: inset .04em 0 .3em #C5C5C5, 0 0 .2em var(--inx-color-action-element-50pct, #A0A0A0);
+			box-shadow: inset .04em 0 .3em #C5C5C5, 0 0 .2em var(--inx-color-action-element-50pct, #85B2DE);
+			cursor: grab;
+		}
+
+		.noUi-handle.noUi-active,
+		.noUi-handle:active {
+			cursor: grabbing;
 		}
 
 		.noUi-handle::before,
@@ -45,7 +52,7 @@
 			height: .5em;
 			top: calc(.25em - 1px);
 			left: calc(.5em - 2px);
-			background-color: var(--inx-color-action-element-75pct, #A0A0A0);
+			background-color: var(--inx-color-action-element-75pct, #5F8BB5);
 		}
 
 		.noUi-handle::after {

@@ -26,10 +26,14 @@ if (
 	<?php if ( ! $inx_skin_disable_link ) : ?>
 	<a href="<?php echo esc_url( $template_data['url'] ); ?>" aria-role="presentation" tabindex="-1">
 	<?php endif; ?>
-	<div class="inx-property-list-item__media-top uk-card-media-top uk-cover-container">
+	<div class="inx-property-list-item__media-top uk-card-media-top <?php echo $template_data['thumbnail_tag'] ? 'uk-cover-container' : 'inx-property-list-item__no-media'; ?>">
 		<?php
 		if ( $template_data['thumbnail_tag'] ) {
 			echo preg_replace( '/[\/]?\>/', 'uk-cover>', $template_data['thumbnail_tag'] );
+		} else {
+			?>
+			<span class="inx-property-list__no-media-placeholder-icon" uk-icon="icon: home; ratio: 4"></span>
+			<?php
 		}
 		?>
 	</div>

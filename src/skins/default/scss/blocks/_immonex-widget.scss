@@ -5,7 +5,7 @@
 		margin-top: 1em;
 		margin-bottom: 1em;
 		padding-bottom: calc(5px + 0.1em);
-		border-bottom: calc(0.2px + 0.05em) solid var(--inx-color-bg-muted-default-darker);
+		border-bottom: calc(0.2px + 0.05em) solid var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 		font-size: 1.4em;
 		font-weight: bold;
 	}

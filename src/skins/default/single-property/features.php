@@ -59,7 +59,7 @@ if (
 	<?php if ( ! empty( $inx_skin_details ) ) : ?>
 	<ul class="inx-detail-list uk-grid-small uk-margin-top" uk-grid>
 		<?php foreach ( $inx_skin_details as $inx_skin_detail ) : ?>
-		<li class="inx-detail-list__item<?php echo esc_attr( $inx_skin_li_classes ? ' ' . $inx_skin_li_classes : '' ); ?>">
+		<li class="inx-detail-list__item <?php echo esc_attr( $inx_skin_li_classes ); ?>">
 			<span class="inx-detail-list__title"><?php echo esc_html( $inx_skin_detail['title'] ); ?>:</span>
 			<span class="inx-detail-list__value"><?php echo $utils['format']->prepare_single_value( $inx_skin_detail['value'] ); ?></span>
 		</li>
@@ -68,7 +68,7 @@ if (
 	<?php endif; ?>
 
 	<?php if ( ! empty( $template_data['features'] ) ) : ?>
-	<ul class="inx-feature-list uk-grid-small uk-margin-top" uk-grid>
+	<ul class="inx-feature-list uk-grid-small" uk-grid>
 		<?php foreach ( $template_data['features'] as $inx_skin_feature_term ) : ?>
 		<li class="inx-feature-list__item uk-width-1-2@m uk-width-1-3@l uk-flex">
 			<div class="inx-feature-list__icon uk-width-auto"><span class="uk-margin-small-right" uk-icon="check"></span></div>

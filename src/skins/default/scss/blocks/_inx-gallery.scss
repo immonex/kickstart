@@ -18,7 +18,7 @@
 	min-height: var(--inx-gallery-image-slider-min-height, initial);
 
 	li {
-		background-color: var(--inx-gallery-image-slider-bg-color);
+		background-color: var(--inx-gallery-image-slider-bg-color, #F0F0F0);
 	}
 }
 

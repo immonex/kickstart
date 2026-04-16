@@ -15,6 +15,10 @@
 
 	> a {
 		box-shadow: none;
+
+		> .inx-property-list-item__no-media {
+			color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
+		}
 	}
 
 	> .inx-property-list-item__labels {
@@ -28,6 +32,15 @@
 		flex: 1 1 auto;
 		margin-top: 0;
 		padding: config.$size-font-base;
+	}
+
+	.inx-property-list-item__no-media {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2em;
+		color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
+		background: var(--inx-color-bg-muted-default, rgba(220, 220, 220, 0.35));
 	}
 }
 
@@ -150,16 +163,16 @@
 
 .inx-oi-vermarktungsart-kauf {
 	h3 > a {
-		color: var(--inx-color-marketing-type-sale);
+		color: var(--inx-color-marketing-type-sale, #584990);
 	}
 
 	h3 > a:hover {
-		color: var(--inx-color-marketing-type-sale-lighter);
+		color: var(--inx-color-marketing-type-sale-lighter, #6554A6);
 	}
 
 	.inx-property-price {
-		background-color: var(--inx-color-marketing-type-sale);
-		background: var(--inx-gradient-marketing-type-sale);
+		background-color: var(--inx-color-marketing-type-sale, #584990);
+		background: var(--inx-gradient-marketing-type-sale, linear-gradient(60deg, #6554A6 50%, #4B3E7A 100%));
 	}
 }
 
@@ -167,30 +180,30 @@
 .inx-property-list-item.inx-oi-vermarktungsart-miete-pacht,
 .inx-property-list-item.inx-oi-vermarktungsart-erbpacht {
 	h3 > a {
-		color: var(--inx-gradient-marketing-type-rent);
+		color: var(--inx-gradient-marketing-type-rent, linear-gradient(60deg, #C76F55 50%, #9E4D34 100%));
 	}
 
 	h3 > a:hover {
-		color: var(--inx-color-marketing-type-rent-lighter);
+		color: var(--inx-color-marketing-type-rent-lighter, #C76F55);
 	}
 
 	.inx-property-price {
-		background-color: var(--inx-color-marketing-type-rent);
-		background: var(--inx-gradient-marketing-type-rent);
+		background-color: var(--inx-color-marketing-type-rent, #BA5A3D);
+		background: var(--inx-gradient-marketing-type-rent, linear-gradient(60deg, #C76F55 50%, #9E4D34 100%));
 	}
 }
 
 .inx-property-list-item.inx-oi-vermarktungsart-leasing {
 	h3 > a {
-		color: var(--inx-color-marketing-type-leasing);
+		color: var(--inx-color-marketing-type-leasing, #E78B00);
 	}
 
 	h3 > a:hover {
-		color: var(--inx-color-marketing-type-leasing-lighter);
+		color: var(--inx-color-marketing-type-leasing-lighter, #FF9E0B);
 	}
 
 	.inx-property-price {
-		background-color: var(--inx-color-marketing-type-leasing);
-		background: var(--inx-gradient-marketing-type-leasing);
+		background-color: var(--inx-color-marketing-type-leasing, #E78B00);
+		background: var(--inx-gradient-marketing-type-leasing, linear-gradient(60deg, #FF9E0B 50%, #C47600 100%));
 	}
 }
