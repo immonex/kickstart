@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $inx_skin_component_id  = ! empty( $template_data['cid'] ) ? $template_data['cid'] : 'inx-property-filters';
 $inx_skin_sort_options  = $template_data['sort_options'];
 $inx_skin_sort_var_name = $template_data['public_prefix'] . 'sort';
+$inx_skin_align         = wp_sprintf( 'uk-flex-%s@s', ! empty( $template_data['align'] ) ? $template_data['align'] : 'right' );
 
 $inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template_data['default_sort_option']['key'], $inx_skin_sort_var_name );
 ?>
@@ -30,9 +31,9 @@ $inx_skin_current_sort_key = apply_filters( 'inx_get_query_var_value', $template
 		endif;
 		?>
 
-		<div class="uk-flex uk-flex-right@s">
-			<div class="inx-form-element uk-width-1-1 uk-width-auto@s">
-				<select name="<?php echo $inx_skin_sort_var_name; ?>" aria-label="<?php esc_attr_e( 'Sorting', 'immonex-kickstart' ); ?>" class="uk-select">
+		<div class="uk-flex <?php echo $inx_skin_align; ?>">
+			<div class="inx-form-element inx-form-element--select uk-width-1-1 uk-width-auto@s">
+				<select name="<?php echo $inx_skin_sort_var_name; ?>" aria-label="<?php esc_attr_e( 'Sorting', 'immonex-kickstart' ); ?>" class="inx-select uk-select">
 					<?php foreach ( $inx_skin_sort_options as $inx_skin_key => $inx_skin_option ) : ?>
 					<option	value="<?php echo esc_attr( $inx_skin_key ); ?>"<?php echo $inx_skin_key === $inx_skin_current_sort_key ? ' selected' : ''; ?>>
 						<?php echo esc_html( $inx_skin_option['title'] ); ?>

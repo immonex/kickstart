@@ -808,7 +808,8 @@ class Property_Hooks {
 			}
 
 			if ( get_post_type( $post_id ) === $this->config['property_post_type_name'] ) {
-				$atts['is_preview'] = false;
+				$atts['is_preview']      = false;
+				$atts['is_real_preview'] = true;
 			}
 		}
 
@@ -987,8 +988,12 @@ class Property_Hooks {
 			}
 		}
 
-		if ( $shortcode_atts['convert_urls'] && is_string( $value ) ) {
-			$value = $this->utils['string']->convert_urls( $value );
+		if ( is_string( $value ) && 'plain' !== $shortcode_atts['type'] ) {
+			if ( $shortcode_atts['convert_urls'] ) {
+				$value = $this->utils['string']->convert_urls( $value );
+			}
+
+			$value = $this->utils['format']->prepare_single_value( $value );
 		}
 
 		$rendered_content = apply_filters(
@@ -1399,6 +1404,10 @@ class Property_Hooks {
 	 * @return mixed[] Extended output attributes.
 	 */
 	public function add_gallery_image_ids( $out, $pairs, $atts, $shortcode ) {
+		if ( ! empty( $out['ids'] ) || ! empty( $out['include'] ) || ! empty( $out['exclude'] ) ) {
+			return $out;
+		}
+
 		$post_id = $this->get_current_property_post_id( ! empty( $out['id'] ) ? (int) $out['id'] : false );
 
 		if ( ! $post_id ) {

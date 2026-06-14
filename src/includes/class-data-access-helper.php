@@ -438,6 +438,10 @@ class Data_Access_Helper {
 		$filtered_items = array();
 
 		foreach ( $items as $item ) {
+			if ( empty( $item['value'] ) ) {
+				continue;
+			}
+
 			if ( in_array( 'name', $scope, true ) ) {
 				if ( ! empty( $queries['exclude'] ) ) {
 					foreach ( $queries['exclude'] as $query ) {
@@ -995,6 +999,10 @@ class Data_Access_Helper {
 		}
 
 		foreach ( $items as $i => $item ) {
+			if ( empty( $item['meta'] ) && ! empty( $item['meta_json'] ) ) {
+				$items[ $i ]['meta'] = json_decode( $item['meta_json'], true );
+			}
+
 			if ( empty( $query_props ) ) {
 				continue;
 			}
@@ -1027,7 +1035,7 @@ class Data_Access_Helper {
 	} // extend_and_format_detail_items
 
 	/**
-	 * Remove duplicate detail items based on title and value.
+	 * Remove duplicate detail items based on title, name, source and value.
 	 *
 	 * @since 1.11.9-beta
 	 *
@@ -1050,10 +1058,13 @@ class Data_Access_Helper {
 			foreach ( $unique_items as $unique_item ) {
 				if (
 					(
-						( empty( $item['title'] ) || $item['title'] === $unique_item['title'] )
-						|| ( $item['name'] === $unique_item['name'] )
+						( ! empty( $item['title'] ) && $item['title'] === $unique_item['title'] )
+						|| ( ! empty( $item['name'] ) && $item['name'] === $unique_item['name'] )
+						|| ( ! empty( $item['source'] ) && $item['source'] === $unique_item['source'] )
+					) && (
+						(string) $item['value'] === (string) $unique_item['value']
+						|| (string) $item['meta']['value_before_filter'] === (string) $unique_item['meta']['value_before_filter']
 					)
-					&& (string) $item['value'] === (string) $unique_item['value']
 				) {
 					continue 2;
 				}

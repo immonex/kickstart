@@ -196,6 +196,7 @@ if ( $inx_skin_media_count > 0 ) :
 			$inx_skin_image_enable_ken_burns_effect = false;
 			$inx_skin_image_link                    = array( wp_sprintf( '<a href="%s" target="_blank">', $inx_skin_full_src ), '</a>' );
 		} else {
+			$inx_skin_image_alt_org = $inx_skin_image_alt;
 			if ( ! trim( $inx_skin_image_alt ) ) {
 				$inx_skin_image_alt = wp_sprintf( '%s (%s)', __( 'Property Photo', 'immonex-kickstart' ), $inx_skin_id );
 			}
@@ -206,7 +207,16 @@ if ( $inx_skin_media_count > 0 ) :
 			}
 
 			if ( ! empty( $template_data['enable_gallery_image_links'] ) ) {
-				$inx_skin_image_link = array( wp_sprintf( '<a href="%s" rel="lightbox">', $inx_skin_full_src ), '</a>' );
+				$inx_skin_extra_link_attr = '';
+				if ( $template_data['lightbox_animation'] ) {
+					$inx_skin_extra_link_attr = ' class="inx-uk-lightbox"';
+
+					if ( $template_data['enable_lightbox_caption'] && 'no' !== $template_data['enable_lightbox_caption'] && $inx_skin_image_alt_org ) {
+						$inx_skin_extra_link_attr .= ' data-caption="' . esc_attr( $inx_skin_image_alt_org ) . '"';
+					}
+				}
+
+				$inx_skin_image_link = array( wp_sprintf( '<a href="%1$s" rel="lightbox"%2$s>', $inx_skin_full_src, $inx_skin_extra_link_attr ), '</a>' );
 			}
 		}
 
@@ -250,6 +260,21 @@ if ( $inx_skin_media_count > 0 ) :
 
 	$inx_skin_kbe_mode_class = $inx_skin_enable_ken_burns_effect && ! empty( $template_data['kbe_mode_class'] ) ?
 		' ' . $template_data['kbe_mode_class'] : '';
+
+	$inx_skin_lb = '';
+	if ( ! empty( $template_data['lightbox_animation'] ) ) {
+		$inx_skin_lb_parts = array( "toggle: .inx-uk-lightbox; animation: {$template_data['lightbox_animation']}" );
+
+		if ( ! empty( $template_data['lightbox_nav'] ) ) {
+			$inx_skin_lb_parts[] = "slidenav: false; nav: {$template_data['lightbox_nav']}";
+		}
+
+		if ( ! empty( $template_data['enable_lightbox_counter'] ) ) {
+			$inx_skin_lb_parts[] = 'counter: true';
+		}
+
+		$inx_skin_lb = ' uk-lightbox="' . esc_attr( implode( '; ', $inx_skin_lb_parts ) ) . '"';
+	}
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--gallery inx-gallery uk-margin-large-bottom<?php echo esc_attr( $inx_skin_kbe_mode_class ); ?>">
 	<?php
@@ -259,7 +284,7 @@ if ( $inx_skin_media_count > 0 ) :
 
 	<div class="inx-gallery__image-slider" uk-slideshow="ratio: <?php echo esc_attr( implode( ':', $inx_skin_current_ratio ) ); ?>; max-height: <?php echo esc_attr( $inx_skin_current_max_image_height ); ?>; animation: <?php echo esc_attr( $inx_skin_animation_type ); ?>; finite: true">
 		<div class="uk-position-relative uk-visible-toggle uk-margin-bottom">
-			<ul class="inx-gallery__images uk-slideshow-items">
+			<ul class="inx-gallery__images uk-slideshow-items"<?php echo $inx_skin_lb; ?>>
 				<?php
 				if ( count( $inx_skin_gallery_images ) > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :

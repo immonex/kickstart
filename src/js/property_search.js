@@ -230,8 +230,8 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 			return $(field).val() !== ''
 		})
 		.serialize()
-		.replace(/%5B([0-9]+)?%5D/g, '[]') // Decode [] in multi-value parameter names and remove indexes.
-		.replace(/\[[0-9]+\]/, '[]') // Remove numeric indexes of unencoded parameters, too.
+		.replace(/%5B([0-9]+)?%5D=/g, '[]=') // Decode [] in multi-value parameter names and remove indexes.
+		.replace(/\[[0-9]+\]=/, '[]=') // Remove numeric indexes of unencoded parameters, too.
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 	url += (url.indexOf('?') === -1 ? '?' : '&') + 'inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
@@ -565,9 +565,9 @@ function initSearchFormInstances(debounceDelay) {
 
 async function init() {
 	const currentURL = decodeURI(window.location.href)
-	if (currentURL.indexOf('[0]') > 0) {
+	if (currentURL.indexOf('[0]=') > 0) {
 		// Remove indexes from multi-value parameter names.
-		const cleanURL = currentURL.replaceAll(/\[[0-9]+\]/g, '[]')
+		const cleanURL = currentURL.replaceAll(/\[[0-9]+\]=/g, '[]=')
 		history.pushState(null, '', cleanURL)
 	}
 

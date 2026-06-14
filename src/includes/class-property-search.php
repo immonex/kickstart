@@ -490,14 +490,7 @@ class Property_Search {
 							}
 						}
 
-						if ( 'tax-select' === $element['type'] && 1 === count( $top_level_options ) ) {
-							/**
-							 * Exclude "empty" option in select boxes if only a single regular top level
-							 * option exists and set its value as default.
-							 */
-							$element['empty_option'] = false;
-							$element['default']      = array_keys( $top_level_options )[0];
-						} elseif ( ! empty( $include ) ) {
+						if ( 'tax-select' === $element['type'] && ! empty( $include ) ) {
 							/**
 							 * If stated explicitely (force-...), set a comma-separated list string containing
 							 * all given taxonomy term slugs as "empty" option value. Otherwise there would be no
@@ -1509,6 +1502,10 @@ class Property_Search {
 	 * @param bool    $add_prefix Whether to add the public prefix to the query parameter names.
 	 */
 	private function add_reference_meta_queries( &$meta_query, $params, $add_prefix ) {
+		if ( apply_filters( 'inxkick_disable_reference_queries', false ) ) {
+			return;
+		}
+
 		$prefix = $add_prefix ? $this->config['public_prefix'] : '';
 
 		if (
@@ -1518,14 +1515,13 @@ class Property_Search {
 			// Properties marked as reference objects are HIDDEN by default.
 			$meta_query[] = array(
 				'key'     => '_immonex_is_reference',
-				'value'   => array( 0, 'off', '' ),
-				'compare' => 'IN',
+				'value'   => 1,
+				'compare' => '!=',
 			);
 		} elseif ( 'only' === strtolower( $params[ "{$prefix}references" ] ) ) {
 			$meta_query[] = array(
-				'key'     => '_immonex_is_reference',
-				'value'   => array( 1, 'on' ),
-				'compare' => 'IN',
+				'key'   => '_immonex_is_reference',
+				'value' => 1,
 			);
 		}
 	} // add_reference_meta_queries

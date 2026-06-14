@@ -87,9 +87,13 @@ if ( $inx_skin_description_text || ! empty( $inx_skin_details ) || ! empty( $inx
 	<?php if ( $inx_skin_description_text ) : ?>
 	<div class="inx-description-text uk-margin-bottom">
 		<?php
-			echo $utils['string']->convert_urls(
-				$utils['format']->prepare_continuous_text( $inx_skin_description_text, $inx_skin_autop )
-			);
+		if ( ! empty( $template_data['details_link_conversion'] ) ) {
+			$inx_skin_convert_email    = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_email' ), true );
+			$inx_skin_convert_video    = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_video' ), true );
+			$inx_skin_description_text = $utils['string']->convert_urls( $inx_skin_description_text, $inx_skin_convert_email, $inx_skin_convert_video );
+		}
+
+		echo $utils['format']->prepare_continuous_text( $inx_skin_description_text, $inx_skin_autop );
 		?>
 	</div>
 	<?php endif; ?>

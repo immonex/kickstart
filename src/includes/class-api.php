@@ -78,6 +78,19 @@ class API {
 			if ( ! empty( $cached_min_max ) ) {
 				return $cached_min_max;
 			}
+
+			if ( apply_filters( 'inxkick_enable_fallback_cache', false ) ) {
+				// Fallback: Check cache option.
+				$cached_min_max = get_option( $transient_key );
+				if ( ! empty( $cached_min_max ) ) {
+					$expiration_ts = array_pop( $cached_min_max );
+					if ( time() < $expiration_ts ) {
+						return $cached_min_max;
+					}
+
+					delete_option( $transient_key );
+				}
+			}
 		}
 
 		$field_prefix = '_' . $this->config['plugin_prefix'];
@@ -186,6 +199,12 @@ class API {
 
 		set_transient( $transient_key, $min_max, 86400 );
 
+		if ( apply_filters( 'inxkick_enable_fallback_cache', false ) ) {
+			// Fallback cache option.
+			$min_max_option = array_merge( $min_max, array( time() + 86400 ) );
+			update_option( $transient_key, $min_max_option, true );
+		}
+
 		return $min_max;
 	} // get_primary_price_min_max
 
@@ -233,6 +252,19 @@ class API {
 			if ( ! empty( $cached_max ) ) {
 				return $cached_max;
 			}
+
+			if ( apply_filters( 'inxkick_enable_fallback_cache', false ) ) {
+				// Fallback: Check cache option.
+				$cached_max = get_option( $transient_key );
+				if ( ! empty( $cached_max ) ) {
+					$expiration_ts = array_pop( $cached_max );
+					if ( time() < $expiration_ts ) {
+						return $cached_max[0];
+					}
+
+					delete_option( $transient_key );
+				}
+			}
 		}
 
 		$field_prefix = '_' . $this->config['plugin_prefix'];
@@ -266,6 +298,12 @@ class API {
 		$roundup_max = $this->utils['string']->smooth_round( $max );
 
 		set_transient( $transient_key, $roundup_max, 86400 );
+
+		if ( apply_filters( 'inxkick_enable_fallback_cache', false ) ) {
+			// Fallback cache option.
+			$roundup_max_option = array( $roundup_max, time() + 86400 );
+			update_option( $transient_key, $roundup_max_option, true );
+		}
 
 		return $roundup_max;
 	} // get_area_max
@@ -421,22 +459,23 @@ class API {
 			return get_posts( $args );
 		}
 
-		if ( ! $references || 'no' === $references ) {
-			$args['meta_query'] = array(
-				array(
-					'key'     => '_immonex_is_reference',
-					'value'   => array( 0, 'off', '' ),
-					'compare' => 'IN',
-				),
-			);
-		} elseif ( 'only' === $references ) {
-			$args['meta_query'] = array(
-				array(
-					'key'     => '_immonex_is_reference',
-					'value'   => array( 1, 'on' ),
-					'compare' => 'IN',
-				),
-			);
+		if ( ! apply_filters( 'inxkick_disable_reference_queries', false ) ) {
+			if ( ! $references || 'no' === $references ) {
+				$args['meta_query'] = array(
+					array(
+						'key'     => '_immonex_is_reference',
+						'value'   => 1,
+						'compare' => '!=',
+					),
+				);
+			} elseif ( 'only' === $references ) {
+				$args['meta_query'] = array(
+					array(
+						'key'   => '_immonex_is_reference',
+						'value' => 1,
+					),
+				);
+			}
 		}
 
 		return get_posts( $args );

@@ -5,12 +5,12 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+	overflow: hidden;
 	border-radius: var(--inx-signature-border-radius, 8px 0 0 0);
 	font-size: .9em;
 
 	> *:not(.inx-property-list-item__labels) {
 		flex: 0 0 auto;
-		border-radius: inherit;
 	}
 
 	> a {
@@ -19,13 +19,6 @@
 		> .inx-property-list-item__no-media {
 			color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 		}
-	}
-
-	> .inx-property-list-item__labels {
-		right: -.15rem !important;
-		padding-top: .2em;
-		font-size: .85em;
-		text-align: right;
 	}
 
 	> .inx-property-list-item__body {
@@ -42,6 +35,20 @@
 		color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 		background: var(--inx-color-bg-muted-default, rgba(220, 220, 220, 0.35));
 	}
+}
+
+.inx-property-list__item-wrap > .inx-property-list-item__labels,
+.inx-property-list-item > .inx-property-list-item__labels {
+	right: -.15rem !important;
+	padding-top: .2em;
+	font-size: .85em;
+	text-align: right;
+	z-index: 10;
+}
+
+.inx-property-list__item-wrap > .inx-property-list-item__labels {
+	font-size: .70em;
+	font-weight: 600;
 }
 
 .inx-cq-xs .inx-property-list-item {

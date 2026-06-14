@@ -83,17 +83,23 @@ Diese Attribute beziehen sich auf die komplette Shortcode-Ausgabe:
 
 ##### Galerien
 
-Die Darstellung der Galerie-Elemente (`gallery`, `video_gallery`, `floor_plans`, `epass_images`) kann mit diesen Attribute angepasst werden:
+Die Darstellung der Galerie-Elemente (`gallery`, `video_gallery`, `floor_plans`, `epass_images`) kann mit diesen Attributen angepasst werden:
 
 | Name | Beschreibung / Attributwerte |
 | ---- | ---------------------------- |
-| `animation_type` | Art der Übergangsanimation (*slide*, *fade*, *pull* , *push* – Standard bei `gallery` und *scale* – Standard bei `video_gallery`, `floor_plans` und `epass_images`  |
+| `animation_type` | Art der Übergangsanimation beim Bildwechsel (*slide*, *fade*, *pull* , *push* – Standard bei `gallery` und *scale* – Standard bei `video_gallery`, `floor_plans` und `epass_images`  |
 | `enable_caption_display` | Titel/Bezeichnungen der Bilder/Videos anzeigen, falls vorhanden: *1* (ja, Standard) oder *0* (nein) |
 | `enable_ken_burns_effect` | *Ken-Burns-Effekt* (Bildanimation) aktivieren: *1* (ja, Standard) oder *0* (nein) |
 | `ken_burns_effect_display_mode` | *Darstellungsmodus* des Ken-Burns-Effekts: Ein komplett ausgefülltes Container-Element wirkt im Regelfall optisch ansprechender, allerdings können manche Bilder hierbei nach der Animation horizontal "zugeschnitten" dargestellt werden (abhängig von den unterschiedlichen Seitenverhältnissen der Galeriebilder). Werden die Bilder immer vollständig angezeigt, können hieraus im Gegenzug leere Flächen am oberen und/oder unteren Rand des Container-Elements resultieren. |
 | | *cover* : Container-Element vollständig ausfüllen |
 | | *full_center* : Bilder vollständig anzeigen (zentriert, Standard) |
 | | *full_top* : Bilder vollständig anzeigen (oben) |
+| `lightbox_animation` | Art der **Lightbox**-Bildwechsel-Animation (*slide*, *fade* oder *scale*) |
+| `lightbox_nav` | **alternative** Lightbox-Navigation (vertikal), Standard: Vor/Zurück-Icons |
+| | *thumbnav* : Thumbnails |
+| | *dotnav* : Navigationspunkte |
+| `enable_lightbox_counter` | Bildzähler (aktuell/gesamt) am oberen Lightbox-Rand anzeigen: *1* (ja) oder *0* (nein, Standard) |
+| `enable_lightbox_caption` | Bildtitel – sofern vorhanden – in der Lightbox anzeigen: *1* (ja, Standard) oder *0* (nein) |
 
 ##### Video
 
@@ -137,6 +143,27 @@ Der Standard-Kartenmarker (*SVG*): Größe, Farbe, Linienstärke und Transparenz
 | `options` | zusätzliche Optionen für die JavaScript-Karten-Objekte als kommagetrennte Liste von Key/Value-Paaren – abhängig vom Kartentyp bzw. der Plattform dahinter (Beispiel: *maxZoom: 15, opaque: false*) |
 | | *ol_osm_\** : [OpenLayers/OpenStreetMap](https://openlayers.org/en/latest/apidoc/module-ol_source_OSM-OSM.html) |
 | | *gmap_[marker\|terrain\|hybrid]* : [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/reference/map?hl=de#MapOptions) |
+
+
+##### Footer
+
+Soll **nicht** die in den Plugin-Optionen festgelegte [globale Einstellung](/schnellstart/einrichtung?id=vorzurück-navigation) für die Immobilien-Beitragsnavigation im Fußbereich der Detailseiten übernommen werden, kann diese per Attribut `post_nav` überschrieben werden:
+
+| Name | Beschreibung / Attributwerte |
+| ---- | ---------------------------- |
+| `post_nav` | Verfügbarkeit und Umfang der **Vor/Zurück-Navigation** |
+| | *never* : keine, nur Link zur Übersicht |
+| | *selection* : bei Immobilien, die Teil einer Suchauswahl sind (Standard) |
+| | *selection_incl_first_last* : ... zusätzlich mit Links zum ersten und letzten Objekt |
+| | *always* : immer verfügbar |
+| | *always_incl_first_last* : ... zusätzlich mit Links zum ersten und letzten Objekt |
+| `icon_ratio` | Icongröße bzw. Größenverhältnis (*0.5* bis *5*, Standard: *2*) |
+| `icon_ratio_first_last` | Größenverhältnis der Icons für den Sprung zur ersten oder letzten Immobilie (*0.5* bis *5*, Standard: *1.5*) |
+| `enable_tooltips` | Link-Tooltips (Angebotstitel bzw. "Zur Übersicht") aktivieren (*yes* oder *no*, Standard: *yes*) |
+| `overview_link_text` | **Alternativer** Text für den Übersichts-Link oder *-* zum Ausblenden |
+
+![Footer mit Immobilien-Vor-Zurück-Navibation](../assets/scst-immobilien-vor-zurueck-navigation.webp)\
+Beispiel: Immobilien-Beitragsnavigation mit `selection_incl_first_last`
 
 ##### Template-Parameter
 
@@ -188,9 +215,10 @@ Ausschnitt aus der [OpenImmo2WP](https://plugins.inveris.de/shop/immonex-openimm
 | | *{currency}* : Standard-Währung, z. B. *EUR* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
 | | *{currency_symbol}* : Standard-Währungssymbol, z. B. *€* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
 | | *{area_unit}* : Standard-Flächeneinheit, im Regelfall *m²* (➞ [Plugin-Optionen](/schnellstart/einrichtung)) |
-| `type` | Typ des Elements, mit dem ein **vordefiniertes** Template für die Ausgabe ausgewählt werden kann (optional) |
+| `type` | Typ des Elements, mit dem ein **vordefiniertes** Template für die Ausgabe ausgewählt oder die Art der Formatierung vorgegeben werden kann (optional) |
 | | *price* : formatierte Preisangabe inkl. Währung, z. B. *350.000,00 €* (entspricht dem Template `{value,number,2} {currency_symbol}`) |
 | | *area* : formatierte Flächenangabe, z. B. *814,00 m²* (entspricht dem Template `{value,number,2} {area_unit}`) |
+| | *plain* : **keine** automatische Formatierung von Fließtexten (Beschreibungstexte etc.) |
 | `convert_urls` | Wert *1* zum Konvertieren enthaltener URLs in Links (optional) |
 | `if_empty` | auszugebender **Alternativtext**, falls das Element leer oder nicht verfügbar ist (optional) |
 | `post_id` | **optionale** Angabe einer alternativen Immobilien-Beitrags-ID (Standard: ID des aktuellen Objekts) |

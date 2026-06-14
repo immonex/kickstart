@@ -88,6 +88,7 @@ jQuery(document).ready(async function($) {
 
 	// Property Details
 	if (
+		document.body.classList.contains('single-inx_property') ||
 		document.getElementById('inx-property-details') ||
 		document.getElementsByClassName('inx-single-property__section').length > 0
 	) {

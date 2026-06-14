@@ -125,19 +125,19 @@ if (
 		endif;
 		?>
 	</div>
-
-	<?php if ( is_array( $template_data['labels'] ) && count( $template_data['labels'] ) > 0 ) : ?>
-	<div class="inx-property-list-item__labels uk-position-top-right">
-		<?php
-		foreach ( $template_data['labels'] as $inx_skin_label ) :
-			if ( ! is_array( $inx_skin_label ) || empty( $inx_skin_label['show'] ) ) {
-				continue;
-			}
-			?>
-		<span class="<?php echo ! empty( $inx_skin_label['css_classes'] ) ? esc_attr( implode( ' ', $inx_skin_label['css_classes'] ) ) . ' ' : ''; ?>uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span><br>
-			<?php
-		endforeach;
-		?>
-	</div>
-	<?php endif; ?>
 </div>
+
+<?php if ( is_array( $template_data['labels'] ) && count( $template_data['labels'] ) > 0 ) : ?>
+<div class="inx-property-list-item__labels uk-position-top-right">
+	<?php
+	foreach ( $template_data['labels'] as $inx_skin_label ) :
+		if ( ! is_array( $inx_skin_label ) || empty( $inx_skin_label['show'] ) ) {
+			continue;
+		}
+		?>
+	<span class="<?php echo ! empty( $inx_skin_label['css_classes'] ) ? esc_attr( implode( ' ', $inx_skin_label['css_classes'] ) ) . ' ' : ''; ?>uk-label"><?php echo esc_html( $inx_skin_label['name'] ); ?></span><br>
+		<?php
+	endforeach;
+	?>
+</div>
+<?php endif; ?>

@@ -12,6 +12,13 @@
 	background-color: var(--inx-color-bg-muted-default, rgba(220, 220, 220, 0.35));
 }
 
+.inx-single-property__post-nav-item {
+	> span.uk-icon {
+		opacity: .25;
+		color: var(--inx-color-action-element, #0A65BC)
+	}
+}
+
 div.inx-single-property__head {
 	position: relative;
 	margin-bottom: 2em;
@@ -20,7 +27,9 @@ div.inx-single-property__head {
 	hr {
 		background-color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
 		border-color: var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));
+		height: 1px;
 		margin: 1em auto;
+		border: 0;
 	}
 }
 

@@ -16,10 +16,15 @@ if ( ! empty( $template_data['field_name'] ) ) {
 	$inx_skin_description = $template_data['main_description'];
 }
 
-$inx_skin_heading_level = isset( $template_data['heading_level'] ) ? $template_data['heading_level'] : 2;
-$inx_skin_autop         = $template_data['apply_wpautop_details_page'] ? true : 'noautop';
-
 if ( $inx_skin_description ) :
+	$inx_skin_heading_level = isset( $template_data['heading_level'] ) ? $template_data['heading_level'] : 2;
+	$inx_skin_autop         = $template_data['apply_wpautop_details_page'] ? true : 'noautop';
+
+	if ( ! empty( $template_data['details_link_conversion'] ) ) {
+		$inx_skin_convert_email = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_email' ), true );
+		$inx_skin_convert_video = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_video' ), true );
+		$inx_skin_description   = $utils['string']->convert_urls( $inx_skin_description, $inx_skin_convert_email, $inx_skin_convert_video );
+	}
 	?>
 <div class="inx-single-property__section inx-single-property__section--type--description-text">
 	<?php
@@ -33,7 +38,7 @@ if ( $inx_skin_description ) :
 	?>
 
 	<div class="inx-description-text">
-		<?php echo $utils['format']->prepare_continuous_text( $utils['string']->convert_urls( $inx_skin_description ), $inx_skin_autop ); ?>
+		<?php echo $utils['format']->prepare_continuous_text( $inx_skin_description, $inx_skin_autop ); ?>
 	</div>
 </div>
 	<?php

@@ -141,6 +141,23 @@ Im [Standard-Skin](/anpassung-erweiterung/standard-skin) ist eine **auf Code-Bas
 
 Als Alternative kann auch hierfür – analog zur Übersicht – eine **Seite als Vorlage** ausgewählt werden, die [Shortcodes für die Einbindung der Immobilien-Details](einbindung#immobilien-details) enthält. Gleiches gilt für die auszuwählende Option zur Nutzung eines alternativen *Single Post Templates*, das vom Theme oder einem anderen Plugin registriert wird: `keine (Theme-Template verwenden)`
 
+##### Vor/Zurück-Navigation
+
+Mit dieser Option können Verfügbarkeit und Umfang der Navigation im Footer-Bereich der Detailansicht festgelegt werden: Mit der Standardvorgabe (*in Suchergebnissen*) ist hierüber ein direkter Wechsel zwischen Immobilien möglich (vor/zurück und optional auch erstes/letztes Angebot), die Teil einer **Auswahl** anhand von bestimmten Suchkriterien sind.
+
+Alternativ kann diese Navigationsmöglichkeit auch generell aktiviert oder deaktiviert werden, wobei der Footer in letzterem Fall nur einen Link zur Übersicht enthält.
+
+![Footer mit Immobilien-Vor-Zurück-Navibation](../assets/scst-immobilien-vor-zurueck-navigation.webp)\
+Beispiel: Immobilien-Beitragsnavigation bei Auswahl von *in Suchergebnissen (inkl. erste/letzte Immobilie)*
+
+Bei Einbindung des Footers per [Shortcode](/komponenten/detailansicht?id=footer) oder Page-Builder-Add-on kann die Vor/Zurück-Navigation auch individuell konfiguriert werden.
+
+##### Link-Konvertierung
+
+Unmittelbar vor der Ausgabe werden die in den Beschreibungstexten der Immobilien-Detailseiten enthaltenen URLs und E-Mail-Adressen normalerweise in Links konvertiert. Bei der Standardvorgabe dieser Option (*ja, inkl. E-Mail-Adressen*) werden Video-URLs (YouTube/Vimeo) hiervon ausgenommen, da über diese im Regelfall vom WordPress-Kernsysten direkt entsprechende Player eingebettet werden.
+
+Die automatische Videoplayer-Einbettung kann durch Auswahl einer alternativen Option unterbunden werden. Zudem kann die Link-Konvertierung auch komplett deaktiviert werden.
+
 ##### Verkäufer-/Innenprovision anzeigen
 
 Die Verkäufer- bzw. Innenprovision ist für Immobilien-Angebote eher weniger relevant und wird daher in den [Immobilien-Detailansichten](/komponenten/detailansicht) standardmäßig **nicht** angezeigt. Diese Option ermöglicht die Berücksichtigung bei der Ausgabe, falls nötig.
@@ -153,7 +170,13 @@ Die Optionen in diesem Tab beziehen sich – sofern vom ausgewählten [Skin](/an
 
 Sofern aktiviert (Standardvorgabe), sind die Hauptbilder der Galerien in den Immobilien-Detailseiten mit den entsprechenden Großansichten verlinkt, die im Regelfall in einer *Lightbox* angezeigt werden.
 
-!> Im Überschneidungen mit den Funktionalitäten des Themes etc. zu vermeiden, stellt das Kickstart-Plugin selbst **keine Lightbox-Funktion** bereit. Im Bedarfsfall kann diese aber mit einem Zusatzplugin wie [WP Featherlight Disabled](https://de.wordpress.org/plugins/wp-featherlight-disabled/) (→ Aktivierung via Checkbox in den Optionen der **Immobiliendetails-Templateseite**) oder [Responsive Lightbox & Gallery](https://de.wordpress.org/plugins/responsive-lightbox/) (→ mit Standard-Lightbox *SwipeBox* in den Plugin-Optionen) nachgerüstet werden.
+##### Lightbox
+
+Im Überschneidungen mit entsprechenden Funktionalitäten des Themes oder anderer Plugins zu vermeiden, ist die Kickstart-Lightbox-Funktion **standardmäßig deaktiviert**.
+
+Die Aktivierung erfolgt mit der **Auswahl einer Animationsart**.
+
+Die integrierte Lightbox-Ansicht unterstützt nur reine Bildinhalte, Videos oder virtuelle Touren etc. sind hier nicht enthalten.
 
 ##### Ken-Burns-Effekt (KBE)
 

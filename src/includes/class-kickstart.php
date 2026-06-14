@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.16.0-beta';
+	const PLUGIN_VERSION             = '1.16.0-beta7';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -52,7 +52,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 		'property_list_page_id'                        => 0,
 		'properties_per_page'                          => 0,
 		'property_details_page_id'                     => 0,
-		'apply_wpautop_details_page'                   => false,
 		'heading_base_level'                           => 1,
 		'color_label_default'                          => self::DEFAULT_COLORS['label_default'],
 		'color_marketing_type_sale'                    => self::DEFAULT_COLORS['marketing_type_sale'],
@@ -71,6 +70,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
+		'post_nav'                                     => Property::DEFAULT_POST_NAV,
+		'apply_wpautop_details_page'                   => false,
+		'details_link_conversion'                      => 'incl_email',
 		'show_seller_commission'                       => false,
 		'disable_detail_view_states'                   => array(),
 		'enable_gallery_image_links'                   => true,
@@ -78,6 +80,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 		'gallery_image_slider_bg_color'                => '#F0F0F0',
 		'gallery_image_slider_min_height'              => 240,
 		'gallery_image_max_height'                     => 800,
+		'lightbox_animation'                           => '',
+		'lightbox_nav'                                 => '',
+		'enable_lightbox_counter'                      => false,
+		'enable_lightbox_caption'                      => true,
 		'enable_ken_burns_effect'                      => true,
 		'ken_burns_effect_display_mode'                => 'full_center',
 		'ken_burns_effect_min_image_width'             => 800,
@@ -1023,15 +1029,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 					),
 				),
 				array(
-					'name'    => 'apply_wpautop_details_page',
-					'type'    => 'checkbox',
-					'label'   => __( 'Apply wpautop', 'immonex-kickstart' ),
-					'section' => 'design_structure',
-					'args'    => array(
-						'description' => __( 'Activate to add new lines and paragraphs in description texts on detail pages automatically (<em>wpautop</em>).', 'immonex-kickstart' ),
-					),
-				),
-				array(
 					'name'    => 'heading_base_level',
 					'type'    => 'select',
 					'label'   => __( 'Heading Base Level', 'immonex-kickstart' ),
@@ -1608,6 +1605,51 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 					),
 				),
 				array(
+					'name'    => 'post_nav',
+					'type'    => 'select',
+					'label'   => __( 'Previous/Next Navigation', 'immonex-kickstart' ),
+					'section' => 'property_details_general',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = documentation URL */
+							__( 'The previous/next navigation is available in the <a href="%s" target="_blank">footer section</a> by default if the property is part of a selection based on certain search criteria. Alternatively, it can be generally enabled (optionally including first/last property links) or disabled (overview link only).', 'immonex-kickstart' ),
+							'https://docs.immonex.de/kickstart/#/komponenten/detailansicht?id=footer'
+						),
+						'options'     => array(
+							'never'                     => __( 'never', 'immonex-kickstart' ),
+							'selection'                 => __( 'in search results', 'immonex-kickstart' ),
+							'selection_incl_first_last' => __( 'in search results', 'immonex-kickstart' ) . ' (' . __( 'incl. first/last property', 'immonex-kickstart' ) . ')',
+							'always'                    => __( 'always', 'immonex-kickstart' ),
+							'always_incl_first_last'    => __( 'always', 'immonex-kickstart' ) . ' (' . __( 'incl. first/last property', 'immonex-kickstart' ) . ')',
+						),
+						'doc_url'     => 'https://docs.immonex.de/kickstart/#/schnellstart/einrichtung?id=vorzur%c3%bcck-navigation',
+					),
+				),
+				array(
+					'name'    => 'apply_wpautop_details_page',
+					'type'    => 'checkbox',
+					'label'   => __( 'Apply wpautop', 'immonex-kickstart' ),
+					'section' => 'property_details_general',
+					'args'    => array(
+						'description' => __( 'Activate to add new lines and paragraphs in description texts on detail pages automatically (<em>wpautop</em>).', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'details_link_conversion',
+					'type'    => 'select',
+					'label'   => __( 'Link Conversion', 'immonex-kickstart' ),
+					'section' => 'property_details_general',
+					'args'    => array(
+						'description' => __( 'Convert URLs and/or email addresses in description texts into links.', 'immonex-kickstart' ),
+						'options'     => array(
+							''           => __( 'none', 'immonex-kickstart' ),
+							'full'       => __( 'yes, including email addresses and video URLs', 'immonex-kickstart' ),
+							'incl_email' => __( 'yes, including email adresses', 'immonex-kickstart' ),
+							'incl_video' => __( 'yes, including video URLs', 'immonex-kickstart' ),
+						),
+					),
+				),
+				array(
 					'name'    => 'show_seller_commission',
 					'type'    => 'checkbox',
 					'label'   => __( 'Show Seller/Internal Commission', 'immonex-kickstart' ),
@@ -1636,7 +1678,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 					'label'   => __( 'Image Links', 'immonex-kickstart' ),
 					'section' => 'property_details_gallery',
 					'args'    => array(
-						'description' => __( 'Enable full size/lightbox link for the currently displayed image. (The lightbox functionality must be provided by the theme or an appropriate plugin.)', 'immonex-kickstart' ),
+						'description' => __( 'Enable full size/lightbox link for the currently displayed image (see the Lightbox section below).', 'immonex-kickstart' ),
 					),
 				),
 				array(
@@ -1680,6 +1722,59 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_11_2\Base {
 						'max'          => 3200,
 						'field_suffix' => 'px',
 					),
+				),
+				array(
+					'name'    => 'title_lightbox',
+					'type'    => 'subsection_header',
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'title'       => 'Lightbox',
+						'description' => __( 'The Kickstart lightbox (images only) is <strong>disabled by default</strong> to avoid conflicts with the corresponding theme functionality. Select an animation type to enable it.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'lightbox_animation',
+					'type'    => 'select',
+					'label'   => __( 'Animation', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'options' => array(
+							''      => __( 'none (use theme lightbox)', 'immonex-kickstart' ),
+							'slide' => 'Slide',
+							'fade'  => 'Fade',
+							'scale' => 'Scale',
+						),
+					),
+				),
+				array(
+					'name'    => 'lightbox_nav',
+					'type'    => 'select',
+					'label'   => __( 'Navigation', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'options' => array(
+							''         => __( 'Previous/Next Icons', 'immonex-kickstart' ),
+							'thumbnav' => 'Thumbnails',
+							'dotnav'   => __( 'Dots', 'immonex-kickstart' ),
+							'false'    => __( 'none', 'immonex-kickstart' ),
+						),
+					),
+				),
+				array(
+					'name'    => 'enable_lightbox_counter',
+					'type'    => 'checkbox',
+					'label'   => __( 'Counter', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(
+						'description' => __( 'Display a counter with the current and the total number of images.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'enable_lightbox_caption',
+					'type'    => 'checkbox',
+					'label'   => __( 'Image Captions', 'immonex-kickstart' ),
+					'section' => 'property_details_gallery',
+					'args'    => array(),
 				),
 				array(
 					'name'    => 'title_kbe',

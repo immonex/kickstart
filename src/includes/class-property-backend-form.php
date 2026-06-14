@@ -38,6 +38,7 @@ class Property_Backend_Form {
 		// Extend attachment lists if required.
 		add_filter( 'cmb2_override__inx_gallery_images_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 		add_filter( 'cmb2_override__inx_floor_plans_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
+		add_filter( 'cmb2_override__inx_epass_images_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 		add_filter( 'cmb2_override__inx_file_attachments_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 	} // __construct
 
@@ -579,6 +580,13 @@ class Property_Backend_Form {
 				'name'       => __( 'Floor Plans', 'immonex-kickstart' ),
 				'desc'       => '',
 				'id'         => $prefix . 'floor_plans',
+				'type'       => 'file_list',
+				'query_args' => array( 'type' => 'image' ),
+			),
+			array(
+				'name'       => __( 'Energy Pass Images', 'immonex-kickstart' ),
+				'desc'       => '',
+				'id'         => $prefix . 'epass_images',
 				'type'       => 'file_list',
 				'query_args' => array( 'type' => 'image' ),
 			),

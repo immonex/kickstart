@@ -38,7 +38,15 @@ if ( $inx_skin_location_description || count( $inx_skin_details ) > 0 || $inx_sk
 
 	<?php if ( $inx_skin_location_description ) : ?>
 	<div class="inx-description-text uk-margin-bottom">
-		<?php echo $utils['string']->convert_urls( $utils['format']->prepare_continuous_text( $inx_skin_location_description ) ); ?>
+		<?php
+		if ( ! empty( $template_data['details_link_conversion'] ) ) {
+			$inx_skin_convert_email        = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_email' ), true );
+			$inx_skin_convert_video        = in_array( $template_data['details_link_conversion'], array( 'full', 'incl_video' ), true );
+			$inx_skin_location_description = $utils['string']->convert_urls( $inx_skin_location_description, $inx_skin_convert_email, $inx_skin_convert_video );
+		}
+
+		echo $utils['string']->convert_urls( $utils['format']->prepare_continuous_text( $inx_skin_location_description ) );
+		?>
 	</div>
 	<?php endif; ?>
 

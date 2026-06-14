@@ -4,7 +4,7 @@ Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
 Stable Tag: 1.15.4
-Requires PHP: 7.4
+Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,15 +124,21 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.16.0-beta =
-* Release date: 2026-04-16
+= 1.16.0-beta7 =
+* Release date: 2026-06-10
+* Added lightbox options.
+* Added URL/email link conversion options for property description texts.
 * Splitted property detail list items (key/value and value only) in the default skin.
 * Added a placeholder icon to property list entries without images (default skin).
 * Added automatic adjustment of warm rent list item labels if heating costs are included.
 * Improved handling of dynamic search state updates.
+* Fixed a search form taxonomy term selection issue.
 * Optimized search form styling.
+* Added alignment attribute to the filters/sort shortcode.
 * Added automated one-time updates of YouTube iFrames in tabs that are initially hidden.
+* Added automatic of continuos texts embedded with the [inx-property-detail-element] shortcode.
 * Added tweaks to improve the compatibility of older custom skins with the current WP version.
+* Bumped minimum PHP version to 8.1.
 * Updated dependencies.
 
 = 1.15.4 =

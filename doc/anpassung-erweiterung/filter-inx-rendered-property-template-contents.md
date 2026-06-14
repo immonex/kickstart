@@ -25,7 +25,7 @@ angepasste Inhalte für die Ausgabe
  * ergänzen, sofern ein Geschäftsguthaben in den OpenImmo-XML-Objektdaten hinterlegt ist.
  */
 
-add_action( 'inx_rendered_property_template_contents', 'mysite_extend_property_detail_contents', 10, 4 );
+add_filter( 'inx_rendered_property_template_contents', 'mysite_extend_property_detail_contents', 10, 4 );
 
 function mysite_extend_property_detail_contents( $contents, $template, $template_data, $atts ) {
 	if (

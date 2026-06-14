@@ -62,7 +62,7 @@ class API_Hooks {
 		add_filter( 'inx_get_custom_field_value_by_name', array( $this->api, 'get_custom_field_value_by_name' ), 10, 3 );
 		add_filter( 'inx_get_query_var_value', array( $this->api, 'get_query_var_value' ), 10, 3 );
 		add_filter( 'inx_get_group_items', array( $this, 'get_group_items' ), 10, 3 );
-		add_filter( 'inx_get_flex_items', array( $this, 'get_flex_items' ), 10, 5 );
+		add_filter( 'inx_get_flex_items', array( $this, 'get_flex_items' ), 10, 4 );
 		add_filter( 'inx_is_property_list_page', array( $this->api, 'is_property_list_page' ) );
 		add_filter( 'inx_is_property_details_page', array( $this->api, 'is_property_details_page' ) );
 		add_filter( 'inx_is_property_tax_archive', array( $this->api, 'is_property_tax_archive' ) );

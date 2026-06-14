@@ -19,6 +19,7 @@ Sortieroptionen für Immobilienlisten
 | `elements` | Umfang und Reihenfolge der Sortieroptionen in der Liste (optional) |
 | `exclude` | Bestimmte Sortieroptionen explizit ausschließend (optional) |
 | `default` | Key der standardmäßig ausgewählten Sortieroption (optional) |
+| `align` | Ausrichtung der Auswahlbox (*left*, *center* oder *right*, Standard: *right*) |
 | `template` | alternative/benutzerdefinierte **Template-Datei** im Skin-Ordner zum Rendern der Inhalte verwenden (Dateiname ohne .php, z. B. *property-list/foobar*) |
 
 Via `elements` und `exclude` können kommagetrennte Listen der u. g. Elementnamen (Keys) übergeben werden.

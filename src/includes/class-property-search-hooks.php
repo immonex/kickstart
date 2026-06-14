@@ -69,7 +69,6 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 	 */
 	public function adjust_property_frontend_query( $query ) {
 		global $post;
-
 		if (
 			(
 				! empty( $query->query_vars['suppress_pre_get_posts_filter'] ) &&
@@ -85,9 +84,12 @@ class Property_Search_Hooks extends Property_Component_Hooks {
 		}
 
 		if (
-			is_archive() &&
-			! is_post_type_archive( $this->config['property_post_type_name'] ) &&
-			empty( $query->query_vars['is_preview'] )
+			is_archive()
+			&& (
+				! is_post_type_archive( $this->config['property_post_type_name'] )
+				&& ( ! isset( $query->query['post_type'] ) || $query->query['post_type'] !== $query->query['post_type'] )
+			)
+			&& empty( $query->query_vars['is_preview'] )
 		) {
 			return;
 		}

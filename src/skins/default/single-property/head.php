@@ -36,34 +36,29 @@ if (
 if ( $inx_skin_head_show( 'core_data' ) ) {
 	$inx_skin_head_elements = array(
 		'property_id'   => array(
-			'title'   => __( 'Property ID', 'immonex-kickstart' ),
-			'data'    => isset( $template_data['property_id'] ) ? $template_data['property_id'] : null,
-			'icon'    => 'flaticon-numbers',
-			'classes' => '',
+			'title' => __( 'Property ID', 'immonex-kickstart' ),
+			'data'  => isset( $template_data['property_id'] ) ? $template_data['property_id'] : null,
+			'icon'  => 'flaticon-numbers',
 		),
 		'build_year'    => array(
-			'title'   => '',
-			'data'    => isset( $template_data['build_year'] ) ? $template_data['build_year'] : null,
-			'icon'    => 'flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development',
-			'classes' => '',
+			'title' => '',
+			'data'  => isset( $template_data['build_year'] ) ? $template_data['build_year'] : null,
+			'icon'  => 'flaticon-date-day-with-architect-calendar-reminder-to-house-construction-project-development',
 		),
 		'primary_area'  => array(
-			'title'   => '',
-			'data'    => isset( $template_data['primary_area'] ) ? $template_data['primary_area'] : null,
-			'icon'    => 'flaticon-size',
-			'classes' => '',
+			'title' => '',
+			'data'  => isset( $template_data['primary_area'] ) ? $template_data['primary_area'] : null,
+			'icon'  => 'flaticon-size',
 		),
 		'plot_area'     => array(
-			'title'   => '',
-			'data'    => isset( $template_data['plot_area'] ) ? $template_data['plot_area'] : null,
-			'icon'    => 'flaticon-blueprint-3',
-			'classes' => '',
+			'title' => '',
+			'data'  => isset( $template_data['plot_area'] ) ? $template_data['plot_area'] : null,
+			'icon'  => 'flaticon-blueprint-3',
 		),
 		'primary_rooms' => array(
-			'title'   => '',
-			'data'    => isset( $template_data['primary_rooms'] ) ? $template_data['primary_rooms'] : null,
-			'icon'    => $inx_skin_rooms_icon,
-			'classes' => '',
+			'title' => '',
+			'data'  => isset( $template_data['primary_rooms'] ) ? $template_data['primary_rooms'] : null,
+			'icon'  => $inx_skin_rooms_icon,
 		),
 	);
 
@@ -126,8 +121,8 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 		<?php endif; ?>
 
 		<?php if ( $inx_skin_head_show( 'price' ) ) : ?>
-		<div class="uk-width-1-1 uk-width-auto@m uk-margin-small-bottom"><!-- Primary Price -->
-			<div class="inx-single-property__head-primary-price uk-text-right">
+		<div class="inx-single-property__head-primary-price uk-width-1-1 uk-width-auto@m uk-margin-small-bottom"><!-- Primary Price -->
+			<div class="uk-text-right">
 				<?php echo $template_data['primary_price']['value_formatted']; ?>
 				<?php
 				if ( $template_data['price_time_unit']['value'] ) {
@@ -145,19 +140,18 @@ if ( $inx_skin_head_show( 'core_data' ) ) {
 	<div class="inx-single-property__head-elements uk-child-width-auto" uk-grid>
 		<?php
 		foreach ( $inx_skin_head_elements as $inx_skin_element ) :
-			if ( ! isset( $inx_skin_element['data']['value'] ) || ! $inx_skin_element['data']['value'] ) {
+			if ( empty( $inx_skin_element['data']['value'] ) ) {
 				continue;
 			}
 			?>
-		<div class="<?php echo isset( $inx_skin_element['classes'] ) ? esc_attr( $inx_skin_element['classes'] ) . ' ' : ''; ?> uk-flex uk-flex-middle">
+		<div class="inx-single-property__head-core-data-element uk-flex uk-flex-middle">
 			<?php
 			if ( is_array( $inx_skin_element['data'] ) ) {
-				// Use value related title instead of element title (possibly)
-				// stated above.
-				$inx_skin_title = isset( $inx_skin_element['data']['title'] ) ? $inx_skin_element['data']['title'] : $inx_skin_element['title'];
+				// Use value related title instead of element title (possibly) stated above.
+				$inx_skin_title = ! empty( $inx_skin_element['data']['title'] ) ? $inx_skin_element['data']['title'] : $inx_skin_element['title'];
 
 				// Use the pre-formatted value if existent.
-				$inx_skin_value = isset( $inx_skin_element['data']['value_formatted'] ) ? $inx_skin_element['data']['value_formatted'] : $inx_skin_element['data']['value'];
+				$inx_skin_value = ! empty( $inx_skin_element['data']['value_formatted'] ) ? $inx_skin_element['data']['value_formatted'] : $inx_skin_element['data']['value'];
 			} else {
 				// Data/Value given as string.
 				$inx_skin_title = $inx_skin_element['title'];

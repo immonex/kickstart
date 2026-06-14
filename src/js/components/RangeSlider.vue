@@ -163,7 +163,9 @@ export default {
 			this.initialValueChangedOnce = true
 
 			const formElementID = this.inxState.search.forms[this.formIndex].formElID
-			jQuery('#' + formElementID + ' input[name=' + this.name + ']').trigger('change')
+			this.$nextTick(() => {
+				jQuery('#' + formElementID + ' input[name=' + this.name + ']').trigger('change')
+			})
 		},
 		'inxState.search.forms': function (value) {
 			const newMarketingType = this.getCurrentMarketingType()

@@ -59,6 +59,7 @@ function initPropertyDetailInstances() {
 function cleanLocationURL() {
 	const url = new URL(location)
 	url.searchParams.delete('inx-backlink-url')
+	url.searchParams.delete('inx-list-limit-page')
 	history.replaceState(null, null, url)
 } // cleanLocationURL
 

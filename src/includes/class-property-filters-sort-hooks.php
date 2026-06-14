@@ -263,6 +263,7 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 			'elements' => '',
 			'exclude'  => '',
 			'default'  => '',
+			'align'    => 'right',
 		);
 
 		$shortcode_atts = $this->utils['string']->decode_special_chars(
@@ -271,6 +272,13 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 		$template       = ! empty( $shortcode_atts['template'] ) ?
 			$shortcode_atts['template'] :
 			Property_Filters_Sort::DEFAULT_TEMPLATE;
+
+		if (
+			! empty( $shortcode_atts['align'] )
+			&& ! in_array( $shortcode_atts['align'], array( 'left', 'center', 'right' ), true )
+		) {
+			$shortcode_atts['align'] = 'right';
+		}
 
 		$shortcode_atts = array_merge(
 			$shortcode_atts,

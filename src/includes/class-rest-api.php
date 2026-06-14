@@ -202,9 +202,23 @@ class REST_API {
 			$list_html = trim( $matches[1] );
 		}
 
+		/**
+		 * Remove REST route and normalize pagination URLs if pretty permalinks
+		 * are disabled.
+		 */
+
+		$pagination_html = preg_replace( '/(&|&\#038;)rest_route=[^"&]+/', '', $property_list->get_rendered_pagination() );
+		$pagination_html = preg_replace_callback(
+			'/%2F%3Fpaged%3D([^"]+)/',
+			function ( $matches ) {
+				return '&paged=' . html_entity_decode( $matches[1], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
+			},
+			$pagination_html
+		);
+
 		return array(
 			'list'       => $list_html,
-			'pagination' => $property_list->get_rendered_pagination(),
+			'pagination' => $pagination_html,
 		);
 	} // get_property_list_html
 

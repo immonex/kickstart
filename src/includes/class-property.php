@@ -82,6 +82,21 @@ class Property {
 	const LOCATION_MAP_MARKER_ICON = 'images/map-location-pin.png';
 
 	/**
+	 * Default inter post navigation condition/scope
+	 */
+	const DEFAULT_POST_NAV = 'selection';
+
+	/**
+	 * Default inter post navigation icon size ratios (normal, first/last)
+	 */
+	const DEFAULT_POST_NAV_ICON_SIZES = array( 2, 1.5 );
+
+	/**
+	 * Default inter post navigation tooltip enable flag
+	 */
+	const DEFAULT_ENABLE_POST_NAV_TOOLTIPS = true;
+
+	/**
 	 * Property post object
 	 *
 	 * @var \WP_Post
@@ -262,16 +277,17 @@ class Property {
 		 * Generate overview/backlink URL.
 		 */
 		$permalink_url = get_permalink( $post->ID );
-		$backlink_url  = $this->get_backlink_url( $permalink_url );
+		$backlink_url  = $this->get_backlink_url( $permalink_url, false, $atts );
 		$url           = $this->extend_url( $permalink_url, $backlink_url, $atts );
 
 		$uncached_data = array_merge(
 			$config,
 			array(
-				'instance'      => $this,
-				'permalink_url' => $permalink_url,
-				'url'           => $url,
-				'overview_url'  => $backlink_url,
+				'instance'       => $this,
+				'permalink_url'  => $permalink_url,
+				'url'            => $url,
+				'overview_url'   => $backlink_url,
+				'inter_post_nav' => $this->get_inter_post_nav( $atts, $backlink_url ),
 			),
 			$atts
 		);
@@ -286,10 +302,12 @@ class Property {
 			$cached_template_data = apply_filters( 'inx_cache_get_transient', [], $cache_key, $cache_hash );
 
 			if ( ! empty( $cached_template_data ) ) {
-				return array_merge(
+				$template_data = array_merge(
 					$cached_template_data,
 					$uncached_data
 				);
+
+				apply_filters( 'inx_property_template_data', $template_data, $atts );
 			}
 		}
 
@@ -976,10 +994,26 @@ class Property {
 	public function extend_url( $permalink_url, $backlink_url = false, $atts = array() ) {
 		$public_prefix = $this->config['public_prefix'];
 		$url           = $permalink_url;
+		$limit_page    = ! empty( $atts['list_query_atts'][ "{$public_prefix}limit-page" ] ) ?
+			$atts['list_query_atts'][ "{$public_prefix}limit-page" ] : false;
+
+		if ( ! $limit_page ) {
+			$limit_page = ! empty( $atts['list_query_atts'][ "{$public_prefix}list-limit-page" ] ) ?
+				$atts['list_query_atts'][ "{$public_prefix}list-limit-page" ] :
+				$this->utils['data']->get_query_var_value( "{$public_prefix}limit-page" );
+		}
+
+		if ( $limit_page ) {
+			$url .= ( false === strpos( $url, '?' ) ? '?' : '&' ) . "{$public_prefix}list-limit-page=" . (int) $limit_page;
+		}
 
 		if ( ! $backlink_url ) {
 			$base_url     = ! empty( $atts['base_url'] ) ? str_replace( '%_%', '', $atts['base_url'] ) : false;
 			$backlink_url = $this->get_backlink_url( $permalink_url, $base_url );
+		}
+
+		if ( isset( $atts['backlink_page_number'] ) ) {
+			$backlink_url = $this->utils['string']->update_url_pagination( $backlink_url, $atts['backlink_page_number'] );
 		}
 
 		if ( ! empty( $atts[ "{$public_prefix}ref" ] ) ) {
@@ -1336,7 +1370,7 @@ class Property {
 	 * @return bool True if links should be disabled, false otherwise.
 	 */
 	private function get_disable_link_state( $atts, $flags ) {
-		if ( ! is_a( $this->post, 'WP_Post' ) || empty( $oi_xml_source ) ) {
+		if ( ! is_a( $this->post, 'WP_Post' ) ) {
 			return false;
 		}
 
@@ -1481,18 +1515,25 @@ class Property {
 	 *
 	 * @return mixed[] Property detail elements.
 	 */
-	private function get_detail_page_elements( $element_atts = array(), $flags = array() ) {
+	public function get_detail_page_elements( $element_atts = array(), $flags = array() ) {
 		$elements = array(
 			'head'                 => array(
 				'template' => 'head',
 			),
 			'gallery'              => array(
-				'template'                => 'gallery',
-				'animation_type'          => 'push',
-				'enable_caption_display'  => true,
-				'enable_video'            => true,
-				'enable_virtual_tour'     => true,
-				'enable_ken_burns_effect' => $this->config['enable_ken_burns_effect'],
+				'template'                 => 'gallery',
+				'animation_type'           => 'push',
+				'animation_type_valid'     => array( 'push', 'pull', 'slide', 'fade', 'scale' ),
+				'enable_caption_display'   => true,
+				'enable_video'             => true,
+				'enable_virtual_tour'      => true,
+				'lightbox_animation'       => $this->config['lightbox_animation'],
+				'lightbox_animation_valid' => array( 'slide', 'fade', 'scale' ),
+				'lightbox_nav'             => $this->config['lightbox_nav'],
+				'lightbox_nav_valid'       => array( 'thumbnav', 'dotnav', 'false' ),
+				'enable_lightbox_counter'  => $this->config['enable_lightbox_counter'],
+				'enable_lightbox_caption'  => $this->config['enable_lightbox_caption'],
+				'enable_ken_burns_effect'  => $this->config['enable_ken_burns_effect'],
 			),
 			'main_description'     => array(
 				'template' => 'description-text',
@@ -1616,6 +1657,16 @@ class Property {
 			 */
 			foreach ( $element_atts as $element_key => $atts ) {
 				if ( isset( $elements[ $element_key ] ) && ! empty( $atts ) ) {
+					foreach ( $atts as $att_key => $att_value ) {
+						if (
+							! empty( $elements[ $element_key ][ $att_key . '_valid' ] )
+							&& ! in_array( $att_value, $elements[ $element_key ][ $att_key . '_valid' ], true )
+						) {
+							// Filter out invalid attribute value based on the "_valid" attribute of the element.
+							unset( $atts[ $att_key ] );
+						}
+					}
+
 					$elements[ $element_key ] = array_merge( $elements[ $element_key ], $atts );
 				}
 			}
@@ -2018,6 +2069,7 @@ class Property {
 				'links'                => array(),
 				'overview_url'         => '#',
 				'details'              => $contact_details,
+				'inter_post_nav'       => $this->get_inter_post_nav( $atts, '#' ),
 			),
 			$atts
 		);
@@ -2026,7 +2078,7 @@ class Property {
 	/**
 	 * Add Ken Burns Effect related configuration to the given config array.
 	 *
-	 * @since 1.19.9-beta
+	 * @since 1.9.19-beta
 	 *
 	 * @param mixed[] $config Config array to extend.
 	 * @param mixed[] $atts   Rendering attributes.
@@ -2047,20 +2099,233 @@ class Property {
 	} // add_kbe_config
 
 	/**
+	 * Generate an array of post IDs, URLs and link titles for navigating between
+	 * property posts of a selection via the respective detail pages.
+	 *
+	 * @since 1.16.0
+	 *
+	 * @param mixed[] $atts         Detail element rendering attributes.
+	 * @param string  $backlink_url The current backlink URL.
+	 *
+	 * @return mixed[] Post ID, URL and property title for first, previous,
+	 *                 next and last links (if enabled and determinable)
+	 *                 + has_prev_next/has_first_last flags, current entry
+	 *                 and total number.
+	 */
+	private function get_inter_post_nav( $atts, $backlink_url ) {
+		$post          = $this->post;
+		$public_prefix = $this->config['public_prefix'];
+		$post_nav      = empty( $atts['is_preview'] ) ?
+			array(
+				'prev_id'               => 0,
+				'prev_url'              => '',
+				'prev_title'            => '',
+				'next_id'               => 0,
+				'next_url'              => '',
+				'next_title'            => '',
+				'first_id'              => 0,
+				'first_url'             => '',
+				'first_title'           => '',
+				'last_id'               => 0,
+				'last_url'              => '',
+				'last_title'            => '',
+				'has_prev_next'         => false,
+				'has_first_last'        => false,
+				'current_no'            => 0,
+				'total'                 => 0,
+				'icon_ratio'            => self::DEFAULT_POST_NAV_ICON_SIZES[0],
+				'icon_ratio_first_last' => self::DEFAULT_POST_NAV_ICON_SIZES[1],
+				'enable_tooltips'       => self::DEFAULT_ENABLE_POST_NAV_TOOLTIPS,
+				'overview_link_text'    => __( 'Back to overview', 'immonex-kickstart' ),
+			) :
+			array(
+				'prev_id'               => 100,
+				'prev_url'              => '#',
+				'prev_title'            => _x( 'Great House in a quiet, secluded Location', 'sample data', 'immonex-kickstart' ),
+				'next_id'               => 110,
+				'next_url'              => '#',
+				'next_title'            => _x( 'Stylish Downtown Flat', 'sample data', 'immonex-kickstart' ),
+				'first_id'              => 50,
+				'first_url'             => '#',
+				'first_title'           => _x( 'Spacious Single-Family Home on the Outskirts of the City', 'sample data', 'immonex-kickstart' ),
+				'last_id'               => 150,
+				'last_url'              => '#',
+				'last_title'            => _x( 'Fully Serviced Building Plot in a Prime Location!', 'sample data', 'immonex-kickstart' ),
+				'has_prev_next'         => false,
+				'has_first_last'        => false,
+				'current_no'            => 105,
+				'total'                 => 50,
+				'icon_ratio'            => self::DEFAULT_POST_NAV_ICON_SIZES[0],
+				'icon_ratio_first_last' => self::DEFAULT_POST_NAV_ICON_SIZES[1],
+				'enable_tooltips'       => self::DEFAULT_ENABLE_POST_NAV_TOOLTIPS,
+				'overview_link_text'    => __( 'Back to overview', 'immonex-kickstart' ),
+			);
+
+		$valid = array(
+			'never'                     => array( '', '' ),
+			'selection'                 => array( 'selection', 'prev_next' ),
+			'selection_incl_first_last' => array( 'selection', 'full' ),
+			'always'                    => array( 'always', 'prev_next' ),
+			'always_incl_first_last'    => array( 'always', 'full' ),
+		);
+
+		list( $post_nav_display, $post_nav_scope ) = ! empty( $atts['post_nav'] ) && isset( $valid[ $atts['post_nav'] ] ) ?
+			$valid[ $atts['post_nav'] ] : $valid[ $this->config['post_nav'] ];
+
+		foreach ( array( 'icon_ratio', 'icon_ratio_first_last' ) as $key ) {
+			if ( ! empty( $atts[ $key ] ) && (float) $atts[ $key ] >= 0.5 && (float) $atts[ $key ] <= 5 ) {
+				$post_nav[ $key ] = (float) $atts[ $key ];
+			}
+		}
+
+		if ( isset( $atts['enable_tooltips'] ) ) {
+			$post_nav['enable_tooltips'] = in_array( (string) $atts['enable_tooltips'], array( '1', 'true', 'yes' ), true );
+		}
+
+		if ( ! empty( $atts['overview_link_text'] ) ) {
+			if ( '-' === $atts['overview_link_text'] ) {
+				$post_nav['overview_link_text'] = '';
+			} else {
+				$post_nav['overview_link_text'] = sanitize_text_field( $atts['overview_link_text'] );
+
+				if ( empty( $post_nav['overview_link_text'] ) ) {
+					$post_nav['overview_link_text'] = __( 'Back to overview', 'immonex-kickstart' );
+				}
+			}
+		}
+
+		if ( ! empty( $atts['is_preview'] ) || ! empty( $atts['is_real_preview'] ) ) {
+			if ( 'selection' === $post_nav_display ) {
+				// Switch to "always" in preview mode.
+				$post_nav_display = 'always';
+			}
+		} elseif (
+			! $post_nav_display
+			|| ! $backlink_url
+			|| (
+				! is_singular( $this->config['property_post_type_name'] )
+				&& get_the_ID() !== (int) $this->config['property_details_page_id']
+			)
+		) {
+			return $post_nav;
+		}
+
+		if ( empty( $atts['is_preview'] ) ) {
+			$bl_parts = wp_parse_url( $backlink_url );
+			$bl_args  = ! empty( $bl_parts['query'] ) ? wp_parse_args( $bl_parts['query'] ) : array();
+
+			unset( $bl_args['page_id'] );
+
+			$current_page        = $this->utils['string']->get_page_num_from_url( $backlink_url, 1 );
+			$properties_per_page = (int) $this->utils['data']->get_query_var_value( "{$public_prefix}list-limit-page" );
+
+			if ( ! $properties_per_page ) {
+				$properties_per_page = (int) $this->utils['data']->get_query_var_value( 'posts_per_page' );
+			}
+
+			if ( ! $properties_per_page ) {
+				$properties_per_page = (int) $this->config['properties_per_page'];
+			}
+
+			if ( ! $properties_per_page ) {
+				$properties_per_page = (int) get_option( 'posts_per_page', 10 );
+			}
+
+			if ( ! isset( $atts['list_query_atts'] ) ) {
+				$atts['list_query_atts']                                      = array();
+				$atts['list_query_atts'][ "{$public_prefix}list-limit-page" ] = $properties_per_page;
+			}
+
+			$post_nav_ids = array(
+				'prev'  => 0,
+				'next'  => 0,
+				'first' => 0,
+				'last'  => 0,
+			);
+
+			$post_nav_page_numbers = array(
+				'prev'  => 0,
+				'next'  => 0,
+				'first' => 0,
+				'last'  => 0,
+			);
+
+			$args = array_merge(
+				$bl_args,
+				array(
+					'numberposts' => -1,
+					'fields'      => 'ids',
+				)
+			);
+
+			$properties = apply_filters( 'inx_get_properties', array(), $args );
+
+			if ( ! empty( $properties ) && $properties_per_page ) {
+				$current_property_index = array_search( $post->ID, $properties, true );
+
+				if ( false !== $current_property_index ) {
+					$post_nav_ids['prev'] = $current_property_index > 0 ? $properties[ $current_property_index - 1 ] : 0;
+					$post_nav_ids['next'] = $current_property_index < count( $properties ) - 1 ? $properties[ $current_property_index + 1 ] : 0;
+
+					$post_nav_page_numbers['prev'] = $post_nav_ids['prev'] ? ceil( ( $current_property_index ) / $properties_per_page ) : 0;
+					$post_nav_page_numbers['next'] = $post_nav_ids['next'] ? ceil( ( $current_property_index + 2 ) / $properties_per_page ) : 0;
+
+					$post_nav_ids['first'] = $post->ID !== $properties[0] ? $properties[0] : 0;
+					$post_nav_ids['last']  = $post->ID !== $properties[ count( $properties ) - 1 ] ? $properties[ count( $properties ) - 1 ] : 0;
+
+					$post_nav_page_numbers['last'] = $post_nav_ids['last'] ? ceil( ( count( $properties ) - 1 ) / $properties_per_page ) : 0;
+
+					foreach ( $post_nav_ids as $key => $post_id ) {
+						$atts['backlink_page_number'] = $post_nav_page_numbers[ $key ];
+
+						$post_nav[ "{$key}_id" ]  = $post_id;
+						$post_nav[ "{$key}_url" ] = $post_id ? $this->extend_url( get_permalink( $post_id ), $backlink_url, $atts ) : '';
+
+						// Replace colon in title to avoid interference with tooltip separator.
+						$post_nav[ "{$key}_title" ] = $post_id ? str_replace( ':', ' – ', get_the_title( $post_id ) ) : '';
+					}
+				}
+			}
+
+			$post_nav['current_no'] = isset( $current_property_index ) ? $current_property_index + 1 : 0;
+			$post_nav['total']      = count( $properties );
+		}
+
+		if (
+			! $post_nav_display
+			|| (
+				'selection' === $post_nav_display
+				&& empty( $atts['is_preview'] )
+				&& ! $this->utils['array']->array_has( "{$public_prefix}search-*", $bl_args )
+			)
+		) {
+			$post_nav['has_prev_next']  = false;
+			$post_nav['has_first_last'] = false;
+		} else {
+			$post_nav['has_prev_next']  = $post_nav['prev_id'] || $post_nav['next_id'];
+			$post_nav['has_first_last'] = 'full' === $post_nav_scope && ( $post_nav['first_id'] || $post_nav['last_id'] );
+		}
+
+		return $post_nav;
+	} // get_inter_post_nav
+
+	/**
 	 * Retrieve and return special property flags (custom fields).
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param string      $permalink_url The current permalink URL.
 	 * @param bool|string $base_url      Base URL (optional).
+	 * @param mixed[]     $atts          Rendering attributes (optional).
 	 *
 	 * @return string Backlink URL.
 	 */
-	private function get_backlink_url( $permalink_url, $base_url = false ) {
+	private function get_backlink_url( $permalink_url, $base_url = false, $atts = array() ) {
 		global $wp;
 
-		$public_prefix = $this->config['public_prefix'];
-		$backlink_url  = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url", false, false, false ) );
+		$public_prefix         = $this->config['public_prefix'];
+		$backlink_url          = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url", false, false, false ) );
+		$exclude_backlink_vars = array( "{$public_prefix}list-limit-page" );
 
 		if ( $backlink_url ) {
 			$backlink_url = rawurldecode( $backlink_url );
@@ -2118,13 +2383,14 @@ class Property {
 			}
 
 			// Exclude limit query variables from backlink in this case.
-			$exclude_backlink_vars = array(
-				"{$public_prefix}limit",
-				"{$public_prefix}limit-page",
-				$this->config['property_post_type_name'],
+			$exclude_backlink_vars = array_merge(
+				$exclude_backlink_vars,
+				array(
+					"{$public_prefix}limit",
+					"{$public_prefix}limit-page",
+					$this->config['property_post_type_name'],
+				)
 			);
-		} else {
-			$exclude_backlink_vars = array();
 		}
 
 		$auto_applied_rendering_atts = apply_filters( 'inx_auto_applied_rendering_atts', array(), $public_prefix );
@@ -2141,8 +2407,8 @@ class Property {
 			$query_vars        = array();
 			$existing_get_vars = array();
 
-			// phpcs:disable
-			if ( $details_page_id && isset( $_GET['page_id'] ) ) {
+			// phpcs:ignore
+			if ( $details_page_id && isset( $_GET['page_id'] ) && (int) $_GET['page_id'] === (int) $details_page_id ) {
 				$exclude_backlink_vars[] = 'page_id';
 			}
 
@@ -2172,8 +2438,9 @@ class Property {
 			}
 
 			if ( count( $query_vars ) > 0 ) {
+				// phpcs:ignore
 				// Strip index from multi-value query vars (e.g. var[0]=foo&var[1]=bar -> var[]=foo&var[]=bar).
-				$query_params = preg_replace( '/%5B[0-9]+%5D/', '%5B%5D', http_build_query( $query_vars ) );
+				$query_params = preg_replace( '/%5B[0-9]+%5D=/', '%5B%5D=', http_build_query( $query_vars ) );
 
 				$backlink_url = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $query_params;
 			}

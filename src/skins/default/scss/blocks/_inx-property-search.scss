@@ -1,8 +1,12 @@
 @use "../_config";
 
 .inx-property-search {
-	// UIkit
+	hr {
+		height: 1px;
+		border: 0;
+	}
 
+	// UIkit
 	.uk-search .uk-search-icon:hover {
 		color: var(--inx-color-action-element, #0A65BC);
 	}
@@ -12,6 +16,7 @@
 	display: grid;
 	grid-template-columns: 100%;
 	grid-gap: 1em;
+	align-items: center;
 }
 
 .inx-property-search__element {

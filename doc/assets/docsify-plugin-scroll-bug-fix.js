@@ -2,7 +2,7 @@
 	function create() {
 		return function (hook, vm) {
 			const threshold = 30;
-			const delay = 50;
+			const delay = 500;
 			let identical = 0;
 			let lastDistanceToTop = 0;
 
