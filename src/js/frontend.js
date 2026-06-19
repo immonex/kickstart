@@ -98,6 +98,11 @@ jQuery(document).ready(async function($) {
 		window.dispatchEvent(new Event('inxkick/property_details/initialized'))
 	}
 
+	// Form Processing
+	if (document.getElementsByClassName('inx-withdrawal-form').length > 0) {
+		import(/* webpackChunkName: "withdrawal_form" */ './withdrawal_form').then((module) => { module.init() })
+	}
+
 	// Container Queries (sort of...)
 	if (document.getElementsByClassName('inx-cq').length > 0) {
 		const cq = await import(/* webpackChunkName: "container_queries" */ './container-queries')

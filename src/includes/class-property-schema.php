@@ -172,6 +172,11 @@ class Property_Schema extends Base_Schema {
 		$offers_scope   = 'extended' === $scope ? 'reference' : 'full';
 		$offers_element = $this->get_offers_element( $offers_scope );
 
+		if ( empty( $offers_element ) && in_array( 'Product', $entity['@type'], true ) ) {
+			unset( $entity['@type'][ array_search( 'Product', $entity['@type'], true ) ] );
+			$entity['@type'] = array_values( $entity['@type'] );
+		}
+
 		if ( $is_accomodation ) {
 			$bedrooms    = ! empty( $property_data['bedrooms']['value'] ) ? (int) $property_data['bedrooms']['value'] : 0;
 			$bathrooms   = ! empty( $property_data['bathrooms']['value'] ) ? (int) $property_data['bathrooms']['value'] : 0;

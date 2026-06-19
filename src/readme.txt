@@ -3,7 +3,7 @@ Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
 Requires at least: 5.5
 Tested up to: 7.0
-Stable Tag: 1.15.4
+Stable Tag: 1.17.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,7 @@ immonex OpenImmo2WP [2], initially released in 2015, is a tried and tested solut
 * Embedding of 360° virtual tours from common providers
 * Extendable sort options
 * Shortcodes for embedding real estate components (suitable for use in page builder layout elements)
+* Contract withdrawal form and custom post type
 * Simple but powerful templating system ("Skins")
 * Clean and responsive default skin
 * Property grouping (project taxonomy)
@@ -92,6 +93,7 @@ List Pagination: `[inx-pagination]`
 Property Location Overview Map: `[inx-property-map]`
 Property Detail View: `[inx-property-details]`
 Property Main Image: `[inx-property-featured-image]`
+Withdrawal Form: `[inx-withdrawal-form]`
 
 (See documentation mentioned below for attributes and further details.)
 
@@ -124,8 +126,9 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 == Changelog ==
 
-= 1.16.0-beta7 =
-* Release date: 2026-06-10
+= 1.17.0 =
+* Release date: 2026-06-18
+* Added a withdrawal frontend form and related custom post type.
 * Added lightbox options.
 * Added URL/email link conversion options for property description texts.
 * Splitted property detail list items (key/value and value only) in the default skin.
@@ -133,6 +136,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Added automatic adjustment of warm rent list item labels if heating costs are included.
 * Improved handling of dynamic search state updates.
 * Fixed a search form taxonomy term selection issue.
+* Fixed a minor schema.org markup issue.
 * Optimized search form styling.
 * Added alignment attribute to the filters/sort shortcode.
 * Added automated one-time updates of YouTube iFrames in tabs that are initially hidden.

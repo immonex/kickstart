@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.16.0-beta7';
+	const PLUGIN_VERSION             = '1.17.0-beta';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -49,10 +49,22 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 	protected $plugin_options = array(
 		'plugin_version'                               => self::PLUGIN_VERSION,
 		'skin'                                         => 'default',
-		'property_list_page_id'                        => 0,
-		'properties_per_page'                          => 0,
-		'property_details_page_id'                     => 0,
 		'heading_base_level'                           => 1,
+		'company_name'                                 => '',
+		'company_address'                              => '',
+		'area_unit'                                    => 'm²',
+		'currency'                                     => 'EUR',
+		'currency_symbol'                              => '€',
+		'default_mail_admin_recipients'                => '',
+		'default_mail_sender_name'                     => '',
+		'default_mail_sender_email'                    => '',
+		'default_mail_as_html'                         => true,
+		'default_mail_logo_id'                         => '',
+		'default_mail_logo_position'                   => 'top_center',
+		'default_mail_signature'                       => '{{ default_signature }}',
+		'spam_prot_enable_honeypot'                    => true,
+		'spam_prot_time_threshold'                     => Withdrawal_Form::TS_CHECK_THRESHOLD,
+		'spam_prot_enable_turnstile'                   => false,
 		'color_label_default'                          => self::DEFAULT_COLORS['label_default'],
 		'color_marketing_type_sale'                    => self::DEFAULT_COLORS['marketing_type_sale'],
 		'color_marketing_type_rent'                    => self::DEFAULT_COLORS['marketing_type_rent'],
@@ -64,12 +76,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 		'color_gradients'                              => true,
 		'color_bg_muted_default'                       => self::DEFAULT_COLORS['bg_muted_default'],
 		'muted_color_opacity_pct'                      => 45,
-		'area_unit'                                    => 'm²',
-		'currency'                                     => 'EUR',
-		'currency_symbol'                              => '€',
 		'show_reference_prices'                        => false,
 		'reference_price_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'enable_contact_section_for_references'        => false,
+		'property_details_page_id'                     => 0,
 		'post_nav'                                     => Property::DEFAULT_POST_NAV,
 		'apply_wpautop_details_page'                   => false,
 		'details_link_conversion'                      => 'incl_email',
@@ -106,6 +116,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 		'maps_require_consent'                         => true,
 		'videos_require_consent'                       => true,
 		'virtual_tours_require_consent'                => true,
+		'property_list_page_id'                        => 0,
+		'properties_per_page'                          => 0,
 		'property_list_map_type'                       => 'osm_german',
 		'property_list_map_lat'                        => 49.8587840,
 		'property_list_map_lng'                        => 6.7854410,
@@ -124,6 +136,15 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 		'performance_enable_property_cache'            => true,
 		'performance_enable_map_marker_cache'          => true,
 		'performance_max_db_cache_size'                => 32,
+		'enable_withdrawal_processing'                 => false,
+		'withdrawal_form_introtext'                    => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_form_privacy_consent_text'         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_form_submission_conf_msg'          => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_form_confirmation_page'            => '',
+		'withdrawal_admin_notif_subject'               => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_admin_notif_template'              => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_rcpt_conf_subject'                 => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'withdrawal_rcpt_conf_template'                => 'INSERT_TRANSLATED_DEFAULT_VALUE',
 		'deferred_tasks'                               => array(),
 	);
 
@@ -362,6 +383,44 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 						);
 						$option_string_translated = true;
 						break;
+					case 'withdrawal_form_introtext':
+						$this->plugin_options[ $option_name ] = __( 'I/We hereby withdraw the contract concluded by me/us regarding the reference number or type of commissioned services specified below.', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_form_submission_conf_msg':
+						$this->plugin_options[ $option_name ] = __( 'Your withdrawal has been submitted. A confirmation of receipt has been sent to the provided email address. Please check your inbox!', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_form_privacy_consent_text':
+						$this->plugin_options[ $option_name ] = __( 'By submitting I consent to my data being processed and stored in accordance with the [privacy_policy] in order to process my withdrawal. This consent can be revoked at any time.', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_admin_notif_subject':
+						$this->plugin_options[ $option_name ] = __( 'New withdrawal', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_admin_notif_template':
+						$this->plugin_options[ $option_name ] = wp_sprintf(
+							'%1$s' . PHP_EOL . PHP_EOL . '%2$s' . PHP_EOL . PHP_EOL . '{{ form_data }}',
+							__( 'A new contract withdrawal by {{ name }} has been received:', 'immonex-kickstart' ),
+							__( 'I/We hereby withdraw the contract concluded by me/us regarding the reference number or type of commissioned services specified below.', 'immonex-kickstart' )
+						);
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_rcpt_conf_subject':
+						$this->plugin_options[ $option_name ] = '[{{ site_title_limited }}] ' . __( 'Withdrawal received', 'immonex-kickstart' );
+						$option_string_translated             = true;
+						break;
+					case 'withdrawal_rcpt_conf_template':
+						$this->plugin_options[ $option_name ] = wp_sprintf(
+							'%1$s' . PHP_EOL . PHP_EOL . '%2$s' . PHP_EOL . PHP_EOL . '{{ form_data }}' . PHP_EOL . PHP_EOL . '%3$s' . PHP_EOL . PHP_EOL . '%4$s' . PHP_EOL . PHP_EOL . '{{ company_name }}',
+							__( 'Good day!', 'immonex-kickstart' ),
+							__( 'We hereby acknowledge receipt of your contract withdrawal request containing the details listed below.', 'immonex-kickstart' ),
+							__( 'In the next step, we will check all the information and then send you a separate confirmation of the actual cancellation or, if necessary, some follow-up questions beforehand.', 'immonex-kickstart' ),
+							__( 'Kind regards,', 'immonex-kickstart' )
+						);
+						$option_string_translated             = true;
+						break;
 				}
 			}
 		}
@@ -550,6 +609,16 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 		new REST_API( $component_config, $this->utils );
 		new API_Hooks( $this->api, $component_config, $this->utils );
 
+		if ( $this->plugin_options['enable_withdrawal_processing'] ) {
+			new Withdrawal_Backend_Form( $component_config, $this );
+
+			$withdrawal_form_hooks = new Withdrawal_Form_Hooks( $component_config, $this->utils );
+			$withdrawal_form_hooks->init();
+		} else {
+			add_shortcode( 'inx-withdrawal-form', '__return_empty_string' );
+			add_shortcode( 'inx-withdrawal-form-confirmation-message', '__return_empty_string' );
+		}
+
 		if ( $this->plugin_options['seo_schema_org'] ) {
 			new Structured_Data_Hooks( $component_config, $this->utils );
 		}
@@ -585,6 +654,14 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 				}
 			}
 		}
+
+		// Internal filter.
+		add_filter(
+			'inxkick_get_utils',
+			function ( $utils ) { // phpcs:ignore
+				return $this->utils;
+			}
+		);
 
 		$this->perform_deferred_tasks();
 	} // init_plugin
@@ -679,6 +756,8 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 		parent::frontend_scripts_and_styles();
 
 		$search_query_vars = $this->property_search->get_search_query_vars();
+		$ts_sitekey        = ! empty( $this->plugin_options['turnstile_sitekey'] ) ? $this->plugin_options['turnstile_sitekey'] : false;
+		$ts_secret_key     = ! empty( $this->plugin_options['turnstile_secret_key'] ) ? $this->plugin_options['turnstile_secret_key'] : false;
 
 		$inx_state = apply_filters(
 			'inx_js_state_vars',
@@ -701,6 +780,24 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 						'form_debounce_delay' => (int) apply_filters( 'inx_search_form_debounce_delay', Property_Search::DEFAULT_SEARCH_FORM_DEBOUNCE_DELAY ),
 					),
 					$search_query_vars
+				),
+				'withdrawal'    => array(
+					'enable_ts'               => $this->plugin_options['spam_prot_enable_turnstile']
+						&& $ts_sitekey
+						&& $ts_secret_key,
+					'ts_sitekey'              => $ts_sitekey,
+					'ts_error_msg_refresh'    => __( 'Please refresh the page and try again.', 'immonex-kickstart' ),
+					'ts_error_msg_config'     => wp_sprintf(
+						/* translators: %s = admin email address */
+						__( 'Configuration error, please contact the <a href="mailto:%s">website admin</a>.', 'immonex-kickstart' ),
+						get_bloginfo( 'admin_email' )
+					),
+					'ts_error_msg_security'   => __( 'Security check failed. Please try refreshing or using a different browser.', 'immonex-kickstart' ),
+					'ts_error_msg_unexpected' => wp_sprintf(
+						/* translators: %s = admin email address */
+						__( 'An unexpected error occurred, please contact the <a href="mailto:%s">website admin</a>.', 'immonex-kickstart' ),
+						get_bloginfo( 'admin_email' )
+					),
 				),
 				'vue_instances' => (object) array(),
 			),
@@ -793,6 +890,83 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 	 */
 	public function register_plugin_settings() {
 		parent::register_plugin_settings();
+		$templating_info = wp_sprintf(
+			/* translators: %1$s, %2$s and %3$s are placeholders for URLs. */
+			__(
+				'All mail <strong>subject, body and signature contents</strong> can be implemented based on
+the flexible <a href="%1$s" target="_blank">template engine Twig 3</a>. The following variables can be used
+in the related input fields:<br><br>
+
+<strong>General</strong>
+
+<dl>
+	<dt><code>{{ site_title }}</code></dt>
+	<dd>Website title</dd>
+
+	<dt><code>{{ site_title_limited }}</code></dt>
+	<dd>Website title (max. 20 characters)</dd>
+
+	<dt><code>{{ site_url }}</code></dt>
+	<dd>Website URL (home page)</dd>
+
+	<dt><code>{{ form_data }}</code></dt>
+	<dd><strong>All</strong> user-submitted form data excluding empty fields (see below) combined</dd>
+
+	<dt><code>{{ company_name }}</code></dt>
+	<dd>Company name provided on the <a href="%2$s">Basic Settings tab</a></dd>
+
+	<dt><code>{{ company_address }}</code></dt>
+	<dd>Company address provided on the <a href="%2$s">Basic Settings tab</a></dd>
+</dl>',
+				'immonex-kickstart'
+			),
+			'https://twig.symfony.com/doc/3.x/templates.html',
+			admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=1' ),
+		);
+
+		$ext_templating_info = __(
+			'<strong>Withdrawal Form Data</strong>
+
+<dl>
+	<dt><code>{{ salutation }}</code></dt>
+	<dd>Salutation (if selected): <code>Ms.</code> or <code>Mr.</code></dd>
+
+	<dt><code>{{ first_name }}</code></dt>
+	<dd>First Name</dd>
+
+	<dt><code>{{ last_name }}</code></dt>
+	<dd>Last Name</dd>
+
+	<dt><code>{{ name }}</code></dt>
+	<dd>Full Name</dd>
+
+	<dt><code>{{ street }}</code></dt>
+	<dd>Street</dd>
+
+	<dt><code>{{ postal_code }}</code></dt>
+	<dd>Postal Code</dd>
+
+	<dt><code>{{ city }}</code></dt>
+	<dd>City</dd>
+
+	<dt><code>{{ email }}</code></dt>
+	<dd>E-mail address</dd>
+
+	<dt><code>{{ phone }}</code></dt>
+	<dd>Phone number</dd>
+
+	<dt><code>{{ reference_number }}</code></dt>
+	<dd>Reference Number (Customer, Contract or Property)</dd>
+
+	<dt><code>{{ contract_date }}</code></dt>
+	<dd>Date of Contract Conclusion</dd>
+
+	<dt><code>{{ message }}</code></dt>
+	<dd>Additional Details/Message</dd>
+</dl>
+',
+			'immonex-kickstart'
+		);
 
 		// Tabs (extendable by filter function).
 		$tabs = apply_filters(
@@ -822,6 +996,13 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 				),
 				'tab_property_search'  => array(
 					'title'      => __( 'Search', 'immonex-kickstart' ),
+					'content'    => '',
+					'attributes' => array(
+						'tabbed_sections' => true,
+					),
+				),
+				'tab_withdrawal'       => array(
+					'title'      => __( 'Withdrawal', 'immonex-kickstart' ),
 					'content'    => '',
 					'attributes' => array(
 						'tabbed_sections' => true,
@@ -881,12 +1062,21 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 			// phpcs:ignore
 			$this->plugin_slug . '_option_sections',
 			array(
-				'design_structure'         => array(
-					'title'       => __( 'Design & Structure', 'immonex-kickstart' ),
-					'description' => '',
+				'basic'                        => array(
+					'title' => __( 'Basic Settings', 'immonex-kickstart' ),
+					'tab'   => 'tab_general',
+				),
+				'email'                        => array(
+					'title'       => __( 'E-Mail', 'immonex-kickstart' ),
+					'description' => '<p>' . wp_sprintf(
+							/* translators: %s = Withdrawal tab URL */
+						__( 'The following <strong>default</strong> settings apply to form emails directly sent by the plugin (e.g. <a href="%s">withdrawal</a> receipt confirmations and admin notifications).', 'immonex-kickstart' ),
+						admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_withdrawal' )
+					) .
+						'<p>' . __( 'Other immonex plugins – including Kickstart add-ons – may also include settings of this kind that apply to their related forms only.', 'immonex-kickstart' ) . '</p>',
 					'tab'         => 'tab_general',
 				),
-				'colors'                   => array(
+				'colors'                       => array(
 					'title'       => __( 'Colors', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: $1$s = colors (incl. link), %2$s = Tab URL */
@@ -896,12 +1086,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_general',
 				),
-				'units'                    => array(
-					'title'       => __( 'Measuring Units & Currency', 'immonex-kickstart' ),
-					'description' => '',
-					'tab'         => 'tab_general',
-				),
-				'references'               => array(
+				'references'                   => array(
 					'title'       => __( 'Reference Properties', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %s = Tab URL */
@@ -910,32 +1095,31 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_general',
 				),
-				'user_consent'             => array(
+				'user_consent'                 => array(
 					'title'       => __( 'User Consent', 'immonex-kickstart' ),
 					'description' => __( 'If third-party services are used in the website frontend that connect to remote servers (iFrame embedding or API requests), user consent can be obtained in advance. The following options can be disabled if another plugin is used for this purpose.', 'immonex-kickstart' ),
 					'tab'         => 'tab_general',
 				),
-				'seo_geo_sharing'          => array(
+				'seo_geo_sharing'              => array(
 					'title'       => 'SEO/GEO/' . __( 'Sharing', 'immonex-kickstart' ),
 					'description' => '<p>' . __( '<em>Structured data</em> are provided in a consistent, predefined format to support search engines and AI systems in processing, analyzing and storing real estate property and agency information.', 'immonex-kickstart' ) . '</p><p>' .
 						__( 'To optimize the display of links in social networks, instant messaging services, etc. (Facebook, X, LinkedIn, Slack, WhatsApp…), special <em>meta tags</em> are embedded into property listing and detail pages, provided that the relevant options are activated.', 'immonex-kickstart' ) . '</p>',
 					'tab'         => 'tab_general',
 				),
-				'ext_services'             => array(
+				'ext_services'                 => array(
 					'title' => __( 'Integrations', 'immonex-kickstart' ),
 					'tab'   => 'tab_general',
 				),
-				'performance'              => array(
+				'performance'                  => array(
 					'title'       => __( 'Performance', 'immonex-kickstart' ),
 					'description' => __( 'Enabling the following options can improve the rendering times of property related frontend elements significantly, especially if an object cache solution like <em>Redis</em> or <em>Memcached</em> is in use.', 'immonex-kickstart' ),
 					'tab'         => 'tab_general',
 				),
-				'property_lists_general'   => array(
-					'title'       => __( 'General', 'immonex-kickstart' ),
-					'description' => '',
-					'tab'         => 'tab_property_lists',
+				'property_lists_general'       => array(
+					'title' => __( 'General', 'immonex-kickstart' ),
+					'tab'   => 'tab_property_lists',
 				),
-				'property_list_maps'       => array(
+				'property_list_maps'           => array(
 					'title'       => __( 'Overview Maps', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %1$s = OpenStreetMap URL, %2$s = OpenTopoMap URL, %3$s = Google Maps API URL. */
@@ -946,12 +1130,11 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_property_lists',
 				),
-				'property_details_general' => array(
-					'title'       => __( 'General', 'immonex-kickstart' ),
-					'description' => '',
-					'tab'         => 'tab_property_details',
+				'property_details_general'     => array(
+					'title' => __( 'General', 'immonex-kickstart' ),
+					'tab'   => 'tab_property_details',
 				),
-				'property_details_gallery' => array(
+				'property_details_gallery'     => array(
 					'title'       => __( 'Gallery', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 							/* translators: %s = skin (incl. link) */
@@ -960,7 +1143,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_property_details',
 				),
-				'property_detail_maps'     => array(
+				'property_detail_maps'         => array(
 					'title'       => __( 'Location Map', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %1$s = OpenStreetMap URL, %2$s = OpenTopoMap URL, %3$s = Google Maps API URL, %4$s = Google Maps Embed API URL. */
@@ -972,17 +1155,31 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_property_details',
 				),
-				'property_search'          => array(
-					'title'       => __( 'General', 'immonex-kickstart' ),
-					'description' => '',
-					'tab'         => 'tab_property_search',
+				'property_search'              => array(
+					'title' => __( 'General', 'immonex-kickstart' ),
+					'tab'   => 'tab_property_search',
 				),
-				'distance_search'          => array(
+				'distance_search'              => array(
 					'title'       => __( 'Distance Search', 'immonex-kickstart' ),
 					'description' => __( 'If enabled, the property search form includes a distance search feature.', 'immonex-kickstart' ),
 					'tab'         => 'tab_property_search',
 				),
-				'section_post_type_slugs'  => array(
+				'withdrawal_form_general'      => array(
+					'title'       => __( 'Form', 'immonex-kickstart' ) . '/' . __( 'General', 'immonex-kickstart' ),
+					'description' => __( 'The settings on this tab apply to the withdrawal form that can be embedded using the shortcode <code>[inx-withdrawal-form]</code>.', 'immonex-kickstart' ),
+					'tab'         => 'tab_withdrawal',
+				),
+				'withdrawal_admin_notif_mails' => array(
+					'title'       => __( 'Admin Notification', 'immonex-kickstart' ),
+					'description' => array( $templating_info, $ext_templating_info ),
+					'tab'         => 'tab_withdrawal',
+				),
+				'withdrawal_rcpt_conf_mails'   => array(
+					'title'       => __( 'Receipt Confirmation', 'immonex-kickstart' ),
+					'description' => array( $templating_info, $ext_templating_info ),
+					'tab'         => 'tab_withdrawal',
+				),
+				'section_post_type_slugs'      => array(
 					'title'       => __( 'Post Type', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
 						/* translators: %1$s = Polylang Pro URL, %2$s = WPML URL */
@@ -992,7 +1189,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					),
 					'tab'         => 'tab_slugs',
 				),
-				'taxonomy_slugs'           => array(
+				'taxonomy_slugs'               => array(
 					'title'       => __( 'Taxonomies', 'immonex-kickstart' ),
 					'description' => __( 'Taxonomy archive pages have their own <strong>rewrite slugs</strong> that may contain slashes. In most cases a combination of the post type slug and the taxonomy name makes the most sense, e.g. <strong>properties/type</strong> will make the permalink URLs look like <strong>domain.tld/properties/type/flats/</strong>. The following slugs should be entered in the <strong>main language</strong> of the website, too.', 'immonex-kickstart' ),
 					'tab'         => 'tab_slugs',
@@ -1014,10 +1211,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 			$this->plugin_slug . '_option_fields',
 			array(
 				array(
+					'name'    => 'title_design_structure',
+					'type'    => 'subsection_header',
+					'section' => 'basic',
+					'args'    => array(
+						'title' => __( 'Design & Structure', 'immonex-kickstart' ),
+					),
+				),
+				array(
 					'name'    => 'skin',
 					'type'    => 'select',
 					'label'   => __( 'Skin', 'immonex-kickstart' ),
-					'section' => 'design_structure',
+					'section' => 'basic',
 					'args'    => array(
 						'description' => wp_sprintf(
 							/* translators: %s = skin (incl. link) */
@@ -1032,13 +1237,245 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 					'name'    => 'heading_base_level',
 					'type'    => 'select',
 					'label'   => __( 'Heading Base Level', 'immonex-kickstart' ),
-					'section' => 'design_structure',
+					'section' => 'basic',
 					'args'    => array(
 						'description' => __( 'Level that immonex related headlines (e.g. on property list and detail pages) should start with.', 'immonex-kickstart' ),
 						'options'     => array(
 							1 => 'H1',
 							2 => 'H2',
 							3 => 'H3',
+						),
+					),
+				),
+				array(
+					'name'    => 'title_legal',
+					'type'    => 'subsection_header',
+					'section' => 'basic',
+					'args'    => array(
+						'title'       => __( 'Legal', 'immonex-kickstart' ),
+						'description' => wp_sprintf(
+							/* translators: %s = Withdrawal tab URL */
+							__( 'The following information can be used in certain form emails (e.g. <a href="%s">withdrawal receipt confirmations</a>).', 'immonex-kickstart' ),
+							admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_withdrawal&section_tab=3' )
+						),
+					),
+				),
+				array(
+					'name'    => 'company_name',
+					'type'    => 'text',
+					'label'   => __( 'Company Name', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description' => __( 'Official firm including legal form', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'company_address',
+					'type'    => 'textarea',
+					'label'   => __( 'Company Address', 'immonex-kickstart' ) . ' (' . __( 'Headquarters', 'immonex-kickstart' ) . ')',
+					'section' => 'basic',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'title_units',
+					'type'    => 'subsection_header',
+					'section' => 'basic',
+					'args'    => array(
+						'title' => __( 'Measuring Units & Currency', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'area_unit',
+					'type'    => 'text',
+					'label'   => __( 'Area Measuring Unit', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 8,
+						'default_if_empty' => 'm²',
+					),
+				),
+				array(
+					'name'    => 'currency',
+					'type'    => 'text',
+					'label'   => __( 'Currency Code', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 3,
+						'default_if_empty' => 'EUR',
+					),
+				),
+				array(
+					'name'    => 'currency_symbol',
+					'type'    => 'text',
+					'label'   => __( 'Currency Symbol', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description'      => '',
+						'class'            => 'small-text',
+						'max_length'       => 1,
+						'default_if_empty' => '€',
+					),
+				),
+				array(
+					'name'    => 'title_form_spam_protection',
+					'type'    => 'subsection_header',
+					'section' => 'basic',
+					'args'    => array(
+						'title'       => __( 'Form Spam Protection', 'immonex-kickstart' ),
+						'description' => wp_sprintf(
+							/* translators: %s = Withdrawal tab URL */
+							__( 'The following settings apply to the <a href="%s">withdrawal form</a>.', 'immonex-kickstart' ),
+							admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_withdrawal' )
+						),
+					),
+				),
+				array(
+					'name'    => 'spam_prot_enable_honeypot',
+					'type'    => 'checkbox',
+					'label'   => wp_sprintf( __( 'Honeypot', 'immonex-kickstart' ) ),
+					'section' => 'basic',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'spam_prot_time_threshold',
+					'type'    => 'number',
+					'label'   => __( 'Time Threshold', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description'  => __( 'Block form submissions that are "too fast", that is, within the stated number of seconds after the page has loaded (0 to disable).', 'immonex-kickstart' ),
+						'field_suffix' => __( 'Seconds', 'immonex-kickstart' ),
+						'class'        => 'small-text',
+						'min'          => 0,
+						'max'          => 20,
+					),
+				),
+				array(
+					'name'    => 'spam_prot_enable_turnstile',
+					'type'    => 'checkbox',
+					'label'   => 'Cloudflare Turnstile',
+					'section' => 'basic',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %1$s = Turnstile product page URL, %2$s = Turnstile options tab URL */
+							__( '<a href="%1$s" target="_blank">Turnstile</a> is a <em>CAPTCHA</em> alternative to protect forms from spam and bots (see tab <a href="%2$s">General → Integrations</a> for configuration options).', 'immonex-kickstart' ),
+							'https://www.cloudflare.com/application-services/products/turnstile/',
+							admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=7#immonex-kickstart_turnstile_sitekey' )
+						),
+						'doc_url'     => 'https://docs.immonex.de/kickstart/#/schnellstart/einrichtung?id=cloudflare-turnstile',
+						'condition'   => function () {
+							$options   = apply_filters( 'inx_options', array(), 'core' );
+							$is_active = ! empty( $options['turnstile_sitekey'] )
+								&& strlen( $options['turnstile_sitekey'] ) >= 20
+								&& ! empty( $options['turnstile_secret_key'] )
+								&& strlen( $options['turnstile_secret_key'] ) >= 24;
+
+							return array(
+								'is_active' => $is_active,
+								'info'      => wp_sprintf(
+									/* translators: %s = Turnstile options tab URL */
+									__( 'To activate this option, the corresponding <strong>site and secret keys</strong> must be entered in the <em>Cloudflare Turnstile</em> section of the <a href="%s">Integrations tab</a>.', 'immonex-kickstart' ),
+									admin_url( 'admin.php?page=immonex-kickstart_settings&tab=tab_general&section_tab=7#immonex-kickstart_turnstile_sitekey' )
+								),
+								'value'     => 0,
+							);
+						},
+					),
+				),
+				array(
+					'name'    => 'default_mail_admin_recipients',
+					'type'    => 'email_list',
+					'label'   => __( 'Admin Recipient Mail Addresses', 'immonex-kickstart' ),
+					'section' => 'email',
+					'args'    => array(
+						'description' => __( 'comma-separated list of <strong>admin notification</strong> recipient addresses (default: main site admin address)', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'default_mail_sender_name',
+					'type'    => 'text',
+					'label'   => __( 'Sender Name', 'immonex-kickstart' ),
+					'section' => 'email',
+					'args'    => array(
+						'description' => __( 'Sender <strong>name</strong> for form mails (default: <em>WordPress</em> – may be overridden by an SMTP plugin if installed)', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'default_mail_sender_email',
+					'type'    => 'email',
+					'label'   => __( 'Sender Email', 'immonex-kickstart' ),
+					'section' => 'email',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = default sender email address */
+							__( 'Sender <strong>address</strong> for form mails (default: <em>%s</em> – may be overridden by an SMTP plugin if installed)', 'immonex-kickstart' ),
+							get_option( 'admin_email' )
+						),
+					),
+				),
+				array(
+					'name'    => 'default_mail_as_html',
+					'type'    => 'checkbox',
+					'label'   => __( 'HTML Mails', 'immonex-kickstart' ),
+					'section' => 'email',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = placeholder for the message type */
+							__( 'Activate to send %s as <strong>HTML-formatted</strong> mails. (An alternative plain text version is generated automatically.)', 'immonex-kickstart' ),
+							__( 'withdrawal notifications', 'immonex-kickstart' )
+						),
+					),
+				),
+				array(
+					'name'    => 'default_mail_logo_id',
+					'type'    => 'media_image_select',
+					'label'   => __( 'Logo', 'immonex-kickstart' ) .
+						' (' . __( 'HTML Mails', 'immonex-kickstart' ) . ')',
+					'section' => 'email',
+					'args'    => array(
+						'description' => __( 'If the sending of HTML mails is activated, a logo can be inserted.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'default_mail_logo_position',
+					'type'    => 'select',
+					'label'   => __( 'Logo Position', 'immonex-kickstart' ) .
+						' (' . __( 'HTML Mails', 'immonex-kickstart' ) . ')',
+					'section' => 'email',
+					'args'    => array(
+						'description' => __( 'If selected, you can specify where the logo should appear in the mail here.', 'immonex-kickstart' ),
+						'options'     => array(
+							'top_center'    => __( 'top', 'immonex-kickstart' ) . ' ' .
+								__( 'centered', 'immonex-kickstart' ),
+							'top_left'      => __( 'top', 'immonex-kickstart' ) . ' ' .
+								__( 'left', 'immonex-kickstart' ),
+							'top_right'     => __( 'top', 'immonex-kickstart' ) . ' ' .
+								__( 'right', 'immonex-kickstart' ),
+							'footer_center' => __( 'bottom', 'immonex-kickstart' ) . ' ' .
+								__( 'centered', 'immonex-kickstart' ),
+							'footer_left'   => __( 'bottom', 'immonex-kickstart' ) . ' ' .
+								__( 'left', 'immonex-kickstart' ),
+							'footer_right'  => __( 'bottom', 'immonex-kickstart' ) . ' ' .
+								__( 'right', 'immonex-kickstart' ),
+						),
+					),
+				),
+				array(
+					'name'    => 'default_mail_signature',
+					'type'    => 'wysiwyg',
+					'label'   => __( 'Signature', 'immonex-kickstart' ),
+					'section' => 'email',
+					'args'    => array(
+						'description'     => __( 'The signature is added below the main content of certain emails sent to customers or prospects (e.g. receipt notifications).', 'immonex-kickstart' ) . ' ' .
+							__( 'Twig variables listed on the respective mail tabs can be used here, too (<code>{{ default_signature }}</code> for a combination of site title/URL and company name/address).', 'immonex-kickstart' ),
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
 						),
 					),
 				),
@@ -1209,42 +1646,6 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 						'class'        => 'small-text',
 						'min'          => 0,
 						'max'          => 100,
-					),
-				),
-				array(
-					'name'    => 'area_unit',
-					'type'    => 'text',
-					'label'   => __( 'Area Measuring Unit', 'immonex-kickstart' ),
-					'section' => 'units',
-					'args'    => array(
-						'description'      => '',
-						'class'            => 'small-text',
-						'max_length'       => 8,
-						'default_if_empty' => 'm²',
-					),
-				),
-				array(
-					'name'    => 'currency',
-					'type'    => 'text',
-					'label'   => __( 'Currency Code', 'immonex-kickstart' ),
-					'section' => 'units',
-					'args'    => array(
-						'description'      => '',
-						'class'            => 'small-text',
-						'max_length'       => 3,
-						'default_if_empty' => 'EUR',
-					),
-				),
-				array(
-					'name'    => 'currency_symbol',
-					'type'    => 'text',
-					'label'   => __( 'Currency Symbol', 'immonex-kickstart' ),
-					'section' => 'units',
-					'args'    => array(
-						'description'      => '',
-						'class'            => 'small-text',
-						'max_length'       => 1,
-						'default_if_empty' => '€',
 					),
 				),
 				array(
@@ -1459,6 +1860,123 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 							128 => '128 MB',
 							256 => '256 MB',
 							512 => '512 MB',
+						),
+					),
+				),
+				array(
+					'name'    => 'enable_withdrawal_processing',
+					'type'    => 'checkbox',
+					'label'   => __( 'Enable Withdrawal Processing', 'immonex-kickstart' ),
+					'section' => 'withdrawal_form_general',
+					'args'    => array(
+						'description' => __( 'Enable withdrawal form and related custom post type.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'withdrawal_form_introtext',
+					'type'    => 'wysiwyg',
+					'label'   => __( 'Introductory Text', 'immonex-kickstart' ),
+					'section' => 'withdrawal_form_general',
+					'args'    => array(
+						'description'     => __( 'This text is displayed above the form.', 'immonex-kickstart' ),
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
+						),
+					),
+				),
+				array(
+					'name'    => 'withdrawal_form_privacy_consent_text',
+					'type'    => 'textarea',
+					'label'   => __( 'Privacy Note', 'immonex-kickstart' ),
+					'section' => 'withdrawal_form_general',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = privacy options page URL */
+							__( 'This note is displayed below the form; explicit confirmation is not required here. (Insert <code>[privacy_policy]</code> to add a link to the privacy policy page defined in the <a href="%s">site options</a>.)', 'immonex-kickstart' ),
+							admin_url( 'options-privacy.php' )
+						),
+					),
+				),
+				array(
+					'name'    => 'withdrawal_form_submission_conf_msg',
+					'type'    => 'text',
+					'label'   => __( 'Confirmation Message', 'immonex-kickstart' ),
+					'section' => 'withdrawal_form_general',
+					'args'    => array(
+						'description' => __( 'This message is being displayed when the form data have been successfully submitted.', 'immonex-kickstart' ) . ' ' .
+							__( 'Embedding in a (local) confirmation page is possbile with the shortcode <code>[inx-withdrawal-form-confirmation-message]</code>.', 'immonex-kickstart' ),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'withdrawal_form_confirmation_page',
+					'type'    => 'text',
+					'label'   => __( 'Confirmation Page ID/URL', 'immonex-kickstart' ),
+					'section' => 'withdrawal_form_general',
+					'args'    => array(
+						'description' => __( 'Redirect to this page (<strong>ID</strong>) or full URL on successful form submissions.', 'immonex-kickstart' ) .
+							' (' . __( 'Enter the ID of the page in the <strong>primary language</strong> in multilingual sites.', 'immonex-kickstart' ) . ')',
+					),
+				),
+				array(
+					'name'    => 'withdrawal_admin_notif_subject',
+					'type'    => 'text',
+					'label'   => __( 'Subject', 'immonex-kickstart' ),
+					'section' => 'withdrawal_admin_notif_mails',
+					'args'    => array(
+						'description' => __( 'The Twig variables listed above can be used here and in the following field.', 'immonex-kickstart' ),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'withdrawal_admin_notif_template',
+					'type'    => 'wysiwyg',
+					'label'   => __( 'Mail Body', 'immonex-kickstart' ),
+					'section' => 'withdrawal_admin_notif_mails',
+					'args'    => array(
+						'description'     => wp_sprintf(
+							/* translators: %s = URL placeholder */
+							__( 'HTML and Twig 3 markup can be used here (see info section above and the <a href="%s" target="_blank">Twig documentation</a> for details).', 'immonex-kickstart' ),
+							'https://twig.symfony.com/doc/3.x/templates.html'
+						) . ' ' .
+							__( 'The variable <code>{{ form_data }}</code> <strong>must</strong> be included.', 'immonex-kickstart' ),
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
+						),
+					),
+				),
+				array(
+					'name'    => 'withdrawal_rcpt_conf_subject',
+					'type'    => 'text',
+					'label'   => __( 'Subject', 'immonex-kickstart' ),
+					'section' => 'withdrawal_rcpt_conf_mails',
+					'args'    => array(
+						'description' => __( 'The Twig variables listed above can be used here and in the following field.', 'immonex-kickstart' ),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'withdrawal_rcpt_conf_template',
+					'type'    => 'wysiwyg',
+					'label'   => __( 'Mail Body', 'immonex-kickstart' ),
+					'section' => 'withdrawal_rcpt_conf_mails',
+					'args'    => array(
+						'description'     => wp_sprintf(
+							/* translators: %s = URL placeholder */
+							__( 'HTML and Twig 3 markup can be used here (see info section above and the <a href="%s" target="_blank">Twig documentation</a> for details).', 'immonex-kickstart' ),
+							'https://twig.symfony.com/doc/3.x/templates.html'
+						),
+						'editor_settings' => array(
+							'default_editor' => 'tinymce',
+							'teeny'          => true,
+							'quicktags'      => array( 'buttons' => 'strong,em,link,img,close' ),
+							'tinymce'        => true,
 						),
 					),
 				),

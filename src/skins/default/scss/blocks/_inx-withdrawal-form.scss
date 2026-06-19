@@ -1,0 +1,164 @@
+.inx-withdrawal-form {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.inx-withdrawal-form__spinner {
+	display: none;
+}
+
+.inx-withdrawal-form__input {
+	padding-right: .5em;
+	margin-bottom: .5em;
+	box-sizing: border-box;
+
+	input[type=radio]:checked,
+	input[type=checkbox]:checked {
+		background-color: var(--inx-color-action-element);
+	}
+
+	input[type=radio]:not(:checked):focus,
+	input[type=checkbox]:not(:checked):focus {
+		border-color: var(--inx-color-action-element);
+	}
+
+	input:not([type=radio]):focus,
+	input:not([type=checkbox]):focus,
+	input:not([type=button]):focus,
+	textarea:focus {
+		border-color: var(--inx-color-action-element);
+	}
+}
+
+.inx-withdrawal-form__input:not(.inx-withdrawal-form__input--type--half):not(.inx-withdrawal-form__input--type--full) {
+	flex: 1 1 16em;
+}
+
+.inx-withdrawal-form__input--type--half {
+	flex: 0 0 50%;
+}
+
+.inx-withdrawal-form__input--type--full {
+	flex: 0 0 100%;
+}
+
+.inx-withdrawal-form__input--type--privacy-consent {
+	margin-bottom: 1em;
+}
+
+.inx-withdrawal-form__input--name--consent {
+	display: flex;
+	margin: 1em 0;
+	padding-bottom: 1em;
+	border-bottom: 1px solid rgba(164, 164, 164, .8)
+}
+
+.inx-withdrawal-form__consent-checkbox {
+	margin-right: .5em;
+}
+
+.inx-withdrawal-form__consent-text {
+	font-size: 12px;
+
+	p:last-child {
+		margin: 0;
+	}
+
+	p:not(:last-child) {
+		margin: 0 0 .5em 0;
+	}
+}
+
+.inx-withdrawal-form__input--name--submit {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	div:first-child {
+		font-size: 12px;
+		text-transform: uppercase;
+
+		span.uk-icon {
+			vertical-align: text-bottom;
+		}
+	}
+}
+
+/* H/P */
+.inx-withdrawal-form__input--name--fname,
+.inx-withdrawal-form__input--name--alternative-email {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	border: 0;
+	clip: rect(0 0 0 0);
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+}
+
+.inx-withdrawal-form__input-error {
+	display: none;
+	margin-top: .25em;
+	color: #F0506E;
+	font-size: 85%;
+}
+
+.inx-withdrawal-form__input--has-error {
+	input[type=text],
+	input[type=email],
+	input[type=checkbox],
+	input[type=select],
+	textarea {
+		border: 1px solid #F0506E;
+	}
+
+	.inx-withdrawal-form__input-error {
+		display: block;
+	}
+}
+
+.inx-withdrawal-form__result {
+	display: none;
+}
+
+.inx-withdrawal-form__result--type--success,
+.inx-withdrawal-form__result--type--warning,
+.inx-withdrawal-form__result--type--error,
+.inx-withdrawal-form__demo-notice {
+	display: flex;
+	flex: 0 0 100%;
+	margin-bottom: 1em;
+	padding: .5em;
+	border: 1px solid;
+
+	span:first-child {
+		flex: 0 0 20px;
+		padding-top: 2px;
+		padding-right: .5em;
+		box-sizing: content-box;
+	}
+}
+
+.inx-withdrawal-form__result--type--success,
+.inx-withdrawal-form__result--type--warning,
+.inx-withdrawal-form__result--type--error {
+	align-items: center;
+}
+
+.inx-withdrawal-form__result--type--success {
+	color: #32D296;
+	border-color: #32D296;
+}
+
+.inx-withdrawal-form__result--type--warning {
+	color: #F0B429;
+	border-color: #F0B429;
+}
+
+.inx-withdrawal-form__result--type--error {
+	color: #F0506E;
+	border-color: #F0506E;
+}

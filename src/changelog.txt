@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 1.17.0 =
+* Release date: 2026-06-18
+* Added a withdrawal frontend form and related custom post type.
+* Added lightbox options.
+* Added URL/email link conversion options for property description texts.
+* Splitted property detail list items (key/value and value only) in the default skin.
+* Added a placeholder icon to property list entries without images (default skin).
+* Added automatic adjustment of warm rent list item labels if heating costs are included.
+* Improved handling of dynamic search state updates.
+* Fixed a search form taxonomy term selection issue.
+* Fixed a minor schema.org markup issue.
+* Optimized search form styling.
+* Added alignment attribute to the filters/sort shortcode.
+* Added automated one-time updates of YouTube iFrames in tabs that are initially hidden.
+* Added automatic of continuos texts embedded with the [inx-property-detail-element] shortcode.
+* Added tweaks to improve the compatibility of older custom skins with the current WP version.
+* Bumped minimum PHP version to 8.1.
+* Updated dependencies.
+
 = 1.15.4 =
 * Release date: 2026-04-03
 * Reworked value range sliders (search form).

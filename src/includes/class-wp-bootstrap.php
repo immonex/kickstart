@@ -85,6 +85,9 @@ class WP_Bootstrap {
 
 		add_filter( 'inx_get_post_types', array( $this, 'get_post_types' ), 10, 2 );
 		add_filter( 'inx_get_taxonomies', array( $this, 'get_taxonomies' ) );
+
+		add_filter( 'custom_menu_order', '__return_true' );
+		add_filter( 'custom_menu_order', array( $this, 'adjust_submenu_order' ) );
 	} // __construct
 
 	/**
@@ -430,14 +433,55 @@ class WP_Bootstrap {
 	} // set_current_menu
 
 	/**
+	 * Adjust the order of the Kickstart submenu items, whereby the positions of
+	 * the main menu items are not touched here (filter callback).
+	 *
+	 * @since 1.17.0
+	 *
+	 * @param string[] $menu_order Main menu order.
+	 *
+	 * @return string[] Unchanged main menu order.
+	 */
+	public function adjust_submenu_order( $menu_order ) {
+		global $submenu;
+
+		if ( empty( $submenu[ $this->prefix . 'menu' ] ) ) {
+			return $menu_order;
+		}
+
+		$move_cpts = array( $this->prefix . 'withdrawal' );
+
+		$new_order      = array();
+		$move_to_bottom = array();
+
+		foreach ( $submenu[ $this->prefix . 'menu' ] as $item ) {
+			if ( preg_match( '/edit.php\?post_type=(' . implode( '|', $move_cpts ) . ')/', $item[2] ) ) {
+				$move_to_bottom[] = $item;
+			} elseif ( '#inx-submenu-separator' === $item[2] && ! empty( $move_to_bottom ) ) {
+				foreach ( $move_to_bottom as $move_item ) {
+					$new_order[] = $move_item;
+				}
+
+				$move_to_bottom = array();
+				$new_order[]    = $item;
+			} else {
+				$new_order[] = $item;
+			}
+		}
+
+		$submenu[ $this->prefix . 'menu' ] = $new_order; // phpcs:ignore
+
+		return $menu_order;
+	} // adjust_submenu_order
+
+	/**
 	 * Register a custom post type for immonex properties.
 	 *
 	 * @since 1.0.0
 	 */
 	public function register_custom_post_types() {
-		$property_post_type_args = apply_filters(
-			'inx_property_post_type_args',
-			array(
+		$post_type_args = array(
+			'property' => array(
 				'labels'       => array(
 					'name'               => __( 'Properties', 'immonex-kickstart' ),
 					'singular_name'      => __( 'Property', 'immonex-kickstart' ),
@@ -460,28 +504,39 @@ class WP_Bootstrap {
 					'slug'       => $this->plugin->property_post_type_slug_rewrite,
 					'with_front' => true,
 				),
-			)
+			),
 		);
 
-		if (
-			( $this->plugin->property_list_page_id || $this->plugin->property_details_page_id )
-			&& ! empty( $property_post_type_args['rewrite']['slug'] )
-		) {
-			$archive_redirect_slug   = get_page_uri( $this->plugin->property_list_page_id );
-			$single_redirect_slug    = get_page_uri( $this->plugin->property_details_page_id );
-			$translated_rewrite_slug = apply_filters(
-				'inx_translated_slug',
-				strtolower( $property_post_type_args['rewrite']['slug'] ),
-				$this->data['property_post_type_name'],
-				substr( get_locale(), 0, 2 ),
-				true
+		if ( $this->plugin->enable_withdrawal_processing ) {
+			$post_type_args['withdrawal'] = array(
+				'labels'        => array(
+					'name'               => __( 'Withdrawals', 'immonex-kickstart' ),
+					'singular_name'      => __( 'Withdrawal', 'immonex-kickstart' ),
+					'add_new_item'       => __( 'Add New Withdrawal', 'immonex-kickstart' ),
+					'edit_item'          => __( 'Edit Withdrawal', 'immonex-kickstart' ),
+					'new_item'           => __( 'New Withdrawal', 'immonex-kickstart' ),
+					'view_item'          => __( 'View Withdrawal', 'immonex-kickstart' ),
+					'search_items'       => __( 'Search Withdrawals', 'immonex-kickstart' ),
+					'not_found'          => __( 'No withdrawal found', 'immonex-kickstart' ),
+					'not_found_in_trash' => __( 'No withdrawal found in Trash', 'immonex-kickstart' ),
+				),
+				'public'        => false,
+				'has_archive'   => false,
+				'show_ui'       => true,
+				'show_in_menu'  => $this->prefix . 'menu',
+				'menu_position' => 800,
+				'show_in_rest'  => false,
+				'supports'      => array( 'title', 'editor' ),
+				'map_meta_cap'  => true,
 			);
 		}
 
-		register_post_type(
-			$this->data['property_post_type_name'],
-			$property_post_type_args
-		);
+		foreach ( $post_type_args as $cpt_base_name => $cpt_args ) {
+			$cpt_name = $this->prefix . $cpt_base_name;
+			$cpt_args = apply_filters( "{$cpt_name}_post_type_args", $cpt_args ); // phpcs:ignore -- Dynamic hook name includes the prefix.
+
+			register_post_type( $cpt_name, $cpt_args );
+		}
 	} // register_custom_post_types
 
 	/**
