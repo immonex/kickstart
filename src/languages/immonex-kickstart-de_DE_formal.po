@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: immonex Kickstart 1.17\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "POT-Creation-Date: 2026-06-18T21:24:25+00:00\n"
-"PO-Revision-Date: 2026-06-18 23:26+0200\n"
+"PO-Revision-Date: 2026-06-19 09:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: Carsten Scheuer <scheuer@inveris.de>\n"
 "Language: de_DE@formal\n"
@@ -3219,7 +3219,7 @@ msgstr ""
 
 #: includes/class-withdrawal-form.php:547
 msgid "Time of Receipt"
-msgstr "Eingangsbestätigung"
+msgstr "Eingangszeitpunkt"
 
 #: includes/class-withdrawal-form.php:595
 msgid "Confirmation of receipt of your withdrawal"

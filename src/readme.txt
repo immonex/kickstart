@@ -127,7 +127,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 == Changelog ==
 
 = 1.17.0 =
-* Release date: 2026-06-18
+* Release date: 2026-06-19
 * Added a withdrawal frontend form and related custom post type.
 * Added lightbox options.
 * Added URL/email link conversion options for property description texts.

@@ -225,6 +225,8 @@ class Withdrawal_Form {
 			'value' => $form_data['name'],
 		);
 
+		$template_data = apply_filters( 'inxkick_withdrawal_mail_template_data', $template_data );
+
 		$send_result = false;
 		$sender      = ! empty( $this->config['default_mail_sender_email'] ) ?
 			$this->config['default_mail_sender_email'] :
@@ -313,9 +315,9 @@ class Withdrawal_Form {
 			function ( $matches ) {
 				$span_attrs    = substr( $matches[0], 0, strpos( $matches[0], '>' ) + 1 );
 				$inner_content = substr( $matches[0], strlen( $span_attrs ) );
-				return $span_attrs . wpautop( wp_strip_all_tags( $inner_content ) );
+				return $span_attrs . nl2br( wp_strip_all_tags( $inner_content ) );
 			},
-			stripslashes( $body['html'] )
+			wpautop( stripslashes( $body['html'] ) )
 		);
 
 		$html_frame_template_data = array();
@@ -968,7 +970,9 @@ class Withdrawal_Form {
 			),
 		);
 
-		$company = ! empty( $this->config['company_name'] ) ? "<strong>{$this->config['company_name']}</strong>" : '';
+		$company = ! empty( $this->config['company_name'] ) && false === strpos( $sig, $this->config['company_name'] ) ?
+			"<strong>{$this->config['company_name']}</strong>" : '';
+
 		if ( ! empty( $this->config['company_address'] ) ) {
 			$company = trim( $company . PHP_EOL . nl2br( $this->config['company_address'] ) );
 		}
