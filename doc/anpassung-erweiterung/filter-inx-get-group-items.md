@@ -23,7 +23,7 @@ Die Zuordnung des Custom Fields erfolgt beim OpenImmo-Import über die Spalte *D
 Ist `$details` bereits befüllt, sind hier **alle** Detailelemente der darzustellenden Immobilie in **gruppierter Form** enthalten:
 
 ```php
-[
+$details = [
 	'flaechen' => [
 		[
 			'title' => 'Wohnfläche',
@@ -93,7 +93,7 @@ Ist `$details` bereits befüllt, sind hier **alle** Detailelemente der darzustel
 		]
 	],
 	[sonstiges] => [ ... ]
-]
+];
 ```
 
 ## Rückgabewert

@@ -127,7 +127,8 @@ Immobilienliste als *Slider* (Karussell) anzeigen:\
 
 Die Inhalte von Listenansichten können **optional** anhand der aktuellen Kriterien eines in der gleichen Seite enthaltenen [Immobilien-Suchformulars](suchformular) dynamisch (ohne Neuladen der Seite) aktualisiert werden. Diese Funktion kann entweder global (für alle Komponenten auf allen Seiten) in den Plugin-Optionen unter ***immonex → Einstellungen → Immobiliensuche*** oder per Attribut `dynamic-update` des [Suchformular-Shortcodes](suchformular#dynamische-listen-amp-karten) aktiviert werden.
 
-## Erweiterte Anpassungen
+## Einrichtung und erweiterte Anpassung
 
+- [Plugin-Optionen: Listen](/schnellstart/einrichtung?id=listen)
 - [Templates](/anpassung-erweiterung/skins#partiell)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

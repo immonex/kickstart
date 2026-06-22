@@ -1,8 +1,8 @@
 (function (win) {
 	function create() {
 		return function (hook, vm) {
-			const threshold = 30;
-			const delay = 500;
+			const threshold = 10;
+			const delay = 250;
 			let identical = 0;
 			let lastDistanceToTop = 0;
 

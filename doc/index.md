@@ -12,6 +12,7 @@
 - [Karten](komponenten/karte)
 - [Sortierung](komponenten/sortierung)
 - [Detailansicht](komponenten/detailansicht)
+- [Widerrufsformular](komponenten/widerrufsformular) (für Maklerverträge gem. § 356a BGB)
 - [Strukturierte Daten/Rich Snippets](/schnellstart/einrichtung?id=seogeoteilen) ([SEO](https://de.wikipedia.org/wiki/Suchmaschinenoptimierung)/[GEO](https://en.wikipedia.org/wiki/Generative_engine_optimization) → Suchmaschinen-, KI- und Social-Media-Optimierung)
 
 ?> Ist der beliebte Page/Site Builder [Elementor](https://de.wordpress.org/plugins/elementor/) im Einsatz, stehen mit dem kostenfreien [Kickstart for Elementor Add-on](https://de.wordpress.org/plugins/immonex-kickstart-for-elementor/) **über 35 Widgets** für die komfortable und flexible Einbindung der Immobilien-Inhalte zur Verfügung. Bei der Nutzung von [Elementor Pro](https://be.elementor.com/visit/?bta=229006&nci=5657) kann zudem auf [Dynamic Tags](https://docs.immonex.de/kickstart-for-elementor/#/elementor-immobilien-dynamic-tags/uebersicht) für die Integration von OpenImmo/Kickstart-Daten via Elementor-Standard-Widgets zurückgegriffen werden.

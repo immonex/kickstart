@@ -48,6 +48,19 @@
 - [inx_get_user_consent_content](filter-inx-get-user-consent-content) (Inhalte eines bestimmten Nutzereinwilligungstyps bzw. Fallback-Angaben)
 - [inx_user_consent_default_button_text](filter-inx-user-consent-default-button-text) (Standardtext für Bestätigungsbuttons von Benutzereinwilligungen)
 
+### Formular-/Widerrufsverarbeitung
+
+- [inxkick_form_timestamp_check_threshold](filter-inxkick-form-timestamp-check-threshold) (Zeitfenster für die Prüfung auf reguläre Formular-Übermittlungen)
+- [inxkick_withdrawal_form_fields](filter-inxkick-withdrawal-form-fields) (Widerrufs-Formularfelder)
+- [inxkick_withdrawal_mail_sender](filter-inxkick-withdrawal-mail-sender) (Absender der Widerrufsmails)
+- [inxkick_withdrawal_mail_recipients](filter-inxkick_withdrawal_mail_recipients) (Empfänger der Widerrufsmails)
+- [inxkick_withdrawal_mail_subject](filter-inxkick-withdrawal-mail-subject) (Betreff der Widerrufsmails)
+- [inxkick_withdrawal_form_user_data](filter-inxkick-withdrawal-form-user-data) (Benutzer-Formulardaten)
+- [inxkick_withdrawal_mail_template_data](filter-inxkick-withdrawal-mail-template-data) (Inhalte der Widerrufsmails)
+- [inxkick_withdrawal_mail_headers](filter-inxkick-withdrawal-mail-headers) (Header der Widerrufsmails)
+- [inxkick_withdrawal_mail_attachments](filter-inxkick_withdrawal-mail-attachments) (Anhänge der Widerrufsmails)
+- [inxkick_withdrawal_mail_html_frame_params](filter-inxkick-withdrawal-mail-html-frame-params) (Parameter für den HTML-Rahmen der Widerrufsmails)
+
 ### Rendering / Templates
 
 #### Allgemein

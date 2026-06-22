@@ -220,3 +220,7 @@ while ( have_posts() ) {
 Standard-Kartenmarker (*SVG*)
 
 Soll eine eigene Markergrafik in den [Immobilien-Übersichtskarten](/komponenten/karte) oder den Standortkarten der [Detailansicht](/komponenten/detailansicht) verwendet werden, kann diese im Ordner `images` mit dem Namen `map-location-pin.png`abgelegt werden. (Alternativ können auch Größe, Farbe, Linienstärke und Transparenzgrad des Standard-SVG-Markers per [Shortcode-Attribut](/komponenten/karte?id=attribute) oder [Filterfunktion](filter-inx-property-list-map-atts) angepasst werden.)
+
+### Widerrufsformular
+
+Die Template-Datei `withdrawal-form.php` enthält die Vorlage für das [Widerrufsformular](/komponenten/widerrufsformular).

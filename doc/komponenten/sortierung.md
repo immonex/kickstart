@@ -52,7 +52,7 @@ Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** könne
 | Zimmer aufsteigend (`rooms_asc`) | Primäranzahl Zimmer/Räume (Custom Field `_inx_primary_rooms`) aufsteigend |
 | Distanz (`distance`) | **bei aktiver Umkreissuche:** Distanz zum ausgewählten Standort aufsteigend |
 
-## Erweiterte Anpassungen
+## Erweiterte Anpassung
 
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions#sortierung)
 - [Template](/anpassung-erweiterung/skins#partiell)

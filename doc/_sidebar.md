@@ -17,6 +17,7 @@
   * [Karte](/komponenten/karte)
   * [Seitennavigation](/komponenten/seitennavigation)
   * [Detailansicht](/komponenten/detailansicht)
+  * [Widerrufsformular](/komponenten/widerrufsformular)
 * ANPASSUNG & ERWEITERUNG
   * [Farben](/anpassung-erweiterung/farben)
   * [CSS](/anpassung-erweiterung/css)

@@ -16,9 +16,11 @@ Die meisten Optionen sind selbsterklärend oder mit einer Beschreibung versehen.
 
 ### Allgemein
 
-#### Design & Struktur
+#### Grundeinstellungen
 
-##### Skin
+##### Design & Struktur
+
+###### Skin
 
 Ein so genanntes [Skin](/anpassung-erweiterung/skins) bildet die Grundlage für individuelle Anpassungen und umfasst alle Dateien, die für die **Ausgabe und Darstellung** der vom Plugin bereitgestellten Komponenten im **Website-Frontend** maßgeblich sind (Layoutvorlagen, Stile, Ausgabelogik etc.).
 
@@ -27,6 +29,28 @@ Die Auswahl eines alternativen Skins kann also eine vollkommen andere Form der A
 Das aktuell mitgelieferte [Standard-Skin "Quiwi"](/anpassung-erweiterung/standard-skin) basiert auf dem optisch ansprechenden und "leichtgewichtigen" Frontend-Framework [UIkit](https://getuikit.com/). [Kickstart-Add-ons](/add-ons) können wiederum Skins für ihre eigenen Frontend-Module mitbringen, die dann in den jeweiligen Add-on-Options-Tabs zur Auswahl stehen.
 
 Detaillierte Infos zur Anpassung vorhandener und Entwicklung eigener Skins sind unter [Anpassung & Erweiterung](/anpassung-erweiterung/skins) zu finden.
+
+##### Rechtliches
+
+Firma und Adresse können in bestimmten Mail-Vorlagen verwendet werden (z. B. Widerrufs-Eingangsbestätigung).
+
+##### Formular-Spamschutz
+
+Die Spamschutz-Einstellungen dieser Optionsseite beziehen sich aktuell nur auf das [Widerrufsformular](/komponenten/widerrufsformular), der Rahmen wird zukünftig aber auf weitere Formulare ausgeweitet (bspw. die [Kontaktformulare des Team-Add-ons](https://docs.immonex.de/kickstart-team/#/komponenten/kontaktformular)).
+
+Voraussetzung für den Einsatz von *Cloudflare Turnstile* ist, dass im [gleichnamigen Abschnitt](#cloudflare-turnstile) des Tabs *Integrationen* passende Site- und Secret-Keys hinterlegt sind.
+
+#### E-Mail
+
+Wie die Spamschutz-Optionen sind auch die Standardvorgaben für die plugin-interne Generierung und den Versand von E-Mails zunächst nur für die Eingangsbestätigungen und Admin-Benachrichtigungen beim Eingang neuer Widerrufserklärungen relevant.
+
+!> Ist ein *SMTP-Plugin* im Einsatz, **könnten** Angaben wie Absendername oder -adresse eventuell unmittelbar vor dem Versand von diesem überschrieben werden. In diesem Fall sollten die entsprechenden Einstellungen des SMTP-Plugins überprüft und ggf. angepasst werden.
+
+##### Signatur
+
+In der Mail-Signatur können neben HTML-formatierten Inhalten auch [Twig-3-Variablen](https://twig.symfony.com/doc/3.x/templates.html) (`{{ variablenname }}`) verwendet werden: Mit `{{ default_signature }}` kann bspw. eine Standardsignatur eingebunden werden, die den Website-Titel (inkl. Link) sowie die in den Grundeinstellungen hinterlegten Firmen- und Adressangaben enthält.
+
+Weitere Variablen sind in den den jeweiligen Mail-Tabs gelistet (***Widerruf → Admin-Benachrichtigung*** und ***Widerruf → Eingangsbestätigung***).
 
 #### Farben
 
@@ -41,7 +65,7 @@ Zustimmung zur OpenStreetMap-Nutzung (passender Alternativtext bei alternativen 
 
 Die Zustimmung zur Nutzung eines Dienstes gilt hierbei für alle Dienste der gleichen Art und wird in Form eines **Cookies** gespeichert, das - abhängig von den Browser-Einstellungen des Nutzers - für 24 Stunden gültig ist.
 
-!> **Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen ist!
+!> **Keine Panik!** Hierbei handelt es sich **nicht** um *Tracking-Cookies*, für die gemäß DSGVO eine separate Einwilligung einzuholen wäre!
 
 #### SEO/GEO/Teilen
 
@@ -255,6 +279,14 @@ Außerdem können die Abfrageergebnisse hier mittels [OpenStreetMap-Place-Tags](
 `[inx-search-form autocomplete-place-tags="city,village"]`
 
 Die Umkreissuche kann generell deaktiviert werden, indem bei *Autovervollständigung* die Option `keine` ausgewählt wird.
+
+### Widerruf
+
+Soll die plugin-interne Widerrufsverarbeitung gem. [§ 356a BGB](https://www.gesetze-im-internet.de/bgb/__356a.html) (inkl. individuellem Beitragstyp für die Speicherung der Widerrufserklärungen) eingesetzt werden, muss diese unter ***Widerruf → Formular/Allgemein*** aktiviert werden.
+
+Wird *Cloudflare Turnstile* für den Spamschutz eingesetzt, wird der – ebenfalls im genannten Tab anpassbare – Datenschutz-Hinweis bei der Ausgabe des [Widerrufsformulars](/komponenten/widerrufsformular) automatisch um einen entsprechenden Abschnitt ergänzt (***Einwilligungshinweis*** unter [***Allgemein → Integrationen [Cloudflare Turnstile]***](#cloudflare-turnstile).
+
+Der Versand von Eingangsbestätigungen und Admin-Benachrichtigungen bei Eingang neuer Widerrufserklärungen ist beim *digitalen Widerrufsprozess* obligatorisch. Die Inhalte dieser Mails können in den gleichnamigen Untertabs angepasst werden, die erweiterte Mail-Konfiguration erfolgt anhand der Standardvorgaben unter [***Allgemein → E-Mail***](#e-mail).
 
 ### Titelformen (Slugs)
 

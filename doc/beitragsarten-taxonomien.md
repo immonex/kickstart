@@ -2,7 +2,7 @@
 
 ## CPT & Taxonomien
 
-Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (*Custom Post Type* oder kurz *CPT*) **inx_property** sowie die folgenden zugehörigen Taxonomien registriert:
+Für die Immobilienobjekte werden der individuelle Beitragstyp (*Custom Post Type* oder kurz *CPT*) **inx_property** sowie die folgenden zugehörigen Taxonomien registriert:
 
 - **inx_location** (Orte)
 - **inx_type_of_use** (Nutzungsarten)
@@ -11,6 +11,8 @@ Für die Immobilienobjekte werden die benutzerdefinierte Beitragsart (*Custom Po
 - **inx_project** ([Projekt/Gruppe](referenzen-status-flags#gruppierung), z. B. Bauvorhaben, Wohnanlagen oder Gewerbeimmobilien mit mehreren Einheiten)
 - **inx_feature** (Ausstattungsmerkmale)
 - **inx_label** (Labels, z. B. Neu! oder "Objekt der Woche")
+
+Zusätzlich wird für Widerrufsanträge der Beitragstyp **inx_withdrawal** angelegt.
 
 ?> Optionale [Add-ons](add-ons) für Kickstart können weitere Beitragsarten und Taxonomien ergänzen.
 

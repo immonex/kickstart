@@ -60,7 +60,7 @@ Soll die Ausgabe stattdessen nur bestimmte Abschnitte umfassen, kann der Umfang 
 | `video_gallery` | alle Immobilien-Videos als separate Galerie (**optionales Element \***, normalerweise Bestandteil der primären Galerie, s. o.) |
 | `virtual_tour` | Virtuelle 360°-Tour - im Regelfall von einem externen Anbieter per iFrame eingebunden (**optionales Element \***, normalerweise Bestandteil der primären Galerie, s. o.) |
 | `contact_person` (6) | Kontaktinformationen (Bei installiertem [Team-Add-on](/schnellstart/installation?id=team-add-on) wird ein erweitertes Kontakt-Widget inkl. Anfrageformular mit OpenImmo-Feedback-XML-Unterstützung eingebunden.) |
-| `footer` (7) | Footer mit Link zur Übersichtsseite |
+| `footer` (7) | Footer mit Link zur Übersichtsseite und [optionaler Vor/Zurück-Navigation](/schnellstart/einrichtung?id=vorzurück-navigation) |
 
 **\* Optionale Elemente** werden nur bei expliziter Nennung im Shortcode-Attribut `elements` eingebunden.
 

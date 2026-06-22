@@ -140,7 +140,7 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Optimized search form styling.
 * Added alignment attribute to the filters/sort shortcode.
 * Added automated one-time updates of YouTube iFrames in tabs that are initially hidden.
-* Added automatic of continuos texts embedded with the [inx-property-detail-element] shortcode.
+* Added automatic formatting of continuos texts embedded with the [inx-property-detail-element] shortcode.
 * Added tweaks to improve the compatibility of older custom skins with the current WP version.
 * Bumped minimum PHP version to 8.1.
 * Updated dependencies.
