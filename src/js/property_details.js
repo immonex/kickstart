@@ -81,11 +81,23 @@ function refreshTabbedYTiFrames (event) {
 	}
 } // refreshTabbedYTiFrames
 
+function maybeActivateGalleryThumbNavItem(event) {
+	for (const navType of ['image', 'video', 'virtual-tour']) {
+		if (event.target.classList.contains('inx-gallery__' + navType + '-item')) {
+			const thumb = event.target.parentElement.parentElement.parentElement.getElementsByClassName('inx-thumbnail-nav__item--is-' + navType)
+			if (thumb.length > 0 && !thumb[0].classList.contains('uk-active')) {
+				thumb[0].classList.add('uk-active')
+			}
+		}
+	}
+} // maybeActivateGalleryThumbNavItem
+
 async function init() {
 	initPropertyDetailInstances()
 	cleanLocationURL()
 
 	UIkit.util.on('.inx-single-property__tabbed-content', 'shown', refreshTabbedYTiFrames)
+	UIkit.util.on('.inx-gallery__image-slider', 'itemshown', maybeActivateGalleryThumbNavItem)
 } // init
 
 export { init }

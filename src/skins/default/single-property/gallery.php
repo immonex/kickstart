@@ -94,17 +94,10 @@ if (
 $inx_skin_media_count = is_array( $inx_skin_gallery_image_ids ) ? count( $inx_skin_gallery_image_ids ) : 0;
 $inx_skin_video_count = ! empty( $template_data['videos'] ) && is_array( $template_data['videos'] ) ?
 	count( $template_data['videos'] ) : 0;
-
-$inx_skin_show_video = $inx_skin_video_count && (
+$inx_skin_show_video  = $inx_skin_video_count && (
 	! empty( $template_data['enable_video'] ) ||
 	( ! isset( $template_data['enable_video'] ) && $inx_skin_is_default_gallery )
 );
-
-$inx_skin_show_virtual_tour = $template_data['virtual_tour_embed_code'] && (
-	! empty( $template_data['enable_virtual_tour'] ) ||
-	( ! isset( $template_data['enable_virtual_tour'] ) && $inx_skin_is_default_gallery )
-);
-$inx_skin_virtual_tour_url  = isset( $template_data['virtual_tour_url'] ) ? $template_data['virtual_tour_url'] : '';
 
 if ( $inx_skin_show_video ) {
 	$inx_skin_video_icon = in_array( $template_data['videos'][0]['provider'], array( 'youtube', 'vimeo' ), true ) ?
@@ -114,8 +107,15 @@ if ( $inx_skin_show_video ) {
 	$inx_skin_media_count += $inx_skin_video_count;
 }
 
+$inx_skin_virtual_tour_count = ! empty( $template_data['virtual_tours'] ) && is_array( $template_data['virtual_tours'] ) ?
+	count( $template_data['virtual_tours'] ) : 0;
+$inx_skin_show_virtual_tour  = $inx_skin_virtual_tour_count && (
+	! empty( $template_data['enable_virtual_tour'] ) ||
+	( ! isset( $template_data['enable_virtual_tour'] ) && $inx_skin_is_default_gallery )
+);
+
 if ( $inx_skin_show_virtual_tour ) {
-	++$inx_skin_media_count;
+	$inx_skin_media_count += $inx_skin_virtual_tour_count;
 }
 
 if ( $inx_skin_media_count > 0 ) :
@@ -254,6 +254,8 @@ if ( $inx_skin_media_count > 0 ) :
 		}
 	}
 
+	$inx_skin_gallery_images_count = count( $inx_skin_gallery_images );
+
 	if ( ! $inx_skin_has_valid_ken_burns_image ) {
 		$inx_skin_enable_ken_burns_effect = false;
 	}
@@ -286,14 +288,14 @@ if ( $inx_skin_media_count > 0 ) :
 		<div class="uk-position-relative uk-visible-toggle uk-margin-bottom">
 			<ul class="inx-gallery__images uk-slideshow-items"<?php echo $inx_skin_lb; ?>>
 				<?php
-				if ( count( $inx_skin_gallery_images ) > 0 ) :
+				if ( $inx_skin_gallery_images_count > 0 ) :
 					foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 						if ( $template_data['enable_gallery_lazy_loading'] && false === strpos( $inx_skin_img['full'], 'lazy' ) ) {
 							$inx_skin_img['full']                           = str_replace( '<img ', '<img loading="lazy" ', $inx_skin_img['full'] );
 							$inx_skin_gallery_images[ $inx_skin_i ]['full'] = $inx_skin_img['full'];
 						}
 						?>
-						<li class="noHover">
+						<li class="inx-gallery__image-item noHover">
 							<?php
 							if ( $inx_skin_img['ken_burns_effect'] ) :
 								?>
@@ -327,7 +329,7 @@ if ( $inx_skin_media_count > 0 ) :
 				if ( $inx_skin_show_video ) :
 					foreach ( $template_data['videos'] as $inx_skin_video ) :
 						?>
-						<li>
+						<li class="inx-gallery__video-item">
 						<?php
 						if ( $template_data['videos_require_consent'] && 'local' !== $inx_skin_video['provider'] ) :
 							$inx_skin_video_user_consent = apply_filters( 'inx_get_user_consent_content', '', $inx_skin_video['url'], 'video' );
@@ -344,49 +346,61 @@ if ( $inx_skin_media_count > 0 ) :
 								></inx-embed-consent-request>
 							</div>
 							<?php
-							else :
-								?>
-								<div class="inx-gallery__video"><?php echo $inx_skin_video['embed_html']; ?></div>
-								<?php
-								if ( $inx_skin_show_caption && $inx_skin_video['title'] ) :
-									?>
-									<div class="inx-gallery__video-title">
-										<span><?php echo esc_html( $inx_skin_video['title'] ); ?></span>
-									</div>
-									<?php
-								endif;
-							endif;
+						else :
 							?>
+							<div class="inx-gallery__video"><?php echo $inx_skin_video['embed_html']; ?></div>
+							<?php
+							if ( $inx_skin_show_caption && $inx_skin_video['title'] ) :
+								?>
+								<div class="inx-gallery__video-title">
+									<span><?php echo esc_html( $inx_skin_video['title'] ); ?></span>
+								</div>
+								<?php
+							endif;
+						endif;
+						?>
+						</li>
+						<?php
+					endforeach;
+				endif;
+				if ( $inx_skin_show_virtual_tour ) :
+					foreach ( $template_data['virtual_tours'] as $inx_skin_virtual_tour ) :
+						?>
+						<li class="inx-gallery__virtual-tour-item">
+						<?php
+						if ( $template_data['virtual_tours_require_consent'] ) :
+							$inx_skin_virtual_tour_user_consent = apply_filters( 'inx_get_user_consent_content', '', $inx_skin_virtual_tour['url'], 'virtual_tour' );
+							?>
+							<div class="inx-gallery__virtual-tour-iframe">
+								<inx-embed-consent-request
+									type="virtual_tour"
+									content="<?php echo esc_attr( $inx_skin_virtual_tour['embed_html'] ); ?>"
+									privacy-note="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['text'] ) ); ?>"
+									button-text="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['button_text'] ) ); ?>"
+									icon-tag="<?php echo ! empty( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ) : ''; ?>"
+									privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
+									privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
+								></inx-embed-consent-request>
+							</div>
+							<?php
+						else :
+							?>
+							<div class="inx-gallery__virtual-tour"><?php echo $inx_skin_virtual_tour['embed_html']; ?></div>
+							<?php
+							if ( $inx_skin_show_caption && $inx_skin_virtual_tour['title'] ) :
+								?>
+								<div class="inx-gallery__virtual-tour-title">
+									<span><?php echo esc_html( $inx_skin_virtual_tour['title'] ); ?></span>
+								</div>
+								<?php
+							endif;
+						endif;
+						?>
 						</li>
 						<?php
 					endforeach;
 				endif;
 				?>
-
-				<?php if ( $inx_skin_show_virtual_tour ) : ?>
-				<li>
-					<?php
-					if ( $template_data['virtual_tours_require_consent'] ) :
-						$inx_skin_virtual_tour_user_consent = apply_filters( 'inx_get_user_consent_content', '', $inx_skin_virtual_tour_url, 'virtual_tour' );
-						?>
-						<div style="height:100%; overflow:auto">
-							<inx-embed-consent-request
-								type="virtual_tour"
-								content="<?php echo esc_attr( $template_data['virtual_tour_embed_code'] ); ?>"
-								privacy-note="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['text'] ) ); ?>"
-								button-text="<?php echo esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['button_text'] ) ); ?>"
-								icon-tag="<?php echo ! empty( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ? esc_attr( nl2br( $inx_skin_virtual_tour_user_consent['icon_tag'] ) ) : ''; ?>"
-								privacy-policy-url="<?php echo esc_attr( get_privacy_policy_url() ); ?>"
-								privacy-policy-title="<?php echo esc_attr( __( 'Privacy Policy', 'immonex-kickstart' ) ); ?>"
-							></inx-embed-consent-request>
-						</div>
-						<?php
-					else :
-						echo $template_data['virtual_tour_embed_code'];
-					endif;
-					?>
-				</li>
-				<?php endif; ?>
 			</ul>
 
 			<div class="uk-visible@s uk-hidden-touch">
@@ -409,7 +423,7 @@ if ( $inx_skin_media_count > 0 ) :
 				<div class="uk-position-relative uk-visible-toggle">
 					<ul class="inx-thumbnail-nav__items uk-slider-items">
 						<?php
-						if ( count( $inx_skin_gallery_images ) > 0 ) :
+						if ( $inx_skin_gallery_images_count > 0 ) :
 							foreach ( $inx_skin_gallery_images as $inx_skin_i => $inx_skin_img ) :
 								?>
 						<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo esc_attr( $inx_skin_i ); ?>"><a href="#"><?php echo $inx_skin_img['thumbnail']; ?></a></li>
@@ -437,8 +451,11 @@ if ( $inx_skin_media_count > 0 ) :
 			<?php if ( $inx_skin_fixed_thumb_nav ) : ?>
 			<div class="inx-thumbnail-nav__fixed">
 				<ul class="inx-thumbnail-nav__items uk-slider-items">
-					<?php if ( count( $inx_skin_gallery_images ) > 0 ) : ?>
-					<li class="inx-thumbnail-nav__item uk-hidden@s" uk-slideshow-item="0">
+					<?php if ( $inx_skin_gallery_images_count > 0 ) : ?>
+					<li class="inx-thumbnail-nav__item inx-thumbnail-nav__item--is-image uk-hidden@s" uk-slideshow-item="0">
+						<?php if ( $inx_skin_gallery_images_count > 1 ) : ?>
+						<div class="uk-badge inx-badge inx-badge--size--m inx-badge--type--count"><?php echo $inx_skin_gallery_images_count; ?></div>
+						<?php endif; ?>
 						<a href="#">
 							<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<div uk-icon="icon: image; ratio: 2"></div>
@@ -448,9 +465,12 @@ if ( $inx_skin_media_count > 0 ) :
 					<?php endif; ?>
 
 					<?php if ( $inx_skin_show_video ) : ?>
-					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
+					<li class="inx-thumbnail-nav__item inx-thumbnail-nav__item--is-video" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
+						<?php if ( $inx_skin_virtual_tour_count > 1 ) : ?>
+						<div class="uk-badge inx-badge inx-badge--size--m inx-badge--type--count"><?php echo $inx_skin_video_count; ?></div>
+						<?php endif; ?>
 						<a href="#">
-							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
+							<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<div uk-icon="icon: <?php echo esc_attr( $inx_skin_video_icon ); ?>; ratio: 2" aria-label="<?php esc_attr_e( 'play icon', 'immonex-kickstart' ); ?>"></div>
 							</div>
 						</a>
@@ -458,9 +478,12 @@ if ( $inx_skin_media_count > 0 ) :
 					<?php endif; ?>
 
 					<?php if ( $inx_skin_show_virtual_tour ) : ?>
-					<li class="inx-thumbnail-nav__item" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + $inx_skin_video_count; ?>">
+					<li class="inx-thumbnail-nav__item inx-thumbnail-nav__item--is-virtual-tour" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ) + $inx_skin_video_count; ?>">
+						<?php if ( $inx_skin_virtual_tour_count > 1 ) : ?>
+						<div class="uk-badge inx-badge inx-badge--size--m inx-badge--type--count" style=""><?php echo $inx_skin_virtual_tour_count; ?></div>
+						<?php endif; ?>
 						<a href="#">
-							<div class="inx-thumbnail-nav__video-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
+							<div class="inx-thumbnail-nav__icon-thumbnail uk-flex uk-flex-center uk-flex-middle uk-flex-column">
 								<div class="inx-icon inx-icon--360"></div>
 							</div>
 						</a>

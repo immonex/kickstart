@@ -180,7 +180,7 @@ export default {
 					minZoom: 0,
 					maxZoom: maxZoom
 				})
-	        })
+			})
 
 			const marker = new Feature({
 				geometry: new Point(

@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.17.4 =
+* Release date: 2026-06-24
+* Added support for displaying multiple virtual tours to the standard gallery.
+* Added Yoast SEO canonical URL and OpenGraph tag fixes.
+* Added a workaround to re-enable styling of (single) property location maps via JSON option.
+* Fixed some minor bugs.
+* Updated dependencies.
+
 = 1.17.0 =
 * Release date: 2026-06-19
 * Added a withdrawal frontend form and related custom post type.

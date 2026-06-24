@@ -132,18 +132,49 @@ export default {
 
 			const mapElement = this.$refs.map
 			const options = this.options ? JSON.parse(atob(this.options)) : {}
+			let map
 
-			options.mapId = 'inx-property-location-map-' + this.id
-			if (!options.center) options.center = {}
-			options.center.lat = this.lat
-			options.center.lng = this.lng
-			options.zoom = this.zoom
+			if (options.styles) {
+				// Workaround for injecting "local" custom styles .
+				const styles = options.styles
+				delete options.styles
 
-			if (!options.mapTypeId) options.mapTypeId = this.defaultMapTypeId
-			if (!options.disableDefaultUI) options.disableDefaultUI = true
-			if (!options.zoomControl) options.zoomControl = true
+				options.mapId = 'DEMO_MAP_ID'
 
-			const map = new this.google.maps.Map(mapElement, options)
+				if (!options.center) options.center = {}
+				options.center.lat = this.lat
+				options.center.lng = this.lng
+				options.zoom = this.zoom
+
+				if (!options.mapTypeId) options.mapTypeId = this.defaultMapTypeId
+				if (!options.disableDefaultUI) options.disableDefaultUI = true
+				if (!options.zoomControl) options.zoomControl = true
+
+				map = new this.google.maps.Map(mapElement, options)
+
+				if (styles) {
+					const customStyledMapType = new this.google.maps.StyledMapType(styles, {
+						name: 'Custom Style'
+					});
+
+					map.mapTypes.set('custom_json_style', customStyledMapType);
+					map.setMapTypeId('custom_json_style');
+				}
+			} else {
+				options.mapId = 'inx-property-location-map-' + this.id
+
+				if (!options.center) options.center = {}
+				options.center.lat = this.lat
+				options.center.lng = this.lng
+				options.zoom = this.zoom
+
+				if (!options.mapTypeId) options.mapTypeId = this.defaultMapTypeId
+				if (!options.disableDefaultUI) options.disableDefaultUI = true
+				if (!options.zoomControl) options.zoomControl = true
+
+				map = new this.google.maps.Map(mapElement, options)
+			}
+
 			const markerScale = this.markerScale ? Math.min(1, this.markerScale) : 1
 			let markerContent
 

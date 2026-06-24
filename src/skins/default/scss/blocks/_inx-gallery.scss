@@ -75,17 +75,25 @@
 }
 
 .inx-gallery__video-iframe,
+.inx-gallery__virtual-tour-iframe,
 .inx-gallery__images .immonex-virtual-tour-iframe-wrap,
 .inx-gallery__images .immonex-virtual-tour-iframe-wrap iframe {
 	width: 100%;
 	height: 100%;
 }
 
-.inx-gallery__video {
+.inx-gallery__virtual-tour-iframe {
+	overflow: auto;
+}
+
+.inx-gallery__video,
+.inx-gallery__virtual-tour {
 	width: 100%;
 	height: 100%;
 	background: rgba(240, 240, 240, .5);
+}
 
+.inx-gallery__video {
 	&:has(+ .inx-gallery__video-title) {
 		height: calc(100% - 3em);
 	}
@@ -105,7 +113,14 @@
 	}
 }
 
-.inx-gallery__video-title {
+.inx-gallery__virtual-tour {
+	&:has(+ .inx-gallery__virtual-tour-title) {
+		height: calc(100% - 3em);
+	}
+}
+
+.inx-gallery__video-title,
+.inx-gallery__virtual-tour-title {
 	display: flex;
 	height: 3em;
 	align-items: center;

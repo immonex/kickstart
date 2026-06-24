@@ -66,13 +66,18 @@ function submitFormData(form, submitEl, resultEl) {
 	).fail(function (xhr) {
 		const data = xhr.responseJSON
 
-		$.each(data.field_errors, function (fieldName, message) {
-			const inputEl = form.find('.inx-withdrawal-form__input--name--' + fieldName).first()
-			inputEl.children('.inx-withdrawal-form__input-error').first().html(message)
-			inputEl.addClass('inx-withdrawal-form__input--has-error')
-		})
+		if (typeof data !== 'undefined' && typeof data.field_errors !== 'undefined' && data.field_errors) {
+			$.each(data.field_errors, function (fieldName, message) {
+				const inputEl = form.find('.inx-withdrawal-form__input--name--' + fieldName).first()
+				inputEl.children('.inx-withdrawal-form__input-error').first().html(message)
+				inputEl.addClass('inx-withdrawal-form__input--has-error')
+			})
+		} else {
+			console.error('Form Submission Error:');
+			console.error(xhr);
+		}
 
-		if (typeof data.spam_check !== "undefined" && data.spam_check) {
+		if (typeof data !== 'undefined' && typeof data.spam_check !== 'undefined' && data.spam_check) {
 			resultEl.html('<span uk-icon="icon: warning; ratio: 2"></span> <span>' + data.message + '</span>')
 			resultEl[0].className = 'inx-withdrawal-form__result inx-withdrawal-form__result--type--warning uk-margin'
 		} else {

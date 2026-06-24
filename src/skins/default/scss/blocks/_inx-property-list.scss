@@ -52,6 +52,14 @@
 	}
 }
 
+.inx-cq-s {
+	.inx-property-list:not(.inx-property-list--is-empty):not(.inx-property-list--is-slider) {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(config.$min-list-item-width, 1fr));
+		grid-gap: 1.5em;
+	}
+}
+
 .inx-cq-sm {
 	.inx-property-list:not(.inx-property-list--is-empty):not(.inx-property-list--is-slider) {
 		grid-template-columns: 1fr 1fr 1fr;

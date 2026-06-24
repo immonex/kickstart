@@ -72,9 +72,12 @@ class Property_Hooks {
 		add_filter( 'pre_get_document_title', array( $this, 'update_template_document_title' ), 90 );
 		add_filter( 'document_title_parts', array( $this, 'update_template_document_title' ) );
 		add_filter( 'the_title', array( $this, 'update_template_page_title' ), 10, 2 );
+		add_filter( 'wpseo_opengraph_title', array( $this, 'update_template_page_title' ), 10, 2 );
 		add_filter( 'get_post_metadata', array( $this, 'update_template_page_featured_image' ), 10, 4 );
 		add_filter( 'post_thumbnail_id', array( $this, 'maybe_get_property_featured_image_id' ), 10, 2 );
 		add_filter( 'get_canonical_url', array( $this, 'update_template_page_canonical_url' ), 10, 2 );
+		add_filter( 'wpseo_canonical', array( $this, 'update_template_page_canonical_url' ), 10, 1 );
+		add_filter( 'wpseo_opengraph_url', array( $this, 'update_template_page_canonical_url' ), 10, 1 );
 		add_filter( 'pre_get_shortlink', array( $this, 'update_template_page_shortlink' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 		add_filter( 'shortcode_atts_gallery', array( $this, 'add_gallery_image_ids' ), 10, 4 );
@@ -273,6 +276,16 @@ class Property_Hooks {
 	 * @return string Possibly updated title.
 	 */
 	public function update_template_page_title( $title, $post_id = null ) {
+		if ( ! $post_id || ! is_numeric( $post_id ) ) {
+			$post = get_post();
+
+			if ( $post ) {
+				$post_id = $post->ID;
+			} else {
+				return $title;
+			}
+		}
+
 		$property_post_id = apply_filters( 'inx_current_property_post_id', null );
 
 		if (
@@ -370,12 +383,16 @@ class Property_Hooks {
 	 *
 	 * @since 1.11.12-beta
 	 *
-	 * @param string   $url Current canonical URL.
-	 * @param \WP_Post $post WP_Post object.
+	 * @param string        $url Current canonical URL.
+	 * @param \WP_Post|bool $post WP_Post object (optional).
 	 *
 	 * @return string Possibly updated canonical URL.
 	 */
-	public function update_template_page_canonical_url( $url, $post ) {
+	public function update_template_page_canonical_url( $url, $post = false ) {
+		if ( ! $post ) {
+			$post = get_post();
+		}
+
 		if ( ! is_object( $post ) ) {
 			return $url;
 		}

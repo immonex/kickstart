@@ -245,9 +245,8 @@ class Withdrawal_Form {
 		$subject         = apply_filters(
 			'inxkick_withdrawal_mail_subject',
 			htmlspecialchars( $this->config['withdrawal_admin_notif_subject'], ENT_NOQUOTES ),
-			$default_subject,
 			$template_data,
-			'admin_notification',
+			'admin_notification'
 		);
 
 		if ( ! trim( $subject ) ) {
@@ -266,7 +265,7 @@ class Withdrawal_Form {
 			$receipt_conf_recipient = $form_data['email'];
 		}
 
-		$receipt_conf_recipient = apply_filters( 'inxkick_withdrawal_receipt_conf_recipient', $receipt_conf_recipient );
+		$receipt_conf_recipient = apply_filters( 'inxkick_withdrawal_mail_recipients', $receipt_conf_recipient, 'receipt_confirmation' );
 		$headers[]              = "Reply-To: {$receipt_conf_recipient}";
 
 		$recipients = $this->utils['string']->split_mail_address_string(
@@ -276,15 +275,9 @@ class Withdrawal_Form {
 			$recipients = array( get_option( 'admin_email' ) );
 		}
 
-		$recipients = apply_filters( 'inxkick_withdrawal_mail_recipients', $recipients );
-
-		$headers = apply_filters(
-			'inxkick_withdrawal_mail_headers',
-			$headers,
-			'admin_notification'
-		);
-
-		$attachments = array();
+		$recipients  = apply_filters( 'inxkick_withdrawal_mail_recipients', $recipients, 'admin_notification' );
+		$headers     = apply_filters( 'inxkick_withdrawal_mail_headers', $headers, 'admin_notification' );
+		$attachments = apply_filters( 'inxkick_withdrawal_mail_attachments', array(), 'admin_notification' );
 
 		$this->add_prerendered_data( $template_data );
 
@@ -320,7 +313,11 @@ class Withdrawal_Form {
 			wpautop( stripslashes( $body['html'] ) )
 		);
 
-		$html_frame_template_data = array();
+		$html_frame_template_data = apply_filters(
+			'inxkick_withdrawal_mail_html_frame_params',
+			array(),
+			'admin_notification'
+		);
 
 		if ( $this->config['default_mail_as_html'] ) {
 			$html_frame_template_data['preset'] = 'admin_info';
@@ -544,7 +541,7 @@ class Withdrawal_Form {
 			$fields = $org_fields;
 		}
 
-		$fields['time_or_receipt'] = array(
+		$fields['time_of_receipt'] = array(
 			'type'    => 'date_time',
 			'caption' => __( 'Time of Receipt', 'immonex-kickstart' ),
 			'order'   => 200,
@@ -575,7 +572,7 @@ class Withdrawal_Form {
 	 *
 	 * @param string  $sender        Real Sender mail address.
 	 * @param string  $recipient     Recipient name and mail address.
-	 * @param mixed[] $template_data Property and form data.
+	 * @param mixed[] $template_data Website and form data.
 	 *
 	 * @return bool Send Result.
 	 */
@@ -584,7 +581,7 @@ class Withdrawal_Form {
 			'inxkick_withdrawal_mail_subject',
 			htmlspecialchars( $this->config['withdrawal_rcpt_conf_subject'], ENT_NOQUOTES ),
 			$template_data,
-			'receipt_confirmation',
+			'receipt_confirmation'
 		);
 
 		if ( ! trim( $subject ) ) {
@@ -647,12 +644,11 @@ class Withdrawal_Form {
 			$signature   = wpautop( stripslashes( $signature ) );
 		}
 
-		$attachments = apply_filters(
+		$attachments              = apply_filters(
 			'inxkick_withdrawal_mail_attachments',
 			array(),
-			'receipt_confirmation',
+			'receipt_confirmation'
 		);
-
 		$html_frame_template_data = apply_filters(
 			'inxkick_withdrawal_mail_html_frame_params',
 			array(
@@ -665,7 +661,7 @@ class Withdrawal_Form {
 					'logo_position' => $this->config['default_mail_logo_position'],
 				),
 			),
-			'receipt_confirmation',
+			'receipt_confirmation'
 		);
 
 		if ( ! empty( $body ) ) {
@@ -970,7 +966,7 @@ class Withdrawal_Form {
 			),
 		);
 
-		$company = ! empty( $this->config['company_name'] ) && false === strpos( $sig, $this->config['company_name'] ) ?
+		$company = ! empty( $this->config['company_name'] ) && false === strpos( $sig[0], $this->config['company_name'] ) ?
 			"<strong>{$this->config['company_name']}</strong>" : '';
 
 		if ( ! empty( $this->config['company_address'] ) ) {

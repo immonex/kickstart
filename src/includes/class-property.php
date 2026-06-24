@@ -1292,13 +1292,23 @@ class Property {
 			return array();
 		}
 
-		$prefix                  = $this->config['plugin_prefix'];
-		$virtual_tour_embed_code = get_post_meta( $this->post->ID, "_{$prefix}virtual_tour_embed_code", true );
-		$virtual_tour_url        = '';
-		if ( $virtual_tour_embed_code ) {
-			preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
-			if ( ! empty( $matches ) ) {
-				$virtual_tour_url = $matches[0];
+		$prefix        = $this->config['plugin_prefix'];
+		$virtual_tours = get_post_meta( $this->post->ID, "_{$prefix}virtual_tours", true );
+
+		if ( ! empty( $virtual_tours ) ) {
+			return array(
+				'virtual_tours'           => $virtual_tours,
+				'virtual_tour_embed_html' => $virtual_tours[0]['embed_html'],
+				'virtual_tour_url'        => $virtual_tours[0]['url'],
+			);
+		} else {
+			$virtual_tour_embed_code = get_post_meta( $this->post->ID, "_{$prefix}virtual_tour_embed_code", true );
+			$virtual_tour_url        = '';
+			if ( $virtual_tour_embed_code ) {
+				preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
+				if ( ! empty( $matches ) ) {
+					$virtual_tour_url = $matches[0];
+				}
 			}
 		}
 
@@ -1750,7 +1760,7 @@ class Property {
 	} // sanitize_extend_location_map_data
 
 	/**
-	 * Retrieve, split and return data of an external, property related video,
+	 * Retrieve, split and return data of external, property related videos,
 	 * if existent (custom field).
 	 *
 	 * @since 1.0.0

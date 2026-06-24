@@ -37,6 +37,13 @@
 	}
 }
 
+.inx-property-list-item__media-top {
+	[data-uk-cover]:where(img, video),
+	[uk-cover]:where(img, video) {
+		position: relative;
+	}
+}
+
 .inx-property-list__item-wrap > .inx-property-list-item__labels,
 .inx-property-list-item > .inx-property-list-item__labels {
 	right: -.15rem !important;
