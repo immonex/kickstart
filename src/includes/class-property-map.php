@@ -292,6 +292,30 @@ class Property_Map {
 			$cache_key = $this->get_cache_key( $atts );
 			$markers   = apply_filters( 'inx_cache_get_transient', '', $cache_key );
 
+			if ( ! empty( $markers ) && 'full' === $args['type'] ) {
+				/**
+				 * Perform a quick check regarding missing thumbnail images of
+				 * cached markers (add if available).
+				 */
+				$cnt = 0;
+
+				foreach ( $markers as $post_id => $marker ) {
+					++$cnt;
+					if ( 50 <= $cnt ) {
+						break;
+					}
+
+					if ( isset( $markers['thumbnail_url'] ) && ! $markers['thumbnail_url'] ) {
+						$thumbnail_url = get_the_post_thumbnail_url( $post_id );
+
+						if ( $thumbnail_url ) {
+							$markers[ $post_id ]['thumbnail_url'] = $thumbnail_url;
+							update_post_meta( $post_id, '_inx_list_map_marker', $marker );
+						}
+					}
+				}
+			}
+
 			if ( ! empty( $markers ) ) {
 				return $markers;
 			}

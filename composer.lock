@@ -389,12 +389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "f6152fe2560ec1124e1394e98fd927c105dca193"
+                "reference": "6a175a574556e0a761513bde4db69d39141d6e88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/f6152fe2560ec1124e1394e98fd927c105dca193",
-                "reference": "f6152fe2560ec1124e1394e98fd927c105dca193",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6a175a574556e0a761513bde4db69d39141d6e88",
+                "reference": "6a175a574556e0a761513bde4db69d39141d6e88",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-15T20:52:31+00:00"
+            "time": "2026-06-25T07:13:09+00:00"
         }
     ],
     "packages-dev": [
@@ -1312,12 +1312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f4303559765123b10aa61246dee62d3e6ad03f32"
+                "reference": "4b2aeb0fb08a3389264499b6dd6b5808bbf1532b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f4303559765123b10aa61246dee62d3e6ad03f32",
-                "reference": "f4303559765123b10aa61246dee62d3e6ad03f32",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4b2aeb0fb08a3389264499b6dd6b5808bbf1532b",
+                "reference": "4b2aeb0fb08a3389264499b6dd6b5808bbf1532b",
                 "shasum": ""
             },
             "require": {
@@ -1399,7 +1399,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-06-18T02:57:28+00:00"
+            "time": "2026-06-28T02:46:00+00:00"
         },
         {
             "name": "sebastian/cli-parser",

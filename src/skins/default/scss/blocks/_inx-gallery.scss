@@ -19,6 +19,10 @@
 
 	li {
 		background-color: var(--inx-gallery-image-slider-bg-color, #F0F0F0);
+
+		.inx-embed-consent-request {
+			background-color: var(--inx-gallery-image-slider-bg-color, #F0F0F0);
+		}
 	}
 }
 

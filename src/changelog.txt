@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.17.8 =
+* Release date: 2026-06-30
+* Added a fallback solution for determining multiple virtual tour URLs per real estate object.
+* Added an aspect ratio CSS rule for video iFrames embedded outside of regular gallery sections.
+* Fixed a minor dynamic CSS property generation issue.
+* Updated dependencies.
+
 = 1.17.4 =
 * Release date: 2026-06-24
 * Added support for displaying multiple virtual tours to the standard gallery.

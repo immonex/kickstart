@@ -1298,25 +1298,133 @@ class Property {
 		if ( ! empty( $virtual_tours ) ) {
 			return array(
 				'virtual_tours'           => $virtual_tours,
-				'virtual_tour_embed_html' => $virtual_tours[0]['embed_html'],
+				'virtual_tour_embed_code' => $virtual_tours[0]['embed_html'],
 				'virtual_tour_url'        => $virtual_tours[0]['url'],
 			);
-		} else {
-			$virtual_tour_embed_code = get_post_meta( $this->post->ID, "_{$prefix}virtual_tour_embed_code", true );
-			$virtual_tour_url        = '';
-			if ( $virtual_tour_embed_code ) {
-				preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
-				if ( ! empty( $matches ) ) {
-					$virtual_tour_url = $matches[0];
-				}
+		}
+
+		$virtual_tours = $this->extract_virtual_tour_data_from_xml();
+
+		if ( ! empty( $virtual_tours ) ) {
+			add_post_meta( $this->post->ID, "_{$prefix}virtual_tours", $virtual_tours );
+
+			return array(
+				'virtual_tours'           => $virtual_tours,
+				'virtual_tour_embed_code' => $virtual_tours[0]['embed_html'],
+				'virtual_tour_url'        => $virtual_tours[0]['url'],
+			);
+		}
+
+		$virtual_tour_embed_code = get_post_meta( $this->post->ID, "_{$prefix}virtual_tour_embed_code", true );
+		$virtual_tour_url        = '';
+		if ( $virtual_tour_embed_code ) {
+			preg_match( '/(?<=src=").*?(?=[\*"])/i', $virtual_tour_embed_code, $matches );
+			if ( ! empty( $matches ) ) {
+				$virtual_tour_url = $matches[0];
 			}
 		}
 
 		return array(
+			'virtual_tours'           => array(
+				array(
+					'title'      => '',
+					'url'        => $virtual_tour_url,
+					'embed_html' => $virtual_tour_embed_code,
+				),
+			),
 			'virtual_tour_embed_code' => $virtual_tour_embed_code,
 			'virtual_tour_url'        => $virtual_tour_url,
 		);
 	} // get_virtual_tour_data
+
+	/**
+	 * Extract virtual tour URLs from the property XML data if these have not been
+	 * saved during import with OpenImmo2WP.
+	 *
+	 * @since 1.17.6
+	 *
+	 * @return mixed[] Virtual tour data or empty array.
+	 */
+	private function extract_virtual_tour_data_from_xml() {
+		$immobilie = $this->get_immobilie();
+
+		if ( ! $immobilie || ! $immobilie->anhaenge->anhang ) {
+			return false;
+		}
+
+		$virtual_tours = array();
+
+		foreach ( $immobilie->anhaenge->anhang as $anhang ) {
+			if (
+				empty( $anhang['gruppe'] )
+				|| ! in_array( (string) $anhang['gruppe'], array( 'FILMLINK', 'LINKS', 'PANORAMA' ), true )
+			) {
+				continue;
+			}
+
+			$url   = false;
+			$title = '';
+
+			if ( $anhang->daten->pfad && 'http' === strtolower( substr( (string) $anhang->daten->pfad, 0, 4 ) ) ) {
+				$url = (string) $anhang->daten->pfad;
+
+				if ( $anhang->anhangtitel ) {
+					$title = (string) $anhang->anhangtitel;
+				}
+			} elseif ( $anhang->anhangtitel && 'http' === strtolower( substr( (string) $anhang->anhangtitel, 0, 4 ) ) ) {
+				$url = (string) $anhang->anhangtitel;
+			}
+
+			if ( ! $url ) {
+				continue;
+			}
+
+			if ( $this->utils['string']->is_virtual_tour_url(
+				$url,
+				apply_filters( 'immonex_oi2wp_additional_virtual_tour_url_parts', array() )
+			) ) {
+				// An OpenImmo2WP hook is used for filtering the embed code variables instead of a Kickstart hook.
+				$vars       = apply_filters( 'immonex_oi2wp_virtual_tour_embed_code_args', array( 'url' => $url ) );
+				$embed_html = $this->get_virtual_tour_embed_code( $vars );
+
+				if ( $embed_html ) {
+					$virtual_tours[] = array(
+						'title'      => $title,
+						'url'        => $url,
+						'embed_html' => $embed_html,
+					);
+				}
+			}
+		}
+
+		return $virtual_tours;
+	} // extract_virtual_tour_data_from_xml
+
+	/**
+	 * Generate the embed code for virtual tours.
+	 *
+	 * @since 1.17.6
+	 *
+	 * @param mixed[] $vars Key/Value array of URL variables (mandatory key: url).
+	 *
+	 * @return string HTML Embed code.
+	 */
+	private function get_virtual_tour_embed_code( $vars ) {
+		if ( ! is_array( $vars ) || ! isset( $vars['url'] ) ) {
+			return;
+		}
+
+		$embed_code = apply_filters(
+			'immonex_oi2wp_virtual_tour_embed_code', // An OpenImmo2WP hook is used here instead of a Kickstart hook.
+			'<div class="immonex-virtual-tour-iframe-wrap"><iframe src="{url}" width="100%" height="450" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe></div>'
+		);
+
+		foreach ( $vars as $name => $value ) {
+			$embed_code = str_replace( '{' . $name . '}', $value, $embed_code );
+		}
+
+		return $embed_code;
+	} // get_virtual_tour_embed_code
 
 	/**
 	 * Retrieve and return the post thumbnail tag with prepared attributes.

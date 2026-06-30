@@ -15,7 +15,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.17.4';
+	const PLUGIN_VERSION             = '1.17.8';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -498,7 +498,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_0\Base {
 				}
 
 				foreach ( $old_values as $key => $value ) {
-					if ( 'color_' === substr( $key, 0, 6 ) && $value !== $values[ $key ] ) {
+					if ( false !== strpos( $key, 'color' ) && $value !== $values[ $key ] ) {
 						do_action( 'inx_dynamic_css_delete_file' );
 						break;
 					}
