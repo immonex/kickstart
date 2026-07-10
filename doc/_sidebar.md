@@ -21,7 +21,7 @@
 * ANPASSUNG & ERWEITERUNG
   * [Farben](/anpassung-erweiterung/farben)
   * [CSS](/anpassung-erweiterung/css)
-  * [Skins](/anpassung-erweiterung/skins)
-  * [Standard-Skin / Custom Skins](/anpassung-erweiterung/standard-skin)
+  * [Skins – Grundlagen](/anpassung-erweiterung/skins)
+  * [Standard-Skin](/anpassung-erweiterung/standard-skin)
   * [Übersetzung / Mehrsprachigkeit](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit)
   * [Filter/Action-Referenz](/anpassung-erweiterung/filters-actions)

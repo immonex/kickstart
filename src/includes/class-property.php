@@ -1324,14 +1324,18 @@ class Property {
 			}
 		}
 
-		return array(
-			'virtual_tours'           => array(
+		if ( empty( $virtual_tours ) && ! empty( $virtual_tour_embed_code ) ) {
+			$virtual_tours = array(
 				array(
 					'title'      => '',
 					'url'        => $virtual_tour_url,
 					'embed_html' => $virtual_tour_embed_code,
 				),
-			),
+			);
+		}
+
+		return array(
+			'virtual_tours'           => $virtual_tours,
 			'virtual_tour_embed_code' => $virtual_tour_embed_code,
 			'virtual_tour_url'        => $virtual_tour_url,
 		);

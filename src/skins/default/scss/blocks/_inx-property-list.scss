@@ -23,7 +23,6 @@
 
 .inx-property-list__item-wrap {
 	position: relative;
-	width: fit-content;
 	margin-bottom: 2em;
 
 	> .inx-property-list-item__labels {
@@ -99,6 +98,7 @@
 @media screen and (min-width: config.$screen-m) {
 	:not(.inx-cq-xxs) {
 		.inx-property-list {
+			.inx-property-list__item-wrap,
 			.inx-property-list__item-wrap > .inx-property-list-item {
 				max-width: config.$max-list-item-width;
 			}

@@ -25,6 +25,9 @@ UIkit.use(Icons)
 import inxState from './state'
 Vue.mixin(inxState)
 
+// Default Icon Font
+import '../assets/fonts/_flaticon.css';
+
 // (S)CSS
 import '../scss/frontend.scss'
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee7eaf2b048ffab2da05f5c1e8ee54e0",
+    "content-hash": "81991a50e12da910bacc6837ff891d77",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -103,16 +103,16 @@
         },
         {
             "name": "immonex/wp-free-plugin-core",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/immonex/wp-free-plugin-core.git",
-                "reference": "417985c101573ecc90cf00bb774594147ba792a1"
+                "reference": "9464a34cd563b9e23a9e6dd1142fff19c765776f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/417985c101573ecc90cf00bb774594147ba792a1",
-                "reference": "417985c101573ecc90cf00bb774594147ba792a1",
+                "url": "https://api.github.com/repos/immonex/wp-free-plugin-core/zipball/9464a34cd563b9e23a9e6dd1142fff19c765776f",
+                "reference": "9464a34cd563b9e23a9e6dd1142fff19c765776f",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             ],
             "support": {
                 "issues": "https://github.com/immonex/wp-free-plugin-core/issues",
-                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.13.0"
+                "source": "https://github.com/immonex/wp-free-plugin-core/tree/2.13.1"
             },
-            "time": "2026-06-10T06:05:50+00:00"
+            "time": "2026-07-02T14:31:47+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -815,16 +815,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08"
+                "reference": "2e66ec3fb5eb6b85cfe622573eb9b9ea8b08ba84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08",
-                "reference": "50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/2e66ec3fb5eb6b85cfe622573eb9b9ea8b08ba84",
+                "reference": "2e66ec3fb5eb6b85cfe622573eb9b9ea8b08ba84",
                 "shasum": ""
             },
             "require": {
-                "ext-ctype": "*",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
                 "php": ">=7.4"
@@ -866,7 +865,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2026-02-26T13:20:22+00:00"
+            "time": "2026-07-02T10:12:37+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2553,12 +2552,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "e9247d281d694a5120554d9afaf54e070e88a603"
+                "reference": "1932ad15e9008457c91732fe826e954cc37336d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/e9247d281d694a5120554d9afaf54e070e88a603",
-                "reference": "e9247d281d694a5120554d9afaf54e070e88a603",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/1932ad15e9008457c91732fe826e954cc37336d3",
+                "reference": "1932ad15e9008457c91732fe826e954cc37336d3",
                 "shasum": ""
             },
             "require": {
@@ -2628,7 +2627,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-26T05:58:03+00:00"
+            "time": "2026-07-01T12:47:55+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",

@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 1.17.10 =
+* Release date: 2026-07-02
+* Added general use of default skin assets as fallback.
+* Fixed display of empty virtual tour slides in galleries.
+* Updated dependencies.
+
 = 1.17.8 =
 * Release date: 2026-06-30
 * Added a fallback solution for determining multiple virtual tour URLs per real estate object.

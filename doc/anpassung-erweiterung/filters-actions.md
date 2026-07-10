@@ -69,6 +69,7 @@
 - [inx_apply_auto_rendering_atts](filter-inx-apply-auto-rendering-atts) (Rendering-Auto-Attribute übernehmen)
 - [inx_template_search_folders](filter-inx-template-search-folders) (Basisordner für Skins/Templates ergänzen)
 - [inx_template_folder_url_mappings](filter-inx-template-folder-url-mappings) (URL-Zuordnungen für nicht öffentlich zugängliche Template/Skin-Dateisystem-Basisordner definieren)
+- [inx_use_default_skin_assets_as_fallback](filter-inx-use-default-skin-assets-as-fallback) (Standard-Skin-Dateien als Fallback verwenden)
 
 #### Immobilien
 

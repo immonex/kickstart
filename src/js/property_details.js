@@ -81,6 +81,19 @@ function refreshTabbedYTiFrames (event) {
 	}
 } // refreshTabbedYTiFrames
 
+function removeEmptyTabs() {
+	let removedElements = 0
+
+	$('#inx-single-property__tab-contents > li').each( function(index, li) {
+		if (0 === $(li).html().trim().length) {
+			// Remove empty tabs and their related navigation items.
+			$(li).remove()
+			$('.inx-single-property__tab-nav li:eq(' + (index - removedElements) + ')').remove()
+			removedElements++
+		}
+	})
+} // removeEmptyTabs
+
 function maybeActivateGalleryThumbNavItem(event) {
 	for (const navType of ['image', 'video', 'virtual-tour']) {
 		if (event.target.classList.contains('inx-gallery__' + navType + '-item')) {
@@ -95,6 +108,7 @@ function maybeActivateGalleryThumbNavItem(event) {
 async function init() {
 	initPropertyDetailInstances()
 	cleanLocationURL()
+	removeEmptyTabs()
 
 	UIkit.util.on('.inx-single-property__tabbed-content', 'shown', refreshTabbedYTiFrames)
 	UIkit.util.on('.inx-gallery__image-slider', 'itemshown', maybeActivateGalleryThumbNavItem)

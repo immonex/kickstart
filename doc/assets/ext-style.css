@@ -14,11 +14,11 @@ h2, h3, h4, h5, h6 {
 }
 
 .markdown-section h2 a span {
-	font-size: 1.75rem;
+	font-size: 1.80rem;
 }
 
 .markdown-section h3 a span {
-	font-size: 1.6rem;
+	font-size: 1.5rem;
 	font-weight: 500;
 }
 
@@ -49,8 +49,11 @@ body:not(.dark) .markdown-section em {
 	color: var(--text-color);
 }
 
-body:not(.dark) .markdown-section strong {
+body:not(.dark) .markdown-section strong:not(.token.keyword) {
 	color: #38382C;
+}
+body:not(.dark) .markdown-section:not(.token.keyword) code strong {
+	color: inherit;
 }
 body:not(.dark) .markdown-section a.link-anchor strong,
 body:not(.dark) .markdown-section a.link-anchor em {
