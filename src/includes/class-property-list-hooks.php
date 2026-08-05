@@ -294,6 +294,7 @@ class Property_List_Hooks extends Property_Component_Hooks {
 				}
 			}
 		}
+
 		$shortcode_atts = $this->utils['string']->decode_special_chars(
 			shortcode_atts( $supported_atts, $prefixed_atts, "{$prefix}property-list" )
 		);

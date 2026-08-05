@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 1.17.14 =
+* Release date: 2026-08-05
+* Fixed check for missing featured images during map marker data generation.
+* Reworked property list and map marker cache handling.
+* Reworked backlink handling for map-based property detail links.
+* Improved WordPress 7.1 compatibility (plugin option tab display).
+* Updated dependencies.
+
 = 1.17.10 =
 * Release date: 2026-07-02
 * Added general use of default skin assets as fallback.

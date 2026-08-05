@@ -286,13 +286,17 @@ class Property_Map {
 			$atts['type'] = 'coords';
 		}
 
-		$cache_enabled = apply_filters( 'inxkick_enable_map_marker_cache', $this->config['performance_enable_map_marker_cache'] );
+		$property      = new Property( false, $this->config, $this->utils );
+		$cache_enabled = ! $this->utils['data']->get_query_var_value( "{$this->config['public_prefix']}disable-cache" )
+			&& empty( $atts[ "{$this->config['public_prefix']}disable-cache" ] )
+			&& empty( $atts['disable_cache'] )
+			&& apply_filters( 'inxkick_enable_map_marker_cache', $this->config['performance_enable_map_marker_cache'] );
 
 		if ( $cache_enabled ) {
 			$cache_key = $this->get_cache_key( $atts );
 			$markers   = apply_filters( 'inx_cache_get_transient', '', $cache_key );
 
-			if ( ! empty( $markers ) && 'full' === $args['type'] ) {
+			if ( ! empty( $markers ) && 'full' === $atts['type'] ) {
 				/**
 				 * Perform a quick check regarding missing thumbnail images of
 				 * cached markers (add if available).
@@ -305,25 +309,25 @@ class Property_Map {
 						break;
 					}
 
-					if ( isset( $markers['thumbnail_url'] ) && ! $markers['thumbnail_url'] ) {
+					if ( isset( $marker['thumbnail_url'] ) && ! $marker['thumbnail_url'] ) {
 						$thumbnail_url = get_the_post_thumbnail_url( $post_id );
 
 						if ( $thumbnail_url ) {
 							$markers[ $post_id ]['thumbnail_url'] = $thumbnail_url;
-							update_post_meta( $post_id, '_inx_list_map_marker', $marker );
+							update_post_meta( $post_id, '_inx_list_map_marker', $markers[ $post_id ] );
 						}
 					}
 				}
 			}
 
 			if ( ! empty( $markers ) ) {
+				$this->add_property_urls( $markers, $atts, $property );
 				return $markers;
 			}
 		}
 
-		$markers       = array();
-		$disable_links = ! empty( $atts['disable_links'] ) ? strtolower( $atts['disable_links'] ) : '';
-		$property_ids  = ! empty( $atts['id'] ) ?
+		$markers      = array();
+		$property_ids = ! empty( $atts['id'] ) ?
 			array_filter( explode( ',', $atts['id'] ) ) :
 			apply_filters( 'inx_get_properties', array(), $atts );
 
@@ -334,6 +338,15 @@ class Property_Map {
 					get_post_meta( $post_id, '_inx_list_map_marker', true );
 
 				if ( ! empty( $marker ) ) {
+					if ( isset( $marker['thumbnail_url'] ) && ! $marker['thumbnail_url'] ) {
+						$thumbnail_url = get_the_post_thumbnail_url( $post_id );
+
+						if ( $thumbnail_url ) {
+							$marker['thumbnail_url'] = $thumbnail_url;
+							update_post_meta( $post_id, '_inx_list_map_marker', $marker );
+						}
+					}
+
 					$markers[ $post_id ] = $marker;
 					continue;
 				}
@@ -347,9 +360,6 @@ class Property_Map {
 				$lat = $property_coords[ $post_id ]['lat'];
 				$lng = $property_coords[ $post_id ]['lng'];
 
-				if ( ! isset( $property ) ) {
-					$property = new Property( false, $this->config, $this->utils );
-				}
 				$property->set_post( $post_id );
 
 				if ( ! isset( $all_property_type_terms ) ) {
@@ -358,20 +368,7 @@ class Property_Map {
 				$property_type = ! empty( $all_property_type_terms[ $post_id ] ) ?
 					array_shift( $all_property_type_terms[ $post_id ] ) : '';
 
-				$property_url = '';
-
-				if (
-					'all' !== $disable_links
-					&& ( 'unavailable' !== $disable_links || get_post_meta( $post_id, '_immonex_is_available', true ) )
-					&& ( 'references' !== $disable_links || ! get_post_meta( $post_id, '_immonex_is_reference', true ) )
-				) {
-					$has_detail_view = ! empty( $this->config['disable_detail_view_states'] ) ?
-						apply_filters( 'inx_has_detail_view', true, $post_id ) : true;
-					$property_url    = $has_detail_view ?
-						$property->extend_url( get_post_permalink( $post_id ), false, $atts ) : '';
-				}
-
-				if ( ! empty( $atts['type'] ) && 'coords' === $atts['type'] ) {
+				if ( 'coords' === $atts['type'] ) {
 					$marker_coords = array( $lat, $lng );
 					update_post_meta( $post_id, '_inx_list_map_marker_coords', $marker_coords );
 					$markers[ $post_id ] = $marker_coords;
@@ -382,9 +379,9 @@ class Property_Map {
 						'lat'           => $lat,
 						'lng'           => $lng,
 						'thumbnail_url' => get_the_post_thumbnail_url( $post_id ),
-						'url'           => $property_url,
+						'is_available'  => get_post_meta( $post_id, '_immonex_is_available', true ),
+						'is_reference'  => get_post_meta( $post_id, '_immonex_is_reference', true ),
 					);
-
 					update_post_meta( $post_id, '_inx_list_map_marker', $marker );
 					$markers[ $post_id ] = $marker;
 				}
@@ -395,8 +392,58 @@ class Property_Map {
 			do_action( 'inx_cache_set_transient', $cache_key, $markers );
 		}
 
+		$this->add_property_urls( $markers, $atts, $property );
+
 		return $markers;
 	} // get_markers
+
+	/**
+	 * Extend the marker data by current property detail view URLs.
+	 *
+	 * @since 1.17.14
+	 *
+	 * @param mixed[]                     $markers  Marker set.
+	 * @param mixed[]                     $atts     Rendering attributes.
+	 * @param \immonex\Kickstart\Property $property Property instance.
+	 */
+	private function add_property_urls( &$markers, $atts, $property ) {
+		if ( 'full' !== $atts['type'] || ! is_array( $markers ) || empty( $markers ) ) {
+			return;
+		}
+
+		$disable_links = ! empty( $atts['disable_links'] ) ? strtolower( $atts['disable_links'] ) : '';
+
+		foreach ( $markers as $post_id => $marker ) {
+			$property_url = '';
+			$is_available = isset( $marker['is_available'] ) ?
+				$marker['is_available'] :
+				get_post_meta( $post_id, '_immonex_is_available', true );
+			$is_reference = isset( $marker['is_reference'] ) ?
+				$marker['is_reference'] :
+				get_post_meta( $post_id, '_immonex_is_reference', true );
+
+			if (
+				'all' !== $disable_links
+				&& ( 'unavailable' !== $disable_links || ! $is_available )
+				&& ( 'references' !== $disable_links || ! $is_reference )
+			) {
+				$has_detail_view = ! empty( $this->config['disable_detail_view_states'] ) ?
+					apply_filters( 'inx_has_detail_view', true, $post_id ) : true;
+				$property_url    = $has_detail_view ?
+					$property->extend_url( get_post_permalink( $post_id ), false, $atts ) : '';
+			}
+
+			$markers[ $post_id ]['url'] = $property_url;
+
+			// Remove not longer necessary marker data (for performance reasons).
+			if ( isset( $markers[ $post_id ]['is_available'] ) ) {
+				unset( $markers[ $post_id ]['is_available'] );
+			}
+			if ( isset( $markers[ $post_id ]['is_reference'] ) ) {
+				unset( $markers[ $post_id ]['is_reference'] );
+			}
+		}
+	} // add_property_urls
 
 	/**
 	 * Generate a cache key (MD5 hash) for a given set of attributes and GET
@@ -411,19 +458,40 @@ class Property_Map {
 	private function get_cache_key( $atts ) {
 		$hash_str = '';
 
-		$atts_keys = [ 'id', 'type', 'disable_links' ];
-		foreach ( $atts_keys as $key ) {
-			$value     = ! empty( $atts[ $key ] ) ? $atts[ $key ] : '-';
-			$hash_str .= "{$key}:{$value};";
-		}
-
-		if ( ! empty( $_GET ) ) {
-			$exclude = array(
+		// Internal filters.
+		$include = apply_filters(
+			'inxkick_cache_key_include_query_vars',
+			array(
+				'id',
+				'type',
+				'disable_links',
+				'fields',
+			),
+			'property_map',
+			$atts
+		);
+		$exclude = apply_filters(
+			'inxkick_cache_key_exclude_query_vars',
+			array(
 				'inx-sort',
 				'inx-limit-page',
 				'inx-r-cidata',
-			);
+			),
+			'property_map',
+			$atts
+		);
 
+		foreach ( $include as $key ) {
+			$value = ! empty( $atts[ $key ] ) ? $atts[ $key ] : '-';
+
+			if ( ! is_string( $value ) ) {
+				$value = wp_json_encode( $value, 0, 2 );
+			}
+
+			$hash_str .= $value ? "{$key}:{$value};" : "{$key}:-;";
+		}
+
+		if ( ! empty( $_GET ) ) {
 			foreach ( $_GET as $key => $value ) {
 				if (
 					'inx-' !== substr( $key, 0, 4 )

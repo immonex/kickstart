@@ -205,6 +205,7 @@ Die Namen der Parameter beginnen immer mit dem Präfix `inx-` (allgemein) oder `
 | `inx-sort` | [Sortierschlüssel (Key)](/komponenten/sortierung#Standard-Optionen) |
 | `inx-force-lang` | Sprachcode, mit dem in [Sonderfällen bei mehrsprachigen Umgebungen](/anpassung-erweiterung/uebersetzung-mehrsprachigkeit#sonderfälle) eine bestimmte Sprache vorgegeben werden kann (z. B. *de*, *en*...) |
 | `inx-ref` | beliebiger, **benutzerdefinierter** Wert |
+| `inx-disable-cache` | Cache deaktivieren (*1* oder *yes*) |
 
 ### Suchspezifische Parameter
 

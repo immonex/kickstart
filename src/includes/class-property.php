@@ -280,17 +280,28 @@ class Property {
 		$backlink_url  = $this->get_backlink_url( $permalink_url, false, $atts );
 		$url           = $this->extend_url( $permalink_url, $backlink_url, $atts );
 
+		/**
+		 * The following removal of inx-ipn-disable-pgn=1 is required due to an edge case
+		 * (special backlink URLs for map-based property detail links).
+		 */
 		$uncached_data = array_merge(
 			$config,
 			array(
 				'instance'       => $this,
 				'permalink_url'  => $permalink_url,
 				'url'            => $url,
-				'overview_url'   => $backlink_url,
+				'overview_url'   => preg_replace( '/&inx-ipn-disable-pgn=1(?=&|$)|inx-ipn-disable-pgn=1(&|$)/', '', $backlink_url ),
 				'inter_post_nav' => $this->get_inter_post_nav( $atts, $backlink_url ),
 			),
 			$atts
 		);
+
+		$cache_enabled = ! $this->utils['data']->get_query_var_value( "{$this->config['public_prefix']}disable-cache" )
+			&& empty( $args[ "{$this->config['public_prefix']}disable-cache" ] )
+			&& empty( $args['disable_cache'] )
+			&& empty( $atts['is_preview'] )
+			&& empty( $_GET['inx_as_pdf'] )
+			&& apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		$cache_enabled = empty( $atts['is_preview'] )
 			&& empty( $_GET['inx_as_pdf'] )
@@ -992,12 +1003,13 @@ class Property {
 	 * @return string Backlink URL.
 	 */
 	public function extend_url( $permalink_url, $backlink_url = false, $atts = array() ) {
-		$public_prefix = $this->config['public_prefix'];
-		$url           = $permalink_url;
-		$limit_page    = ! empty( $atts['list_query_atts'][ "{$public_prefix}limit-page" ] ) ?
+		$public_prefix      = $this->config['public_prefix'];
+		$url                = $permalink_url;
+		$disable_pagination = $backlink_url && false !== strpos( $backlink_url, 'inx-ipn-disable-pgn=1' );
+		$limit_page         = ! $disable_pagination && ! empty( $atts['list_query_atts'][ "{$public_prefix}limit-page" ] ) ?
 			$atts['list_query_atts'][ "{$public_prefix}limit-page" ] : false;
 
-		if ( ! $limit_page ) {
+		if ( ! $limit_page && ! $disable_pagination ) {
 			$limit_page = ! empty( $atts['list_query_atts'][ "{$public_prefix}list-limit-page" ] ) ?
 				$atts['list_query_atts'][ "{$public_prefix}list-limit-page" ] :
 				$this->utils['data']->get_query_var_value( "{$public_prefix}limit-page" );
@@ -1012,7 +1024,7 @@ class Property {
 			$backlink_url = $this->get_backlink_url( $permalink_url, $base_url );
 		}
 
-		if ( isset( $atts['backlink_page_number'] ) ) {
+		if ( isset( $atts['backlink_page_number'] ) && ! $disable_pagination ) {
 			$backlink_url = $this->utils['string']->update_url_pagination( $backlink_url, $atts['backlink_page_number'] );
 		}
 
@@ -2447,7 +2459,10 @@ class Property {
 
 		$public_prefix         = $this->config['public_prefix'];
 		$backlink_url          = $this->validate_backlink_url( $this->utils['data']->get_query_var_value( "{$public_prefix}backlink-url", false, false, false ) );
-		$exclude_backlink_vars = array( "{$public_prefix}list-limit-page" );
+		$exclude_backlink_vars = array(
+			"{$public_prefix}list-limit-page",
+			"{$public_prefix}ipn-disable-pgn",
+		);
 
 		if ( $backlink_url ) {
 			$backlink_url = rawurldecode( $backlink_url );
@@ -2456,7 +2471,7 @@ class Property {
 				$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );
 			}
 
-			return $this->re_encode_url_query_values( $backlink_url );
+			return $this->re_encode_url_query_values( $backlink_url, $exclude_backlink_vars );
 		}
 
 		if ( $base_url ) {
@@ -2564,6 +2579,9 @@ class Property {
 				// Strip index from multi-value query vars (e.g. var[0]=foo&var[1]=bar -> var[]=foo&var[]=bar).
 				$query_params = preg_replace( '/%5B[0-9]+%5D=/', '%5B%5D=', http_build_query( $query_vars ) );
 
+				// Convert double encoded square brackets (edge cases).
+				$query_params = str_replace( array( '%255B', '%255D' ), array( '%5B', '%5D' ), $query_params );
+
 				$backlink_url = $backlink_url . ( false === strpos( $backlink_url, '?' ) ? '?' : '&' ) . $query_params;
 			}
 		}
@@ -2576,16 +2594,23 @@ class Property {
 	 *
 	 * @since 1.15.5
 	 *
-	 * @param string $url The URL to re-encode.
+	 * @param string   $url     The URL to re-encode.
+	 * @param string[] $exclude List of query variable names to remove from the given URL.
 	 *
 	 * @return string The URL with re-encoded query values.
 	 */
-	private function re_encode_url_query_values( $url ) {
+	private function re_encode_url_query_values( $url, $exclude ) {
 		$query_str = wp_parse_url( $url, PHP_URL_QUERY );
 
 		if ( ! $query_str ) {
 			return $url;
 		}
+
+		$query_str = preg_replace(
+			'/(^|&)(?:' . implode( '|', array_map( 'preg_quote', $exclude ) ) . ')=[^&]*/',
+			'',
+			$query_str
+		);
 
 		$enc_query_str = preg_replace_callback(
 			'/(?<=\=)([^=&]+)/',
@@ -2626,18 +2651,24 @@ class Property {
 	private function get_cache_hash( $atts, $config ) {
 		$hash_str = '';
 
-		$atts_keys = array(
-			'autoplay',
-			'automute',
-			'youtube-nocookie',
-			'youtube-allow',
-			'allow',
-			'ken_burns_effect_display_mode',
-			'element_atts',
-			'disable_links',
+		// Internal filter.
+		$att_keys = apply_filters(
+			'inxkick_cache_key_include_query_vars',
+			array(
+				'autoplay',
+				'automute',
+				'youtube-nocookie',
+				'youtube-allow',
+				'allow',
+				'ken_burns_effect_display_mode',
+				'element_atts',
+				'disable_links',
+			),
+			'property_atts',
+			$atts
 		);
 
-		foreach ( $atts_keys as $key ) {
+		foreach ( $att_keys as $key ) {
 			$value = ! empty( $atts[ $key ] ) ? $atts[ $key ] : '-';
 			if ( ! is_string( $value ) ) {
 				$value = wp_json_encode( $value );
@@ -2646,15 +2677,21 @@ class Property {
 			$hash_str .= "{$key}:{$value};";
 		}
 
-		$config_keys = array(
-			'area_unit',
-			'show_seller_commission',
-			'show_reference_prices',
-			'reference_price_text',
-			'currency',
-			'enable_ken_burns_effect',
-			'property_details_map_type',
-			'property_details_map_zoom',
+		// Internal filter.
+		$config_keys = apply_filters(
+			'inxkick_cache_key_include_query_vars',
+			array(
+				'area_unit',
+				'show_seller_commission',
+				'show_reference_prices',
+				'reference_price_text',
+				'currency',
+				'enable_ken_burns_effect',
+				'property_details_map_type',
+				'property_details_map_zoom',
+			),
+			'property_config',
+			array_merge( $atts, $config )
 		);
 
 		foreach ( $config_keys as $key ) {

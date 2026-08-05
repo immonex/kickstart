@@ -115,6 +115,8 @@ function updateSearchState(event = null) {
 		const multiValueFields = {}
 
 		$.each(formData, (i, field) => {
+			if (field.name === 'inx-ipn-disable-pgn') return
+
 			const fieldNameStore = field.name.replace(/\[\]$/, '')
 			const containsMultipleValues = field.name.match(/\[\]$/)
 
@@ -232,6 +234,7 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 		.serialize()
 		.replace(/%5B([0-9]+)?%5D=/g, '[]=') // Decode [] in multi-value parameter names and remove indexes.
 		.replace(/\[[0-9]+\]=/, '[]=') // Remove numeric indexes of unencoded parameters, too.
+		.replace(/&inx-ipn-disable-pgn=1(?=&|$)|inx-ipn-disable-pgn=1(&|$)/, '') // Remove pagination disable parameter (map based backlinks only).
 
 	let url = inx_state.core.rest_base_url + 'immonex-kickstart/v1/properties/'
 	url += (url.indexOf('?') === -1 ? '?' : '&') + 'inx-r-response=count&inx-r-lang=' + inx_state.core.locale.substring(0, 2)
@@ -564,11 +567,18 @@ function initSearchFormInstances(debounceDelay) {
 } // initSearchFormInstances
 
 async function init() {
-	const currentURL = decodeURI(window.location.href)
-	if (currentURL.indexOf('[0]=') > 0) {
-		// Remove indexes from multi-value parameter names.
-		const cleanURL = currentURL.replaceAll(/\[[0-9]+\]=/g, '[]=')
-		history.pushState(null, '', cleanURL)
+	const orgURL = decodeURI(window.location.href)
+
+	/**
+	 * Remove pagination disable parameter (map based backlinks only) and indexes
+	 * from multi-value parameter names.
+	 */
+	let currentURL = orgURL
+		.replaceAll(/\[[0-9]+\]=/g, '[]=')
+		.replace(/&inx-ipn-disable-pgn=1(?=&|$)|inx-ipn-disable-pgn=1(&|$)/, '')
+
+	if (currentURL !== orgURL) {
+		history.pushState(null, '', currentURL)
 	}
 
 	let debounceDelay = 600

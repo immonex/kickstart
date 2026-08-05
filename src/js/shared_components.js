@@ -38,28 +38,26 @@ Function.prototype.inxThrottle = function(minimumDistance) {
 	return throttleCore
 } // inxThrottle
 
-function getBacklinkURL() {
-	if (inx_state.search.backlink_url) return inx_state.search.backlink_url
+function getBacklinkURL(disablePagination = true) {
+	const tempURL = inx_state.search.backlink_url ?
+		new URL(inx_state.search.backlink_url) :
+		window.location
 
-	const urlParams = new URLSearchParams(window.location.search)
-	let backlinkParams = new URLSearchParams();
-
-	for (const param of urlParams) {
-		if (param[0].substring(0, 6) !== 'inx-r-') {
-			backlinkParams.append(param[0], param[1])
+	for (const param of tempURL.searchParams) {
+		if (param[0].substring(0, 6) === 'inx-r-') {
+			tempURL.searchParams.delete(param[0])
 		}
 	}
 
-	let backlinkURL = window.location.origin + window.location.pathname;
-	if (Array.from(backlinkParams).length > 0) {
-		backlinkURL += '?' + backlinkParams.toString()
+	if (disablePagination && !tempURL.searchParams.has('inx-ipn-disable-pgn')) {
+		tempURL.searchParams.append('inx-ipn-disable-pgn', '1')
 	}
 
-	return backlinkURL
+	return tempURL.href
 } // getBacklinkURL
 
-function addBacklinkURL(url, backlinkURL = false) {
-	if (!backlinkURL) backlinkURL = getBacklinkURL()
+function addBacklinkURL(url, backlinkURL = false, disablePagination = true) {
+	if (!backlinkURL) backlinkURL = getBacklinkURL(disablePagination)
 
 	const sourceURL = new URL(url)
 	if (sourceURL.searchParams.has('inx-backlink-url')) {

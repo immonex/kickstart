@@ -142,17 +142,17 @@ class Property_List {
 	 * @return \WP_Post[] Matching property post objects (if any).
 	 */
 	public function get_properties( $args = array() ) {
-		$args = array_merge(
-			array(
-				'post_type'                     => $this->config['property_post_type_name'],
-				'post_status'                   => array( 'publish' ),
-				'posts_per_page'                => -1,
-				'suppress_pre_get_posts_filter' => empty( $args['execute_pre_get_posts_filter'] ),
-			),
-			$args
+		$default_args  = array(
+			'post_type'                     => $this->config['property_post_type_name'],
+			'post_status'                   => array( 'publish' ),
+			'posts_per_page'                => -1,
+			'suppress_pre_get_posts_filter' => empty( $args['execute_pre_get_posts_filter'] ),
 		);
-
-		$cache_enabled = apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
+		$args          = array_merge( $default_args, $args );
+		$cache_enabled = ! $this->utils['data']->get_query_var_value( "{$this->config['public_prefix']}disable-cache" )
+			&& empty( $args[ "{$this->config['public_prefix']}disable-cache" ] )
+			&& empty( $args['disable_cache'] )
+			&& apply_filters( 'inxkick_enable_property_cache', $this->config['performance_enable_property_cache'] );
 
 		if ( $cache_enabled ) {
 			$cache_key         = $this->get_cache_key( $args );
@@ -332,10 +332,31 @@ class Property_List {
 			$query_vars = array_merge( $query_vars, $_GET );
 		}
 
+		// Internal filters.
+		$include = apply_filters(
+			'inxkick_cache_key_include_query_vars',
+			array(
+				'author',
+				'fields',
+				'tax_query',
+				'meta_query',
+				'posts_per_page',
+				'numberposts',
+				'order',
+				'orderby',
+				'suppress_pre_get_posts_filter',
+				'execute_pre_get_posts_filter',
+			),
+			'property_list',
+			$args
+		);
+		$exclude = apply_filters( 'inxkick_cache_key_exclude_query_vars', array(), 'property_list', $args );
+
 		$query_vars = array_filter(
 			$query_vars,
-			function ( $key ) {
-				return 'inx-' === substr( $key, 0, 4 );
+			function ( $key ) use ( $include, $exclude ) {
+				return ( 'inx-' === substr( $key, 0, 4 ) || in_array( $key, $include, true ) )
+					&& ( empty( $exclude ) || ! in_array( $key, $exclude, true ) );
 			},
 			ARRAY_FILTER_USE_KEY
 		);
@@ -344,7 +365,7 @@ class Property_List {
 
 		foreach ( $query_vars as $key => $value ) {
 			if ( ! is_string( $value ) ) {
-				$value = wp_json_encode( $value );
+				$value = wp_json_encode( $value, 0, 2 );
 			}
 
 			$hash_str .= "{$key}:{$value};";

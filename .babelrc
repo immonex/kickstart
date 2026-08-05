@@ -2,13 +2,17 @@
   "presets": [
     ["@babel/preset-env", {
       "modules": "auto", // false
-      "useBuiltIns": "usage", // entry
-      "corejs": "3.46",
+      "corejs": "3.50",
       "targets": "defaults",
       "debug": false
     }]
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime",
+    ["polyfill-corejs3", {
+      "method": "usage-global",
+      "version": "3.50",
+      "proposals": true
+    }]
   ]
 }

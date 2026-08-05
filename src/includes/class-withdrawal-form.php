@@ -458,6 +458,7 @@ class Withdrawal_Form {
 				'required'    => true,
 				'caption'     => __( 'First Name', 'immonex-kickstart' ),
 				'placeholder' => __( 'First Name', 'immonex-kickstart' ),
+				'layout_type' => 'half',
 				'order'       => 20,
 			),
 			'last_name'        => array(
@@ -465,6 +466,7 @@ class Withdrawal_Form {
 				'required'    => true,
 				'caption'     => __( 'Last Name', 'immonex-kickstart' ),
 				'placeholder' => __( 'Last Name', 'immonex-kickstart' ),
+				'layout_type' => 'half',
 				'order'       => 30,
 			),
 			'street'           => array(

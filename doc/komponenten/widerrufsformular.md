@@ -2,7 +2,7 @@
 
 Seit dem 19.06.2026 muss in Maklerwebsites, die Immobilienangebote enthalten, ein digitaler Widerrufsprozess für hierüber geschlossene Verträge nach [§ 356a BGB](https://www.gesetze-im-internet.de/bgb/__356a.html) angeboten werden („*Widerrufsbutton*“).
 
-Mit dem in Kickstart integrierten *Widerrufs-Workflow* werden Immobilienmakler dabei unterstützt, die gesetzlichen Anforderungen zu erfüllen: Neben einem einfachen und **leicht bedienbaren Formular**, über das ein Verbraucher alle für die Zuordnung seines Widerrufs benötigten Angaben übermitteln kann, gehört hierzu auch eine **automatisch versendete Eingangsbestätigung** (inkl. Datum und Uhrzeit des Eingangs).
+Mit dem in Kickstart integrierten *Widerrufs-Workflow* werden Immobilienmakler dabei unterstützt, die gesetzlichen Anforderungen zu erfüllen: Neben einem einfachen und **leicht bedienbaren Formular**, über das Verbraucher ihre Widerrufserklärungen (inkl. aller für die Zuordnung der jeweiligen Verträge relevanten Angaben) übermitteln können, gehört hierzu auch eine **automatisch versendete Eingangsbestätigung** (inkl. Datum und Uhrzeit des Eingangs).
 
 ?> In den Plugin-Optionen sollten unter [***Allgemein → Grundeinstellungen → E-Mail***](/schnellstart/einrichtung?id=e-mail) der vollständige Name des Unternehmens inkl. Rechtsform sowie die Adresse (Hauptsitz) hinterlegt werden. Diese Angaben werden automatisch in die Eingangsbestätigungen übernommen, sofern die entsprechenden *Twig-Variablen* nicht aus dem Mail-Template entfernt wurden.
 

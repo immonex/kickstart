@@ -1,3 +1,5 @@
+@use "../_config";
+
 .inx-withdrawal-form {
 	display: flex;
 	justify-content: space-between;
@@ -36,10 +38,7 @@
 	flex: 1 1 16em;
 }
 
-.inx-withdrawal-form__input--type--half {
-	flex: 0 0 50%;
-}
-
+.inx-withdrawal-form__input--type--half,
 .inx-withdrawal-form__input--type--full {
 	flex: 0 0 100%;
 }
@@ -161,4 +160,10 @@
 .inx-withdrawal-form__result--type--error {
 	color: #F0506E;
 	border-color: #F0506E;
+}
+
+@media screen and (min-width: config.$screen-s) {
+	.inx-withdrawal-form__input--type--half {
+		flex: 0 0 50%;
+	}
 }
