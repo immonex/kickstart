@@ -291,5 +291,5 @@ Immobilienfotos (vierspaltige Darstellung):\
 ## Erweiterte Anpassungen
 
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions#detailansicht)
-- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Templates](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#detailansicht)

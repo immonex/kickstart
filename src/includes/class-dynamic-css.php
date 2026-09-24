@@ -97,6 +97,11 @@ class Dynamic_CSS {
 	 * @return mixed[] CSS properties (['selector' => ['prop1' => 'value1', 'prop2' => 'value2'...]]).
 	 */
 	public function get_global_props( $props ) {
+		$standard_container_max_width = $this->plugin_options['standard_container_max_width'];
+		if ( ! $standard_container_max_width ) {
+			$standard_container_max_width = '100%';
+		}
+
 		$brightness_variant_pct = apply_filters( 'inx_brightness_variant_pct', 15 );
 		if (
 			! is_numeric( $brightness_variant_pct )
@@ -115,6 +120,7 @@ class Dynamic_CSS {
 		);
 
 		$defaults = array(
+			'--inx-standard-container-max-width'  => $standard_container_max_width,
 			'--inx-color-label-default'           => $this->plugin_options['color_label_default'],
 			'--inx-color-marketing-type-sale'     => $this->plugin_options['color_marketing_type_sale'],
 			'--inx-color-marketing-type-rent'     => $this->plugin_options['color_marketing_type_rent'],

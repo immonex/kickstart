@@ -101,5 +101,5 @@ Karte mit Häusern und Initial-Zoomstufe 14:\
 
 - [Plugin-Optionen: Listen → Übersichtskarten](/schnellstart/einrichtung?id=Übersichtskarten)
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions?id=%c3%9cbersichtskarten)
-- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Templates](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

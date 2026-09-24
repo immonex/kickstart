@@ -5,6 +5,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
+  ignoreWarnings: [
+    /export 'default' \(imported as 'style\d+'\) was not found/
+  ],
   entry: {
     ...{
         frontend: './src/js/frontend.js',

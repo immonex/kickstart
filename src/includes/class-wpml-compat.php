@@ -57,7 +57,8 @@ class WPML_Compat {
 
 		add_filter( 'icl_ls_languages', array( $this, 'extend_language_switcher_urls' ) );
 
-		add_action( 'inx-rest-set-query-language', array( $this, 'switch_language' ), 10, 2 );
+		// DEPRECATED.
+		add_action( 'inx_rest_set_query_language', array( $this, 'switch_language' ), 10, 2 );
 	} // __construct
 
 	/**
@@ -187,12 +188,10 @@ class WPML_Compat {
 		}
 
 		// phpcs:ignore
-		$current_lang = apply_filters( 'wpml_current_language', null );
-		$all_pages    = array();
+		$all_pages = array();
 
 		foreach ( $languages as $lang ) {
-			// phpcs:ignore
-			do_action( 'wpml_switch_language', $lang['code'] );
+			$org_lang = apply_filters( 'inx_wpml_open_language_switch', $lang['code'] );
 
 			$args = array(
 				'post_type'      => 'page',
@@ -208,10 +207,9 @@ class WPML_Compat {
 					$all_pages[ $post->ID ] = $post->post_title;
 				}
 			}
-		}
 
-		// phpcs:ignore
-		do_action( 'wpml_switch_language', $current_lang );
+			do_action( 'inx_wpml_close_language_switch', $org_lang );
+		}
 
 		asort( $all_pages );
 
@@ -252,12 +250,9 @@ class WPML_Compat {
 				}
 			}
 
-			// phpcs:disable
-			$current_lang = apply_filters( 'wpml_current_language', null );
-			do_action( 'wpml_switch_language', $lang );
-			$pl_url = get_permalink( $property_translation_id );
-			do_action( 'wpml_switch_language', $current_lang );
-			// phpcs:enable
+			$org_lang = apply_filters( 'inx_wpml_open_language_switch', $lang );
+			$pl_url   = get_permalink( $property_translation_id );
+			do_action( 'inx_wpml_close_language_switch', $org_lang );
 
 			if ( $pl_url ) {
 				$url = $pl_url;
@@ -276,14 +271,16 @@ class WPML_Compat {
 	/**
 	 * Switch current WPML language (action callback).
 	 *
+	 * @deprecated This method will be removed in a future version.
+	 *             Use the `inx_wpml_open_language_switch` filter instead.
+	 *
 	 * @since 1.7.26-beta
 	 *
 	 * @param string           $lang    Language code (ISO-639-1).
 	 * @param \WP_REST_Request $request Request object.
 	 */
 	public function switch_language( $lang, $request ) {
-		// phpcs:ignore
-		do_action( 'wpml_switch_language', $lang );
+		$previous_lang = apply_filters( 'inx_wpml_open_language_switch', $lang );
 	} // switch_language
 
 } // WPML_Compat

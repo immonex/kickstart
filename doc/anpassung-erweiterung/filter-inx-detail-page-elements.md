@@ -125,7 +125,7 @@ Die folgenden Eigenschaften sind größtenteils **templatespezifisch**, können 
 | `template` (string) | Name der Template-Datei (ohne Endung .php) im **Unterordner** `single-property` des [Skin-Ordners](skins) |
 | `headline` (string) | Titel/Überschrift des Abschnitts |
 | `no_headline_in_tabs` (bool) | Überschriften bei **tab-basierter Ausgabe** ausblenden |
-| `optional` (bool) | Mit `true` als optional gekennzeichnete Elemente werden bei der Ausgabe nur dann berücksichtigt, wenn sie explizit im Shortcode-Attribut `elements` aufgeführt sind. |
+| `optional` (bool) | Mit *true* als optional gekennzeichnete Elemente werden bei der Ausgabe nur dann berücksichtigt, wenn sie explizit im Shortcode-Attribut `elements` aufgeführt sind. |
 
 ##### Template **details**
 

@@ -9,7 +9,7 @@
 | Name | Beschreibung |
 | ---- | ------------ |
 | `$atts` | Array beliebiger optionaler Attribute, die zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`). Im Standard-Skin werden aktuell nur die folgenden Angaben berücksichtigt: |
-| | `template` (zu rendernde Template-Datei im [Skin-Ordner](skins#ordner), Standard: *property-list/properties*) |
+| | `template` (zu rendernde Template-Datei im [Skin-Ordner](skins), Standard: *property-list/properties*) |
 | | `is_regular_archive_page` (Boolean-Wert, *true* bei Einbindung in regulären Archivseiten) |
 
 ## Code-Beispiel

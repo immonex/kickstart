@@ -321,15 +321,35 @@ class Property_List_Hooks extends Property_Component_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_pagination( $atts ) {
-		if ( ! empty( $atts['is_preview'] ) ) {
-			$preview_output = get_transient( 'inx_preview_pagination_output' );
+		$prefix           = $this->config['public_prefix'];
+		$default_att_keys = array_keys( $this->property_list->get_pagination_default_atts() );
+		$supported_atts   = array_merge(
+			array_fill_keys( $default_att_keys, null ),
+			array(
+				'is_preview'                  => false,
+				'style'                       => '',
+				'class'                       => null,
+				'show_all'                    => null,
+				'end_size'                    => null,
+				'mid_size'                    => null,
+				'prev_next'                   => null,
+				'prev_text'                   => null,
+				'next_next'                   => null,
+				'add_fragment'                => null,
+				'before_page_number'          => null,
+				'after_page_number'           => null,
+				'no_top_margin'               => null,
+				'no_standard_container_class' => null,
+			)
+		);
 
-			if ( $preview_output ) {
-				return $preview_output;
-			}
-		}
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			array_filter(
+				shortcode_atts( $supported_atts, $atts, "{$prefix}pagination" )
+			)
+		);
 
-		return $this->property_list->get_rendered_pagination();
+		return $this->property_list->get_rendered_pagination( $shortcode_atts );
 	} // shortcode_pagination
 
 	/**

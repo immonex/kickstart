@@ -130,5 +130,5 @@ Die Inhalte von Listenansichten können **optional** anhand der aktuellen Kriter
 ## Einrichtung und erweiterte Anpassung
 
 - [Plugin-Optionen: Listen](/schnellstart/einrichtung?id=listen)
-- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Templates](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

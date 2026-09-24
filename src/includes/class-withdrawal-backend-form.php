@@ -66,15 +66,10 @@ class Withdrawal_Backend_Form {
 
 		$contact_data_fields = [
 			[
-				'name'             => __( 'Salutation', 'immonex-kickstart' ),
-				'desc'             => '',
-				'id'               => "{$prefix}salutation",
-				'type'             => 'select',
-				'show_option_none' => __( 'not specified', 'immonex-kickstart' ),
-				'options'          => [
-					__( 'Ms.', 'immonex-kickstart' ) => __( 'Ms.', 'immonex-kickstart' ),
-					__( 'Mr.', 'immonex-kickstart' ) => __( 'Mr.', 'immonex-kickstart' ),
-				],
+				'name' => __( 'Salutation', 'immonex-kickstart' ),
+				'desc' => '',
+				'id'   => "{$prefix}salutation",
+				'type' => 'text_small',
 			],
 			[
 				'name' => __( 'First Name', 'immonex-kickstart' ),
@@ -122,7 +117,7 @@ class Withdrawal_Backend_Form {
 				'name' => __( 'Reference Number', 'immonex-kickstart' ),
 				'desc' => '',
 				'id'   => "{$prefix}reference_number",
-				'type' => 'text_email',
+				'type' => 'text_small',
 			],
 			[
 				'name'        => __( 'Date of Contract Conclusion', 'immonex-kickstart' ),

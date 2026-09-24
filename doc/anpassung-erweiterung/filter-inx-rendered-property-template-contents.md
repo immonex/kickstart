@@ -7,7 +7,7 @@ Mit diesem Filter können die gerenderten Inhalte eines Immobilien-Detail-Templa
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
 | **`$contents`** (string) | gerenderte Template-Inhalte (HTML) auf Basis des angegebenen Templates (`$template`) und der Daten der betreffenden Immobilie (`$template_data`) |
-| `$template` (string) | Name der gerenderten Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins#ordner) |
+| `$template` (string) | Name der Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins) |
 | `$template_data` (array) | Objektdaten |
 | `$atts` (array) | optionale Attribute (Array-Keys und mögliche Werte entsprechen den [Attributen des Detailansicht-Shortcodes](/komponenten/detailansicht#attribute)) |
 

@@ -8,7 +8,7 @@ Die [Skin-Ordner](skins), die die Templates für die Darstellung/Ausgabe der Imm
 
 | Name (Typ) | Beschreibung |
 | ---------- | ------------ |
-| **`$folders`** (array) | Liste der Basisordner, die die [Skin-Ordner](skins#ordner) enthalten |
+| **`$folders`** (array) | Liste der Basisordner, die die [Skin-Ordner](skins) enthalten |
 
 ## Rückgabewert
 

@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 1.18.0 =
+* Release date: 2026-09-24
+* Reworked property list pagination and added related plugin options.
+* Improved compatibility with WPML 5.0.
+* Improved Polylang compatibility (language switcher and backlink URLs).
+* Extended default skin to improve compatibility with block-based themes.
+* Extended API-based property data retrieval.
+* Added video and virtual tour data to the property backend form.
+* Optimized various optical details.
+* Fixed a minor map marker cache issue.
+* Updated dependencies.
+
 = 1.17.14 =
 * Release date: 2026-08-05
 * Fixed check for missing featured images during map marker data generation.

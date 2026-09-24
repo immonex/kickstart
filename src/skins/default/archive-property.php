@@ -25,7 +25,11 @@ if ( $inx_skin_is_tax_archive ) {
 	$inx_skin_tax_archive_args = array( $inx_skin_var_name => $inx_skin_query->slug );
 }
 
-get_header();
+if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+	require __DIR__ . '/header.php';
+} else {
+	get_header();
+}
 ?>
 
 <div class="inx-property-archive uk-container" role="main">
@@ -76,4 +80,9 @@ get_header();
 	</div>
 </div>
 
-<?php get_footer(); ?>
+<?php
+if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+	require __DIR__ . '/footer.php';
+} else {
+	get_footer();
+}

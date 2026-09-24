@@ -66,7 +66,7 @@ async function init() {
 		debounceDelay = inx_state.search.form_debounce_delay ? inx_state.search.form_debounce_delay : debounceDelay
 	} catch {}
 
-	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updatePropertyLists, debounceDelay))
+	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updatePropertyLists, debounceDelay + 200))
 } // init
 
 export { init }

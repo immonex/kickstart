@@ -47,5 +47,5 @@ Die Widerrufe sind im WordPress-Backend unter ***immonex → Widerrufe*** verfü
 - [Plugin-Optionen: Formular-Spamschutz](/schnellstart/einrichtung?id=formular-spamschutz)
 - [Plugin-Optionen: E-Mail](/schnellstart/einrichtung?id=e-mail)
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions?id=formular-widerrufsverarbeitung)
-- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Templates](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#widerrufsformular)

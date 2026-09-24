@@ -154,38 +154,49 @@ class API_Hooks {
 					$currency        = isset( $args[1] ) ? (int) $args[1] : $this->config['currency_symbol'];
 					$price_time_unit = isset( $args[2] ) ? $args[2] : '';
 					$if_zero         = isset( $args[3] ) ? (int) $args[3] : '';
+					$zerodash        = isset( $args[4] ) ? $args[4] : false;
 				} else {
 					$decimals        = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
 					$currency        = isset( $args['currency'] ) ? (int) $args['currency'] : $this->config['currency_symbol'];
 					$price_time_unit = isset( $args['price_time_unit'] ) ? $args['price_time_unit'] : '';
 					$if_zero         = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+					$zerodash        = isset( $args['zerodash'] ) ? $args['zerodash'] : '';
 				}
 
-				return $this->utils['format']->format_price( $value, $decimals, $price_time_unit, $if_zero, $currency );
+				return $this->utils['format']->format_price( $value, $decimals, $price_time_unit, $if_zero, $currency, $zerodash );
 			case 'area':
 				if ( is_numeric( key( $args ) ) ) {
 					$decimals = isset( $args[0] ) ? (int) $args[0] : 9;
 					$unit     = isset( $args[1] ) ? (int) $args[1] : $this->config['area_unit'];
-					$if_zero  = isset( $args[2] ) ? (int) $args[3] : '';
+					$if_zero  = isset( $args[2] ) ? (int) $args[2] : '';
+					$zerodash = isset( $args[3] ) ? $args[3] : false;
 				} else {
 					$decimals = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
 					$unit     = isset( $args['unit'] ) ? (int) $args['unit'] : $this->config['area_unit'];
 					$if_zero  = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+					$zerodash = isset( $args['zerodash'] ) ? $args['zerodash'] : '';
 				}
 
-				return $this->utils['format']->format_area( $value, $decimals, $if_zero, $unit );
+				return $this->utils['format']->format_area( $value, $decimals, $if_zero, $unit, $zerodash );
 			case 'number':
 				if ( is_numeric( key( $args ) ) ) {
 					$decimals = isset( $args[0] ) ? (int) $args[0] : 9;
 					$unit     = isset( $args[1] ) ? (int) $args[1] : '';
-					$if_zero  = isset( $args[2] ) ? (int) $args[3] : '';
+					$if_zero  = isset( $args[2] ) ? (int) $args[2] : '';
+					$zerodash = isset( $args[3] ) ? $args[3] : false;
 				} else {
 					$decimals = isset( $args['decimals'] ) ? (int) $args['decimals'] : 9;
 					$unit     = isset( $args['unit'] ) ? (int) $args['unit'] : '';
 					$if_zero  = isset( $args['if_zero'] ) ? (int) $args['if_zero'] : '';
+					$zerodash = isset( $args['zerodash'] ) ? $args['zerodash'] : '';
 				}
 
-				return $this->utils['string']->format_number( $value, $decimals, $unit, array( 'if_zero' => $if_zero ) );
+				$format_args = array(
+					'if_zero'  => $if_zero,
+					'zerodash' => $zerodash,
+				);
+
+				return $this->utils['string']->format_number( $value, $decimals, $unit, $format_args );
 			case 'link':
 				if ( preg_match( '/^[0-9 +-]+$/', $value ) ) {
 					return wp_sprintf( '<a href="tel:%1$s">%1$s</a>', $value );

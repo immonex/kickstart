@@ -35,11 +35,13 @@ class Property_Backend_Form {
 		// Setup CMB2 meta boxes.
 		add_action( 'cmb2_admin_init', array( $this, 'setup_meta_boxes' ) );
 
-		// Extend attachment lists if required.
+		// Extend attachment data if required.
 		add_filter( 'cmb2_override__inx_gallery_images_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 		add_filter( 'cmb2_override__inx_floor_plans_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 		add_filter( 'cmb2_override__inx_epass_images_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
 		add_filter( 'cmb2_override__inx_file_attachments_meta_value', array( $this, 'maybe_extend_attachment_array' ), 10, 4 );
+		add_filter( 'cmb2_override__inx_videos_meta_value', array( $this, 'move_nested_oembed_values_on_load' ), 10, 4 );
+		add_filter( 'cmb2_override__inx_videos_meta_save', array( $this, 'move_nested_oembed_values_on_save' ), 10, 4 );
 	} // __construct
 
 	/**
@@ -559,7 +561,7 @@ class Property_Backend_Form {
 		$attachments = new_cmb2_box(
 			array(
 				'id'           => 'attachments',
-				'title'        => __( 'Images & Attachments', 'immonex-kickstart' ),
+				'title'        => __( 'Media & Attachments', 'immonex-kickstart' ),
 				'object_types' => array( $this->data['property_post_type_name'] ),
 				'context'      => 'normal',
 				'priority'     => 'core',
@@ -596,10 +598,199 @@ class Property_Backend_Form {
 				'id'   => $prefix . 'file_attachments',
 				'type' => 'file_list',
 			),
+			array(
+				'name' => 'Videos',
+				'id'   => $prefix . 'videos_title',
+				'type' => 'title',
+			),
 		);
 
 		foreach ( $attachment_fields as $field ) {
 			$attachments->add_field( $field );
+		}
+
+		$video_group_id = $attachments->add_field(
+			array(
+				'id'         => $prefix . 'videos',
+				'type'       => 'group',
+				'repeatable' => true,
+				'options'    => array(
+					'group_title'   => 'Video {#}',
+					'add_button'    => __( 'Add Video', 'immonex-kickstart' ),
+					'remove_button' => __( 'Remove Video', 'immonex-kickstart' ),
+					'closed'        => true,
+					'sortable'      => true,
+				),
+			)
+		);
+
+		$video_group_fields = array(
+			array(
+				'name'    => __( 'Type/Provider', 'immonex-kickstart' ),
+				'id'      => 'provider',
+				'type'    => 'select',
+				'options' => array(
+					'local'   => __( 'Local File', 'immonex-kickstart' ),
+					'youtube' => 'YouTube',
+					'vimeo'   => 'Vimeo',
+				),
+			),
+			array(
+				'name' => 'ID',
+				'id'   => 'id',
+				'type' => 'text',
+			),
+			array(
+				'name' => 'URL',
+				'id'   => 'url',
+				'type' => 'text_url',
+			),
+			array(
+				'name' => __( 'Title', 'immonex-kickstart' ),
+				'id'   => 'title',
+				'type' => 'text',
+			),
+			array(
+				'name' => 'oEmbed',
+				'id'   => 'video_oembed_section_title',
+				'type' => 'title',
+			),
+			array(
+				'name' => '[oEmbed] ' . __( 'Title', 'immonex-kickstart' ),
+				'id'   => 'oembed_title',
+				'type' => 'text',
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Author Name', 'oEmbed Video Creator', 'immonex-kickstart' ),
+				'id'   => 'oembed_author_name',
+				'type' => 'text',
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Author URL', 'oEmbed Video Creator', 'immonex-kickstart' ),
+				'id'   => 'oembed_author_url',
+				'type' => 'text_url',
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Type', 'oEmbed', 'immonex-kickstart' ),
+				'id'   => 'oembed_type',
+				'type' => 'text',
+			),
+			array(
+				'name'       => '[oEmbed] ' . _x( 'Width', 'oEmbed', 'immonex-kickstart' ),
+				'id'         => 'oembed_width',
+				'type'       => 'text',
+				'attributes' => array(
+					'type' => 'number',
+					'min'  => 0,
+				),
+			),
+			array(
+				'name'       => '[oEmbed] ' . _x( 'Height', 'oEmbed', 'immonex-kickstart' ),
+				'id'         => 'oembed_height',
+				'type'       => 'text',
+				'attributes' => array(
+					'type' => 'number',
+					'min'  => 0,
+				),
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Version', 'oEmbed', 'immonex-kickstart' ),
+				'id'   => 'oembed_version',
+				'type' => 'text_small',
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Provider Name', 'oEmbed', 'immonex-kickstart' ),
+				'id'   => 'oembed_provider_name',
+				'type' => 'text',
+			),
+			array(
+				'name' => '[oEmbed] ' . _x( 'Provider URL', 'oEmbed', 'immonex-kickstart' ),
+				'id'   => 'oembed_provider_url',
+				'type' => 'text_url',
+			),
+			array(
+				'name'       => '[oEmbed] ' . _x( 'Thumbnail Width', 'oEmbed', 'immonex-kickstart' ),
+				'id'         => 'oembed_thumbnail_width',
+				'type'       => 'text',
+				'attributes' => array(
+					'type' => 'number',
+					'min'  => 0,
+				),
+			),
+			array(
+				'name'       => '[oEmbed] ' . _x( 'Thumbnail Height', 'oEmbed', 'immonex-kickstart' ),
+				'id'         => 'oembed_thumbnail_height',
+				'type'       => 'text',
+				'attributes' => array(
+					'type' => 'number',
+					'min'  => 0,
+				),
+			),
+			array(
+				'name' => '[oEmbed] ' . __( 'Thumbnail URL', 'immonex-kickstart' ),
+				'id'   => 'oembed_thumbnail_url',
+				'type' => 'text_url',
+			),
+			array(
+				'name'    => '[oEmbed] HTML',
+				'id'      => 'oembed_html',
+				'type'    => 'textarea_code',
+				'options' => array(
+					'disable_codemirror' => true,
+				),
+			),
+		);
+
+		foreach ( $video_group_fields as $field ) {
+			$attachments->add_group_field( $video_group_id, $field );
+		}
+
+		$attachments->add_field(
+			array(
+				'name' => __( 'Virtual Tours', 'immonex-kickstart' ),
+				'id'   => $prefix . 'virtual_tours_title',
+				'type' => 'title',
+			)
+		);
+
+		$virtual_tour_group_id = $attachments->add_field(
+			array(
+				'id'         => $prefix . 'virtual_tours',
+				'type'       => 'group',
+				'repeatable' => true,
+				'options'    => array(
+					'group_title'   => __( 'Virtual Tour', 'immonex-kickstart' ) . ' {#}',
+					'add_button'    => __( 'Add Virtual Tour', 'immonex-kickstart' ),
+					'remove_button' => __( 'Remove Virtual Tour', 'immonex-kickstart' ),
+					'closed'        => true,
+					'sortable'      => true,
+				),
+			)
+		);
+
+		$virtual_tour_group_fields = array(
+			array(
+				'name' => __( 'Title', 'immonex-kickstart' ),
+				'id'   => 'title',
+				'type' => 'text',
+			),
+			array(
+				'name' => 'URL',
+				'id'   => 'url',
+				'type' => 'text_url',
+			),
+			array(
+				'name'    => 'HTML',
+				'id'      => 'embed_html',
+				'type'    => 'textarea_code',
+				'options' => array(
+					'disable_codemirror' => true,
+				),
+			),
+		);
+
+		foreach ( $virtual_tour_group_fields as $field ) {
+			$attachments->add_group_field( $virtual_tour_group_id, $field );
 		}
 
 		$detail_repeater = new_cmb2_box(
@@ -677,8 +868,6 @@ class Property_Backend_Form {
 	 * @return mixed Array with attachment IDs as key and URLs as value.
 	 */
 	public function maybe_extend_attachment_array( $org_data, $object_id, $args, $field ) {
-		$prefix = '_' . $this->data['plugin_prefix'];
-
 		$data = get_post_meta( $args['id'], $args['field_id'], true );
 
 		if ( ! is_array( $data ) || 0 === count( $data ) ) {
@@ -698,6 +887,86 @@ class Property_Backend_Form {
 
 		return $new_data;
 	} // maybe_extend_attachment_array
+
+	/**
+	 * Move nested oEmbed values to the top level of the related field array.
+	 *
+	 * @since 1.18.0
+	 *
+	 * @param mixed      $org_data The original data or "cmb2_field_no_override_val"
+	 *                             for retrieving the data normally.
+	 * @param int        $object_id The current object ID.
+	 * @param mixed[]    $args An array of arguments for retrieving the data.
+	 * @param CMB2_Field $field The related field object.
+	 *
+	 * @return mixed Array with duplicated oEmbed values (if any).
+	 */
+	public function move_nested_oembed_values_on_load( $org_data, $object_id, $args, $field ) {
+		$data = get_post_meta( $args['id'], $args['field_id'], true );
+
+		if ( empty( $data ) || ! is_array( $data ) ) {
+			return $org_data;
+		}
+
+		foreach ( $data as $i => $field_data ) {
+			if ( empty( $field_data['oembed'] ) || ! is_array( $field_data['oembed'] ) ) {
+				continue;
+			}
+
+			foreach ( $field_data['oembed'] as $oembed_key => $oembed_value ) {
+				$data[ $i ][ "oembed_{$oembed_key}" ] = $oembed_value;
+			}
+
+			unset( $data[ $i ]['oembed'] );
+		}
+
+		return $data;
+	} // move_nested_oembed_values_on_load
+
+	/**
+	 * Move top-level oEmbed values to subarray.
+	 *
+	 * @since 1.18.0
+	 *
+	 * @param null       $override Null value by default.
+	 * @param mixed[]    $a Current field data.
+	 * @param mixed[]    $args An array of arguments for storing the data.
+	 * @param CMB2_Field $field The related field object.
+	 *
+	 * @return bool Perform normal CMB2 save if true.
+	 */
+	public function move_nested_oembed_values_on_save( $override, $a, $args, $field ) {
+		if ( empty( $a['value']['url'] ) || ! is_array( $a['value'] ) ) {
+			delete_post_meta( $a['id'], $a['field_id'] );
+			return true;
+		}
+
+		foreach ( $a['value'] as $i => $field_data ) {
+			if (
+				! isset( $a['value'][ $i ]['oembed'] )
+				|| ! is_array( ( $a['value'][ $i ]['oembed'] ) )
+			) {
+				$a['value'][ $i ]['oembed'] = array();
+			}
+
+			if ( empty( $field_data ) ) {
+				continue;
+			}
+
+			foreach ( $field_data as $key => $value ) {
+				if ( 0 === strpos( $key, 'oembed_' ) ) {
+					$oembed_key = substr( $key, 7 );
+
+					$a['value'][ $i ]['oembed'][ $oembed_key ] = $value;
+					unset( $a['value'][ $i ][ $key ] );
+				}
+			}
+		}
+
+		update_post_meta( $a['id'], $a['field_id'], $a['value'] );
+
+		return true;
+	} // move_nested_oembed_values_on_save
 
 	/**
 	 * Convert checkbox states to 0/1.

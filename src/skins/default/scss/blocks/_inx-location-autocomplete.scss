@@ -1,27 +1,3 @@
-.inx-location-autocomplete {
-	input.multiselect__input {
-		padding: 0;
-	}
-
-	.multiselect__content li,
-	.multiselect__element {
-		margin: 0;
-	}
-
-	.multiselect__single {
-		max-height: 1.2em;
-		overflow: hidden;
-	}
-
-	.multiselect__placeholder {
-		text-wrap: nowrap;
-	}
-
-	.multiselect__spinner {
-		background-color: transparent;
-	}
-}
-
 .inx-location-autocomplete__consent {
 	padding: .5em;
 	border: 1px solid var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.35));

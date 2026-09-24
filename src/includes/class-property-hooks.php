@@ -1136,11 +1136,7 @@ class Property_Hooks {
 								}
 
 								if ( is_numeric( $replace_by ) ) {
-									$decimals = isset( $tag['args'][1] ) ? (int) $tag['args'][1] : 0;
-									if ( $decimals > 4 ) {
-										$decimals = 2;
-									}
-									$replace_by = number_format( $replace_by, $decimals, ',', '.' );
+									$replace_by = apply_filters( 'inx_format', $value, 'number', array_slice( $tag['args'], 1 ) );
 								}
 							}
 

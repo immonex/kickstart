@@ -281,7 +281,11 @@ class Property_Search {
 		$default_action_url     = false;
 		$form_action            = false;
 		$form_action_autodetect = '';
-		$current_url            = $this->utils['string']->get_nopaging_url( false, array( 'page', 'paged', 'page_id' ) );
+		$current_url            = apply_filters(
+			'inx_fix_multilingual_home_url',
+			$this->utils['string']->get_nopaging_url( false, array( 'page', 'paged', 'page_id' ) )
+		);
+
 		if ( false === strpos( $current_url, '?' ) ) {
 			$current_url = trailingslashit( $current_url );
 		}

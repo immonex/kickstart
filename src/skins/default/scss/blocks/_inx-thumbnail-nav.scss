@@ -16,12 +16,12 @@
 }
 
 .inx-thumbnail-nav__item {
-	margin-right: 5px;
-	padding: 3px;
+	margin-right: 6px;
 
 	a,
 	img {
 		display: block;
+		border-radius: 4px;
 	}
 }
 
@@ -47,7 +47,9 @@
 .inx-thumbnail-nav__video-thumbnail {
 	width: 120px;
 	height: 68px;
-	background-color: #f0f0f0;
+	background-color: var(--inx-color-bg-muted-default-lighter, rgba(253, 253, 253, 0.75));
+	border: 1px solid var(--inx-color-border-muted-darker, rgba(187, 187, 187, 0.75));
+	border-radius: 4px;
 	cursor: pointer;
 }
 

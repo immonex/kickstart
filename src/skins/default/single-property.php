@@ -10,8 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-get_header();
+if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+	require __DIR__ . '/header.php';
+} else {
+	get_header();
+}
 ?>
+
 <div id="inx-property-details" class="inx-single-property uk-container" role="main">
 	<div uk-grid>
 		<div class="inx-single-property__main-content inx-container uk-width-expand@m">
@@ -39,5 +44,10 @@ get_header();
 		<?php endif; ?>
 	</div>
 </div>
+
 <?php
-get_footer();
+if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+	require __DIR__ . '/footer.php';
+} else {
+	get_footer();
+}

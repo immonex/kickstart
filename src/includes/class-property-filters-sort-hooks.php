@@ -78,9 +78,20 @@ class Property_Filters_Sort_Hooks extends Property_Component_Hooks {
 		}
 
 		$prefix       = $this->config['public_prefix'];
-		$sort_options = $this->property_filters_sort->get_sort_options();
+		$sort_options = $this->property_filters_sort->get_sort_options( $query );
 
 		$sort_query_var = $this->utils['data']->get_query_var_value( $prefix . 'sort', $query );
+
+		if (
+			! $sort_query_var
+			&& (
+				$this->utils['data']->get_query_var_value( 'inx-search-distance-search-location', $query )
+				&& $this->utils['data']->get_query_var_value( 'inx-search-distance-search-radius', $query )
+			)
+		) {
+			$sort_query_var = 'distance';
+		}
+
 		if ( is_array( $sort_query_var ) ) {
 			$sort_keys = $sort_query_var;
 		} else {

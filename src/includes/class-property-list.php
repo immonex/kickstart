@@ -18,7 +18,7 @@ class Property_List {
 	const DEFAULT_TEMPLATE = 'property-list/properties';
 
 	/**
-	 * Default list pagination template file
+	 * List pagination defaults
 	 */
 	const DEFAULT_PAGINATION_TEMPLATE = 'property-list/pagination';
 
@@ -35,6 +35,13 @@ class Property_List {
 	 * @var object[]
 	 */
 	private $utils;
+
+	/**
+	 * Current property query instance
+	 *
+	 * @var \WP_Query
+	 */
+	private $current_property_query;
 
 	/**
 	 * Prerendered pagination output
@@ -109,12 +116,8 @@ class Property_List {
 		// Prerender pagination output for later use.
 		$this->pagination_output = $this->render_pagination( $atts );
 
-		if ( ! empty( $atts['is_preview'] ) && self::DEFAULT_TEMPLATE === $template ) {
-			set_transient( 'inx_preview_pagination_output', $this->pagination_output, 60 * 60 );
-		}
-
-		// Restore the original query object.
 		if ( $org_query ) {
+			// Restore the original query object.
 			$this->restore_main_query( $org_query );
 		}
 
@@ -126,11 +129,83 @@ class Property_List {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param mixed[] $atts Rendering attributes (optional).
+	 *
 	 * @return string Rendered contents (HTML).
 	 */
-	public function get_rendered_pagination() {
-		return $this->pagination_output;
+	public function get_rendered_pagination( $atts = array() ) {
+		global $wp_query;
+
+		if ( ! empty( $atts['is_preview'] ) ) {
+			$wp_query->max_num_pages = 10;
+			$atts['current']         = 5;
+		}
+
+		if ( empty( $atts ) ) {
+			// Always return the pre-rendered navigation if no attributes were passed.
+			return $this->pagination_output;
+		}
+
+		$wp_query->max_num_pages = ! empty( $atts['total'] ) ? (int) $atts['total'] : $wp_query->max_num_pages;
+
+		$org_query = false;
+
+		if (
+			empty( $atts['is_preview'] )
+			&& ! empty( $this->current_property_query )
+			&& $this->current_property_query !== $wp_query
+		) {
+			// phpcs:disable
+			$org_query = $wp_query;
+			$wp_query  = null;
+			$wp_query  = $this->current_property_query;
+			// phpcs:enable
+		}
+
+		$pagination_output = $this->render_pagination( $atts );
+
+		if ( $org_query ) {
+			$this->restore_main_query( $org_query );
+		}
+
+		return $pagination_output;
 	} // get_rendered_pagination
+
+	/**
+	 * Compile the default pagination attributes.
+	 *
+	 * @since 1.18.0
+	 *
+	 * @return mixed[] Default pagination attributes.
+	 */
+	public function get_pagination_default_atts() {
+		$defaults = array(
+			'pagination_template' => self::DEFAULT_PAGINATION_TEMPLATE,
+		);
+
+		foreach ( $this->config as $key => $value ) {
+			if ( 0 === strpos( $key, 'pagination_' ) ) {
+				$defaults[ substr( $key, 11 ) ] = $value;
+			}
+		}
+
+		if ( $this->config['pagination_style'] ) {
+			$defaults['prev_next'] = true;
+
+			if ( ! $defaults['prev_text'] ) {
+				$defaults['prev_text'] = '❮';
+			}
+
+			if ( ! $defaults['next_text'] ) {
+				$defaults['next_text'] = '❯';
+			}
+		}
+
+		return apply_filters(
+			'inxkick_pagination_default_atts',
+			$defaults
+		);
+	} // get_pagination_default_atts
 
 	/**
 	 * Retrieve and return published property posts.
@@ -182,22 +257,64 @@ class Property_List {
 	 * @return string Rendered contents (HTML).
 	 */
 	private function render_pagination( $atts = array() ) {
-		$template      = ! empty( $atts['pagination_template'] ) ?
-			$atts['pagination_template'] :
-			self::DEFAULT_PAGINATION_TEMPLATE;
+		$atts = array_filter(
+			array_merge(
+				$this->get_pagination_default_atts(),
+				$atts
+			),
+			function ( $value ) {
+				return is_bool( $value ) || ! in_array( $value, array( 0, '0', '', null ), true );
+			}
+		);
+
+		foreach ( $atts as $key => $value ) {
+			if ( in_array( $key, array( 'show_all', 'prev_next' ), true ) ) {
+				$atts[ $key ] = filter_var( $atts[ $key ], FILTER_VALIDATE_BOOLEAN );
+				continue;
+			}
+
+			$atts[ $key ] = sanitize_text_field( $value );
+		}
+
+		if ( ! empty( $atts['style'] ) ) {
+			$atts['prev_next'] = true;
+
+			if ( 'standard' !== $atts['style'] ) {
+				// Currently, "Kickstart Standard" is the only supported pagination style.
+				$atts['style'] = 'standard';
+			}
+
+			if (
+				empty( $atts['prev_text'] )
+				|| __( 'Previous Page', 'immonex-kickstart' ) === $atts['prev_text']
+			) {
+				$atts['prev_text'] = '❮';
+			}
+
+			if (
+				empty( $atts['next_text'] )
+				|| __( 'Next Page', 'immonex-kickstart' ) === $atts['next_text']
+			) {
+				$atts['next_text'] = '❯';
+			}
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$atts
 		);
-		$output        = apply_filters(
+
+		if ( ! empty( $template_data['base_url'] ) ) {
+			$template_data['base'] = $template_data['base_url'];
+		}
+
+		return apply_filters(
 			'inx_rendered_pagination_template_contents',
-			$this->utils['template']->render_php_template( $template, $template_data ),
-			$template,
+			$this->utils['template']->render_php_template( $atts['pagination_template'], $template_data ),
+			$atts['pagination_template'],
 			$template_data,
 			$atts
 		);
-
-		return $output;
 	} // render_pagination
 
 	/**
@@ -207,7 +324,8 @@ class Property_List {
 	 *
 	 * @param mixed[] $atts Rendering attributes.
 	 *
-	 * @return \WP_Query Original WP main query object.
+	 * @return \WP_Query|bool Original WP main query object or false if called on
+	 *                        the regular property archive page.
 	 */
 	private function replace_main_query( $atts ) {
 		if ( ! empty( $atts['is_regular_archive_page'] ) ) {
@@ -287,10 +405,10 @@ class Property_List {
 		);
 
 		// phpcs:disable
-		$property_query = new \WP_Query( $args );
-		$org_query      = $wp_query;
-		$wp_query       = null;
-		$wp_query       = $property_query;
+		$this->current_property_query = new \WP_Query( $args );
+		$org_query                    = $wp_query;
+		$wp_query                     = null;
+		$wp_query                     = $this->current_property_query;
 		// phpcs:enable
 
 		return $org_query;

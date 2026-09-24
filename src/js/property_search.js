@@ -84,25 +84,34 @@ function resetSearchForm(event = null) {
 
 function updateSearchState(event = null) {
 	let skipComponentUpdate = false
+	let radius = false
+	let location = false
+	let removeSortParam = false
 
 	if (event && typeof event === 'object') {
 		const formEl = $(event.target).closest('form')
 
 		if (event.target.getAttribute('name') === 'inx-search-distance-search-location') {
-			const radius = formEl.find('select[name=inx-search-distance-search-radius]').val()
+			radius = formEl.find('select[name=inx-search-distance-search-radius]').val()
 			if (!radius) skipComponentUpdate = true
 		}
 
 		if (event.target.getAttribute('name') === 'inx-search-distance-search-radius') {
-			const location = formEl.find('input[name=inx-search-distance-search-location]').val()
+			location = formEl.find('input[name=inx-search-distance-search-location]').val()
 			if (!location) skipComponentUpdate = true
 		}
 	}
+
+	let isDistanceSearch = radius && location
 
 	const currentURL = new URL(window.location.href)
 	const currentParams = currentURL.searchParams
 	const resetClicked = true === event
 	let URLupdated = false
+
+	if (!isDistanceSearch && currentParams.has('inx-sort', 'distance')) {
+		removeSortParam = true
+	}
 
 	const searchFormIDs = event && typeof event === 'object' ?
 		[$(event.target).closest('form').attr('id')] :
@@ -120,7 +129,10 @@ function updateSearchState(event = null) {
 			const fieldNameStore = field.name.replace(/\[\]$/, '')
 			const containsMultipleValues = field.name.match(/\[\]$/)
 
-			if (iForm === 0 && !field.value && currentParams.has(field.name)) {
+			if (
+				(iForm === 0 && !field.value && currentParams.has(field.name))
+				|| (removeSortParam && field.name === 'inx-sort')
+			) {
 				currentParams.delete(field.name)
 				URLupdated = true
 			}
@@ -134,6 +146,10 @@ function updateSearchState(event = null) {
 					&& (
 						!currentParams.has(field.name)
 						|| currentParams.get(field.name) !== field.value
+					)
+					&& (
+						!removeSortParam
+						|| field.name !== 'inx-sort'
 					)
 				) {
 					currentParams.set(field.name, field.value)
@@ -215,6 +231,15 @@ function updateSearchState(event = null) {
 			}
 		}
 
+		if (removeSortParam) {
+			document.getElementsByName('inx-sort').forEach(function (currentValue, currentIndex, listObj) {
+				const el = listObj[currentIndex]
+				if (el.type === 'hidden') {
+					el.value = ''
+				}
+			} )
+		}
+
 		if (URLupdated || !resetClicked) {
 			history.pushState(null, '', currentURL.href)
 
@@ -244,7 +269,6 @@ function invokeComponentUpdates(searchFormID, searchForm, formIndex) {
 		backlinkURL += (backlinkURL.indexOf('?') === -1 ? '?' : '&') + requestParamsString
 	}
 	url += '&inx-backlink-url=' + encodeURIComponent(backlinkURL)
-
 	inx_state.search.backlink_url = backlinkURL
 
 	const specialParams = {}
@@ -364,14 +388,31 @@ function updateNumberOfMatches(event, changeParams) {
 } // updateNumberOfMatches
 
 function updateFiltersSortRequestParams(event, requestParams) {
-	function maybeSwitchSortOption(jqEl, isDistanceSearch) {
-		if (isDistanceSearch || jqEl.length === 0) return
-
+	function maybeSwitchSortOption(jqEl, currentSortParam) {
 		const el = jqEl[0]
+		const filterSelect = $(event.target).next('.inx-property-filters').find("select[name='inx-sort'")
+		const filterSelectEl = filterSelect.length ? filterSelect[0] : false
+
+		if (jqEl.length === 0) return
+
+		if (isDistanceSearch && $(el).find("option[value='distance']").length === 0) {
+			el.options.add(new Option(inx_state.search.distance_sort_term, 'distance'), 0)
+			el.value = 'distance'
+			if (filterSelectEl) filterSelect.trigger('change')
+			return
+		}
+
+		if (!isDistanceSearch && $(el).find("option[value='distance']").length === 1) {
+			el.options.remove(0)
+		}
+
+		if (isDistanceSearch && (currentSortParam || el.value === 'distance')) return
+
 		if (el.value === 'distance') {
 			for (const option of el.options) {
 				if (option.value !== 'distance') {
 					el.value = option.value
+				if (filterSelectEl) filterSelect.trigger('change')
 					return
 				}
 			}
@@ -403,7 +444,7 @@ function updateFiltersSortRequestParams(event, requestParams) {
 				if (typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
 					$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
 				} else {
-					maybeSwitchSortOption($(filterSortElement).find("select[name='inx-sort']"), isDistanceSearch)
+					maybeSwitchSortOption($(filterSortElement).find("select[name='inx-sort']"), urlParams.get('inx-sort'))
 				}
 			}
 		})
@@ -417,7 +458,7 @@ function updateFiltersSortRequestParams(event, requestParams) {
 				if (typeof requestParams.specialParams['inx-sort'] !== 'undefined') {
 					$('#' + elementID + " select[name='inx-sort']").val(requestParams.specialParams['inx-sort'])
 				} else {
-					maybeSwitchSortOption($('#' + elementID).find("select[name='inx-sort']"), isDistanceSearch)
+					maybeSwitchSortOption($('#' + elementID).find("select[name='inx-sort']"), urlParams.get('inx-sort'))
 				}
 			}
 		}
@@ -592,7 +633,7 @@ async function init() {
 	initDatePickerFields()
 	$(".inx-property-filters select[name='inx-sort']").on('change', changeSortOrder)
 
-	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updateFiltersSortRequestParams, debounceDelay))
+	$('.inx-property-search.inx-dynamic-update').on('search:change', debounce(updateFiltersSortRequestParams, 100))
 	$('.inx-property-search').on('search:change', debounce(updateNumberOfMatches, debounceDelay))
 
 	$("form[id^='inx-property-search-main-form']").each((index, searchForm) => {

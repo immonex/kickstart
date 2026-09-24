@@ -79,6 +79,11 @@
 - [inx_rendered_property_template_contents](filter-inx-rendered-property-template-contents) (Anpassung der gerenderten Inhalte eines Immobilien-Detail-Templates)
 - [inx_sharing_{$type}\_meta_tags](filter-inx-sharing-meta-tags) (Meta-Tags für soziale Netzwerke etc.)
 
+#### Seitennavigation (Paginierung)
+
+- [inx_rendered_pagination_template_contents](filter-inx-rendered-pagination-template-contents) (Anpassung der gerenderten Inhalte von Immobilienlisten-Seitennavigationen)
+- [inxkick_pagination_default_atts](filter-inxkick-pagination-default-atts) (Standardattribute der Seitennavigation)
+
 ### Kompatibilität
 
 - [inx_required_property_custom_field_defaults](filter-inx-required-property-custom-field-defaults) (Standardvorgaben obligatorischer Custom Fields von Immobilienbeiträgen beim OpenImmo-Import)

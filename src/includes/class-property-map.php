@@ -473,7 +473,6 @@ class Property_Map {
 		$exclude = apply_filters(
 			'inxkick_cache_key_exclude_query_vars',
 			array(
-				'inx-sort',
 				'inx-limit-page',
 				'inx-r-cidata',
 			),
@@ -498,6 +497,10 @@ class Property_Map {
 					|| in_array( $key, $exclude, true )
 				) {
 					continue;
+				}
+
+				if ( ! is_string( $value ) ) {
+					$value = wp_json_encode( $value, 0, 2 );
 				}
 
 				$key       = substr( $key, 11 );

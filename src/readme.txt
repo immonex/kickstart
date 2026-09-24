@@ -1,9 +1,9 @@
 === immonex Kickstart ===
 Contributors: immonex
 Tags: openimmo, import, realestate, immobilien, immomakler
-Requires at least: 5.5
-Tested up to: 7.1
-Stable Tag: 1.17.14
+Requires at least: 6.5
+Tested up to: 7.2
+Stable Tag: 1.18.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -115,16 +115,37 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 
 1. Default property archive page with all components
 2. Default search form with visible extended section
-3. Search form and list view on small displays
+3. Overview map, search form and list view on small displays
 4. Property detail view: header and gallery slideshow
 5. Property detail view: main description text
 6. Property detail view: details tab
 7. Property detail view: energy tab with Energy Scale Pro [2] based visualization
 8. Property detail view: location tab with OpenStreetMap/OpenLayers map
-9. WP backend: Central plugin/add-on options
-10. WP backend: Property list
+9. Property detail view: agent contact form (Team Add-on) and property post navigation
+10. Contract revocation form
+11. WP backend: Central plugin/add-on options
+12. WP backend: Color selection for Kickstart frontend elements
+13. WP backend: SEO/GEO/Sharing options
+14. WP backend: General Property detail view options
+15. WP backend: Property detail view map type/variant selection
+16. WP backend: Withdrawal form/processing options
+17. WP backend: Property list
+18. WP backend: Withdrawal form submissions
+19. WP backend: Withdrawal submission backend form
 
 == Changelog ==
+
+= 1.18.0 =
+* Release date: 2026-09-24
+* Reworked property list pagination and added related plugin options.
+* Improved compatibility with WPML 5.0.
+* Improved Polylang compatibility (language switcher and backlink URLs).
+* Extended default skin to improve compatibility with block-based themes.
+* Extended API-based property data retrieval.
+* Added video and virtual tour data to the property backend form.
+* Optimized various optical details.
+* Fixed a minor map marker cache issue.
+* Updated dependencies.
 
 = 1.17.14 =
 * Release date: 2026-08-05
@@ -138,13 +159,6 @@ immonex Kickstart is free software. Sources, development docs/support and issue 
 * Release date: 2026-07-02
 * Added general use of default skin assets as fallback.
 * Fixed display of empty virtual tour slides in galleries.
-* Updated dependencies.
-
-= 1.17.8 =
-* Release date: 2026-06-30
-* Added a fallback solution for determining multiple virtual tour URLs per real estate object.
-* Added an aspect ratio CSS rule for video iFrames embedded outside of regular gallery sections.
-* Fixed a minor dynamic CSS property generation issue.
 * Updated dependencies.
 
 See changelog.txt for the complete version history.

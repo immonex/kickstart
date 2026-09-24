@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_14_1\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.17.14';
+	const PLUGIN_VERSION             = '1.18.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -50,6 +50,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
 		'plugin_version'                               => self::PLUGIN_VERSION,
 		'skin'                                         => 'default',
 		'heading_base_level'                           => 1,
+		'standard_container_max_width'                 => '80em',
 		'company_name'                                 => '',
 		'company_address'                              => '',
 		'area_unit'                                    => 'm²',
@@ -118,6 +119,18 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
 		'virtual_tours_require_consent'                => true,
 		'property_list_page_id'                        => 0,
 		'properties_per_page'                          => 0,
+		'pagination_style'                             => '',
+		'pagination_screen_reader_text'                => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'pagination_aria_label'                        => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'pagination_prev_next'                         => true,
+		'pagination_prev_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'pagination_next_text'                         => 'INSERT_TRANSLATED_DEFAULT_VALUE',
+		'pagination_show_all'                          => false,
+		'pagination_end_size'                          => '',
+		'pagination_mid_size'                          => 0,
+		'pagination_before_page_number'                => 0,
+		'pagination_after_page_number'                 => '',
+		'pagination_add_fragment'                      => '',
 		'property_list_map_type'                       => 'osm_german',
 		'property_list_map_lat'                        => 49.8587840,
 		'property_list_map_lng'                        => 6.7854410,
@@ -318,116 +331,9 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
 	protected function activate_plugin_single_site( $fire_before_hook = true, $fire_after_hook = true ) {
 		parent::activate_plugin_single_site( true, false );
 
-		$option_string_translated = false;
-
-		/**
-		 * Set plugin-specific option values that contain content to be translated
-		 * (only on first activation).
-		 */
-		foreach ( $this->plugin_options as $option_name => $option_value ) {
-			if ( is_string( $option_value ) && 'INSERT_TRANSLATED_DEFAULT_VALUE' === strtoupper( $option_value ) ) {
-				switch ( $option_name ) {
-					case 'reference_price_text':
-						$this->plugin_options[ $option_name ] = __( 'Price on demand', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'property_search_no_results_text':
-						$this->plugin_options[ $option_name ] = __( 'Currently there are no properties that match the search criteria.', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'property_details_map_infowindow_contents':
-						$this->plugin_options[ $option_name ] = __( 'The real property location may differ from the marker position.', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'property_details_map_note_map_embed':
-						$this->plugin_options[ $option_name ] = __( 'The map roughly shows the location in which the property is located.', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'property_post_type_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties', 'Custom Post Type Slug (plural only!)', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_location_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/location', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_type_of_use_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/type-of-use', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_property_type_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/type', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_marketing_type_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/buy-rent', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_feature_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/feature', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_label_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/label', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'tax_project_slug_rewrite':
-						$this->plugin_options[ $option_name ] = _x( 'properties/project', 'Custom Taxonomy Slug', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'turnstile_consent_note':
-						$this->plugin_options[ $option_name ] = wp_sprintf(
-							/* translators: %s = Cloudflare Turnstile privacy policy URL */
-							__( 'Upon confirmation, a form security check is performed using <a href="%s" target="_blank">Cloudflare Turnstile</a>.', 'immonex-kickstart' ),
-							__( 'https://www.cloudflare.com/privacypolicy/', 'immonex-kickstart' )
-						);
-						$option_string_translated = true;
-						break;
-					case 'withdrawal_form_introtext':
-						$this->plugin_options[ $option_name ] = __( 'I/We hereby withdraw the contract concluded by me/us regarding the reference number or type of commissioned services specified below.', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_form_submission_conf_msg':
-						$this->plugin_options[ $option_name ] = __( 'Your withdrawal has been submitted. A confirmation of receipt has been sent to the provided email address. Please check your inbox!', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_form_privacy_consent_text':
-						$this->plugin_options[ $option_name ] = __( 'By submitting I consent to my data being processed and stored in accordance with the [privacy_policy] in order to process my withdrawal. This consent can be revoked at any time.', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_admin_notif_subject':
-						$this->plugin_options[ $option_name ] = __( 'New withdrawal', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_admin_notif_template':
-						$this->plugin_options[ $option_name ] = wp_sprintf(
-							'%1$s' . PHP_EOL . PHP_EOL . '%2$s' . PHP_EOL . PHP_EOL . '{{ form_data }}',
-							__( 'A new contract withdrawal by {{ name }} has been received:', 'immonex-kickstart' ),
-							__( 'I/We hereby withdraw the contract concluded by me/us regarding the reference number or type of commissioned services specified below.', 'immonex-kickstart' )
-						);
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_rcpt_conf_subject':
-						$this->plugin_options[ $option_name ] = '[{{ site_title_limited }}] ' . __( 'Withdrawal received', 'immonex-kickstart' );
-						$option_string_translated             = true;
-						break;
-					case 'withdrawal_rcpt_conf_template':
-						$this->plugin_options[ $option_name ] = wp_sprintf(
-							'%1$s' . PHP_EOL . PHP_EOL . '%2$s' . PHP_EOL . PHP_EOL . '{{ form_data }}' . PHP_EOL . PHP_EOL . '%3$s' . PHP_EOL . PHP_EOL . '%4$s' . PHP_EOL . PHP_EOL . '{{ company_name }}',
-							__( 'Good day!', 'immonex-kickstart' ),
-							__( 'We hereby acknowledge receipt of your contract withdrawal request containing the details listed below.', 'immonex-kickstart' ),
-							__( 'In the next step, we will check all the information and then send you a separate confirmation of the actual cancellation or, if necessary, some follow-up questions beforehand.', 'immonex-kickstart' ),
-							__( 'Kind regards,', 'immonex-kickstart' )
-						);
-						$option_string_translated             = true;
-						break;
-				}
-			}
-		}
-
-		if ( $option_string_translated ) {
-			update_option( $this->plugin_options_name, $this->plugin_options );
-		}
+		$install = new Install( $this->bootstrap_data, $this->utils );
+		$install->insert_translated_default_option_values( $this->plugin_options );
+		$install->cleanup();
 
 		$this->check_importer();
 		$this->oi2wp_compat->check_property_posts();
@@ -498,7 +404,10 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
 				}
 
 				foreach ( $old_values as $key => $value ) {
-					if ( false !== strpos( $key, 'color' ) && $value !== $values[ $key ] ) {
+					if (
+						$value !== $values[ $key ]
+						&& ( 'standard_container_max_width' === $key || false !== strpos( $key, 'color' ) )
+					) {
 						do_action( 'inx_dynamic_css_delete_file' );
 						break;
 					}
@@ -779,6 +688,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_13_4\Base {
 						'number_of_matches'   => '',
 						'forms'               => array(),
 						'form_debounce_delay' => (int) apply_filters( 'inx_search_form_debounce_delay', Property_Search::DEFAULT_SEARCH_FORM_DEBOUNCE_DELAY ),
+						'distance_sort_term'  => __( 'Distance', 'immonex-kickstart' ),
 					),
 					$search_query_vars
 				),
@@ -1120,6 +1030,12 @@ in the related input fields:<br><br>
 					'title' => __( 'General', 'immonex-kickstart' ),
 					'tab'   => 'tab_property_lists',
 				),
+				'property_lists_pagination'    => array(
+					'title'       => __( 'Pagination', 'immonex-kickstart' ),
+					'tab'         => 'tab_property_lists',
+					'description' => __( 'The format and appearance of the page navigation are determined by the theme in most cases. The basic style and certain options for real estate listings can be adjusted below.', 'immonex-kickstart' )
+						. '<br><br>' . __( 'In the case of empty fields or null values, the respective default settings are applied.', 'immonex-kickstart' ),
+				),
 				'property_list_maps'           => array(
 					'title'       => __( 'Overview Maps', 'immonex-kickstart' ),
 					'description' => wp_sprintf(
@@ -1246,6 +1162,17 @@ in the related input fields:<br><br>
 							2 => 'H2',
 							3 => 'H3',
 						),
+					),
+				),
+				array(
+					'name'    => 'standard_container_max_width',
+					'type'    => 'text',
+					'label'   => __( 'Standard Container Max. Width', 'immonex-kickstart' ),
+					'section' => 'basic',
+					'args'    => array(
+						'description'      => __( 'Maximum width of the standard container class (<code>.inx-container</code>) for all Kickstart frontend elements (default: <em>80em</em>)', 'immonex-kickstart' ),
+						'class'            => 'text-small',
+						'default_if_empty' => '100%',
 					),
 				),
 				array(
@@ -2043,6 +1970,140 @@ in the related input fields:<br><br>
 						'class'            => 'small-text',
 						'min'              => 1,
 						'default_if_empty' => get_option( 'posts_per_page' ),
+					),
+				),
+				array(
+					'name'    => 'pagination_style',
+					'type'    => 'select',
+					'label'   => __( 'Style', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => __( 'An option other than "<em>Theme</em>" should be selected if the theme does <strong>not</strong> provide adequate formatting for the page navigation.', 'immonex-kickstart' ),
+						'options'     => array(
+							''         => 'Theme',
+							'standard' => 'Kickstart (Standard)',
+						),
+					),
+				),
+				array(
+					'name'    => 'pagination_screen_reader_text',
+					'type'    => 'text',
+					'label'   => __( 'Screen Reader Text', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = default text */
+							__( '<strong>Alternative</strong> creen reader text for the navigation element (default: <em>%s</em>)', 'immonex-kickstart' ),
+							_x( 'Posts pagination', 'default WP translation', 'immonex-kickstart' )
+						),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'pagination_aria_label',
+					'type'    => 'text',
+					'label'   => __( 'ARIA Label', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = default text */
+							__( '<strong>Alternative</strong> ARIA label text for the navigation element (default: <em>%s</em>)', 'immonex-kickstart' ),
+							_x( 'Posts pagination', 'default WP translation', 'immonex-kickstart' )
+						),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'pagination_prev_next',
+					'type'    => 'checkbox',
+					'label'   => __( 'Previous/Next Navigation', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => __( 'Enable previous and next page navigation links.', 'immonex-kickstart' ),
+					),
+				),
+				array(
+					'name'    => 'pagination_prev_text',
+					'type'    => 'text',
+					'label'   => _x( 'Previous Term', 'previous page text in pagination links', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = default text */
+							__( 'Text for the <em>previous page</em> link/button (default: <em>%s</em> or <strong>❮</strong> if the Kickstart Standard style is selected above)', 'immonex-kickstart' ),
+							_x( 'Previous', 'default WP translation', 'immonex-kickstart' )
+						),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'pagination_next_text',
+					'type'    => 'text',
+					'label'   => _x( 'Next Term', 'next page text in pagination links', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => wp_sprintf(
+							/* translators: %s = default text */
+							__( 'Text for the <em>next page</em> link/button (default: <em>%s</em> or <strong>❯</strong>)', 'immonex-kickstart' ),
+							_x( 'Next', 'default WP translation', 'immonex-kickstart' )
+						),
+						'class'       => 'large-text',
+					),
+				),
+				array(
+					'name'    => 'pagination_show_all',
+					'type'    => 'checkbox',
+					'label'   => __( 'Show all Numbers', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'pagination_end_size',
+					'type'    => 'number',
+					'label'   => __( 'Numbers at Start/End', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => __( 'Numbers to display at the beginning and end of the page number list', 'immonex-kickstart' ) .
+							/* translators: %d = default number */
+							' (' . wp_sprintf( __( '<code>0</code> = default, usually <code>%d</code>', 'immonex-kickstart' ), 1 ) . ')',
+						'class'       => 'small-text',
+						'max'         => 10,
+					),
+				),
+				array(
+					'name'    => 'pagination_mid_size',
+					'type'    => 'number',
+					'label'   => __( 'Numbers before/after current Page', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => __( 'Numbers to display to either side of the current page number', 'immonex-kickstart' ) .
+							/* translators: %d = default number */
+							' (' . wp_sprintf( __( '<code>0</code> = default, usually <code>%d</code>', 'immonex-kickstart' ), 2 ) . ')',
+						'class'       => 'small-text',
+						'max'         => 10,
+					),
+				),
+				array(
+					'name'    => 'pagination_before_page_number',
+					'type'    => 'text',
+					'label'   => __( 'Text before Page Number', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'pagination_after_page_number',
+					'type'    => 'text',
+					'label'   => __( 'Text after Page Number', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(),
+				),
+				array(
+					'name'    => 'pagination_add_fragment',
+					'type'    => 'text',
+					'label'   => __( 'URL Fragment', 'immonex-kickstart' ),
+					'section' => 'property_lists_pagination',
+					'args'    => array(
+						'description' => __( 'String to append to each link URL', 'immonex-kickstart' ),
 					),
 				),
 				array(

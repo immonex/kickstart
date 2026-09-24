@@ -5,6 +5,11 @@
 	justify-content: space-between;
 	flex-wrap: wrap;
 	width: 100%;
+
+	div::before,
+	div::after {
+		display: none !important;
+	}
 }
 
 .inx-withdrawal-form__spinner {
@@ -18,19 +23,19 @@
 
 	input[type=radio]:checked,
 	input[type=checkbox]:checked {
-		background-color: var(--inx-color-action-element);
+		background-color: var(--inx-color-action-element, #0A65BC);
 	}
 
 	input[type=radio]:not(:checked):focus,
 	input[type=checkbox]:not(:checked):focus {
-		border-color: var(--inx-color-action-element);
+		border-color: var(--inx-color-action-element, #0A65BC);
 	}
 
 	input:not([type=radio]):focus,
 	input:not([type=checkbox]):focus,
 	input:not([type=button]):focus,
 	textarea:focus {
-		border-color: var(--inx-color-action-element);
+		border-color: var(--inx-color-action-element, #0A65BC);
 	}
 }
 
@@ -41,6 +46,10 @@
 .inx-withdrawal-form__input--type--half,
 .inx-withdrawal-form__input--type--full {
 	flex: 0 0 100%;
+}
+
+.inx-withdrawal-form__input--name--salutation label {
+	display: inline-block;
 }
 
 .inx-withdrawal-form__input--type--privacy-consent {

@@ -9,7 +9,7 @@
 | Name | Beschreibung |
 | ---- | ------------ |
 | `$post_id` | ID des Immobilien-Beitrags (optional, Standard: aktueller Beitrag) |
-| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins#ordner) (Standard: *single-property/element-hub*) |
+| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins) (Standard: *single-property/element-hub*) |
 | `$atts` | Array optionaler Attribute (Keys und mögliche Werte entsprechen den [Attributen des Detailansicht-Shortcodes](/komponenten/detailansicht#attribute)) |
 
 ?> Im Array `$atts` können auch weitere, beliebige Attribute zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`).

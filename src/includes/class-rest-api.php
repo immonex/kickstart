@@ -88,12 +88,13 @@ class REST_API {
 	 */
 	public function get_properties( \WP_REST_Request $request ) {
 		$response_format = $this->get_property_query_response_format( $request );
+		$org_lang        = '';
 
 		if (
 			$request->get_param( 'inx-r-lang' ) &&
 			apply_filters( 'inx_is_translated_post_type', false, $this->config['property_post_type_name'] )
 		) {
-			do_action( 'inx_rest_set_query_language', $request->get_param( 'inx-r-lang' ), $request );
+			$org_lang = apply_filters( 'inx_wpml_open_language_switch', $request->get_param( 'inx-r-lang' ) );
 		}
 
 		nocache_headers();
@@ -171,6 +172,10 @@ class REST_API {
 		$properties = $property_list->get_properties( $args );
 
 		$result = new \WP_REST_Response( 'count' === $response_format ? count( $properties ) : $properties, 200 );
+
+		if ( $org_lang ) {
+			do_action( 'inx_wpml_close_language_switch', $org_lang );
+		}
 
 		return $result;
 	} // get_properties

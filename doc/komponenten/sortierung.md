@@ -55,5 +55,5 @@ Die Auswahlbox enthält die folgenden Optionen. Die zugehörigen **Keys** könne
 ## Erweiterte Anpassung
 
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions#sortierung)
-- [Template](/anpassung-erweiterung/skins#partiell)
+- [Template](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#archiv-amp-listenansicht)

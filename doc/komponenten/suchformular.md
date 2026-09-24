@@ -150,5 +150,5 @@ Beispiel: Suchformular und Instanz einer Listenansicht mit der DOM-ID *immo-list
 
 - [Plugin-Optionen: Suche](/schnellstart/einrichtung?id=suche)
 - [Filter-Referenz](/anpassung-erweiterung/filters-actions#immobiliensuche-listen)
-- [Templates](/anpassung-erweiterung/skins#partiell)
+- [Templates](/anpassung-erweiterung/skins)
 - [Custom Skin](/anpassung-erweiterung/standard-skin#suchformular)

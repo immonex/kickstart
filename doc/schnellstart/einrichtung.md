@@ -124,6 +124,16 @@ Neben einer regulären Seite kann auch ein *alternatives Archiv* für Immobilien
 
 ?> Enthält die Seite, in die das [Suchformular](/komponenten/suchformular) eingebunden ist, auch eine [Listenansicht](/komponenten/liste), wird diese automatisch für die Ausgabe der Ergebnisse beim Klick auf den Suchbutton verwendet, sofern keine alternative Zielseite per Shortcode-Attribut `results-page-id` definiert wurde.
 
+#### Seitennavigation
+
+Die [Seitennavigation](/komponenten/seitennavigation) von Immobilienlisten wird mit den [WordPress-internen Paginierungsfunktionen](https://codex.wordpress.org/Pagination) gerendert. In den meisten Fällen wird so eine einheitliche Optik innerhalb der gesamten Website gewährleistet, die vom **aktiven Theme** vorgegeben wird.
+
+Ist das **nicht** der Fall, kann per Auswahl des Stils *Kickstart (Standard)* eine einfache, optisch ansprechende Variante verwendet werden:
+
+![Screenshot: Seitennavigation mit Kickstart-Standardstil](../assets/scst-standard-style-pagination.png)
+
+Bei Bedarf können zudem die Standardwerte bestimmter Parameter (z. B. Anzahl der Seitenzahlen, Bezeichnungen der Vor/Zurück-Links etc.) aber auch durch individuelle Angaben im zugehörigen Optionstab oder mittels [Shortcode-Attributen](/komponenten/seitennavigation?id=attribute) überschrieben werden.
+
 #### Übersichtskarten
 
 ![Übersichtskarte mit Immobilien-Standortmarkern (OpenStreetMap)](../assets/scst-property-map-1.png)\

@@ -1939,7 +1939,7 @@ class Property {
 				$video,
 				array(
 					'type'           => $video['provider'],
-					'embed_url'      => $this->utils['video']->get_embed_url( $video['url'] ),
+					'embed_url'      => ! empty( $video['url'] ) ? $this->utils['video']->get_embed_url( $video['url'] ) : '',
 					'title'          => ! empty( $video['title'] ) ? $video['title'] : '',
 					'thumbnail_url'  => '',
 					'autoplay'       => $autoplay,
@@ -1956,6 +1956,7 @@ class Property {
 			if (
 				'local' !== $video['provider']
 				&& empty( $videos[ $i ]['oembed'] )
+				&& ! empty( $video['url'] )
 			) {
 				$oembed = $this->utils['embed']->get_oembed_data( $video['url'], $this->post ? $this->post->ID : 0 );
 
@@ -1991,6 +1992,10 @@ class Property {
 	 * @return string Video embed HTML code.
 	 */
 	private function get_video_embed_html( $video, $atts ) {
+		if ( empty( $video['url'] ) ) {
+			return '';
+		}
+
 		if ( 'local' === $video['provider'] ) {
 			/**
 			 * Local video file.
@@ -2350,11 +2355,15 @@ class Property {
 
 			unset( $bl_args['page_id'] );
 
-			$current_page        = $this->utils['string']->get_page_num_from_url( $backlink_url, 1 );
-			$properties_per_page = (int) $this->utils['data']->get_query_var_value( "{$public_prefix}list-limit-page" );
+			$current_page          = $this->utils['string']->get_page_num_from_url( $backlink_url, 1 );
+			$properties_per_page   = (int) $this->utils['data']->get_query_var_value( "{$public_prefix}list-limit-page" );
+			$option_posts_per_page = (int) get_option( 'posts_per_page', 10 );
 
 			if ( ! $properties_per_page ) {
-				$properties_per_page = (int) $this->utils['data']->get_query_var_value( 'posts_per_page' );
+				$temp = (int) $this->utils['data']->get_query_var_value( 'posts_per_page' );
+				if ( $temp !== $option_posts_per_page ) {
+					$properties_per_page = $temp;
+				}
 			}
 
 			if ( ! $properties_per_page ) {
@@ -2362,7 +2371,7 @@ class Property {
 			}
 
 			if ( ! $properties_per_page ) {
-				$properties_per_page = (int) get_option( 'posts_per_page', 10 );
+				$properties_per_page = $option_posts_per_page;
 			}
 
 			if ( ! isset( $atts['list_query_atts'] ) ) {
@@ -2465,7 +2474,7 @@ class Property {
 		);
 
 		if ( $backlink_url ) {
-			$backlink_url = rawurldecode( $backlink_url );
+			$backlink_url = rawurldecode( str_replace( '&amp;', '&', $backlink_url ) );
 
 			if ( 'http' !== strtolower( substr( $backlink_url, 0, 4 ) ) ) {
 				$backlink_url = home_url( wp_parse_url( $backlink_url, PHP_URL_SCHEME ) );

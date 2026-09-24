@@ -466,7 +466,7 @@ if ( $inx_skin_media_count > 0 ) :
 
 					<?php if ( $inx_skin_show_video ) : ?>
 					<li class="inx-thumbnail-nav__item inx-thumbnail-nav__item--is-video" uk-slideshow-item="<?php echo count( $inx_skin_gallery_images ); ?>">
-						<?php if ( $inx_skin_virtual_tour_count > 1 ) : ?>
+						<?php if ( $inx_skin_video_count > 1 ) : ?>
 						<div class="uk-badge inx-badge inx-badge--size--m inx-badge--type--count"><?php echo $inx_skin_video_count; ?></div>
 						<?php endif; ?>
 						<a href="#">

@@ -8,7 +8,7 @@
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins#ordner) (Standard: *property-list/filters-sort*) |
+| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins) (Standard: *property-list/filters-sort*) |
 | `$atts` | Array beliebiger optionaler Attribute, die zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`) |
 
 ## Code-Beispiel

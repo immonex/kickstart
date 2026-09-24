@@ -178,15 +178,17 @@ class Format_Helper {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int|float $value Price value.
-	 * @param int       $decimals Number of decimals (optional, 2 by default, 9 = auto).
-	 * @param string    $price_time_unit Unit to add the given price relates to (optional).
-	 * @param string    $if_zero Return value if original value is zero or empty (optional).
-	 * @param string    $currency Currency acronym or symbol (optional, system setting by default).
+	 * @param int|float   $value Price value.
+	 * @param int         $decimals Number of decimals (optional, 2 by default, 9 = auto).
+	 * @param string      $price_time_unit Unit to add the given price relates to (optional).
+	 * @param string      $if_zero Return value if original value is zero or empty (optional).
+	 * @param string      $currency Currency acronym or symbol (optional, system setting by default).
+	 * @param bool|string $zerodash Replace decimal zeroes of whole numbers by a dash (true) or the
+	 *                              given string (optional, false by default).
 	 *
 	 * @return string Formatted price or default value.
 	 */
-	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '', $currency = '' ) {
+	public function format_price( $value, $decimals = 2, $price_time_unit = '', $if_zero = '', $currency = '', $zerodash = false ) {
 		if ( ! $value ) {
 			return $if_zero ? $if_zero : '';
 		}
@@ -199,6 +201,7 @@ class Format_Helper {
 		$decimals = 9 === $decimals ? 99 : $decimals;
 		$args     = array(
 			'if_zero'  => $if_zero,
+			'zerodash' => $zerodash,
 			'unit_sep' => '&nbsp;',
 		);
 
@@ -217,14 +220,16 @@ class Format_Helper {
 	 *
 	 * @since 1.9.33-beta
 	 *
-	 * @param int|float $value Area value.
-	 * @param int       $decimals Number of decimals (optional, 2 by default, 9 = auto).
-	 * @param string    $if_zero Return value if original value is zero or empty (optional).
-	 * @param string    $unit Area unit (optional, system setting by default).
+	 * @param int|float   $value Area value.
+	 * @param int         $decimals Number of decimals (optional, 2 by default, 9 = auto).
+	 * @param string      $if_zero Return value if original value is zero or empty (optional).
+	 * @param string      $unit Area unit (optional, system setting by default).
+	 * @param bool|string $zerodash Replace decimal zeroes of whole numbers by a dash (true) or the
+	 *                              given string (optional, false by default).
 	 *
 	 * @return string Formatted price or default value.
 	 */
-	public function format_area( $value, $decimals = 2, $if_zero = '', $unit = '' ) {
+	public function format_area( $value, $decimals = 2, $if_zero = '', $unit = '', $zerodash = false ) {
 		if ( ! $value ) {
 			return $if_zero ? $if_zero : '';
 		}
@@ -237,6 +242,7 @@ class Format_Helper {
 		$decimals = 9 === $decimals ? 99 : $decimals;
 		$args     = array(
 			'if_zero'  => $if_zero,
+			'zerodash' => $zerodash,
 			'unit_sep' => '&nbsp;',
 		);
 

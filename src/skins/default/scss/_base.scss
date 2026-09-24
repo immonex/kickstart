@@ -5,7 +5,7 @@
 
 .inx-container {
 	width: 100%;
-	max-width: 80em;
+	max-width: var(--inx-standard-container-max-width, 80em);
 	margin: 0 auto;
 	font-size: config.$size-font-base !important;
 	line-height: config.$line-height-base;

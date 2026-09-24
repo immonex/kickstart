@@ -6,6 +6,26 @@
 			<key name="property_details_map_infowindow_contents" />
 			<key name="property_details_map_note_map_marker" />
 			<key name="property_details_map_note_map_embed" />
+			<key name="property_post_type_slug_rewrite" />
+			<key name="tax_location_slug_rewrite" />
+			<key name="tax_type_of_use_slug_rewrite" />
+			<key name="tax_property_type_slug_rewrite" />
+			<key name="tax_marketing_type_slug_rewrite" />
+			<key name="tax_feature_slug_rewrite" />
+			<key name="tax_label_slug_rewrite" />
+			<key name="tax_project_slug_rewrite" />
+			<key name="turnstile_consent_note" />
+			<key name="pagination_screen_reader_text" />
+			<key name="pagination_aria_label" />
+			<key name="pagination_prev_text" />
+			<key name="pagination_next_text" />
+			<key name="withdrawal_form_introtext" />
+			<key name="withdrawal_form_submission_conf_msg" />
+			<key name="withdrawal_form_privacy_consent_text" />
+			<key name="withdrawal_admin_notif_subject" />
+			<key name="withdrawal_admin_notif_template" />
+			<key name="withdrawal_rcpt_conf_subject" />
+			<key name="withdrawal_rcpt_conf_template" />
 		</key>
 	</admin-texts>
 </wpml-config>

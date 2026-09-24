@@ -3,8 +3,8 @@
  * Plugin Name:       immonex Kickstart
  * Plugin URI:        https://wordpress.org/plugins/immonex-kickstart/
  * Description:       Essential components and add-on framework for embedding and searching/filtering imported OpenImmo-XML-based real estate offers
- * Version:           1.17.14
- * Requires at least: 5.5
+ * Version:           1.18.0
+ * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            inveris OHG / immonex
  * Author URI:        https://immonex.dev/

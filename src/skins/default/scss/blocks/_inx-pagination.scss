@@ -1,0 +1,40 @@
+.inx-pagination--style--standard .nav-links {
+	display: inline-flex;
+	gap: 8px;
+	font-size: 16px;
+}
+
+.inx-pagination--style--standard .page-numbers,
+.inx-pagination--style--standard .page-numbers:hover {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	box-sizing: content-box;
+	align-items: center;
+	justify-content: center;
+	max-height: 3.5em;
+	overflow: hidden;
+	margin: 0 4px 0 0;
+	font-size: 1.2em;
+	line-height: 1.2em;
+	text-decoration: none;
+	word-break: normal;
+	overflow-wrap: normal;
+
+	&.prev {
+		margin-right: 12px;
+	}
+
+	&.next {
+		margin-left: 8px;
+	}
+
+	&.current {
+		min-width: 1.3em;
+		aspect-ratio: 1 / 1;
+		padding: 4px;
+		background-color: var(--inx-color-bg-muted-default-lighter, rgba(253, 253, 253, 0.75));
+		border: 2px solid var(--inx-color-bg-muted-default-darker, rgba(187, 187, 187, 0.75));
+		border-radius: 50%;
+	}
+}

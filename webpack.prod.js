@@ -7,6 +7,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false, // 'source-map'
   optimization: {
+    //runtimeChunk: true,
     minimize: true,
     minimizer: [
       '...',

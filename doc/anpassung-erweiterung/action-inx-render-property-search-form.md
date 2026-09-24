@@ -8,7 +8,7 @@
 
 | Name | Beschreibung |
 | ---- | ------------ |
-| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins#ordner) (Standard: *property-search*) |
+| `$template` | Name der zu rendernden Template-Datei (ohne Suffix .php) im [Skin-Ordner](skins) (Standard: *property-search*) |
 | `$atts` | Array optionaler Attribute (Keys und mögliche Werte entsprechen den [Attributen des Suchformular-Shortcodes](/komponenten/suchformular#attribute)) |
 
 ?> Im Array `$atts` können auch weitere, beliebige Attribute zum PHP-Template "durchgeschleift" werden (hier verfügbar im Array `$template_data`).

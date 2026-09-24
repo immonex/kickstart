@@ -206,17 +206,19 @@ class Property_Filters_Sort {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param \WP_Query|bool $query WP query object (optional).
+	 *
 	 * @return mixed[] Sort option keys and related definition/configuration.
 	 */
-	public function get_sort_options() {
+	public function get_sort_options( $query = false ) {
 		$prefix       = $this->config['plugin_prefix'];
 		$sort_options = array();
 
 		if (
-			$this->utils['data']->get_query_var_value( 'geo_query' )
+			$this->utils['data']->get_query_var_value( 'geo_query', $query )
 			|| (
-				$this->utils['data']->get_query_var_value( 'inx-search-distance-search-location' )
-				&& $this->utils['data']->get_query_var_value( 'inx-search-distance-search-radius' )
+				$this->utils['data']->get_query_var_value( 'inx-search-distance-search-location', $query )
+				&& $this->utils['data']->get_query_var_value( 'inx-search-distance-search-radius', $query )
 			)
 		) {
 			$sort_options = array(
@@ -239,7 +241,7 @@ class Property_Filters_Sort {
 			)
 		);
 
-		$marketing_type = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'search-marketing-type' );
+		$marketing_type = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'search-marketing-type', $query );
 		if ( ! $marketing_type ) {
 			$sort_options = array_merge(
 				$sort_options,
@@ -258,8 +260,8 @@ class Property_Filters_Sort {
 			);
 		}
 
-		$references = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'references' );
-		$available  = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'available' );
+		$references = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'references', $query );
+		$available  = $this->utils['data']->get_query_var_value( $this->config['public_prefix'] . 'available', $query );
 		if ( 'only' !== $references && ! $available ) {
 			$sort_options = array_merge(
 				$sort_options,

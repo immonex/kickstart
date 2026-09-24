@@ -76,7 +76,7 @@ function refreshTabbedYTiFrames (event) {
 		 * Refresh YouTube iFrame in previously hidden tab once to fix
 		 * a low resolution preview image issue.
 		 */
-		iFrame.src = iFrame.src
+		iFrame.contentWindow.location.replace(iFrame.src)
 		iFrame.dataset.inxRefreshed = true
 	}
 } // refreshTabbedYTiFrames

@@ -291,7 +291,7 @@ class Data_Access_Helper {
 	 *                                    - "-foobar": Exclude elements containing "foobar".
 	 *                                    - "/foo(bar)?/": RegEx-based search (include).
 	 *                                    - "-/foo(bar)?/": RegEx-based search (exclude).
-	 * @param string[]|bool   $scope    Mapping columns to query: name, group, source (optional, false = all).
+	 * @param string[]|bool   $scope    Mapping columns to query: name, group, source, destination (optional, false = all).
 	 * @param int|string|bool $post_id  Property post ID (optional).
 	 *
 	 * @return mixed[] Matching property details.
@@ -335,7 +335,7 @@ class Data_Access_Helper {
 				}
 			}
 
-			if ( empty( $scope ) || ( is_array( $scope ) && in_array( 'name', $scope, true ) ) ) {
+			if ( empty( $scope ) || ( is_array( $scope ) && ( in_array( 'name', $scope, true ) || ( in_array( 'destination', $scope, true ) ) ) ) ) {
 				/**
 				 * Add details stored in separate custom fields with either matching
 				 * mapping name or meta key.
@@ -1063,7 +1063,7 @@ class Data_Access_Helper {
 						|| ( ! empty( $item['source'] ) && $item['source'] === $unique_item['source'] )
 					) && (
 						(string) $item['value'] === (string) $unique_item['value']
-						|| (string) $item['meta']['value_before_filter'] === (string) $unique_item['meta']['value_before_filter']
+						|| ( ! empty( $item['meta'] ) && (string) $item['meta']['value_before_filter'] === (string) $unique_item['meta']['value_before_filter'] )
 					)
 				) {
 					continue 2;
