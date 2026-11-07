@@ -1148,7 +1148,7 @@ class Property_Hooks {
 								}
 
 								if ( is_numeric( $replace_by ) ) {
-									$replace_by = apply_filters( 'inx_format', $value, 'number', array_slice( $tag['args'], 1 ) );
+									$replace_by = apply_filters( 'inx_format', $replace_by, 'number', array_slice( $tag['args'], 1 ) );
 								}
 							}
 

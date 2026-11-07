@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 1.19.1 =
+* Release date: 2026-11-07
+* Fixed a property detail embedding issue (duplicate display of units).
+
 = 1.19.0 =
 * Release date: 2026-11-07
 * Reworked password protected property post handling.
