@@ -192,7 +192,16 @@ class REST_API {
 	private function get_property_list_html( $request ) {
 		$cidata                  = $request->get_param( 'inx-r-cidata' );
 		$component_instance_data = ! empty( $cidata ) ? json_decode( $cidata, true ) : array();
+		$config                  = $this->config;
 		unset( $component_instance_data['is_regular_archive_page'] );
+
+		$component_instance_data = array_filter(
+			$component_instance_data,
+			function ( $key ) use ( $config ) {
+				return ! in_array( $key, $config['exclude_var_names_sec'], true );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
 
 		$this->maybe_add_lang_args( $component_instance_data, $request );
 

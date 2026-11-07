@@ -81,6 +81,8 @@ class Property_Hooks {
 		add_filter( 'pre_get_shortlink', array( $this, 'update_template_page_shortlink' ), 10, 4 );
 		add_filter( 'body_class', array( $this, 'maybe_add_body_class' ) );
 		add_filter( 'shortcode_atts_gallery', array( $this, 'add_gallery_image_ids' ), 10, 4 );
+		add_filter( 'page_link', array( $this, 'maybe_convert_page_link' ), 10, 2 );
+		add_filter( 'the_posts', array( $this, 'maybe_set_property_post_password' ), 10, 2 );
 
 		// Internal filter.
 		$is_frontend_page_request = apply_filters(
@@ -815,6 +817,8 @@ class Property_Hooks {
 	 */
 	public function shortcode_property_details( $atts ) {
 		$post_id = $this->get_current_property_post_id( 0 );
+		$config  = $this->config;
+
 		if ( ! $post_id && empty( $atts['is_preview'] ) ) {
 			return '';
 		}
@@ -832,9 +836,17 @@ class Property_Hooks {
 
 		if ( empty( $atts ) ) {
 			$atts = array();
+		} else {
+			$atts = array_filter(
+				$atts,
+				function ( $key ) use ( $config ) {
+					return ! in_array( $key, $config['exclude_var_names_sec'], true );
+				},
+				ARRAY_FILTER_USE_KEY
+			);
 		}
 
-		// Permit arbitrary attributes for passing template parameters (special case!).
+		// Permit – almost – arbitrary attributes for passing template parameters (special case!).
 		$shortcode_atts = $this->utils['string']->decode_special_chars(
 			shortcode_atts( $atts, $atts, 'inx-property-details' )
 		);
@@ -1440,6 +1452,79 @@ class Property_Hooks {
 
 		return $out;
 	} // add_gallery_image_ids
+
+	/**
+	 * Replace property detail (template) page link URL by the one of the actual
+	 * property post if determinable (filter callback).
+	 *
+	 * @since 1.18.2-beta
+	 *
+	 * @param string $link    Source link URL.
+	 * @param int    $page_id Source page ID.
+	 *
+	 * @return string Converted or original link URL.
+	 */
+	public function maybe_convert_page_link( $link, $page_id ) {
+		if (
+			! $this->config['property_details_page_id']
+			|| (int) $this->config['property_details_page_id'] !== $page_id
+		) {
+			return $link;
+		}
+
+		$property_id        = apply_filters( 'inx_current_property_post_id', 0 );
+		$property_permalink = $property_id ? get_permalink( $property_id ) : false;
+
+		return $property_permalink ? $property_permalink : $link;
+	} // maybe_convert_page_link
+
+	/**
+	 * If a property post password is set, use it for a possibly selected
+	 * property details template page, too (filter callback).
+	 *
+	 * @since 1.18.2-beta
+	 *
+	 * @param \WP_Post[] $posts Array of post objects.
+	 * @param \WP_Query  $query The WP_Query instance (passed by reference).
+	 *
+	 * @return string Converted or original link URL.
+	 */
+	public function maybe_set_property_post_password( $posts, $query ) {
+		if (
+			is_admin()
+			|| empty( $posts )
+			|| ! $this->config['property_details_page_id']
+		) {
+			return $posts;
+		}
+
+		remove_filter( 'the_posts', array( $this, 'maybe_set_property_post_password' ), 10 );
+		$property_post_id = apply_filters( 'inx_current_property_post_id', 0 );
+		add_filter( 'the_posts', array( $this, 'maybe_set_property_post_password' ), 10, 2 );
+
+		if ( ! $property_post_id ) {
+			return $posts;
+		}
+
+		// Fetch the actual property post password, if any.
+		$property_post = get_post( $property_post_id );
+		if ( ! $property_post || empty( $property_post->post_password ) ) {
+			return $posts;
+		}
+
+		/**
+		 * Loop through the posts returned by the query and set/replace the
+		 * of the property details (template) page.
+		 */
+		foreach ( $posts as $post ) {
+			if ( (int) $this->config['property_details_page_id'] === $post->ID ) {
+				$post->post_password = $property_post->post_password;
+				break;
+			}
+		}
+
+		return $posts;
+	} // maybe_set_property_post_password
 
 	/**
 	 * Extract "tags" and related arguments used in the property detail element

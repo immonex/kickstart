@@ -27,6 +27,13 @@ class Polylang_Compat {
 	private $utils;
 
 	/**
+	 * Previous language code (before switch)
+	 *
+	 * @var string|bool
+	 */
+	private $previous_lang = false;
+
+	/**
 	 * Translation ID cache
 	 *
 	 * @var mixed[]
@@ -59,7 +66,6 @@ class Polylang_Compat {
 		add_filter( 'pll_the_language_link', array( $this, 'extend_language_switcher_urls' ), 10, 2 );
 		add_filter( 'pll_the_language_link', array( $this, 'fix_custom_taxonomy_switcher_links' ), 10, 3 );
 
-		// DEPRECATED.
 		add_action( 'inx_rest_set_query_language', array( $this, 'switch_language' ), 10, 2 );
 	} // __construct
 
@@ -197,10 +203,8 @@ class Polylang_Compat {
 	} // extend_language_switcher_urls
 
 	/**
-	 * Switch current language using the WPML(!) API (action callback).
-	 *
-	 * @deprecated This method will be removed in a future version.
-	 *             Use the `inx_wpml_open_language_switch` filter instead.
+	 * Switch current language using the WPML(!) API
+	 * (proxy method/action callback).
 	 *
 	 * @since 1.7.26-beta
 	 *
@@ -208,7 +212,11 @@ class Polylang_Compat {
 	 * @param \WP_REST_Request $request Request object.
 	 */
 	public function switch_language( $lang, $request ) {
-		$previous_lang = apply_filters( 'inx_wpml_open_language_switch', $lang );
+		if ( $this->previous_lang ) {
+			do_action( 'inx_wpml_close_language_switch', $this->previous_lang );
+		}
+
+		$this->previous_lang = apply_filters( 'inx_wpml_open_language_switch', $lang );
 	} // switch_language
 
 	/**

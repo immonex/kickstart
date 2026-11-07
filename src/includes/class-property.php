@@ -1109,7 +1109,7 @@ class Property {
 		if ( ! empty( $property_type_terms ) && ! is_wp_error( $property_type_terms ) ) {
 			foreach ( $property_type_terms as $i => $term ) {
 				if ( $i > 0 ) {
-					$property_type .= ' &gt; ';
+					$tax_data['property_type'] .= ' &gt; ';
 				}
 				$tax_data['property_type'] .= $term->name;
 			}
@@ -1432,7 +1432,7 @@ class Property {
 
 		$embed_code = apply_filters(
 			'immonex_oi2wp_virtual_tour_embed_code', // An OpenImmo2WP hook is used here instead of a Kickstart hook.
-			'<div class="immonex-virtual-tour-iframe-wrap"><iframe src="{url}" width="100%" height="450" frameborder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe></div>'
+			'<div class="immonex-virtual-tour-iframe-wrap"><iframe src="{url}" width="100%" height="450" frameborder="0" loading="lazy" allowfullscreen mozallowfullscreen webkitallowfullscreen></iframe></div>'
 		);
 
 		foreach ( $vars as $name => $value ) {
@@ -2023,7 +2023,7 @@ class Property {
 			 */
 			$iframe_template = apply_filters(
 				'inx_video_iframe_template',
-				'<iframe src="{url}" {width_attr}{height_attr}frameborder="0" allowfullscreen allow="{allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}" class="inx-video-iframe"></iframe>',
+				'<iframe src="{url}" {width_attr}{height_attr}frameborder="0" loading="lazy" allowfullscreen allow="{allow}" class="inx-video-iframe" uk-video="autoplay: {autoplay}; automute: {automute}" class="inx-video-iframe"></iframe>',
 				$video
 			);
 

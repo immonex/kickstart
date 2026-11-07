@@ -613,10 +613,16 @@ class Data_Access_Helper {
 			$component_instance_data = json_decode( wp_unslash( $_GET['inx-cidata'] ), true );
 		}
 
-		if ( $component_instance_data && ! empty( $component_instance_data[ $var_name ] ) ) {
+		if (
+			! in_array( $var_name, $this->bootstrap_data['exclude_var_names_sec'], true )
+			&& $component_instance_data && ! empty( $component_instance_data[ $var_name ] )
+		) {
 			// Get value from the rendering data of a related frontend component instance.
 			$temp_value = $this->sanitize_query_var_value( $component_instance_data[ $var_name ] );
-		} elseif ( isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ] ) {
+		} elseif (
+			! in_array( $var_name, $this->bootstrap_data['exclude_var_names_sec'], true )
+			&& isset( $_GET[ $var_name ] ) && '' !== $_GET[ $var_name ]
+		) {
 			// phpcs:disable
 			$temp_raw_value = $_GET[ $var_name ];
 

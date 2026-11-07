@@ -79,7 +79,7 @@ class WP_Bootstrap {
 			'manage_edit-' . $bootstrap_data['property_post_type_name'] . '_sortable_columns',
 			array( $this, 'add_posts_custom_sortable_columns' )
 		);
-		add_filter( 'request', array( $this, 'reference_column_orderby' ) );
+		add_filter( 'request', array( $this, 'custom_columns_orderby' ) );
 		add_filter( 'parent_file', array( $this, 'set_current_menu' ) );
 		add_filter( 'body_class', array( $this, 'check_body_classes' ), 90 );
 
@@ -696,6 +696,9 @@ class WP_Bootstrap {
 		global $post;
 
 		switch ( $column ) {
+			case 'object_number':
+				echo esc_html( get_post_meta( $post->ID, '_inx_property_id', true ) );
+				break;
 			case 'reference':
 				$is_reference = get_post_meta( $post->ID, '_immonex_is_reference', true );
 				echo wp_sprintf(
@@ -721,8 +724,9 @@ class WP_Bootstrap {
 
 		foreach ( $columns as $key => $title ) {
 			if ( 'author' === $key ) {
-				$modified_columns['reference'] = __( 'Reference Property', 'immonex-kickstart' );
-				$author_title                  = $title;
+				$modified_columns['object_number'] = __( 'Object Number', 'immonex-kickstart' );
+				$modified_columns['reference']     = __( 'Reference Property', 'immonex-kickstart' );
+				$author_title                      = $title;
 			} else {
 				if (
 					'date' === $key
@@ -748,13 +752,14 @@ class WP_Bootstrap {
 	 * @return string[] Extended columns array.
 	 */
 	public function add_posts_custom_sortable_columns( $columns ) {
-		$columns['reference'] = 'reference';
+		$columns['object_number'] = 'object_number';
+		$columns['reference']     = 'reference';
 
 		return $columns;
 	} // add_posts_custom_sortable_columns
 
 	/**
-	 * Make backend property lists sortable by reference state.
+	 * Make backend property lists sortable by custom column values/states.
 	 *
 	 * @since 1.6.15-beta
 	 *
@@ -762,24 +767,33 @@ class WP_Bootstrap {
 	 *
 	 * @return mixed[] Possibly extended query vars.
 	 */
-	public function reference_column_orderby( $query_vars ) {
+	public function custom_columns_orderby( $query_vars ) {
 		if (
-			is_admin()
-			&& isset( $query_vars['orderby'] )
-			&& 'reference' === $query_vars['orderby']
+			! is_admin()
+			|| empty( $query_vars['orderby'] )
 		) {
-			$query_vars = array_merge(
-				$query_vars,
-				array(
-					// phpcs:ignore
-					'meta_key' => '_immonex_is_reference',
-					'orderby'  => 'meta_value_num',
-				)
-			);
+			return $query_vars;
+		}
+
+		$custom_cols = array(
+			'object_number' => '_inx_property_id',
+			'reference'     => '_immonex_is_reference',
+		);
+
+		foreach ( $custom_cols as $col => $meta_key ) {
+			if ( $col === $query_vars['orderby'] ) {
+				$query_vars = array_merge(
+					$query_vars,
+					array(
+						'meta_key' => $meta_key, // phpcs:ignore
+						'orderby'  => 'reference' === $col ? 'meta_value_num' : 'meta_value',
+					)
+				);
+			}
 		}
 
 		return $query_vars;
-	} // reference_column_orderby
+	} // custom_columns_orderby
 
 	/**
 	 * Filter out irregular body classes (e.g. has-sidebar in property pages).

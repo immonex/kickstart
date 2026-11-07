@@ -32,7 +32,11 @@ Mit den folgenden Attributen können Art und Umfang der anzuzeigenden Immobilien
 
 Als Werte taxonomiebasierter Attribute werden immer die **Slugs** der jeweiligen Begriffe (*Terms*) verwendet, entweder einzeln oder in Form einer kommagetrennte Liste mehrerer Slugs.
 
-Mit einem `-` vor dem Slug können auch Immobilien **ausgeschlossen** werden, denen der betreffende Term zugeordnet ist.
+Werden mehrere Slugs angegeben, erfolgt die Auswahl der Immobilien anhand einer *logischen ODER-Verknüpfung*, d. h. es werden alle Objekte angezeigt, denen **mindestens einer** der angegebenen Begriffe zugeordnet ist.
+
+Alternativ können mit einem `+` vor den jeweiligen Slugs auch *Pflicht-Terms* definiert werden, die den anzuzeigenden Immobilien **immer** zugeordnet sein müssen (*logische UND-Verknüpfung*).
+
+Umgekehrt können per `-` vor dem Slug auch Objekte explizit **ausgeschlossen** werden, denen der betreffende Term zugeordnet ist.
 
 !> Ist neben der Listenansicht auch ein [Suchformular](suchformular) in der Seite enthalten, muss der Typ der zugehörigen Select-Elemente ggfls. per [Filterfunktion](suchformular?id=taxonomie-mehrfachauswahl) umgestellt werden, wenn bei bestimmten Taxonomien eine **Mehrfachauswahl** möglich sein soll.
 
@@ -43,6 +47,9 @@ Nur Einfamilienhäuser (Kaufobjekte):\
 
 Alle Häuser außer Einfamilienhäuser:\
 `[inx-property-list property-type="haeuser, -einfamilienhaus"]`
+
+Alle Neubau-Einfamilienhäuser (sofern *Neubau* in der Objektart-Taxonomie enthalten ist):\
+`[inx-property-list property-type="haeuser, +neubau"]`
 
 Neue Bungalows, Villen und Kioske:\
 `[inx-property-list property-type="bungalow, villa, kiosk" labels="neu"]`

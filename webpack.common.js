@@ -49,7 +49,7 @@ module.exports = {
           },
           {
             loader: 'sass-loader',
-            options: { sassOptions: { silenceDeprecations: ["import"] } }
+            options: { sassOptions: { silenceDeprecations: ['import'] } }
           }
         ]
       },

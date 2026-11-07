@@ -936,7 +936,7 @@ class Property_Backend_Form {
 	 * @return bool Perform normal CMB2 save if true.
 	 */
 	public function move_nested_oembed_values_on_save( $override, $a, $args, $field ) {
-		if ( empty( $a['value']['url'] ) || ! is_array( $a['value'] ) ) {
+		if ( empty( $a['value'] ) || ! is_array( $a['value'] ) ) {
 			delete_post_meta( $a['id'], $a['field_id'] );
 			return true;
 		}

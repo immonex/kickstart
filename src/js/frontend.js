@@ -13,13 +13,17 @@ Vue.use(VueCookies)
 Vue.$cookies.config('24h', '', '', process.env.NODE_ENV === 'production')
 
 // UIkit
-import UIkit from 'uikit'
-import Icons from 'uikit/dist/js/uikit-icons'
+if (typeof UIkit === 'undefined') {
+	window.UIkit = await import(/* webpackChunkName: "uikit" */ 'uikit')
+}
+if (typeof UIkitIcons === 'undefined') {
+	window.UIkitIcons = await import(/* webpackChunkName: "uikit-icons" */ 'uikit/dist/js/uikit-icons')
+}
+
 import 'intersection-observer'
 
-inx_state.uikit = UIkit
-
-UIkit.use(Icons)
+inx_state.uikit = window.UIkit
+window.UIkit.use(window.UIkitIcons)
 
 // immonex Kickstart State
 import inxState from './state'

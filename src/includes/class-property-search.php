@@ -1292,14 +1292,17 @@ class Property_Search {
 						in_array( strtoupper( $element['compare'] ), array( 'IN', 'NOT IN', 'AND', 'EXISTS', 'NOT EXISTS' ), true ) ?
 						strtoupper( $element['compare'] ) : $default_operator;
 
-					$include_terms = array();
-					$exclude_terms = array();
+					$include_terms           = array();
+					$mandatory_include_terms = array();
+					$exclude_terms           = array();
 
 					$values = is_array( $value ) ? $value : array( $value );
 
 					foreach ( $values as $value ) {
 						if ( '-' === $value[0] ) {
 							$exclude_terms[] = substr( $value, 1 );
+						} elseif ( '+' === $value[0] ) {
+							$mandatory_include_terms[] = substr( $value, 1 );
 						} else {
 							$include_terms[] = $value;
 						}
@@ -1312,6 +1315,17 @@ class Property_Search {
 							'operator' => $operator,
 							'terms'    => $include_terms,
 						);
+					}
+
+					if ( ! empty( $mandatory_include_terms ) ) {
+						foreach ( $mandatory_include_terms as $term ) {
+							$tax_query[] = array(
+								'taxonomy' => $element['key'],
+								'field'    => 'slug',
+								'operator' => 'IN',
+								'terms'    => $term,
+							);
+						}
 					}
 
 					if ( ! empty( $exclude_terms ) ) {

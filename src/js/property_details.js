@@ -2,7 +2,9 @@
 import Vue from 'vue'
 
 // UIkit
-import UIkit from 'uikit'
+if (typeof UIkit === 'undefined') {
+	window.UIkit = await import(/* webpackChunkName: "uikit" */ 'uikit')
+}
 
 // immonex Kickstart Components
 import PropertyLocationOpenLayersMap from './components/PropertyLocationOpenLayersMap.vue'
@@ -63,23 +65,39 @@ function cleanLocationURL() {
 	history.replaceState(null, null, url)
 } // cleanLocationURL
 
-function refreshTabbedYTiFrames (event) {
+function setDeferredIframes() {
+	const containerClasses = [ 'inx-gallery__image-slider', 'inx-single-property__tabbed-content' ]
+
+	for (const containerClass of containerClasses) {
+		const containers = document.getElementsByClassName(containerClass)
+
+		if (containers.length === 0) continue
+
+		for (const container of containers) {
+			const iFrames = container.getElementsByTagName('iframe')
+
+			if (iFrames.length > 0) {
+				for (const iFrame of iFrames) {
+					iFrame.dataset.deferredSrc = iFrame.src
+					iFrame.src = ''
+				}
+			}
+		}
+	}
+} // setDeferredIframes
+
+function enableDeferredIframes(event) {
 	const iFrames = event.target.getElementsByTagName('iframe')
 
 	if (iFrames.length === 0) return
 
-	for (let i = 0; i < iFrames.length; i++) {
-		const iFrame = iFrames[i]
-		if (iFrame.src.indexOf('youtube') === -1 || iFrame.dataset.inxRefreshed) continue
-
-		/**
-		 * Refresh YouTube iFrame in previously hidden tab once to fix
-		 * a low resolution preview image issue.
-		 */
-		iFrame.contentWindow.location.replace(iFrame.src)
-		iFrame.dataset.inxRefreshed = true
+	for (const iFrame of iFrames) {
+		if (iFrame.dataset.deferredSrc) {
+			iFrame.src = iFrame.dataset.deferredSrc
+			delete iFrame.dataset.deferredSrc
+		}
 	}
-} // refreshTabbedYTiFrames
+} // enableDeferredIframes
 
 function removeEmptyTabs() {
 	let removedElements = 0
@@ -106,12 +124,14 @@ function maybeActivateGalleryThumbNavItem(event) {
 } // maybeActivateGalleryThumbNavItem
 
 async function init() {
+	setDeferredIframes()
 	initPropertyDetailInstances()
 	cleanLocationURL()
 	removeEmptyTabs()
 
-	UIkit.util.on('.inx-single-property__tabbed-content', 'shown', refreshTabbedYTiFrames)
-	UIkit.util.on('.inx-gallery__image-slider', 'itemshown', maybeActivateGalleryThumbNavItem)
+	window.UIkit.util.on('.inx-single-property__tabbed-content', 'shown', enableDeferredIframes)
+	window.UIkit.util.on('.inx-gallery__image-slider', 'itemshown', enableDeferredIframes)
+	window.UIkit.util.on('.inx-gallery__image-slider', 'itemshown', maybeActivateGalleryThumbNavItem)
 } // init
 
 export { init }

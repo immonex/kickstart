@@ -33,7 +33,9 @@ import { platformModifierKeyOnly } from 'ol/events/condition.js';
 import 'ol/ol.css';
 
 /* UIkit */
-import UIkit from 'uikit'
+if (typeof UIkit === 'undefined') {
+	window.UIkit = await import(/* webpackChunkName: "uikit" */ 'uikit')
+}
 
 import { getSvgImgSrc } from '../shared_components'
 import pinIconSvgSource from '../../assets/marker-pin.source.svg'
@@ -263,7 +265,7 @@ export default {
 			}
 
 			// Redraw map if placed on a tab when it becomes visible.
-			UIkit.util.on('.inx-single-property__tabbed-content', 'shown', function () {
+			window.UIkit.util.on('.inx-single-property__tabbed-content', 'shown', function () {
 				map.updateSize()
 			})
 

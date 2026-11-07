@@ -215,6 +215,13 @@ class Structured_Data_Hooks {
 			return;
 		}
 
+		$post = get_post( $property_id );
+
+		if ( ! empty( $post->post_password ) ) {
+			// Exclude password protected property posts.
+			return;
+		}
+
 		$this->schema_items['property'][ $property_id ] = apply_filters(
 			'inx_get_property_schema_data',
 			[],

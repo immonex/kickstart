@@ -10,12 +10,12 @@ namespace immonex\Kickstart;
 /**
  * Main plugin class.
  */
-class Kickstart extends \immonex\WordPressFreePluginCore\V2_14_1\Base {
+class Kickstart extends \immonex\WordPressFreePluginCore\V2_14_4\Base {
 
 	const PLUGIN_NAME                = 'immonex Kickstart';
 	const PLUGIN_PREFIX              = 'inx_';
 	const PUBLIC_PREFIX              = 'inx-';
-	const PLUGIN_VERSION             = '1.18.0';
+	const PLUGIN_VERSION             = '1.19.0';
 	const PLUGIN_HOME_URL            = 'https://de.wordpress.org/plugins/immonex-kickstart/';
 	const PLUGIN_DOC_URLS            = array(
 		'de' => 'https://docs.immonex.de/kickstart/',
@@ -40,6 +40,12 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_14_1\Base {
 		'demo'                    => '#6d115f',
 		'bg_muted_default'        => '#dcdcdc',
 	);
+
+	/**
+	 * List of variable names to be excluded from being retrieved via GET query
+	 * variables, component instance rendering data or shortcode attributes.
+	 */
+	const EXCLUDE_VAR_NAMES_SEC = [ 'template_folders' ];
 
 	/**
 	 * Plugin options
@@ -260,6 +266,7 @@ class Kickstart extends \immonex\WordPressFreePluginCore\V2_14_1\Base {
 
 		$this->bootstrap_data = array(
 			'property_post_type_name'     => self::PROPERTY_POST_TYPE_NAME,
+			'exclude_var_names_sec'       => self::EXCLUDE_VAR_NAMES_SEC,
 			'auto_applied_rendering_atts' => array(
 				self::PUBLIC_PREFIX . 'ref',
 				self::PUBLIC_PREFIX . 'force-lang',

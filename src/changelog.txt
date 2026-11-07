@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 1.19.0 =
+* Release date: 2026-11-07
+* Reworked password protected property post handling.
+* Added the ability to define mandatory taxonomy terms for queries.
+* Fixed a minor list item output bug.
+* Adjusted UIkit loading.
+* Optimized iFrame embedding (videos, virtual tours etc.) in elements that are initially not visible.
+* Added object number as column to the backend property lists.
+* Improved WPML 5 compatibility.
+* Fixed a vulnerability.
+* Updated dependencies.
+
 = 1.18.0 =
 * Release date: 2026-09-24
 * Reworked property list pagination and added related plugin options.

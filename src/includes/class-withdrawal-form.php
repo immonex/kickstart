@@ -72,13 +72,19 @@ class Withdrawal_Form {
 		$core_options = apply_filters( 'inx_options', array(), 'core' );
 		$fields       = $this->get_fields( false );
 
+		if ( empty( $atts['introtext'] ) ) {
+			$atts['introtext'] = $this->config['withdrawal_form_introtext'];
+		}
+
+		if ( empty( $atts['consent_text'] ) ) {
+			$atts['consent_text'] = $this->get_consent_text();
+		}
+
 		$template_data = array_merge(
 			$this->config,
 			$atts,
 			array(
 				'instance'             => $this,
-				'introtext'            => $this->config['withdrawal_form_introtext'],
-				'consent_text'         => $this->get_consent_text(),
 				'fields'               => $fields,
 				'honeypot_field_name'  => self::HONEYPOT_FIELD_NAME,
 				'honeypot_field_name2' => self::HONEYPOT_FIELD_NAME2,

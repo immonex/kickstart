@@ -157,7 +157,16 @@ class Withdrawal_Form_Hooks {
 	 * @return string Rendered shortcode contents.
 	 */
 	public function shortcode_withdrawal_form( $atts = array() ) {
-		return $this->render_form( 'withdrawal-form', $atts, false );
+		$supported_atts = array(
+			'introtext'    => '',
+			'consent_text' => '',
+		);
+
+		$shortcode_atts = $this->utils['string']->decode_special_chars(
+			shortcode_atts( $supported_atts, $atts, "{$prefix}property-map" )
+		);
+
+		return $this->render_form( 'withdrawal-form', $shortcode_atts, false );
 	} // shortcode_withdrawal_form
 
 	/**
